@@ -1,0 +1,4 @@
+error_log
+application/cache/*
+!application/cache/.gitkeep
+vendor

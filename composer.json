@@ -1,0 +1,10 @@
+{
+    "require": {
+        "deividfortuna/fipe": "^2.4"
+    },
+    "scripts": {
+        "dev" : [
+            "php -S 0.0.0:8090 -t ./"
+        ]
+    } 
+}

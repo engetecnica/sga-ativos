@@ -1,0 +1,13 @@
+
+
+	FUNÇÃO							STATUS							USUÁRIO								DETALHES
+	Requisita Item					1 - pendente 					Administrador > Almoxarifado
+	Confere/liberado 				2 - liberado					Administrador
+	Aceite							3 - em trânsito					Almoxarifado
+	Recebe							4 - recebido					Almoxarifado
+	Item sem estoque				6 - sem estoque					Administrador
+	Em operação 					5 - em operação 				Almoxarifado
+	Item transferido				7 - transferido					Administrador > Almoxarifado
+	Item Com defeito				8 - defeito						Almoxarifado
+	Item Com Defeito - devolvido	9 - defeito e devolvido			Almoxarifado
+	Fora de operação 				10 - fora de operação 			Almoxarifado
