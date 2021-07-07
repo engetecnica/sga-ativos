@@ -38,10 +38,10 @@ class usuario_model extends MY_Model {
 		return $lista;
 	}
 
-	public function get_usuario($id=null, $comSenha = false){
+	public function get_usuario($id=null, $includedPass = false){
 		$this->db->where('id_usuario', $id);
 		$usuario = $this->db->get('usuario')->row();
-		if ($comSenha == false) {
+		if ($includedPass == false) {
 			unset($usuario->senha);
 		}
 		return $usuario;
