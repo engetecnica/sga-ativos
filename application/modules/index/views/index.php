@@ -1,5 +1,3 @@
-
-
                 <section class="welcome p-t-10" style="margin-top: 100px">
                     <div class="container">
                         <div class="row">
@@ -14,11 +12,6 @@
                         </div>
                     </div>
                 </section>
-                <?php
-                    // echo "<pre>";
-                    // print_r($this->session->userdata('logado'));
-                    // echo "</pre>";
-                ?>
 
                 <section class="statistic statistic2">
                     <div class="container">

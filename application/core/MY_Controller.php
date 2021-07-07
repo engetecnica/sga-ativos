@@ -17,11 +17,14 @@ if (!defined('BASEPATH'))
 
 class MY_Controller extends MX_Controller {
  
+    protected $user;
+
     function __construct() {
         parent::__construct();
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
+        $this->user = $this->session->userdata('logado');
     }
 
     public function get_template($template=null, $data=null){   
