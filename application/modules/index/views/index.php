@@ -14,16 +14,11 @@
                         </div>
                     </div>
                 </section>
-
                 <?php
-
-                    echo "<pre>";
-                    print($this->session->userdata('logado'));
-                    echo "</pre>";
+                    // echo "<pre>";
+                    // print_r($this->session->userdata('logado'));
+                    // echo "</pre>";
                 ?>
-
-
-
 
                 <section class="statistic statistic2">
                     <div class="container">
