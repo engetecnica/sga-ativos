@@ -58,17 +58,14 @@ class funcionario  extends MY_Controller {
         $data['situacao'] = $this->input->post('situacao');
 
         $funcionario = $this->funcionario_exists($data);
-        if(!$funcionario && ($data['id_funcionario'] == '')){
+        if(!$funcionario){
             $this->funcionario_model->salvar_formulario($data);
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            if($data['id_funcionario'] == ''){
+                $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            } else {
+                $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");     
+            }
             echo redirect(base_url("funcionario")); 
-            return;
-        }
-
-        if(!$funcionario && ($data['id_funcionario'] != '')){
-            $this->funcionario_model->salvar_formulario($data);
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");
-            echo redirect(base_url("funcionario/editar/{$data['id_funcionario']}")); 
             return;
         }
 
