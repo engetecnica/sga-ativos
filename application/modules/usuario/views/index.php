@@ -43,7 +43,7 @@
                                         <td><?php echo isset($valor->nome_fantasia) ? $valor->nome_fantasia: (isset($valor->razao_socia) ? $valor->razao_social : ''); ?></td>
                                         <td><?php echo $valor->codigo_obra; ?></td>
                                         <td><?php echo $valor->nivel; ?></td>
-                                        <td><?php echo date('d/m/Y H:i:s', strtotime($valor->data_criacao)); ?></td>
+                                        <td><?php echo $valor->data_criacao ? date('d/m/Y H:i:s', strtotime($valor->data_criacao)) : ''; ?></td>
                                         <td class="text-right">
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>"><i class="fas fa-edit"></i></a>
                                             <?php if($valor->id_usuario>1){ ?>

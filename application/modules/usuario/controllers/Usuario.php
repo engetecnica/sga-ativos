@@ -92,14 +92,25 @@ class usuario  extends MY_Controller {
                 $data['senha'] = $usuario->senha;
             }
         }
-        
-        $this->usuario_model->salvar_formulario($data);
-        if($data['id_usuario'] == null){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
-        } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+
+        $status = $this->usuario_model->salvar_formulario($data);
+        if ($status === 'salvar_ok') {
+            if($data['id_usuario'] == null){
+                $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            } else {
+                $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            }
+            echo redirect(base_url("usuario"));
         }
-        echo redirect(base_url("usuario"));
+
+        if ($status === 'salvar_error') {
+            $this->session->set_flashdata('msg_erro', "Nome de usuário já existe na base de dados!");
+            if($data['id_usuario'] == null){
+                echo redirect(base_url("usuario/adicionar"));
+            } else {
+                echo redirect(base_url("usuario/editar/{$data['id_usuario']}"));          
+            }
+        }
     }
 
     function deletar($id=null){
