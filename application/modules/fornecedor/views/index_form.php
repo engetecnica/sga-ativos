@@ -18,7 +18,14 @@
                     <h2 class="title-1 m-b-25">Fornecedores</h2>
 
                     <div class="card">
-                        <div class="card-header">Novo Fornecedor</div>
+                        <?php if(isset($detalhes) && isset($detalhes->id_fornecedor)){?>
+                            <div class="card-header">Editar Fornecedor</div>
+                        <?php }?>
+
+                         <?php if(isset($detalhes) && !isset($detalhes->id_fornecedor)) {?>
+                            <div class="card-header">Novo Fornecedor</div>
+                         <?php } ?>
+                        
                         <div class="card-body">
 
                             <form action="<?php echo base_url('fornecedor/salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -32,7 +39,7 @@
                                         <label for="razao_social" class=" form-control-label">Razão Social</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" id="razao_social" name="razao_social" placeholder="Razão Social" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->razao_social)){ echo $detalhes->razao_social; } ?>">
+                                        <input  required="required" type="text" id="razao_social" name="razao_social" placeholder="Razão Social" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->razao_social)){ echo $detalhes->razao_social; } ?>">
                                     </div>
                                 </div>
 

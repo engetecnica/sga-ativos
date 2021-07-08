@@ -40,9 +40,7 @@
                                     <td><?php echo $this->get_situacao($valor->situacao); ?></td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>"><i class="fas fa-edit"></i></a>
-                                        <?php if($valor->id_fornecedor>1){ ?>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('fornecedor'); ?>/deletar/<?php echo $valor->id_fornecedor; ?>" data-registro="<?php echo $valor->id_fornecedor;?>" data-tabela="fornecedor" class="deletar_registro"><i class="fas fa-remove"></i></a>
-                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

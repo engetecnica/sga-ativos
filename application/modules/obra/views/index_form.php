@@ -23,7 +23,7 @@
                         <?php }?>
 
                          <?php if(isset($detalhes) && !isset($detalhes->id_obra)) {?>
-                            <div class="card-header">Novo Obra</div>
+                            <div class="card-header">Nova Obra</div>
                          <?php } ?>
                         <div class="card-body">
 
