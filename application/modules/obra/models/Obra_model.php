@@ -16,8 +16,12 @@ class Obra_model extends MY_Model {
 	}
 
 	public function get_lista(){
-		$this->db->order_by('id_obra', 'ASC');
-		return $this->db->get('obra')->result();
+		return $this->db->select('obra.*, ep.razao_social as empresa, ep.nome_fantasia')
+		->from('obra')
+		->order_by('id_obra', 'ASC')
+		->join("empresa ep", "ep.id_empresa=obra.id_empresa")
+		->group_by('obra.id_obra')
+		->get()->result();
 	}
 
 	public function get_obra($id_obra=null){
@@ -31,5 +35,29 @@ class Obra_model extends MY_Model {
 		return $this->db->get('empresa')->result();
 	}
 
+	public function set_obra_base($id_obra){
+		$obras = $this->db->select('obra.*')
+						->from('obra')
+						->order_by('id_obra', 'ASC')
+						->where("obra_base = 1")
+						->get()->result();
+		
+		if (count($obras) > 0) {
+			foreach ($obras as $obra) {
+				$obra->obra_base = null;
+				$this->salvar_formulario((array) $obra);
+			}
+		}
+
+		$obras = $this->db->select('obra.*')
+		->from('obra')
+		->where(["id_obra" => $id_obra])
+		->get()->result();
+
+		if (isset($obras[0])) {
+			$obras[0]->obra_base = 1;
+			$this->salvar_formulario((array) $obras[0]);
+		}
+	}
 
 }
