@@ -24,8 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'https://www.codigosdigitais.com.br/engetecnica';
-//$config['base_url'] = 'http://localhost:8090';
+//$config['base_url'] = 'https://www.codigosdigitais.com.br/engetecnica';
+$config['base_url'] = 'http://localhost:8090';
 
 /*
 |--------------------------------------------------------------------------

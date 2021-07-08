@@ -18,7 +18,13 @@
                     <h2 class="title-1 m-b-25">Funcionário</h2>
 
                     <div class="card">
-                        <div class="card-header">Novo Funcionário</div>
+                        <?php if(isset($detalhes) && isset($detalhes->id_funcionario)){?>
+                            <div class="card-header">Editar Funcionário</div>
+                        <?php }?>
+
+                         <?php if(isset($detalhes) && !isset($detalhes->id_funcionario)) {?>
+                            <div class="card-header">Novo Funcionário</div>
+                         <?php } ?>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('funcionario/salvar'); ?>" method="post" enctype="multipart/form-data" id="vendedores">

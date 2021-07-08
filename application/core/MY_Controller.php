@@ -17,11 +17,14 @@ if (!defined('BASEPATH'))
 
 class MY_Controller extends MX_Controller {
  
+    protected $user;
+
     function __construct() {
         parent::__construct();
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
+        $this->user = $this->session->userdata('logado');
     }
 
     public function get_template($template=null, $data=null){   
@@ -85,8 +88,39 @@ class MY_Controller extends MX_Controller {
         $this->db->where('id_categoria', $id_categoria);
         return $this->db->get('configuracao')->result();
     }
-    
 
+    public function formatArrayReplied($items = [], $id_item = null){
+        $lista = [];
+        if ((count($items) > 0) && $id_item) {
+            foreach($items as $item) {
+                if (!isset($lista[$item->{$id_item}])) {
+                    $lista[$item->{$id_item}] = (object) $item;
+                }
+            } 
+        }
+		return $lista;
+    }
+
+    public function get_empresas($id=null){
+        $this->db->order_by('id_empresa', 'ASC');
+        if ($id) {
+            $this->db->where('id_empresa', $id);
+        }
+        return $this->formatArrayReplied($this->db->get('empresa')->result(), 'id_empresa');
+    }
+
+    public function get_obras($id_empresa=null){
+        $this->db->order_by('id_obra', 'ASC');
+        if ($id_empresa) {
+            $this->db->where('id_empresa', $id_empresa);
+        }
+        return $this->formatArrayReplied($this->db->get('obra')->result(), 'id_empresa');
+    }
+
+    public function get_niveis(){
+        $this->db->order_by('id_usuario_nivel', 'ASC');
+        return $this->formatArrayReplied($this->db->get('usuario_nivel')->result(), 'id_usuario_nivel');
+    }
 }
  
 /* End of file MY_Controller.php */

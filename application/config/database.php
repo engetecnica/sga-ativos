@@ -81,8 +81,8 @@ $db['default'] = array(
 	'username' => 'codigosd_engetec',
 	'password' => 'codigosd_engetec',
 	'database' => 'codigosd_engetec',
+
 	/*
-	
 	'username' => 'root',
 	'password' => '',
 	'database' => 'engetecnica',

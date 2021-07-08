@@ -26,20 +26,19 @@ class funcionario  extends MY_Controller {
         $this->get_template($subitem, $data);
     }
 
-    function adicionar(){
+    function adicionar($data = null){
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_funcionario=null){
         $data['detalhes'] = $this->funcionario_model->get_funcionario($id_funcionario);
-        $data['veiculos_cadastrados'] = $this->funcionario_model->get_veiculos_cadastrados($id_funcionario);
+        //$data['veiculos_cadastrados'] = $this->funcionario_model->get_veiculos_cadastrados($id_funcionario);
         $data['estados'] = $this->get_estados(); 
         $this->get_template('index_form', $data);
     }
 
     function salvar(){
-
         $data['id_funcionario'] = !is_null($this->input->post('id_funcionario')) ? $this->input->post('id_funcionario') : '';
         $data['nome'] = $this->input->post('nome');
         $data['rg'] = $this->input->post('rg');
@@ -58,15 +57,26 @@ class funcionario  extends MY_Controller {
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
 
-        $tratamento = $this->funcionario_model->salvar_formulario($data);
-
-        if($data['id_funcionario']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
-        } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+        $funcionario = $this->funcionario_exists($data);
+        if(!$funcionario){
+            $this->funcionario_model->salvar_formulario($data);
+            if($data['id_funcionario'] == ''){
+                $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            } else {
+                $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");     
+            }
+            echo redirect(base_url("funcionario")); 
+            return;
         }
-        echo redirect(base_url("funcionario"));
 
+        if($funcionario){
+            $this->session->set_flashdata('msg_erro', "Dados registrados já existem na base de dados!");
+            if($data['id_funcionario'] == ''){
+                return $this->adicionar(['detalhes' => (object) $data]);
+            } else {
+                echo redirect(base_url("funcionario/editar/{$data['id_funcionario']}"));     
+            }
+        }
     }
 
     function deletar($id=null){
@@ -74,6 +84,17 @@ class funcionario  extends MY_Controller {
         return $this->db->delete('funcionario');
     }
 
+    function funcionario_exists($data = []){
+        $funcionario = $this->db
+            ->where('email', $data['email'])
+            ->where('id_funcionario !=', $data['id_funcionario'])
+            ->get('funcionario')->result();
+
+        if ($funcionario) {
+            return $funcionario;
+        }
+        return false;
+    }
 }
 
 /* End of file Site.php */
