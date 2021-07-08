@@ -40,7 +40,6 @@ class fornecedor  extends MY_Controller {
     }
 
     function salvar(){
-
         $data['id_fornecedor'] = !is_null($this->input->post('id_fornecedor')) ? $this->input->post('id_fornecedor') : '';
         $data['razao_social'] = $this->input->post('razao_social');
         $data['nome_fantasia'] = $this->input->post('nome_fantasia');
