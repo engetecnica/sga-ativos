@@ -32,7 +32,7 @@
                                         <label for="razao_social" class=" form-control-label">Razão Social</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" id="razao_social" name="razao_social" placeholder="Razão Social" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->razao_social)){ echo $detalhes->razao_social; } ?>">
+                                        <input required="required" type="text" id="razao_social" name="razao_social" placeholder="Razão Social" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->razao_social)){ echo $detalhes->razao_social; } ?>">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                         <label for="cnpj" class=" form-control-label">CPF/CNPJ</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="cnpj" name="cnpj" placeholder="CPF/CNPJ" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->cnpj)){ echo $detalhes->cnpj; } ?>">
+                                        <input required="required" type="text" id="cnpj" name="cnpj" placeholder="CPF/CNPJ" class="form-control cnpj" value="<?php if(isset($detalhes) && isset($detalhes->cnpj)){ echo $detalhes->cnpj; } ?>">
                                     </div>
 
                                     <div class="col col-md-1">
