@@ -21,9 +21,7 @@ class Obra  extends MY_Controller {
     }
 
     function index($subitem=null) {
-
         $data['lista'] = $this->obra_model->get_lista();
-
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
     }
@@ -35,14 +33,15 @@ class Obra  extends MY_Controller {
     }
 
     function editar($id_obra=null){
+        $data['empresas'] = $this->obra_model->get_empresas();
         $data['detalhes'] = $this->obra_model->get_obra($id_obra);
         $data['estados'] = $this->get_estados();
         $this->get_template('index_form', $data);
     }
 
     function salvar(){
-
         $data['id_obra'] = !is_null($this->input->post('id_obra')) ? $this->input->post('id_obra') : '';
+        $data['id_empresa'] = !is_null($this->input->post('id_empresa')) ? $this->input->post('id_empresa') : null;
         $data['codigo_obra'] = $this->input->post('codigo_obra');
         $data['endereco'] = $this->input->post('endereco');
         $data['endereco_numero'] = $this->input->post('endereco_numero');
@@ -59,13 +58,16 @@ class Obra  extends MY_Controller {
         $data['situacao'] = $this->input->post('situacao');
 
         $tratamento = $this->obra_model->salvar_formulario($data);
+        if ($this->input->post('obra_base') && ($this->input->post('obra_base') == 1)){
+            $this->obra_model->set_obra_base($data['id_obra']);
+        }
+
         if($data['id_obra']==''){
             $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
         } else {
             $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
         }
         echo redirect(base_url("obra"));
-
     }
 
     function deletar($id=null){

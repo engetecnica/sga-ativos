@@ -20,6 +20,20 @@ class MY_Loader extends MX_Loader {
     	return $status;
     }
 
+    public function get_obra_base($status=null){
+    	switch($status){
+    		case 0:
+    		$status = "NÃO";
+    		break;
+
+    		case 1:
+    		$status = "SIM";
+    		break;
+    	}
+
+    	return $status;
+    }
+
 
     public function get_situacao_transporte($status=null){
 

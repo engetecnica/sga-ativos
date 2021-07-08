@@ -22,10 +22,12 @@
                                 <tr>
                                     <th width="7%">Id</th>
                                     <th>Código da Obra</th>
+                                    <th>Empresa</th>
                                     <th>Responsável</th>
                                     <th>E-mail</th>
                                     <th>Celular</th>
                                     <th>Situação</th>
+                                    <th>Obra Base</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
                             </thead>
@@ -34,13 +36,17 @@
                                 <tr>
                                     <td><?php echo $valor->id_obra; ?></td>
                                     <td><?php echo $valor->codigo_obra; ?></td>
+                                    <td><?php echo $valor->empresa; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>
                                     <td><?php echo $valor->responsavel_celular; ?></td>
                                     <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td><?php echo $this->get_obra_base($valor->obra_base); ?></td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i></a>
+                                        <?php if (!$valor->obra_base) { ?>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" data-registro="<?php echo $valor->id_obra;?>" data-tabela="obra" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>
