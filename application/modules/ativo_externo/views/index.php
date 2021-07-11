@@ -31,23 +31,42 @@
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
-                                    <th width="10%">Código</th>
+                                    <th>Código</th>
                                     <th>Item</th>
                                     <th>Obra</th>
-                                    <th width="10%">Inclusão</th>
-                                    <th width="10%">Liberação</th>
-                                    <th width="10%">Situação</th>
+                                    <th>Inclusão</th>
+                                    <th>Liberação</th>
+                                    <th>Tipo</th>
+                                    <th>Situação</th>
+                                    <th>Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
-                                    <td><button type='button' class="btn btn-sm btn-outline-success btn-codigo"><?php echo $valor->codigo; ?></button></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-success btn-codigo" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
+                                            <?php echo $valor->codigo; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->codigo_obra." - ".$valor->endereco; ?></td>
                                     <td><?php echo date("d/m/Y H:i", strtotime($valor->data_inclusao)); ?></td>
                                     <td><?php if($valor->data_liberacao=="0000-00-00 00:00:00"){ echo "-"; } else { echo date("d/m/Y H:i", strtotime($valor->data_liberacao)); } ?></td>
-                                    <td><button class="btn btn-info btn-sm">Estoque</button></td>
+                                    <td>
+                                        <?php if($valor->tipo == 1) { ?>
+                                            <button class="btn btn-outline-primary btn-sm">Kit</button>
+                                        <?php } else { ?>
+                                            <button class="btn btn-outline-secondary btn-sm">Unidade</button>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm">Estoque</button>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" data-registro="<?php echo $valor->id_ativo_externo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                    </td>
                                 </tr>
                                <?php } ?>
                             </tbody>
