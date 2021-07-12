@@ -15,10 +15,9 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 	public function get_lista(){
-		//return $this->db->get('v_ativo_externo')->result();
 		return $this->db->select('ativo_externo.*, obra.codigo_obra, obra.endereco as endereco, obra.id_obra')
 		->from('ativo_externo')
-		->order_by('codigo', 'ASC')
+		->order_by('ativo_externo.codigo', 'ASC')
 		->join("obra", "obra.id_obra=ativo_externo.id_obra", "left")
 		->group_by('ativo_externo.id_ativo_externo')
 		->get()->result();
@@ -27,7 +26,7 @@ class Ativo_externo_model extends MY_Model {
 	public function get_kit_items($id_ativo_externo_kit, $id_obra = null){
 		$kit = $this->db->select('ativo_externo_kit.*, ativo_externo.*,  obra.*')
 		->from('ativo_externo_kit')
-		->order_by('id_ativo_externo_iten', 'ASC')
+		->order_by('ativo_externo.codigo', 'ASC')
 		->where("ativo_externo_kit.id_ativo_externo_kit={$id_ativo_externo_kit}")
 		->join("ativo_externo", "ativo_externo.id_ativo_externo=ativo_externo_kit.id_ativo_externo_iten", "left");
 
