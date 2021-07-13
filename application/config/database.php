@@ -76,17 +76,16 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	
 	'hostname' => '107.161.183.195',
 	'username' => 'codigosd_engetec',
 	'password' => 'codigosd_engetec',
 	'database' => 'codigosd_engetec',
-
-	/*
-	'username' => 'root',
-	'password' => '',
-	'database' => 'engetecnica',
-	*/
+	
+	// 'hostname' => '127.0.0.1',
+	// 'username' => 'codigosd_engetec',
+	// 'password' => 'codigosd_engetec',
+	// 'database' => 'codigosd_engetec',
+	// 'port' => 8889,
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -99,6 +98,7 @@ $db['default'] = array(
 	'swap_pre' => '',
 	'encrypt' => FALSE,
 	'compress' => FALSE,
+	'autoinit' => TRUE,
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE

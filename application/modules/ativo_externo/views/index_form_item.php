@@ -22,12 +22,21 @@
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_externo/gravar_itens'); ?>" method="post" enctype="multipart/form-data">
-
+                        
                             <input 
                                 type="hidden" 
                                 name="id_ativo_externo_categoria" 
                                 id="id_ativo_externo_categoria"
                                 value="<?php echo $item[1]['id_ativo_externo_categoria']; ?>"
+                                required="required"
+                            >
+
+                            <input 
+                                type="hidden" 
+                                name="tipo" 
+                                id="tipo"
+                                value="<?php echo $item[1]['tipo']; ?>"
+                                required="required"
                             >
                             
                             <input 
@@ -35,6 +44,7 @@
                                 name="id_obra" 
                                 id="id_obra"
                                 value="<?php echo $item[1]['id_obra']; ?>"
+                                required="required"
                             >
 
                             <input 
@@ -44,22 +54,19 @@
                                 value="<?php echo $item[1]['observacao']; ?>"
                             >
 
-                            <?php
-                                #echo "<pre>";
-                                #print_r($item);
-                                #echo "</pre>";
-                            ?>
-
-
                                 <?php foreach($item as $value){ ?>
-                                <div class="row form-group">
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="codigo[]" name="codigo[]" class="form-control" placeholder="Código Item" >
+                                    <?php if(isset($value) && isset($value['id_ativo_externo'])){?>
+                                        <input type="hidden" name="id_ativo_externo" id="id_ativo_externo" value="<?php echo $value['id_ativo_externo']; ?>">
+                                    <?php } ?>
+
+                                    <div class="row form-group">
+                                        <div class="col-12 col-md-2">
+                                            <input type="text" id="codigo[]" name="codigo[]" class="form-control" value="<?php echo isset($value['codigo']) ? $value['codigo'] : ''; ?>" placeholder="Código Item"  required="required" >
+                                        </div>
+                                        <div class="col-12 col-md-10">
+                                            <input type="text" id="item[]" name="item[]" class="form-control" value="<?php echo $value['nome']; ?>" readonly  required="required">
+                                        </div>            
                                     </div>
-                                    <div class="col-12 col-md-10">
-                                        <input type="text" id="item[]" name="item[]" class="form-control" value="<?php echo $value['nome']; ?>" readonly>
-                                    </div>            
-                                </div>
                                 <?php } ?>
 
                                 <hr>
@@ -68,6 +75,14 @@
                                         <i class="fa fa-save "></i>&nbsp;
                                         <span id="submit-form">Salvar Configurações</span>
                                     </button>
+                                    <?php if(isset($item[1]) && isset($item[1]['id_ativo_externo'])){?>
+                                    <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $item[1]['id_ativo_externo']; ?>">
+                                    <button class="btn btn-info" type="button">                                                    
+                                        <i class="fa fa-arrow-left"></i>&nbsp;
+                                        <span id="cancelar-form">Voltar</span>
+                                    </button>
+                                    </a>
+                                    <?php } ?>                           
                                 </div>                                
 
                             </form>

@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Obras</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning">
+                        <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
