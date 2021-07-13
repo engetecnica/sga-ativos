@@ -32,7 +32,7 @@
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                        <input required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>
                                 </div>
 
@@ -41,13 +41,13 @@
                                         <label for="valor" class=" form-control-label">Valor Atribuído</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
+                                        <input required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="number" id="quantidade" name="quantidade" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo $detalhes->quantidade; } else { echo "1"; } ?>">
+                                        <input required="required"  type="number" id="quantidade" name="quantidade" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo $detalhes->quantidade; } else { echo "1"; } ?>">
                                     </div>                                    
                                 </div>
 
@@ -84,6 +84,17 @@
                                     </button>                                                
                                     </a>
                                 </div>
+
+                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_interno)){?>
+                                    <div class="pull-right">
+                                        <a href="<?php echo base_url("ativo_interno/manutencao/{$detalhes->id_ativo_interno}");?>">
+                                            <button class="btn btn-outline-secondary" type="button">                                                    
+                                            <i class="fa fa-wrench"></i>&nbsp;
+                                                Histórico de Manutenção
+                                            </button>                                                
+                                        </a>
+                                    </div>
+                                <?php } ?>
                             </form>
 
                         </div>

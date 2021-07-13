@@ -80,13 +80,6 @@ $db['default'] = array(
 	'username' => 'codigosd_engetec',
 	'password' => 'codigosd_engetec',
 	'database' => 'codigosd_engetec',
-	
-	// 'hostname' => '127.0.0.1',
-	// 'username' => 'codigosd_engetec',
-	// 'password' => 'codigosd_engetec',
-	// 'database' => 'codigosd_engetec',
-	// 'port' => 8889,
-
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

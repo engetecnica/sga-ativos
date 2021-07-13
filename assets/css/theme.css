@@ -83,6 +83,7 @@ p {
 
 .table-responsive {
     padding-right: 1px;
+    background-color: #FFFFFF;
 }
 
 .card {
@@ -4735,6 +4736,24 @@ section {
 }
 
 .table-data3 tbody td.denied {
+    color: #fa4251;
+}
+
+#lista td {
+    text-align: center;
+}
+
+#lista td > a  {
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove {
+    font-size: 1rem;
+}
+
+#lista td > a > .fas.fa-remove {
     color: #fa4251;
 }
 
@@ -14681,4 +14700,29 @@ label {
 .item-menu-interno
 {
     margin-right: 10px;
+}
+
+
+#liberar_requisicao_btn, .btn-custom {
+    text-decoration: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    font-family: arial;
+    background: linear-gradient(to bottom, #FF480E, #D02718);
+    border: solid #FF4B18 1px;
+    border-radius: 5px;
+    padding:10px;
+    text-shadow: 0px 1px 2px #000000;
+    *box-shadow: 0px 1px 5px #0D2444;
+    -webkit-transition: all 0.15s ease;
+    -moz-transition: all 0.15s ease;
+    -o-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    width: 240px;
+}
+#liberar_requisicao_btn:hover, .btn-custom:hover{
+    opacity: 0.9;
+    background: linear-gradient(to bottom, #C02028, #D02718);
+    border: 1px solid #c02028;
+    *box-shadow: 0px 1px 2px #000000;
 }

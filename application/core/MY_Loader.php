@@ -58,5 +58,30 @@ class MY_Loader extends MX_Loader {
         }
 
         return $status;
-    }   
+    } 
+    
+    public function get_situacao_manutencao($status=null){
+        $texto = "Em Manutenção";
+        $class = "warning";
+        
+        switch ((int) $status) {
+          case 1:
+            $texto = "Manutenção OK";
+            $class = "success";
+          break;
+          case 2:
+            $texto =  "Manutenção Com Pedência";
+            $class = "danger";
+          break;
+        }
+
+        return [
+            'texto' => $texto,
+            'class' => $class
+        ];
+    }
+
+    public function formata_moeda($valor = 0){
+      return "R$ ". number_format($valor, 2, ',', '.');
+    }
 }

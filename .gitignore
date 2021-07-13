@@ -1,5 +1,6 @@
 error_log
 application/cache/*
 !application/cache/.gitkeep
+application/config/database.php
 vendor
 *.DS_Store
