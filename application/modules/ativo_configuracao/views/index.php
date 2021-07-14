@@ -33,7 +33,10 @@
                                     <td><?php echo $valor->id_ativo_configuracao; ?></td>
                                     <td><?php echo ($valor->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_ativo_configuracao_vinculo; ?></td>
                                     <td><?php echo $valor->titulo; ?></td>
-                                    <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td>
+                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                    </td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>"><i class="fas fa-edit"></i></a>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_configuracao'); ?>/deletar/<?php echo $valor->id_ativo_configuracao; ?>" data-registro="<?php echo $valor->id_ativo_configuracao;?>" data-tabela="ativo_configuracao" class="deletar_registro"><i class="fas fa-remove"></i></a>

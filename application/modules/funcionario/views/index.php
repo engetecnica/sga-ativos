@@ -35,7 +35,10 @@
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->email; ?></td>
                                     <td><?php echo $valor->celular; ?></td>
-                                    <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td>
+                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                    </td>
                                     <td class="text-right">
                                         <!--<a href="<?php echo base_url('documento'); ?>/tipo/funcionario/<?php echo $valor->id_funcionario; ?>"><i class="fas fa-id-card"></i></a>-->
                                         <a href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>"><i class="fas fa-edit"></i></a>

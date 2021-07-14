@@ -27,6 +27,13 @@ class MY_Controller extends MX_Controller {
         $this->user = $this->session->userdata('logado');
     }
 
+    public function json(array $data = null, int $status_code = 200){
+        return $this->output
+        ->set_content_type('application/json')
+        ->set_status_header($status_code)
+        ->set_output(json_encode($data));
+    }
+
     public function get_template($template=null, $data=null){   
         $data['logado'] = ($this->session->userdata('logado')==true) ? self::buscar_dados_logado($this->session->userdata('logado')) : '';
         $data['modulos'] = self::get_modulos($this->session->userdata('logado')->nivel);
@@ -53,27 +60,27 @@ class MY_Controller extends MX_Controller {
     # Módulos
     public function get_modulos($nivel=null)
     {
-
         $nivelObj = new stdClass();
+        $this->db->where('modulo.id_vinculo', 0)
+            ->where("usuario_modulo.id_usuario_nivel", $nivel)
+            ->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo")
+            ->group_by("usuario_modulo.id_modulo");
 
-        $this->db->where('modulo.id_vinculo', 0);
-        $this->db->where("usuario_modulo.id_usuario_nivel", $nivel);
-        $this->db->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo");
         $nivelObj->modulo = $this->db->get('usuario_modulo')->result();
 
         foreach($nivelObj->modulo as &$Obj)
         {
-            $this->db->where('modulo.id_vinculo !=', '0');
-            $this->db->where("usuario_modulo.id_usuario_nivel", $nivel);
-            $this->db->where("modulo.id_vinculo", $Obj->id_modulo);
-            $this->db->order_by("modulo.titulo", 'ASC');
-            $this->db->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo");
+            $this->db
+            ->where('modulo.id_vinculo !=', '0')
+            ->where("usuario_modulo.id_usuario_nivel", $nivel)
+            ->where("modulo.id_vinculo", $Obj->id_modulo)
+            ->order_by("modulo.titulo", 'ASC')
+            ->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo")
+            ->group_by("usuario_modulo.id_modulo");
+
             $Obj->submodulo = $this->db->get('usuario_modulo')->result();
         }
-
-
         return $nivelObj;
-
     }    
 
     # Usado em várias views

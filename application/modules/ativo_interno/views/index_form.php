@@ -23,16 +23,42 @@
 
                             <form action="<?php echo base_url('ativo_interno/salvar'); ?>" method="post" enctype="multipart/form-data">
 
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_interno)){?>
-                                <input type="hidden" name="id_ativo_interno" id="id_ativo_interno" value="<?php echo $detalhes->id_ativo_interno; ?>">
+                                <?php if(isset($ativo) && isset($ativo->id_ativo_interno)){?>
+                                    <input type="hidden" name="id_ativo_interno" id="id_ativo_interno" value="<?php echo $ativo->id_ativo_interno; ?>">
                                 <?php } ?>
 
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="id_obra" class=" form-control-label">Obra</label>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <select 
+                                            class="form-control" 
+                                            name="id_obra" 
+                                            id="id_obra"
+                                            <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?>
+                                        >
+                                            <option value="0">Nenhuma obra selecionada</option>
+                                            <?php foreach ($obras as $value) { ?>
+                                                <option 
+                                                    <?php echo isset($ativo->id_obra) && $value->id_obra == $ativo->id_obra ? 'selected' : ''?>
+                                                    value="<?php echo $value->id_obra; ?>"
+                                                >
+                                                    <?php echo "{$value->id_obra} - {$value->codigo_obra}"; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>  
+                                
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" 
+                                        value="<?php if(isset($ativo) && isset($ativo->nome)){ echo $ativo->nome; } ?>">
                                     </div>
                                 </div>
 
@@ -41,13 +67,17 @@
                                         <label for="valor" class=" form-control-label">Valor Atribuído</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
+                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
+                                        value="<?php if(isset($ativo) && isset($ativo->valor)){ echo number_format($ativo->valor, 2, ',', '.'); } ?>">
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="number" id="quantidade" name="quantidade" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo $detalhes->quantidade; } else { echo "1"; } ?>">
+                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        required="required"  type="number" id="quantidade" name="quantidade" class="form-control" 
+                                        value="<?php if(isset($ativo) && isset($ativo->quantidade)){ echo $ativo->quantidade; } else { echo "1"; } ?>">
                                     </div>                                    
                                 </div>
 
@@ -56,27 +86,36 @@
                                         <label for="observacao" class=" form-control-label">Observações</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <textarea name="observacao" id="observacao" rows="9" placeholder="Observações..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
+                                        <textarea 
+                                            <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                            name="observacao" id="observacao" rows="9" placeholder="Observações..." class="form-control"
+                                        >
+                                        <?php if(isset($ativo) && isset($ativo->observacao)){ echo $ativo->observacao; } ?>
+                                        </textarea>
                                     </div>
                                 </div>
+                                <?php if($ativo->situacao <= 1){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
                                     <div class="col-12 col-md-10">
                                         <select name="situacao" id="situacao" class="form-control">
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
-                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
+                                            <option value="1" <?php if(isset($ativo) && isset($ativo->situacao) && $ativo->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
+                                            <option value="0" <?php if(isset($ativo) && isset($ativo->situacao) && $ativo->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 
                                 <hr>
                                 <div class="pull-left">
+                                    <?php if($ativo->situacao <= 1){ ?>
                                     <button class="btn btn-primary">                                                    
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
+                                    <?php } ?>
                                     <a href="<?php echo base_url('ativo_interno');?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
@@ -84,6 +123,30 @@
                                     </button>                                                
                                     </a>
                                 </div>
+
+                                <?php if(isset($ativo) && isset($ativo->id_ativo_interno)){?>
+                                    <div class="pull-right">
+                                        <a href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}");?>">
+                                            <button class="btn btn-outline-info" type="button">                                                    
+                                            <i class="fa fa-wrench"></i>&nbsp;
+                                                Histórico de Manutenção
+                                            </button>                                                
+                                        </a>
+                                        <?php if((int) $ativo->situacao < 2){?>
+                                        <a 
+                                            class="confirmar_registro"  data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>" href="javascript:void(0)"
+                                            data-registro="<?php echo $ativo->id_ativo_interno;?>"
+                                            data-acao="Descartar"
+                                            data-href="<?php echo base_url("ativo_interno/descartar/{$ativo->id_ativo_interno}");?>"
+                                        >
+                                            <button class="btn btn-outline-secondary" type="button">                                                    
+                                            <i class="fa fa-ban"></i>&nbsp;
+                                                Descartar
+                                            </button>                                                
+                                        </a>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
                             </form>
 
                         </div>

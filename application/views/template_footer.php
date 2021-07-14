@@ -434,7 +434,6 @@
 
 
         $(".deletar_registro").click(function(){
-            
             var id_registro = $(this).attr('data-id');
             var tabela = $(this).attr('data-tabela');
             var url_post = $(this).attr('data-href');
@@ -454,7 +453,6 @@
                         type: "post",
                         data: id_registro ,
                         success: function (response) {
-                            console.log(response)
                             Swal.fire(
                                 'Deletado!',
                                 'Registro removido com sucesso.',
@@ -468,7 +466,55 @@
                     });
                 }
             })
-        });       
+        });
+        
+        
+        $(".confirmar_registro").click(function(){
+            var id_registro = $(this).attr('data-id');
+            var tabela = $(this).attr('data-tabela');
+            var url_post = $(this).attr('data-href');
+            var acao = $(this).attr('data-acao') || 'Confirmar';
+            var title = $(this).attr('data-title') || 'Você tem certeza?';
+            var text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, ' + acao + '!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: url_post,
+                        type: "post",
+                        data: id_registro,
+                        success: function (response) {
+                            if (response.success == true) {
+                                Swal.fire(
+                                    'Salvo!',
+                                    'Registro salvo com sucesso.',
+                                    'success'
+                                )
+                                window.location = tabela;
+                                return;
+                            }
+
+                            Swal.fire(
+                                'Erro!',
+                                'Erro ao salvar registro.',
+                                'error',
+                            )
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           console.log(textStatus, errorThrown);
+                        }
+                    });
+                }
+            })
+        }); 
 
         // Trabalhado itens da tabela fipe.
         $("#tipo_veiculo").change(function(){
