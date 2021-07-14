@@ -14,7 +14,11 @@ class Ativo_interno_model extends MY_Model {
 	}
 
 	public function get_lista(){
-		return $this->db->get('ativo_interno')->result();
+		return $this->db
+		->order_by('nome', 'asc')
+		->group_by('id_ativo_interno')
+		->get('ativo_interno')
+		->result();
 	}
 
 	public function get_ativo_interno($id_ativo_interno=null){

@@ -42,9 +42,8 @@
                                     </td>
                                     <td><?php echo $this->formata_moeda($valor->manutencao_valor);?></td>
                                     <td class="text-right">
-                                        <?php if ((int) $valor->situacao <= 1) { ?>
                                           <a href="<?php echo base_url("ativo_interno/manutencao_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>"><i class="fas fa-edit"></i></a>
-                                        <?php } ?>
+                                
                                         <?php if ((int) $valor->situacao == 0) { ?>
                                           <a 
                                             href="javascript:void(0)" 
@@ -63,6 +62,7 @@
                     </div>
                 </div>
             </div>
+            <?php if($ativo->situacao <= 1){ ?>
             <div class="row">
                 <div class="col-12 col-md-12 text-center">
                   <a href="<?php echo base_url("ativo_interno/manutencao_adicionar/{$ativo->id_ativo_interno}"); ?>">
@@ -72,7 +72,7 @@
                   </a>
                 </div>
             </div>
-
+            <?php } ?>
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">

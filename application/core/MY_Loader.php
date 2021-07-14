@@ -6,18 +6,44 @@
 require APPPATH . "third_party/MX/Loader.php";
 
 class MY_Loader extends MX_Loader {
-    public function get_situacao($status=null){
-    	switch($status){
-    		case 0:
-    		$status = "ATIVO";
-    		break;
+    public function get_situacao($status=null, $case2 = 'DESCARTADO', $case2_class = 'info'){
+      $texto = "ATIVO";
+      $class = "success";
+        
+      switch ((int) $status) {
+        case 1:
+          $texto = "INATIVO";
+          $class = "danger";
+        break;
+        case 2:
+          $texto = $case2;
+          $class = $case2_class;
+        break;
+      }
 
-    		case 1:
-    		$status = "INATIVO";
-    		break;
-    	}
+      return [
+        'texto' => $texto,
+        'class' => $class
+      ];
+    }
 
-    	return $status;
+    public function get_usuario_nivel($nivel=null){
+      $texto = $nivel;
+      $class = "info";
+        
+      switch ($nivel) {
+        case "Administrador":
+          $class = "info";
+        break;
+        case "Almoxarifado":
+          $class = "warning";
+        break;
+      }
+
+      return [
+        'texto' => $texto,
+        'class' => $class
+      ];
     }
 
     public function get_obra_base($status=null){

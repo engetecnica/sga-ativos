@@ -37,7 +37,10 @@
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>
                                     <td><?php echo $valor->responsavel_celular; ?></td>
-                                    <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td>
+                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                    </td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>"><i class="fas fa-edit"></i></a>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('empresa'); ?>/deletar/<?php echo $valor->id_empresa; ?>" data-registro="<?php echo $valor->id_empresa;?>" data-tabela="empresa" class="deletar_registro"><i class="fas fa-remove"></i></a>

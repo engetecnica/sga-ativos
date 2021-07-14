@@ -27,6 +27,13 @@ class MY_Controller extends MX_Controller {
         $this->user = $this->session->userdata('logado');
     }
 
+    public function json(array $data = null, int $status_code = 200){
+        return $this->output
+        ->set_content_type('application/json')
+        ->set_status_header($status_code)
+        ->set_output(json_encode($data));
+    }
+
     public function get_template($template=null, $data=null){   
         $data['logado'] = ($this->session->userdata('logado')==true) ? self::buscar_dados_logado($this->session->userdata('logado')) : '';
         $data['modulos'] = self::get_modulos($this->session->userdata('logado')->nivel);

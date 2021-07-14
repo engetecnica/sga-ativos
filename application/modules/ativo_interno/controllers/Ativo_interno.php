@@ -33,7 +33,7 @@ class Ativo_interno  extends MY_Controller {
 
     function editar($id_ativo_interno=null){
         $data['obras'] = $this->ativo_interno_model->get_obras();
-        $data['detalhes'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
+        $data['ativo'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
         $this->get_template('index_form', $data);
     }
 
@@ -49,19 +49,38 @@ class Ativo_interno  extends MY_Controller {
         $data['quantidade'] = $this->input->post('quantidade');
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
+        $data['id_obra'] = $this->input->post('id_obra');
 
         $tratamento = $this->ativo_interno_model->salvar_formulario($data);
+
         if($data['id_ativo_interno']==''){
             $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
         } else {
             $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
         }
+
         echo redirect(base_url("ativo_interno"));
     }
 
-    function deletar($id=null){
-        $this->db->where('id_ativo_interno', $id);
-        return $this->db->delete('ativo_interno');
+    function descartar($id_ativo_interno){
+        $ativo = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
+
+        if (($ativo != null) & ($this->input->method() == 'post')) {
+            $ativo->situacao = 2;
+            $ativo->data_descarte = date('Y-m-d H:i:s', strtotime('now'));
+            return $this->json([
+                'success' =>  $this->db
+                ->where('id_ativo_interno', $ativo->id_ativo_interno)
+                ->update('ativo_interno', (array) $ativo)
+            ]);
+        }
+        return $this->json(['success' => false]);
+    }
+
+    function deletar($id_ativo_interno){
+        $this->db
+        ->where('id_ativo_interno', $id_ativo_interno)
+        ->delete('ativo_interno');
     }
 
     function manutencao($id_ativo_interno) {
@@ -87,9 +106,14 @@ class Ativo_interno  extends MY_Controller {
         $data['manutencao'] = $this->ativo_interno_model->get_manutencao($id_ativo_interno, $id_manutencao);
         $data['ativo'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
 
-        if (($data['ativo'] && (int) $data['ativo']->situacao <= 1) && $data['manutencao']) {
+        if ($data['ativo'] && $data['manutencao']) {
             $data['obs'] = $this->ativo_interno_model->get_lista_manutencao_obs($id_manutencao);
             $this->get_template('index_form_manutencao', $data);
+            return;
+        }
+
+        if ($data['ativo']) {
+            echo redirect(base_url("ativo_interno/manutencao/{$id_ativo_interno}")); 
             return;
         }
         echo redirect(base_url("ativo_interno"));
@@ -124,11 +148,6 @@ class Ativo_interno  extends MY_Controller {
     function manutencao_remover($id_ativo_interno, $id_manutencao){
         return $this->db->where('id_manutencao', $id_manutencao)
                 ->delete('ativo_interno_manutencao');
-    }
-
-    function descartar($id=null){
-        $data['ativo'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
-        //ativo_interno_manutencao
     }
 
     function manutencao_obs_adicionar($id_ativo_interno, $id_manutencao){

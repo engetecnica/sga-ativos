@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-
+        <?php if($ativo->situacao <= 1){ ?>
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25"><?php echo $ativo->nome; ?></h2>
@@ -112,7 +112,7 @@
 
                 </div>
             </div>
-
+        <?php } ?>
           <?php if (isset($manutencao) && isset($obs)) { ?>
             <div id="obs" class="row">
                 <div class="col-lg-12">
@@ -139,6 +139,7 @@
                                     <td><?php echo $valor->data_edicao ? date("d/m/Y", strtotime($valor->data_edicao)) : "-" ?></td>
                       
                                     <td class="text-right">
+                                    <?php if($ativo->situacao <= 1){ ?>
                                       <a href="<?php echo base_url("ativo_interno/manutencao_obs_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}/{$valor->id_obs}"); ?>"><i class="fas fa-edit"></i></a>
                                       <a 
                                         href="javascript:void(0)#obs" 
@@ -148,6 +149,7 @@
                                       >
                                         <i class="fas fa-remove"></i>
                                       </a>
+                                      <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>
@@ -156,7 +158,7 @@
                     </div>
                 </div>
             </div>
-
+            <?php if($ativo->situacao <= 1){ ?>
             <div class="row">
                 <div class="col-12 col-md-12 text-center">
                   <a href="<?php echo base_url("ativo_interno/manutencao_obs_adicionar/{$ativo->id_ativo_interno}/{$manutencao->id_manutencao}"); ?>">
@@ -166,6 +168,7 @@
                   </a>
                 </div>
             </div>
+            <?php } ?>
           <?php } ?>
 
             <div class="row">

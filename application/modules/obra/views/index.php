@@ -40,7 +40,10 @@
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>
                                     <td><?php echo $valor->responsavel_celular; ?></td>
-                                    <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td>
+                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                    </td>
                                     <td><?php echo $this->get_obra_base($valor->obra_base); ?></td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i></a>

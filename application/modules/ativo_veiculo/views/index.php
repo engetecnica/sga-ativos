@@ -40,7 +40,10 @@
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
-                                    <td><?php echo $this->get_situacao($valor->situacao); ?></td>
+                                    <td>
+                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                    </td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
