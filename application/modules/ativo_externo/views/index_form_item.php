@@ -21,21 +21,29 @@
                         <div class="card-header">Por favor, defina um código para cada item</div>
                         <div class="card-body">
 
-                            <form action="<?php echo base_url('ativo_externo/gravar_itens'); ?>" method="post" enctype="multipart/form-data">
-                        
+                            <form action="<?php echo $url; ?>" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>">
+
                             <input 
                                 type="hidden" 
                                 name="id_ativo_externo_categoria" 
                                 id="id_ativo_externo_categoria"
-                                value="<?php echo $item[1]['id_ativo_externo_categoria']; ?>"
-                                required="required"
+                                value="<?php echo $item[0]['id_ativo_externo_categoria']; ?>"
                             >
+
+                            <?php if(isset($item[0]['id_ativo_externo_grupo'])) {?>
+                                <input 
+                                type="hidden" 
+                                name="id_ativo_externo_grupo" 
+                                id="id_ativo_externo_grupo" 
+                                value="<?php echo $item[0]['id_ativo_externo_grupo']; ?>">
+                            <?php } ?>
 
                             <input 
                                 type="hidden" 
                                 name="tipo" 
                                 id="tipo"
-                                value="<?php echo $item[1]['tipo']; ?>"
+                                value="<?php echo $item[0]['tipo']; ?>"
                                 required="required"
                             >
                             
@@ -43,7 +51,7 @@
                                 type="hidden" 
                                 name="id_obra" 
                                 id="id_obra"
-                                value="<?php echo $item[1]['id_obra']; ?>"
+                                value="<?php echo $item[0]['id_obra']; ?>"
                                 required="required"
                             >
 
@@ -51,12 +59,12 @@
                                 type="hidden"
                                 id="observacao" 
                                 name="observacao" 
-                                value="<?php echo $item[1]['observacao']; ?>"
+                                value="<?php echo $item[0]['observacao']; ?>"
                             >
 
                                 <?php foreach($item as $value){ ?>
                                     <?php if(isset($value) && isset($value['id_ativo_externo'])){?>
-                                        <input type="hidden" name="id_ativo_externo" id="id_ativo_externo" value="<?php echo $value['id_ativo_externo']; ?>">
+                                        <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $value['id_ativo_externo']; ?>">
                                     <?php } ?>
 
                                     <div class="row form-group">
@@ -75,13 +83,42 @@
                                         <i class="fa fa-save "></i>&nbsp;
                                         <span id="submit-form">Salvar Configurações</span>
                                     </button>
-                                    <?php if(isset($item[1]) && isset($item[1]['id_ativo_externo'])){?>
-                                    <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $item[1]['id_ativo_externo']; ?>">
-                                    <button class="btn btn-info" type="button">                                                    
-                                        <i class="fa fa-arrow-left"></i>&nbsp;
-                                        <span id="cancelar-form">Voltar</span>
-                                    </button>
-                                    </a>
+                                    <?php if(isset($item[0]) && isset($item[0]['id_ativo_externo'])){?>
+                                        <?php if ($mode == 'insert'){ ?>
+                                            <a href="<?php echo base_url('ativo_externo/adicionar'); ?>">
+                                                <button class="btn btn-info" type="button">                                                    
+                                                    <i class="fa fa-arrow-left"></i>&nbsp;
+                                                    <span id="cancelar-form">Voltar</span>
+                                                </button>
+                                            </a>
+                                        <?php } ?>
+
+                                        <?php if ($mode == 'update'){ ?>
+                                            <a href="<?php echo base_url("ativo_externo/editar/{$item[0]['id_ativo_externo']}"); ?>">
+                                                <button class="btn btn-info" type="button">                                                    
+                                                    <i class="fa fa-arrow-left"></i>&nbsp;
+                                                    <span id="cancelar-form">Voltar</span>
+                                                </button>
+                                            </a>
+                                        <?php } ?> 
+                                        
+                                        <?php if ($mode == 'insert_grupo'){ ?>
+                                            <a href="<?php echo base_url("ativo_externo/adicionar/{$item[0]['id_ativo_externo_grupo']}"); ?>">
+                                                <button class="btn btn-info" type="button">                                                    
+                                                    <i class="fa fa-arrow-left"></i>&nbsp;
+                                                    <span id="cancelar-form">Voltar</span>
+                                                </button>
+                                            </a>
+                                        <?php } ?>  
+
+                                        <?php if ($mode == 'update_grupo'){ ?>
+                                            <a href="<?php echo base_url("ativo_externo/editar_grupo/{$item[0]['id_ativo_externo_grupo']}"); ?>">
+                                                <button class="btn btn-info" type="button">                                                    
+                                                    <i class="fa fa-arrow-left"></i>&nbsp;
+                                                    <span id="cancelar-form">Voltar</span>
+                                                </button>
+                                            </a>
+                                        <?php } ?>         
                                     <?php } ?>                           
                                 </div>                                
 

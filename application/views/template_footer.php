@@ -34,7 +34,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#lista').DataTable( {
+            $config_lista = {
                 "aLengthMenu": [
                     [20, 30, 50, -1],
                     [20, 30, 50, "Todos"]
@@ -64,7 +64,19 @@
                         "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
                 }
-            } );
+            };
+
+            $('#lista').DataTable($config_lista);
+            $('#lista2').DataTable($config_lista);
+
+            $('.paginate_button').click((e) => {
+                setTimeout(() => {
+                    let lista = document.querySelector(`#${$(e.target).attr('aria-controls')}`)
+                    if (lista) {
+                        lista.scrollIntoView({behavior: "smooth"})
+                    }
+                }, 100)
+            })
         } ); 
     </script>
 

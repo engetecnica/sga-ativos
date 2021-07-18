@@ -107,9 +107,10 @@
                                             <img src="<?php echo base_url('assets'); ?>/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $this->session->userdata('logado')->usuario; ?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo $usuario->usuario; ?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
+                                            <?php if (isset($usuario->razao_social)) { ?>
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
@@ -118,10 +119,11 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?php echo $logado->razao_social; ?></a>
+                                                        <a href="#"><?php echo $usuario->razao_social; ?></a>
                                                     </h5>
                                                 </div>
                                             </div>
+                                            <?php } ?>
 
                                             <div class="account-dropdown__footer">
                                                 <a href="<?php echo base_url('logout'); ?>">

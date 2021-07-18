@@ -86,6 +86,11 @@ p {
     background-color: #FFFFFF;
 }
 
+.table-responsive > h3{
+    margin: 10px 20px;
+    font-size: 1.4rem;
+}
+
 .card {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -96,6 +101,11 @@ p {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+}
+
+.btn > i, .btn > svg{
+    margin: 5px;
+    font-size: .6rem;
 }
 
 /* ----- Typography ----- */
@@ -4739,21 +4749,23 @@ section {
     color: #fa4251;
 }
 
-#lista td {
+#lista td, #lista2 td {
     text-align: center;
 }
 
-#lista td > a  {
+#lista td > a, #lista2 td > a   {
     margin: 5px;
     padding: 5px;
     cursor: pointer;
 }
 
-#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove {
+#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove,
+#lista2 td > a > .fas.fa-edit, #lista2 td > a > .fas.fa-remove {
     font-size: 1rem;
 }
 
-#lista td > a > .fas.fa-remove {
+#lista td > a > .fas.fa-remove,
+#lista2 td > a > .fas.fa-remove  {
     color: #fa4251;
 }
 

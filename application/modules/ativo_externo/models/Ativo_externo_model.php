@@ -23,6 +23,15 @@ class Ativo_externo_model extends MY_Model {
 		->get()->result();
 	}
 
+	public function get_lista_grupo(){
+		return $this->db->select('ativo_externo.*')
+		->from('ativo_externo')
+		->order_by('id_ativo_externo_grupo', 'ASC')
+		->group_by('ativo_externo.id_ativo_externo_grupo')
+		->get()
+		->result();
+	}
+
 	public function get_kit_items($id_ativo_externo_kit, $id_obra = null){
 		$kit = $this->db->select('ativo_externo_kit.*, ativo_externo.*,  obra.*')
 		->from('ativo_externo_kit')
@@ -79,30 +88,63 @@ class Ativo_externo_model extends MY_Model {
 			$arr[$k]['obra'] = $valor->codigo_obra;	
 			$k++;
 		}	
-
 		return $arr;
-
 	}
 
 	public function get_ativo_externo($id_ativo_externo=null){
-		$this->db->where('id_ativo_externo', $id_ativo_externo);
-		$ativo_externo = $this->db->get('ativo_externo')->row();
-		return $ativo_externo;
+		return $this->db
+		->where('id_ativo_externo', $id_ativo_externo)
+		->order_by('nome', 'asc')
+		->group_by('id_ativo_externo')
+		->get('ativo_externo')
+		->row();
+	}
+
+	public function get_ativo_externo_grupo($id_ativo_externo_grupo, $count=false){
+		$grupo = $this->db
+		->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+		->order_by('nome', 'asc')
+		->group_by('id_ativo_externo')
+		->get('ativo_externo');
+
+		if (!$count) {
+			return 	$grupo->result();
+		}
+		return 	$grupo->num_rows();
 	}
 
 	public function get_ativos_externos($data){
-		$this->db->where($data);
-		return $this->db->get('ativo_externo')->result();
+		return $this->db
+		->where($data)
+		->order_by('nome', 'asc')
+		->group_by('id_ativo_externo')
+		->get('ativo_externo')
+		->result();
 	}
 
 	# Busca da Obra
 	public function get_obra(){
-		return $this->db->get('obra')->result();
+		return $this->db
+		->order_by('codigo_obra', 'asc')
+		->group_by('id_obra')
+		->get('obra')
+		->result();
 	}	
 
 	# Busca Categoria
 	public function get_categoria(){
-		$this->db->order_by('nome', 'asc');
-		return $this->db->get('ativo_externo_categoria')->result();
+		return $this->db
+		->order_by('nome', 'asc')
+		->group_by('id_ativo_externo_categoria')
+		->get('ativo_externo_categoria')
+		->result();
+	}
+
+	public function get_proximo_grupo(){
+		$grupos = $this->get_lista_grupo();
+		if (count($grupos) >= 1) {
+			return $grupos[count($grupos) - 1]->id_ativo_externo_grupo + 1;
+		}
+		return 1;
 	}
 }

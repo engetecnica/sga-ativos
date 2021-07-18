@@ -20,37 +20,66 @@ class Ativo_externo  extends MY_Controller {
         # Fecha Login        
     }
 
-    function verificar($id_ativo_externo=null)
-    {
-        if($id_ativo_externo==null)
-        {
-
-        }
-        else 
-        {
-            $data['lista'] = $this->ativo_externo_model->get_lista_verificada($id_ativo_externo);
-            $this->get_template("verificar", $data);            
-        }
-    }
-
     function index($subitem=null) {
         $data['lista'] = $this->ativo_externo_model->get_lista();
+        $data['grupos'] = $this->ativo_externo_model->get_lista_grupo();
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
     }
 
-    function adicionar(){
+    function adicionar($id_ativo_externo_grupo=null){
+        $data['mode'] = "insert";
+        $data['url'] = base_url("ativo_externo/salvar");
+        
+        if ($id_ativo_externo_grupo) {
+            $data['url'] = base_url("ativo_externo/salvar_grupo");
+            $grupo = $this->ativo_externo_model->get_ativo_externo_grupo($id_ativo_externo_grupo);
+            $data['detalhes'] = (object) [
+                'tipo' => $grupo[0]->tipo,
+                'id_ativo_externo_categoria' => $grupo[0]->id_ativo_externo_categoria,
+                'id_ativo_externo_grupo' => $grupo[0]->id_ativo_externo_grupo,
+                'nome' => $grupo[0]->nome,
+            ];
+            $data['mode'] = "insert_grupo";
+        }
+
         $data['obra'] = $this->ativo_externo_model->get_obra();
         $data['categoria'] = $this->ativo_externo_model->get_categoria();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_ativo_externo=null){
+        $data['mode'] = "update";
+        $data['url'] = base_url("ativo_externo/salvar");
         $data['detalhes'] = $this->ativo_externo_model->get_ativo_externo($id_ativo_externo);
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
         $data['categoria'] = $this->ativo_externo_model->get_categoria();
         $this->get_template('index_form', $data);
+    }
+
+
+    function editar_grupo($id_ativo_externo_grupo){
+        $data['estados'] = $this->get_estados();
+        $data['obra'] = $this->ativo_externo_model->get_obra();
+        $data['categoria'] = $this->ativo_externo_model->get_categoria();
+        $data['url'] = base_url("ativo_externo/salvar_grupo");
+        $grupo = $this->ativo_externo_model->get_ativo_externo_grupo($id_ativo_externo_grupo);
+
+        if ($grupo) {
+            $data['detalhes'] = (object) [
+                'quantidade' => count($grupo),
+                'tipo' => $grupo[0]->tipo,
+                'id_ativo_externo_categoria' => $grupo[0]->id_ativo_externo_categoria,
+                'id_ativo_externo_grupo' => $grupo[0]->id_ativo_externo_grupo,
+                'nome' => $grupo[0]->nome,
+            ];
+            $data['mode'] = "update_grupo";
+            $this->get_template('index_form', $data);
+            return;
+        }
+
+        echo redirect(base_url("ativo_externo#lista2")); 
     }
 
     function editar_itens($id_ativo_externo_kit){
@@ -79,12 +108,19 @@ class Ativo_externo  extends MY_Controller {
         echo redirect(base_url("ativo_externo/editar_itens/{$id_ativo_externo_kit}")); 
     }
 
+
     function salvar(){
-        if($this->input->post('quantidade') > 0) {
-            for($i=1; $i<=$this->input->post('quantidade'); $i++) {
-                if (!is_null( $this->input->post('id_ativo_externo'))) {
-                    $data['item'][$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo');
+        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
+        $data['mode'] = $this->input->post('mode');
+        $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
+
+        if ($quantidade > 0) {
+            $ids_ativos_externos = $this->input->post('id_ativo_externo');
+            for($i=0; $i < $quantidade; $i++) {
+                if (isset($this->input->post('id_ativo_externo')[$i])) {
+                    $data['item'][$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
                 }
+                $data['item'][$i]['id_ativo_externo_grupo']         =  $id_grupo;
                 $data['item'][$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
                 $data['item'][$i]['tipo']                           = $this->input->post('tipo');
                 $data['item'][$i]['id_obra']                        = $this->input->post('id_obra');
@@ -92,22 +128,72 @@ class Ativo_externo  extends MY_Controller {
                 $data['item'][$i]['observacao']                     = $this->input->post('observacao');
                 $data['item'][$i]['codigo']                         = $this->input->post('codigo');
             }
+            $data['url'] = base_url("ativo_externo/gravar_itens");
             $this->get_template('index_form_item', $data);
+            return;
         }
+
+        $this->session->set_flashdata('msg_retorno', "Nenhum registro modificado!");
+        echo redirect(base_url("ativo_externo"));
     }
 
 
-    function gravar_itens()
+    function salvar_grupo(){
+        $items = [];
+        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
+        $data['mode'] = $this->input->post('mode');
+        $id_grupo = $this->input->post('id_ativo_externo_grupo');
+        $grupo = $this->ativo_externo_model->get_ativo_externo_grupo($id_grupo);
+
+        if ($grupo) {
+            foreach($grupo as $k => $item) {
+                $grupo[$k] = (array) $grupo[$k];
+            }
+        } else {
+            $grupo = [];
+        }
+            
+        if (($data['mode'] == 'insert_grupo')) {
+            for($i=0; $i < $quantidade; $i++) {
+                $items[$i]['id_ativo_externo_grupo'] = $id_grupo;
+                $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
+                $items[$i]['tipo']                           = $this->input->post('tipo');
+                $items[$i]['id_obra']                        = $this->input->post('id_obra');
+                $items[$i]['nome']                           = $this->input->post('nome');
+                $items[$i]['observacao']                     = $this->input->post('observacao');
+                $items[$i]['codigo']                         = $this->input->post('codigo');
+            }
+        }
+
+        if (($data['mode'] == 'update_grupo')) {
+            foreach($grupo as $k => $item) {
+                if ($this->input->post('nome')) {
+                    $grupo[$k]['nome'] = $this->input->post('nome');
+                }
+                if ($this->input->post('observacao')) {
+                    $grupo[$k]['observacao'] = $this->input->post('observacao');
+                }
+            }
+        }
+
+        $data['url'] = base_url("ativo_externo/gravar_itens_grupo");
+        $data['item'] = array_merge($grupo, $items);
+        $this->get_template('index_form_item', $data);
+    }
+
+   
+    function gravar_itens($mode = null)
     {
         $dados = array();
-        $mode = 'insert';
+        $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert';
+
         foreach($_POST['codigo'] as $k => $item){
-            if($_POST['id_ativo_externo']) {                
-                $dados[$k] = (array) $this->ativo_externo_model->get_ativo_externo($_POST['id_ativo_externo']);
-                $mode = 'update';
+            if(isset($_POST['id_ativo_externo'])) {              
+                $dados[$k] = (array) $this->ativo_externo_model->get_ativo_externo($_POST['id_ativo_externo'][$k]);
             }
 
-            if($_POST['codigo']){                
+            if($_POST['codigo']){
+                $dados[$k]['id_ativo_externo_grupo']        = $this->input->post('id_ativo_externo_grupo');                
                 $dados[$k]['codigo']                        = $_POST['codigo'][$k];
                 $dados[$k]['nome']                          = $_POST['item'][$k];
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
@@ -120,8 +206,8 @@ class Ativo_externo  extends MY_Controller {
                     $dados[$k]['tipo'] = $this->input->post('tipo');
                 }
             }
-        }  
-
+        }
+        
         if( $mode == 'update' && $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo'))
         {
             $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");
@@ -137,11 +223,66 @@ class Ativo_externo  extends MY_Controller {
         echo redirect(base_url("ativo_externo"));
     }
 
-    function deletar($id=null){
-        $this->db->where('id_ativo_externo', $id);
-        return $this->db->delete('ativo_externo');
+    
+
+    function gravar_itens_grupo($mode = null)
+    {
+        $dados = array();
+        $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert_grupo';
+
+        foreach($_POST['codigo'] as $k => $item){
+            if(isset($_POST['id_ativo_externo'][$k])) {              
+                $dados[$k] = (array) $this->ativo_externo_model->get_ativo_externo($_POST['id_ativo_externo'][$k]);
+            }
+
+            if($_POST['codigo']){               
+                $dados[$k]['codigo']                        = $_POST['codigo'][$k];
+                $dados[$k]['nome']                          = $_POST['item'][$k];
+                $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
+                $dados[$k]['id_obra']                       = $this->input->post('id_obra');
+                $dados[$k]['observacao']                    = $this->input->post('observacao');
+
+                if($mode == 'insert_grupo') {
+                    $dados[$k]['situacao'] = 12; // Estoque
+                    $dados[$k]['data_liberacao'] = "0000-00-00 00:00:00";
+                    $dados[$k]['tipo'] = $this->input->post('tipo');
+                    $dados[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo'); 
+                }
+            }
+        }
+    
+
+        if($mode == 'insert_grupo') {
+            foreach($dados as $k => $value){
+                if (isset($value['id_ativo_externo'])) {
+                    unset($dados[$k]);
+                }
+            }
+        }
+
+        if( $mode == 'update_grupo' && $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo'))
+        {
+            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");
+        }   
+
+        if( $mode == 'insert_grupo' && $this->db->insert_batch("ativo_externo", $dados))
+        {
+            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+        }
+        echo redirect(base_url("ativo_externo#lista2"));
     }
 
+    function deletar($id){
+        $this->db
+        ->where('id_ativo_externo', $id)
+        ->delete('ativo_externo');
+    }
+
+    function deletar_grupo($id_ativo_externo_grupo){
+        $this->db
+        ->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+        ->delete('ativo_externo');
+    }
 }
 
 /* End of file Site.php */

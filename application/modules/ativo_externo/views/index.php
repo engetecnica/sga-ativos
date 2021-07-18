@@ -26,8 +26,14 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25">Ativo Externo</h2>
+                    <h2 class="title-1 m-b-25">Ativos Externo</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
+                        <h3 class="title-1 m-b-25">Itens</h3>
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
@@ -66,6 +72,48 @@
                                     <td>
                                         <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fas fa-edit"></i></a>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" data-registro="<?php echo $valor->id_ativo_externo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                               <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive table--no-card m-b-40">
+                        <h3 class="title-1 m-b-25">Grupos</h3>
+                        <table class="table table-borderless table-striped table-earning" id="lista2">
+                            <thead>
+                                <tr>
+                                    <th>GID</th>
+                                    <th>Grupo</th>
+                                    <th>Tipo</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($grupos as $valor){ ?>
+                                <tr>
+                                    <td><?php echo $valor->id_ativo_externo_grupo; ?></td>
+                                    <td><?php echo $valor->nome; ?></td>
+                                    <td>
+                                        <?php if($valor->tipo == 1) { ?>
+                                            <button class="btn btn-outline-primary btn-sm">Kit</button>
+                                        <?php } else { ?>
+                                            <button class="btn btn-outline-secondary btn-sm">Unidade</button>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                    <a href="<?php echo base_url('ativo_externo/adicionar'); ?>/<?php echo $valor->id_ativo_externo_grupo; ?>">
+                                        <button class="btn btn-sm btn-secondary">
+                                            <i class="fa fa-plus"></i>Adicionar ao Grupo
+                                        </button>
+                                    </a>
+                                        <a href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>"><i class="fas fa-edit"></i></a>
+                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
                                     </td>
                                 </tr>
                                <?php } ?>
