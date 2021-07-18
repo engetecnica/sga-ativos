@@ -29,9 +29,14 @@ class MY_Loader extends MX_Loader {
 
     public function get_usuario_nivel($nivel=null){
       $texto = $nivel;
-      $class = "info";
+      $class = "";
         
       switch ($nivel) {
+        default:
+        case 0:
+          $texto = $nivel;
+          $class = "info";
+        break;
         case "Administrador":
           $class = "info";
         break;
@@ -49,48 +54,41 @@ class MY_Loader extends MX_Loader {
     public function get_obra_base($status=null){
     	switch($status){
     		case 0:
-    		$status = "NÃO";
+    		  $status = "NÃO";
     		break;
-
     		case 1:
-    		$status = "SIM";
+    		  $status = "SIM";
     		break;
     	}
-
     	return $status;
     }
 
-
     public function get_situacao_transporte($status=null){
-
         switch($status){
-
             case 1:
-            $status = "Pendente";
+              $status = "Pendente";
             break;
-
             case 2:
-            $status = "Em Andamento";
+              $status = "Em Andamento";
             break;
-
             case 3:
-            $status = "Entregue";
+              $status = "Entregue";
             break;
-
             case 4:
-            $status = "Concluído";
+              $status = "Concluído";
             break;
-
         }
-
         return $status;
     } 
     
     public function get_situacao_manutencao($status=null){
-        $texto = "Em Manutenção";
-        $class = "warning";
-        
+        $texto = $class = "";
         switch ((int) $status) {
+          default:
+          case 0:
+            $texto = "Em Manutenção";
+            $class = "warning";
+          break;
           case 1:
             $texto = "Manutenção OK";
             $class = "success";
@@ -105,6 +103,24 @@ class MY_Loader extends MX_Loader {
             'texto' => $texto,
             'class' => $class
         ];
+    }
+
+    public function get_requisicao_status($status=null){
+      $texto = $class = "";
+      switch ((int) $status) {
+        case 1:
+          $texto = "Pendente";
+          $class = "danger";
+        break;
+        case 2:
+          $texto = "Liberado";
+          $class = "info";
+        break;
+      }
+      return [
+          'texto' => $texto,
+          'class' => $class
+      ];
     }
 
     public function formata_moeda($valor = 0){

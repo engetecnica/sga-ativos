@@ -17,9 +17,10 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Requisição de Ferramentas</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning border-bottom-1" id="listagem">
+                        <table class="table table-borderless table-striped table-earning border-bottom-1" id="lista">
                             <thead>
                                 <tr>
+                                    <th width="10%">ID</th>
                                     <th width="10%">Data</th>
                                     <th>Destino</th>
                                     <th>Solicitante</th>
@@ -29,7 +30,26 @@
                             </thead>
                             
                             <tbody>
-
+                                <?php foreach($lista as $valor){ ?>
+                                <tr>
+                                    <td><?php echo $valor->id_requisicao; ?></td>
+                                    <td width="10%"><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
+                                    <td><?php echo "{$valor->endereco} {$valor->endereco_numero}"; ?></td>
+                                    <td><?php echo $valor->usuario; ?></td>
+                                    <td width="10%">
+                                        <?php $status = $this->get_requisicao_status($valor->status)?>
+                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                    </td>
+                                    <td width="10%">
+                                        <a 
+                                            class="btn btn-outline-secondary" 
+                                            href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>"
+                                        >
+                                            Detalhes da Requisição
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -54,10 +74,10 @@
 <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 <script>
-
-    $('#listagem').DataTable({
+    /*
+    $('#lista').DataTable({
         "ajax": {
-            url : "<?php echo base_url("ferramental_requisicao/getlistagem"); ?>",
+            url : "<?php //echo base_url("ferramental_requisicao/getlistagem"); ?>",
             type : 'POST'
         },
         "order": [[ 0, "desc" ]],
@@ -87,4 +107,5 @@
             "sSortDescending": ": Ordenar colunas de forma descendente"
         }        
     });
-</script>          
+    */
+</script>

@@ -20,23 +20,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" method="post" enctype="multipart/form-data"> 
-
-                        <?php
-                        #echo "<pre>";
-                        #print_r($requisicao_liberada);
-                        #echo "</pre>";
-
-                        ?>
-
-
                         <h2 class="title-1 m-b-25">Detalhes da Requisição Administração</h2>
-
                         <div class="card">
-
                             <input type="hidden" name="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
                             <input type="hidden" name="id_obra" value="<?php echo $requisicao->id_obra; ?>">
                             <div class="card-body">
-
                                 <!-- Detalhes da Requisição -->
                                 <table class="table table-borderless table-striped table-earning">
                                     <thead>
@@ -52,10 +40,9 @@
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
                                             <td><?php echo $requisicao->usuario_solicitante; ?></td>
                                             <td><?php echo $requisicao->codigo_obra; ?></td>
-                                            <td>                            
-                                                <button type="button"  class="btn btn-sm btn-<?php echo $requisicao->classe; ?>">
-                                                    <?php echo $requisicao->status_texto; ?>
-                                                </button>
+                                            <td width="10%">
+                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
+                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -64,66 +51,91 @@
                                 <hr>
 
 
-                                <?php if(!empty($requisicao->itens)){ ?>
-                                <table class="table table-borderless table-striped table-earning">
+                                <?php if(!empty($itens_pendentes)){ ?>
+                                <h3 class="title-1 m-b-25">Itens Pendêntes</h3>
+                                <table class="table table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="40%">Item</th>
+                                            <th scope="col" width="10%">Id</th>
+                                            <th scope="col" width="30%">Item</th>
                                             <th scope="col" width="20%">Qtde. Solcitada</th>
                                             <th scope="col">Estoque</th>
                                             <th scope="col" width="150">Liberar</th>
-                                            <th scope="col">Situação</th>
+                                            <!--<th scope="col">Situação</th>-->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($requisicao->itens as $req){ ?>
-                                            <input type="hidden" name="item[]" id="item[]" value="<?php echo $req->item; ?>">
-                                            <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $req->quantidade; ?>">
+                                        <?php foreach($itens_pendentes as $item){ ?>
+                                            <input type="hidden" name="item[]" id="item[]" value="<?php echo $item->nome; ?>">
+                                            <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
                                         <tr>
-                                            <td><?php echo $req->item; ?></td>
-                                            <td><?php echo $req->quantidade; ?></td>
-                                            <td><?php echo $req->total_estoque; ?></td>
+                                            <td><?php echo $item->id_requisicao_item; ?></td>
+                                            <td><?php echo $item->nome; ?></td>
+                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo $item->estoque; ?></td>
                                             <td>
-                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" min="1" max="<?php echo $req->quantidade; ?>" <?php if($req->total_estoque==0) echo "disabled"; ?> >
+                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" 
+                                                min="0" max="<?php 
+                                                    echo $item->estoque > $item->quantidade ? $item->quantidade : $item->estoque ; 
+                                                ?>" 
+                                                <?php if($item->estoque==0) echo "disabled"; ?> 
+                                                >
                                             </td>
-                                            <td><button type="button" class="btn btn-sm btn-<?php echo $req->classe; ?>"><?php echo $req->status_texto; ?></button></td>
+                                            <!--
+                                            <td>
+                                                <?php $status = $this->get_requisicao_status($item->status);?>
+                                                <button type="button" class="btn btn-sm btn-<?php echo $status['class']; ?>">
+                                                    <?php echo  $status['texto']; ?>
+                                                </button>
+                                            </td>
+                                            -->
                                         </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
                                 <?php } ?>
 
-                                <?php if(!empty($requisicao_liberada->itens) && $requisicao->status_texto=='Liberado'){ ?>
-                                <table class="table table-borderless table-striped table-earning">
+                                
+                                 <!-- if(!empty($itens) && $requisicao->status == 2) --> 
+                                <?php if(!empty($itens_liberados)){ ?>
+                                <h3 class="title-1 m-b-25">Itens Liberados</h3>
+                                <table class="table table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="40%">Item</th>
+                                            <th scope="col" width="10%">Id</th>
+                                            <th scope="col" width="30%">Item</th>
                                             <th scope="col" width="20%">Qtde. Solcitada</th>
-                                            <th scope="col">Liberada</th>
+                                            <th scope="col">Qtde. Liberada</th>
                                             <th scope="col" width="150">Data</th>
-                                            <th scope="col">Situação</th>
+                                            <!--<th scope="col">Situação</th>-->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($requisicao_liberada->itens as $req){ ?>
+                                    <?php foreach($itens_liberados as $item){ ?>
                                         <tr>
-                                            <td><?php echo $req->nome; ?></td>
-                                            <td><?php echo $req->quantidade; ?></td>
-                                            <td><?php echo $req->quantidade_liberada; ?></td>
+                                            <td><?php echo $item->id_requisicao_item; ?></td>
+                                            <td><?php echo $item->nome; ?></td>
+                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
-                                                <?php echo date("d/m/Y H:i", strtotime($req->data_liberado)); ?>
+                                                <?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?>
                                             </td>
-                                            <td><button type="button" class="btn btn-sm btn-<?php echo $req->status_item_classe; ?>"><?php echo $req->status_item; ?></button></td>
+                                            <!--
+                                            <td width="10%">
+                                                <?php $status = $this->get_requisicao_status($item->status)?>
+                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                            </td>
+                                            -->
                                         </tr>
-                                        <?php } ?>
+                                    <?php } ?>
                                     </tbody>
                                 </table>
                                 <?php } ?>
 
 
-                                <?php if($this->session->userdata('logado')->nivel==1){  ?>
+                                <?php if($usuario->nivel == 1){  ?>
                                     <?php 
-                                        if($requisicao->status_texto=="Pendente"){ 
+                                        if($requisicao->status == 1){
                                     ?> 
 
                                     <hr>

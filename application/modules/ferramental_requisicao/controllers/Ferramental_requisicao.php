@@ -23,49 +23,36 @@ class Ferramental_requisicao  extends MY_Controller {
 
     # Listagem de Itens
     function index($subitem=null) {
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem);
+        $this->get_template('index', ['lista' => $this->ferramental_requisicao_model->get_lista($this->user)]);
     }
 
     # Criar uma nova Requisição
     function adicionar(){
-        $data['ativo_externo'] = $this->ferramental_requisicao_model->get_ativo_externo_lista();
-    	$this->get_template('index_form', $data);
+    	$this->get_template('index_form',['ativo_externo' => $this->ferramental_requisicao_model->get_ativo_externo_lista()]);
     }
 
     # Grava Requisição
     function salvar(){
-
         # Dados
-        $data['id_obra'] = $this->session->userdata('logado')->id_obra;
-        $data['id_usuario'] = $this->session->userdata('logado')->id_usuario;
-        $data['status'] = '1'; # Pendente
+        $data['id_obra'] = $this->user->id_obra;
+        $data['id_usuario'] = $this->user->id_usuario;
+        $data['status'] = 1; # Pendente
         $id_requisicao = $this->ferramental_requisicao_model->salvar_formulario($data);
 
         $dados = array();
-        foreach($_POST['quantidade'] as $k=>$item){
-            if($_POST['quantidade']>0){
+        if ($_POST['quantidade'] > 0) {
+            foreach($_POST['quantidade'] as $k=>$item){
                 $dados[$k] = array();
                 $dados[$k]['quantidade'] = $_POST['quantidade'][$k];
                 $dados[$k]['id_ativo_externo'] = $_POST['id_ativo_externo'][$k];
                 $dados[$k]['id_requisicao'] = $id_requisicao;
-                $dados[$k]['status'] = '1';
+                $dados[$k]['status'] = 1;
             }
         }
-
+        
         $this->db->insert_batch("ativo_externo_requisicao_item", $dados);
-
-
-        # Retorno
         $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
         echo redirect(base_url("ferramental_requisicao"));
-
-    }
-
-    # Lista de Itens
-    public function getlistagem()
-    {
-        return $this->ferramental_requisicao_model->get_lista();
     }
 
     public function acao($tipo=null)
@@ -73,55 +60,71 @@ class Ferramental_requisicao  extends MY_Controller {
         $this->load->view('item_transferir');
     }
 
-
-    function detalhes($id_requisicao=null, $item=null, $id_requisicao_item=null)
+    function detalhes($id_requisicao=null)
     {
-
-        if(!$id_requisicao)
-        {
+        $obra_base = $this->get_obra_base();
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao($id_requisicao, $this->user);
+        if(!$requisicao){
             $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
-            echo redirect(base_url('ferramental_requisicao')); 
-        } 
-        else 
-        {
-            
-            if($item==null && $id_requisicao_item==null)
-            {
-
-
-                # Detalhes da Requisição
-                $data['requisicao_liberada'] = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao);
-                $data['requisicao'] = $this->ferramental_requisicao_model->get_requisicao($id_requisicao);
-                
-
-                #echo "<pre>";
-                #print_r($data);
-                #die();
-
-
-                if(!$data['requisicao'])
-                    {
-                        $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
-                        echo redirect(base_url('ferramental_requisicao')); 
-                    }
-
-                if($this->session->userdata('logado')->nivel==1)
-                {
-                    $this->get_template('requisicao_detalhes_adm', $data);
-                } 
-                else 
-                {
-                    $this->get_template('requisicao_detalhes_user', $data);
-                }
-
-
-            }
-            
-
-
+            echo redirect(base_url('ferramental_requisicao'));
+            return; 
+        }
+        
+        $data['requisicao'] = $requisicao;
+        $data['itens_pendentes'] = $this->ferramental_requisicao_model->get_requisicao_itens($id_requisicao, 1);
+        $data['itens_liberados'] = $this->ferramental_requisicao_model->get_requisicao_itens($id_requisicao, 2);
+        
+        $itens_estoque = $this->ferramental_requisicao_model->get_itens_estoque(
+                                            $obra_base->id_obra, 
+                                            array_merge( $data['itens_liberados'],  $data['itens_pendentes'])
+                                        );
+        
+        foreach($data['itens_pendentes'] as $key => $item){
+            $data['itens_pendentes'][$key]->estoque = $itens_estoque[$item->nome];
         }
 
+        foreach($data['itens_liberados'] as $key => $item){
+            $data['itens_liberados'][$key]->estoque = $itens_estoque[$item->nome];
+        }
+
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // exit;
+
+        if ($this->user->nivel == 1) {
+            $this->get_template('requisicao_detalhes_adm', $data);
+        } else {
+            $this->get_template('requisicao_detalhes_user', $data);
+        }
     }
+
+
+    // function detalhes($id_requisicao=null, $item=null, $id_requisicao_item=null)
+    // {
+    //     if(!$id_requisicao){
+    //         $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+    //         echo redirect(base_url('ferramental_requisicao')); 
+    //     } 
+    //     else {
+    //         if($item==null && $id_requisicao_item==null){
+    //             # Detalhes da Requisição
+    //             $data['requisicao_liberada'] = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao);
+    //             $data['requisicao'] = $this->ferramental_requisicao_model->get_requisicao($id_requisicao);
+                
+    //             if(!$data['requisicao']){
+    //                 $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+    //                 echo redirect(base_url('ferramental_requisicao')); 
+    //             }
+
+    //             if ($this->session->userdata('logado')->nivel==1) {
+    //                 $this->get_template('requisicao_detalhes_adm', $data);
+    //             } else {
+    //                 $this->get_template('requisicao_detalhes_user', $data);
+    //             }
+    //         }
+    //     }
+    // }
 
     # Liberar Requisição
     public function liberar_requisicao()
@@ -291,7 +294,6 @@ class Ferramental_requisicao  extends MY_Controller {
 
         print_r($item);
     }
-
 }
 
 /* End of file ferramental_requisicao.php */

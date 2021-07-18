@@ -24,7 +24,7 @@ class MY_Controller extends MX_Controller {
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
-        $this->user = $this->session->userdata('logado');
+        $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
     }
 
     public function json(array $data = null, int $status_code = 200){
@@ -34,12 +34,12 @@ class MY_Controller extends MX_Controller {
         ->set_output(json_encode($data));
     }
 
-    public function get_template($template=null, $data=null){   
-        $data['logado'] = ($this->session->userdata('logado')==true) ? self::buscar_dados_logado($this->session->userdata('logado')) : '';
-        $data['modulos'] = self::get_modulos($this->session->userdata('logado')->nivel);
+    public function get_template($template=null, $data=null){
+        $data['usuario'] = $this->user;
+        $data['modulos'] = self::get_modulos($this->user->nivel);
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);
-        $this->load->view("../views/template_footer");
+        $this->load->view("../views/template_footer", $data);
     }  
 
 
@@ -50,10 +50,22 @@ class MY_Controller extends MX_Controller {
     }
 
     public function buscar_dados_logado($logado=null){
-        $this->db->select('razao_social, responsavel_email');
-        $this->db->where("id_empresa", $logado->id_empresa);
-        $retorno = $this->db->get('empresa')->row();
-        return $retorno;
+        if($logado) {
+            $user = $this->db
+            ->select('usuario.*, empresa.*')
+            ->where("usuario.id_usuario = {$logado->id_usuario}")
+            ->join('empresa', "empresa.id_empresa = {$logado->id_empresa}")
+            ->get('usuario')
+            ->row();
+
+            if ($user) {
+                unset($user->senha);
+                return $user;
+            }
+            unset($logado->senha);
+            return $logado;
+        }
+        return null;
     }
 
 
@@ -122,6 +134,16 @@ class MY_Controller extends MX_Controller {
             $this->db->where('id_empresa', $id_empresa);
         }
         return $this->formatArrayReplied($this->db->get('obra')->result(), 'id_empresa');
+    }
+
+    public function get_obra_base(){
+        return $this->db
+            ->select('ob.*')
+            ->from('obra ob')
+            ->where('obra_base = 1')
+            ->group_by('ob.id_obra')
+            ->get()
+            ->row();
     }
 
     public function get_niveis(){
