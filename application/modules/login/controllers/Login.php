@@ -15,12 +15,10 @@ class Login  extends MY_Controller {
     }
 
     function index($subitem=null) {
-
+        $this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
         if($this->session->userdata('logado')==true){
             redirect(base_url());
-        }  
-
-    	//$subitem = ($subitem==null ? 'index' : $subitem);
+        }
         $this->load->view('index');
     }
 
@@ -31,7 +29,6 @@ class Login  extends MY_Controller {
     function logout(){
     	$this->session->sess_destroy();
     	$this->session->unset_userdata('logado');
-//    	unset($_SESSION['logado']);
     	echo redirect(base_url("login"));
     }
 
