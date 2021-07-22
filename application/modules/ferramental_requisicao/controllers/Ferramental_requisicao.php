@@ -12,23 +12,30 @@ class Ferramental_requisicao  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ferramental_requisicao_model');
-
+    
         # Login
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
-        } 
-        # Fecha Login        
+        }
+        $this->load->model('ativo_externo/ativo_externo_model');         
     }
 
 
     # Listagem de Itens
     function index($subitem=null) {
-        $this->get_template('index', ['lista' => $this->ferramental_requisicao_model->get_lista($this->user)]);
+        $this->get_template('index', [
+            'lista' => $this->ferramental_requisicao_model->get_lista_requisicao($this->user)
+        ]);
     }
 
     # Criar uma nova Requisição
     function adicionar(){
-    	$this->get_template('index_form',['ativo_externo' => $this->ferramental_requisicao_model->get_ativo_externo_lista()]);
+        $this->get_template(
+            'index_form',
+            ['ativo_externo' => 
+                $this->ferramental_requisicao_model->get_ativo_externo_lista()
+            ]
+        );
     }
 
     # Grava Requisição
@@ -42,16 +49,17 @@ class Ferramental_requisicao  extends MY_Controller {
         $dados = array();
         if ($_POST['quantidade'] > 0) {
             foreach($_POST['quantidade'] as $k=>$item){
+                var_dump($k);
                 $dados[$k] = array();
                 $dados[$k]['quantidade'] = $_POST['quantidade'][$k];
-                $dados[$k]['id_ativo_externo'] = $_POST['id_ativo_externo'][$k];
+                $dados[$k]['id_ativo_externo_grupo'] = $_POST['id_ativo_externo_grupo'][$k];
                 $dados[$k]['id_requisicao'] = $id_requisicao;
                 $dados[$k]['status'] = 1;
             }
         }
-        
+
         $this->db->insert_batch("ativo_externo_requisicao_item", $dados);
-        $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+        $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         echo redirect(base_url("ferramental_requisicao"));
     }
 
@@ -73,24 +81,20 @@ class Ferramental_requisicao  extends MY_Controller {
         $data['requisicao'] = $requisicao;
         $data['itens_pendentes'] = $this->ferramental_requisicao_model->get_requisicao_itens($id_requisicao, 1);
         $data['itens_liberados'] = $this->ferramental_requisicao_model->get_requisicao_itens($id_requisicao, 2);
-        
-        $itens_estoque = $this->ferramental_requisicao_model->get_itens_estoque(
-                                            $obra_base->id_obra, 
-                                            array_merge( $data['itens_liberados'],  $data['itens_pendentes'])
+
+        $itens_estoque = $this->ferramental_requisicao_model->count_grupo_estoque(
+                                            array_merge(
+                                                $data['itens_liberados'], 
+                                                $data['itens_pendentes']
+                                            )
                                         );
-        
         foreach($data['itens_pendentes'] as $key => $item){
-            $data['itens_pendentes'][$key]->estoque = $itens_estoque[$item->nome];
+            $data['itens_pendentes'][$key]->estoque = $itens_estoque[$item->id_ativo_externo_grupo];
         }
 
         foreach($data['itens_liberados'] as $key => $item){
-            $data['itens_liberados'][$key]->estoque = $itens_estoque[$item->nome];
+            $data['itens_liberados'][$key]->estoque = $itens_estoque[$item->id_ativo_externo_grupo];
         }
-
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // exit;
 
         if ($this->user->nivel == 1) {
             $this->get_template('requisicao_detalhes_adm', $data);
@@ -100,130 +104,125 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
 
-    // function detalhes($id_requisicao=null, $item=null, $id_requisicao_item=null)
-    // {
-    //     if(!$id_requisicao){
-    //         $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
-    //         echo redirect(base_url('ferramental_requisicao')); 
-    //     } 
-    //     else {
-    //         if($item==null && $id_requisicao_item==null){
-    //             # Detalhes da Requisição
-    //             $data['requisicao_liberada'] = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao);
-    //             $data['requisicao'] = $this->ferramental_requisicao_model->get_requisicao($id_requisicao);
-                
-    //             if(!$data['requisicao']){
-    //                 $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
-    //                 echo redirect(base_url('ferramental_requisicao')); 
-    //             }
+    public function detalhes_item($id_requisicao, $id_requisicao_item = null){
+        $requisicao = (object)[];
+        $requisicao->item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_requisicao_item);
+        $id_grupo = isset($requisicao->item) ? $requisicao->item->id_ativo_externo_grupo : null;
+        $requisicao_all = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $id_grupo);
+        $requisicao = (object) array_merge((array) $requisicao, (array) $requisicao_all);
 
-    //             if ($this->session->userdata('logado')->nivel==1) {
-    //                 $this->get_template('requisicao_detalhes_adm', $data);
-    //             } else {
-    //                 $this->get_template('requisicao_detalhes_user', $data);
-    //             }
-    //         }
-    //     }
-    // }
+        $ativos = [];
+        if ($requisicao->item) {
+             $ativos = $requisicao->item->ativos;
+        } else {
+            foreach($requisicao->items as $item) {
+                 $ativos = array_merge($ativos, $item->ativos);
+            }
+        }
+        $requisicao->ativos = $ativos;
 
-    # Liberar Requisição
-    public function liberar_requisicao()
+        if ($requisicao) {
+            $this->get_template('requisicao_manual', ['requisicao' => $requisicao, 'no_aceite' => true]);
+            return;
+        }
+        $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+        echo redirect(base_url('ferramental_requisicao')); 
+    }
+
+    public function liberar_requisicao($id_requisicao=null, $id_requisicao_item=null)
     {
+       $requisicao = $this->ferramental_requisicao_model->get_requisicao($this->input->post('id_requisicao'), $this->user);
+       $items = $this->input->post('item');
+       $quantidade = $this->input->post('quantidade');
+       $quantidade_solicitada = $this->input->post('quantidade_solicitada');
 
-        $dados = array();
-        $erro = 0;
-        foreach($_POST['quantidade'] as $k=>$quantidade)
-        {
+        if ($requisicao) {
+            $total_quantidade = 0;
+            $total_quantidade_liberada = 0;
 
-            if($_POST['quantidade'][$k]>0)
-            {
-                $item[$k]['quantidade_solicitada']      = $_POST['quantidade_solicitada'][$k];
-                $item[$k]['quantidade']                 = $_POST['quantidade'][$k];
-                $item[$k]['item']                       = $_POST['item'][$k];
-                $item[$k]['id_requisicao']              = $_POST['id_requisicao'];
-                $item[$k]['id_obra']                    = $_POST['id_obra'];
+            $ativos_externos_requisicao_items = [];
+            $ativos_externos = [];
+            for ($i=0; $i < count($items); $i++) { 
+                $item = $this->ferramental_requisicao_model
+                        ->get_requisicao_item($requisicao->id_requisicao, $items[$i]);
+                
+                if ($item) {
+                    $ativos = $this->ativo_externo_model
+                                ->get_estoque($item->id_ativo_externo_grupo, true);
+
+                    $total = (count($ativos) > $quantidade[$i]) ? $quantidade[$i] : count($ativos);
+                    $total_quantidade += $item->quantidade;
+    
+                    for ($k=0; $k < $total; $k++) {
+                        $ativos[$k]->situacao = 2;
+                        $ativos[$k]->id_requisicao_item = $item->id_requisicao_item;
+                        $ativos[$k]->data_liberacao = date('Y-m-d H:i:s', strtotime('now'));
+                        unset($ativos[$k]->codigo_obra, $ativos[$k]->endereco);
+                        $ativos_externos[] = (array) $ativos[$k];
+
+                        if ($ativos[$k]->tipo == 1) {
+                            $item->quantidade_liberada += $this->liberar_kit($ativos[$k], $ativos_externos);
+                        }
+
+                        $item->quantidade_liberada++;
+                        $total_quantidade_liberada += $item->quantidade_liberada;
+                    }
+                    
+                    if ($item->quantidade == $item->quantidade_liberada) {
+                        $item->data_liberado = date('Y-m-d H:i:s', strtotime('now'));
+                        $item->status = 2;
+                    }
+                    unset($item->ativos);
+                    $ativos_externos_requisicao_items[] = (array) $item; 
+                }
+            }
+    
+            $this->db->update_batch("ativo_externo", $ativos_externos, 'id_ativo_externo');
+            $this->db->update_batch("ativo_externo_requisicao_item", $ativos_externos_requisicao_items, 'id_requisicao_item');
+            $requisicao->data_atualizacao = date('Y-m-d H:i:s', strtotime('now'));
+
+            if ($total_quantidade == $total_quantidade_liberada) {
+                $requisicao->status = 2;
+                $this->session->set_flashdata('msg_success', "Requisição Liberada com Sucesso!");
+            } else { 
+                $requisicao->status = 11;
+                $this->session->set_flashdata('msg_info', "Requisição Liberada com Pedência!");
             }
 
-            # Retorno Itens por quantidade // liberados
-            $items = $this->db
-                        ->select('
-                                c1.id_ativo_externo, 
-                                c1.nome, 
-                                c1.codigo, 
-                                c1.situacao, 
-                                c2.codigo_obra, 
-                                c2.endereco
-                        ')
-                        ->join('obra as c2', 'c2.id_obra=c1.id_obra')
-                        ->where('c1.situacao', '12')
-                        ->limit($item[$k]['quantidade'])
-                        ->get('ativo_externo as c1')
-                        ->result();
+            $this->ferramental_requisicao_model->salvar_formulario([
+                'id_requisicao' => $requisicao->id_requisicao,
+                'id_obra' => $requisicao->id_obra,
+                'id_usuario' => $requisicao->id_usuario,
+                'status' => $requisicao->status,
+            ]);  
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+           return;
+        } 
 
-            # Liberação dos itens
-            foreach($items as $valor)
-            {
-                $dados['id_ativo_externo_requisicao_item']  = $item[$k]['id_requisicao'];
-                $dados['id_obra']                           = $item[$k]['id_obra'];
-                #$dados['condicao']                          = "Em Operação";
-                $dados['situacao']                          = 2; # Liberado
+        $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+        echo redirect(base_url('ferramental_requisicao'));
+        return;
+    }
 
-               // $this->db
-                       // ->where('id_ativo_externo', $valor->id_ativo_externo)
-                       // ->update('ativo_externo', $dados);
+
+    function liberar_kit($ativo, &$dados = []){
+        $quantidade_liberada = 0;
+        $items = $this->ativo_externo_model->get_kit_items($ativo->id_ativo_externo);
+
+        foreach($items as $item) {
+            $item->situacao = $ativo->situacao;
+            $item->id_requisicao_item = $ativo->id_requisicao_item;
+            $item->data_liberacao = date('Y-m-d H:i:s', strtotime('now'));
+            unset($item->codigo_obra, $item->endereco);
+            $dados[] = (array) $item;
+
+            if ($item->tipo == 1) {
+                $quantidade_liberada += $this->liberar_kit($item, $dados);
             }
-
-            
-            # Verificação de quantidade para saber se foi liberado integralmente ou parcialmente
-            if($item[$k]['quantidade_solicitada'] == $item[$k]['quantidade'])
-            {
-                $status_requisicao = '2'; // Liberado
-                $mensagem = "Requisição Liberada";
-            }
-            elseif($item[$k]['quantidade'] < $item[$k]['quantidade_solicitada']) 
-            {
-                $status_requisicao = '11'; // parcialmente
-                $mensagem = "Requisição Liberada Parcialmente";
-            }
-            else 
-            {
-                $erro = 1;
-                $mensagem = "Erro. Não foi possível efetuar a liberação. REF ER761";
-            }
-
-
-            # Atualiza Item Requisição (onde pode pedir vários itens)
-            $atex['quantidade_liberada']    = $item[$k]['quantidade'];
-            $atex['status']                 = 2;
-            $this->db->where('id_requisicao', $this->input->post('id_requisicao'));
-            $this->db->update('ativo_externo_requisicao_item', $atex);
-
-            
+            $quantidade_liberada++;
         }
-
-
-        echo "<pre>";
-        print_r($items);
-        print_r($dados);
-        print_r($_POST);
-        print_r($item);
-        die();
-
-        if(!$item)
-        {
-            $erro = 1;
-            $mensagem = "Houve um erro ao tentar salvar esssa informação.";
-        }
-
-        # Atualiza requisição completa / parcial
-        $req_status['status'] = $status_requisicao;
-        $this->db->where('id_requisicao', $this->input->post('id_requisicao'));
-        $this->db->update('ativo_externo_requisicao', $req_status);
-
-
-        if($erro==1) $tipo = "msg_erro"; else $tipo = "msg_retorno"; 
-        $this->session->set_flashdata($tipo, $mensagem);
-        echo redirect(base_url('ferramental_requisicao'));         
+     
+        return $quantidade_liberada;
     }
 
     function deletar($id=null){
@@ -231,68 +230,81 @@ class Ferramental_requisicao  extends MY_Controller {
         return $this->db->delete('ferramental_requisicao');
     }
 
-    public function manual($id_requisicao=null)
+    public function manual($id_requisicao, $id_requisicao_item)
     {
-
-        if(!$id_requisicao)
-        {
-            $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
-            echo redirect(base_url('ferramental_requisicao')); 
-        } 
-        else 
-        {
-            $data['requisicao_manual'] = $this->ferramental_requisicao_model->get_requisicao_manual($id_requisicao);
-            $this->get_template('requisicao_manual', $data);
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao($id_requisicao, $this->user);
+        if($requisicao){
+            $requisicao->item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_requisicao_item);
+            
+            $ativos = [];
+            if ($requisicao->item) {
+                $ativos = $requisicao->item->ativos;
+            } else {
+                foreach($requisicao->items as $item) {
+                    $ativos = array_merge($ativos, $item->ativos);
+                }
+            }
+            $requisicao->ativos = $ativos;
+            
+            $this->get_template('requisicao_manual', ['requisicao' => $requisicao]);
+            return;
         }
-
-        #echo "<pre>";
-        #print_r($data);
-        #echo "</pre>";
-
-        #echo $id_requisicao;
-        #die();
+        
+        $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+        echo redirect(base_url('ferramental_requisicao')); 
     }
 
-    public function aceite_manual(){
-
-        //echo "<pre>";
-        //print_r($this->input->post());
-
-        //die();
-
-
-        foreach($_POST['id_ativo_externo'] as $key=>$valor)
-        {
-            $item[$key]['id_ativo_externo']     = $_POST['id_ativo_externo'][$key];
-            $item[$key]['observacoes']          = $_POST['observacoes'][$key];
-            $item[$key]['status']               = $_POST['status'][$key];
-            $item[$key]['id_usuario_aceite']    = $this->session->userdata('logado')->id_usuario;
-            $item[$key]['id_obra']              = $this->session->userdata('logado')->id_obra;
+    public function aceite_manual($id_requisicao, $id_requisicao_item) {
+        $retorno = $this->ferramental_requisicao_model->aceite_itens_requisicao($id_requisicao, $id_requisicao_item, $_POST['status'], $_POST['id_ativo_externo']);
+        if ($retorno) {
+            $this->session->set_flashdata('msg_success', "Você confirmou o recebimento dos itens relacionados.");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$this->input->post('id_requisicao')}"));         
+            return;
         }
+        $this->aceite_erro($this->input->post('id_requisicao'));
+    }
 
-
-        /* @ atualiza a tabela ativo_externo [condicao, situacao]
-         * @ cria um registro na tabela ativo_externo_obra 
-         * @ [id_ativo_externo, id_usuario_aceite, id_obra, observacoes, status]
-         */
-
-        foreach($item as $valor)
-        {
-            $atualiza_item['condicao'] = "Recebido";
-            $atualiza_item['situacao'] = 4;
-
-            $this->db->where('id_ativo_externo', $valor->id_ativo_externo);
-            $this->db->where('id_obra', $valor->id_obra);
-            $this->db->update('ativo_externo', $atualiza_item);
+    public function aceitar_tudo($id_requisicao, $id_requisicao_item){
+        $requisicao_item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_ativo_externo_grupo);
+        
+        $items = array_map(
+            function ($item) {
+                return $item->id_ativo_externo;
+            },
+            $requisicao->ativos
+        );
+        
+        $retorno = $this->ferramental_requisicao_model->aceite_itens_requisicao($id_requisicao, $id_requisicao_item, 4, $items);
+        if ($retorno) {
+            $this->session->set_flashdata('msg_success', "Você confirmou o recebimento dos itens relacionados.");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$this->input->post('id_requisicao')}"));         
+            return;
         }
+        $this->aceite_erro($this->input->post('id_requisicao'));
+    }
 
+    public function devolver_tudo($id_requisicao, $id_requisicao_item){
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $id_ativo_externo_grupo);
+        
+        $items = array_map(
+            function ($item) {
+                return $item->id_ativo_externo;
+            },
+            $requisicao->ativos
+        );
+        
+        $retorno = $this->ferramental_requisicao_model->aceite_itens_requisicao($id_requisicao, $id_requisicao_item, $items, 9);
+        if ($retorno) {
+            $this->session->set_flashdata('msg_success', "Você confirmou a devolução dos itens relacionados.");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$this->input->post('id_requisicao')}"));         
+            return;
+        }
+        $this->aceite_erro($this->input->post('id_requisicao'));
+    }
 
-        $this->db->insert_batch('ativo_externo_obra', $item);
-
-        $this->session->set_flashdata('msg_retorno', "Você confirmou o recebimento dos itens relacionados.");
-        echo redirect(base_url('ferramental_requisicao/manual/'.$this->input->post('id_requisicao')));         
-
-        print_r($item);
+    public function aceite_erro($id_requisicao){
+        $this->session->set_flashdata('msg_erro', "Item não existe na requisição!");
+        echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));         
     }
 }
 

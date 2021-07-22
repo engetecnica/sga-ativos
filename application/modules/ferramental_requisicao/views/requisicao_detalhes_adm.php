@@ -50,45 +50,46 @@
 
                                 <hr>
 
-
                                 <?php if(!empty($itens_pendentes)){ ?>
                                 <h3 class="title-1 m-b-25">Itens Pendêntes</h3>
                                 <table class="table table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>
-                                            <th scope="col" width="30%">Item</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col" width="20%">Item</th>
                                             <th scope="col">Estoque</th>
+                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col" width="20%">Qtde. Liberada</th>
                                             <th scope="col" width="150">Liberar</th>
-                                            <!--<th scope="col">Situação</th>-->
+                                            <th scope="col">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach($itens_pendentes as $item){ ?>
-                                            <input type="hidden" name="item[]" id="item[]" value="<?php echo $item->nome; ?>">
-                                            <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
                                         <tr>
                                             <td><?php echo $item->id_requisicao_item; ?></td>
                                             <td><?php echo $item->nome; ?></td>
-                                            <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo $item->estoque; ?></td>
+                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
+                                                <input id="item[]" name="item[]" type="hidden" value="<?php echo $item->id_requisicao_item; ?>"> 
+                                                <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
                                                 <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" 
                                                 min="0" max="<?php 
-                                                    echo $item->estoque > $item->quantidade ? $item->quantidade : $item->estoque ; 
+                                                    echo ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; 
                                                 ?>" 
-                                                <?php if($item->estoque==0) echo "disabled"; ?> 
+                                                <?php if($item->estoque == 0) echo "disabled"; ?> 
                                                 >
                                             </td>
-                                            <!--
+                                            
                                             <td>
                                                 <?php $status = $this->get_requisicao_status($item->status);?>
-                                                <button type="button" class="btn btn-sm btn-<?php echo $status['class']; ?>">
+                                                <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
                                                     <?php echo  $status['texto']; ?>
                                                 </button>
                                             </td>
-                                            -->
+                                            
                                         </tr>
                                         <?php } ?>
                                     </tbody>
@@ -107,7 +108,7 @@
                                             <th scope="col" width="20%">Qtde. Solcitada</th>
                                             <th scope="col">Qtde. Liberada</th>
                                             <th scope="col" width="150">Data</th>
-                                            <!--<th scope="col">Situação</th>-->
+                                            <th scope="col">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -120,12 +121,10 @@
                                             <td>
                                                 <?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?>
                                             </td>
-                                            <!--
                                             <td width="10%">
                                                 <?php $status = $this->get_requisicao_status($item->status)?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
-                                            -->
                                         </tr>
                                     <?php } ?>
                                     </tbody>

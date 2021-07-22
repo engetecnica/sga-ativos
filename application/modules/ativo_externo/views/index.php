@@ -43,6 +43,7 @@
                                     <th>Inclusão</th>
                                     <th>Liberação</th>
                                     <th>Tipo</th>
+                                    <th>Kit</th>
                                     <th>Situação</th>
                                     <th>Opções</th>
                                 </tr>
@@ -66,6 +67,7 @@
                                             <button class="btn btn-outline-secondary btn-sm">Unidade</button>
                                         <?php } ?>
                                     </td>
+                                    <td><?php echo ''; echo $this->get_ativo_externo_on_lista($lista, $valor->id_ativo_externo_kit)->codigo; ?></td>
                                     <td>
                                         <button class="btn btn-info btn-sm">Estoque</button>
                                     </td>

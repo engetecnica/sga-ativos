@@ -188,7 +188,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    <?php if(isset($detalhes) && $detalhes->tipo == 1) { ?>
+                                    <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
                                         <a href="<?php echo base_url('ativo_externo'); ?>/editar_itens/<?php echo $detalhes->id_ativo_externo; ?>">
                                             <button type="button" class="btn btn-outline-primary">Editar Itens</button>
                                         </a>

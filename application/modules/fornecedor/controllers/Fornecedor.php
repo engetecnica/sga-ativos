@@ -62,9 +62,9 @@ class fornecedor  extends MY_Controller {
 
         $tratamento = $this->fornecedor_model->salvar_formulario($data);
         if($data['id_fornecedor']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
         echo redirect(base_url("fornecedor"));
 

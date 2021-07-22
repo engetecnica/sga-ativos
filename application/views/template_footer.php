@@ -97,7 +97,14 @@
                     $(".listagem .item-lista").last();
                 })
                 $(document).on("click", ".remove_line", function(){
-                    $(this).closest(".item-lista").remove();
+                    if($(".remove_line").length >= 1) {
+                        $(this).closest(".item-lista").remove();
+                    }
+
+                    if($(".remove_line").length == 0) {
+                        $(".listagem").append($("#item_lista").html());
+                        $(".listagem .item-lista").last();
+                    }
                 })
 
             /* Fecha Itens da Requisição múltipla */
@@ -314,11 +321,20 @@
             });            
         });
 
-        <?php if($this->session->flashdata('msg_retorno')==true){ ?>
+        <?php if($this->session->flashdata('msg_success')==true){ ?>
         Swal.fire({
             title: 'Sucesso!',
-            text: '<?php echo $this->session->flashdata('msg_retorno'); ?>',
+            text: '<?php echo $this->session->flashdata('msg_success'); ?>',
             icon: 'success',
+            confirmButtonText: 'Ok, fechar.'
+        })
+        <?php } ?>
+
+        <?php if($this->session->flashdata('msg_info')==true){ ?>
+        Swal.fire({
+            title: 'Informação',
+            text: '<?php echo $this->session->flashdata('msg_info'); ?>',
+            icon: 'info',
             confirmButtonText: 'Ok, fechar.'
         })
         <?php } ?>

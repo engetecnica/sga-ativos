@@ -190,9 +190,9 @@ class Ativo_veiculo  extends MY_Controller {
 
         $tratamento = $this->ativo_veiculo_model->salvar_formulario($data);
         if($data['id_ativo_veiculo']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
         echo redirect(base_url("ativo_veiculo"));
 
@@ -215,9 +215,9 @@ class Ativo_veiculo  extends MY_Controller {
         $this->db->insert('ativo_veiculo_depreciacao', $data);
 
         if($data['id_ativo_veiculo']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
 
         echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/".$this->input->post('id_ativo_veiculo')));
@@ -322,7 +322,7 @@ class Ativo_veiculo  extends MY_Controller {
         $this->db->insert('ativo_veiculo_quilometragem', $dados);
 
         if($data['id_ativo_veiculo']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         }
         echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/".$this->input->post('id_ativo_veiculo')));
 
@@ -342,7 +342,7 @@ class Ativo_veiculo  extends MY_Controller {
         $this->db->insert('ativo_veiculo_manutencao', $dados);
 
         if($data['id_ativo_veiculo']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         }
         echo redirect(base_url("ativo_veiculo/gerenciar/manutencao/".$this->input->post('id_ativo_veiculo')));
  
@@ -359,7 +359,7 @@ class Ativo_veiculo  extends MY_Controller {
         $this->db->insert('ativo_veiculo_ipva', $dados);
 
         if($data['id_ativo_veiculo']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         }
         echo redirect(base_url("ativo_veiculo/gerenciar/ipva/".$this->input->post('id_ativo_veiculo')));
     }

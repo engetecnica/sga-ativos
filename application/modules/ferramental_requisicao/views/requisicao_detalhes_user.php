@@ -28,7 +28,7 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="table table-borderless table-striped table-earning" >
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Solicitação</th>
@@ -90,10 +90,10 @@
                                             <th scope="col" width="10%">Id</th>
                                             <th scope="col" width="40%">Item</th>
                                             <th scope="col" width="20%">Qtde. Solcitada</th>
-                                            <th scope="col">Liberada</th>
+                                            <th scope="col">Qtde. Liberada</th>
                                             <th scope="col" width="150">Data</th>
-                                            <th scope="col">Opções</th>
                                             <th scope="col">Situação</th>
+                                            <th scope="col">Opções</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,6 +105,10 @@
                                             <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
                                                 <?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?>
+                                            </td>
+                                            <td width="10%">
+                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
+                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                             <td>
                                                 <div class="btn-group">
@@ -121,9 +125,8 @@
                                                     >Modificações</button>
 
                                                     <div class="dropdown-menu">
-
-                                                        <a class="dropdown-item btn-sm" href="<?php echo base_url('ferramental_requisicao/manual/'.$requisicao->id_requisicao); ?>">
-                                                            <i class="fa fa-list-ol item-menu-interno"></i> Aceitar Manualmente
+                                                        <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
+                                                        <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                         </a>
                                                         <div class="dropdown-divider"></div>
 
@@ -137,12 +140,15 @@
                                                         </a>
                                                         <div class="dropdown-divider"></div>
 
+                                                        <a 
+                                                            class="dropdown-item btn btn-sm btn-primary" 
+                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
+                                                        >
+                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
+                                                        </a>
+
                                                     </div>
                                                 </div>                                             
-                                            </td>
-                                            <td width="10%">
-                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
-                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                         </tr>
                                         <?php } ?>

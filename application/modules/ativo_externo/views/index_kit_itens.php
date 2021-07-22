@@ -10,9 +10,9 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ferramental_requisicao'); ?>">
+                        <a href="<?php echo base_url("ativo_externo/editar/{$detalhes->id_ativo_externo}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
+                        <i class="zmdi zmdi-arrow-left"></i>Voltar</button></a>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                         <h3 class="title-1 m-b-25">Adicionar Itens</h3>
                         <div class="card">
 
-                            <table class="table table-borderless table-striped table-earning" id="lista">
+                            <table class="table table-borderless table-striped table-earning" id="lista2">
                                 <thead>
                                     <tr class="active">
                                         <th scope="col">Código</th>

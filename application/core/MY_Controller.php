@@ -150,6 +150,15 @@ class MY_Controller extends MX_Controller {
         $this->db->order_by('id_usuario_nivel', 'ASC');
         return $this->formatArrayReplied($this->db->get('usuario_nivel')->result(), 'id_usuario_nivel');
     }
+
+    public function dd($data, $exit = false){
+        echo "<pre>";
+        echo print_r($data);
+        echo "</pre>";
+        if ($exit) {
+            exit;
+        }
+    }
 }
  
 /* End of file MY_Controller.php */

@@ -126,4 +126,13 @@ class MY_Loader extends MX_Loader {
     public function formata_moeda($valor = 0){
       return "R$ ". number_format($valor, 2, ',', '.');
     }
+
+    public function get_ativo_externo_on_lista($lista, $id){
+      foreach($lista as $item) {
+        if ($item->id_ativo_externo == $id) {
+          return $item;
+        }
+      }
+      return (object)['codigo' => ''];
+    }
 }

@@ -63,9 +63,9 @@ class Obra  extends MY_Controller {
         }
 
         if($data['id_obra']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
         echo redirect(base_url("obra"));
     }

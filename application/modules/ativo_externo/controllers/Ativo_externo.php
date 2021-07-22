@@ -93,17 +93,17 @@ class Ativo_externo  extends MY_Controller {
         $this->get_template('index_kit_itens', $data);
     }
 
-    function adicionar_item_kit($id_ativo_externo_kit, $id_ativo_externo_iten){
+    function adicionar_item_kit($id_ativo_externo_kit, $id_ativo_externo_item){
         $this->db->insert('ativo_externo_kit', [
             "id_ativo_externo_kit" => $id_ativo_externo_kit,
-            "id_ativo_externo_iten" => $id_ativo_externo_iten,
+            "id_ativo_externo_item" => $id_ativo_externo_item,
         ]);
         echo redirect(base_url("ativo_externo/editar_itens/{$id_ativo_externo_kit}")); 
     }
 
-    function remover_item_kit($id_ativo_externo_kit, $id_ativo_externo_iten){
+    function remover_item_kit($id_ativo_externo_kit, $id_ativo_externo_item){
         $this->db->where('id_ativo_externo_kit', $id_ativo_externo_kit)
-                ->where('id_ativo_externo_iten', $id_ativo_externo_iten)
+                ->where('id_ativo_externo_item', $id_ativo_externo_item)
                 ->delete('ativo_externo_kit');
         echo redirect(base_url("ativo_externo/editar_itens/{$id_ativo_externo_kit}")); 
     }
@@ -133,7 +133,7 @@ class Ativo_externo  extends MY_Controller {
             return;
         }
 
-        $this->session->set_flashdata('msg_retorno', "Nenhum registro modificado!");
+        $this->session->set_flashdata('msg_success', "Nenhum registro modificado!");
         echo redirect(base_url("ativo_externo"));
     }
 
@@ -210,14 +210,14 @@ class Ativo_externo  extends MY_Controller {
         
         if( $mode == 'update' && $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo'))
         {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             echo redirect(base_url("ativo_externo"));
             return;
         }   
 
         if( $mode == 'insert' && $this->db->insert_batch("ativo_externo", $dados))
         {
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_externo"));
         }
         echo redirect(base_url("ativo_externo"));
@@ -262,12 +262,12 @@ class Ativo_externo  extends MY_Controller {
 
         if( $mode == 'update_grupo' && $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo'))
         {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
         }   
 
         if( $mode == 'insert_grupo' && $this->db->insert_batch("ativo_externo", $dados))
         {
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         }
         echo redirect(base_url("ativo_externo#lista2"));
     }
