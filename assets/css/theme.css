@@ -84,6 +84,7 @@ p {
 .table-responsive {
     padding-right: 1px;
     background-color: #FFFFFF;
+    min-height: 300px;
 }
 
 .table-responsive > h3{

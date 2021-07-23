@@ -255,7 +255,7 @@
                 console.log('Qde Solicitada: ', qtde_solicitada);
                 console.log('Qde Solicitada do Estoque: ', qtde_solicitada_estoque);
 
-                // Soma a quantidade de itens dentro do loop das obras
+                // Soma a quantidade de items dentro do loop das obras
                 $(".qtdedevolvida").each(function(index){
 
                     qtdedevolvida_solicitada = qtdedevolvida_solicitada + Number($(this).val());
@@ -271,7 +271,7 @@
                             confirmButtonText: 'Ok, fechar.'
                         })                          
 
-                        console.log("Erro: ", "Esse item dispõe somente de " + qtdedevolvida_disponivel + " itens");
+                        console.log("Erro: ", "Esse item dispõe somente de " + qtdedevolvida_disponivel + " items");
                         return false;
                     }
 
@@ -301,7 +301,7 @@
                     $(this).val(qtde_solicitada);       
                     return false;
                     
-                    console.log("Erro: ", "Você já completou a quantidade de itens solicitada. Soma: " + qtde_total + "\n");
+                    console.log("Erro: ", "Você já completou a quantidade de items solicitada. Soma: " + qtde_total + "\n");
                 } 
                 else 
                 {
@@ -504,6 +504,7 @@
             var acao = $(this).attr('data-acao') || 'Confirmar';
             var title = $(this).attr('data-title') || 'Você tem certeza?';
             var text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
+            var redirect = $(this).attr('data-redirect') ? true : false;
 
             Swal.fire({
                 title: title,
@@ -520,31 +521,35 @@
                         type: "post",
                         data: id_registro,
                         success: function (response) {
-                            if (response.success == true) {
-                                Swal.fire(
-                                    'Salvo!',
-                                    'Registro salvo com sucesso.',
-                                    'success'
-                                )
+                            if (redirect == true) {
                                 window.location = tabela;
                                 return;
                             }
 
                             Swal.fire(
-                                'Erro!',
-                                'Erro ao salvar registro.',
-                                'error',
+                                'Enviado',
+                                'Dados Enviados com Sucesso!',
+                                'success'
                             )
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);
+                            if (redirect == true) {
+                                window.location = tabela;
+                                return;
+                            }
+
+                            Swal.fire(
+                                'Erro',
+                                'Ops, Ocorreu um erro ao tentar Enviar os dados!',
+                                'success'
+                            )
                         }
                     });
                 }
             })
         }); 
 
-        // Trabalhado itens da tabela fipe.
+        // Trabalhado items da tabela fipe.
         $("#tipo_veiculo").change(function(){
             var tipo_veiculo = $(this).val();
             if(tipo_veiculo=='0'){

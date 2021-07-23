@@ -37,7 +37,7 @@
                                 <tbody>
                                     <?php
                                         $i = 1; 
-                                        foreach($itens as $item){ 
+                                        foreach($items as $item){ 
                                     ?>
                                     <tr>
                                         <td width="30%">

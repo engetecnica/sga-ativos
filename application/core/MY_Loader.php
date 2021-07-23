@@ -105,18 +105,15 @@ class MY_Loader extends MX_Loader {
         ];
     }
 
-    public function get_requisicao_status($status=null){
+    public function get_requisicao_status($lista, $status=null){
       $texto = $class = "";
-      switch ((int) $status) {
-        case 1:
-          $texto = "Pendente";
-          $class = "danger";
-        break;
-        case 2:
-          $texto = "Liberado";
-          $class = "info";
-        break;
+      foreach ($lista as $item){
+        if ($item->id_requisicao_status == $status) {
+          $texto = $item->texto;
+          $class = $item->classe;
+        }
       }
+
       return [
           'texto' => $texto,
           'class' => $class
@@ -133,6 +130,6 @@ class MY_Loader extends MX_Loader {
           return $item;
         }
       }
-      return (object)['codigo' => ''];
+      return null;
     }
 }

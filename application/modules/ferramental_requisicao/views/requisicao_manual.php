@@ -49,7 +49,7 @@
                                         <tr>
                                             <td><?php echo $manual->codigo; ?></td>
                                             <td><?php echo $manual->nome; ?></td>
-                                            <td><input type="" class="form-control" name="observacoes[]" id="observacoes[]" placeholder="<?php echo $manual->codigo; ?> - Observações" value="<?php if($manual->observacao) echo $manual->observacao; ?>" <?php if($manual->situacao){ ?>disabled="disabled" <?php } ?>></td>
+                                            <td><input type="" class="form-control" name="observacoes[]" id="observacoes[]" placeholder="<?php echo $manual->codigo; ?> - Observações" value="<?php if($manual->observacao) echo $manual->observacao; ?>" disabled="disabled"></td>
                                             
                                             <td>
                                                 <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $manual->id_ativo_externo; ?>">
@@ -72,11 +72,11 @@
                                 <?php if(in_array($requisicao->status, [2,11]) && (!isset($no_aceite) || isset($no_aceite) && $no_aceite == false)){ ?>
                                     <hr>
                                     <div class="text-center">
-                                        <p class="text-center" style="padding: 25px;"><b>Atenção:</b> Todos os itens acima descritos foram transferidos e estão sendo recebidos por você. <br>Ao atestar que os itens estão todos funcionando, a responsabilidade é inteiramente sua, por isso,<br> <font color='red'>confira a situação de cada item antes de aceitá-los.</font> </p>
+                                        <p class="text-center" style="padding: 25px;"><b>Atenção:</b> Todos os items acima descritos foram transferidos e estão sendo recebidos por você. <br>Ao atestar que os items estão todos funcionando, a responsabilidade é inteiramente sua, por isso,<br> <font color='red'>confira a situação de cada item antes de aceitá-los.</font> </p>
                                         <hr>
                                         <button class="btn btn-danger" type="submit" id="">
                                             <i class="fa fa-check "></i>&nbsp;
-                                            Estou de acordo e quero aceitar os itens.
+                                            Estou de acordo e quero aceitar os items.
                                         </button>
                                     </div>   
                                 <?php } ?>                             

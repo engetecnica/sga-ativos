@@ -107,10 +107,10 @@
                                             <img src="<?php echo base_url('assets'); ?>/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $usuario->usuario; ?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo $user->usuario; ?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
-                                            <?php if (isset($usuario->razao_social)) { ?>
+                                            <?php if (isset($user->razao_social)) { ?>
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
@@ -119,7 +119,7 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?php echo $usuario->razao_social; ?></a>
+                                                        <a href="#"><?php echo $user->razao_social; ?></a>
                                                     </h5>
                                                 </div>
                                             </div>

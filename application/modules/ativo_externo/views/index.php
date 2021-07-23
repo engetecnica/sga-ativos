@@ -67,9 +67,20 @@
                                             <button class="btn btn-outline-secondary btn-sm">Unidade</button>
                                         <?php } ?>
                                     </td>
-                                    <td><?php echo ''; echo $this->get_ativo_externo_on_lista($lista, $valor->id_ativo_externo_kit)->codigo; ?></td>
                                     <td>
-                                        <button class="btn btn-info btn-sm">Estoque</button>
+                                        <?php $kit = $this->get_ativo_externo_on_lista($lista, $valor->id_ativo_externo_kit); ?>
+                                        <?php if($kit) { ?>
+                                            <a 
+                                                href="<?php echo base_url('ativo_externo'); ?>/editar_items/<?php echo $kit->id_ativo_externo; ?>" 
+                                                class="btn btn-outline-info"
+                                            >
+                                                <?php echo  $kit->codigo; ?>
+                                            </a>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php $status = $this->get_requisicao_status($status_lista, $valor->situacao)?>
+                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>
                                         <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fas fa-edit"></i></a>

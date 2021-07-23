@@ -6,9 +6,11 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
+                        <?php if ($user->nivel == 2) {?>
                         <a href="<?php echo base_url('ferramental_requisicao/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Nova Requisição</button></a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -20,12 +22,12 @@
                         <table class="table table-borderless table-striped table-earning border-bottom-1" id="lista">
                             <thead>
                                 <tr>
-                                    <th width="10%">ID</th>
-                                    <th width="10%">Data</th>
+                                    <th>Requisão ID</th>
+                                    <th>Data</th>
                                     <th>Destino</th>
                                     <th>Solicitante</th>
-                                    <th width="10%">Status</th>
-                                    <th width="10%">Opções</th>
+                                    <th>Status</th>
+                                    <th>Opções</th>
                                 </tr>
                             </thead>
                             
@@ -33,14 +35,14 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
                                     <td><?php echo $valor->id_requisicao; ?></td>
-                                    <td width="10%"><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
+                                    <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
                                     <td><?php echo "{$valor->endereco} {$valor->endereco_numero}"; ?></td>
                                     <td><?php echo $valor->usuario; ?></td>
-                                    <td width="10%">
-                                        <?php $status = $this->get_requisicao_status($valor->status)?>
+                                    <td>
+                                        <?php $status = $this->get_requisicao_status($status_lista, $valor->status)?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
-                                    <td width="10%">
+                                    <td>
                                         <a 
                                             class="btn btn-outline-secondary" 
                                             href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>"

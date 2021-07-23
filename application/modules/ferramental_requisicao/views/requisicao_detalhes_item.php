@@ -22,7 +22,7 @@
                     <h2 class="title-1 m-b-25">Detalhes da Requisição - Item</h2>
                     <div class="card">
 
-                        <table class="table table-borderless table-striped table-earning" id="itens">
+                        <table class="table table-borderless table-striped table-earning" id="items">
                             <thead>
                                 <tr class="active">
                                     <th scope="col" width="5%">Item</th>

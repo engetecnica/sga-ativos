@@ -2,8 +2,13 @@
 
 class Ativo_externo_model extends MY_Model {
 
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
 	public function salvar_formulario($data=null){
-		if($data['id_ativo_externo']==''){
+		if($data['id_ativo_externo'] == ''){
 			$this->db->insert('ativo_externo', $data);
 			return "salvar_ok";
 		} else {
@@ -35,25 +40,27 @@ class Ativo_externo_model extends MY_Model {
 		->result();
 	}
 
-	public function get_estoque($id_ativo_externo_grupo = null, $out_kit = false){
+	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $out_kit = false){
 		$estoque = $this->db
 		->select('ativo_externo.*, obra.codigo_obra, obra.endereco as endereco, obra.id_obra, kit.*')
 		->from('ativo_externo')
-		->join("ativo_externo_kit kit", "kit.id_ativo_externo_item=ativo_externo.id_ativo_externo", "left")
 		->where('ativo_externo.situacao = 12');
+
+		if (!$id_obra){
+			$id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $this->get_obra_base()->id_obra;
+		}
 
 		if ($id_ativo_externo_grupo){
 			$estoque->where("ativo_externo.id_ativo_externo_grupo = {$id_ativo_externo_grupo}");
 		}
 
-		// if ($out_kit) {
-		// 	$kit_items = $this->db->get('ativo_externo_kit')->result();
-		// 	$kit_items_array = array_map(function($item){return $item->id_ativo_externo_item;}, $kit_items);
-		// 	$estoque->where("ativo_externo.id_ativo_externo NOT IN (".implode(',', $kit_items_array).")");
-		// }
+		if ($out_kit) {
+			$estoque->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit IS NULL", "left");
+		}
 
 		return $estoque->order_by('ativo_externo.id_ativo_externo', 'ASC')
 			->join("obra", "obra.id_obra=ativo_externo.id_obra", "left")
+			->where("ativo_externo.id_obra = {$id_obra}")
 			->group_by('ativo_externo.id_ativo_externo')
 			->get()
 			->result();
@@ -79,14 +86,14 @@ class Ativo_externo_model extends MY_Model {
 		->get()->result();
 	}
 
-	public function get_out_kit_items($id_ativo_externo_kit, array $itens_ids, $id_obra = null){
-		$not_itens_array = array_merge($itens_ids, [$id_ativo_externo_kit]);
+	public function get_out_kit_items($id_ativo_externo_kit, array $items_ids, $id_obra = null){
+		$not_items_array = array_merge($items_ids, [$id_ativo_externo_kit]);
 		return $this->db->select('ativo_externo.*, ativo_externo_kit.*')
 		->from('ativo_externo')
 		->order_by('codigo', 'ASC')
 		->join('ativo_externo_kit', "ativo_externo_kit.id_ativo_externo_item = ativo_externo.id_ativo_externo", 'left')
 		->where("ativo_externo_kit.id_ativo_externo_kit IS NULL")
-		->where("ativo_externo.id_ativo_externo NOT IN (".implode(',', $not_itens_array).")")
+		->where("ativo_externo.id_ativo_externo NOT IN (".implode(',', $not_items_array).")")
 		->where('ativo_externo.situacao = 12')
 		->group_by('ativo_externo.id_ativo_externo')
 		->get()->result();

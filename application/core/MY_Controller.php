@@ -35,7 +35,7 @@ class MY_Controller extends MX_Controller {
     }
 
     public function get_template($template=null, $data=null){
-        $data['usuario'] = $this->user;
+        $data['user'] = $this->user;
         $data['modulos'] = self::get_modulos($this->user->nivel);
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);

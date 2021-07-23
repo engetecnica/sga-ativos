@@ -17,12 +17,14 @@ class Ativo_externo  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login 
+        $this->load->model('ferramental_requisicao/ferramental_requisicao_model');       
     }
 
     function index($subitem=null) {
         $data['lista'] = $this->ativo_externo_model->get_lista();
         $data['grupos'] = $this->ativo_externo_model->get_lista_grupo();
+        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
     }
@@ -82,15 +84,15 @@ class Ativo_externo  extends MY_Controller {
         echo redirect(base_url("ativo_externo#lista2")); 
     }
 
-    function editar_itens($id_ativo_externo_kit){
+    function editar_items($id_ativo_externo_kit){
         $data['detalhes'] = $this->ativo_externo_model->get_ativo_externo($id_ativo_externo_kit);
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
         $data['categoria'] = $this->ativo_externo_model->get_categoria();
-        $data['itens'] = $this->ativo_externo_model->get_kit_items($id_ativo_externo_kit);
-        $not_itens_array = array_map(function($item) {return $item->id_ativo_externo;}, $data['itens'] );
-        $data['lista'] = $this->ativo_externo_model->get_out_kit_items($id_ativo_externo_kit, $not_itens_array);
-        $this->get_template('index_kit_itens', $data);
+        $data['items'] = $this->ativo_externo_model->get_kit_items($id_ativo_externo_kit);
+        $not_items_array = array_map(function($item) {return $item->id_ativo_externo;}, $data['items'] );
+        $data['lista'] = $this->ativo_externo_model->get_out_kit_items($id_ativo_externo_kit, $not_items_array);
+        $this->get_template('index_kit', $data);
     }
 
     function adicionar_item_kit($id_ativo_externo_kit, $id_ativo_externo_item){
@@ -98,14 +100,14 @@ class Ativo_externo  extends MY_Controller {
             "id_ativo_externo_kit" => $id_ativo_externo_kit,
             "id_ativo_externo_item" => $id_ativo_externo_item,
         ]);
-        echo redirect(base_url("ativo_externo/editar_itens/{$id_ativo_externo_kit}")); 
+        echo redirect(base_url("ativo_externo/editar_items/{$id_ativo_externo_kit}")); 
     }
 
     function remover_item_kit($id_ativo_externo_kit, $id_ativo_externo_item){
         $this->db->where('id_ativo_externo_kit', $id_ativo_externo_kit)
                 ->where('id_ativo_externo_item', $id_ativo_externo_item)
                 ->delete('ativo_externo_kit');
-        echo redirect(base_url("ativo_externo/editar_itens/{$id_ativo_externo_kit}")); 
+        echo redirect(base_url("ativo_externo/editar_items/{$id_ativo_externo_kit}")); 
     }
 
 
@@ -123,12 +125,12 @@ class Ativo_externo  extends MY_Controller {
                 $data['item'][$i]['id_ativo_externo_grupo']         =  $id_grupo;
                 $data['item'][$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
                 $data['item'][$i]['tipo']                           = $this->input->post('tipo');
-                $data['item'][$i]['id_obra']                        = $this->input->post('id_obra');
-                $data['item'][$i]['nome']                           = $this->input->post('nome');
+                $data['item'][$i]['id_obra']                        = $this->input->post('id_obra') ? $this->input->post('id_obra') : $this->user->id_obra;
+                $data['item'][$i]['nome']                           = ucwords($this->input->post('nome'));
                 $data['item'][$i]['observacao']                     = $this->input->post('observacao');
-                $data['item'][$i]['codigo']                         = $this->input->post('codigo');
+                $data['item'][$i]['codigo']                         = strtoupper($this->input->post('codigo')) ;
             }
-            $data['url'] = base_url("ativo_externo/gravar_itens");
+            $data['url'] = base_url("ativo_externo/gravar_items");
             $this->get_template('index_form_item', $data);
             return;
         }
@@ -176,13 +178,13 @@ class Ativo_externo  extends MY_Controller {
             }
         }
 
-        $data['url'] = base_url("ativo_externo/gravar_itens_grupo");
+        $data['url'] = base_url("ativo_externo/gravar_items_grupo");
         $data['item'] = array_merge($grupo, $items);
         $this->get_template('index_form_item', $data);
     }
 
    
-    function gravar_itens($mode = null)
+    function gravar_items($mode = null)
     {
         $dados = array();
         $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert';
@@ -225,7 +227,7 @@ class Ativo_externo  extends MY_Controller {
 
     
 
-    function gravar_itens_grupo($mode = null)
+    function gravar_items_grupo($mode = null)
     {
         $dados = array();
         $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert_grupo';

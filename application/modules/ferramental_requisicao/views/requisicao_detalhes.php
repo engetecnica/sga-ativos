@@ -76,7 +76,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($requisicao->itens as $req){ ?>
+                                        <?php foreach($requisicao->items as $req){ ?>
                                         <tr>
                                             <td><?php echo $req->nome; ?></td>
                                             <td><?php echo $req->quantidade; ?></td>

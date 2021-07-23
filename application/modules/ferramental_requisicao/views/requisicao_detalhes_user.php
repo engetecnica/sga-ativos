@@ -31,20 +31,37 @@
                                 <table class="table table-borderless table-striped table-earning" >
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col" width="20%">Usuário</th>
-                                            <th scope="col" width="20%">Destino</th>
+                                            <th scope="col">Requisão ID</th>
+                                            <th scope="col">Solicitação</th>
+                                            <th scope="col">Usuário</th>
+                                            <th scope="col">Destino</th>
                                             <th scope="col">Status da Requisição</th>
+                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_usuario)) {?>
+                                                <th scope="col">Opções</th>
+                                            <?php }?>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td><?php echo $requisicao->id_requisicao; ?></td>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
                                             <td><?php echo $requisicao->usuario_solicitante; ?></td>
                                             <td><?php echo $requisicao->codigo_obra; ?></td>
-                                            <td width="10%">
-                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
+                                            <td>
+                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $requisicao->status)?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                            </td>
+                                            <td> 
+                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_usuario)) {?>
+                                                <a 
+                                                    class="btn btn-sm btn-danger confirmar_registro" href="javascript:void(0);"
+                                                    data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
+                                                    data-title="Remover Requisição" data-acao="Remover"  data-redirect="true"
+                                                    data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
+                                                >
+                                                    <i class="fa fa-trash item-menu-interno"></i> Remover Requisição
+                                                </a>
+                                            <?php  } ?>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -52,65 +69,46 @@
 
                                 <hr>
 
-
-                                <?php if(!empty($itens_pendentes)){ ?>
-                                <table class="table table-borderless table-striped table-earning" id="lista">
+                                <?php if(!empty($requisicao->items)){ ?>
+                                <h3 class="title-1 m-b-25">Itens</h3>
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="10%">Id</th>
-                                            <th scope="col" width="30%">Item</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Item</th>
+                                            <th scope="col">Qtde. Solcitada</th>
                                             <th scope="col">Qtde. Liberada</th>
-                                            <th scope="col">Data da Liberação</th>
-                                            <th scope="col">Situação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($itens_pendentes as $item){ ?>
-                                        <tr>
-                                            <td><?php echo $item->id_requisicao_item; ?></td>
-                                            <td><?php echo $item->nome; ?></td>
-                                            <td><?php echo $item->quantidade; ?></td>
-                                            <td><?php echo $item->quantidade_liberada; ?></td>
-                                            <td><?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?></td>
-                                            <td width="10%">
-                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
-                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                                <?php } ?>
-
-                                <?php if(!empty($itens_liberados)){ ?>
-                                <table class="table table-borderless table-striped table-earning" id="lista">
-                                    <thead>
-                                        <tr class="active">
-                                            <th scope="col" width="10%">Id</th>
-                                            <th scope="col" width="40%">Item</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
-                                            <th scope="col">Qtde. Liberada</th>
-                                            <th scope="col" width="150">Data</th>
+                                            <th scope="col">Data</th>
                                             <th scope="col">Situação</th>
                                             <th scope="col">Opções</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($itens_liberados as $item){ ?>
+                                        <?php foreach($requisicao->items as $item){ ?>
                                         <tr>
                                             <td><?php echo $item->id_requisicao_item; ?></td>
-                                            <td><?php echo $item->nome; ?></td>
+                                            <td>
+                                                <?php if (in_array($requisicao->status, [2,4,9,11])) {?>
+                                                <a 
+                                                    href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
+                                                >
+                                                    <?php echo $item->nome; ?>
+                                                </a>
+                                                <?php } else { echo $item->nome; }?>
+                                            </td>
                                             <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
                                                 <?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?>
                                             </td>
-                                            <td width="10%">
-                                                <?php $status = $this->get_requisicao_status($requisicao->status)?>
-                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                            <td>
+                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $item->status);?>
+                                                <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
+                                                    <?php echo  $status['texto']; ?>
+                                                </button>
                                             </td>
                                             <td>
+                                            <?php if ($item->status == 2) {?>
                                                 <div class="btn-group">
                                                     <button 
                                                         class="btn btn-secondary btn-sm dropdown-toggle" 
@@ -118,59 +116,52 @@
                                                         data-toggle="dropdown" 
                                                         aria-haspopup="true" 
                                                         aria-expanded="false"
-                                                        <?php if($item->status == 'liberado'){ ?>
-                                                            disabled="disabled"
-                                                        <?php } ?>
-
-                                                    >Modificações</button>
+                                                    >
+                                                        Opções
+                                                    </button>
 
                                                     <div class="dropdown-menu">
+                                                        <?php if ($item->status == 2) {?>
                                                         <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
                                                         <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                         </a>
                                                         <div class="dropdown-divider"></div>
-
-                                                        <a class="dropdown-item btn-sm aceitar-todos" data-id_requisicao="<?php echo $requisicao->id_requisicao; ?>" href="javascript:void(0);">
+                                                        <a 
+                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                            data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/aceitar_tudo/{$requisicao->id_requisicao}/{$item->id_requisicao_item}");?>"
+                                                        >
                                                             <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
                                                         </a>
                                                         <div class="dropdown-divider"></div>
 
-                                                        <a class="dropdown-item btn-sm devolver-todos" data-id_requisicao="<?php echo $requisicao->id_requisicao; ?>" href="javascript:void(0);">
+                                                        <a 
+                                                        class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                            data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/devolver_tudo/{$requisicao->id_requisicao}/{$item->id_requisicao_item}");?>"
+                                                        >
                                                             <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
                                                         </a>
                                                         <div class="dropdown-divider"></div>
-
+                                                        <?php } ?>
                                                         <a 
                                                             class="dropdown-item btn btn-sm btn-primary" 
                                                             href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                         >
                                                             <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
                                                         </a>
-
                                                     </div>
-                                                </div>                                             
+                                                </div>
+                                            <?php } else { ?> 
+                                                -
+                                            <?php }  ?>        
                                             </td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
-                                <?php } ?>                                
-                                                         
-
-                                <?php if($this->session->userdata('logado')->nivel==1){  ?>
-                                    <?php 
-                                        if($requisicao->status_texto=="Pendente"){ 
-                                    ?> 
-
-                                    <hr>
-                                    <div class="text-center">
-                                        <button class="" type="submit" id="liberar_requisicao_btn">
-                                            <i class="fa fa-send "></i>&nbsp;
-                                            Liberar Requisição
-                                        </button>
-                                    </div>
-
-                                    <?php } ?>
                                 <?php } ?>
 
                             </div>

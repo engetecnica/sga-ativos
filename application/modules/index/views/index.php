@@ -81,30 +81,52 @@
                             </div>
                             <div class="col-md-6 col-lg-4">
                                 <div class="top-campaign">
-                                    <h3 class="title-3 m-b-30">Requisições Pendentes</h3>
+                                    <h3 class="title-3">Requisições Pendentes</h3>
                                     <div class="table-responsive">
                                         <table class="table table-top-campaign">
                                             <tbody>
+                                                <?php
+                                                if (!empty($requisicoes_pendentes)) {
+                                                 foreach($requisicoes_pendentes as $requisicao) {   
+                                                     $usuario = ucwords($requisicao->usuario); 
+                                                     $date = date('d/m/Y', strtotime($requisicao->data_inclusao));
+                                                     $status = $this->get_requisicao_status($status_lista, $requisicao->status);
+                                                ?>
                                                 <tr>
-                                                    <td>1. Australia</td>
-                                                    <td>$70,261.65</td>
+                                                    <td>
+                                                        <a  href="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>">
+                                                            <?php echo "{$requisicao->id_requisicao} - {$usuario}";?>
+                                                        </a>
+                                                        <br>
+                                                        <span class="badge badge-sm badge-<?php echo $status['class']; ?>">
+                                                            <?php echo  $status['texto']; ?>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $date; ?>
+                                                    </td>
                                                 </tr>
+                                                <?php }  ?>
+                                                 <tr>
+                                                    <td>
+                                                       <?php echo count($requisicoes_pendentes); ?> 
+                                                       De 
+                                                       <?php echo $requisicoes_total; ?> 
+                                                       Requisições Pendêntes
+                                                    <td>
+                                                 </tr>
+                                                 <tr>
+                                                    <td></td>
+                                                    <td class="text-center">
+                                                        <a  href="<?php echo base_url("ferramental_requisicao/"); ?>" >Ver Todas</a> 
+                                                    </td>
+                                                 </tr>
+                                                <?php } else { ?>
                                                 <tr>
-                                                    <td>2. United Kingdom</td>
-                                                    <td>$46,399.22</td>
+                                                    <td>Nehuma Requisicão Pendente</td>
+                                                    <td>#</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>3. Turkey</td>
-                                                    <td>$35,364.90</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4. Germany</td>
-                                                    <td>$20,366.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5. France</td>
-                                                    <td>$10,366.96</td>
-                                                </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -112,7 +134,7 @@
                             </div>
                             <div class="col-md-6 col-lg-4">
                                 <div class="chart-percent-2">
-                                    <h3 class="title-3 m-b-30">Volume de Pedidos</h3>
+                                    <h3 class="title-3">Volume de Pedidos</h3>
                                     <div class="chart-wrap">
                                         <canvas id="percent-chart2"></canvas>
                                         <div id="chartjs-tooltip">
