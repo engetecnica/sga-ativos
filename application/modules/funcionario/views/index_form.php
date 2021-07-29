@@ -35,6 +35,54 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
+                                        <label for="id_empresa" class=" form-control-label">Empresa</label>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <select 
+                                            class="form-control" 
+                                            name="id_empresa" 
+                                            id="id_empresa"
+                                            required="required"
+                                        >
+                                            <option value="">Nenhuma empresa selecionada</option>
+                                            <?php foreach ($empresas as $value) { ?>
+                                                <option 
+                                                   <?php echo isset($detalhes->id_empresa) && $value->id_empresa == $detalhes->id_empresa ? 'selected' : ''?> 
+                                                    value="<?php echo $value->id_empresa; ?>"
+                                                >
+                                                    <?php echo "{$value->id_empresa} - {$value->nome_fantasia}"; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="id_obra" class=" form-control-label">Obra</label>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <select 
+                                            class="form-control" 
+                                            name="id_obra" 
+                                            id="id_obra"
+                                            required="required"
+                                        >
+                                            <option value="">Nenhuma obra selecionada</option>
+                                            <?php foreach ($obras as $value) { ?>
+                                                <option 
+                                                    <?php echo isset($detalhes->id_obra) && $value->id_obra == $detalhes->id_obra ? 'selected' : ''?>
+                                                    value="<?php echo $value->id_obra; ?>"
+                                                >
+                                                    <?php echo "{$value->id_obra} - {$value->codigo_obra}"; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>    
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome Completo</label>
                                     </div>
                                     <div class="col-12 col-md-10">

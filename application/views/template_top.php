@@ -42,7 +42,16 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/css/datatable.css" />
     <!--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />-->
+    
+    <!-- Jquery JS-->
+    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
 
+    <!-- Vue.js -->
+    <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
+
+    <!-- Sweet Alert 
+    <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body class="animsition-disabled">

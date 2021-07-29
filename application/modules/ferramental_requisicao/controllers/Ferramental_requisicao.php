@@ -31,13 +31,10 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     # Criar uma nova Requisição
-    function adicionar(){
-        $this->get_template(
-            'index_form',
-            ['ativo_externo' => 
-                $this->ferramental_requisicao_model->get_ativo_externo_lista()
-            ]
-        );
+    function adicionar() {
+        $this->get_template('index_form',[
+            'grupos' => $this->ativo_externo_model->get_lista_grupo()
+        ]);
     }
 
     # Grava Requisição
@@ -79,6 +76,8 @@ class Ferramental_requisicao  extends MY_Controller {
             echo redirect(base_url('ferramental_requisicao'));
             return; 
         }
+        
+        //$this->ferramental_requisicao_model->atualiza_status($id_requisicao);	
         
         $requisicao->status_lista = $this->ferramental_requisicao_model->get_requisicao_status();
         if ($this->user->nivel == 1) {
@@ -233,7 +232,7 @@ class Ferramental_requisicao  extends MY_Controller {
                 A requisição aser excluida deve ter o status como: 'Pendente', 
                 'Liberada' ou 'Liberada parcialmente'";
 
-            if (in_array($requisicao->status, [1, 2, 11])) {
+            if ($requisicao->status == 1) {
                 $msg = null;
                 $items = $this->db->from('ativo_externo_requisicao_item')
                         ->where("id_requisicao = {$id_requisicao}")

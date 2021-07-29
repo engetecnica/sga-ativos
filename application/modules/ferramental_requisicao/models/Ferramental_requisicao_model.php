@@ -10,9 +10,9 @@ class ferramental_requisicao_model extends MY_Model {
 	}
 
 	# Lista dos ativos externos
-	function get_ativo_externo_lista()
+	function get_lista_grupo($id_obra = null)
 	{
-		return $this->ativo_externo_model->get_lista_grupo();
+		return $this->ativo_externo_model->get_lista_grupo($id_obra);
 	}
 
 	# Salvar Requisicao
@@ -182,34 +182,45 @@ class ferramental_requisicao_model extends MY_Model {
 					];
 				}
 
+				$liberados = 0;
 				$recebidos = 0;
 				$devolvidos = 0;
-				$item_status = 13;
+				$item_status = null;
 
 				foreach ($dados as $d => $dado) {
-					switch ($dado['situacao']) {
+					switch ((int) $dado['situacao']) {
+						case 2:
+							$liberados++;
+						break;
 						case 4:
 							$dado[$d]['id_obra'] = $requisicao->id_obra;
 							$recebidos++;
 						break;
 						case 9:
-							$dado[$d]['id_obra'] = $obra_base->id_obra;
 							$devolvidos++;
 						break;
 					}
 				}
 
-				if ($recebidos == count($dados)) {
-					$item_status = 4;
-				} 
-				
-				if ($devolvidos == count($dados)) {
-					$item_status = 9;
+				if ($liberados == 0) {
+					$item_status = 13;
+
+					if ($recebidos == count($dados)) {
+						$item_status = 4;
+					} 
+					
+					if ($devolvidos == count($dados)) {
+						$item_status = 9;
+					}
 				}
 
 				$this->db->update_batch('ativo_externo', $dados, 'id_ativo_externo');
-				$this->db->where("id_requisicao_item", $id_requisicao_item)
-												->update("ativo_externo_requisicao_item", ['status' => $item_status]);				
+				if ($item_status) {
+					$this->db->where("id_requisicao_item", $id_requisicao_item)
+									->update("ativo_externo_requisicao_item", ['status' => $item_status]);
+				}
+
+				//$this->atualiza_status($id_requisicao);				
 				return true;
 			}
 			return false;
@@ -221,5 +232,47 @@ class ferramental_requisicao_model extends MY_Model {
 			return $status->where("id_requisicao_status = {$id}")->get()->row();
 		}
 		return $status->group_by('id_requisicao_status')->get()->result();
+	}
+
+	public function atualiza_status($id_requisicao){
+		$requisicao = $this->get_requisicao_com_items($id_requisicao);
+		
+		if ($requisicao) {
+				$liberados = 0;
+				$recebidos = 0;
+				$devolvidos = 0;
+				$status = 13;
+
+				foreach ($requisicao->items as $item) {
+					switch ((int) $item->status) {
+						case 2:
+							$liberados++;
+						break;
+						case 4:
+							$recebidos++;
+						break;
+						case 9:;
+							$devolvidos++;
+						break;
+					}
+				}
+
+				if ($liberados == 0) {
+					$status = 13;
+
+					if ($recebidos == count($requisicao->items)) {
+						$status = 4;
+					} 
+					
+					if ($devolvidos == count($requisicao->items)) {
+						$status = 9;
+					}
+				} else {
+					$status = 2;
+				}
+
+				$this->db->where("id_requisicao", $id_requisicao)
+											 ->update("ativo_externo_requisicao", ['status' => $status]);
+		}
 	}
 }

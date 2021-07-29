@@ -21,9 +21,6 @@ class empresa_model extends MY_Model {
 	}
 
 	public function get_empresa($id_empresa=null){
-		$this->db->where('id_empresa', $id_empresa);
-		$empresa = $this->db->get('empresa')->row();
-
-		return $empresa;
+		return $this->db->where('id_empresa', $id_empresa)->get('empresa')->row();
 	}
 }

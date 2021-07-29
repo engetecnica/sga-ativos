@@ -29,7 +29,7 @@
                     <h2 class="title-1 m-b-25">Ativos Externo</h2>
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
@@ -114,9 +114,9 @@
                                     <td><?php echo $valor->nome; ?></td>
                                     <td>
                                         <?php if($valor->tipo == 1) { ?>
-                                            <button class="btn btn-outline-primary btn-sm">Kit</button>
-                                        <?php } else { ?>
-                                            <button class="btn btn-outline-secondary btn-sm">Unidade</button>
+                                            <button class="badge badge-primary">Kit</button>
+                                          <?php } else { ?>
+                                            <button class="badge badge-secondary">Unidade</button>
                                         <?php } ?>
                                     </td>
                                     <td>

@@ -52,14 +52,14 @@
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                             <td> 
-                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_usuario)) {?>
+                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_usuario)) {?>
                                                 <a 
                                                     class="btn btn-sm btn-danger confirmar_registro" href="javascript:void(0);"
                                                     data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
                                                     data-title="Remover Requisição" data-acao="Remover"  data-redirect="true"
                                                     data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
                                                 >
-                                                    <i class="fa fa-trash item-menu-interno"></i> Remover Requisição
+                                                    <i class="fa fa-trash item-menu-interno"></i>
                                                 </a>
                                             <?php  } ?>
                                             </td>
@@ -71,7 +71,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col">Id</th>

@@ -30,38 +30,55 @@ class Ativo_externo_model extends MY_Model {
 		->get()->result();
 	}
 
-	public function get_lista_grupo(){
-		return $this->db->select('ativo_externo.*, ativo_externo.*, obra.codigo_obra, obra.endereco as endereco, obra.id_obra')
-		->from('ativo_externo')
-		->order_by('id_ativo_externo_grupo', 'ASC')
-		->join("obra", "obra.id_obra=ativo_externo.id_obra", "left")
-		->group_by('ativo_externo.id_ativo_externo_grupo')
+	public function get_lista_grupo($id_empresa = null, $id_obra = null, $count_estoque = false){
+		$grupos = $this->db
+						->select('atv.*')
+						->from('ativo_externo atv');
+
+		if ($id_empresa){
+			$grupos->where("atv.id_obra = {$id_empresa}");
+		}
+
+		if ($id_obra){
+			$grupos->where("atv.id_obra = {$id_obra}");
+		}
+
+		$grupos = $grupos
+		->order_by('nome', 'ASC')
+		->group_by('id_ativo_externo_grupo')
 		->get()
 		->result();
+
+		if ($count_estoque) {
+			foreach($grupos as $g => $grupo) {
+				$grupos[$g]->count = $this->count_estoque($grupo->id_ativo_externo_grupo);
+			}
+		}
+		return $grupos;
 	}
 
 	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $out_kit = false){
 		$estoque = $this->db
-		->select('ativo_externo.*, obra.codigo_obra, obra.endereco as endereco, obra.id_obra, kit.*')
-		->from('ativo_externo')
-		->where('ativo_externo.situacao = 12');
+		->select('atv.*, obra.codigo_obra, obra.endereco as endereco, obra.id_obra')
+		->from('ativo_externo atv')
+		->where('atv.situacao = 12');
 
 		if (!$id_obra){
 			$id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $this->get_obra_base()->id_obra;
 		}
 
 		if ($id_ativo_externo_grupo){
-			$estoque->where("ativo_externo.id_ativo_externo_grupo = {$id_ativo_externo_grupo}");
+			$estoque->where("atv.id_ativo_externo_grupo = {$id_ativo_externo_grupo}");
 		}
 
 		if ($out_kit) {
 			$estoque->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit IS NULL", "left");
 		}
 
-		return $estoque->order_by('ativo_externo.id_ativo_externo', 'ASC')
-			->join("obra", "obra.id_obra=ativo_externo.id_obra", "left")
-			->where("ativo_externo.id_obra = {$id_obra}")
-			->group_by('ativo_externo.id_ativo_externo')
+		return $estoque->order_by('atv.id_ativo_externo', 'ASC')
+			->join("obra", "obra.id_obra=atv.id_obra", "left")
+			->where("atv.id_obra = {$id_obra}")
+			->group_by('atv.id_ativo_externo')
 			->get()
 			->result();
 	}

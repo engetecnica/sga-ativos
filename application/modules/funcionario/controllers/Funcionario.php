@@ -27,19 +27,25 @@ class funcionario  extends MY_Controller {
     }
 
     function adicionar($data = null){
+        $data['empresas'] = $this->get_empresas();
+        $data['obras'] = $this->get_obras();
+        $data['estados'] = $this->get_estados(); 
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_funcionario=null){
         $data['detalhes'] = $this->funcionario_model->get_funcionario($id_funcionario);
-        //$data['veiculos_cadastrados'] = $this->funcionario_model->get_veiculos_cadastrados($id_funcionario);
+        $data['empresas'] = $this->get_empresas();
+        $data['obras'] = $this->get_obras();
         $data['estados'] = $this->get_estados(); 
         $this->get_template('index_form', $data);
     }
 
     function salvar(){
         $data['id_funcionario'] = !is_null($this->input->post('id_funcionario')) ? $this->input->post('id_funcionario') : '';
+        $data['id_empresa'] = $this->input->post('id_empresa');
+        $data['id_obra'] = $this->input->post('id_obra');
         $data['nome'] = $this->input->post('nome');
         $data['rg'] = $this->input->post('rg');
         $data['cpf'] = $this->input->post('cpf');
@@ -94,6 +100,10 @@ class funcionario  extends MY_Controller {
             return $funcionario;
         }
         return false;
+    }
+
+    function lista_fucionarios_json() {
+        echo json_encode($this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra));
     }
 }
 

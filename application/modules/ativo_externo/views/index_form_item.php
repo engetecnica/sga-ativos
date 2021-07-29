@@ -67,6 +67,10 @@
                                         <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $value['id_ativo_externo']; ?>">
                                     <?php } ?>
 
+                                    <?php if(isset($value) && isset($value['valor'])){?>
+                                        <input type="hidden" name="valor[]" id="valor[]" value="<?php echo $value['valor']; ?>">
+                                    <?php } ?>
+
                                     <div class="row form-group">
                                         <div class="col-12 col-md-2">
                                             <input type="text" id="codigo[]" name="codigo[]" class="form-control" value="<?php echo isset($value['codigo']) ? $value['codigo'] : ''; ?>" placeholder="Código Item"  required="required" >

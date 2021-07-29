@@ -75,6 +75,7 @@ class Ativo_externo  extends MY_Controller {
                 'id_ativo_externo_categoria' => $grupo[0]->id_ativo_externo_categoria,
                 'id_ativo_externo_grupo' => $grupo[0]->id_ativo_externo_grupo,
                 'nome' => $grupo[0]->nome,
+                'valor' => $grupo[0]->valor,
             ];
             $data['mode'] = "update_grupo";
             $this->get_template('index_form', $data);
@@ -128,7 +129,12 @@ class Ativo_externo  extends MY_Controller {
                 $data['item'][$i]['id_obra']                        = $this->input->post('id_obra') ? $this->input->post('id_obra') : $this->user->id_obra;
                 $data['item'][$i]['nome']                           = ucwords($this->input->post('nome'));
                 $data['item'][$i]['observacao']                     = $this->input->post('observacao');
-                $data['item'][$i]['codigo']                         = strtoupper($this->input->post('codigo')) ;
+                $data['item'][$i]['codigo']                         = strtoupper($this->input->post('codigo'));
+
+                $valor = str_replace("R$ ", "", $this->input->post('valor'));
+                $valor = str_replace(".", "", $valor);
+                $valor = str_replace(",", ".", $valor); 
+                $data['item'][$i]['codigo'] = $valor;
             }
             $data['url'] = base_url("ativo_externo/gravar_items");
             $this->get_template('index_form_item', $data);
@@ -164,6 +170,11 @@ class Ativo_externo  extends MY_Controller {
                 $items[$i]['nome']                           = $this->input->post('nome');
                 $items[$i]['observacao']                     = $this->input->post('observacao');
                 $items[$i]['codigo']                         = $this->input->post('codigo');
+
+                $valor = str_replace("R$ ", "", $this->input->post('valor'));
+                $valor = str_replace(".", "", $valor);
+                $valor = str_replace(",", ".", $valor); 
+                $items[$i]['valor'] = $valor;
             }
         }
 
@@ -174,6 +185,12 @@ class Ativo_externo  extends MY_Controller {
                 }
                 if ($this->input->post('observacao')) {
                     $grupo[$k]['observacao'] = $this->input->post('observacao');
+                }
+                if ($this->input->post('valor')) {
+                    $valor = str_replace("R$ ", "", $this->input->post('valor'));
+                    $valor = str_replace(".", "", $valor);
+                    $valor = str_replace(",", ".", $valor);
+                    $grupo[$k]['valor'] = $valor;
                 }
             }
         }
@@ -198,6 +215,7 @@ class Ativo_externo  extends MY_Controller {
                 $dados[$k]['id_ativo_externo_grupo']        = $this->input->post('id_ativo_externo_grupo');                
                 $dados[$k]['codigo']                        = $_POST['codigo'][$k];
                 $dados[$k]['nome']                          = $_POST['item'][$k];
+                $dados[$k]['valor']                         = $_POST['valor'][$k];
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
                 $dados[$k]['id_obra']                       = $this->input->post('id_obra');
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
@@ -240,6 +258,7 @@ class Ativo_externo  extends MY_Controller {
             if($_POST['codigo']){               
                 $dados[$k]['codigo']                        = $_POST['codigo'][$k];
                 $dados[$k]['nome']                          = $_POST['item'][$k];
+                $dados[$k]['valor']                         = $_POST['valor'][$k];
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
                 $dados[$k]['id_obra']                       = $this->input->post('id_obra');
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
@@ -275,12 +294,14 @@ class Ativo_externo  extends MY_Controller {
     }
 
     function deletar($id){
+        //foradeoperacao - 10
         $this->db
         ->where('id_ativo_externo', $id)
         ->delete('ativo_externo');
     }
 
     function deletar_grupo($id_ativo_externo_grupo){
+        //foradeoperacao - 10
         $this->db
         ->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
         ->delete('ativo_externo');

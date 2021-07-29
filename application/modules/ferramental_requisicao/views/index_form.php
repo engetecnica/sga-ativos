@@ -84,8 +84,8 @@
             <div class="exchange1">
                 <select name="id_ativo_externo_grupo[]" class="form-control">
                     <option value="">Buscar Item</option>
-                    <?php foreach ($ativo_externo as $value) { ?>
-                        <option value="<?php echo $value->id_ativo_externo_grupo; ?>"><?php echo $value->nome; ?></option>
+                    <?php foreach ($grupos as $grupo) { ?>
+                        <option value="<?php echo $grupo->id_ativo_externo_grupo; ?>"><?php echo $grupo->nome; ?></option>
                     <?php } ?>
                 </select>
             </div>

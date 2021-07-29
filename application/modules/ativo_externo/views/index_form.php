@@ -140,18 +140,30 @@
                                     <input type="hidden" id="nome" name="nome" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                 <?php } ?>
 
-                                <?php if (in_array($mode, ['insert', 'insert_grupo'])){ ?>
+                                <?php if (in_array($mode, ['insert', 'insert_grupo', 'update_grupo'])){ ?>
                                 <div class="row form-group">
+                                    <?php if (in_array($mode, ['insert', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <div class="col col-md-2">
+                                        <label for="valor" class=" form-control-label">Valor Unitário</label>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input
+                                        required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
+                                        value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
+                                    </div>
+                                    <?php } ?>
+                                    <?php if (in_array($mode, ['insert', 'insert_grupo'])){ ?>
                                     <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-2">
                                         <input 
                                             <?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? 'readonly' : ''; ?>
                                             type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" 
                                             value="<?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? $detalhes->quantidade : '1' ; ?>"
                                         >
-                                    </div>                               
+                                    </div> 
+                                    <?php } ?>                              
                                 </div>
                                 <?php } ?>
 

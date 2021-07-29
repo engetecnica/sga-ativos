@@ -1,7 +1,3 @@
-
-
-    <!-- Jquery JS-->
-    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
     <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -17,11 +13,6 @@
 
     <!-- Main JS-->
     <script src="<?php echo base_url('assets'); ?>/js/main.js"></script>
-
-    <!-- Sweet Alert 
-    <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
     <script src="<?php echo base_url('assets'); ?>/js/jquery.mask.js"></script>
@@ -82,8 +73,6 @@
 
     <?php if($this->session->userdata('logado')==true){ ?>
     <script>
-       
-
         /* Alterar Status da Requisição */
        // $(document).ready(function () {
 
@@ -94,7 +83,7 @@
                 $(".listagem").append($("#item_lista").html());
                 $(document).on("click", ".add_line", function(){
                     $(".listagem").append($("#item_lista").html());
-                    $(".listagem .item-lista").last();
+                    $(".listagem .item-lista").last().addClass('id_ativo_externo_grupo');
                 })
                 $(document).on("click", ".remove_line", function(){
                     if($(".remove_line").length >= 1) {
@@ -497,57 +486,68 @@
         });
         
         
-        $(".confirmar_registro").click(function(){
-            var id_registro = $(this).attr('data-id');
-            var tabela = $(this).attr('data-tabela');
-            var url_post = $(this).attr('data-href');
-            var acao = $(this).attr('data-acao') || 'Confirmar';
-            var title = $(this).attr('data-title') || 'Você tem certeza?';
-            var text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
-            var redirect = $(this).attr('data-redirect') ? true : false;
+        var confirmar_registro = function(){
+            let id_registro = $(this).attr('data-id');
+            let tabela = $(this).attr('data-tabela');
+            let url_post = $(this).attr('data-href');
+            let acao = $(this).attr('data-acao') || 'Confirmar';
+            let title = $(this).attr('data-title') || 'Você tem certeza?';
+            let text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
+            let redirect = $(this).attr('data-redirect') ? true : false;
+            let icon = $(this).attr('data-icon') || 'warning';
+            let msg = $(this).attr('data-message') == 'false' ? false : true;
+            console.log(tabela, url_post)
+            //return
 
             Swal.fire({
                 title: title,
                 text: text,
-                icon: 'warning',
+                icon: icon,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, ' + acao + '!'
             }).then((result) => {
                 if (result.value) {
-                    $.ajax({
-                        url: url_post,
-                        type: "post",
-                        data: id_registro,
-                        success: function (response) {
-                            if (redirect == true) {
-                                window.location = tabela;
-                                return;
-                            }
+                    if(url_post && tabela) {
+                        $.ajax({
+                            url: url_post,
+                            type: "post",
+                            data: id_registro,
+                            success: function (response) {
+                                if (redirect == true) {
+                                    window.location = tabela;
+                                    return;
+                                }
 
-                            Swal.fire(
-                                'Enviado',
-                                'Dados Enviados com Sucesso!',
-                                'success'
-                            )
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            if (redirect == true) {
-                                window.location = tabela;
-                                return;
+                                if(msg) {
+                                    Swal.fire(
+                                        'Enviado',
+                                        'Dados Enviados com Sucesso!',
+                                        'success'
+                                    )
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                if (redirect == true) {
+                                    window.location = tabela;
+                                    return;
+                                }
+                                Swal.fire(
+                                    'Erro',
+                                    'Ops, Ocorreu um erro ao tentar Enviar os dados!',
+                                    'success'
+                                )
                             }
-
-                            Swal.fire(
-                                'Erro',
-                                'Ops, Ocorreu um erro ao tentar Enviar os dados!',
-                                'success'
-                            )
-                        }
-                    });
+                        });
+                    } else { 
+                        window.location = url_post;
+                    }
                 }
             })
-        }); 
+        }
+
+        $(".confirmar_registro").click(confirmar_registro);
 
         // Trabalhado items da tabela fipe.
         $("#tipo_veiculo").change(function(){
