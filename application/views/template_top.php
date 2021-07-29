@@ -58,7 +58,11 @@
     <div class="page-wrapper">
 
         <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
+        <aside class="menu-sidebar" id="menu-sidebar">
+            <button onClick="$('#menu-sidebar').hide('fast')" type="button" class="btn-close-mobile-menu">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+
             <div class="logo">
                 <a href="#">
                     <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png" alt="" />
@@ -141,7 +145,13 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <button onClick="$('#menu-sidebar').show('fast')" type="button" class="btn-mobile-menu">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </button>
                             </div>
+
+                            
                         </div>
                     </div>
                 </div>

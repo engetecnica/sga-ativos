@@ -305,7 +305,6 @@ section {
 @media (max-width: 991px) {
     .page-container {
         position: relative;
-        top: 88px;
         padding-left: 0;
     }
 }
@@ -671,10 +670,13 @@ section {
     display: -moz-box;
     display: -ms-flexbox;
     display: flex;
+    position: relative;
+    align-self: left;
 }
 
 @media (max-width: 991px) {
     .form-header {
+        margin-top: 30px;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         -moz-box-pack: center;
@@ -1273,11 +1275,11 @@ section {
     .header-wrap {
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
+        -webkit-flex-direction: column-reverse;
         -moz-box-orient: vertical;
         -moz-box-direction: normal;
         -ms-flex-direction: column;
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .header-wrap .mess-dropdown {
@@ -1312,7 +1314,7 @@ section {
 
 @media (max-width: 991px) {
     .header-button {
-        margin-top: 30px;
+        margin-top: 0 !important;
         width: 100%;
         -webkit-box-pack: justify;
         -webkit-justify-content: space-between;
@@ -1595,6 +1597,44 @@ section {
     bottom: 0;
     background: #fff;
     overflow-y: auto;
+    transition: all ease-in-out .3s;
+}
+
+@media (min-width: 991px) {
+    .btn-mobile-menu, .btn-close-mobile-menu{
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .menu-sidebar {
+        display: none;
+        z-index: 10;
+        transition: all ease-in-out .3s;
+        min-height: 100vh;
+        width: 100vw;
+    }
+    .btn-mobile-menu, .btn-close-mobile-menu{
+        display: block;
+        cursor: pointer;
+    }
+    .btn-close-mobile-menu {
+        position: absolute;
+        background-color: var(--primary);
+        color: #FFF;
+        z-index: 11;
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .btn-mobile-menu {
+        color: var(--secondary);
+        font-size: 1.5rem;
+        width: 50px;
+        height: 50px;
+    }
 }
 
 .menu-sidebar .logo {
