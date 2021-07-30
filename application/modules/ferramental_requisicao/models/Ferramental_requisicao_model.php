@@ -10,9 +10,9 @@ class ferramental_requisicao_model extends MY_Model {
 	}
 
 	# Lista dos ativos externos
-	function get_lista_grupo($id_obra = null)
+	function get_grupos($id_obra = null)
 	{
-		return $this->ativo_externo_model->get_lista_grupo($id_obra);
+		return $this->ativo_externo_model->get_grupos($id_obra);
 	}
 
 	# Salvar Requisicao
@@ -27,17 +27,31 @@ class ferramental_requisicao_model extends MY_Model {
 		return $this->db->insert_id();
 	}
 
+	private function requisicoes(){
+		return $this->db->select("requisicao.*, 
+				requisicao.id_requisicao as id_requisicao,
+				origem.codigo_obra as origem, origem.endereco as origem_endereco, 
+				origem.endereco_numero as origem_endereco_numero, origem.responsavel as origem_responsavel,
+				origem.responsavel_celular as origem_responsavel_celular, origem.responsavel_email as origem_responsavel_email,
+				destino.codigo_obra as destino, destino.endereco as destino_endereco, 
+				destino.endereco_numero as destino_endereco_numero, destino.responsavel as destino_responsavel,
+				destino.responsavel_celular as destino_responsavel_celular, destino.responsavel_email as destino_responsavel_email,    
+				sol.usuario as solicitante, adm.usuario as despachante"
+			)
+			->from('ativo_externo_requisicao requisicao')
+			->join('obra origem', 'origem.id_obra=requisicao.id_origem', 'left')
+			->join('obra destino', 'destino.id_obra=requisicao.id_destino', 'left')
+			->join('usuario sol', "sol.id_usuario = requisicao.id_solicitante", 'left')
+			->join('usuario adm', "adm.id_usuario = requisicao.id_despachante", 'left');
+	}
+
 	# Listagem
 	public function get_lista_requisicao($status = null, $offset = 0, $limite = null)
 	{
-		$requisicoes =  $this->db->select('requisicao.*, ob.codigo_obra, ob.endereco, 
-		ob.endereco_numero, ob.responsavel, ob.responsavel_celular, ob.responsavel_email, us.usuario, us.id_usuario')
-		->from('ativo_externo_requisicao requisicao')
-		->join('obra ob', 'ob.id_obra=requisicao.id_obra')
-		->join('usuario us', "us.id_usuario = requisicao.id_usuario");
+		$requisicoes =  $this->requisicoes();
 
 		if ($this->user->nivel == 2) {
-			$requisicoes->where("requisicao.id_usuario = {$this->user->id_usuario}");
+			$requisicoes->where("requisicao.id_solicitante = {$this->user->id_usuario}");
 		}
 
 		if ($status) {
@@ -72,24 +86,10 @@ class ferramental_requisicao_model extends MY_Model {
 
 	public function get_requisicao($id_requisicao)
 	{
-			$requisicao = $this->db->select(
-				'requisicao.*, ob.codigo_obra, ob.endereco, 
-				ob.endereco_numero, ob.responsavel, ob.responsavel_celular, 
-				ob.responsavel_email, us.usuario as usuario_solicitante, us.id_usuario'
-			)->from('ativo_externo_requisicao requisicao')
-			->where("requisicao.id_requisicao = {$id_requisicao}")
-			->join('obra ob', 'ob.id_obra=requisicao.id_obra');
-
-			switch ($this->user->nivel) {
-				case 1:
-					$requisicao->join('usuario us', 'us.id_usuario=requisicao.id_usuario');
-				break;
-				case 2:
-					$requisicao->join('usuario us', "us.id_usuario={$this->user->id_usuario}");
-				break;
-			}
-
-			return $requisicao->group_by('requisicao.id_requisicao')->get()->row();
+			return $this->requisicoes()
+				->where("requisicao.id_requisicao = {$id_requisicao}")
+				->group_by('requisicao.id_requisicao')
+				->get()->row();
 	}
 
 	public function get_requisicao_com_items($id_requisicao, $id_ativo_externo_grupo = null)
@@ -127,22 +127,24 @@ class ferramental_requisicao_model extends MY_Model {
 	public function get_requisicao_item($id_requisicao, $id_requisicao_item){
 			$this->db->reset_query();
 			$requisicao_item = $this->db
-			->select('item.*')
-			->from('ativo_externo_requisicao_item item')
-			->where("item.id_requisicao={$id_requisicao}")
-			->where("item.id_requisicao_item={$id_requisicao_item}")
-			->get()->row();
+					->select('item.*, atv.id_ativo_externo_grupo, atv.nome')
+					->from('ativo_externo_requisicao_item item')
+					->where("item.id_requisicao={$id_requisicao}")
+					->where("item.id_requisicao_item={$id_requisicao_item}")
+					->join('ativo_externo atv', "atv.id_ativo_externo_grupo=item.id_ativo_externo_grupo", 'left')
+					->get()->row();
 
 			if($requisicao_item) {
 				$this->db->reset_query();
-				$requisicao_item->ativos = $this->db->select('item.*, atv.*, kit.*')
-				->from('ativo_externo_requisicao_item item')
-				->where("item.id_requisicao={$id_requisicao}")
-				->join('ativo_externo atv', "atv.id_requisicao_item={$id_requisicao_item}", 'left')
-				->join('ativo_externo_kit kit', "kit.id_ativo_externo_kit = atv.id_ativo_externo", 'left')
-				->group_by('atv.id_ativo_externo')
-				->get()
-				->result();
+				$requisicao_item->ativos = $this->db->select('ativo.*, atv.*, kit.*')
+						->from('ativo_externo_requisicao_ativo ativo')
+						->where("ativo.id_requisicao={$id_requisicao}")
+						->where("ativo.id_requisicao_item={$id_requisicao_item}")
+						->join('ativo_externo atv', "atv.id_requisicao_item={$id_requisicao_item}", 'left')
+						->join('ativo_externo_kit kit', "kit.id_ativo_externo_kit = atv.id_ativo_externo", 'left')
+						->group_by('atv.id_ativo_externo')
+						->get()
+						->result();
 			}
 			return $requisicao_item;
 	}

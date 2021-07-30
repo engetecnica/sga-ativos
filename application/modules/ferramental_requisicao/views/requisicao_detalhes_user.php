@@ -24,19 +24,21 @@
 
                         <div class="card">
                             <input type="hidden" name="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
-                            <input type="hidden" name="id_obra" value="<?php echo $requisicao->id_obra; ?>">
+                            <input type="hidden" name="id_origem" value="<?php echo $requisicao->id_origem; ?>">
+                            <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
+                            
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-borderless table-striped table-earning" >
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col">Requisão ID</th>
                                             <th scope="col">Solicitação</th>
-                                            <th scope="col">Usuário</th>
+                                            <th scope="col">Solicitante</th>
                                             <th scope="col">Destino</th>
                                             <th scope="col">Status da Requisição</th>
-                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_usuario)) {?>
+                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                                 <th scope="col">Opções</th>
                                             <?php }?>
                                         </tr>
@@ -45,14 +47,14 @@
                                         <tr>
                                             <td><?php echo $requisicao->id_requisicao; ?></td>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td><?php echo $requisicao->usuario_solicitante; ?></td>
-                                            <td><?php echo $requisicao->codigo_obra; ?></td>
+                                            <td><?php echo $requisicao->solicitante; ?></td>
+                                            <td><?php echo $requisicao->destino; ?></td>
                                             <td>
                                                 <?php $status = $this->get_requisicao_status($requisicao->status_lista, $requisicao->status)?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                             <td> 
-                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_usuario)) {?>
+                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                                 <a 
                                                     class="btn btn-sm btn-danger confirmar_registro" href="javascript:void(0);"
                                                     data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
@@ -99,7 +101,7 @@
                                             <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
-                                                <?php echo date("d/m/Y H:i", strtotime($item->data_liberado)); ?>
+                                                <?php echo isset($item->data_liberado) ? date("d/m/Y H:i", strtotime($item->data_liberado)) : '-'; ?>
                                             </td>
                                             <td>
                                                 <?php $status = $this->get_requisicao_status($requisicao->status_lista, $item->status);?>

@@ -486,7 +486,7 @@
         });
         
         
-        var confirmar_registro = function(){
+        var confirmar_registro = function(event){
             let id_registro = $(this).attr('data-id');
             let tabela = $(this).attr('data-tabela');
             let url_post = $(this).attr('data-href');
@@ -496,9 +496,7 @@
             let redirect = $(this).attr('data-redirect') ? true : false;
             let icon = $(this).attr('data-icon') || 'warning';
             let msg = $(this).attr('data-message') == 'false' ? false : true;
-            console.log(tabela, url_post)
-            //return
-
+            console.log(typeof url_post)
             Swal.fire({
                 title: title,
                 text: text,
@@ -510,36 +508,43 @@
             }).then((result) => {
                 if (result.value) {
                     if(url_post && tabela) {
-                        $.ajax({
-                            url: url_post,
-                            type: "post",
-                            data: id_registro,
-                            success: function (response) {
-                                if (redirect == true) {
-                                    window.location = tabela;
-                                    return;
-                                }
+                       if (typeof url_post == 'string') { 
+                            $.ajax({
+                                url: url_post,
+                                type: "post",
+                                data: id_registro,
+                                success: function (response) {
+                                    if (redirect == true) {
+                                        window.location = tabela;
+                                        return;
+                                    }
 
-                                if(msg) {
+                                    if(msg) {
+                                        Swal.fire(
+                                            'Enviado',
+                                            'Dados Enviados com Sucesso!',
+                                            'success'
+                                        )
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    if (redirect == true) {
+                                        window.location = tabela;
+                                        return;
+                                    }
                                     Swal.fire(
-                                        'Enviado',
-                                        'Dados Enviados com Sucesso!',
+                                        'Erro',
+                                        'Ops, Ocorreu um erro ao tentar Enviar os dados!',
                                         'success'
                                     )
                                 }
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                if (redirect == true) {
-                                    window.location = tabela;
-                                    return;
-                                }
-                                Swal.fire(
-                                    'Erro',
-                                    'Ops, Ocorreu um erro ao tentar Enviar os dados!',
-                                    'success'
-                                )
-                            }
-                        });
+                            });
+                       }
+
+                       if (typeof url_post == 'function') {
+                            url_post(event)
+                       }
+
                     } else { 
                         window.location = url_post;
                     }

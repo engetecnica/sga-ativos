@@ -24,8 +24,10 @@
                                 <tr>
                                     <th>Requisão ID</th>
                                     <th>Data</th>
+                                    <th>Origem</th>
                                     <th>Destino</th>
                                     <th>Solicitante</th>
+                                    <th>Despachante</th>
                                     <th>Status</th>
                                     <th>Opções</th>
                                 </tr>
@@ -34,10 +36,16 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
-                                    <td><?php echo $valor->id_requisicao; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>">
+                                            <?php echo $valor->id_requisicao; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
-                                    <td><?php echo "{$valor->endereco} {$valor->endereco_numero}"; ?></td>
-                                    <td><?php echo $valor->usuario; ?></td>
+                                    <td><?php echo $valor->origem; ?></td>
+                                    <td><?php echo $valor->destino; ?></td>
+                                    <td><?php echo $valor->solicitante; ?></td>
+                                    <td><?php echo $valor->despachante; ?></td>
                                     <td>
                                         <?php $status = $this->get_requisicao_status($status_lista, $valor->status)?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>

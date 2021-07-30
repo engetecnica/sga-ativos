@@ -23,7 +23,8 @@
                         <h2 class="title-1 m-b-25">Detalhes da Requisição Administração</h2>
                         <div class="card">
                             <input type="hidden" name="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
-                            <input type="hidden" name="id_obra" value="<?php echo $requisicao->id_obra; ?>">
+                            <input type="hidden" name="id_origem" value="<?php echo $requisicao->id_origem; ?>">
+                            <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
                             <div class="card-body">
                                 <!-- Detalhes da Requisição -->
                                 <table class="table table-borderless table-striped table-earning">
@@ -31,7 +32,7 @@
                                         <tr class="active">
                                             <th scope="col" width="20%">Requisão ID</th>
                                             <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col" width="20%">Usuário</th>
+                                            <th scope="col" width="20%">Solicitante</th>
                                             <th scope="col" width="20%">Destino</th>
                                             <th scope="col">Status da Requisição</th>
                                         </tr>
@@ -40,8 +41,8 @@
                                         <tr>
                                             <td><?php echo $requisicao->id_requisicao; ?></td>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td><?php echo $requisicao->usuario_solicitante; ?></td>
-                                            <td><?php echo $requisicao->codigo_obra; ?></td>
+                                            <td><?php echo $requisicao->solicitante; ?></td>
+                                            <td><?php echo $requisicao->destino; ?></td>
                                             <td width="10%">
                                                 <?php $status = $this->get_requisicao_status($requisicao->status_lista, $requisicao->status)?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
@@ -109,20 +110,34 @@
                                 <?php } ?>
 
                                 <?php if($user->nivel == 1){  ?>
-                                    <?php 
-                                        if(in_array($requisicao->status, [1, 11])){
-                                    ?> 
-
                                     <hr>
                                     <div class="text-center">
+                                    <?php if(in_array($requisicao->status, [1, 11])){?>
                                         <button class="" type="submit" id="liberar_requisicao_btn">
-                                            <i class="fa fa-send "></i>&nbsp;
+                                            <i class="fa fa-checked"></i>&nbsp;
                                             Liberar Requisição
                                         </button>
+                                    <?php } if($requisicao->status == 2){ ?>
+                                    <!--  data-href="<?php echo base_url("ferramental_requisicao/transferencia/{$requisicao->id_requisicao}");?>" -->
+                                      <a
+                                        class="confirmar_registro text-center"
+                                        href="javascript:void(0)"
+                                        data-acao="Enviar" data-icon="info" data-message="false"
+                                        data-title="Enviar para Transferencia" data-redirec="true"
+                                        data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                        data-href="() => {
+                                            console.log('teste')
+                                        }"
+                                        data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                      >
+                                        <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
+                                            <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
+                                            Enviar para Transferencia
+                                        </button>
+                                      </a>
                                     </div>
-
-                                    <?php } ?>
-                                <?php } ?>
+                                <?php } } ?>
+                               
 
                             </div>
                         </div>

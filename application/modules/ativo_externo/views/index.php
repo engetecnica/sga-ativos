@@ -41,11 +41,12 @@
                                     <th>Item</th>
                                     <th>Obra</th>
                                     <th>Inclusão</th>
-                                    <th>Liberação</th>
+                                    <th>Descarte</th>
                                     <th>Tipo</th>
                                     <th>Kit</th>
                                     <th>Situação</th>
                                     <th>Opções</th>
+                                    <th>valor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,9 +58,9 @@
                                         </a>
                                     </td>
                                     <td><?php echo $valor->nome; ?></td>
-                                    <td><?php echo $valor->codigo_obra." - ".$valor->endereco; ?></td>
+                                    <td><?php echo $valor->obra; ?></td>
                                     <td><?php echo date("d/m/Y H:i", strtotime($valor->data_inclusao)); ?></td>
-                                    <td><?php if($valor->data_liberacao=="0000-00-00 00:00:00"){ echo "-"; } else { echo date("d/m/Y H:i", strtotime($valor->data_liberacao)); } ?></td>
+                                    <td><?php echo isset($valor->data_descarte) ? date("d/m/Y H:i", strtotime($valor->data_descarte)) : "-"; ?></td>
                                     <td>
                                         <?php if($valor->tipo == 1) { ?>
                                             <button class="btn btn-outline-primary btn-sm">Kit</button>
@@ -83,9 +84,25 @@
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>
-                                        <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fas fa-edit"></i></a>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" data-registro="<?php echo $valor->id_ativo_externo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <?php if ($valor->situacao != 10) {?>
+                                            <a href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fas fa-edit"></i></a>
+                                        <?php } ?>
+
+                                        <?php if ($valor->situacao == 12) {?>
+                                            <a href="javascript:void(0)" 
+                                                data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" 
+                                                data-registro="<?php echo $valor->id_ativo_externo;?>" 
+                                                data-tabela="ativo_externo" class="deletar_registro"
+                                            >
+                                                <i class="fas fa-remove"></i>
+                                            </a>
+                                        <?php } ?>
+
+                                        <?php if ($valor->situacao == 8) {?>
+                                            <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $valor->id_ativo_externo; ?>"  redirect="true" data-tabela="ativo_externo" class="confirmar_registro"><i class="fas fa-ban text-warning"></i></a>
+                                        <?php } ?>
                                     </td>
+                                    <td><?php echo $valor->valor; ?></td>
                                 </tr>
                                <?php } ?>
                             </tbody>
@@ -103,6 +120,8 @@
                                 <tr>
                                     <th>GID</th>
                                     <th>Grupo</th>
+                                    <th>Total</th>
+                                    <th>Em Estoque</th>
                                     <th>Tipo</th>
                                     <th>Opções</th>
                                 </tr>
@@ -112,6 +131,8 @@
                                 <tr>
                                     <td><?php echo $valor->id_ativo_externo_grupo; ?></td>
                                     <td><?php echo $valor->nome; ?></td>
+                                    <td><?php echo $valor->total; ?></td>
+                                    <td><?php echo $valor->estoque; ?></td>
                                     <td>
                                         <?php if($valor->tipo == 1) { ?>
                                             <button class="badge badge-primary">Kit</button>
@@ -120,13 +141,22 @@
                                         <?php } ?>
                                     </td>
                                     <td>
-                                    <a href="<?php echo base_url('ativo_externo/adicionar'); ?>/<?php echo $valor->id_ativo_externo_grupo; ?>">
-                                        <button class="btn btn-sm btn-secondary">
-                                            <i class="fa fa-plus"></i>Adicionar ao Grupo
-                                        </button>
-                                    </a>
-                                        <a href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>"><i class="fas fa-edit"></i></a>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <a href="<?php echo base_url('ativo_externo/adicionar'); ?>/<?php echo $valor->id_ativo_externo_grupo; ?>">
+                                            <button class="btn btn-sm btn-secondary">
+                                                <i class="fa fa-plus"></i>Adicionar ao Grupo
+                                            </button>
+                                        </a>
+                                        <?php if ($valor->estoque > $valor->foradeoperacao) {?>
+                                            <a href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>"><i class="fas fa-edit"></i></a>
+                                        <?php } ?>
+
+                                        <?php if ($valor->estoque == $valor->total) {?>
+                                            <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <?php } ?>
+
+                                        <?php if (($valor->estoque < $valor->total) && ($valor->estoque == $valor->foradeoperacao)) {?>
+                                            <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" redirect="true" data-tabela="ativo_externo" class="confirmar_registro"><i class="fas fa-ban text-warning"></i></a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

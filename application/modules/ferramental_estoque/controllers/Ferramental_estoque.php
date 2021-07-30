@@ -29,8 +29,8 @@ class Ferramental_estoque  extends MY_Controller {
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
 
         $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($id_obra);
-        $data['estoque'] = $this->ativo_externo_model->get_estoque($id_obra, null, true);
-        $data['grupos'] = $this->ativo_externo_model->get_lista_grupo();
+        $data['estoque'] = $this->ativo_externo_model->get_estoque($id_obra, null, 12);
+        $data['grupos'] = $this->ativo_externo_model->get_grupos();
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
         $this->get_template('index', $data);
     }
@@ -94,7 +94,7 @@ class Ferramental_estoque  extends MY_Controller {
     function adicionar(){
         $this->get_template('index_form', [
             'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra),
-            'grupos' => $this->ativo_externo_model->get_lista_grupo($this->user->id_empresa, $this->user->id_obra, true),
+            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true),
             'id_obra' => $this->user->id_obra,
         ]);
     }
@@ -112,7 +112,7 @@ class Ferramental_estoque  extends MY_Controller {
             $this->get_template('index_form', [
                 'retirada' => $retirada,
                 'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra),
-                'grupos' => $this->ativo_externo_model->get_lista_grupo($this->user->id_empresa, $this->user->id_obra, true),
+                'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true),
                 'id_obra' => $this->user->id_obra,
             ]);
             return;
@@ -123,7 +123,7 @@ class Ferramental_estoque  extends MY_Controller {
 
 
     function lista_ativos_grupos_json(){
-        echo json_encode($this->ativo_externo_model->get_lista_grupo($this->user->id_empresa, $this->user->id_obra, true));
+        echo json_encode($this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true));
     }
     
     function lista_retiradas($id_obra = null, $id_funcionario = null, $status = null) {
@@ -251,7 +251,7 @@ class Ferramental_estoque  extends MY_Controller {
             foreach($retirada->items as $k => $item) {
                 $ativos_estoque = $item->ativos;
                 if (!$ativos_estoque || count($ativos_estoque) == 0) {
-                    $ativos_estoque = $this->ativo_externo_model->get_estoque($retirada->id_obra, $item->id_ativo_externo_grupo);
+                    $ativos_estoque = $this->ativo_externo_model->get_estoque($retirada->id_obra, $item->id_ativo_externo_grupo, 12);
                 }
 
                 for($i=0; $i < $item->quantidade; $i++) {
@@ -445,8 +445,7 @@ class Ferramental_estoque  extends MY_Controller {
 
                         $ativos_externos[] = [
                             'id_ativo_externo' => $ativo,
-                            'situacao' => $pi['status'][$a] == 9 ? 12 : 8,
-                            'data_liberacao' => date('Y-m-d H:i:s', strtotime('now')),
+                          'situacao' => $pi['status'][$a] == 9 ? 12 : 8,
                         ];
                         $ativos_devolvidos++;
                     }

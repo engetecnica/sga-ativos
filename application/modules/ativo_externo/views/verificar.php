@@ -24,10 +24,6 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Verificação de Ativo Externo</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <?php
-
-                        //print_r($lista);
-                        ?>
                         <table class="table table-borderless table-striped table-earning">
                             <thead>
                                 <tr>

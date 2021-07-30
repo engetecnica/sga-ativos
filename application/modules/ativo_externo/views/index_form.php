@@ -140,9 +140,9 @@
                                     <input type="hidden" id="nome" name="nome" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                 <?php } ?>
 
-                                <?php if (in_array($mode, ['insert', 'insert_grupo', 'update_grupo'])){ ?>
+                                <?php if (in_array($mode, ['insert', 'update' , 'insert_grupo', 'update_grupo'])){ ?>
                                 <div class="row form-group">
-                                    <?php if (in_array($mode, ['insert', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo'])){ ?>
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Unitário</label>
                                     </div>
@@ -167,15 +167,15 @@
                                 </div>
                                 <?php } ?>
 
-                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="observacao" class=" form-control-label">Descrição</label>
+                                <?php if (in_array($mode, ['insert', 'update', 'ínsert_grupo'])){ ?>
+                                    <div class="row form-group">
+                                        <div class="col col-md-2">
+                                            <label for="observacao" class=" form-control-label">Descrição</label>
+                                        </div>
+                                        <div class="col-12 col-md-10">
+                                            <textarea name="observacao" id="observacao" rows="9" placeholder="Descrição..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-md-10">
-                                        <textarea name="observacao" id="observacao" rows="9" placeholder="Descrição..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
-                                    </div>
-                                </div>
                                 <?php } ?>
 
 
