@@ -69,9 +69,9 @@
                                     <tbody>
                                         <tr v-for="grupo in grupos.filter((gp) => {return !in_grupos_selecionados(gp.id_ativo_externo_grupo)})" :key="grupo.id_ativo_externo_grupo" >
                                             <td>{{grupo.nome}}</td>
-                                            <td>{{grupo.count}}</td>
+                                            <td>{{grupo.estoque}}</td>
                                             <td width="10%">
-                                                <a v-if="grupo.count > 0" class="btn btn-sm btn-primary" @click="add_item(grupo)" >
+                                                <a v-if="grupo.estoque > 0" class="btn btn-sm btn-primary" @click="add_item(grupo)" >
                                                    <i class="fas fa-plus text-light"></i>
                                                 </a>
                                             </td>
@@ -125,7 +125,7 @@
                                                 class="form-control quantidade"
                                                 v-model="grupos_selecionados[sg].quantidade"
                                                 :value="grupos_selecionados[sg].quantidade"
-                                                min="1" :max="sgrupo.count"
+                                                min="1" :max="sgrupo.estoque"
                                             >
                                         </div>
 
@@ -178,38 +178,6 @@
     </div>
 </div>
 
-<!--
-<template id="item_lista">
-    <div class="row item-lista" style="margin-bottom: 10px;">
-        <div class="col-md-8">
-            <div class="exchange1">
-                <select name="id_ativo_externo_grupo[]"  class="form-control id_ativo_externo_grupo">
-                    <option value="">Buscar Item</option>
-                    <?php foreach ($grupos as $grupo) { ?>
-                        <option
-                            grupo-count="<?php echo $grupo->count; ?>" 
-                            value="<?php echo $grupo->id_ativo_externo_grupo; ?>"
-                        >
-                            <?php echo $grupo->nome; ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <input name="quantidade[]" type="number" placeholder="0" class="form-control quantidade" value="1" min="1" max="100">
-        </div>
-        <div class="col-md-2" nowrap>
-            <p>
-                <button type="button" class="btn btn-sm btn-primary add_line"><i class="fa fa-plus"></i></button>
-                <button type="button" class="btn btn-sm btn-danger remove_line"><i class="fa fa-minus"></i></button>
-            </p>
-        </div>
-    </div>
-</template>
--->
-
 <script>
     var base_url = "<?php echo base_url('/'); ?>";
     var retirada = <?php echo isset($retirada)  ? json_encode($retirada) : 'null'; ?>;
@@ -257,7 +225,7 @@
                         id_ativo_externo_grupo: null,
                         nome: 'Buscar Item Test',
                         quantidade: 1,
-                        count: 0
+                        estoque: 0
                     })
                     return
                 }
@@ -334,7 +302,7 @@
                 this.grupos_selecionados = this.retirada.items.map((item) => {
                     return {
                         id_retirada_item: item.id_retirada_item,
-                        count: (this.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo)).count || 0,
+                        estoque: (this.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo)).estoque || 0,
                         id_ativo_externo_grupo: item.id_ativo_externo_grupo,
                         nome: item.nome,
                         quantidade: item.quantidade 

@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  * @author https://roytuts.com
  */
 
-
+use \Mpdf\Mpdf;
 
 class MY_Controller extends MX_Controller {
  
@@ -149,6 +149,12 @@ class MY_Controller extends MX_Controller {
     public function get_niveis(){
         $this->db->order_by('id_usuario_nivel', 'ASC');
         return $this->formatArrayReplied($this->db->get('usuario_nivel')->result(), 'id_usuario_nivel');
+    }
+
+    public function gerar_pdf($filename, $html, $mode = 'D') {
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output($filename, $mode);
     }
 
     public function dd($data, $exit = false){

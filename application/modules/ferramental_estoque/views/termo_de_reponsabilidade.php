@@ -1,66 +1,15 @@
+<style media="print"><?php echo $css; ?></style>
 
- <!-- Bootstrap CSS--
- <link href="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="print">
-
--- Main CSS--
-<link href="<?php echo base_url('assets'); ?>/css/theme.css" rel="stylesheet" media="print">
--->
-<style media="print">
-  .termo {
-    font-family: "Poppins", sans-serif;
-  }
-  .contrato h2{
-    font-size: 1.2rem;
-    text-align: left;
-    text-justify: center;
-  }
-  .contrato h3{
-    font-size:1rem;
-  }
-  .contrato p, .contrato li{
-    font-size: .85rem;
-  }
-  .contrato li{
-    font-size: .85rem;
-  }
-
-  .tabela {
-    border: solid 1px #000;
-    border-spacing: 0;
-  }
-
-  .tabela th,.tabela tr, .tabela td{
-    border: solid .5px #000;
-    border-spacing: 0;
-  }
-
-  .tabela th{
-      font-size: 0.8rem;
-      font-weight: lighter;
-      padding: .5rem;
-      background: #fd9e0f;
-  }
-
-  .tabela tr{
-
-  }
-
-  .tabela td {
-    text-align: center;
-  }
-
-</style>
-
-
-<div class="termo">
-
-  <div class="header">
-    <img src="<?echo $logo; ?>" alt="">
-  </div>
-
+<header>
+    <img src="<?php echo $header;  ?>">
+</header>
+<pre>
+<?php //print_r($retirada);  ?>
+</pre>
+<section class="termo" id="content">
   <div class="contrato">
+    <h1>Retirada <b><?php echo "#{$retirada->id_retirada}";?></b></h1>
     <h2>TERMO DE RESPONSABILIDADE PELA GUARDA E USO DE EQUIPAMENTO DE TRABALHO</h2>
-
     <p>
       Pelo presente instrumento particular e na melhor forma de direito, de um lado,
       <b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, inscrita no CNPJ/MF sob o nº. 76.624.584/0001-38, com sede na João Bettega, 1160, CENTRO, CEP 81070-001, Município de CURITIBA, Estado do Paraná, doravante denominada <b>COMODANTE</b>.
@@ -113,13 +62,13 @@
     </ul>
   </div>
 
-   <table class="tabela">
+  <table class="tabela">
       <thead>
           <tr>
-            <th>N. Item</th>
-            <th>Quantidade</th>
-            <th>Descrição do Material</th>
-            <th>Modelo/Marca</th>
+            <th>N. Iten</th>
+            <th>Código</th>
+            <th>Descrição / Nome</th>
+            <!--<th>Modelo/Marca</th>-->
             <th>Valor Unitário</th>
             <th>Data de conferência</th>
             <th>Visto do Comodatário na retirada</th>
@@ -127,18 +76,59 @@
           </tr>
       </thead>
       <tbody>
-        <?php foreach($ativos as $num => $ativo){ print_r($ativo); ?>
+        <?php 
+            $total_items = 0;
+            foreach($ativos as $num => $ativo){ 
+          ?>
           <tr>
             <td><?php echo ($num + 1); ?></td>
-            <td><?php echo $ativo->count; ?></td>
+            <td><?php echo $ativo->codigo; ?></td>
             <td><?php echo $ativo->nome; ?></td>
-            <td></td>
+            <!--<td></td>-->
             <td><?php echo "R$ " .$ativo->valor; ?></td>
             <td> ____/____/______ </td>
             <td></td>
             <td></td>
           </tr>
-        <?php } ?>
+        <?php $total_items++; } ?>
       </tbody>
-    </table>
-</div>
+  </table>
+
+  <table class="tabela">
+    <thead>
+        <tr>
+          <th>Total de Itens</th>
+          <th>Valor Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><?php echo $total_items; ?></td>
+          <td><?php echo $this->formata_moeda(array_sum(array_map(function($ativo) {return $ativo->valor;}, $ativos)));?> </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <div class="assinaturas">
+      <div class="assinatura">
+        <label>COMODANTE</label>
+        <br><span>__________________________________________________________________</span><br>
+        <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b></small><br>
+        <small>Representante:</small> <small><b><?php echo $retirada->responsavel; ?></b></small><br>
+        <small>CPF:</small> <small><b><?php echo $retirada->responsavel; ?></b></small><br>
+      </div>
+
+      <div class="assinatura">
+        <label>COMODATÁRIO</label>
+        <br><span>__________________________________________________________________</span><br>
+        <small><b><?php echo $retirada->funcionario; ?></b></small><br>
+        <small>CPF:</small> <small><b><?php echo $retirada->funcionario_cpf; ?></b></small><br>  
+      </div>
+  </div>
+</section>
+
+<footer>
+      <img src="<?php echo $footer; ?>"><br>
+      <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small><br>
+      <small>Retirada <?php echo "#{$retirada->id_retirada}";?> em <?php echo $data_hora; ?></small> <small>, Gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></small>
+</footer>

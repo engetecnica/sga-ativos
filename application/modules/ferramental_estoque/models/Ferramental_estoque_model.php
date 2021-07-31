@@ -50,7 +50,9 @@ class ferramental_estoque_model extends MY_Model {
 	}
 
 	public function get_retirada($id_retirada, $id_obra = null, $id_funcionario = null){
-		$retirada = $this->db->select('retirada.*, fn.nome, fn.cpf, fn.rg, fn.celular, fn.nome as funcionario, ob.id_obra, ob.codigo_obra as obra')
+		$retirada = $this->db
+					->select('retirada.*, ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
+					->select('fn.cpf as funcionario_cpf, fn.rg as funcionario_rg, fn.celular as funcionario_celular, fn.nome as funcionario')
 					->from('ativo_externo_retirada retirada')
 					->where("retirada.id_retirada = {$id_retirada}");
 

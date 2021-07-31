@@ -1,7 +1,7 @@
 <?php
 
 (defined('BASEPATH')) OR exit('No direct script access allowed');
-use \Mpdf\Mpdf;
+
 /**
  * Description of ferramental_estoque
  *
@@ -20,8 +20,7 @@ class Ferramental_estoque  extends MY_Controller {
         $this->load->model('empresa/empresa_model'); 
         $this->load->model('ativo_externo/ativo_externo_model');
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
-        $this->load->model('funcionario/funcionario_model');
-        //$this->load->helper('download');             
+        $this->load->model('funcionario/funcionario_model');     
     }
 
     function index() {
@@ -492,30 +491,34 @@ class Ferramental_estoque  extends MY_Controller {
             $ativos = [];
             foreach($retirada->items as $item) {
                 foreach($item->ativos as $a => $ativo) {
-                    $item->ativos[$a]->count = count($item->ativos); 
+                    $item->ativos[$a]->quantidade = count($item->ativos); 
                 }
                 $ativos = array_merge($ativos, $item->ativos);
             }
 
             if(in_array($retirada->status, [2, 4, 9])) {
-                $logo_path = __DIR__ ."/../../../../assets/images/icon/logo.png";
-                $type = pathinfo($logo_path, PATHINFO_EXTENSION);
-                $logo_data = file_get_contents($logo_path, null, null);
-                $logo_base64 = 'data:image/' . $type . ';base64,' . base64_encode($logo_data);
+                $css = file_get_contents( __DIR__ ."/../../../../assets/css/termo_de_resposabilidade_retirada.css", null, null);
+
+                $header_path = __DIR__ ."/../../../../assets/images/docs/termo_header.png";
+                $header_data = file_get_contents($header_path, null, null);
+                $header_base64 = 'data:image/' . pathinfo($header_path, PATHINFO_EXTENSION) . ';base64,' . base64_encode($header_data);
+
+                $footer_path = __DIR__ ."/../../../../assets/images/docs/termo_footer.png";
+                $footer_data = file_get_contents($footer_path, null, null);
+                $footer_base64 = 'data:image/' . pathinfo($footer_path, PATHINFO_EXTENSION) . ';base64,' . base64_encode($footer_data);
 
                 $data = [
+                    'css' =>  $css, 
                     'retirada' => $retirada,
                     'ativos' => $ativos,
-                    'logo' => $logo_base64,
-                    'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
+                    'header' => $header_base64,
+                    'footer' => $footer_base64,
+                    'data_hora' => date('d/m/Y H:i:s', strtotime($retirada->data_inclusao)),
                 ];
                 $filename = "termo_de_reponsabilidade_{$retirada->id_retirada}" . date('YmdHis', strtotime('now')).".pdf";
-               //var_dump($logo_base64); exit;
                 $html = $this->load->view("/../views/termo_de_reponsabilidade", $data, true);
 
-                $mpdf = new \Mpdf\Mpdf();
-                $mpdf->WriteHTML($html);
-                $mpdf->Output($filename, 'D'); //D
+                $this->gerar_pdf($filename, $html, 'D');
                 return;
             }
             $this->session->set_flashdata('msg_erro', "Retirada não liberada para impressão!");
