@@ -4,3 +4,4 @@ application/cache/*
 application/config/database.php
 vendor
 *.DS_Store
+local_bd.sql
