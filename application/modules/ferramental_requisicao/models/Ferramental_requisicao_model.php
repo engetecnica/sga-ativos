@@ -140,7 +140,7 @@ class ferramental_requisicao_model extends MY_Model {
 						->from('ativo_externo_requisicao_ativo ativo')
 						->where("ativo.id_requisicao={$id_requisicao}")
 						->where("ativo.id_requisicao_item={$id_requisicao_item}")
-						->join('ativo_externo atv', "atv.id_requisicao_item={$id_requisicao_item}", 'left')
+						->join('ativo_externo atv', "atv.id_ativo_externo=ativo.id_ativo_externo", 'left')
 						->join('ativo_externo_kit kit', "kit.id_ativo_externo_kit = atv.id_ativo_externo", 'left')
 						->group_by('atv.id_ativo_externo')
 						->get()

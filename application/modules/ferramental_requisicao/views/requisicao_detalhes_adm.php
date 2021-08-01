@@ -118,21 +118,18 @@
                                             Liberar Requisição
                                         </button>
                                     <?php } if($requisicao->status == 2){ ?>
-                                    <!--  data-href="<?php echo base_url("ferramental_requisicao/transferencia/{$requisicao->id_requisicao}");?>" -->
                                       <a
                                         class="confirmar_registro text-center"
                                         href="javascript:void(0)"
                                         data-acao="Enviar" data-icon="info" data-message="false"
-                                        data-title="Enviar para Transferencia" data-redirec="true"
+                                        data-title="Enviar para Transferencia" data-redirect="true"
                                         data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
-                                        data-href="() => {
-                                            console.log('teste')
-                                        }"
+                                        data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
                                         data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
                                       >
                                         <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
                                             <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
-                                            Enviar para Transferencia
+                                            Enviar para Transferência
                                         </button>
                                       </a>
                                     </div>
