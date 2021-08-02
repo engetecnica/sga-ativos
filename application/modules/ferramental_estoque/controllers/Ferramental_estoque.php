@@ -28,7 +28,7 @@ class Ferramental_estoque  extends MY_Controller {
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
 
         $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($id_obra);
-        $data['estoque'] = $this->ativo_externo_model->get_estoque($id_obra, null, 12);
+        $data['estoque'] = $this->ativo_externo_model->get_estoque($id_obra);
         $data['grupos'] = $this->ativo_externo_model->get_grupos();
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
         $this->get_template('index', $data);
@@ -53,27 +53,17 @@ class Ferramental_estoque  extends MY_Controller {
     }
 
     function detalhes_item($id_retirada, $id_retirada_item = null){
-        $ativos = [];
         $item = null;
         $obra_base = $this->get_obra_base();
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
 
         if ($retirada) {
+            $ativos = [];
             $items = $retirada->items;
             foreach($retirada->items as $item) {
-                $ativos = array_merge($ativos, $item->ativos);
-            }
-
-            if ($id_retirada_item) {
-                $ativos = [];
-                $items = [];
-                foreach($retirada->items as $it) {
-                    if ($it->id_retirada_item == $id_retirada_item) {
-                        $item = $it;
-                        $ativos = $it->ativos;
-                        $items[] = $item;
-                    }
+                if ($id_retirada_item &&  $item->id_retirada_item || !$id_retirada_item) {
+                    $ativos = array_merge($ativos, $item->ativos);
                 }
             }
 

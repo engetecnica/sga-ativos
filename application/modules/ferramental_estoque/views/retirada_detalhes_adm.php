@@ -36,7 +36,7 @@
                                       <td><?php echo $retirada->obra; ?></td>
                                       <td><?php echo date("d/m/Y H:i", strtotime($retirada->data_inclusao)); ?></td>
                                       <td>
-                                          <?php $status = $this->get_requisicao_status($status_lista, $retirada->status)?>
+                                          <?php $status = $this->status($retirada->status); ?>
                                           <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                       </td>
                                       <td>
@@ -82,7 +82,7 @@
                                             <td><?php echo isset($item->data_retirada) ? date("d/m/Y H:i", strtotime($item->data_retirada)) : '-'; ?></td>
                                             <td><?php echo isset($item->data_devolucao) ? date("d/m/Y H:i", strtotime($item->data_devolucao)) : '-'; ?></td>
                                             <td>
-                                                <?php $status = $this->get_requisicao_status($status_lista, $item->status);?>
+                                                <?php $status = $this->status($item->status); ?>
                                                 <span class="badge badge-sm badge-<?php echo $status['class']; ?>">
                                                     <?php echo  $status['texto']; ?>
                                                 </span>

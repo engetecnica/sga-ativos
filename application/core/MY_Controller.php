@@ -157,13 +157,13 @@ class MY_Controller extends MX_Controller {
         return $mpdf->Output($filename, $mode);
     }
 
-    public function dd($data, $exit = false){
-        echo "<pre>";
-        echo print_r($data);
-        echo "</pre>";
-        if ($exit) {
-            exit;
+    public function dd(...$data){
+        foreach($data as $dt) {
+            echo "<pre>";
+            echo print_r($dt);
+            echo "</pre>";
         }
+        exit;
     }
 }
  

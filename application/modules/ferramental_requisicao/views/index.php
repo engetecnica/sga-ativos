@@ -6,12 +6,16 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <?php if ($user->nivel == 2) {?>
                         <a href="<?php echo base_url('ferramental_requisicao/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Nova Requisição</button></a>
-                        <?php } ?>
-                    </div>
+                        <i class="zmdi zmdi-plus"></i>&nbsp;
+                            <?php if ($user->nivel == 1) { ?>
+                                Nova Transferência
+                            <?php } if ($user->nivel == 2) { ?>
+                                Nova Requisição
+                            <?php }  ?>
+                        </button></a>
+                        </div>
                 </div>
             </div>
 
@@ -24,11 +28,14 @@
                                 <tr>
                                     <th>Requisão ID</th>
                                     <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Status</th>
                                     <th>Origem</th>
                                     <th>Destino</th>
+                                    <!--
                                     <th>Solicitante</th>
                                     <th>Despachante</th>
-                                    <th>Status</th>
+                                    -->
                                     <th>Opções</th>
                                 </tr>
                             </thead>
@@ -42,14 +49,19 @@
                                         </a>
                                     </td>
                                     <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
-                                    <td><?php echo $valor->origem; ?></td>
-                                    <td><?php echo $valor->destino; ?></td>
-                                    <td><?php echo $valor->solicitante; ?></td>
-                                    <td><?php echo $valor->despachante; ?></td>
                                     <td>
-                                        <?php $status = $this->get_requisicao_status($status_lista, $valor->status)?>
+                                        <span class="badge badge-<?php echo $valor->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $valor->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                    </td>
+                                    <td>
+                                        <?php $status = $this->status($valor->status); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
+                                    <td><?php echo $valor->origem; ?></td>
+                                    <td><?php echo $valor->destino; ?></td>
+                                    <!--
+                                    <td><?php echo $valor->solicitante; ?></td>
+                                    <td><?php echo $valor->despachante; ?></td>
+                                    -->
                                     <td>
                                         <a 
                                             class="btn btn-outline-secondary" 

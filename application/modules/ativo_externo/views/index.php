@@ -80,7 +80,7 @@
                                         <?php } ?>
                                     </td>
                                     <td>
-                                        <?php $status = $this->get_requisicao_status($status_lista, $valor->situacao)?>
+                                        <?php $status = $this->status($valor->situacao); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>

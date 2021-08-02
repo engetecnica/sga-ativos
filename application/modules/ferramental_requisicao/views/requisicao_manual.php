@@ -52,17 +52,17 @@
                                             <td><input type="" class="form-control" name="observacoes[]" id="observacoes[]" placeholder="<?php echo $manual->codigo; ?> - Observações" value="<?php if($manual->observacao) echo $manual->observacao; ?>" disabled="disabled"></td>
                                             
                                             <td>
-                                                <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $manual->id_ativo_externo; ?>">
+                                                <input type="hidden" name="id_requisicao_ativo[]" id="id_requisicao_ativo[]" value="<?php echo $manual->id_requisicao_ativo; ?>">
                                                 <select 
                                                     <?php echo (isset($no_aceite) && $no_aceite == true )? 'disabled' : ''; ?>
-                                                    class="form-control" name="status[]" id="status[]"
+                                                    class="form-control" name="status[]" id="status[]" required="required"
                                                 >
-                                                    <option readonly="readonly" value="2" <?php if($manual->situacao && $manual->situacao==2) echo "selected='selected'"; ?>>Liberado</option>
+                                                    <option readonly="readonly" value="" <?php if($manual->situacao && $manual->situacao==2) echo "selected='selected'"; ?>>Liberado</option>
                                                     <option value="4" <?php if($manual->situacao && $manual->situacao==4) echo "selected='selected'"; ?>>Recebido</option>
-                                                    <option value="5" <?php if($manual->situacao && $manual->situacao==5) echo "selected='selected'"; ?>>Em Operação</option>
+                                                     <!--<option value="5" <?php if($manual->situacao && $manual->situacao==5) echo "selected='selected'"; ?>>Em Operação</option>-->
                                                     <option value="8" <?php if($manual->situacao && $manual->situacao==8) echo "selected='selected'"; ?>>Com Defeito </option>
                                                     <option value="9" <?php if($manual->situacao && $manual->situacao==9) echo "selected='selected'"; ?>>Devolvido</option>
-                                                    <option value="10" <?php if($manual->situacao && $manual->situacao==10) echo "selected='selected'"; ?>>Fora de Operação</option>
+                                                    <!--<option value="10" <?php if($manual->situacao && $manual->situacao==10) echo "selected='selected'"; ?>>Fora de Operação</option>-->
                                                 </select>
                                             </td>
                                         </tr>
@@ -70,7 +70,7 @@
                                     </tbody>
                                 </table>
 
-                                <?php if(in_array($requisicao->status, [2,11]) && (!isset($no_aceite) || isset($no_aceite) && $no_aceite == false)){ ?>
+                                <?php if(  in_array($requisicao->status, [3, 13]) && (!isset($no_aceite) || isset($no_aceite) && $no_aceite == false)){ ?>
                                     <hr>
                                     <div class="text-center">
                                         <p class="text-center" style="padding: 25px;"><b>Atenção:</b> Todos os items acima descritos foram transferidos e estão sendo recebidos por você. <br>Ao atestar que os items estão todos funcionando, a responsabilidade é inteiramente sua, por isso,<br> <font color='red'>confira a situação de cada item antes de aceitá-los.</font> </p>

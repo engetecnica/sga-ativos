@@ -1,7 +1,3 @@
-<style type="text/css">
-    .texto-historico { font-size: 12px; font-family: Tahoma; padding: 5px !important; }
-</style>
-
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
@@ -32,8 +28,7 @@
                                         <tr class="active">
                                             <th scope="col" width="20%">Requisão ID</th>
                                             <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col" width="20%">Solicitante</th>
-                                            <th scope="col" width="20%">Destino</th>
+                                            <th scope="col">Tipo da Requisição</th>
                                             <th scope="col">Status da Requisição</th>
                                         </tr>
                                     </thead>
@@ -41,16 +36,54 @@
                                         <tr>
                                             <td><?php echo $requisicao->id_requisicao; ?></td>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td><?php echo $requisicao->solicitante; ?></td>
-                                            <td><?php echo $requisicao->destino; ?></td>
+                                            <td>
+                                                <span class="badge badge-<?php echo $requisicao->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $requisicao->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                            </td>
                                             <td width="10%">
-                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $requisicao->status)?>
+                                                <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Despachante</th>
+                                            <th scope="col" width="20%">Origem</th>
+                                            <th scope="col" width="20%">Solicitante</th>
+                                            <th scope="col" width="20%">Destino</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $requisicao->despachante ; ?></td>
+                                            <td><?php echo $requisicao->origem ; ?></td>
+                                            <td><?php echo $requisicao->solicitante ; ?></td>
+                                            <td><?php echo $requisicao->destino ; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Solicitado</th>
+                                            <th scope="col" width="20%">Liberado</th>
+                                            <th scope="col" width="20%">Transferido</th>
+                                            <th scope="col" width="20%">Recebido</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
+                                            <td><?php echo $requisicao->data_liberado ? date("d/m/Y H:i", strtotime($requisicao->data_liberado)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_transferido ? date("d/m/Y H:i", strtotime($requisicao->data_transferido)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_recebido ? date("d/m/Y H:i", strtotime($requisicao->data_recebido)) : '-'; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
                                 <hr>
 
                                 <?php if(!empty($requisicao->items)){ ?>
@@ -98,7 +131,7 @@
                                                 <?php } ?>
                                             </td>
                                             <td>
-                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $item->status);?>
+                                                <?php $status = $this->status($item->status);?>
                                                 <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
                                                     <?php echo  $status['texto']; ?>
                                                 </button>
@@ -117,7 +150,7 @@
                                             <i class="fa fa-checked"></i>&nbsp;
                                             Liberar Requisição
                                         </button>
-                                    <?php } if($requisicao->status == 2){ ?>
+                                    <?php } if(($requisicao->status == 2) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
                                       <a
                                         class="confirmar_registro text-center"
                                         href="javascript:void(0)"
@@ -133,9 +166,15 @@
                                         </button>
                                       </a>
                                     </div>
-                                <?php } } ?>
-                               
+                                    <?php  } ?>
 
+
+                                    <?php if ($requisicao->tipo == 2 && $requisicao->status == 3) {?>
+                                        <a class="btn-primary" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
+                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Devoluções Manualmente
+                                        </a>
+                                    <?php  } ?>
+                                <?php  } ?>
                             </div>
                         </div>
                     </form>
@@ -154,29 +193,3 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
-<style>
-/* This code is generated by: https://webdesign-assistant.com */
-/* #liberar_requisicao_btn {
-    text-decoration: none;
-    font-size: 16px;
-    color: #FFFFFF;
-    font-family: arial;
-    background: linear-gradient(to bottom, #FF480E, #D02718);
-    border: solid #FF4B18 1px;
-    border-radius: 5px;
-    padding:10px;
-    text-shadow: 0px 1px 2px #000000;
-    *box-shadow: 0px 1px 5px #0D2444;
-    -webkit-transition: all 0.15s ease;
-    -moz-transition: all 0.15s ease;
-    -o-transition: all 0.15s ease;
-    transition: all 0.15s ease;
-    width: 240px;
-}
-#liberar_requisicao_btn:hover{
-    opacity: 0.9;
-    background: linear-gradient(to bottom, #C02028, #D02718);
-    border: 1px solid #c02028;
-    *box-shadow: 0px 1px 2px #000000;
-} */
-</style>

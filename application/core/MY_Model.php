@@ -50,4 +50,13 @@ class MY_model extends CI_Model {
             ->get()
             ->row();
     }
+
+    public function dd(...$data){
+        foreach($data as $dt) {
+            echo "<pre>";
+            echo print_r($dt);
+            echo "</pre>";
+        }
+        exit;
+    }
 }

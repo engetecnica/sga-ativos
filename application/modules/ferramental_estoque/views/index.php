@@ -51,7 +51,7 @@
                                     <td><?php echo $valor->funcionario; ?></td>
                                     <td><?php echo date("d/m/Y H:i", strtotime($valor->data_inclusao)); ?></td>
                                     <td>
-                                        <?php $status = $this->get_requisicao_status($status_lista, $valor->status)?>
+                                        <?php $status = $this->status($valor->status); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>
@@ -95,6 +95,7 @@
                                     <th>Código</th>
                                     <th>Item</th>
                                     <th>Tipo</th>
+                                    <th>Situação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,6 +114,10 @@
                                           <?php } else { ?>
                                             <button class="badge badge-secondary">Unidade</button>
                                         <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php $status = $this->status($valor->situacao); ?>
+                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                 </tr>
                                <?php } ?>

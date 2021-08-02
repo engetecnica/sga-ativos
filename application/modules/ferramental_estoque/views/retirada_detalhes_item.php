@@ -44,7 +44,7 @@
                                         <td><?php echo $item->nome; ?></td>
                                         <td><?php echo $item->quantidade; ?></td>
                                         <td>
-                                            <?php $status = $this->get_requisicao_status($status_lista, $item->status)?>
+                                            <?php $status = $this->status($item->status); ?>
                                             <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                         </td>
                                         <?php if ($retirada->status == 1) { ?>
@@ -89,7 +89,7 @@
                                             <td><?php echo isset($ativo->data_retirada) ? date("d/m/Y H:i", strtotime($ativo->data_retirada)) : '-'; ?></td>
                                             <td><?php echo isset($ativo->data_devolucao) ? date("d/m/Y H:i", strtotime($ativo->data_devolucao)) : '-'; ?></td>
                                             <td>
-                                                <?php $status = $this->get_requisicao_status($status_lista, $ativo->status)?>
+                                                <?php $status = $this->status($ativo->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             
                                                 <?php if($retirada->status == 1) {?>

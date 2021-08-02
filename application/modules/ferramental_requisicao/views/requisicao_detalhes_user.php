@@ -30,15 +30,14 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col">Requisão ID</th>
-                                            <th scope="col">Solicitação</th>
-                                            <th scope="col">Solicitante</th>
-                                            <th scope="col">Destino</th>
+                                            <th scope="col" width="20%">Requisão ID</th>
+                                            <th scope="col" width="20%">Solicitação</th>
+                                            <th scope="col">Tipo da Requisição</th>
                                             <th scope="col">Status da Requisição</th>
-                                            <?php if (in_array($requisicao->status, [1, 2, 11]) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                                 <th scope="col">Opções</th>
                                             <?php }?>
                                         </tr>
@@ -47,14 +46,15 @@
                                         <tr>
                                             <td><?php echo $requisicao->id_requisicao; ?></td>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td><?php echo $requisicao->solicitante; ?></td>
-                                            <td><?php echo $requisicao->destino; ?></td>
                                             <td>
-                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $requisicao->status)?>
+                                                <span class="badge badge-<?php echo $requisicao->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $requisicao->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                            </td>
+                                            <td width="10%">
+                                                <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
-                                            <td> 
                                             <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                            <td> 
                                                 <a 
                                                     class="btn btn-sm btn-danger confirmar_registro" href="javascript:void(0);"
                                                     data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
@@ -63,30 +63,71 @@
                                                 >
                                                     <i class="fa fa-trash item-menu-interno"></i>
                                                 </a>
-                                            <?php  } ?>
                                             </td>
+                                            <?php  } ?>
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Despachante</th>
+                                            <th scope="col" width="20%">Origem</th>
+                                            <th scope="col" width="20%">Solicitante</th>
+                                            <th scope="col" width="20%">Destino</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $requisicao->despachante ; ?></td>
+                                            <td><?php echo $requisicao->origem ; ?></td>
+                                            <td><?php echo $requisicao->solicitante ; ?></td>
+                                            <td><?php echo $requisicao->destino ; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+
+                                
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Solicitado</th>
+                                            <th scope="col" width="20%">Liberado</th>
+                                            <th scope="col" width="20%">Transferido</th>
+                                            <th scope="col" width="20%">Recebido</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
+                                            <td><?php echo $requisicao->data_liberado ? date("d/m/Y H:i", strtotime($requisicao->data_liberado)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_transferido ? date("d/m/Y H:i", strtotime($requisicao->data_transferido)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_recebido ? date("d/m/Y H:i", strtotime($requisicao->data_recebido)) : '-'; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
 
                                 <hr>
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2" style="min-height: 500px;">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col">Id</th>
                                             <th scope="col">Item</th>
                                             <th scope="col">Qtde. Solcitada</th>
                                             <th scope="col">Qtde. Liberada</th>
-                                            <th scope="col">Data</th>
+                                            <th scope="col">Atualizado</th>
                                             <th scope="col">Situação</th>
                                             <th scope="col">Opções</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($requisicao->items as $item){ ?>
+                                        <?php foreach($requisicao->items as $item){ 
+                                            $status = $this->status($item->status);
+                                        ?>
                                         <tr>
                                             <td><?php echo $item->id_requisicao_item; ?></td>
                                             <td>
@@ -101,20 +142,20 @@
                                             <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
-                                                <?php echo isset($item->data_liberado) ? date("d/m/Y H:i", strtotime($item->data_liberado)) : '-'; ?>
+                                                <?php $data = "data_{$status['slug']}"?>
+                                                <?php echo isset($item->$data) ? date("d/m/Y H:i", strtotime($item->$data)) : '-'; ?>
                                             </td>
                                             <td>
-                                                <?php $status = $this->get_requisicao_status($requisicao->status_lista, $item->status);?>
                                                 <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
-                                                    <?php echo  $status['texto']; ?>
+                                                    <?php echo $status['texto']; ?>
                                                 </button>
                                             </td>
                                             <td>
-                                            <?php if ($item->status == 2) {?>
+                                            <?php if (in_array($item->status, [3, 13])) {?>
                                                 <div class="btn-group">
                                                     <button 
                                                         class="btn btn-secondary btn-sm dropdown-toggle" 
-                                                        type="button" 
+                                                        type="button"
                                                         data-toggle="dropdown" 
                                                         aria-haspopup="true" 
                                                         aria-expanded="false"
@@ -123,9 +164,9 @@
                                                     </button>
 
                                                     <div class="dropdown-menu">
-                                                        <?php if ($item->status == 2) {?>
+                                                        <?php if ($item->status == 3) {?>
                                                         <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
-                                                        <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
+                                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                         </a>
                                                         <div class="dropdown-divider"></div>
                                                         <a 

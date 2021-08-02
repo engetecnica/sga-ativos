@@ -27,11 +27,11 @@
         $(document).ready(function() {
             $config_lista = {
                 "aLengthMenu": [
-                    [20, 30, 50, -1],
-                    [20, 30, 50, "Todos"]
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, "Todos"]
                 ],
                 "order": false,
-                "iDisplayLength": 20,
+                "iDisplayLength": 10,
                 "language" : {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -496,7 +496,7 @@
             let redirect = $(this).attr('data-redirect') ? true : false;
             let icon = $(this).attr('data-icon') || 'warning';
             let msg = $(this).attr('data-message') == 'false' ? false : true;
-            console.log(typeof url_post)
+
             Swal.fire({
                 title: title,
                 text: text,
@@ -508,8 +508,7 @@
             }).then((result) => {
                 if (result.value) {
                     if(url_post && tabela) {
-                       if (typeof url_post == 'string') { 
-                            $.ajax({
+                        $.ajax({
                                 url: url_post,
                                 type: "post",
                                 data: id_registro,
@@ -538,13 +537,7 @@
                                         'success'
                                     )
                                 }
-                            });
-                       }
-
-                       if (typeof url_post == 'function') {
-                            url_post(event)
-                       }
-
+                        });
                     } else { 
                         window.location = url_post;
                     }

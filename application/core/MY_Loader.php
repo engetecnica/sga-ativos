@@ -6,6 +6,11 @@
 require APPPATH . "third_party/MX/Loader.php";
 
 class MY_Loader extends MX_Loader {
+
+    public function __construct(){
+      parent::__construct();
+    }
+    
     public function get_situacao($status=null, $case2 = 'DESCARTADO', $case2_class = 'info'){
       $texto = "ATIVO";
       $class = "success";
@@ -105,18 +110,29 @@ class MY_Loader extends MX_Loader {
         ];
     }
 
-    public function get_requisicao_status($lista, $status=null){
-      $texto = $class = "";
-      foreach ($lista as $item){
-        if ($item->id_requisicao_status == $status) {
-          $texto = $item->texto;
-          $class = $item->classe;
+    public function status($status=null) {
+      $lista = $this->session->status_lista;
+      if (!$lista) {
+        $lista = $this->ferramental_requisicao_model->get_requisicao_status();
+        $this->session->status_lista = json_encode($lista);
+      }
+
+      $texto = "Desconhecido"; $class = "muted"; $slug = "desconhecido";
+      if ($lista) {
+        $lista_array = is_string($lista) ? json_decode($lista) : $lista;
+        foreach ($lista_array as $k => $item){
+          if ($item->id_requisicao_status == $status) {
+            $texto = $item->texto;
+            $class = $item->classe;
+            $slug = $item->slug;
+          }
         }
       }
 
       return [
           'texto' => $texto,
-          'class' => $class
+          'class' => $class,
+          'slug' => $slug
       ];
     }
 

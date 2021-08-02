@@ -90,7 +90,7 @@
                                                  foreach($requisicoes_pendentes as $requisicao) {   
                                                      $usuario = ucwords($requisicao->solicitante); 
                                                      $date = date('d/m/Y', strtotime($requisicao->data_inclusao));
-                                                     $status = $this->get_requisicao_status($status_lista, $requisicao->status);
+                                                     $status = $this->status($requisicao->status);
                                                 ?>
                                                 <tr>
                                                     <td>
