@@ -30,7 +30,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo $valor->id_funcionario; ?>">
                                     <td><?php echo $valor->id_funcionario; ?></td>
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->email; ?></td>

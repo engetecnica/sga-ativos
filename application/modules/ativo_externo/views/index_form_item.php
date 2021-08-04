@@ -6,7 +6,8 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ativo_externo'); ?>">
+                        <?php $id = isset ($item->id_ativo_externo) ? "ativo-". $item->id_ativo_externo : "grupo-".$item->id_ativo_externo_grupo; ?>
+                        <a href="<?php echo base_url("ativo_externo#{$id}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>

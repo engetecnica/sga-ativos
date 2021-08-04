@@ -6,7 +6,8 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ativo_interno'); ?>">
+                        <?php $id = isset($ativo) ? "#".$ativo->id_ativo_interno : ''; ?>
+                        <a href="<?php echo base_url("ativo_interno$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -116,7 +117,7 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <?php } ?>
-                                    <a href="<?php echo base_url('ativo_interno');?>">
+                                    <a href="<?php echo base_url("ativo_interno$id");?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
@@ -129,19 +130,27 @@
                                         <a href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}");?>">
                                             <button class="btn btn-outline-info" type="button">                                                    
                                             <i class="fa fa-wrench"></i>&nbsp;
-                                                Histórico de Manutenção
+                                                Histórico de Manutenções
                                             </button>                                                
                                         </a>
                                         <?php if((int) $ativo->situacao < 2){?>
                                         <a 
-                                            class="confirmar_registro"  data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>" href="javascript:void(0)"
+                                        
+                                            class="confirmar_registro text-center m-b-10"
+                                            href="javascript:void(0)"
+                                            class="confirmar_registro"
                                             data-registro="<?php echo $ativo->id_ativo_interno;?>"
                                             data-acao="Descartar"
                                             data-href="<?php echo base_url("ativo_interno/descartar/{$ativo->id_ativo_interno}");?>"
+                                            data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>"
+                                            data-redirect="true"
+                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-title="Enviar para Transferencia" data-redirect="true"
+                                            data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
                                         >
                                             <button class="btn btn-outline-secondary" type="button">                                                    
                                             <i class="fa fa-ban"></i>&nbsp;
-                                                Descartar
+                                                Descartar Ativo
                                             </button>                                                
                                         </a>
                                         <?php } ?>

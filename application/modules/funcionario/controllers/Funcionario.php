@@ -17,7 +17,8 @@ class funcionario  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login
+        $this->load->model('obra/obra_model');         
     }
 
     function index($subitem=null) {
@@ -28,7 +29,7 @@ class funcionario  extends MY_Controller {
 
     function adicionar($data = null){
         $data['empresas'] = $this->get_empresas();
-        $data['obras'] = $this->get_obras();
+        $data['obras'] = $this->obra_model->get_obras();
         $data['estados'] = $this->get_estados(); 
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
@@ -37,7 +38,7 @@ class funcionario  extends MY_Controller {
     function editar($id_funcionario=null){
         $data['detalhes'] = $this->funcionario_model->get_funcionario($id_funcionario);
         $data['empresas'] = $this->get_empresas();
-        $data['obras'] = $this->get_obras();
+        $data['obras'] = $this->obra_model->get_obras();
         $data['estados'] = $this->get_estados(); 
         $this->get_template('index_form', $data);
     }

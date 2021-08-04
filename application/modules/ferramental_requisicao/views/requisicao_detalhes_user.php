@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ferramental_requisicao'); ?>">
+                        <a href="<?php echo base_url("ferramental_requisicao#{$requisicao->id_requisicao}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -40,6 +40,9 @@
                                             <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                                 <th scope="col">Opções</th>
                                             <?php }?>
+                                            <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
+                                                <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
+                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,7 +67,15 @@
                                                     <i class="fa fa-trash item-menu-interno"></i>
                                                 </a>
                                             </td>
-                                            <?php  } ?>
+                                            <?php } ?>
+                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
+                                            <td> 
+                                                <?php $relativa = $requisicao->tipo == 1 ? $requisicao->devolucao : $requisicao->requisicao; ?>
+                                                <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
+                                                    <?php echo $relativa->id_requisicao; ?>
+                                                </a>
+                                            </td>
+                                            <?php } ?>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -93,7 +104,7 @@
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Solicitado</th>
-                                            <th scope="col" width="20%">Liberado</th>
+                                            <th scope="col" width="20%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
                                             <th scope="col" width="20%">Transferido</th>
                                             <th scope="col" width="20%">Recebido</th>
                                         </tr>
@@ -131,7 +142,7 @@
                                         <tr>
                                             <td><?php echo $item->id_requisicao_item; ?></td>
                                             <td>
-                                                <?php if (in_array($requisicao->status, [2,4,9,11])) {?>
+                                                <?php if (in_array($requisicao->status, [2,3,4,9,11,14])) {?>
                                                 <a 
                                                     href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                 >
@@ -151,7 +162,7 @@
                                                 </button>
                                             </td>
                                             <td>
-                                            <?php if (in_array($item->status, [3, 13])) {?>
+                                            <?php if ($requisicao->tipo == 1 &&  in_array($item->status, [3, 13])) {?>
                                                 <div class="btn-group">
                                                     <button 
                                                         class="btn btn-secondary btn-sm dropdown-toggle" 
@@ -173,7 +184,7 @@
                                                             class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
-                                                            data-href="<?php echo base_url("ferramental_requisicao/aceitar_tudo/{$requisicao->id_requisicao}/{$item->id_requisicao_item}");?>"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
                                                         >
                                                             <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
                                                         </a>
@@ -183,7 +194,7 @@
                                                         class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
-                                                            data-href="<?php echo base_url("ferramental_requisicao/devolver_tudo/{$requisicao->id_requisicao}/{$item->id_requisicao_item}");?>"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
                                                         >
                                                             <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
                                                         </a>
@@ -207,12 +218,59 @@
                                 </table>
                                 <?php } ?>
 
+                                <hr>
+                                <div class="row">
+                                    <hr>
+                                    <div class="col offset-md-3 col-md-6 text-center d-flex flex-column">
+                                    <?php if(($requisicao->status == 2) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
+                                        <?php if($requisicao->tipo == 1){ ?>
+                                            <a
+                                            class="confirmar_registro text-center m-b-10"
+                                            href="javascript:void(0)"
+                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-title="Enviar para Transferencia" data-redirect="true"
+                                            data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                            data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
+                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                            >
+                                            <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
+                                                <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
+                                                Enviar para Transferência
+                                            </button>
+                                            </a>
+                                            <small>Clique 'Enviar para Transferência' para confirmar a transferência dos itens solicitados. 
+                                            Somente após o a saída para transporte.</small>
+                                        <?php  } ?>
+
+                                        <?php if($requisicao->tipo == 2){ ?>
+                                            <a
+                                            class="confirmar_registro text-center m-b-10"
+                                            href="javascript:void(0)"
+                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-title="Enviar para Transferencia" data-redirect="true"
+                                            data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens dos itens marcados como devolvidos ou com defeito."
+                                            data-href="<?php echo base_url("ferramental_requisicao/transferir_devolucao/{$requisicao->id_requisicao}");?>"
+                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                            >
+                                            <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
+                                                <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
+                                                Enviar para Transferência
+                                            </button>
+                                            </a>
+                                            <small>Clique 'Enviar para Transferência' para confirmar a devolução dos itens marcados como devolvidos ou com defeito. 
+                                            Somente após o a saída para transporte.</small>
+                                        <?php  } } ?>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">

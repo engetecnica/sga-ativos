@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo $valor->id_fornecedor; ?>">
                                     <td><?php echo $valor->id_fornecedor; ?></td>
                                     <td><?php echo $valor->razao_social; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>

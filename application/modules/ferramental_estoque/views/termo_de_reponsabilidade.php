@@ -3,9 +3,6 @@
 <header>
     <img src="<?php echo $header;  ?>">
 </header>
-<pre>
-<?php //print_r($retirada);  ?>
-</pre>
 <section class="termo" id="content">
   <div class="contrato">
     <h1>Retirada <b><?php echo "#{$retirada->id_retirada}";?></b></h1>

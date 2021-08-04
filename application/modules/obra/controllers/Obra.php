@@ -20,10 +20,9 @@ class Obra  extends MY_Controller {
         # Fecha Login        
     }
 
-    function index($subitem=null) {
-        $data['lista'] = $this->obra_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+    function index() {
+        $data['lista'] = $this->obra_model->get_obras();
+        $this->get_template('index', $data);
     }
 
     function adicionar(){

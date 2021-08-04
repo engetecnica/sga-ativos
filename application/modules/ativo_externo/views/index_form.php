@@ -6,7 +6,8 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ativo_externo'); ?>">
+                        <?php $id = isset($detalhes) ? (isset($detalhes->id_ativo_externo) ? "#ativo-". $detalhes->id_ativo_externo : "#grupo-".$detalhes->id_ativo_externo_grupo) : ''; ?>
+                        <a href="<?php echo base_url("ativo_externo$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -191,7 +192,7 @@
                                         <?php } ?>
                                     </button>
 
-                                    <a href="<?php echo base_url('ativo_externo');?>">
+                                    <a href="<?php echo base_url("ativo_externo$id");?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
@@ -201,7 +202,7 @@
 
                                 <div class="pull-right">
                                     <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
-                                        <a href="<?php echo base_url('ativo_externo'); ?>/editar_items/<?php echo $detalhes->id_ativo_externo; ?>">
+                                        <a href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
                                             <button type="button" class="btn btn-outline-primary">Editar Itens</button>
                                         </a>
                                     <?php } ?>

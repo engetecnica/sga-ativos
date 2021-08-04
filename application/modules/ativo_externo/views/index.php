@@ -51,7 +51,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo "ativo-".$valor->id_ativo_externo; ?>">
                                     <td>
                                         <a class="btn btn-sm btn-outline-success btn-codigo" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
                                             <?php echo $valor->codigo; ?>
@@ -128,7 +128,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($grupos as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo "grupo-".$valor->id_ativo_externo; ?>">
                                     <td><?php echo $valor->id_ativo_externo_grupo; ?></td>
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->total; ?></td>

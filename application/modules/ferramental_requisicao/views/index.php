@@ -43,7 +43,7 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
-                                    <td>
+                                    <td id="<?php echo $valor->id_requisicao; ?>">
                                         <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>">
                                             <?php echo $valor->id_requisicao; ?>
                                         </a>

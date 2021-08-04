@@ -42,7 +42,7 @@
                             <tbody>
                                 <?php foreach($retiradas as $valor){ ?>
                                 <tr>
-                                    <td>
+                                    <td id="<?php echo $valor->id_retirada; ?>">
                                         <a class="" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">    
                                             <?php echo $valor->id_retirada; ?>
                                         </a>
@@ -101,7 +101,7 @@
                             <tbody>
                                 <?php foreach($estoque as $valor){ ?>
                                 <tr>
-                                  <td><?php echo $valor->id_ativo_externo; ?></td>
+                                  <td id="<?php echo $valor->id_ativo_externo; ?>"><?php echo $valor->id_ativo_externo; ?></td>
                                     <td>
                                         <button class="badge badge-success">    
                                             <?php echo $valor->codigo; ?>

@@ -33,7 +33,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo $valor->id_obra; ?>">
                                     <td><?php echo $valor->id_obra; ?></td>
                                     <td><?php echo $valor->codigo_obra; ?></td>
                                     <td><?php echo $valor->empresa; ?></td>

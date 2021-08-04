@@ -33,7 +33,7 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <?php if($this->session->userdata('logado')->id_usuario != $valor->id_usuario){ ?>
-                                    <tr>
+                                    <tr id="<?php echo $valor->id_usuario; ?>">
                                         <td><?php echo $valor->id_usuario; ?></td>
                                         <td>
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">

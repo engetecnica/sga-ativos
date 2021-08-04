@@ -98,6 +98,24 @@ class ferramental_requisicao_model extends MY_Model {
 		$requisicao = $this->get_requisicao($id_requisicao);
 		if($requisicao) {
 			$requisicao->items = $this->get_requisicao_items($id_requisicao);
+			$requisicao->devolucao = $requisicao->requisicao = null;
+
+			$relativo = $this->db->from('ativo_externo_requisicao_devolucao dev')->select('dev.*, req.*');
+			if ($requisicao->tipo == 1) {
+				$requisicao->devolucao = $relativo
+																->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_devolucao")
+																->where("dev.id_requisicao = {$id_requisicao}")
+																->get('ativo_externo_requisicao_devolucao')
+																->row();
+			}
+
+			if ($requisicao->tipo == 2) {
+				$requisicao->requisicao =  $relativo
+																->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_requisicao")
+																->where("dev.id_devolucao = {$id_requisicao}")
+																->get('ativo_externo_requisicao_devolucao')
+																->row();
+			}
 			return $requisicao;
 		}
 		return null;
@@ -150,8 +168,7 @@ class ferramental_requisicao_model extends MY_Model {
 			return $requisicao_item;
 	}
 
-	public function get_lista_status()
-	{
+	public function get_lista_status(){
 		$this->db->order_by("id_requisicao_status", "ASC");
 		return $this->db->get('ativo_externo_requisicao_status')->result();
 	}
@@ -181,11 +198,12 @@ class ferramental_requisicao_model extends MY_Model {
 							$ativos_in_array = ((count($ativos) > 0) && in_array($ativo->id_requisicao_ativo, $ativos));
 
 							if ($ativos_vazio | $ativos_in_array) {
+								  $situacao = 12;
 									$st = is_array($status[1]) ? $status[1][$k] : $status[1];
+
 									if ($requisicao->tipo == 1) {
 										switch($st){
 											case 4:
-												$situacao = 12;
 												$contador->ativos->recebido++;
 											break;
 											case 8:
@@ -197,8 +215,14 @@ class ferramental_requisicao_model extends MY_Model {
 												$contador->ativos->devolvido++;
 											break;
 										}
-									} else {
-										$situacao = $st;
+									}
+
+									if ($requisicao->tipo == 2) {
+										$situacao = 12;
+										$contador->ativos->recebido++;
+										if($ativo->status == 8){
+											$situacao = $ativo->status;
+										}
 									}
 
 									$requisicao_ativos[] = [
@@ -212,21 +236,28 @@ class ferramental_requisicao_model extends MY_Model {
 										'id_obra' => $requisicao->id_destino,
 										'situacao' => $situacao,
 									];
+
+									$ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
+                  if ($ativo_externo->tipo == 1) {
+                    $this->liberar_kit($ativo_externo, $ativos_externos, 12, $requisicao->id_destino);
+                  }
 									$k++;
 								}
 						}
 
 						$status_item = $status[0];
-						if($contador->ativos->recebido == count($item->ativos)) {
-							$status_item = 4;
-						}
+						if ($requisicao->tipo == 1) {
+							if($contador->ativos->recebido == count($item->ativos)) {
+								$status_item = 4;
+							}
 
-						if($contador->ativos->com_defeito == count($item->ativos)) {
-							$status_item = 8;
-						}
+							if($contador->ativos->com_defeito == count($item->ativos)) {
+								$status_item = 8;
+							}
 
-						if($contador->ativos->devolvido == count($item->ativos)) {
-							$status_item = 9;
+							if($contador->ativos->devolvido == count($item->ativos)) {
+								$status_item = 9;
+							}
 						}
 						
 						$requisicao_items[] = [
@@ -256,19 +287,21 @@ class ferramental_requisicao_model extends MY_Model {
 
 				//criar requisicao (tipo 2) de devolucao para items devolvidos ou com defeito se usuario é almoxarifado
 				if (($status_requisicao == 4 && $requisicao->tipo == 1) && $this->user->nivel == 2) {
-					return $this->devolver_items_requisicao($requisicao);
+					return $this->devolver_items_requisicao($requisicao->id_requisicao);
 				}
 				return true;
 			}
 			return false;
 	}
 
-	public function devolver_items_requisicao($requisicao) {
+	public function devolver_items_requisicao($id_requisicao) {
+			$requisicao = $this->get_requisicao_com_items($id_requisicao);
+
 			if($requisicao && ($this->user->id_obra == $requisicao->id_destino)) {
 				if ($this->user->nivel == 1 || $requisicao->tipo == 2) { 
 					return false;
 				}
-
+			
 				$contador = $this->get_contadores($requisicao);
 				if ($contador->ativos->devolvido > 0 || $contador->ativos->com_defeito > 0) {
 					$nova_requisicao = [
@@ -296,10 +329,18 @@ class ferramental_requisicao_model extends MY_Model {
 													'id_requisicao_item' => null, //$id_requisicao_item,
 													'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
 											];
+
+											$ativo_status = $ativo->status == 9 ? 12 : $ativo->status;
 											$ativos_externos[] = [
 													'id_ativo_externo' => $ativo->id_ativo_externo,
-													'situacao' => $ativo->status,
+													'situacao' => $ativo_status,
+													'id_obra' => $requisicao->id_origem,
 											];
+
+											$ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
+											if ($ativo_externo->tipo == 1) {
+												$this->liberar_kit($ativo_externo, $ativos_externos, $ativo_status, $requisicao->id_origem);
+											}
 											$quantidade++;
 									}
 							}
@@ -331,10 +372,12 @@ class ferramental_requisicao_model extends MY_Model {
 					}
 
 					$this->db->insert_batch("ativo_externo_requisicao_ativo", $requisicao_ativos);
+					$this->db->insert('ativo_externo_requisicao_devolucao', ['id_devolucao' => $id_nova_requisicao, 'id_requisicao' => $id_requisicao]);
 					return true;
 				}
+				return false;
 		}
-		return false;
+		return true;
 	}
 
 	public function get_requisicao_status($id = null){
@@ -392,5 +435,20 @@ class ferramental_requisicao_model extends MY_Model {
 				];
 			}
 			return null;
+	}
+
+	public function liberar_kit($ativo, array &$dados, $situacao = 2, $id_obra = null){
+		$items = $this->ativo_externo_model->get_kit_items($ativo->id_ativo_externo);
+		foreach($items as $item) {
+				$dados[] = [
+						'situacao' => $situacao,
+						'id_ativo_externo' => $item->id_ativo_externo,
+						'id_obra' => $id_obra ? $id_obra : $item->id_obra,
+				];
+
+				if ($item->tipo == 1) {
+						$this->liberar_kit($item, $dados, $situacao, $id_obra);
+				}
+		}
 	}
 }

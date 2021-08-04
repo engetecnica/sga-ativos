@@ -17,22 +17,22 @@ class Ativo_interno  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login    
+        $this->load->model('obra/obra_model');    
     }
 
-    function index($subitem=null) {
+    function index() {
         $data['lista'] = $this->ativo_interno_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        $this->get_template('index', $data);
     }
 
     function adicionar(){
-        $data['obras'] = $this->ativo_interno_model->get_obras();
-    	$this->get_template('index_form');
+        $data['obras'] = $this->obra_model->get_obras();
+    	$this->get_template('index_form', $data['obras']);
     }
 
     function editar($id_ativo_interno=null){
-        $data['obras'] = $this->ativo_interno_model->get_obras();
+        $data['obras'] = $this->obra_model->get_obras();
         $data['ativo'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
         $this->get_template('index_form', $data);
     }

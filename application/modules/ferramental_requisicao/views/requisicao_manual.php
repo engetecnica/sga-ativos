@@ -57,6 +57,7 @@
                                                     <?php echo (isset($no_aceite) && $no_aceite == true )? 'disabled' : ''; ?>
                                                     class="form-control" name="status[]" id="status[]" required="required"
                                                 >
+                                                    <option readonly="readonly" value="" <?php if($manual->situacao && $manual->situacao==12) echo "selected='selected'"; ?>>Em estoque</option>
                                                     <option readonly="readonly" value="" <?php if($manual->situacao && $manual->situacao==2) echo "selected='selected'"; ?>>Liberado</option>
                                                     <option value="4" <?php if($manual->situacao && $manual->situacao==4) echo "selected='selected'"; ?>>Recebido</option>
                                                      <!--<option value="5" <?php if($manual->situacao && $manual->situacao==5) echo "selected='selected'"; ?>>Em Operação</option>-->
