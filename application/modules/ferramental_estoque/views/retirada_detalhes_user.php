@@ -1,0 +1,217 @@
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1"></h2>
+                        <a href="<?php echo base_url("ferramental_estoque#{$retirada->id_retirada}"); ?>">
+                        <button class="au-btn au-btn-icon au-btn--blue">
+                        <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                        <h2 class="title-1 m-b-25">Detalhes da Retirada Almoxarifado</h2>
+                        <div class="card">
+                          
+                            <div class="card-body">
+                                <!-- Detalhes da Retirada -->
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                    <thead>
+                                        <tr class="active">
+                                          <th scope="col">Retirada ID</th>
+                                          <th scope="col">Funcionário</th>
+                                          <th scope="col">Obra</th>
+                                          <th scope="col">Data</th>
+                                          <th scope="col">Status</th>
+                                          <th width="50%">Detalhes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <td><?php echo $retirada->id_retirada; ?></td>
+                                      <td><?php echo $retirada->funcionario; ?></td>
+                                      <td><?php echo $retirada->obra; ?></td>
+                                      <td><?php echo date("d/m/Y H:i", strtotime($retirada->data_inclusao)); ?></td>
+                                      <td>
+                                          <?php $status = $this->status($retirada->status); ?>
+                                          <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                      </td>
+                                      <td>
+                                          <a href="<?php echo base_url("ferramental_estoque/detalhes_item/{$retirada->id_retirada}"); ?>" 
+                                            class="btn btn-sm btn-outline-<?php echo $status['class']; ?>"
+                                          >
+                                              Detalhes
+                                          </a>
+                                          <?php if($retirada->status == 1) {?>
+                                            <a href="<?php echo base_url("ferramental_estoque/editar/{$retirada->id_retirada}"); ?>">
+                                                <button class="btn btn-sm btn-primary" type="button">                                                    
+                                                    <i class="fas fa-edit"></i>
+                                                </button>   
+                                            </a>
+                                          <?php } ?>
+                                      </td>
+                                    </tbody>
+                                </table>
+
+                                <hr>
+
+                                <?php if(!empty($retirada->items)){ ?>
+                                <h3 class="title-1 m-b-25">Itens</h3>
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                                    <thead>
+                                        <tr class="active">
+                                            <th>Item Id</th>
+                                            <th>Item</th>
+                                            <th>Quantidade</th>
+                                            <th>Data da Entrega</th>
+                                            <th>Data da Devolucao</th>
+                                            <th>Situação</th>
+                                            <th>Detalhes</th>
+                                            <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
+                                                <th>Devolver</th>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($retirada->items as $item){ ?>
+                                        <tr  width="100%">
+                                            <td>
+                                                <a href="<?php echo base_url("ferramental_estoque/detalhes_item/{$item->id_retirada}/{$item->id_retirada_item}"); ?>">
+                                                    <?php echo $item->id_retirada_item; ?>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo base_url("ferramental_estoque/detalhes_item/{$item->id_retirada}/{$item->id_retirada_item}"); ?>">
+                                                    <?php echo $item->nome; ?>
+                                                </a>
+                                            </td>
+                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo isset($item->data_retirada) ? date("d/m/Y H:i", strtotime($item->data_retirada)) : '-'; ?></td>
+                                            <td><?php echo isset($item->data_devolucao) ? date("d/m/Y H:i", strtotime($item->data_devolucao)) : '-'; ?></td>
+                                            <td>
+                                                <?php $status = $this->status($item->status); ?>
+                                                <span class="badge badge-sm badge-<?php echo $status['class']; ?>">
+                                                    <?php echo  $status['texto']; ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo base_url("ferramental_estoque/detalhes_item/{$item->id_retirada}/{$item->id_retirada_item}"); ?>" class="btn btn-sm btn-outline-<?php echo $status['class']; ?>">
+                                                    Detalhes
+                                                </a>
+                                            </td>
+                                            <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
+                                            <td>
+                                                <a
+                                                    class="confirmar_registro pull-right"
+                                                    href="javascript:void(0)"
+                                                    data-acao="Devolver" data-icon="info" data-message="false"
+                                                    data-title="Devolver Retirada" data-redirect="true"
+                                                    data-text="Clique 'Sim, Devolver!' para confirmar a devolução dos itens por parte do funcionário, considerando que imprimiu e assinou o Termo de Responsabilidade corretamente como esperado."
+                                                    data-href="<?php echo base_url("ferramental_estoque/devolver_items_retirada/{$retirada->id_retirada}/{$item->id_retirada_item}");?>"
+                                                >
+                                                    <button class="btn btn-sm btn-secondary" type="button" id="Devolver_retirada_btn">
+                                                        <i class="fas fa-undo 4x"></i>&nbsp;
+                                                        Devolver
+                                                    </button>
+                                                </a>
+                                            </td>
+                                            <?php } ?>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                                <?php } ?>
+
+                                <?php if($user->nivel == 2 && $retirada->status == 1){  ?>
+                                    <hr>
+                                    <div class="text-center">
+                                      <a
+                                        class="confirmar_registro" data-tabela="<?php echo base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}");?>" 
+                                        href="javascript:void(0)" data-registro="<?php echo $retirada->id_retirada;?>"
+                                        data-acao="Liberar Retirada"  data-redirect="true"
+                                        data-href="<?php echo base_url("ferramental_estoque/liberar_retirada/{$retirada->id_retirada}");?>"
+                                      >
+                                        <button class="btn btn-md btn-primary" type="submit" id="liberar_retirada_btn">
+                                            <i class="fa fa-check 4x"></i>&nbsp;
+                                            Liberar Retirada
+                                        </button>
+                                      </a>
+                                    </div>
+                                <?php } ?>
+
+                                <hr>
+                                <div class="text-center">
+                                <?php if($user->nivel == 2 &&  in_array($retirada->status, [2, 4])){  ?>
+                                   
+                                    <div class="text-center m-b-40">
+                                      <a
+                                        class="pull-left"
+                                        target="_blank"
+                                        href="<?php echo base_url("ferramental_estoque/impimir_termo_resposabilidade/{$retirada->id_retirada}");?>"
+                                      >
+                                        <button class="btn btn-md btn-primary2" type="button" id="impimir_termo_btn">
+                                            <i class="fa fa-print 4x"></i>&nbsp;
+                                            Imprimir Termo de Reponsabilidade
+                                        </button>
+                                      </a>
+                                    </div>
+                                <?php } ?>
+
+
+                                <?php if($user->nivel == 2 && $retirada->status == 2){  ?>
+                                      <a
+                                        class="confirmar_registro pull-right"
+                                        href="javascript:void(0)"
+                                        data-acao="Marcar" data-icon="info" data-message="false"
+                                        data-title="Marcar como Entregues" data-redirect="true"
+                                        data-text="Clique 'Sim, Marcar!' para confirmar o a entrega de todos os itens para o funcionário, não esquecendo de imprimir o Termo de Responsabilidade."
+                                        data-href="<?php echo base_url("ferramental_estoque/entregar_items_retirada/{$retirada->id_retirada}");?>"
+                                        data-tabela="<?php echo base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}");?>"
+                                      >
+                                        <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
+                                            <i class="fas fa-clipboard-list 4x"></i>&nbsp;
+                                           Marcar como Entregues
+                                        </button>
+                                      </a>
+                                <?php } ?>
+
+
+                                <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
+                                      <a
+                                        class="confirmar_registro pull-right"
+                                        href="javascript:void(0)"
+                                        data-acao="Devolver" data-icon="info" data-message="false"
+                                        data-title="Devolver Retirada" data-redirect="true"
+                                        data-text="Clique 'Sim, Devolver!' para confirmar a devolução dos itens por parte do funcionário, considerando que imprimiu e assinou o Termo de Responsabilidade corretamente como esperado."
+                                        data-href="<?php echo base_url("ferramental_estoque/devolver_items_retirada/{$retirada->id_retirada}");?>"
+                                      >
+                                        <button class="btn btn-md btn-secondary" type="button" id="Devolver_retirada_btn">
+                                            <i class="fas fa-undo 4x"></i>&nbsp;
+                                            Marcar como Devolvidos
+                                        </button>
+                                      </a>
+                                <?php } ?>
+                                </div>
+
+
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright">
+                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->

@@ -6,7 +6,8 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('usuario'); ?>">
+                        <?php $id = isset($detalhes) ? "#".$detalhes->id_usuario : '';?>
+                        <a href="<?php echo base_url("usuario$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -42,8 +43,10 @@
                                             class="form-control" 
                                             name="nivel" 
                                             id="nivel"
+                                            required 
                                         >
-                                            <option>Nenhuma permissão selecionada</option>
+                                        
+                                            <option value="">Nenhuma permissão selecionada</option>
                                             <?php foreach ($detalhes->niveis as $value) { ?>
                                                 <option 
                                                     <?php echo isset($detalhes->nivel) && ($detalhes->nivel == $value->id_usuario_nivel) ? 'selected' : ''?>
@@ -65,8 +68,9 @@
                                             class="form-control" 
                                             name="id_empresa" 
                                             id="id_empresa"
+                                            required
                                         >
-                                            <option>Nenhuma empresa selecionada</option>
+                                            <option value="">Nenhuma empresa selecionada</option>
                                             <?php foreach ($detalhes->empresas as $value) { ?>
                                                 <option 
                                                    <?php echo isset($detalhes->id_empresa) && $value->id_empresa == $detalhes->id_empresa ? 'selected' : ''?> 
@@ -88,8 +92,9 @@
                                             class="form-control" 
                                             name="id_obra" 
                                             id="id_obra"
+                                            required
                                         >
-                                            <option value="0">Nenhuma obra selecionada</option>
+                                            <option value="" >Nenhuma obra selecionada</option>
                                             <?php foreach ($detalhes->obras as $value) { ?>
                                                 <option 
                                                     <?php echo isset($detalhes->id_obra) && $value->id_obra == $detalhes->id_obra ? 'selected' : ''?>

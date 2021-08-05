@@ -17,7 +17,8 @@ class usuario  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login 
+        $this->load->model('obra/obra_model');       
     }
 
     function index($subitem=null) {
@@ -30,7 +31,7 @@ class usuario  extends MY_Controller {
         $data['detalhes'] =  (object) [
             'nivel' => null,
             'empresas' => $this->get_empresas(),
-            'obras' => $this->get_obras(),
+            'obras' => $this->obra_model->get_obras(),
             'niveis' => $this->get_niveis()
         ];
     	$this->get_template('index_form', $data);
@@ -58,7 +59,7 @@ class usuario  extends MY_Controller {
         if ($usuario) {
             $data['detalhes'] = $usuario;
             $data['detalhes']->empresas = $this->get_empresas();
-            $data['detalhes']->obras = $this->get_obras();
+            $data['detalhes']->obras = $this->obra_model->get_obras();
             $data['detalhes']->niveis = $this->get_niveis();
         }
         $this->get_template('index_form', $data);
@@ -96,9 +97,9 @@ class usuario  extends MY_Controller {
         $status = $this->usuario_model->salvar_formulario($data);
         if ($status === 'salvar_ok') {
             if($data['id_usuario'] == null){
-                $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
-                $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
             }
             echo redirect(base_url("usuario"));
         }

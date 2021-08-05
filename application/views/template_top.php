@@ -42,14 +42,27 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/css/datatable.css" />
     <!--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />-->
+    
+    <!-- Jquery JS-->
+    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
 
+    <!-- Vue.js -->
+    <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
+
+    <!-- Sweet Alert 
+    <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body class="animsition-disabled">
     <div class="page-wrapper">
 
         <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
+        <aside class="menu-sidebar" id="menu-sidebar">
+            <button onClick="$('#menu-sidebar').hide('fast')" type="button" class="btn-close-mobile-menu">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+
             <div class="logo">
                 <a href="#">
                     <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png" alt="" />
@@ -107,9 +120,10 @@
                                             <img src="<?php echo base_url('assets'); ?>/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $this->session->userdata('logado')->usuario; ?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo $user->usuario; ?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
+                                            <?php if (isset($user->razao_social)) { ?>
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
@@ -118,10 +132,11 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?php echo $logado->razao_social; ?></a>
+                                                        <a href="#"><?php echo $user->razao_social; ?></a>
                                                     </h5>
                                                 </div>
                                             </div>
+                                            <?php } ?>
 
                                             <div class="account-dropdown__footer">
                                                 <a href="<?php echo base_url('logout'); ?>">
@@ -130,7 +145,13 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <button onClick="$('#menu-sidebar').show('fast')" type="button" class="btn-mobile-menu">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </button>
                             </div>
+
+                            
                         </div>
                     </div>
                 </div>

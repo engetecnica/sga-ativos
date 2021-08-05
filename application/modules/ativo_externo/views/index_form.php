@@ -6,7 +6,8 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ativo_externo'); ?>">
+                        <?php $id = isset($detalhes) ? (isset($detalhes->id_ativo_externo) ? "#ativo-". $detalhes->id_ativo_externo : "#grupo-".$detalhes->id_ativo_externo_grupo) : ''; ?>
+                        <a href="<?php echo base_url("ativo_externo$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -18,21 +19,43 @@
                     <h2 class="title-1 m-b-25">Ativo Externo</h2>
 
                     <div class="card">
-                        <div class="card-header">Novo Ativo</div>
-                        <div class="card-body">
+                        <?php if ($mode == 'insert'){ ?>
+                            <div class="card-header">Novo Ativo</div>     
+                        <?php } ?>
 
+                        <?php if ($mode == 'update'){ ?>
+                            <div class="card-header">Editar Ativo</div>
+                        <?php } ?> 
+                                        
+                        <?php if ($mode == 'insert_grupo'){ ?>
+                            <div class="card-header">Novo Ativo - Grupo</div>     
+                        <?php } ?>  
+
+                        <?php if ($mode == 'update_grupo'){ ?>
+                            <div class="card-header">Editar Ativo - Grupo</div>
+                        <?php } ?> 
+
+                        <div class="card-body">
                             <form 
-                                action="<?php echo base_url('ativo_externo/salvar'); ?>"
+                                action="<?php echo $url; ?>"
                                 method="post" 
                                 enctype="multipart/form-data"
                              >
-
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
-                                    <input type="hidden" name="id_ativo_externo" id="id_ativo_externo" value="<?php echo $detalhes->id_ativo_externo; ?>">
-                                    <input type="hidden" name="codigo" id="codigo" value="<?php echo $detalhes->codigo; ?>">
-                                <?php } ?>
+                                <input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>">
                                 
-                                <?php if(!isset($detalhes) && !isset($detalhes->id_ativo_externo)){?>
+                                <?php if (in_array($mode, ['update', 'update_grupo'])){ ?>
+                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
+                                    <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $detalhes->id_ativo_externo; ?>">
+                                    <input type="hidden" name="codigo" id="codigo" value="<?php echo $detalhes->codigo; ?>">
+                                <?php } }?>
+
+                                <?php if (in_array($mode, ['update', 'insert_grupo', 'update_grupo'])){ ?>
+                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo_grupo)){?>
+                                    <input type="hidden" name="id_ativo_externo_grupo" id="id_ativo_externo_grupo" value="<?php echo $detalhes->id_ativo_externo_grupo; ?>">
+                                <?php }} ?>
+                                
+                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
+                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="tipo" class=" form-control-label">Tipo</label>
@@ -44,8 +67,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <?php } ?>
+                                <?php }} ?>
 
+                                <?php if (in_array($mode, ['insert_grupo', 'update_grupo'])){ ?>
+                                <?php if((isset($detalhes) && !isset($detalhes->id_ativo_externo)) && isset($detalhes->tipo) ){?>
+                                    <input type="hidden" name="tipo" id="tipo" value="<?php echo $detalhes->tipo; ?>">
+                                <?php } } ?>
+                                
+                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="id_ativo_externo_categoria" class=" form-control-label">Categoria</label>
@@ -67,8 +96,10 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>                                
-
+                                </div>
+                                <?php } ?>
+                                
+                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
@@ -92,53 +123,62 @@
 
                                         </select>
                                     </div>
-                                </div>                                 
+                                </div>    
+                                <?php } ?>                             
 
+                                <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                        <input required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>                                    
                                 </div>
+                                <?php } ?>
 
+                                <?php if (in_array($mode, ['insert_grupo'])){ ?>
+                                    <input type="hidden" id="nome" name="nome" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                <?php } ?>
+
+                                <?php if (in_array($mode, ['insert', 'update' , 'insert_grupo', 'update_grupo'])){ ?>
                                 <div class="row form-group">
+                                    <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <div class="col col-md-2">
+                                        <label for="valor" class=" form-control-label">Valor Unitário</label>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input
+                                        required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
+                                        value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
+                                    </div>
+                                    <?php } ?>
+                                    <?php if (in_array($mode, ['insert', 'insert_grupo'])){ ?>
                                     <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-2">
                                         <input 
-                                            <?php echo (isset($detalhes) && isset($detalhes->id_ativo_externo)) ? 'readonly' : ''; ?>
-                                            type="number" id="quantidade" name="quantidade" class="form-control" 
+                                            <?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? 'readonly' : ''; ?>
+                                            type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" 
                                             value="<?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? $detalhes->quantidade : '1' ; ?>"
                                         >
-                                    </div>                               
+                                    </div> 
+                                    <?php } ?>                              
                                 </div>
+                                <?php } ?>
 
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="observacao" class=" form-control-label">Descrição</label>
+                                <?php if (in_array($mode, ['insert', 'update', 'ínsert_grupo'])){ ?>
+                                    <div class="row form-group">
+                                        <div class="col col-md-2">
+                                            <label for="observacao" class=" form-control-label">Descrição</label>
+                                        </div>
+                                        <div class="col-12 col-md-10">
+                                            <textarea name="observacao" id="observacao" rows="9" placeholder="Descrição..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-md-10">
-                                        <textarea name="observacao" id="observacao" rows="9" placeholder="Descrição..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
-                                    </div>
-                                </div>
+                                <?php } ?>
 
-
-                                <!--
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="situacao" class=" form-control-label">Situação</label>
-                                    </div>
-                                    <div class="col-12 col-md-10">
-                                        <select name="situacao" id="situacao" class="form-control">
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
-                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                -->
 
                                 <hr>
                                 <div class="pull-left">
@@ -152,7 +192,7 @@
                                         <?php } ?>
                                     </button>
 
-                                    <a href="<?php echo base_url('ativo_externo');?>">
+                                    <a href="<?php echo base_url("ativo_externo$id");?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
@@ -161,10 +201,10 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    <?php if(isset($detalhes) && $detalhes->tipo == 1) { ?>
-                                    <a href="<?php echo base_url('ativo_externo'); ?>/editar_itens/<?php echo $detalhes->id_ativo_externo; ?>">
-                                        <button type="button" class="btn btn-outline-primary">Editar Itens</button>
-                                    </a>
+                                    <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
+                                        <a href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
+                                            <button type="button" class="btn btn-outline-primary">Editar Itens</button>
+                                        </a>
                                     <?php } ?>
                                 </div>
                             </form>

@@ -63,13 +63,4 @@ class Ativo_interno_model extends MY_Model {
 			->group_by('obs.id_obs')
 			->get()->result();
 	}
-
-	public function get_obras(){
-		return $this->db->select('obra.*, ep.razao_social as empresa, ep.nome_fantasia')
-		->from('obra')
-		->order_by('id_obra', 'ASC')
-		->join("empresa ep", "ep.id_empresa=obra.id_empresa")
-		->group_by('obra.id_obra')
-		->get()->result();
-	}
 }

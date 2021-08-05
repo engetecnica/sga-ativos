@@ -17,22 +17,22 @@ class Ativo_interno  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login    
+        $this->load->model('obra/obra_model');    
     }
 
-    function index($subitem=null) {
+    function index() {
         $data['lista'] = $this->ativo_interno_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        $this->get_template('index', $data);
     }
 
     function adicionar(){
-        $data['obras'] = $this->ativo_interno_model->get_obras();
-    	$this->get_template('index_form');
+        $data['obras'] = $this->obra_model->get_obras();
+    	$this->get_template('index_form', $data['obras']);
     }
 
     function editar($id_ativo_interno=null){
-        $data['obras'] = $this->ativo_interno_model->get_obras();
+        $data['obras'] = $this->obra_model->get_obras();
         $data['ativo'] = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
         $this->get_template('index_form', $data);
     }
@@ -54,9 +54,9 @@ class Ativo_interno  extends MY_Controller {
         $tratamento = $this->ativo_interno_model->salvar_formulario($data);
 
         if($data['id_ativo_interno']==''){
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
-            $this->session->set_flashdata('msg_retorno', "Registro atualizado com sucesso!");            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
 
         echo redirect(base_url("ativo_interno"));
@@ -127,7 +127,7 @@ class Ativo_interno  extends MY_Controller {
             $data['situacao'] = 0;
             $data['data_saida'] = $this->input->post('data_saida');
             $this->db->insert('ativo_interno_manutencao', $data);
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_interno/manutencao/{$data['id_ativo_interno']}"));
             return;
         } else {
@@ -140,7 +140,7 @@ class Ativo_interno  extends MY_Controller {
             $this->db->where('id_manutencao', $data['id_manutencao'])
                 ->where('id_manutencao', $data['id_manutencao'])
                 ->update('ativo_interno_manutencao', $data);
-            $this->session->set_flashdata('msg_retorno', "Registro salvo com sucesso!");
+            $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_interno/manutencao/{$data['id_ativo_interno']}"));
     }
@@ -182,7 +182,7 @@ class Ativo_interno  extends MY_Controller {
         if (!$data['id_obs'] && $data['texto']) {
             $data['data_inclusao'] = date('Y-m-d H:i:s', strtotime('now'));
             $this->db->insert('ativo_interno_manutencao_obs', $data);
-            $this->session->set_flashdata('msg_retorno', "Novo registro inserido com sucesso!");
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } 
         
         if ($data['id_obs'] && $data['texto'] ) {
@@ -192,7 +192,7 @@ class Ativo_interno  extends MY_Controller {
                 ->where('id_obs', $data['id_obs'])
                 ->where('id_usuario', $data['id_usuario'])
                 ->update('ativo_interno_manutencao_obs', $data);
-            $this->session->set_flashdata('msg_retorno', "Registro salvo com sucesso!");
+            $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_interno/manutencao_editar/{$id_ativo_interno}/{$id_manutencao}#obs"));
     }

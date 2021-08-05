@@ -86,6 +86,11 @@ p {
     background-color: #FFFFFF;
 }
 
+.table-responsive > h3{
+    margin: 10px 20px;
+    font-size: 1.4rem;
+}
+
 .card {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -96,6 +101,11 @@ p {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+}
+
+.btn > i, .btn > svg{
+    margin: 5px;
+    font-size: .6rem;
 }
 
 /* ----- Typography ----- */
@@ -295,7 +305,6 @@ section {
 @media (max-width: 991px) {
     .page-container {
         position: relative;
-        top: 88px;
         padding-left: 0;
     }
 }
@@ -317,14 +326,16 @@ section {
 }
 
 .main-content {
-    padding-top: 116px;
+    padding-top: 60px;
     min-height: 100vh;
+    position: sticky;
 }
 
 @media (max-width: 991px) {
     .main-content {
+        margin-top: 0;
         padding-top: 50px;
-	padding-bottom: 100px;
+	    padding-bottom: 100px;
     }
 }
 
@@ -661,10 +672,13 @@ section {
     display: -moz-box;
     display: -ms-flexbox;
     display: flex;
+    position: relative;
+    align-self: left;
 }
 
 @media (max-width: 991px) {
     .form-header {
+        margin-top: 30px;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         -moz-box-pack: center;
@@ -1187,7 +1201,7 @@ section {
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    position: sticky;
     top: 0;
     right: 0;
     left: 300px;
@@ -1263,11 +1277,11 @@ section {
     .header-wrap {
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
+        -webkit-flex-direction: column-reverse;
         -moz-box-orient: vertical;
         -moz-box-direction: normal;
         -ms-flex-direction: column;
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .header-wrap .mess-dropdown {
@@ -1302,7 +1316,7 @@ section {
 
 @media (max-width: 991px) {
     .header-button {
-        margin-top: 30px;
+        margin-top: 0 !important;
         width: 100%;
         -webkit-box-pack: justify;
         -webkit-justify-content: space-between;
@@ -1585,6 +1599,44 @@ section {
     bottom: 0;
     background: #fff;
     overflow-y: auto;
+    transition: all ease-in-out .3s;
+}
+
+@media (min-width: 991px) {
+    .btn-mobile-menu, .btn-close-mobile-menu{
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .menu-sidebar {
+        display: none;
+        z-index: 10;
+        transition: all ease-in-out .3s;
+        min-height: 100vh;
+        width: 100vw;
+    }
+    .btn-mobile-menu, .btn-close-mobile-menu{
+        display: block;
+        cursor: pointer;
+    }
+    .btn-close-mobile-menu {
+        position: absolute;
+        background-color: var(--primary);
+        color: #FFF;
+        z-index: 11;
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .btn-mobile-menu {
+        color: var(--secondary);
+        font-size: 1.5rem;
+        width: 50px;
+        height: 50px;
+    }
 }
 
 .menu-sidebar .logo {
@@ -4739,21 +4791,23 @@ section {
     color: #fa4251;
 }
 
-#lista td {
+#lista td, #lista2 td {
     text-align: center;
 }
 
-#lista td > a  {
+#lista td > a, #lista2 td > a   {
     margin: 5px;
     padding: 5px;
     cursor: pointer;
 }
 
-#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove {
+#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove,
+#lista2 td > a > .fas.fa-edit, #lista2 td > a > .fas.fa-remove {
     font-size: 1rem;
 }
 
-#lista td > a > .fas.fa-remove {
+#lista td > a > .fas.fa-remove,
+#lista2 td > a > .fas.fa-remove  {
     color: #fa4251;
 }
 
@@ -14702,6 +14756,14 @@ label {
     margin-right: 10px;
 }
 
+.btn{
+    border-radius: 5px !important;
+    *box-shadow: 0px 1px 5px #0D2444 !important;
+}
+
+.btn:hover{
+    *box-shadow: 0px 1px 2px #000000 !important;
+}
 
 #liberar_requisicao_btn, .btn-custom {
     text-decoration: none;
@@ -14725,4 +14787,9 @@ label {
     background: linear-gradient(to bottom, #C02028, #D02718);
     border: 1px solid #c02028;
     *box-shadow: 0px 1px 2px #000000;
+}
+
+.badge-primary2, .btn-primary2 {
+    background-color: #00a2ff;
+    color: #FFFFFF;
 }

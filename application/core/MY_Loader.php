@@ -6,6 +6,11 @@
 require APPPATH . "third_party/MX/Loader.php";
 
 class MY_Loader extends MX_Loader {
+
+    public function __construct(){
+      parent::__construct();
+    }
+    
     public function get_situacao($status=null, $case2 = 'DESCARTADO', $case2_class = 'info'){
       $texto = "ATIVO";
       $class = "success";
@@ -29,9 +34,14 @@ class MY_Loader extends MX_Loader {
 
     public function get_usuario_nivel($nivel=null){
       $texto = $nivel;
-      $class = "info";
+      $class = "";
         
       switch ($nivel) {
+        default:
+        case 0:
+          $texto = $nivel;
+          $class = "info";
+        break;
         case "Administrador":
           $class = "info";
         break;
@@ -49,48 +59,41 @@ class MY_Loader extends MX_Loader {
     public function get_obra_base($status=null){
     	switch($status){
     		case 0:
-    		$status = "NÃO";
+    		  $status = "NÃO";
     		break;
-
     		case 1:
-    		$status = "SIM";
+    		  $status = "SIM";
     		break;
     	}
-
     	return $status;
     }
 
-
     public function get_situacao_transporte($status=null){
-
         switch($status){
-
             case 1:
-            $status = "Pendente";
+              $status = "Pendente";
             break;
-
             case 2:
-            $status = "Em Andamento";
+              $status = "Em Andamento";
             break;
-
             case 3:
-            $status = "Entregue";
+              $status = "Entregue";
             break;
-
             case 4:
-            $status = "Concluído";
+              $status = "Concluído";
             break;
-
         }
-
         return $status;
     } 
     
     public function get_situacao_manutencao($status=null){
-        $texto = "Em Manutenção";
-        $class = "warning";
-        
+        $texto = $class = "";
         switch ((int) $status) {
+          default:
+          case 0:
+            $texto = "Em Manutenção";
+            $class = "warning";
+          break;
           case 1:
             $texto = "Manutenção OK";
             $class = "success";
@@ -107,7 +110,42 @@ class MY_Loader extends MX_Loader {
         ];
     }
 
+    public function status($status=null) {
+      $lista = $this->session->status_lista;
+      if (!$lista) {
+        $lista = $this->ferramental_requisicao_model->get_requisicao_status();
+        $this->session->status_lista = json_encode($lista);
+      }
+
+      $texto = "Desconhecido"; $class = "muted"; $slug = "desconhecido";
+      if ($lista) {
+        $lista_array = is_string($lista) ? json_decode($lista) : $lista;
+        foreach ($lista_array as $k => $item){
+          if ($item->id_requisicao_status == $status) {
+            $texto = $item->texto;
+            $class = $item->classe;
+            $slug = $item->slug;
+          }
+        }
+      }
+
+      return [
+          'texto' => $texto,
+          'class' => $class,
+          'slug' => $slug
+      ];
+    }
+
     public function formata_moeda($valor = 0){
       return "R$ ". number_format($valor, 2, ',', '.');
+    }
+
+    public function get_ativo_externo_on_lista($lista, $id){
+      foreach($lista as $item) {
+        if ($item->id_ativo_externo == $id) {
+          return $item;
+        }
+      }
+      return null;
     }
 }

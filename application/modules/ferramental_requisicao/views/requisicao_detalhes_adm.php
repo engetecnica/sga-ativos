@@ -1,7 +1,3 @@
-<style type="text/css">
-    .texto-historico { font-size: 12px; font-family: Tahoma; padding: 5px !important; }
-</style>
-
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
@@ -10,7 +6,7 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <a href="<?php echo base_url('ferramental_requisicao'); ?>">
+                        <a href="<?php echo base_url("ferramental_requisicao#{$requisicao->id_requisicao}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -20,123 +16,207 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" method="post" enctype="multipart/form-data"> 
-
-                        <?php
-                        #echo "<pre>";
-                        #print_r($requisicao_liberada);
-                        #echo "</pre>";
-
-                        ?>
-
-
                         <h2 class="title-1 m-b-25">Detalhes da Requisição Administração</h2>
-
                         <div class="card">
-
                             <input type="hidden" name="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
-                            <input type="hidden" name="id_obra" value="<?php echo $requisicao->id_obra; ?>">
+                            <input type="hidden" name="id_origem" value="<?php echo $requisicao->id_origem; ?>">
+                            <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
                             <div class="card-body">
-
                                 <!-- Detalhes da Requisição -->
                                 <table class="table table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
+                                            <th scope="col" width="20%">Requisão ID</th>
                                             <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col" width="20%">Usuário</th>
-                                            <th scope="col" width="20%">Destino</th>
+                                            <th scope="col">Tipo da Requisição</th>
                                             <th scope="col">Status da Requisição</th>
+                                            <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
+                                                <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $requisicao->id_requisicao; ?></td>
+                                            <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
+                                            <td>
+                                                <span class="badge badge-<?php echo $requisicao->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $requisicao->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                            </td>
+                                            <td width="10%">
+                                                <?php $status = $this->status($requisicao->status); ?>
+                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                            </td>
+                                            <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
+                                                <td> 
+                                                    <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>
+                                                    <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
+                                                        <?php echo $relativa->id_requisicao; ?>
+                                                    </a>
+                                                </td>
+                                            <?php } ?>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Despachante</th>
+                                            <th scope="col" width="20%">Origem</th>
+                                            <th scope="col" width="20%">Solicitante</th>
+                                            <th scope="col" width="20%">Destino</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $requisicao->despachante ; ?></td>
+                                            <td><?php echo $requisicao->origem ; ?></td>
+                                            <td><?php echo $requisicao->solicitante ; ?></td>
+                                            <td><?php echo $requisicao->destino ; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+
+                                <table class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr class="active">
+                                            <th scope="col" width="20%">Solicitado</th>
+                                            <th scope="col" width="20%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
+                                            <th scope="col" width="20%">Transferido</th>
+                                            <th scope="col" width="20%">Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td><?php echo $requisicao->usuario_solicitante; ?></td>
-                                            <td><?php echo $requisicao->codigo_obra; ?></td>
-                                            <td>                            
-                                                <button type="button"  class="btn btn-sm btn-<?php echo $requisicao->classe; ?>">
-                                                    <?php echo $requisicao->status_texto; ?>
-                                                </button>
-                                            </td>
+                                            <td><?php echo $requisicao->data_liberado ? date("d/m/Y H:i", strtotime($requisicao->data_liberado)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_transferido ? date("d/m/Y H:i", strtotime($requisicao->data_transferido)) : '-'; ?></td>
+                                            <td><?php echo $requisicao->data_recebido ? date("d/m/Y H:i", strtotime($requisicao->data_recebido)) : '-'; ?></td>
                                         </tr>
                                     </tbody>
-                                </table>
-
+                                </table> 
                                 <hr>
 
-
-                                <?php if(!empty($requisicao->itens)){ ?>
-                                <table class="table table-borderless table-striped table-earning">
+                                <?php if(!empty($requisicao->items)){ ?>
+                                <h3 class="title-1 m-b-25">Itens</h3>
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="40%">Item</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col" width="10%">Id</th>
+                                            <th scope="col" width="20%">Item</th>
                                             <th scope="col">Estoque</th>
+                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col" width="20%">Qtde. Liberada</th>
                                             <th scope="col" width="150">Liberar</th>
                                             <th scope="col">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($requisicao->itens as $req){ ?>
-                                            <input type="hidden" name="item[]" id="item[]" value="<?php echo $req->item; ?>">
-                                            <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $req->quantidade; ?>">
+                                        <?php foreach($requisicao->items as $item){ ?>
                                         <tr>
-                                            <td><?php echo $req->item; ?></td>
-                                            <td><?php echo $req->quantidade; ?></td>
-                                            <td><?php echo $req->total_estoque; ?></td>
+                                            <td><?php echo $item->id_requisicao_item; ?></td>
                                             <td>
-                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" min="1" max="<?php echo $req->quantidade; ?>" <?php if($req->total_estoque==0) echo "disabled"; ?> >
+                                                <?php if (in_array($requisicao->status, [2,3,4,9,11,14])) {?>
+                                                <a 
+                                                    href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
+                                                >
+                                                    <?php echo $item->nome; ?>
+                                                </a>
+                                                <?php } else { echo $item->nome; }?>
                                             </td>
-                                            <td><button type="button" class="btn btn-sm btn-<?php echo $req->classe; ?>"><?php echo $req->status_texto; ?></button></td>
+                                            <td><?php echo $item->estoque; ?></td>
+                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo $item->quantidade_liberada; ?></td>
+                                            <td>
+                                                <?php if (in_array($requisicao->status, [1, 11])) {?>
+                                                <input id="item[]" name="item[]" type="hidden" value="<?php echo $item->id_requisicao_item; ?>"> 
+                                                <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
+                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" 
+                                                min="0" max="<?php 
+                                                    echo ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; 
+                                                ?>" 
+                                                <?php if($item->estoque == 0) echo "disabled"; ?> 
+                                                >
+                                                <?php } else { ?>
+                                                    -
+                                                <?php } ?>
+                                            </td>
+                                            <td>
+                                                <?php $status = $this->status($item->status);?>
+                                                <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
+                                                    <?php echo  $status['texto']; ?>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
                                 <?php } ?>
 
-                                <?php if(!empty($requisicao_liberada->itens) && $requisicao->status_texto=='Liberado'){ ?>
-                                <table class="table table-borderless table-striped table-earning">
-                                    <thead>
-                                        <tr class="active">
-                                            <th scope="col" width="40%">Item</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
-                                            <th scope="col">Liberada</th>
-                                            <th scope="col" width="150">Data</th>
-                                            <th scope="col">Situação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($requisicao_liberada->itens as $req){ ?>
-                                        <tr>
-                                            <td><?php echo $req->nome; ?></td>
-                                            <td><?php echo $req->quantidade; ?></td>
-                                            <td><?php echo $req->quantidade_liberada; ?></td>
-                                            <td>
-                                                <?php echo date("d/m/Y H:i", strtotime($req->data_liberado)); ?>
-                                            </td>
-                                            <td><button type="button" class="btn btn-sm btn-<?php echo $req->status_item_classe; ?>"><?php echo $req->status_item; ?></button></td>
-                                        </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                                <?php } ?>
-
-
-                                <?php if($this->session->userdata('logado')->nivel==1){  ?>
-                                    <?php 
-                                        if($requisicao->status_texto=="Pendente"){ 
-                                    ?> 
-
+                                <?php if($user->nivel == 1){  ?>
                                     <hr>
-                                    <div class="text-center">
-                                        <button class="" type="submit" id="liberar_requisicao_btn">
-                                            <i class="fa fa-send "></i>&nbsp;
-                                            Liberar Requisição
-                                        </button>
-                                    </div>
+                                    <div class="col offset-md-3 col-md-6 text-center d-flex flex-column">
 
-                                    <?php } ?>
-                                <?php } ?>
+                                    <?php if(in_array($requisicao->status, [1, 11])){?>
+                                        <div class="text-center">
+                                            <button class=" btn-custom m-b-10" type="submit" id="liberar_requisicao_btn">
+                                                <i class="fa fa-check"></i>&nbsp;
+                                                Liberar Requisição
+                                            </button>
 
+                                            <a
+                                                class="confirmar_registro m-b-10"
+                                                href="javascript:void(0)"
+                                                data-acao="Recusar" data-icon="warning" data-message="false"
+                                                data-title="Recusar Requisição" data-redirect="true"
+                                                data-text="Clique 'Sim, Recusar!' para recusar a Requisição dos itens solicitados."
+                                                data-href="<?php echo base_url("ferramental_requisicao/recusar_requisicao/{$requisicao->id_requisicao}");?>"
+                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                            >
+                                                <button class="btn btn-md btn-light" type="button" id="entregar_items_retirada_btn">
+                                                    <i class="fa fa-ban 4x" aria-hidden="true"></i>&nbsp;
+                                                    Recusar Requisição
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <small>Clique para Liberar ou Recusar a Requisição dos itens solicitados.</small>
+                                    <?php } if(($requisicao->tipo == 1 && $requisicao->status == 2) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
+                                        <a
+                                            class="confirmar_registro text-center m-b-10"
+                                            href="javascript:void(0)"
+                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-title="Enviar para Transferencia" data-redirect="true"
+                                            data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                            data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
+                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                        >
+                                            <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
+                                                <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
+                                                Enviar para Transferência
+                                            </button>
+                                        </a>
+                                        <small>Clique 'Enviar para Transferência' para confirmar a transferência dos itens solicitados. 
+                                        Somente após o a saída para transporte.</small>
+                                        </div>
+                                    <?php  } ?>
+
+
+                                    <?php if ($requisicao->tipo == 2 && $requisicao->status == 3) {?>
+                                        <a 
+                                            class="btn btn-md btn-secondary confirmar_registro m-b-10"
+                                            href="javascript:void(0)"
+                                            data-acao="Receber" data-icon="info" data-message="false"
+                                            data-title="Receber Devoluções" data-redirect="true"
+                                            data-text="Clique 'Sim, Receber!' para confirmar a transferência de itens devolvidos ou com defeito."
+                                            data-href="<?php echo base_url("ferramental_requisicao/receber_devolucoes/{$requisicao->id_requisicao}");?>"
+                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                            href="; ?>">
+                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Receber Devoluções
+                                        </a>
+                                        <small>Clique 'Receber Devoluções' para confirmar a transferência de itens devolvidos ou com defeito.</small>
+                                    <?php  } ?>
+
+                                <?php  } ?>
                             </div>
                         </div>
                     </form>
@@ -155,29 +235,3 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
-<style>
-/* This code is generated by: https://webdesign-assistant.com */
-/* #liberar_requisicao_btn {
-    text-decoration: none;
-    font-size: 16px;
-    color: #FFFFFF;
-    font-family: arial;
-    background: linear-gradient(to bottom, #FF480E, #D02718);
-    border: solid #FF4B18 1px;
-    border-radius: 5px;
-    padding:10px;
-    text-shadow: 0px 1px 2px #000000;
-    *box-shadow: 0px 1px 5px #0D2444;
-    -webkit-transition: all 0.15s ease;
-    -moz-transition: all 0.15s ease;
-    -o-transition: all 0.15s ease;
-    transition: all 0.15s ease;
-    width: 240px;
-}
-#liberar_requisicao_btn:hover{
-    opacity: 0.9;
-    background: linear-gradient(to bottom, #C02028, #D02718);
-    border: 1px solid #c02028;
-    *box-shadow: 0px 1px 2px #000000;
-} */
-</style>

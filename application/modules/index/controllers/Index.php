@@ -18,10 +18,14 @@ class Index extends MY_Controller {
             echo redirect(base_url('login')); 
         } 
         # Fecha Login
+        $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
     }
 
     function index() {
-        $this->get_template('index');
+        $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 11], 0, 5);
+        $data['requisicoes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 11]);
+        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
+        $this->get_template('index', $data);
     }
 
     function sem_acesso(){
@@ -31,7 +35,6 @@ class Index extends MY_Controller {
 
     # Manipular novos registros através do CSV
     public function set_registros(){
-
 
         $handle = fopen("assets/motoristas.csv", "r");
 
@@ -54,7 +57,6 @@ class Index extends MY_Controller {
                 $dados['situacao'] = 0;
 
                 $this->db->insert('motorista', $dados);
-
 
                 echo "<pre>";
                 print_r($dados);

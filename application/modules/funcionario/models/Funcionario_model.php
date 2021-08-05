@@ -16,9 +16,18 @@ class funcionario_model extends MY_Model {
 	}
 
 
-	public function get_lista(){
-		$this->db->order_by('nome', 'ASC');
-		return $this->db->get('funcionario')->result();
+	public function get_lista($id_empresa = null, $id_obra = null){
+		$funcionarios = $this->db->from('funcionario fn')->select('*');
+
+		if ($id_empresa) {
+			$funcionarios->where("fn.id_empresa = {$id_empresa}");
+		}
+
+		if ($id_obra) {
+			$funcionarios->where("fn.id_obra = {$id_obra}");
+		}
+
+		return $funcionarios->order_by('fn.nome', 'ASC')->get()->result();
 	}
 
 	public function get_funcionario($id_funcionario=null){

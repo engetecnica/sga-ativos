@@ -19,7 +19,7 @@
                     <h2 class="title-1 m-b-25">Gerenciar Veículo</h2>
 
                     <div class="card">
-                        <div class="card-header">Registrar itens do veículo</div>
+                        <div class="card-header">Registrar items do veículo</div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/ipva_salvar'); ?>" method="post" enctype="multipart/form-data">

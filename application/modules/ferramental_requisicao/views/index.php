@@ -8,8 +8,14 @@
                         <h2 class="title-1"></h2>
                         <a href="<?php echo base_url('ferramental_requisicao/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Nova Requisição</button></a>
-                    </div>
+                        <i class="zmdi zmdi-plus"></i>&nbsp;
+                            <?php if ($user->nivel == 1) { ?>
+                                Nova Transferência
+                            <?php } if ($user->nivel == 2) { ?>
+                                Nova Requisição
+                            <?php }  ?>
+                        </button></a>
+                        </div>
                 </div>
             </div>
 
@@ -17,19 +23,55 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Requisição de Ferramentas</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning border-bottom-1" id="listagem">
+                        <table class="table table-borderless table-striped table-earning border-bottom-1" id="lista">
                             <thead>
                                 <tr>
-                                    <th width="10%">Data</th>
+                                    <th>Requisão ID</th>
+                                    <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Status</th>
+                                    <th>Origem</th>
                                     <th>Destino</th>
+                                    <!--
                                     <th>Solicitante</th>
-                                    <th width="10%">Status</th>
-                                    <th width="10%">Opções</th>
+                                    <th>Despachante</th>
+                                    -->
+                                    <th>Opções</th>
                                 </tr>
                             </thead>
                             
                             <tbody>
-
+                                <?php foreach($lista as $valor){ ?>
+                                <tr>
+                                    <td id="<?php echo $valor->id_requisicao; ?>">
+                                        <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>">
+                                            <?php echo $valor->id_requisicao; ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
+                                    <td>
+                                        <span class="badge badge-<?php echo $valor->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $valor->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                    </td>
+                                    <td>
+                                        <?php $status = $this->status($valor->status); ?>
+                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                    </td>
+                                    <td><?php echo $valor->origem; ?></td>
+                                    <td><?php echo $valor->destino; ?></td>
+                                    <!--
+                                    <td><?php echo $valor->solicitante; ?></td>
+                                    <td><?php echo $valor->despachante; ?></td>
+                                    -->
+                                    <td>
+                                        <a 
+                                            class="btn btn-outline-secondary" 
+                                            href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>"
+                                        >
+                                            Detalhes da Requisição
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -54,10 +96,10 @@
 <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 <script>
-
-    $('#listagem').DataTable({
+    /*
+    $('#lista').DataTable({
         "ajax": {
-            url : "<?php echo base_url("ferramental_requisicao/getlistagem"); ?>",
+            url : "<?php //echo base_url("ferramental_requisicao/getlistagem"); ?>",
             type : 'POST'
         },
         "order": [[ 0, "desc" ]],
@@ -87,4 +129,5 @@
             "sSortDescending": ": Ordenar colunas de forma descendente"
         }        
     });
-</script>          
+    */
+</script>

@@ -1,7 +1,3 @@
-
-
-    <!-- Jquery JS-->
-    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
     <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -18,11 +14,6 @@
     <!-- Main JS-->
     <script src="<?php echo base_url('assets'); ?>/js/main.js"></script>
 
-    <!-- Sweet Alert 
-    <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 
     <script src="<?php echo base_url('assets'); ?>/js/jquery.mask.js"></script>
 
@@ -34,13 +25,13 @@
 
     <script>
         $(document).ready(function() {
-            $('#lista').DataTable( {
+            $config_lista = {
                 "aLengthMenu": [
-                    [20, 30, 50, -1],
-                    [20, 30, 50, "Todos"]
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, "Todos"]
                 ],
                 "order": false,
-                "iDisplayLength": 20,
+                "iDisplayLength": 10,
                 "language" : {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -64,14 +55,24 @@
                         "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
                 }
-            } );
+            };
+
+            $('#lista').DataTable($config_lista);
+            $('#lista2').DataTable($config_lista);
+
+            $('.paginate_button').click((e) => {
+                setTimeout(() => {
+                    let lista = document.querySelector(`#${$(e.target).attr('aria-controls')}`)
+                    if (lista) {
+                        lista.scrollIntoView({behavior: "smooth"})
+                    }
+                }, 100)
+            })
         } ); 
     </script>
 
     <?php if($this->session->userdata('logado')==true){ ?>
     <script>
-       
-
         /* Alterar Status da Requisição */
        // $(document).ready(function () {
 
@@ -82,10 +83,17 @@
                 $(".listagem").append($("#item_lista").html());
                 $(document).on("click", ".add_line", function(){
                     $(".listagem").append($("#item_lista").html());
-                    $(".listagem .item-lista").last();
+                    $(".listagem .item-lista").last().addClass('id_ativo_externo_grupo');
                 })
                 $(document).on("click", ".remove_line", function(){
-                    $(this).closest(".item-lista").remove();
+                    if($(".remove_line").length >= 1) {
+                        $(this).closest(".item-lista").remove();
+                    }
+
+                    if($(".remove_line").length == 0) {
+                        $(".listagem").append($("#item_lista").html());
+                        $(".listagem .item-lista").last();
+                    }
                 })
 
             /* Fecha Itens da Requisição múltipla */
@@ -236,7 +244,7 @@
                 console.log('Qde Solicitada: ', qtde_solicitada);
                 console.log('Qde Solicitada do Estoque: ', qtde_solicitada_estoque);
 
-                // Soma a quantidade de itens dentro do loop das obras
+                // Soma a quantidade de items dentro do loop das obras
                 $(".qtdedevolvida").each(function(index){
 
                     qtdedevolvida_solicitada = qtdedevolvida_solicitada + Number($(this).val());
@@ -252,7 +260,7 @@
                             confirmButtonText: 'Ok, fechar.'
                         })                          
 
-                        console.log("Erro: ", "Esse item dispõe somente de " + qtdedevolvida_disponivel + " itens");
+                        console.log("Erro: ", "Esse item dispõe somente de " + qtdedevolvida_disponivel + " items");
                         return false;
                     }
 
@@ -282,7 +290,7 @@
                     $(this).val(qtde_solicitada);       
                     return false;
                     
-                    console.log("Erro: ", "Você já completou a quantidade de itens solicitada. Soma: " + qtde_total + "\n");
+                    console.log("Erro: ", "Você já completou a quantidade de items solicitada. Soma: " + qtde_total + "\n");
                 } 
                 else 
                 {
@@ -302,11 +310,20 @@
             });            
         });
 
-        <?php if($this->session->flashdata('msg_retorno')==true){ ?>
+        <?php if($this->session->flashdata('msg_success')==true){ ?>
         Swal.fire({
             title: 'Sucesso!',
-            text: '<?php echo $this->session->flashdata('msg_retorno'); ?>',
+            text: '<?php echo $this->session->flashdata('msg_success'); ?>',
             icon: 'success',
+            confirmButtonText: 'Ok, fechar.'
+        })
+        <?php } ?>
+
+        <?php if($this->session->flashdata('msg_info')==true){ ?>
+        Swal.fire({
+            title: 'Informação',
+            text: '<?php echo $this->session->flashdata('msg_info'); ?>',
+            icon: 'info',
             confirmButtonText: 'Ok, fechar.'
         })
         <?php } ?>
@@ -469,54 +486,68 @@
         });
         
         
-        $(".confirmar_registro").click(function(){
-            var id_registro = $(this).attr('data-id');
-            var tabela = $(this).attr('data-tabela');
-            var url_post = $(this).attr('data-href');
-            var acao = $(this).attr('data-acao') || 'Confirmar';
-            var title = $(this).attr('data-title') || 'Você tem certeza?';
-            var text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
+        var confirmar_registro = function(event){
+            let id_registro = $(this).attr('data-id');
+            let tabela = $(this).attr('data-tabela');
+            let url_post = $(this).attr('data-href');
+            let acao = $(this).attr('data-acao') || 'Confirmar';
+            let title = $(this).attr('data-title') || 'Você tem certeza?';
+            let text = $(this).attr('data-text') || "Esta operação não poderá ser revertida.";
+            let redirect = $(this).attr('data-redirect') ? true : false;
+            let icon = $(this).attr('data-icon') || 'warning';
+            let msg = $(this).attr('data-message') == 'false' ? false : true;
 
             Swal.fire({
                 title: title,
                 text: text,
-                icon: 'warning',
+                icon: icon,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, ' + acao + '!'
             }).then((result) => {
                 if (result.value) {
-                    $.ajax({
-                        url: url_post,
-                        type: "post",
-                        data: id_registro,
-                        success: function (response) {
-                            if (response.success == true) {
-                                Swal.fire(
-                                    'Salvo!',
-                                    'Registro salvo com sucesso.',
-                                    'success'
-                                )
-                                window.location = tabela;
-                                return;
-                            }
+                    if(url_post && tabela) {
+                        $.ajax({
+                                url: url_post,
+                                type: "post",
+                                data: id_registro,
+                                success: function (response) {
+                                    if (redirect == true) {
+                                        window.location = tabela;
+                                        return;
+                                    }
 
-                            Swal.fire(
-                                'Erro!',
-                                'Erro ao salvar registro.',
-                                'error',
-                            )
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);
-                        }
-                    });
+                                    if(msg) {
+                                        Swal.fire(
+                                            'Enviado',
+                                            'Dados Enviados com Sucesso!',
+                                            'success'
+                                        )
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    if (redirect == true) {
+                                        window.location = tabela;
+                                        return;
+                                    }
+                                    Swal.fire(
+                                        'Erro',
+                                        'Ops, Ocorreu um erro ao tentar Enviar os dados!',
+                                        'success'
+                                    )
+                                }
+                        });
+                    } else { 
+                        window.location = url_post;
+                    }
                 }
             })
-        }); 
+        }
 
-        // Trabalhado itens da tabela fipe.
+        $(".confirmar_registro").click(confirmar_registro);
+
+        // Trabalhado items da tabela fipe.
         $("#tipo_veiculo").change(function(){
             var tipo_veiculo = $(this).val();
             if(tipo_veiculo=='0'){

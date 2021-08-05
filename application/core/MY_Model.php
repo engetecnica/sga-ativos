@@ -2,9 +2,12 @@
 
 class MY_model extends CI_Model {
 
+    protected $user;
+
     public function __construct()
     {
         parent::__construct();
+        $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
     }
 
     public function formatArrayReplied($items = [], $id_item = null){
@@ -17,5 +20,43 @@ class MY_model extends CI_Model {
             } 
         }
 		return $lista;
+    }
+
+    public function buscar_dados_logado($logado=null){
+        if($logado) {
+            $user = $this->db
+            ->select('usuario.*, empresa.*')
+            ->where("usuario.id_usuario = {$logado->id_usuario}")
+            ->join('empresa', "empresa.id_empresa = {$logado->id_empresa}")
+            ->get('usuario')
+            ->row();
+
+            if ($user) {
+                unset($user->senha);
+                return $user;
+            }
+            unset($logado->senha);
+            return $logado;
+        }
+        return null;
+    }
+
+    public function get_obra_base(){
+        return $this->db
+            ->select('ob.*')
+            ->from('obra ob')
+            ->where('obra_base = 1')
+            ->group_by('ob.id_obra')
+            ->get()
+            ->row();
+    }
+
+    public function dd(...$data){
+        foreach($data as $dt) {
+            echo "<pre>";
+            echo print_r($dt);
+            echo "</pre>";
+        }
+        exit;
     }
 }

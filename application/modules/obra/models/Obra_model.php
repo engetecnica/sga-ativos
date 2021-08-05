@@ -15,19 +15,19 @@ class Obra_model extends MY_Model {
 
 	}
 
-	public function get_lista(){
-		return $this->db->select('obra.*, ep.razao_social as empresa, ep.nome_fantasia')
-		->from('obra')
-		->order_by('id_obra', 'ASC')
-		->join("empresa ep", "ep.id_empresa=obra.id_empresa")
-		->group_by('obra.id_obra')
-		->get()->result();
+	public function get_obras(){
+		return $this->db
+					->select('obra.*, ep.razao_social as empresa, ep.nome_fantasia')
+					->from('obra')
+					->order_by('id_obra', 'ASC')
+					->join("empresa ep", "ep.id_empresa=obra.id_empresa")
+					->group_by('obra.id_obra')
+					->get()
+					->result();
 	}
 
 	public function get_obra($id_obra=null){
-		$this->db->where('id_obra', $id_obra);
-		$obra = $this->db->get('obra')->row();
-		return $obra;
+		return $this->db->where('id_obra', $id_obra)->get('obra')->row();
 	}
 
 	public function get_empresas(){
