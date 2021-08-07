@@ -38,23 +38,23 @@
                                         <label for="veiculo_km_inicial" class=" form-control-label">Quilometragem</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_km_inicial" name="veiculo_km_inicial" placeholder="KM Inicial" class="form-control" value="">
+                                        <input required="required" type="number" id="veiculo_km_inicial" name="veiculo_km_inicial" placeholder="KM Inicial" class="form-control" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>" value="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div>   
 
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_km_final" name="veiculo_km_final" placeholder="KM Final" class="form-control" value="">
+                                        <input required="required" type="number" id="veiculo_km_final" name="veiculo_km_final" placeholder="KM Final" class="form-control" value="<?php echo (int) $dados_veiculo->veiculo_km + 1; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km + 1; ?>">
                                     </div>  
 
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_litros" name="veiculo_litros" placeholder="Litros" class="form-control litros" value="">
+                                        <input required="required" type="text" id="veiculo_litros" name="veiculo_litros" placeholder="Litros" class="form-control litros" value="">
                                     </div>                                  
 
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="">
+                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="">
                                     </div>
 
                                     <div class="col-12 col-md-2">
-                                        <input type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                                     </div>
                                 </div>
 
@@ -64,8 +64,9 @@
                                         <label for="comprovante_fiscal" class=" form-control-label">Comprovante Fiscal</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="file" id="comprovante_fiscal" name="comprovante_fiscal" class="form-control" accept="application/pdf, image/gif, image/jpeg" style="margin-bottom: 5px;"> 
-                                        <font size='2'>Formato aceito: <strong>*.PDF, *.JPG</strong></font>
+                                        <input required="required" type="file" id="comprovante_fiscal" name="comprovante_fiscal" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
                                 

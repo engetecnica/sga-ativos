@@ -23,7 +23,7 @@ class Ativo_veiculo_model extends MY_Model {
 
 	public function get_lista(){
 		$this->db->order_by('ativo_veiculo.tipo_veiculo', 'ASC');
-		return $this->db->get('ativo_veiculo')->result();
+		return $this->db->group_by('id_ativo_veiculo')->get('ativo_veiculo')->result();
 	}
 
 	public function get_ativo_veiculo($id_ativo_veiculo=null){
@@ -38,7 +38,9 @@ class Ativo_veiculo_model extends MY_Model {
 		$this->db->join("fornecedor", "fornecedor.id_fornecedor=ativo_veiculo_manutencao.id_fornecedor");
 		$this->db->join('ativo_configuracao', 'ativo_configuracao.id_ativo_configuracao=ativo_veiculo_manutencao.id_ativo_configuracao');
 		$this->db->where("ativo_veiculo_manutencao.id_ativo_veiculo", $id_ativo_veiculo);
-		$consulta = $this->db->get('ativo_veiculo_manutencao')->result();
+		$consulta = $this->db->group_by('id_ativo_veiculo_manutencao')
+												->get('ativo_veiculo_manutencao')
+												->result();
 		return $consulta;
 	}
 
@@ -46,7 +48,10 @@ class Ativo_veiculo_model extends MY_Model {
 		$this->db->select('ativo_veiculo_quilometragem.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa');
 		$this->db->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo");
 		$this->db->where("ativo_veiculo_quilometragem.id_ativo_veiculo", $id_ativo_veiculo);
-		$consulta = $this->db->get('ativo_veiculo_quilometragem')->result();
+		$consulta = $this->db
+									->group_by('id_ativo_veiculo_quilometragem')
+									->get('ativo_veiculo_quilometragem')
+									->result();
 		return $consulta;
 	}
 
@@ -55,23 +60,30 @@ class Ativo_veiculo_model extends MY_Model {
 		$this->db->select('ativo_veiculo_ipva.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa');
 		$this->db->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_ipva.id_ativo_veiculo");
 		$this->db->where("ativo_veiculo_ipva.id_ativo_veiculo", $id_ativo_veiculo);
-		$consulta = $this->db->get('ativo_veiculo_ipva')->result();
+		$consulta = $this->db
+						->group_by('id_ativo_veiculo_ipva')
+						->get('ativo_veiculo_ipva')
+						->result();
 		return $consulta;
 	}	
 
 	public function get_tipo_servico($id_ativo_configuracao){
 		$this->db->where("id_ativo_configuracao_vinculo", $id_ativo_configuracao);
-		return $this->db->get('ativo_configuracao')->result();
+		return $this->db->group_by('id_ativo_configuracao')
+										->get('ativo_configuracao')
+										->result();
 	}	
 
 	public function get_fornecedor(){
 		$this->db->order_by("razao_social", "asc");
-		return $this->db->get('fornecedor')->result();
+		return $this->db->group_by('id_fornecedor')->get('fornecedor')->result();
 	}
 
 	public function get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo){
 		$this->db->where('id_ativo_veiculo', $id_ativo_veiculo);
-		return $this->db->get('ativo_veiculo_depreciacao')->result();
+		return $this->db->group_by('id_ativo_veiculo_depreciacao')
+							->get('ativo_veiculo_depreciacao')
+							->result();
 	}
 
 	# Gerenciamento de veículos

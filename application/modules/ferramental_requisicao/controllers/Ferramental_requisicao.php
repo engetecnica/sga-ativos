@@ -70,6 +70,7 @@ class Ferramental_requisicao  extends MY_Controller {
                 $dados[$k] = array();
                 $dados[$k]['id_ativo_externo_grupo'] = $id_ativo_externo_grupo;
                 $dados[$k]['quantidade'] = $this->input->post('quantidade')[$k];
+                $dados[$k]['quantidade_liberada'] = 0;
                 $dados[$k]['id_requisicao'] = $id_requisicao;
                 $dados[$k]['status'] = 1;
             }

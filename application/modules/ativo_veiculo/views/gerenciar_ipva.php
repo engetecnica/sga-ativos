@@ -48,7 +48,7 @@
                                     </td>
                                     <td width="15%">
                                         <?php if($valor->comprovante_ipva){ ?>
-                                        <a href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/comprovante/'.$valor->comprovante_ipva); ?>">
+                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_ipva/{$valor->comprovante_ipva}"); ?>">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
                                                 Baixar Comprovante
                                             </button>

@@ -39,9 +39,10 @@
                                         <label for="id_fornecedor" class=" form-control-label">Fornecedor</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <select class="form-control" id="id_fornecedor" name="id_fornecedor">
+                                        <select required="required" class="form-control" id="id_fornecedor" name="id_fornecedor">
+                                            <option value="">Selecione um Fornecedor</option>
                                             <?php foreach($fornecedores as $fornecedor){ ?>
-                                            <option value="<?php echo $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
+                                                <option value="<?php echo $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -52,7 +53,8 @@
                                         <label for="id_ativo_configuracao" class=" form-control-label">Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <select class="form-control" id="id_ativo_configuracao" name="id_ativo_configuracao">
+                                        <select required="required" class="form-control" id="id_ativo_configuracao" name="id_ativo_configuracao">
+                                            <option value="">Selecione o Tipo do Serviço</option>
                                             <?php foreach($tipo_servico as $servico){ ?>
                                             <option value="<?php echo $servico->id_ativo_configuracao; ?>"><?php echo $servico->titulo; ?></option>
                                             <?php } ?>
@@ -65,15 +67,23 @@
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" value="">
+                                        <input required="required" type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div> 
 
+
+                                    <div class="col col-md-2">
+                                        <label for="veiculo_custo" class=" form-control-label">Custo</label>
+                                    </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="">
+                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="">
                                     </div>
 
+
+                                    <div class="col">
+                                        <label for="veiculo_km_data" class=" form-control-label">Data</label>
+                                    </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                                     </div>
                                 </div>
 
@@ -82,7 +92,7 @@
                                         <label for="descricao" class=" form-control-label">Descrição</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <textarea rows="5" class="form-control" id="descricao" name="descricao"></textarea>
+                                        <textarea required="required" rows="5" class="form-control" id="descricao" name="descricao"></textarea>
                                     </div>
                                 </div>
 
@@ -91,8 +101,9 @@
                                         <label for="ordem_de_servico" class=" form-control-label">Ordem de Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/gif, image/jpeg" style="margin-bottom: 5px;"> 
-                                        <font size='2'>Formato aceito: <strong>*.PDF, *.JPG</strong></font>
+                                        <input required="required" type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
                                 

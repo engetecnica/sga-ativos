@@ -32,8 +32,8 @@
                                         <label for="tipo_veiculo" class=" form-control-label">Tipo</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <select class="form-control selectpicker" id="tipo_veiculo" name="tipo_veiculo" data-live-search="true">
-                                            <option value="0">Tipo</option>
+                                        <select required="required" class="form-control selectpicker" id="tipo_veiculo" name="tipo_veiculo" data-live-search="true">
+                                            <option>Tipo</option>
                                             <option value="moto">Moto</option>
                                             <option value="carro">Carro</option>
                                             <option value="caminhao">Caminhão</option>
@@ -41,14 +41,14 @@
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <select class="form-control selectpicker" id="id_marca" name="id_marca" data-live-search="true">
-                                            <option value="0">Marca</option>
+                                        <select required="required" class="form-control selectpicker" id="id_marca" name="id_marca" data-live-search="true">
+                                            <option>Marca</option>
                                         </select>
                                     </div>
 
                                     <div class="col-12 col-md-4">
-                                        <select class="form-control selectpicker" id="id_modelo" name="id_modelo" data-live-search="true">
-                                            <option value="0">Modelo</option>
+                                        <select required="required" class="form-control selectpicker" id="id_modelo" name="id_modelo" data-live-search="true">
+                                            <option>Modelo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -59,14 +59,14 @@
                                     </div>                                    
                                     
                                     <div class="col-12 col-md-3">
-                                        <select class="form-control selectpicker" id="ano" name="ano" data-live-search="true">
-                                            <option value="0">Ano</option>
+                                        <select required="required" class="form-control selectpicker" id="ano" name="ano" data-live-search="true">
+                                            <option>Ano</option>
                                         </select>
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <select class="form-control" id="veiculo" name="veiculo">
-                                            <option value="0">Veículo</option>
+                                        <select required="required" class="form-control" id="veiculo" name="veiculo">
+                                            <option>Veículo</option>
                                         </select>
                                     </div>                                    
 
@@ -77,15 +77,15 @@
                                         <label for="valor_fipe" class=" form-control-label">Valor Fipe</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="valor_fipe" name="valor_fipe" placeholder="0,00" class="form-control" value="" readonly="">
+                                        <input required="required" type="text" id="valor_fipe" name="valor_fipe" placeholder="0,00" class="form-control" value="" readonly="">
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="codigo_fipe" name="codigo_fipe" placeholder="Cód Fipe" class="form-control" value="" readonly="">
+                                        <input required="required" type="text" id="codigo_fipe" name="codigo_fipe" placeholder="Cód Fipe" class="form-control" value="" readonly="">
                                     </div>
 
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="fipe_mes_referencia" name="fipe_mes_referencia" placeholder="Referência" style="text-transform: uppercase;" class="form-control" value="" readonly="">
+                                        <input required="required" type="text" id="fipe_mes_referencia" name="fipe_mes_referencia" placeholder="Referência" style="text-transform: uppercase;" class="form-control" value="" readonly="">
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
                                         <label for="veiculo_placa" class=" form-control-label">Placa</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_placa" name="veiculo_placa" placeholder="Placa" class="form-control placa" value="">
+                                        <input required="required" type="text" id="veiculo_placa" name="veiculo_placa" placeholder="Placa" class="form-control placa" value="">
                                     </div>
 
                                     <div class="col-12 col-md-3">
@@ -111,15 +111,15 @@
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_km" name="veiculo_km" placeholder="KM" class="form-control" value="">
+                                        <input required="required" type="text" id="veiculo_km" name="veiculo_km" placeholder="KM" class="form-control" value="">
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="valor_funcionario" name="valor_funcionario" placeholder="Valor Funcionário" class="form-control valor" value="">
+                                        <input required="required" type="text" id="valor_funcionario" name="valor_funcionario" placeholder="Valor Funcionário" class="form-control valor" value="">
                                     </div>
 
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="valor_adicional" name="valor_adicional" placeholder="Valor Adicional" class="form-control valor" value="">
+                                        <input required="required" type="text" id="valor_adicional" name="valor_adicional" placeholder="Valor Adicional" class="form-control valor" value="">
                                     </div>                                    
                                 </div>
 
@@ -129,7 +129,7 @@
                                         <label for="situacao" class=" form-control-label">Data de Inclusão</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                                     </div>
 
                                     <div class="col-12 col-md-7">

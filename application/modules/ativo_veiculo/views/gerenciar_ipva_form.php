@@ -38,7 +38,8 @@
                                         <label for="ipva_ano" class=" form-control-label">Referência</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <select class="form-control" id="ipva_ano" name="ipva_ano">
+                                        <select required="required" class="form-control" id="ipva_ano" name="ipva_ano">
+                                            <option value="">Ano</option>
                                             <?php for($i=date("Y"); $i<=date("Y")+5; $i++){ ?>
                                             <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
                                             <?php } ?>
@@ -47,7 +48,7 @@
                                 
 
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" value="">
+                                        <input required="required" type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" value="">
                                     </div>
 
                                     <div class="col col-md-1">
@@ -55,7 +56,7 @@
                                     </div>                                    
 
                                     <div class="col-12 col-md-2">
-                                        <input type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                        <input required="required" type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                                     </div>
 
                                     <div class="col col-md-1">
@@ -63,7 +64,7 @@
                                     </div>                                    
 
                                     <div class="col-12 col-md-2">
-                                        <input type="date" id="ipva_data_pagamento" name="ipva_data_pagamento" class="form-control" value="">
+                                        <input required="required" type="date" id="ipva_data_pagamento" name="ipva_data_pagamento" class="form-control" value="">
                                     </div>                                    
                                 </div>
 
@@ -73,8 +74,9 @@
                                         <label for="comprovante_ipva" class=" form-control-label">Comprovante</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="file" id="comprovante_ipva" name="comprovante_ipva" class="form-control" accept="application/pdf, image/gif, image/jpeg" style="margin-bottom: 5px;"> 
-                                        <font size='2'>Formato aceito: <strong>*.PDF, *.JPG</strong></font>
+                                        <input required="required" type="file" id="comprovante_ipva" name="comprovante_ipva" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
                                 
