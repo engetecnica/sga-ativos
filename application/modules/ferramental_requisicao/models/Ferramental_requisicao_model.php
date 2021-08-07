@@ -53,6 +53,8 @@ class ferramental_requisicao_model extends MY_Model {
 		if ($this->user->nivel == 2) {
 			$requisicoes->where("requisicao.id_solicitante = {$this->user->id_usuario}");
 			$requisicoes->or_where("requisicao.id_despachante = {$this->user->id_usuario}");
+			$requisicoes->or_where("requisicao.id_origem = {$this->user->id_obra}");
+			$requisicoes->or_where("requisicao.id_destino = {$this->user->id_obra}");
 		}
 
 		if ($status) {
@@ -65,9 +67,9 @@ class ferramental_requisicao_model extends MY_Model {
 
 		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.data_inclusao', 'DESC');
 
-			if ($limite) {
-				$requisicoes->limit($limite, $offset);
-			}
+			// if ($limite) {
+			// 	$requisicoes->limit($limite, $offset);
+			// }
 			return $requisicoes->get()->result();
 	}
 
@@ -375,9 +377,9 @@ class ferramental_requisicao_model extends MY_Model {
 					$this->db->insert('ativo_externo_requisicao_devolucao', ['id_devolucao' => $id_nova_requisicao, 'id_requisicao' => $id_requisicao]);
 					return true;
 				}
-				return false;
+				return true;
 		}
-		return true;
+		return false;
 	}
 
 	public function get_requisicao_status($id = null){

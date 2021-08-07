@@ -44,6 +44,32 @@
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td class="text-right">
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Equipamento
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <a class="dropdown-item" href="<?php echo base_url("ativo_interno/manutencao/{$valor->id_ativo_interno}"); ?>">Histórico de Manutenção</a>
+                                                <?php if((int) $valor->situacao < 2){?>
+                                                <a 
+                                        
+                                                    class="dropdown-item confirmar_registro"
+                                                    href="javascript:void(0)"
+                                                    class="confirmar_registro"
+                                                    data-registro="<?php echo $valor->id_ativo_interno;?>"
+                                                    data-acao="Descartar"
+                                                    data-href="<?php echo base_url("ativo_interno/descartar/{$valor->id_ativo_interno}");?>"
+                                                    data-tabela="<?php echo base_url("ativo_interno#{$valor->id_ativo_interno}");?>"
+                                                    data-redirect="true"
+                                                    data-acao="Enviar" data-icon="info" data-message="false"
+                                                    data-title="Enviar para Transferencia" data-redirect="true"
+                                                    data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                                >                                                
+                                                   Descartar Ativo                                              
+                                                </a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                         <a href="<?php echo base_url('ativo_interno'); ?>/editar/<?php echo $valor->id_ativo_interno; ?>"><i class="fas fa-edit"></i></a>
                                         <?php if((int) $valor->situacao == 2 && !isset($valor->data_descarte)){?>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_interno'); ?>/deletar/<?php echo $valor->id_ativo_interno; ?>" data-registro="<?php echo $valor->id_ativo_interno;?>" data-tabela="ativo_interno" class="deletar_registro"><i class="fas fa-remove"></i></a>

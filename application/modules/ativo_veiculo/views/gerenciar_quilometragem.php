@@ -35,7 +35,7 @@
                             <tbody>
                                 <?php 
                                     foreach($lista as $valor){ 
-                                        $media = ($valor->veiculo_km_final - $valor->veiculo_km_inicial) / $valor->veiculo_litros;
+                                        @$media = ($valor->veiculo_km_final - $valor->veiculo_km_inicial) / $valor->veiculo_litros;
                                 ?>
                                 <tr>
                                     <td><?php echo $valor->veiculo; ?></td>
@@ -48,7 +48,7 @@
                                     <td><?php echo date("d/m/Y", strtotime($valor->data)); ?></td>
                                     <td>
                                         <?php if($valor->comprovante_fiscal){ ?>
-                                        <a href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/comprovante/'.$valor->comprovante_fiscal); ?>">
+                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
                                                 Baixar Comprovante
                                             </button>

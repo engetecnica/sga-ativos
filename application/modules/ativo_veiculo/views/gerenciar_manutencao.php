@@ -45,7 +45,7 @@
                                     <td><?php echo date("d/m/Y", strtotime($valor->data)); ?></td>
                                     <td>
                                         <?php if($valor->ordem_de_servico){ ?>
-                                        <a href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/comprovante/'.$valor->ordem_de_servico); ?>">
+                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
                                                 Baixar Comprovante
                                             </button>

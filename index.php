@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('America/Sao_Paulo');
+ini_set('upload_max_filesize', 10);
 require_once __DIR__ . '/vendor/autoload.php';
 /**
  * CodeIgniter
