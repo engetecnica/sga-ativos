@@ -13,19 +13,37 @@ class Ativo_interno_model extends MY_Model {
 		}
 	}
 
-	public function get_lista(){
-		return $this->db
-		->order_by('nome', 'asc')
-		->group_by('id_ativo_interno')
-		->get('ativo_interno')
-		->result();
+	public function get_lista($id_obra = null, $situacao = null){
+		$lista = $this->db
+			->order_by('nome', 'asc')
+			->group_by('id_ativo_interno');
+
+		if ($id_obra){
+			$lista->where("id_obra = $id_obra");
+		}
+
+		if ($situacao) {
+			if (is_array($situacao)) {
+				$lista->where("situacao IN (".implode(',',$situacao).")");
+			} else {
+				$lista->where("situacao = $situacao");
+			}
+		}
+		return $lista->get('ativo_interno')->result();
 	}
 
-	public function get_ativo_interno($id_ativo_interno=null){
-		return $this->db
-		->where('id_ativo_interno', $id_ativo_interno)
-		->get('ativo_interno')
-		->row();
+	public function get_ativo_interno($id_ativo_interno=null, $situacao=null){
+		$ativo = $this->db
+		->where('id_ativo_interno', $id_ativo_interno);
+
+		if ($situacao) {
+			if (is_array($situacao)) {
+				$ativo->where("situacao IN (".implode(',',$situacao).")");
+			} else {
+				$ativo->where("situacao = $situacao");
+			}
+		}
+		return $ativo->get('ativo_interno')->row();
 	}
 
 	public function get_manutencao($id_ativo_interno, $id_manutencao){

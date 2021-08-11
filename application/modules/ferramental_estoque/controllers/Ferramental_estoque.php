@@ -101,7 +101,7 @@ class Ferramental_estoque  extends MY_Controller {
             $this->get_template('index_form', [
                 'retirada' => $retirada,
                 'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra),
-                'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true),
+                'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
                 'id_obra' => $this->user->id_obra,
             ]);
             return;
@@ -112,7 +112,7 @@ class Ferramental_estoque  extends MY_Controller {
 
 
     function lista_ativos_grupos_json(){
-        echo json_encode($this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true));
+       $this->json($this->ativo_externo_model->get_grupos($this->user->id_obra, true));
     }
     
     function lista_retiradas($id_obra = null, $id_funcionario = null, $status = null) {

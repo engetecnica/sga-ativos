@@ -5,7 +5,7 @@
 /**
  * Description of site
  *
- * @author https://www.roytuts.com
+ * @author Messias Dias | https://github.com/messiasdias
  */
 class usuario  extends MY_Controller {
 

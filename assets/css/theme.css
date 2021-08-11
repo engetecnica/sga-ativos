@@ -108,6 +108,10 @@ p {
     font-size: .6rem;
 }
 
+.btn-lg > .fa{
+    font-size: inherit !important;
+}
+
 /* ----- Typography ----- */
 body {
     font-family: "Poppins", sans-serif;
@@ -14781,6 +14785,8 @@ label {
     -o-transition: all 0.15s ease;
     transition: all 0.15s ease;
     width: 240px;
+    color: #FFFFFF !important;
+    cursor: pointer;
 }
 #liberar_requisicao_btn:hover, .btn-custom:hover{
     opacity: 0.9;
@@ -14792,4 +14798,14 @@ label {
 .badge-primary2, .btn-primary2 {
     background-color: #00a2ff;
     color: #FFFFFF;
+}
+
+.relatorio_grafico, .canvasjs-chart-canvas{
+    min-height: 350px; 
+    width: 100%; 
+    margin: 0 auto !important;
+}
+
+.canvasjs-chart-credit{
+    display: none !important;
 }

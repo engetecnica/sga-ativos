@@ -27,8 +27,8 @@ class MY_Controller extends MX_Controller {
         $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
     }
 
-    public function json(array $data = null, int $status_code = 200){
-        return $this->output
+    public function json($data = null, int $status_code = 200){
+        return @$this->output
         ->set_content_type('application/json')
         ->set_status_header($status_code)
         ->set_output(json_encode($data));
@@ -151,12 +151,53 @@ class MY_Controller extends MX_Controller {
         return $this->formatArrayReplied($this->db->get('usuario_nivel')->result(), 'id_usuario_nivel');
     }
 
-    public function gerar_pdf($filename, $html, $mode = 'D') {
+    public function gerar_pdf($filename, $html, $mode = null) {
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($html);
         return $mpdf->Output($filename, $mode);
     }
 
+    public function base64($filename){
+        $contents = file_get_contents($filename, null, null);
+        return 'data:image/' . pathinfo($filename, PATHINFO_EXTENSION) . ';base64,' . base64_encode($contents);
+    }
+
+    public function upload_arquivo($pasta=null) {
+        if (isset($_FILES[$pasta]) && $_FILES[$pasta]['error'] == 1) {
+            return '';
+        }
+
+        $upload_path = "assets/uploads/".$pasta;
+        if(!file_exists($upload_path)){
+           mkdir($upload_path, 0777, true);
+        }
+
+        $image = '';
+        $name_file = $_FILES[$pasta]['name'];
+        $ext = pathinfo($name_file, PATHINFO_EXTENSION);
+        $new_name = self::remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
+        $config = array(
+            'upload_path' => $upload_path,
+            'allowed_types' => "gif|jpg|png|jpeg|pdf",
+            'overwrite' => TRUE,
+            'encrypt_name' => true,
+            'max_size' => "100048000"
+        );
+
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+
+        if(!$this->upload->do_upload($pasta)){ 
+            $this->ultimo_erro_upload_arquivo = $this->upload->display_errors();
+            return '';
+        } else{
+            $this->ultimo_erro_upload_arquivo = null;
+            $imageDetailArray = $this->upload->data();
+            $image = $imageDetailArray['file_name'];
+        }
+        return $image;
+    }
+    
     public function dd(...$data){
         foreach($data as $dt) {
             echo "<pre>";

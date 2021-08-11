@@ -51,6 +51,13 @@ class MY_model extends CI_Model {
             ->row();
     }
 
+    public function formata_moeda($valor = 0, $num_format = false){
+        if($num_format){
+            return  number_format($valor, 2, '.', '');
+        }
+        return "R$ ". number_format($valor, 2, ',', '.');
+    }
+
     public function dd(...$data){
         foreach($data as $dt) {
             echo "<pre>";

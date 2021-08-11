@@ -15,7 +15,7 @@ class empresa_model extends MY_Model {
 
 	}
 
-	public function get_lista(){
+	public function get_empresas(){
 		$this->db->order_by('razao_social', 'ASC');
 		return $this->db->get('empresa')->result();
 	}

@@ -364,8 +364,8 @@ class Ativo_veiculo  extends MY_Controller {
 
             $dados['veiculo_km_inicial'] = $veiculo_km_inicial;
             $dados['veiculo_km_final'] = $veiculo_km_final;
-            $dados['veiculo_litros'] = self::remocao_pontuacao($this->input->post('veiculo_litros'));
-            $dados['veiculo_custo'] = self::remocao_pontuacao($this->input->post('veiculo_custo'));
+            $dados['veiculo_litros'] = (float) self::remocao_pontuacao($this->input->post('veiculo_litros'));
+            $dados['veiculo_custo'] = (float) self::remocao_pontuacao($this->input->post('veiculo_custo')) * $dados['veiculo_litros'];
             $dados['veiculo_km_data'] = $this->input->post('veiculo_km_data');
             $dados['comprovante_fiscal'] = ($_FILES['comprovante_fiscal'] ? self::upload_arquivo('comprovante_fiscal') : '');
             
@@ -535,43 +535,6 @@ class Ativo_veiculo  extends MY_Controller {
 
         // retorna a string
         return $string;     
-    }
-
-    public function upload_arquivo($pasta=null) {
-        if (isset($_FILES[$pasta]) && $_FILES[$pasta]['error'] == 1) {
-            return '';
-        }
-
-        $upload_path = "assets/uploads/".$pasta;
-        if(!file_exists($upload_path)){
-           mkdir($upload_path, 0777, true);
-        }
-
-        $image = '';
-        $name_file = $_FILES[$pasta]['name'];
-        $ext = pathinfo($name_file, PATHINFO_EXTENSION);
-        $new_name = self::remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
-        $config = array(
-            'upload_path' => $upload_path,
-            'allowed_types' => "gif|jpg|png|jpeg|pdf",
-            'overwrite' => TRUE,
-            'encrypt_name' => true,
-            'max_size' => "100048000"
-        );
-
-        $this->load->library('upload');
-        $this->upload->initialize($config);
-
-        if(!$this->upload->do_upload($pasta)){ 
-            $this->dd($_FILES[$pasta]['error'], $this->upload->display_errors());
-            $this->ultimo_erro_upload_arquivo = $this->upload->display_errors();
-            return '';
-        } else{
-            $this->ultimo_erro_upload_arquivo = null;
-            $imageDetailArray = $this->upload->data();
-            $image = $imageDetailArray['file_name'];
-        }
-        return $image;
     }
 
     function deletar($id_ativo_veiculo){

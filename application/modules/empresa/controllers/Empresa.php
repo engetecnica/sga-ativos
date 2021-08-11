@@ -22,7 +22,7 @@ class Empresa  extends MY_Controller {
 
     function index($subitem=null) {
 
-        $data['lista'] = $this->empresa_model->get_lista();
+        $data['lista'] = $this->empresa_model->get_empresas();
 
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);

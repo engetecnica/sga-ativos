@@ -2,10 +2,11 @@ error_log
 application/cache/*
 !application/cache/.gitkeep
 application/config/database.php
-assets/uploads/comprovante_fiscal/
+assets/uploads/comprovante_fiscal
 assets/uploads/comprovante_ipva
 assets/uploads/ordem_de_servico
-assets/uploads/termo_de_responsabilidade_retirada
+assets/uploads/ferramental_retirada
+assets/uploads/relatorio
 vendor
 *.DS_Store
 local_bd.sql

@@ -180,9 +180,9 @@
                                             </a>
                                         </div>
                                         <small>Clique para Liberar ou Recusar a Requisição dos itens solicitados.</small>
-                                    <?php } if(($requisicao->tipo == 1 && $requisicao->status == 2) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
+                                    <?php } if(($requisicao->tipo == 1 && in_array($requisicao->status, [2,11])) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
                                         <a
-                                            class="confirmar_registro text-center m-b-10"
+                                            class="confirmar_registro text-center m-b-10 m-t-20"
                                             href="javascript:void(0)"
                                             data-acao="Enviar" data-icon="info" data-message="false"
                                             data-title="Enviar para Transferencia" data-redirect="true"

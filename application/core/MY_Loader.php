@@ -11,13 +11,13 @@ class MY_Loader extends MX_Loader {
       parent::__construct();
     }
     
-    public function get_situacao($status=null, $case2 = 'DESCARTADO', $case2_class = 'info'){
-      $texto = "ATIVO";
+    public function get_situacao($status=null, $case2 = 'Descartado', $case2_class = 'info'){
+      $texto = "Ativo";
       $class = "success";
         
       switch ((int) $status) {
         case 1:
-          $texto = "INATIVO";
+          $texto = "Inativo";
           $class = "danger";
         break;
         case 2:
@@ -110,29 +110,39 @@ class MY_Loader extends MX_Loader {
         ];
     }
 
-    public function status($status=null) {
+    public function status_lista() {
       $lista = $this->session->status_lista;
       if (!$lista) {
         $lista = $this->ferramental_requisicao_model->get_requisicao_status();
         $this->session->status_lista = json_encode($lista);
       }
 
+      return array_map(function($item) {
+        return (object) [
+          'texto' => $item->texto,
+          'class' => $item->classe,
+          'slug' => $item->slug,
+          'id_status' => $item->id_requisicao_status
+        ];
+      }, is_string($lista) ? json_decode($lista) : $lista);
+    }
+
+    public function status($status=null) {
+      $lista = $this->status_lista();
       $texto = "Desconhecido"; $class = "muted"; $slug = "desconhecido";
-      if ($lista) {
-        $lista_array = is_string($lista) ? json_decode($lista) : $lista;
-        foreach ($lista_array as $k => $item){
-          if ($item->id_requisicao_status == $status) {
-            $texto = $item->texto;
-            $class = $item->classe;
-            $slug = $item->slug;
-          }
+
+      foreach ($lista as $k => $item){
+        if ($item->id_status == $status) {
+          $texto = $item->texto;
+          $class = $item->class;
+          $slug = $item->slug;
         }
       }
 
       return [
           'texto' => $texto,
           'class' => $class,
-          'slug' => $slug
+          'slug' => $slug,
       ];
     }
 
