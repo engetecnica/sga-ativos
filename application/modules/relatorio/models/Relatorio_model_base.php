@@ -168,7 +168,7 @@ class Relatorio_model_base extends MY_Model {
           'filtros'=> ['id_obra','periodo'],
           'grafico' => [
             'column' => ['Ferramentas', 'Equipamentos', 'Veiculos Abastecimentos', 'Veiculos Manuteções', 'Total'],
-            'tipo' => 'column'
+            'tipo' => 'column',
           ],
           'tipo' => ['grafico','arquivo'],
           'format' => 'money'

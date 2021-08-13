@@ -7,6 +7,7 @@
   <h1>Veículos Depreciação</h1>
   <p>Relatório de depreciação, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
 
+  <?php if (count($relatorio) > 0) {?>
   <table class="tabela">
       <thead>
           <tr>
@@ -36,6 +37,9 @@
         <?php } ?>
       </tbody>
   </table>
+  <?php } else { ?>
+    <p>Nenhuma depreciação de veículo registrada no peíodo</p>
+  <?php } ?>
 
 
 <footer>

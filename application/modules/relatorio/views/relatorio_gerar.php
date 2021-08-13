@@ -283,17 +283,29 @@
                     let legendMarkerType = relatorio_gerar.relatorios[relatorio_gerar.tipo].grafico.legend_marker || []
                     let colors = relatorio_gerar.relatorios[relatorio_gerar.tipo].grafico.colors || []
                     let format = relatorio_gerar.relatorios[relatorio_gerar.tipo].format || null
-                    
-                    Object.values(relatorio_gerar.relatorios[relatorio_gerar.tipo].grafico.column).forEach((key, index) => {
-                        let percent = ((parseFloat(response[key.toLowerCase()]) / parseFloat(response.total)) * 100)
-                        let formated_key = window.remove_acentos(key.toLowerCase().replaceAll('-', '_').replaceAll(' ', '_'))
-                        let legend = null
-                        if (!format) {
-                            legend = `${key}: ${response[formated_key] || 0} | ${percent ? percent.toFixed(2) : 0}%`
+                    let axisY = {
+                            includeZero: true,
+                            suffix: "",
+                            prefix: "",
+                            scaleBreaks: {
+                                autoCalculate: true
+                            }
                         }
+                    let axisX = {    
+                        prefix: "",
+                        suffix: "",
+                        scaleBreaks: {
+                            autoCalculate: true
+                        }
+                    }
+
+                    Object.values(relatorio_gerar.relatorios[relatorio_gerar.tipo].grafico.column).forEach((key, index) => {
+                        let formated_key = window.remove_acentos(key.toLowerCase().replaceAll('-', '_').replaceAll(' ', '_'))
+                        let legend = `${key}: ${response[formated_key] || 0}`
 
                         if (format && format == 'money'){
                             legend = `${key}: R$ ${response[formated_key]}`
+                            axisY.prefix = "R$"
                         }
                         
                         let value = response[formated_key]
@@ -314,7 +326,9 @@
                     relatorio_gerar.set_chart(
                         dataPoints, 
                         relatorio_gerar.relatorios[relatorio_gerar.tipo].titulo,
-                        tipo
+                        tipo,
+                        axisY,
+                        axisX
                     )
                 });
             }
@@ -344,27 +358,37 @@
                 });
             }
         },
-        set_chart(dataPoints = [], title = 'Relatório', type = 'pie'){
+        set_chart(dataPoints = [], title = 'Relatório', type = 'pie', axisY = {}, axisX = {}){
             this.dataPoints = dataPoints
             this.chart = new CanvasJS.Chart("grafico", {
                 animationEnabled: true,
-                exportEnabled: true,
+                exportEnabled: false,
                 theme: "light1", // "light1", "light2", "dark1", "dark2"
-                title:{ text: title, color: '#FF0000'},
+                title:{ 
+                    text: title, color: '#FF0000',
+                    fontFamily: "sans-serif",
+                    fontSize: 25,
+                },
                 verticalAlign: "top", // "top", "center", "bottom"
                 horizontalAlign: "left", // "left", "right", "center"
-                axisY:{
-                    //includeZero: true,
-                    // suffix: "%",
-                    // scaleBreaks: {
-                    //     autoCalculate: true
-                    // }
-                },
+                axisY: axisY,
+                axisX: axisX,
+                // axisY:{
+                //     includeZero: true,
+                //     prefix: "",
+                //     scaleBreaks: {
+                //         autoCalculate: true
+                //     }
+                // },
+                // axisX:{        
+                //     prefix: ""
+                // },
                 data: [{
                     type: type, //change type to bar, line, area, pie, etc
-                    indexLabel: "{y}", //Shows y value on all Data Points
+                    //indexLabel: "{y}", //Shows y value on all Data Points
                     indexLabelFontColor: "#5A5757",
                     indexLabelPlacement: "outside",
+                    indexLabelFontFamily: "sans-serif",
                     dataPoints: this.dataPoints
                 }]
             })

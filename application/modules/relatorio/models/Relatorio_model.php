@@ -169,11 +169,12 @@ class Relatorio_model extends Relatorio_model_base {
 
     if ($inicio && $fim) {
       $relatorio->where("ob.data_criacao >= '$inicio'")
-                 ->where("ob.data_criacao <= '$fim'");
+                 ->where("ob.data_criacao <= '$fim'")
+                 ->group_by('ob.id_obra');
     }
     
     if ($tipo && $tipo == 'arquivo') { 
-      return $relatorio->group_by('ob.id_obra')->get()->result();
+      return $relatorio->get()->result();
     }
     return $relatorio->get()->row();
   }
@@ -392,19 +393,26 @@ class Relatorio_model extends Relatorio_model_base {
   }
 
   public function veiculos_abastecimentos($data=null){
-    $data = $this->extract_data('veiculos_abastecimentos', $data);
-    $relatorio = $this->db
-        ->from('ativo_veiculo_quilometragem km')
-        ->join('ativo_veiculo atv', 'km.id_ativo_veiculo = atv.id_ativo_veiculo');
-    
-    $inicio = $data['periodo']['inicio'];
-    $fim = $data['periodo']['fim'];
+    $veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($this->extract_data('veiculos_abastecimentos', $data), 'arquivo');
 
-    if ($inicio && $fim) {
-      $relatorio->where("km.data >= '$inicio'")
-                 ->where("km.data <= '$fim'");
-    }
-    return $relatorio->get()->result();
+    return (object) [
+        'abastecimentos' => $veiculos_abastecimentos->lista,
+        'total' => $veiculos_abastecimentos->total
+    ];
+
+    // $data = $this->extract_data('veiculos_abastecimentos', $data);
+    // $relatorio = $this->db
+    //     ->from('ativo_veiculo_quilometragem km')
+    //     ->join('ativo_veiculo atv', 'km.id_ativo_veiculo = atv.id_ativo_veiculo');
+    
+    // $inicio = $data['periodo']['inicio'];
+    // $fim = $data['periodo']['fim'];
+
+    // if ($inicio && $fim) {
+    //   $relatorio->where("km.data >= '$inicio'")
+    //              ->where("km.data <= '$fim'");
+    // }
+    // return $relatorio->get()->result();
   }
 
 
@@ -638,7 +646,9 @@ class Relatorio_model extends Relatorio_model_base {
     $valor = 0;
     if (count($veiculos_abastecimento) > 0){
       foreach($veiculos_abastecimento as $ab => $abastecimento) {
-        $veiculos_abastecimento[$ab]->veiculo_custo_total =  ((float) $abastecimento->veiculo_custo * (float) $abastecimento->veiculo_litros);
+        $litros = (float) $abastecimento->veiculo_litros;
+        $custo = (float) $abastecimento->veiculo_custo;
+        $veiculos_abastecimento[$ab]->veiculo_custo_total = ($litros * $custo);
         $valor += $veiculos_abastecimento[$ab]->veiculo_custo_total;
       }
     }
@@ -655,7 +665,7 @@ class Relatorio_model extends Relatorio_model_base {
     $ferramentas =  $this->custos_ferramentas($data, $tipo);
     $veiculos_manutecoes = $this->custos_veiculos_manutecoes($data, $tipo);
     $veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($data, $tipo);
-    //$this->dd( $veiculos_manutecoes);
+
     if ($tipo && $tipo == 'arquivo') {
       return (object) [
         'ferramentas' =>  $ferramentas->lista,

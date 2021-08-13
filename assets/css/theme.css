@@ -333,6 +333,8 @@ section {
     padding-top: 60px;
     min-height: 100vh;
     position: sticky;
+    transition-delay: .3s;
+    transition: all cubic-bezier(.17,.67,.83,.67) .3s; 
 }
 
 @media (max-width: 991px) {

@@ -199,6 +199,7 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
           <td>Total</td>
           <td><?php echo $relatorio->veiculos_manutecoes_total; ?></td>
           </tr>
