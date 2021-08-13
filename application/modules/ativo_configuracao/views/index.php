@@ -17,22 +17,22 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Configurações de Ativos</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning">
+                        <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
-                                    <th>Categoria</th>
                                     <th>Titulo</th>
+                                    <th>Categoria</th>
                                     <th>Situação</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr>
+                                <tr id="<?php echo "configuracao-{$valor->id_ativo_configuracao}"?>">
                                     <td><?php echo $valor->id_ativo_configuracao; ?></td>
-                                    <td><?php echo ($valor->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_ativo_configuracao_vinculo; ?></td>
                                     <td><?php echo $valor->titulo; ?></td>
+                                    <td><?php echo ($valor->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_ativo_configuracao_vinculo; ?></td>
                                     <td>
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
