@@ -110,7 +110,7 @@
                                             name="id_obra" 
                                             id="id_obra"
                                         >
-                                            <option value="0">Nenhuma obra selecionada</option>
+                                            <option value="">Nenhuma obra selecionada</option>
 
                                             <?php foreach ($obra as $value) { ?>
                                                 <option 
@@ -192,7 +192,7 @@
                                         <?php } ?>
                                     </button>
 
-                                    <a href="<?php echo base_url("ativo_externo$id");?>">
+                                    <a href="<?php echo base_url("ativo_externo$id");?>" class="m-t-10">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

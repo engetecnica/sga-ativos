@@ -141,14 +141,14 @@
                                         <label for="responsavel_telefone" class=" form-control-label">Telefone</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="responsavel_telefone" name="responsavel_telefone" placeholder="Telefone" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_telefone)){ echo $detalhes->responsavel_telefone; } ?>">
+                                        <input type="text" id="responsavel_telefone" name="responsavel_telefone" placeholder="Telefone" class="telefone form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_telefone)){ echo $detalhes->responsavel_telefone; } ?>">
                                     </div>
 
                                     <div class="col col-md-1">
                                         <label for="responsavel_celular" class=" form-control-label">Celular</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="responsavel_celular" name="responsavel_celular" placeholder="Celular" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_celular)){ echo $detalhes->responsavel_celular; } ?>">
+                                        <input type="text" id="responsavel_celular" name="responsavel_celular" placeholder="Celular" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_celular)){ echo $detalhes->responsavel_celular; } ?>">
                                     </div>
 
                                     <div class="col col-md-1">

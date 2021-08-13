@@ -34,7 +34,7 @@ class Ferramental_requisicao  extends MY_Controller {
     function adicionar() {
         $grupos = [];
         if ($this->user->nivel == 1) {
-            $grupos = $this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra);
+            $grupos = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         }
         
         if ($this->user->nivel == 2) {
@@ -144,11 +144,11 @@ class Ferramental_requisicao  extends MY_Controller {
                 for ($i=0; $i < count($items); $i++) { 
                     $item = $this->ferramental_requisicao_model
                             ->get_requisicao_item($requisicao->id_requisicao, $items[$i]);
-                           
+                          
                     if ($item) {
                         $ativos = $this->ativo_externo_model
                                     ->get_estoque($this->user->id_obra, $item->id_ativo_externo_grupo, 12);
-                
+                        
                         $total_liberar = (count($ativos) > (int) $quantidade[$i]) ? $quantidade[$i] : count($ativos);
                         $total_quantidade += $item->quantidade;
                         
@@ -195,7 +195,7 @@ class Ferramental_requisicao  extends MY_Controller {
                         ];
                     }
                 }
-            
+
                 if (empty($requisicao_items) || empty($requisicao_ativos)) {
                     $this->session->set_flashdata('msg_info', "Nenhum item liberado! Digite a quantidade de cada item a ser liberado.");
                     echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
@@ -249,7 +249,7 @@ class Ferramental_requisicao  extends MY_Controller {
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $this->user);
 
         if ($requisicao && $this->input->method() == 'post') {
-            if (($requisicao->tipo == 1 && $requisicao->status == 2) && (($this->user->id_usuario == $requisicao->id_despachante) || ($this->user->id_obra == $requisicao->id_origem))) {
+            if (($requisicao->tipo == 1 &&  in_array($requisicao->status, [2, 11])) && (($this->user->id_usuario == $requisicao->id_despachante) || ($this->user->id_obra == $requisicao->id_origem))) {
                 $requisicao_ativos = $requisicao_items = $ativos_externos = [];
 
                 foreach ($requisicao->items as $item) {

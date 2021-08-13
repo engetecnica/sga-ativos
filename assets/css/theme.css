@@ -84,11 +84,22 @@ p {
 .table-responsive {
     padding-right: 1px;
     background-color: #FFFFFF;
+    min-width: 100% !important;
 }
 
 .table-responsive > h3{
     margin: 10px 20px;
     font-size: 1.4rem;
+}
+
+.table {
+    position: relative;
+    min-width: 100vw inherit !important;
+}
+
+.table thead , .table thead > tr {
+    min-width: 100% !important;
+    background-color: #333 !important;
 }
 
 .card {
@@ -106,6 +117,10 @@ p {
 .btn > i, .btn > svg{
     margin: 5px;
     font-size: .6rem;
+}
+
+.btn-lg > .fa{
+    font-size: inherit !important;
 }
 
 /* ----- Typography ----- */
@@ -326,9 +341,11 @@ section {
 }
 
 .main-content {
-    padding-top: 60px;
+    padding-top: 90px;
     min-height: 100vh;
     position: sticky;
+    transition-delay: .3s;
+    transition: all cubic-bezier(.17,.67,.83,.67) .3s; 
 }
 
 @media (max-width: 991px) {
@@ -1201,7 +1218,7 @@ section {
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed;
     top: 0;
     right: 0;
     left: 300px;
@@ -3166,6 +3183,9 @@ section {
         -moz-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-bottom: 40px;
     }
 
     .overview-wrap .button {
@@ -14781,6 +14801,8 @@ label {
     -o-transition: all 0.15s ease;
     transition: all 0.15s ease;
     width: 240px;
+    color: #FFFFFF !important;
+    cursor: pointer;
 }
 #liberar_requisicao_btn:hover, .btn-custom:hover{
     opacity: 0.9;
@@ -14792,4 +14814,14 @@ label {
 .badge-primary2, .btn-primary2 {
     background-color: #00a2ff;
     color: #FFFFFF;
+}
+
+.relatorio_grafico, .canvasjs-chart-canvas{
+    min-height: 350px; 
+    width: 100%; 
+    margin: 0 auto !important;
+}
+
+.canvasjs-chart-credit{
+    display: none !important;
 }

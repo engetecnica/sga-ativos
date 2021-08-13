@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <?php $id = isset($detalhes) ? "#".$detalhes->id_usuario : '';?>
+                        <?php $id = isset($detalhes) && isset($detalhes->id_usuario) ? "#".$detalhes->id_usuario : '';?>
                         <a href="<?php echo base_url("usuario$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
@@ -142,6 +142,18 @@
                                     </div>
                                     <div class="col-12 col-md-8">
                                         <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="********" class="form-control" value="">
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="situacao" class=" form-control-label">Situação</label>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <select name="situacao" id="situacao" class="form-control">
+                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
+                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>
+                                        </select>
                                     </div>
                                 </div>
                                 

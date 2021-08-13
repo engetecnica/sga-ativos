@@ -84,11 +84,11 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Enviar Requisição</span>
                                     </button>
-                                    <a href="<?php echo base_url('ferramental_requisicao');?>">
-                                    <button class="btn btn-info" type="button">                                                    
-                                        <i class="fa fa-remove "></i>&nbsp;
-                                        <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    <a class="m-t-10" href="<?php echo base_url('ferramental_requisicao');?>">
+                                        <button class="btn btn-info" type="button">                                                    
+                                            <i class="fa fa-remove "></i>&nbsp;
+                                            <span id="cancelar-form">Cancelar</span>
+                                        </button>                                                
                                     </a>
                                 </div>
                             </form>
@@ -112,7 +112,7 @@
 
 <template id="item_lista">
     <div class="row item-lista" style="margin-bottom: 10px;">
-        <div class="col-md-8">
+        <div class="col-md-8 m-t-10">
             <div class="exchange1">
                 <select required="required" name="id_ativo_externo_grupo[]" class="form-control">
                     <option value="">Buscar Item</option>
@@ -123,11 +123,11 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 m-t-10">
             <input required="required" name="quantidade[]" type="number" placeholder="0" class="form-control quantidade" value="1" min="1" max="100">
         </div>
         <div class="col-md-2" nowrap>
-            <p>
+            <p class="m-t-10">
                 <button type="button" class="btn btn-sm btn-primary add_line"><i class="fa fa-plus"></i></button>
                 <button type="button" class="btn btn-sm btn-danger remove_line"><i class="fa fa-minus"></i></button>
             </p>

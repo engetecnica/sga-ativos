@@ -23,7 +23,7 @@ class Ativo_externo  extends MY_Controller {
 
     function index($subitem=null) {
         $data['lista'] = $this->ativo_externo_model->get_ativos();
-        $data['grupos'] = $this->ativo_externo_model->get_grupos();
+        $data['grupos'] = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
@@ -118,7 +118,11 @@ class Ativo_externo  extends MY_Controller {
         $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
         $data['mode'] = $this->input->post('mode');
         $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
-    
+        $id_obra = $this->input->post('id_obra');
+        if (!$id_obra) {
+            $id_obra = $this->user->id_obra;
+        }
+
         if ($quantidade > 0) {
             $ids_ativos_externos = $this->input->post('id_ativo_externo');
 
@@ -127,10 +131,16 @@ class Ativo_externo  extends MY_Controller {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
                      $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
                 }
+
+                $id_obra = $this->input->post('id_obra');
+                if (!$id_obra) {
+                    $id_obra = $this->user->id_obra;
+                }
+
                  $items[$i]['id_ativo_externo_grupo']         =  $id_grupo;
                  $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
                  $items[$i]['tipo']                           = $this->input->post('tipo');
-                 $items[$i]['id_obra']                        = $this->input->post('id_obra') ? $this->input->post('id_obra') : $this->user->id_obra;
+                 $items[$i]['id_obra']                        = $id_obra;
                  $items[$i]['nome']                           = ucwords($this->input->post('nome'));
                  $items[$i]['observacao']                     = $this->input->post('observacao');
                  $items[$i]['codigo']                         = strtoupper($this->input->post('codigo'));
@@ -148,7 +158,7 @@ class Ativo_externo  extends MY_Controller {
                 'id_ativo_externo_categoria' => $items[0]['id_ativo_externo_categoria'],
                 'tipo' => $items[0]['tipo'],
                 'valor' => $items[0]['valor'],
-                'id_obra' => $items[0]['id_obra'],
+                'id_obra' => $id_obra,
                 'observacao' => $items[0]['observacao'],
                 'ativos' => $items
             ]);
@@ -175,6 +185,9 @@ class Ativo_externo  extends MY_Controller {
             if($this->input->post('codigo')){
                 if ($ativo) {
                     $dados[$k]['id_ativo_externo'] = $ativo->id_ativo_externo;
+                    if(($mode == 'update' && $this->input->post('id_obra')) && ($ativo->situacao == 12 || !$ativo->id_obra)) {
+                        $dados[$k]['id_obra'] = $this->input->post('id_obra');
+                    }
                 }
 
                 $dados[$k]['codigo']                        = $this->input->post('codigo')[$k];
@@ -183,11 +196,11 @@ class Ativo_externo  extends MY_Controller {
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
                 $dados[$k]['tipo'] = $this->input->post('tipo');
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
-
+                
                 if($mode == 'insert') {
-                    $dados[$k]['id_obra'] = $this->input->post('id_obra');
                     $dados[$k]['situacao'] = 12; // Estoque
                     $dados[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo');
+                    $dados[$k]['id_obra'] = $this->input->post('id_obra')[$k];
                 }
             }
         }
@@ -225,7 +238,7 @@ class Ativo_externo  extends MY_Controller {
                     $items[$i]['tipo']                           = $this->input->post('tipo');
                     $items[$i]['id_obra']                        = $this->input->post('id_obra');
                     $items[$i]['nome']                           = $this->input->post('nome');
-                    $items[$i]['observacao']                     = $this->input->post('observacao');
+                    $items[$i]['observacao']                     = $grupo->observacao;
                     $items[$i]['codigo']                         = $this->input->post('codigo');
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -239,6 +252,7 @@ class Ativo_externo  extends MY_Controller {
                 foreach($grupo->ativos as $i => $ativo) {
                     $items[$i]['id_ativo_externo'] = $ativo->id_ativo_externo;
                     $items[$i]['codigo'] = $ativo->codigo;
+                    $items[$i]['id_obra'] = $this->input->post('id_obra');
 
                     if ($this->input->post('nome')) {
                        $items[$i]['nome'] = $this->input->post('nome');

@@ -25,6 +25,7 @@
                                     <th>Empresa</th>
                                     <th>Obra</th>
                                     <th>Nível</th>
+                                    <th>Situação</th>
                                     <th>Ciação</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
@@ -42,10 +43,13 @@
                                         </td>
                                         <td><?php echo isset($valor->nome_fantasia) ? $valor->nome_fantasia: (isset($valor->razao_socia) ? $valor->razao_social : ''); ?></td>
                                         <td><?php echo $valor->codigo_obra; ?></td>
-                                        <!--<td><?php echo $valor->nivel; ?></td>-->
                                         <td>
                                             <?php $nivel = $this->get_usuario_nivel($valor->nivel);?>
                                             <span class="badge badge-<?php echo $nivel['class']; ?>"><?php echo $nivel['texto']; ?></span>
+                                        </td>
+                                        <td>
+                                            <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
+                                            <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                         </td>
                                         <td><?php echo $valor->data_criacao ? date('d/m/Y H:i:s', strtotime($valor->data_criacao)) : ''; ?></td>
                                         <td class="text-right">

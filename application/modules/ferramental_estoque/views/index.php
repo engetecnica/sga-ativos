@@ -13,6 +13,7 @@
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
+            <?php if($user->nivel == 2){?> 
             <div class="row">
                 <div class="col-md-12 m-b-40">
                     <div class="overview-wrap">
@@ -23,10 +24,11 @@
                     </div>
                 </div>
             </div>
+            <?php } ?> 
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="table-responsive table--no-d m-b-40">
+                    <div class="table table--no-card table-responsive table--no-d m-b-40">
                         <h3 class="title-1 m-b-25">Retiradas</h3>
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
@@ -86,9 +88,9 @@
             
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="table-responsive table--no-card m-b-40">
+                    <div class=" table-responsive  table--no-card m-b-40">
                         <h3 class="title-1 m-b-25">Itens</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista2">
+                        <table class="table table--no-card table-borderless table-striped table-earning" id="lista2">
                             <thead>
                                 <tr>
                                     <th>ID</th>

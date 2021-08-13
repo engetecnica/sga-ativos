@@ -1,0 +1,129 @@
+:root {
+  --laranja: #fd9e0f;
+}
+
+html, body{
+  font-family: "Poppins", sans-serif;
+  counter-reset: page;
+}
+
+footer {
+  font-size: 9px;
+  color: #000;
+  text-align: left;
+  position: fixed;
+  bottom: 0 !important;
+  width: 100%;
+  z-index: 10;
+  margin-top: 200px;
+  counter-incement: page;
+}
+
+footer::before
+{
+  content: 'counter(page)';
+  color: #000;
+  width: 100px;
+  height: 100px;
+}
+
+@page {
+  margin: .5cm 2.5cm;
+  height:  297mm;
+  width:  210mm;
+}
+
+
+header, footer{
+  width: 100% !important;
+}
+
+header{
+  margin-bottom: 20px;
+}
+
+footer{
+  margin-top: 20px;
+}
+
+header > img {
+   width: 50cm;
+}
+
+header > img, footer > img {
+  display: none;
+}
+
+section {
+  padding: 10px;
+  margin-top: 20px;
+  column-width: 17em;
+  column-gap: 3em;
+}
+section h1
+section h2, 
+section h3, 
+section p, 
+section li {
+  text-align: left;
+  text-justify: center;
+  color: #000; 
+}
+h1{
+  font-size: 1.5em;
+  margin-top: 1cm;
+}
+h1 , b {
+  color: #909090;
+}
+h2{
+  font-size: 1em;
+  color:  #f5811e;
+}
+h3{
+  font-size: 0.9em;
+}p,li{
+  font-size: .78em;
+}li{
+  font-size: .75em;
+}
+
+table {
+  border: solid 1px #ccc;
+  border-spacing: 0;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  min-width: 100%;
+  orphans: 0;
+  widows: 4;
+}
+
+table:last-child {
+  border: solid 1px red !important; 
+}
+
+table th,table tr, table td{
+  border: solid .5px  #ccc;
+  border-spacing: 0;
+}
+table th,table tr{
+   border: solid .5px #FFF;
+}
+
+table th{
+    font-size: 0.8em;
+    font-weight: lighter;
+    padding: .5em;
+    background-color: #ccc;
+    /*background-color:  #f5811e;*/
+    background-color: #ccc;
+}
+table tr{
+  widows: 5;
+  orphans: 3;
+}
+table td {
+  text-align: center;
+  padding: .5em;
+  font-size: .85em;
+}

@@ -65,7 +65,7 @@ class ferramental_requisicao_model extends MY_Model {
 			}
 		}
 
-		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.data_inclusao', 'DESC');
+		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.id_requisicao', 'desc');
 
 			// if ($limite) {
 			// 	$requisicoes->limit($limite, $offset);
@@ -125,8 +125,9 @@ class ferramental_requisicao_model extends MY_Model {
 
 	public function get_requisicao_items($id_requisicao, $status=null){
 			$this->db->reset_query();
-			$items_query = $this->db->select('item.*, atv.id_ativo_externo, atv.codigo, atv.nome, 
-			atv.id_ativo_externo_grupo, COUNT(atv.id_ativo_externo) as estoque')
+			$estoque = "select COUNT(id_ativo_externo) FROM ativo_externo WHERE (id_ativo_externo_grupo=atv.id_ativo_externo_grupo and situacao=12) and id_obra={$this->user->id_obra}";
+			$items_query = $this->db->select("item.*, atv.id_ativo_externo, atv.codigo, atv.nome, 
+			atv.id_ativo_externo_grupo, atv.id_obra, ($estoque) as estoque")
 			->from('ativo_externo_requisicao_item item')
 			->where("item.id_requisicao={$id_requisicao}");
 

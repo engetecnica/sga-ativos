@@ -88,22 +88,17 @@
             <td></td>
           </tr>
         <?php $total_items++; } ?>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!--<td></td>-->
+            <td>Total de Itens</td>
+            <td><?php echo $total_items; ?></td>
+            <td>Valor Total</td>
+            <td><?php echo $this->formata_moeda(array_sum(array_map(function($ativo) {return $ativo->valor;}, $ativos)));?> </td>
+          </tr>
       </tbody>
-  </table>
-
-  <table class="tabela">
-    <thead>
-        <tr>
-          <th>Total de Itens</th>
-          <th>Valor Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><?php echo $total_items; ?></td>
-          <td><?php echo $this->formata_moeda(array_sum(array_map(function($ativo) {return $ativo->valor;}, $ativos)));?> </td>
-        </tr>
-    </tbody>
   </table>
 
   <div class="assinaturas">
