@@ -20,7 +20,7 @@
                           
                             <div class="card-body">
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                           <th scope="col">Retirada ID</th>
@@ -46,6 +46,16 @@
                                           >
                                               Detalhes
                                           </a>
+                                        
+                                        <?php if(isset($retirada->termo_de_reponsabilidade)) { ?>
+                                          <a target="_blank" href="<?php echo base_url("assets/uploads/ferramental_estoque/{$retirada->termo_de_reponsabilidade}"); ?>">
+                                            <button id="btnGroupDrop1" class="btn btn-danger" type="button" id="impimir_termo_btn">
+                                                <i class="fa fa-print 4x"></i>&nbsp; 
+                                                Termo de Reponsabilidade
+                                            </button>
+                                          </a>
+                                        <?php } ?>
+
                                           <?php if($retirada->status == 1) {?>
                                             <a href="<?php echo base_url("ferramental_estoque/editar/{$retirada->id_retirada}"); ?>">
                                                 <button class="btn btn-sm btn-primary" type="button">                                                    
@@ -61,7 +71,7 @@
 
                                 <?php if(!empty($retirada->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th>Item Id</th>
@@ -126,6 +136,29 @@
                                 </table>
                                 <?php } ?>
 
+                                <div class="container row">
+                                <?php if(!$retirada->termo_de_reponsabilidade && in_array($retirada->status, [2, 4])){  ?>
+                                    <hr>
+                                    <form class="col" action="<?php echo base_url("ferramental_estoque/anexar_termo_resposabilidade/{$retirada->id_retirada}"); ?>" method="post" enctype="multipart/form-data">
+                                        <div class="row form-group">
+                                            <div class="col col-md-2">
+                                                <label for="ferramental_estoque" class=" form-control-label">Anexar Termo</label>
+                                            </div>
+                                            <div class="col col-md-10">
+                                                <input required="required" type="file" id="ferramental_estoque" name="ferramental_estoque" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
+                                                <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                                <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="pull-right">
+                                            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i>&nbsp; Anexar</button>
+                                        </div>
+                                    </form>
+                                <?php } ?>
+                                </div>
+
+
                                 <?php if($user->nivel == 2 && $retirada->status == 1){  ?>
                                     <hr>
                                     <div class="text-center">
@@ -143,26 +176,19 @@
                                     </div>
                                 <?php } ?>
 
-                                <hr>
-                                <div class="text-center">
-                                <?php if($user->nivel == 2 &&  in_array($retirada->status, [2, 4])){  ?>
-                                   
-                                    <div class="text-center m-b-40">
-                                      <a
-                                        class="pull-left"
-                                        target="_blank"
-                                        href="<?php echo base_url("ferramental_estoque/impimir_termo_resposabilidade/{$retirada->id_retirada}");?>"
-                                      >
+                             <div class="text-center m-b-40">
+
+                                <?php if(!isset($retirada->termo_de_reponsabilidade) && in_array($retirada->status, [2, 4])){  ?>
+                                      <a class="pull-left" download href="<?php echo base_url("ferramental_estoque/impimir_termo_resposabilidade/{$retirada->id_retirada}");?>">
                                         <button class="btn btn-md btn-primary2" type="button" id="impimir_termo_btn">
                                             <i class="fa fa-print 4x"></i>&nbsp;
                                             Imprimir Termo de Reponsabilidade
                                         </button>
                                       </a>
-                                    </div>
                                 <?php } ?>
-
-
-                                <?php if($user->nivel == 2 && $retirada->status == 2){  ?>
+                                    
+                            
+                                <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 2){  ?>
                                       <a
                                         class="confirmar_registro pull-right"
                                         href="javascript:void(0)"
@@ -179,8 +205,7 @@
                                       </a>
                                 <?php } ?>
 
-
-                                <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
+                                <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 4){  ?>
                                       <a
                                         class="confirmar_registro pull-right"
                                         href="javascript:void(0)"

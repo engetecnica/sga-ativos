@@ -71,6 +71,7 @@ class usuario  extends MY_Controller {
         $data['nivel'] = $this->input->post('nivel');
         $data['id_empresa'] = $this->input->post('id_empresa');
         $data['id_obra'] = $this->input->post('id_obra');
+        $data['situacao'] = $this->input->post('situacao');
 
         $senha = strlen($this->input->post('senha')) > 0 ? $this->input->post('senha') : null;
         $confirmar_senha = strlen($this->input->post('confirmar_senha')) > 0 ? $this->input->post('confirmar_senha') : null;

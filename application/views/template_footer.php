@@ -203,7 +203,28 @@
 
         /* Validação da liberação da requisição */
 
+        var adjustAnchor = function(e) {
+            e.preventDefault()
+            var hash = $(window.location.hash)
+            var header = $('#header-desktop')
+            if(hash.length > 0 && header.length > 0) {
+                window.scrollTo(0, hash.offset().top - (header.height() + 10));
+            }
+        };
+
+        $(window).on('hashchange load', function(e) {
+            setTimeout(() => {
+                adjustAnchor(e);
+            }, 10);
+        });      
+
         $(document).ready(function () {
+            $(window).on('resize',(event) => {
+                var sidebar = $('#menu-sidebar');
+                if ($(window).width() > 991 && (sidebar.length == 1 && !sidebar.is(':visible'))) {
+                    sidebar.show('fast')
+                }
+            });
             
             $("#liberar_requisicao").attr("disabled", true);
 
@@ -307,7 +328,7 @@
                     } 
                 }
 
-            });            
+            });      
         });
 
         <?php if($this->session->flashdata('msg_success')==true){ ?>
@@ -447,7 +468,8 @@
         $('.litros').mask("##0,0", {reverse: true});
         $('.cpf').mask('000.000.000-00');
         $('.valor').mask('000.000.000.000.000,00', {reverse: true});
-        $(".telefone").mask("(99) 9 9999-9999");
+        $(".telefone").mask("(99) 9999-9999");
+        $(".celular").mask("(99) 9 9999-9999");
 
 
         $(".deletar_registro").click(function(){

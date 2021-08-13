@@ -17,9 +17,9 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Detalhes da Retirada Administração</h2>
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body table--no-card">
                             <!-- Detalhes da Retirada -->
-                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                            <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                           <th scope="col">Retirada ID</th>
@@ -53,7 +53,7 @@
 
                             <?php if(!empty($retirada->items)){ ?>
                             <h3 class="title-1 m-b-25">Itens</h3>
-                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                            <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th>Item Id</th>
@@ -98,10 +98,8 @@
                             </table>
                             <?php } ?>
 
-                            <?php if($user->nivel == 1){  ?>
-                                <?php 
-                                    if($retirada->status == 14){
-                                ?> 
+                           
+                            <?php if($retirada->status == 14){?> 
                                 <hr>
                                 <div class="text-center">
                                     <a
@@ -116,7 +114,6 @@
                                         </button>
                                     </a>
                                 </div>
-                                <?php } ?>
                             <?php } ?>
                         </div>
                     </div>

@@ -177,14 +177,14 @@
                                         <label for="telefone" class=" form-control-label">Telefone</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->telefone)){ echo $detalhes->telefone; } ?>">
+                                        <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="telefone form-control" value="<?php if(isset($detalhes) && isset($detalhes->telefone)){ echo $detalhes->telefone; } ?>">
                                     </div>
 
                                     <div class="col col-md-1">
                                         <label for="celular" class=" form-control-label">Celular</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="celular" name="celular" placeholder="Celular" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->celular)){ echo $detalhes->celular; } ?>" required="required">
+                                        <input type="text" id="celular" name="celular" placeholder="Celular" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->celular)){ echo $detalhes->celular; } ?>" required="required">
                                     </div>
 
                                     <div class="col col-md-1">
@@ -210,8 +210,8 @@
                                     </div>
                                     <div class="col-12 col-md-10">
                                         <select name="situacao" id="situacao" class="form-control">
-                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
+                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
+                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>
                                         </select>
                                     </div>
                                 </div>

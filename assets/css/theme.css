@@ -84,11 +84,22 @@ p {
 .table-responsive {
     padding-right: 1px;
     background-color: #FFFFFF;
+    min-width: 100% !important;
 }
 
 .table-responsive > h3{
     margin: 10px 20px;
     font-size: 1.4rem;
+}
+
+.table {
+    position: relative;
+    min-width: 100vw inherit !important;
+}
+
+.table thead , .table thead > tr {
+    min-width: 100% !important;
+    background-color: #333 !important;
 }
 
 .card {
@@ -330,7 +341,7 @@ section {
 }
 
 .main-content {
-    padding-top: 60px;
+    padding-top: 90px;
     min-height: 100vh;
     position: sticky;
     transition-delay: .3s;
@@ -1207,7 +1218,7 @@ section {
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed;
     top: 0;
     right: 0;
     left: 300px;
@@ -3172,6 +3183,9 @@ section {
         -moz-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-bottom: 40px;
     }
 
     .overview-wrap .button {

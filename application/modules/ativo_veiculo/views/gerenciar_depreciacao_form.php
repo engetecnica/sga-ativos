@@ -29,7 +29,7 @@
 
                                 <p><strong>REGISTRO DE DEPRECIAÇÃO</strong></p>
                                 <hr>
-                                <table class="table table-striped table-bordered table-sm">
+                                <table class="table table-responsive table-striped table-bordered table-sm">
                                     <tr>
                                         <th>Tipo</th>
                                         <th>Modelo</th>

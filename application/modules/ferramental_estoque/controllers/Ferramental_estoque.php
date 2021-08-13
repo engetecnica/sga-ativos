@@ -39,6 +39,7 @@ class Ferramental_estoque  extends MY_Controller {
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
         $data['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
+        $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
         if ($data['retirada']) {
             if ($this->user->nivel == 1) {
@@ -82,7 +83,7 @@ class Ferramental_estoque  extends MY_Controller {
 
     function adicionar(){
         $this->get_template('index_form', [
-            'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra),
+            'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
             'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_empresa, $this->user->id_obra, true),
             'id_obra' => $this->user->id_obra,
         ]);
@@ -100,7 +101,7 @@ class Ferramental_estoque  extends MY_Controller {
 
             $this->get_template('index_form', [
                 'retirada' => $retirada,
-                'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra),
+                'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
                 'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
                 'id_obra' => $this->user->id_obra,
             ]);
@@ -519,4 +520,23 @@ class Ferramental_estoque  extends MY_Controller {
         echo redirect(base_url("ferramental_estoque"));
     }
 
+    function anexar_termo_resposabilidade($id_retirada){
+        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
+        if($retirada) {
+            $dados['termo_de_reponsabilidade'] = ($_FILES['ferramental_estoque'] ? self::upload_arquivo('ferramental_estoque') : '');
+            if (!$dados['termo_de_reponsabilidade'] || $dados['termo_de_reponsabilidade'] == '') {
+                $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
+                echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
+                return;
+            }
+
+            $this->db->where('id_retirada', $id_retirada)
+                                ->update('ativo_externo_retirada', $dados);
+            $this->session->set_flashdata('msg_success', "Anexo atualizado com sucesso!");
+            echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
+            return;
+        }
+        $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
+        echo redirect(base_url("ferramental_estoque"));
+    }
 }

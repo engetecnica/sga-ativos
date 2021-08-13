@@ -16,7 +16,7 @@ class funcionario_model extends MY_Model {
 	}
 
 
-	public function get_lista($id_empresa = null, $id_obra = null){
+	public function get_lista($id_empresa = null, $id_obra = null, $situacao = null){
 		$funcionarios = $this->db->from('funcionario fn')->select('*');
 
 		if ($id_empresa) {
@@ -25,6 +25,14 @@ class funcionario_model extends MY_Model {
 
 		if ($id_obra) {
 			$funcionarios->where("fn.id_obra = {$id_obra}");
+		}
+
+		if ($situacao) {
+			if(is_array($situacao)) {
+				$funcionarios->where("fn.situacao IN (".implode(',',$situacao).")");
+			} else {
+				$funcionarios->where("fn.situacao = {$situacao}");
+			}
 		}
 
 		return $funcionarios->order_by('fn.nome', 'ASC')->get()->result();

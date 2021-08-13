@@ -162,6 +162,53 @@ class MY_Controller extends MX_Controller {
         return 'data:image/' . pathinfo($filename, PATHINFO_EXTENSION) . ';base64,' . base64_encode($contents);
     }
 
+    public function remocao_pontuacao($string=null){
+        return str_replace(",", ".", str_replace(".", "", $string));
+    }
+
+    public function remocao_acentos($string=null, $slug=false){
+        
+        // Caracteres a serem mantidos so que decodificados
+        $table = array(
+            'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'Ž'=>'Z', '.'=>' ',
+            'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
+            'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
+            'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
+            'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+            'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
+            'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
+            'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
+            'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
+            'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
+            'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
+            'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
+            'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
+            'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r',
+        );
+
+        // Traduz os caracteres em $string, baseado no vetor $table
+        $string = strtr($string, $table);
+
+        // Converte para minúsculo
+        $string = strtolower($string);
+
+        // Remove caracteres indesejáveis (que não estão no padrão)
+        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+
+        // Remove múltiplas ocorrências de hífens ou espaços
+        $string = preg_replace("/[\s-]+/", " ", $string);
+
+        // Faz a retirada de espaços multiplos no texto para evitar que a url fique com mais de uma hifen entre os espaçamentos
+        $string = trim($string);
+
+        // Transforma espaços e underscores em $slug
+        $string = preg_replace("/[\s_]/", $slug, $string);
+
+        // retorna a string
+        return $string;     
+    }
+
     public function upload_arquivo($pasta=null) {
         if (isset($_FILES[$pasta]) && $_FILES[$pasta]['error'] == 1) {
             return '';
@@ -173,8 +220,10 @@ class MY_Controller extends MX_Controller {
         }
 
         $image = '';
+
         $name_file = $_FILES[$pasta]['name'];
         $ext = pathinfo($name_file, PATHINFO_EXTENSION);
+       
         $new_name = self::remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
         $config = array(
             'upload_path' => $upload_path,
@@ -183,7 +232,7 @@ class MY_Controller extends MX_Controller {
             'encrypt_name' => true,
             'max_size' => "100048000"
         );
-
+        
         $this->load->library('upload');
         $this->upload->initialize($config);
 

@@ -5,7 +5,7 @@ application/config/database.php
 assets/uploads/comprovante_fiscal
 assets/uploads/comprovante_ipva
 assets/uploads/ordem_de_servico
-assets/uploads/ferramental_retirada
+assets/uploads/ferramental_estoque
 assets/uploads/relatorio
 vendor
 *.DS_Store

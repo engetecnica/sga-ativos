@@ -45,6 +45,7 @@ class ferramental_estoque_model extends MY_Model {
 						->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
 						->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
 						->group_by('retirada.id_retirada')
+						->order_by('retirada.id_retirada', 'desc')
 						->get()
 						->result();
 	}

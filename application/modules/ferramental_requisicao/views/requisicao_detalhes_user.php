@@ -30,15 +30,15 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Requisão ID</th>
                                             <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col">Tipo da Requisição</th>
-                                            <th scope="col">Status da Requisição</th>
+                                            <th scope="col" width="20%">Tipo da Requisição</th>
+                                            <th scope="col" width="20%">Status da Requisição</th>
                                             <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
-                                                <th scope="col">Opções</th>
+                                                <th scope="col" width="20%">Opções</th>
                                             <?php }?>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
@@ -80,7 +80,7 @@
                                     </tbody>
                                 </table>
 
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Despachante</th>
@@ -100,7 +100,7 @@
                                 </table> 
 
                                 
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Solicitado</th>
@@ -117,109 +117,110 @@
                                             <td><?php echo $requisicao->data_recebido ? date("d/m/Y H:i", strtotime($requisicao->data_recebido)) : '-'; ?></td>
                                         </tr>
                                     </tbody>
-                                </table> 
+                                </table>
 
                                 <hr>
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2" style="min-height: 500px;">
-                                    <thead>
-                                        <tr class="active">
-                                            <th scope="col">Id</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Qtde. Solcitada</th>
-                                            <th scope="col">Qtde. Liberada</th>
-                                            <th scope="col">Atualizado</th>
-                                            <th scope="col">Situação</th>
-                                            <th scope="col">Opções</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($requisicao->items as $item){ 
-                                            $status = $this->status($item->status);
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $item->id_requisicao_item; ?></td>
-                                            <td>
-                                                <?php if (in_array($requisicao->status, [2,3,4,9,11,14])) {?>
-                                                <a 
-                                                    href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
-                                                >
-                                                    <?php echo $item->nome; ?>
-                                                </a>
-                                                <?php } else { echo $item->nome; }?>
-                                            </td>
-                                            <td><?php echo $item->quantidade; ?></td>
-                                            <td><?php echo $item->quantidade_liberada; ?></td>
-                                            <td>
-                                                <?php $data = "data_{$status['slug']}"?>
-                                                <?php echo isset($item->$data) ? date("d/m/Y H:i", strtotime($item->$data)) : '-'; ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
-                                                    <?php echo $status['texto']; ?>
-                                                </button>
-                                            </td>
-                                            <td>
-                                            <?php if ($requisicao->tipo == 1 &&  in_array($item->status, [3, 13])) {?>
-                                                <div class="btn-group">
-                                                    <button 
-                                                        class="btn btn-secondary btn-sm dropdown-toggle" 
-                                                        type="button"
-                                                        data-toggle="dropdown" 
-                                                        aria-haspopup="true" 
-                                                        aria-expanded="false"
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning" id="lista" style="min-height: 300px;">
+                                        <thead>
+                                            <tr class="active">
+                                                <th width="col">Id</th>
+                                                <th width="col">Item</th>
+                                                <th width="col">Qtde. Solcitada</th>
+                                                <th width="col">Qtde. Liberada</th>
+                                                <th width="col">Atualizado</th>
+                                                <th width="col">Situação</th>
+                                                <th width="col">Opções</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($requisicao->items as $item){ 
+                                                $status = $this->status($item->status);
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $item->id_requisicao_item; ?></td>
+                                                <td>
+                                                    <?php if (in_array($requisicao->status, [2,3,4,9,11,14])) {?>
+                                                    <a 
+                                                        href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                     >
-                                                        Opções
+                                                        <?php echo $item->nome; ?>
+                                                    </a>
+                                                    <?php } else { echo $item->nome; }?>
+                                                </td>
+                                                <td><?php echo $item->quantidade; ?></td>
+                                                <td><?php echo $item->quantidade_liberada; ?></td>
+                                                <td>
+                                                    <?php $data = "data_{$status['slug']}"?>
+                                                    <?php echo isset($item->$data) ? date("d/m/Y H:i", strtotime($item->$data)) : '-'; ?>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="badge badge-sm badge-<?php echo $status['class']; ?>">
+                                                        <?php echo $status['texto']; ?>
                                                     </button>
+                                                </td>
+                                                <td>
+                                                <?php if ($requisicao->tipo == 1 &&  in_array($item->status, [3, 13])) {?>
+                                                    <div class="btn-group">
+                                                        <button 
+                                                            class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                            type="button"
+                                                            data-toggle="dropdown" 
+                                                            aria-haspopup="true" 
+                                                            aria-expanded="false"
+                                                        >
+                                                            Opções
+                                                        </button>
 
-                                                    <div class="dropdown-menu">
-                                                        <?php if ($item->status == 3) {?>
-                                                        <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
-                                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
-                                                        </a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a 
+                                                        <div class="dropdown-menu">
+                                                            <?php if ($item->status == 3) {?>
+                                                            <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
+                                                                <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a 
+                                                                class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
+                                                            >
+                                                                <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+
+                                                            <a 
                                                             class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
-                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
-                                                            data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
-                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
-                                                        >
-                                                            <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
-                                                        </a>
-                                                        <div class="dropdown-divider"></div>
-
-                                                        <a 
-                                                        class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
-                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
-                                                            data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
-                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
-                                                        >
-                                                            <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
-                                                        </a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <?php } ?>
-                                                        <a 
-                                                            class="dropdown-item btn btn-sm btn-primary" 
-                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
-                                                        >
-                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
-                                                        </a>
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
+                                                            >
+                                                                <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <?php } ?>
+                                                            <a 
+                                                                class="dropdown-item btn btn-sm btn-primary" 
+                                                                href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
+                                                            >
+                                                                <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            <?php } else { ?> 
-                                                -
-                                            <?php }  ?>        
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                    </tbody>
+                                                <?php } else { ?> 
+                                                    -
+                                                <?php }  ?>        
+                                                </td>
+                                            </tr>
+                                            <?php } ?>
+                                        </tbody>
                                 </table>
                                 <?php } ?>
+                            </div>
 
-                                <hr>
-                                <div class="row">
+                            <hr>
+                            <div class="row">
                                     <hr>
                                     <div class="col offset-md-3 col-md-6 text-center d-flex flex-column">
                                     <?php if(($requisicao->status == 2) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
@@ -262,14 +263,11 @@
                                         <?php  } } ?>
 
                                     </div>
-                                </div>
-
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-
             
             <div class="row">
                 <div class="col-md-12">

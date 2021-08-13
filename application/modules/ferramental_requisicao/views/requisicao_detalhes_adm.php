@@ -23,13 +23,13 @@
                             <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
                             <div class="card-body">
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Requisão ID</th>
-                                            <th scope="col" width="20%">Solicitação</th>
-                                            <th scope="col">Tipo da Requisição</th>
-                                            <th scope="col">Status da Requisição</th>
+                                            <th scope="col" width="25%">Requisão ID</th>
+                                            <th scope="col" width="25%">Solicitação</th>
+                                            <th scope="col" width="25%">Tipo da Requisição</th>
+                                            <th scope="col" width="25%" >Status da Requisição</th>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
                                             <?php } ?>
@@ -37,17 +37,17 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo $requisicao->id_requisicao; ?></td>
-                                            <td><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td>
+                                            <td scope="col" width="25%"><?php echo $requisicao->id_requisicao; ?></td>
+                                            <td scope="col" width="25%"><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
+                                            <td scope="col" width="25%">
                                                 <span class="badge badge-<?php echo $requisicao->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $requisicao->tipo == 1 ? 'Requisição': 'Devolução';?></span>
                                             </td>
-                                            <td width="10%">
+                                            <td scope="col" width="25%">
                                                 <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
-                                                <td> 
+                                                <td scope="col" width="25%"> 
                                                     <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>
                                                     <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
                                                         <?php echo $relativa->id_requisicao; ?>
@@ -58,13 +58,13 @@
                                     </tbody>
                                 </table>
 
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Despachante</th>
-                                            <th scope="col" width="20%">Origem</th>
-                                            <th scope="col" width="20%">Solicitante</th>
-                                            <th scope="col" width="20%">Destino</th>
+                                            <th scope="col" width="25%">Despachante</th>
+                                            <th width="20%">Origem</th>
+                                            <th width="20%">Solicitante</th>
+                                            <th width="20%">Destino</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,7 +77,7 @@
                                     </tbody>
                                 </table> 
 
-                                <table class="table table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Solicitado</th>
@@ -99,7 +99,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>

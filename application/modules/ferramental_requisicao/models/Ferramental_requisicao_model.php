@@ -65,7 +65,7 @@ class ferramental_requisicao_model extends MY_Model {
 			}
 		}
 
-		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.data_inclusao', 'DESC');
+		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.id_requisicao', 'desc');
 
 			// if ($limite) {
 			// 	$requisicoes->limit($limite, $offset);
