@@ -247,15 +247,13 @@ class MY_Controller extends MX_Controller {
         return $image;
     }
     
-    public function dd(...$data, $exit = true){
+    public function dd(...$data){
         foreach($data as $dt) {
             echo "<pre>";
             echo print_r($dt, true);
             echo "</pre>";
         }
-        if ($exit){
-            exit;
-        }
+        exit;
     }
 }
  
