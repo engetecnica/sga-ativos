@@ -81,6 +81,15 @@
                                     </div>
                                 </div>
 
+                                <div v-if="relatorio && relatorio.filtros.includes('veiculo_placa')" class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="veiculo_placa" class=" form-control-label">Veículo/Placa</label>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <input type="text" v-model="form.veiculo_placa" class="form-control" id="veiculo_placa" name="veiculo_placa"/>
+                                    </div>
+                                </div>
+
 
                                 <div v-if="relatorio && relatorio.filtros.includes('periodo')" class="row form-group">
                                     <div class="col col-md-2">
@@ -188,6 +197,7 @@
           status: null,
           situacao: null,
           tipo_veiculo: 'todos',
+          veiculo_placa: null,
         },
         url: {
             interval: null,

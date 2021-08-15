@@ -67,8 +67,11 @@ class Ativo_veiculo_model extends MY_Model {
 		return $consulta;
 	}	
 
-	public function get_tipo_servico($id_ativo_configuracao){
-		$this->db->where("id_ativo_configuracao_vinculo", $id_ativo_configuracao);
+	public function get_tipo_servico($id_ativo_configuracao=null){
+		$this->db
+						 ->where("(id_ativo_configuracao_vinculo={$id_ativo_configuracao})")
+						 ->where("situacao = '0'");
+
 		return $this->db->group_by('id_ativo_configuracao')
 										->get('ativo_configuracao')
 										->result();

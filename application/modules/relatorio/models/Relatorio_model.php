@@ -19,7 +19,6 @@ class Relatorio_model extends Relatorio_model_base {
     return $extracted_data;
   }
 
-
 	public function funcionario($data=null, $tipo=null) {
     $data = $this->extract_data('funcionario', $data);
     $inicio = $data['periodo']['inicio'];
@@ -399,24 +398,9 @@ class Relatorio_model extends Relatorio_model_base {
         'abastecimentos' => $veiculos_abastecimentos->lista,
         'total' => $veiculos_abastecimentos->total
     ];
-
-    // $data = $this->extract_data('veiculos_abastecimentos', $data);
-    // $relatorio = $this->db
-    //     ->from('ativo_veiculo_quilometragem km')
-    //     ->join('ativo_veiculo atv', 'km.id_ativo_veiculo = atv.id_ativo_veiculo');
-    
-    // $inicio = $data['periodo']['inicio'];
-    // $fim = $data['periodo']['fim'];
-
-    // if ($inicio && $fim) {
-    //   $relatorio->where("km.data >= '$inicio'")
-    //              ->where("km.data <= '$fim'");
-    // }
-    // return $relatorio->get()->result();
   }
 
-
-  private function custos_ferramentas($data, $tipo=null){
+  public function custos_ferramentas($data, $tipo=null){
     $ferramentas = null;
     $ferramentas_total = null;
     $inicio = $data['periodo']['inicio'];
@@ -466,7 +450,7 @@ class Relatorio_model extends Relatorio_model_base {
     ];
   }
 
-  private function custos_equipamentos($data, $tipo=null){
+  public function custos_equipamentos($data, $tipo=null){
     $equipamentos =  null;
     $equipamentos_total = null;
     $inicio = $data['periodo']['inicio'];
@@ -515,7 +499,7 @@ class Relatorio_model extends Relatorio_model_base {
     ];
   }
 
-  private function custos_equipamentos_manutecoes($data, $tipo=null){
+  public function custos_equipamentos_manutecoes($data, $tipo=null){
     $equipamentos_manutencao =  null;
     $equipamentos_manutencao_total = null;
     $inicio = $data['periodo']['inicio'];
@@ -570,8 +554,7 @@ class Relatorio_model extends Relatorio_model_base {
     ];
   }
 
-
-  private function custos_veiculos_manutecoes($data, $tipo=null){
+  public function custos_veiculos_manutecoes($data, $tipo=null){
     $veiculos_manutencao =  null;
     $veiculos_manutencao_total = null;
     $inicio = $data['periodo']['inicio'];
@@ -627,7 +610,7 @@ class Relatorio_model extends Relatorio_model_base {
     ];
   }
 
-  private function custos_veiculos_abastecimentos($data, $tipo=null){
+  public function custos_veiculos_abastecimentos($data, $tipo=null){
     $inicio = $data['periodo']['inicio'];
     $fim = $data['periodo']['fim'];
 
@@ -639,6 +622,10 @@ class Relatorio_model extends Relatorio_model_base {
       $veiculos_abastecimento
           ->where("km.data >= '$inicio'")
           ->where("km.data <= '$fim'");
+    }
+
+    if ($data['veiculo_placa']) {
+      $veiculos_abastecimento->like("veiculo_placa", $data['veiculo_placa']);
     }
 
     $veiculos_abastecimento = $veiculos_abastecimento->get()->result();

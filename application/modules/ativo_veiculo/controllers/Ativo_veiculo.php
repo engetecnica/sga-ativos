@@ -278,7 +278,7 @@ class Ativo_veiculo  extends MY_Controller {
             case 'manutencao':
                 if($tipo=='adicionar'){
                     $template = "_form";
-                    $data['tipo_servico'] = $this->ativo_veiculo_model->get_tipo_servico(10);
+                    $data['tipo_servico'] = $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos');
                     $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedor();
                     $data['id_ativo_veiculo'] = $id_ativo_veiculo;
                 } elseif($tipo=='editar') {
