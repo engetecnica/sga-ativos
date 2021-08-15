@@ -160,7 +160,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'veiculos_abastecimentos' => [
           'titulo' => 'Veículos Abastecimento',
-          'filtros'=> ['tipo_veiculo', 'periodo'],
+          'filtros'=> ['tipo_veiculo', 'veiculo_placa', 'periodo'],
           'tipo' => 'arquivo'
         ],
         'centro_de_custo' => [

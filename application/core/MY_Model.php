@@ -58,12 +58,14 @@ class MY_model extends CI_Model {
         return "R$ ". number_format($valor, 2, ',', '.');
     }
 
-    public function dd(...$data){
+    public function dd(...$data, $exit = true){
         foreach($data as $dt) {
             echo "<pre>";
-            echo print_r($dt);
+            echo print_r($dt, true);
             echo "</pre>";
         }
-        exit;
+        if ($exit){
+            exit;
+        }
     }
 }
