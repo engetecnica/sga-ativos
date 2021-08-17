@@ -19,14 +19,21 @@ class Ativo_externo_model extends MY_Model {
 
 	}
 
-	private function ativos(){
+	private function ativos($out_kit = true){
 		$this->db->reset_query();
-		return $this->db->select('atv.*')
+		$ativos = $this->db->select('atv.*')
 							->select('obra.codigo_obra as obra, obra.endereco as endereco, obra.id_obra')
 							->select('kit.*')
 							->from('ativo_externo atv')
-							->join("obra", "obra.id_obra = atv.id_obra", "left")
-							->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit = atv.id_ativo_externo", "left");
+							->join("obra", "obra.id_obra = atv.id_obra", "left");
+
+		if ($out_kit) {
+			$ativos->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit IS NULL", "left");
+		} else {
+			$ativos->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit = atv.id_ativo_externo", "left");
+		}
+
+		return $ativos;
 	}
 
 	public function get_ativos($id_obra=null, $situacao=null){
@@ -87,7 +94,7 @@ class Ativo_externo_model extends MY_Model {
 			$grupos[$g]->transferido = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 7);
 			$grupos[$g]->comdefeito = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 8);
 			$grupos[$g]->foradeoperacao = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 10);
-			$grupos[$g]->ativos = $this->get_estoque($grupos[$g]->id_obra, $grupo->id_ativo_externo_grupo);
+			$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
 		}
 		return $grupos;
 	}
@@ -117,8 +124,8 @@ class Ativo_externo_model extends MY_Model {
 		return $grupo_query->num_rows();
 	}
 
-	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $status = null, $out_kit = false){
-		$estoque = $this->ativos();
+	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $status = null, $out_kit = true){
+		$estoque = $this->ativos($out_kit);
 		if ($id_obra) {
 			$estoque->where("atv.id_obra = {$id_obra}");
 		}
@@ -135,10 +142,6 @@ class Ativo_externo_model extends MY_Model {
 			}
 		}
 
-		if ($out_kit) {
-			$estoque->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit IS NULL", "left");
-		}
-		
 		return $estoque->order_by('atv.id_ativo_externo', 'ASC')
 						->group_by('atv.id_ativo_externo')
 						->get()->result();

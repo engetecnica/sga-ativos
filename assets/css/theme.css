@@ -92,14 +92,10 @@ p {
     font-size: 1.4rem;
 }
 
-.table {
-    position: relative;
-    min-width: 100vw inherit !important;
-}
 
 .table thead , .table thead > tr {
     min-width: 100% !important;
-    background-color: #333 !important;
+    /* background-color: #333 !important; */
 }
 
 .card {
@@ -4307,6 +4303,17 @@ section {
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.table--no-card  thead {
+    min-width: 100% inherit !important;
+    position: relative;
+}
+
+.table--no-card  th {
+    position: relative;
+    min-width: 33% !important;
+    max-width: 300px !important;
 }
 
 .table-earning thead th {

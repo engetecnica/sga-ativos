@@ -83,10 +83,10 @@
                                 <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Despachante</th>
-                                            <th scope="col" width="20%">Origem</th>
-                                            <th scope="col" width="20%">Solicitante</th>
-                                            <th scope="col" width="20%">Destino</th>
+                                            <th scope="col" width="30%">Despachante</th>
+                                            <th scope="col" width="30%">Origem</th>
+                                            <th scope="col" width="30%">Solicitante</th>
+                                            <th scope="col" width="30%">Destino</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,10 +103,10 @@
                                 <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Solicitado</th>
-                                            <th scope="col" width="20%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
-                                            <th scope="col" width="20%">Transferido</th>
-                                            <th scope="col" width="20%">Recebido</th>
+                                            <th scope="col" width="30%">Solicitado</th>
+                                            <th scope="col" width="30%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
+                                            <th scope="col" width="30%">Transferido</th>
+                                            <th scope="col" width="30%">Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody>

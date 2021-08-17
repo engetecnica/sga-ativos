@@ -28,9 +28,9 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                          <th>Item ID</th>
-                                          <th>Item</th>
-                                          <th>Quantidade</th>
+                                          <th scope="col" width="50%">Item ID</th>
+                                          <th scope="col" width="50%">Item</th>
+                                          <th scope="col" width="50%">Quantidade</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,9 +51,9 @@
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Ativo ID</th>
-                                            <th scope="col" width="20%">Código</th>
+                                            <th scope="col" width="10%">Código</th>
                                             <th scope="col" width="50%">Nome</th>
-                                            <th scope="col" width="20%">Situação</th>
+                                            <th scope="col" width="30%">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,6 +63,7 @@
                                             <td><?php echo $ativo->codigo; ?></td>
                                             <td><?php echo $ativo->nome; ?></td>
                                             <td>
+                                                <input type="hidden" name="id_ativo_externo_<?php echo $ativo->id_retirada_item; ?>[]" id="id_ativo_externo_<?php echo $ativo->id_retirada_item; ?>[]" value="<?php echo $ativo->id_ativo_externo; ?>">
                                                 <input type="hidden" name="id_retirada_ativo_<?php echo $ativo->id_retirada_item; ?>[]" id="id_retirada_ativo_<?php echo $ativo->id_retirada_item; ?>[]" value="<?php echo $ativo->id_retirada_ativo; ?>">
                                                 <select 
                                                     <?php echo (isset($no_aceite) && $no_aceite == true )? 'disabled' : ''; ?>

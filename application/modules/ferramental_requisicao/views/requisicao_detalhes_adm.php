@@ -26,10 +26,10 @@
                                 <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="25%">Requisão ID</th>
-                                            <th scope="col" width="25%">Solicitação</th>
-                                            <th scope="col" width="25%">Tipo da Requisição</th>
-                                            <th scope="col" width="25%" >Status da Requisição</th>
+                                            <th scope="col" width="30%">Requisão ID</th>
+                                            <th scope="col" width="30%">Solicitação</th>
+                                            <th scope="col" width="30%">Tipo da Requisição</th>
+                                            <th scope="col" width="30%" >Status da Requisição</th>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
                                             <?php } ?>
@@ -37,17 +37,17 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td scope="col" width="25%"><?php echo $requisicao->id_requisicao; ?></td>
-                                            <td scope="col" width="25%"><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
-                                            <td scope="col" width="25%">
+                                            <td scope="col" width="30%"><?php echo $requisicao->id_requisicao; ?></td>
+                                            <td scope="col" width="30%"><?php echo date("d/m/Y H:i", strtotime($requisicao->data_inclusao)); ?></td>
+                                            <td scope="col" width="30%">
                                                 <span class="badge badge-<?php echo $requisicao->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $requisicao->tipo == 1 ? 'Requisição': 'Devolução';?></span>
                                             </td>
-                                            <td scope="col" width="25%">
+                                            <td scope="col" width="30%">
                                                 <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
-                                                <td scope="col" width="25%"> 
+                                                <td scope="col" width="30%"> 
                                                     <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>
                                                     <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
                                                         <?php echo $relativa->id_requisicao; ?>
@@ -61,10 +61,10 @@
                                 <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="25%">Despachante</th>
-                                            <th width="20%">Origem</th>
-                                            <th width="20%">Solicitante</th>
-                                            <th width="20%">Destino</th>
+                                            <th scope="col" width="30%">Despachante</th>
+                                            <th scope="col" width="30%">Origem</th>
+                                            <th scope="col" width="30%">Solicitante</th>
+                                            <th scope="col" width="30%">Destino</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -80,10 +80,10 @@
                                 <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Solicitado</th>
-                                            <th scope="col" width="20%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
-                                            <th scope="col" width="20%">Transferido</th>
-                                            <th scope="col" width="20%">Recebido</th>
+                                            <th scope="col" width="30%">Solicitado</th>
+                                            <th scope="col" width="30%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
+                                            <th scope="col" width="30%">Transferido</th>
+                                            <th scope="col" width="30%">Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody>

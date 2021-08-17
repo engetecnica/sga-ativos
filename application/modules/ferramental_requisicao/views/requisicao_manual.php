@@ -41,7 +41,9 @@
                                             <th scope="col" width="10%">Cód. Item</th>
                                             <th scope="col">Item</th>
                                             <th scope="col">Observações</th>
+                                            <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
                                             <th scope="col" width="25%">Status</th>
+                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,15 +52,17 @@
                                             <td><?php echo $manual->codigo; ?></td>
                                             <td><?php echo $manual->nome; ?></td>
                                             <td><input type="" class="form-control" name="observacoes[]" id="observacoes[]" placeholder="<?php echo $manual->codigo; ?> - Observações" value="<?php if($manual->observacao) echo $manual->observacao; ?>" disabled="disabled"></td>
-                                            
+                                            <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
                                             <td>
                                                 <input type="hidden" name="id_requisicao_ativo[]" id="id_requisicao_ativo[]" value="<?php echo $manual->id_requisicao_ativo; ?>">
                                                 <select 
                                                     <?php echo (isset($no_aceite) && $no_aceite == true )? 'disabled' : ''; ?>
                                                     class="form-control" name="status[]" id="status[]" required="required"
                                                 >
+                                                    <?php if (!in_array($requisicao->status, [3, 13]) || $no_aceite == true) {?>
                                                     <option readonly="readonly" value="" <?php if($manual->situacao && $manual->situacao==12) echo "selected='selected'"; ?>>Em estoque</option>
                                                     <option readonly="readonly" value="" <?php if($manual->situacao && $manual->situacao==2) echo "selected='selected'"; ?>>Liberado</option>
+                                                    <?php } ?>
                                                     <option value="4" <?php if($manual->situacao && $manual->situacao==4) echo "selected='selected'"; ?>>Recebido</option>
                                                      <!--<option value="5" <?php if($manual->situacao && $manual->situacao==5) echo "selected='selected'"; ?>>Em Operação</option>-->
                                                     <option value="8" <?php if($manual->situacao && $manual->situacao==8) echo "selected='selected'"; ?>>Com Defeito </option>
@@ -66,12 +70,13 @@
                                                     <!--<option value="10" <?php if($manual->situacao && $manual->situacao==10) echo "selected='selected'"; ?>>Fora de Operação</option>-->
                                                 </select>
                                             </td>
+                                            <?php } ?>
                                         </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
 
-                                <?php if(  in_array($requisicao->status, [3, 13]) && (!isset($no_aceite) || isset($no_aceite) && $no_aceite == false)){ ?>
+                                <?php if(in_array($requisicao->status, [3, 13]) && (!isset($no_aceite) || isset($no_aceite) && $no_aceite == false)){ ?>
                                     <hr>
                                     <div class="text-center">
                                         <p class="text-center" style="padding: 25px;"><b>Atenção:</b> Todos os items acima descritos foram transferidos e estão sendo recebidos por você. <br>Ao atestar que os items estão todos funcionando, a responsabilidade é inteiramente sua, por isso,<br> <font color='red'>confira a situação de cada item antes de aceitá-los.</font> </p>

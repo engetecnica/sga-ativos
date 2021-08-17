@@ -103,15 +103,9 @@ class Ferramental_requisicao  extends MY_Controller {
         $requisicao_item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_requisicao_item);
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
 
-        if (!$requisicao_item) {
-            $this->session->set_flashdata('msg_erro', "Item da Requisição não localizado.");
-            echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}")); 
-            return;
-        }
-
         $ativos = [];
         foreach($requisicao->items as $item) {
-            if ($id_requisicao_item &&  $item->id_requisicao_item || !$id_requisicao_item) {
+            if (($item->id_requisicao_item == $id_requisicao_item) || !$id_requisicao_item) {
                 $ativos = array_merge($ativos, $item->ativos);
             }
         }

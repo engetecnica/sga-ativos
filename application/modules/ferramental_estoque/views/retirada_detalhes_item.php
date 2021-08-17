@@ -18,7 +18,7 @@
                     <form action="<?php echo base_url('ferramental_retirada/liberar_retirada'); ?>" method="post" enctype="multipart/form-data"> 
                         <h2 class="title-1 m-b-25">Detalhes Item da Retirada</h2>
 
-                        <div class="card">
+                        <div class="card ">
 
                             <input type="hidden" name="id_retirada" value="<?php echo $retirada->id_retirada; ?>">
                             <input type="hidden" name="id_obra" value="<?php echo $retirada->id_obra; ?>">
@@ -28,12 +28,12 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                          <th>Item ID</th>
-                                          <th>Item</th>
-                                          <th>Quantidade</th>
-                                          <th>Status</th>
+                                          <th scope="col" width="30%">Item ID</th>
+                                          <th scope="col" width="30%">Item</th>
+                                          <th scope="col" width="30%">Quantidade</th>
+                                          <th scope="col" width="30%">Status</th>
                                           <?php if ($retirada->status == 1) { ?>
-                                          <th>Remover</th>
+                                          <th scope="col" width="30%">Remover</th>
                                           <?php } ?>
                                         </tr>
                                     </thead>
@@ -69,15 +69,15 @@
                                 <hr>
 
 
-                                <table class="table table-responsive table-borderless table-striped table-earning"  id="lista2">
+                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning"  id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="40%">Ativo ID</th>
                                             <th scope="col" width="40%">Código</th>
                                             <th scope="col" width="40%">Nome</th>
-                                            <th scope="col">Data da Retirada</th>
-                                            <th scope="col">Data da Entrega</th>
-                                            <th scope="col">Situação</th>
+                                            <th scope="col" width="40%">Data da Retirada</th>
+                                            <th scope="col" width="40%">Data da Entrega</th>
+                                            <th scope="col" width="40%">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>

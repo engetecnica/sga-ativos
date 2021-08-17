@@ -58,7 +58,7 @@
 
                                 <h3 class="title-2 m-b-25">Itens da Retirada</h3>
                                 <!-- Itens da Retirada -->
-                                <table class="table table-borderless table-striped table-earning" id="lista2">
+                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Nome</th>
