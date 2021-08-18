@@ -65,16 +65,19 @@ class ferramental_requisicao_model extends MY_Model {
 			}
 		}
 
-		$requisicoes->group_by('requisicao.id_requisicao')->order_by('requisicao.id_requisicao', 'desc');
+		$requisicoes
+		->group_by('requisicao.id_requisicao')
+		->order_by('requisicao.id_requisicao', 'desc');
 
-			// if ($limite) {
-			// 	$requisicoes->limit($limite, $offset);
-			// }
+			if ($limite) {
+				$requisicoes->limit($limite, $offset);
+			}
 			return $requisicoes->get()->result();
 	}
 
 	public function lista_requisicao_count($status = null){
-		$requisicoes = $this->db->from('ativo_externo_requisicao requisicao')->select('requisicao.*');
+		$requisicoes = $this->db->from('ativo_externo_requisicao requisicao')
+														->select('requisicao.*');
 
 		if ($status) {
 			if (is_array($status)) {

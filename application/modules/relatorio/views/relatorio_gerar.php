@@ -165,7 +165,6 @@
 <!-- END PAGE CONTAINER-->
 
 <script>
-  var base_url = "<?php echo base_url('/'); ?>"
   var relatorios = JSON.parse('<?php echo json_encode($relatorios); ?>') || []
   var periodos = JSON.parse('<?php echo json_encode($periodos); ?>')
   var empresas =  JSON.parse('<?php echo json_encode($empresas); ?>')
@@ -383,16 +382,6 @@
                 horizontalAlign: "left", // "left", "right", "center"
                 axisY: axisY,
                 axisX: axisX,
-                // axisY:{
-                //     includeZero: true,
-                //     prefix: "",
-                //     scaleBreaks: {
-                //         autoCalculate: true
-                //     }
-                // },
-                // axisX:{        
-                //     prefix: ""
-                // },
                 data: [{
                     type: type, //change type to bar, line, area, pie, etc
                     //indexLabel: "{y}", //Shows y value on all Data Points

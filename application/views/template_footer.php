@@ -9,6 +9,7 @@
     <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
     <script src="<?php echo base_url('assets'); ?>/vendor/select2/select2.min.js"></script>
 
     <!-- Main JS-->
@@ -59,6 +60,8 @@
 
             $('#lista').DataTable($config_lista);
             $('#lista2').DataTable($config_lista);
+            $('#lista3').DataTable($config_lista);
+            $('#lista4').DataTable($config_lista);
 
             $('.paginate_button').click((e) => {
                 setTimeout(() => {

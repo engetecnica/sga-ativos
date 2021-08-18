@@ -1,7 +1,21 @@
-
 (function ($) {
   // USE STRICT
   "use strict";
+  var meses_do_ano = {
+    1: ['Janeiro', '#00b5e9'], 
+    2: ['Fevereiro', '#00b26f'], 
+    3: ['Março', '#808080'], 
+    4: ['Abril', '#fd7e14'], 
+    5: ['Maio', '#20c997'], 
+    6: ['Junho', '#17a2b8'], 
+    7: ['Julho', '#ffc107'], 
+    8: ['Agosto', '#343a40'], 
+    9: ['Setembro', '#fa4251'], 
+    10: ['Outubro', '#6610f2'], 
+    11: ['Novembro', '#28a745'], 
+    12: ['Dezembro', '#6f42c1']
+  };
+
 
   try {
     //WidgetChart 1
@@ -11,7 +25,7 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: meses_do_ano,
           type: 'line',
           datasets: [{
             data: [78, 81, 80, 45, 34, 12, 40],
@@ -77,7 +91,7 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          labels: meses_do_ano,
           type: 'line',
           datasets: [{
             data: [1, 18, 9, 17, 34, 22],
@@ -148,7 +162,7 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          labels: meses_do_ano,
           type: 'line',
           datasets: [{
             data: [65, 59, 84, 84, 51, 55],
@@ -218,7 +232,7 @@
       var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+          labels: meses_do_ano,
           datasets: [
             {
               label: "My First dataset",
@@ -262,7 +276,7 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', ''],
+          labels: meses_do_ano,
           datasets: [
             {
               label: 'My First dataset',
@@ -409,7 +423,7 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', ''],
+          labels: meses_do_ano,
           datasets: [
             {
               label: 'My First dataset',
@@ -577,43 +591,65 @@
   }
 
   try {
-    //WidgetChart 5
-    var ctx = document.getElementById("widgetChart5");
-    if (ctx) {
-      ctx.height = 220;
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          datasets: [
-            {
-              label: "My First dataset",
-              data: [78, 81, 80, 64, 65, 80, 70, 75, 67, 85, 66, 68],
-              borderColor: "transparent",
-              borderWidth: "0",
-              backgroundColor: "#ccc",
-            }
-          ]
-        },
-        options: {
-          maintainAspectRatio: true,
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              display: false,
-              categoryPercentage: 1,
-              barPercentage: 0.65
-            }],
-            yAxes: [{
-              display: false
-            }]
-          }
-        }
-      });
-    }
+    //crecimento_empresa index
+    if (document.getElementById("crecimento_empresa")) {
+      window.$.ajax({
+        method: "GET",
+        url: `${base_url}relatorio/crescimento_empresa`,
+      })
+      .done(function(response) {
+        let crecimento_empresa_data = []
+        let crecimento_empresa_labels = []
+        let meses = []
+        let ctx = document.getElementById("crecimento_empresa");
 
+        Object.values(response).forEach((mes, index) => {
+          crecimento_empresa_labels[index] = meses_do_ano[mes[0]][0]
+          crecimento_empresa_data.push({
+            data: [parseFloat(mes[1])], 
+            label: meses_do_ano[mes[0]][0],
+            borderColor: meses_do_ano[mes[0]][1],
+            backgroundColor: meses_do_ano[mes[0]][1]
+          })
+        })
+
+        if (crecimento_empresa && ctx) {
+          ctx.height = 220;
+          var myChart = new Chart(ctx, {
+                type: 'bar',
+                labels: crecimento_empresa_labels,
+                data: {
+                  labels: [''],
+                  datasets: crecimento_empresa_data,
+                },
+                
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  legend: {
+                    display: true,
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                    xAxes: [{
+                      display: true,
+                      categoryPercentage: 1,
+                      barPercentage: 0.75,
+                      suffix:"%"
+                    }],
+                    yAxes: [{
+                      display: true,
+                      suffix:"%",
+                      legend: 'top',
+                    }]
+                  }
+                }
+          });
+        }
+      })
+    }
   } catch (error) {
     console.log(error);
   }

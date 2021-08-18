@@ -13,13 +13,21 @@ class Ativo_interno_model extends MY_Model {
 		}
 	}
 
-	public function get_lista($id_obra = null, $situacao = null){
-		$lista = $this->db
+	public function ativos(){
+		return $this->db
+			->from('ativo_interno')
 			->order_by('nome', 'asc')
-			->group_by('id_ativo_interno');
+			->group_by('id_ativo_interno')
+			->select('ativo_interno.*');;
+	}
+
+	public function get_lista($id_obra = null, $situacao = null){
+		$lista = $this->ativos()
+							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
+							->select('codigo_obra as obra');
 
 		if ($id_obra){
-			$lista->where("id_obra = $id_obra");
+			$lista->where("ativo_interno.id_obra = $id_obra");
 		}
 
 		if ($situacao) {
@@ -29,12 +37,14 @@ class Ativo_interno_model extends MY_Model {
 				$lista->where("situacao = $situacao");
 			}
 		}
-		return $lista->get('ativo_interno')->result();
+		return $lista->get()->result();
 	}
 
 	public function get_ativo_interno($id_ativo_interno=null, $situacao=null){
-		$ativo = $this->db
-		->where('id_ativo_interno', $id_ativo_interno);
+		$ativo = $this->ativos()
+							->where('id_ativo_interno', $id_ativo_interno)
+							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
+							->select('codigo_obra as obra');
 
 		if ($situacao) {
 			if (is_array($situacao)) {
@@ -43,7 +53,7 @@ class Ativo_interno_model extends MY_Model {
 				$ativo->where("situacao = $situacao");
 			}
 		}
-		return $ativo->get('ativo_interno')->row();
+		return $ativo->get()->row();
 	}
 
 	public function get_manutencao($id_ativo_interno, $id_manutencao){
@@ -55,7 +65,8 @@ class Ativo_interno_model extends MY_Model {
 	}
 
 	public function get_lista_manutencao($id_ativo_interno){
-		return $this->db->select('manutencao.*, manutencao.valor as manutencao_valor, manutencao.situacao as manutencao_situacao, ativo.*')
+		return $this->db
+		->select('manutencao.*, manutencao.valor as manutencao_valor, manutencao.situacao as manutencao_situacao, ativo.*')
 		->order_by('manutencao.id_manutencao', 'desc')
 		->from('ativo_interno_manutencao manutencao')
 		->where("manutencao.id_ativo_interno={$id_ativo_interno}")

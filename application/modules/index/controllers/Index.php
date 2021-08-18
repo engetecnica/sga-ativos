@@ -18,13 +18,35 @@ class Index extends MY_Controller {
             echo redirect(base_url('login')); 
         } 
         # Fecha Login
+        $this->load->model('empresa/empresa_model');
+        $this->load->model('funcionario/funcionario_model');
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
+        $this->load->model('ativo_veiculo/ativo_veiculo_model');
+        $this->load->model('ativo_externo/ativo_externo_model');
+        $this->load->model('relatorio/relatorio_model');
+        
     }
 
     function index() {
-        $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 11], 0, 5);
-        $data['requisicoes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 11]);
-        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
+        $id_empresa = $this->user->id_empresa;
+        $id_obra = $this->user->id_obra;
+
+        if ($this->user->nivel == 1){
+            $data['estoque'] = count($this->ativo_externo_model->get_estoque($id_obra, null, 12));
+            $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 11], 0, 5);
+            $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 11]);
+        }
+
+        $data['clientes'] = count($this->empresa_model->get_empresas());
+        $data['colaboradores'] = count($this->funcionario_model->get_lista($id_empresa, $id_obra));
+        $data['veiculos_manutencao'] = $this->ativo_veiculo_model->count_ativo_veiculo_em_manutencao();
+        
+        $data_patrimonio = [
+            'id_obra' => $this->user->id_obra,
+            'tipo_veiculo' => 'todos',
+        ];
+        
+        $data['patrimonio'] = $this->relatorio_model->patrimonio_disponivel($data_patrimonio, 'arquivo');
         $this->get_template('index', $data);
     }
 

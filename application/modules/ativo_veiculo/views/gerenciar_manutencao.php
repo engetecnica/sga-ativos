@@ -20,15 +20,17 @@
                         <table class="table table-borderless table-striped table-earning">
                             <thead>
                                 <tr>
+                                    <th width="7%">ID Manutenção</th>
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
                                     <th>Fornecedor</th>
                                     <th>Serviço</th>
                                     <th>KM</th>
                                     <th>Custo</th>
-                                    <th>Data</th>
+                                    <th>Data Entrada</th>
+                                    <th>Data Saída</th>
                                     <th>Comprovante</th>
-
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,13 +38,15 @@
                                     foreach($lista as $valor){ 
                                 ?>
                                 <tr>
-                                    <td><?php echo $valor->veiculo; ?></td>
+                                    <td><?php echo $valor->id_ativo_veiculo_manutencao;?></td>
+                                    <td><?php echo $valor->veiculo;?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
-                                    <td><?php echo $valor->id_fornecedor; ?></td>
+                                    <td><?php echo $valor->fornecedor; ?></td>
                                     <td><?php echo $valor->id_ativo_configuracao; ?></td>
                                     <td><?php echo $valor->veiculo_km_atual; ?></td>
                                     <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->data)); ?></td>
+                                    <td><?php echo date("d/m/Y", strtotime($valor->data_entrada)); ?></td>
+                                    <td><?php echo isset($valor->data_saida) ? date("d/m/Y", strtotime($valor->data_saida)) : '-' ; ?></td>
                                     <td>
                                         <?php if($valor->ordem_de_servico){ ?>
                                         <a target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
@@ -52,7 +56,29 @@
                                         </a>                           
                                         <?php } ?>
                                     </td>
+                                    <td> 
+                                        <?php if(!$valor->ordem_de_servico){ ?>
+                                        <a href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>">
+                                            <button class="btn btn-sm btn-info" type="submit">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                        </a>
+                                        <?php } ?>
 
+                                        <?php if (!isset($valor->data_saida)) {?>
+                                        <a
+                                            class="confirmar_registro" data-tabela="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$valor->id_ativo_veiculo}");?>" 
+                                            href="javascript:void(0)" data-registro=""
+                                            data-acao="Marca como Finalizada"  data-redirect="true"
+                                            data-href="<?php echo base_url("ativo_veiculo/manutencao_saida/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>"
+                                        >
+                                            <button class="btn btn-sm btn-success" type="submit">
+                                                <i class="fa fa-check "></i>&nbsp;
+                                                Marca como Finalizada
+                                            </button>
+                                        </a>
+                                        <?php }?>
+                                    </td>
                                 </tr>
                                <?php } ?>
                             </tbody>

@@ -13,8 +13,7 @@ class Relatorio_model_base extends MY_Model {
       // $this->load->model('fornecedor/fornecedor_model');
       $this->load->model('ativo_interno/ativo_interno_model');
       $this->load->model('ativo_externo/ativo_externo_model'); 
-      // $this->load->model('ativo_veiculo/ativo_veiculo_model');
-      // $this->load->model('ferramental_estoque/ferramental_estoque_model');
+      $this->load->model('ativo_veiculo/ativo_veiculo_model');
       $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
 
       $this->tipos_veiculos =  [

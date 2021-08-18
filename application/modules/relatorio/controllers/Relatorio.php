@@ -91,6 +91,14 @@ class Relatorio extends MY_Controller {
       return  $this->json(['relatorio' => null]);
     }
 
+    public function crescimento_empresa(){
+      return $this->json($this->relatorio_model->crescimento_empresa());
+    }
+
+    public function crescimento_empresa_custos(){
+      return $this->json($this->relatorio_model->crescimento_empresa_custos());
+    }
+
     function limpar_tmp(){
       $path = __DIR__."/../../../../assets/uploads/relatorio";
       foreach(glob("{$path}/relatorio_*.pdf") as $file){

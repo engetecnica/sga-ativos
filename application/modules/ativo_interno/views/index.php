@@ -27,6 +27,7 @@
                                     <th>Inclusão</th>
                                     <th>Descarte</th>
                                     <th>Situação</th>
+                                    <th>Obra</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
                             </thead>
@@ -43,6 +44,7 @@
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
+                                    <td><?php echo $valor->obra; ?></td>
                                     <td class="text-right">
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,6 +52,7 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 <a class="dropdown-item" href="<?php echo base_url("ativo_interno/manutencao/{$valor->id_ativo_interno}"); ?>">Histórico de Manutenção</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_interno'); ?>/editar/<?php echo $valor->id_ativo_interno; ?>"> Editar</a>
                                                 <?php if((int) $valor->situacao < 2){?>
                                                 <a 
                                         
@@ -59,7 +62,7 @@
                                                     data-registro="<?php echo $valor->id_ativo_interno;?>"
                                                     data-acao="Descartar"
                                                     data-href="<?php echo base_url("ativo_interno/descartar/{$valor->id_ativo_interno}");?>"
-                                                    data-tabela="<?php echo base_url("ativo_interno#{$valor->id_ativo_interno}");?>"
+                                                    data-tabela="<?php echo base_url("ativo_interno");?>"
                                                     data-redirect="true"
                                                     data-acao="Enviar" data-icon="info" data-message="false"
                                                     data-title="Enviar para Transferencia" data-redirect="true"
@@ -68,12 +71,14 @@
                                                    Descartar Ativo                                              
                                                 </a>
                                                 <?php } ?>
+                                               
+                                                <?php if((int) $valor->situacao == 2 && !isset($valor->data_descarte)){?>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-href="<?php echo base_url('ativo_interno'); ?>/deletar/<?php echo $valor->id_ativo_interno; ?>" data-registro="<?php echo $valor->id_ativo_interno;?>" data-tabela="ativo_interno" class="deletar_registro">Remover</a>
+                                                <?php } ?>
                                             </div>
                                         </div>
-                                        <a href="<?php echo base_url('ativo_interno'); ?>/editar/<?php echo $valor->id_ativo_interno; ?>"><i class="fas fa-edit"></i></a>
-                                        <?php if((int) $valor->situacao == 2 && !isset($valor->data_descarte)){?>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_interno'); ?>/deletar/<?php echo $valor->id_ativo_interno; ?>" data-registro="<?php echo $valor->id_ativo_interno;?>" data-tabela="ativo_interno" class="deletar_registro"><i class="fas fa-remove"></i></a>
-                                        <?php } ?>
+                                        
+                                      
                                     </td>
                                 </tr>
                                <?php } ?>

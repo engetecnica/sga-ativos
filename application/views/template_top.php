@@ -52,6 +52,9 @@
     <!-- Sweet Alert 
     <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script> 
+        var base_url = "<?php echo base_url('/'); ?>"
+    </script>
 </head>
 
 <body class="animsition-disabled">

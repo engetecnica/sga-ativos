@@ -568,8 +568,8 @@ class Relatorio_model extends Relatorio_model_base {
                                       ->join('fornecedor fn', 'fn.id_fornecedor = atvm.id_fornecedor');
       if ($inicio && $fim) {
         $veiculos_manutencao
-            ->where("atvm.data >= '$inicio'")
-            ->where("atvm.data <= '$fim'");
+            ->where("atvm.data_saida >= '$inicio'")
+            ->where("atvm.data_saida <= '$fim'");
       }
 
       if ($data['id_obra']) {
@@ -588,8 +588,8 @@ class Relatorio_model extends Relatorio_model_base {
 
     if ($inicio && $fim) {
       $veiculos_manutencao_total
-                  ->where("atvmc.data >= '$inicio'")
-                  ->where("atvmc.data <= '$fim'");
+                  ->where("atvmc.data_saida >= '$inicio'")
+                  ->where("atvmc.data_saida <= '$fim'");
     }
 
     if ($data['id_obra']) {
@@ -624,7 +624,7 @@ class Relatorio_model extends Relatorio_model_base {
           ->where("km.data <= '$fim'");
     }
 
-    if ($data['veiculo_placa']) {
+    if (isset($data['veiculo_placa'])) {
       $veiculos_abastecimento->like("veiculo_placa", $data['veiculo_placa']);
     }
 
@@ -689,6 +689,21 @@ class Relatorio_model extends Relatorio_model_base {
     return (object) $relatorio;       
   }
 
+  private function get_patrimonio_obra_items($obra){
+    $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
+    $obra->equipamentos_total = 0;
+    foreach($obra->equipamentos as $equipamento){
+      $obra->equipamentos_total  += $equipamento->valor;
+    }
+
+    $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
+    $obra->ferramentas_total = 0;
+    foreach($obra->ferramentas as $ferramenta){
+      $obra->ferramentas_total  += $ferramenta->valor;
+    }
+    return $obra;
+  }
+
   public function patrimonio_disponivel($data=null, $tipo=null){
     $data = $this->extract_data('patrimonio_disponivel', $data);
 
@@ -702,14 +717,11 @@ class Relatorio_model extends Relatorio_model_base {
       $obras = [];
       if ($data['id_obra']) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
-        $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
-        $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
-        $obras[] = $obra;
+        $obras[] = $this->get_patrimonio_obra_items($obra);
       } else {
-        $obras = $this->obra_model->get_obras();
-        foreach($obras as $obra){
-          $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
-          $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
+        $obras_models = $this->obra_model->get_obras();
+        foreach($obras_models as $obra){
+          $obras[] = $this->get_patrimonio_obra_items($obra);
         }
       }
 
@@ -755,5 +767,107 @@ class Relatorio_model extends Relatorio_model_base {
         'total_de_items' => ($ativos_internos->equipamentos + $ativos_externos->ferramentas) + (!$data['id_obra'] ? $ativos_veiculos->veiculos : 0)
       ]
     );
+  }
+
+
+  public function count_ativos_externos($periodo_inicio, $periodo_fim){
+    return $this->ativo_externo_model->ativos()
+            ->where("data_inclusao >= '$periodo_inicio'")
+            ->where("data_inclusao <= '$periodo_fim'")
+            ->where("data_descarte IS NULL")
+             ->get()->num_rows();
+  }
+
+  public function count_ativos_internos($periodo_inicio, $periodo_fim){
+    return $this->ativo_interno_model->ativos()
+            ->where("data_inclusao >= '$periodo_inicio'")
+            ->where("data_inclusao <= '$periodo_fim'")
+            ->where("data_descarte IS NULL")
+            ->get()->num_rows();
+  }
+
+  public function count_ativos_veiculos($periodo_inicio, $periodo_fim){
+    return $this->ativo_veiculo_model->ativos()
+            ->where("data >= '$periodo_inicio'")
+            ->where("data <= '$periodo_fim'")
+            ->where("situacao = '0'")
+            ->get()->num_rows();
+  }
+
+  public function count_colaboradores($periodo_inicio, $periodo_fim){
+    return $this->db
+            ->from('funcionario')
+            ->where("data_criacao >= '$periodo_inicio'")
+            ->where("data_criacao <= '$periodo_fim'")
+            ->get()->num_rows();
+  }
+
+  public function crescimento_empresa(){
+    $meses_31_dias = [1,3,5,7,8,10,12];
+    $meses_porcentagens = $meses_total = [];
+
+    for($i=0; $i < 13; $i++){
+      $inicio = date('Y-m-01 00:00:00', strtotime("-{$i} months"));
+      $ultimo_dia = date('t', strtotime($inicio));
+      $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-{$i} months"));
+
+      $mes = (int) date('m', strtotime($inicio));
+      $meses_total[$mes] = 0;
+      $meses_total[$mes] += (float) $this->count_ativos_externos($inicio, $fim);
+      $meses_total[$mes] += (float) $this->count_ativos_internos($inicio, $fim);
+      $meses_total[$mes] += (float) $this->count_ativos_veiculos($inicio, $fim);
+      $meses_total[$mes] += (float) $this->count_colaboradores($inicio, $fim);
+
+      $v_menor = (float) isset($meses_total[$mes + 1]) ? $meses_total[$mes + 1] : 0;
+      $v_maior = (float) $meses_total[$mes];
+
+      //V = ((Vmaior - Vmenor)/Vmenor) * 100
+      $meses_porcentagens[$i][0] = $mes;
+      if ($v_menor > 0){
+         $meses_porcentagens[$i][1] = number_format(((($v_maior + $v_menor)/$v_menor) * 100), 2);
+      } else {
+        $meses_porcentagens[$i][1] = number_format(((($v_maior - $v_menor) * $v_menor) / 100), 2);
+      }
+    }
+
+    return array_reverse($meses_porcentagens);
+  }
+
+  public function crescimento_empresa_custos(){
+    $meses_31_dias = [1,3,5,7,8,10,12];
+    $meses_porcentagens = $meses_total = [];
+
+    for($i=12; $i > 0; $i--){
+      $inicio = date('Y-m-01 00:00:00', strtotime("-{$i} months"));
+      $ultimo_dia = date('t', strtotime($inicio));
+      $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-{$i} months"));
+     
+      $centro_de_custo = $this->centro_de_custo(
+        [
+          'periodo' => [
+            'tipo' => 'outro',
+            'inicio' => $inicio,
+            'fim' => $fim
+          ],
+          'id_obra' => null,
+        ],
+        'grafico'
+      );
+      $mes = (int) date('m', strtotime($inicio));
+      $meses_total[$mes] = (float) $centro_de_custo->total;
+
+      $v_menor = isset($meses_total[$mes - 1]) ? $meses_total[$mes - 1] : 0;
+      $v_maior = $meses_total[$mes];
+
+      //V = ((Vmaior - Vmenor)/Vmenor) * 100
+      $valor = $v_maior - $v_menor;
+      if ($v_menor > 0){
+        $meses_porcentagens[$mes] = number_format((($valor/$v_menor) * 100), 2);
+      } else {
+        $meses_porcentagens[$mes] = number_format((($valor * $v_menor) / 100), 2);
+      }
+    }
+
+    return $meses_porcentagens;
   }
 }

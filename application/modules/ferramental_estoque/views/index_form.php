@@ -179,9 +179,7 @@
 </div>
 
 <script>
-    var base_url = "<?php echo base_url('/'); ?>";
     var retirada = <?php echo isset($retirada)  ? json_encode($retirada) : 'null'; ?>;
-    
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         data() {

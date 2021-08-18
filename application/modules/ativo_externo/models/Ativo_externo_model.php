@@ -19,7 +19,7 @@ class Ativo_externo_model extends MY_Model {
 
 	}
 
-	private function ativos($out_kit = true){
+	public function ativos($out_kit = true){
 		$this->db->reset_query();
 		$ativos = $this->db->select('atv.*')
 							->select('obra.codigo_obra as obra, obra.endereco as endereco, obra.id_obra')

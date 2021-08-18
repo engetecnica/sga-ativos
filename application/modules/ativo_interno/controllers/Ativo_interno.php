@@ -28,7 +28,7 @@ class Ativo_interno  extends MY_Controller {
 
     function adicionar(){
         $data['obras'] = $this->obra_model->get_obras();
-    	$this->get_template('index_form', $data['obras']);
+    	$this->get_template('index_form', $data);
     }
 
     function editar($id_ativo_interno=null){
@@ -51,11 +51,18 @@ class Ativo_interno  extends MY_Controller {
         $data['situacao'] = $this->input->post('situacao');
         $data['id_obra'] = $this->input->post('id_obra');
 
-        $tratamento = $this->ativo_interno_model->salvar_formulario($data);
-
-        if($data['id_ativo_interno']==''){
+        if($data['id_ativo_interno']=='' || !$data['id_ativo_interno']){
+            unset($data['id_ativo_interno']);
+            $data_insert = [];
+            for($i = 0; $i < (int) $data['quantidade']; $i++){
+                $data_insert[$i] = $data;
+                $data_insert[$i]['quantidade'] = 1;
+                $data_insert[$i]['situacao'] = 0;
+            }
+            $this->db->insert_batch("ativo_interno", $data_insert);
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
+            $this->ativo_interno_model->salvar_formulario($data);
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
 
@@ -64,14 +71,16 @@ class Ativo_interno  extends MY_Controller {
 
     function descartar($id_ativo_interno){
         $ativo = $this->ativo_interno_model->get_ativo_interno($id_ativo_interno);
-
         if (($ativo != null) & ($this->input->method() == 'post')) {
-            $ativo->situacao = 2;
-            $ativo->data_descarte = date('Y-m-d H:i:s', strtotime('now'));
+
+            $status = $this->db->where('id_ativo_interno', $ativo->id_ativo_interno)
+                            ->update('ativo_interno', [
+                                'situacao' => 2,
+                                'data_descarte' => date('Y-m-d H:i:s', strtotime('now'))
+                            ]);
+
             return $this->json([
-                'success' =>  $this->db
-                ->where('id_ativo_interno', $ativo->id_ativo_interno)
-                ->update('ativo_interno', (array) $ativo)
+                'success' => $status
             ]);
         }
         return $this->json(['success' => false]);

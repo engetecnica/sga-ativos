@@ -109,6 +109,7 @@
                                             class="form-control" 
                                             name="id_obra" 
                                             id="id_obra"
+                                            required="required"
                                         >
                                             <option value="">Nenhuma obra selecionada</option>
 

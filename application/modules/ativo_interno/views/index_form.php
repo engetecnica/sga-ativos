@@ -37,9 +37,10 @@
                                             class="form-control" 
                                             name="id_obra" 
                                             id="id_obra"
-                                            <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?>
+                                            required="required"
+                                            <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?>
                                         >
-                                            <option value="0">Nenhuma obra selecionada</option>
+                                            <option value="">Nenhuma obra selecionada</option>
                                             <?php foreach ($obras as $value) { ?>
                                                 <option 
                                                     <?php echo isset($ativo->id_obra) && $value->id_obra == $ativo->id_obra ? 'selected' : ''?>
@@ -57,7 +58,7 @@
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->nome)){ echo $ativo->nome; } ?>">
                                     </div>
@@ -68,7 +69,7 @@
                                         <label for="valor" class=" form-control-label">Valor Atribuído</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
                                         value="<?php if(isset($ativo) && isset($ativo->valor)){ echo number_format($ativo->valor, 2, ',', '.'); } ?>">
                                     </div>
@@ -76,7 +77,7 @@
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="number" id="quantidade" name="quantidade" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->quantidade)){ echo $ativo->quantidade; } else { echo "1"; } ?>">
                                     </div>                                    
@@ -88,14 +89,14 @@
                                     </div>
                                     <div class="col-12 col-md-10">
                                         <textarea 
-                                            <?php echo ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                            <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                             name="observacao" id="observacao" rows="9" placeholder="Observações..." class="form-control"
                                         >
                                         <?php if(isset($ativo) && isset($ativo->observacao)){ echo $ativo->observacao; } ?>
                                         </textarea>
                                     </div>
                                 </div>
-                                <?php if($ativo->situacao <= 1){ ?>
+                                <?php if( (isset($ativo) && isset($ativo->situacao)) && $ativo->situacao <= 1){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
@@ -111,7 +112,7 @@
                                 
                                 <hr>
                                 <div class="pull-left">
-                                    <?php if($ativo->situacao <= 1){ ?>
+                                    <?php if(((isset($ativo) && isset($ativo->situacao)) && $ativo->situacao <= 1 ) || !isset($ativo)){ ?>
                                     <button class="btn btn-primary">                                                    
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
