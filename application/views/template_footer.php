@@ -1,22 +1,21 @@
     <!-- Bootstrap JS-->
-    <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="<?php echo base_url("assets/vendor/bootstrap-4.1/popper.min.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/vendor/bootstrap-4.1/bootstrap.min.js"); ?>"></script>
     <!-- Vendor JS       -->
-    <script src="<?php echo base_url('assets'); ?>/vendor/slick/slick.min.js">
+    <script src="<?php echo base_url("assets/vendor/slick/slick.min.js"); ?>">
     </script>
-    <script src="<?php echo base_url('assets'); ?>/vendor/wow/wow.min.js"></script>
-    <script src="<?php echo base_url('assets'); ?>/vendor/animsition/animsition.min.js"></script>
-    <script src="<?php echo base_url('assets'); ?>/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="<?php echo base_url("assets/vendor/wow/wow.min.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/vendor/animsition/animsition.min.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"); ?>">
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-    <script src="<?php echo base_url('assets'); ?>/vendor/select2/select2.min.js"></script>
+    <script src="<?php echo base_url("assets/js/Chart.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/vendor/select2/select2.min.js"); ?>"></script>
 
     <!-- Main JS-->
-    <script src="<?php echo base_url('assets'); ?>/js/main.js"></script>
+    <script src="<?php echo base_url("assets/js/main.js"); ?>"></script>
 
-
-    <script src="<?php echo base_url('assets'); ?>/js/jquery.mask.js"></script>
+    <script src="<?php echo base_url("assets/js/jquery.mask.js"); ?>"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -707,7 +706,7 @@
 
 
     <!--
-    <script src="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.js"></script>
+    <script src="<?php echo base_url("assets"); ?>/vendor/multi/multi.min.js"></script>
 
     <script>
         var select = document.getElementById("id_ativo_externo");
