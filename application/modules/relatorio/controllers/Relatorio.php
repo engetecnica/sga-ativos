@@ -1,12 +1,5 @@
 <?php
-
 (defined('BASEPATH')) OR exit('No direct script access allowed');
-
-use Phpml\Regression\LeastSquares;
-use Phpml\Regression\SVR;
-use Phpml\SupportVectorMachine\Kernel;
-use Phpml\Math\Matrix;
-
 
 /**
  * Description of site
