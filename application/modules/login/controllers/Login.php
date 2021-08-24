@@ -15,7 +15,7 @@ class Login  extends MY_Controller {
     }
 
     function index($subitem=null) {
-        $this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+        //$this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
         if($this->session->userdata('logado')==true){
             redirect(base_url());
         }

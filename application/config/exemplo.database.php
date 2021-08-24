@@ -76,10 +76,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '107.161.183.195',
-	'username' => 'codigosd_engetec',
-	'password' => 'codigosd_engetec',
-	'database' => 'codigosd_engetec',
+	'hostname' => 'db',
+	'username' => 'root',
+	'password' => 'root',
+	'database' => 'engetecnica',
+    'port' => 3306, 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

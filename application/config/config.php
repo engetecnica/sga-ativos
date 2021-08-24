@@ -24,8 +24,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
+
+function url(){
+    try {
+        return sprintf(
+        "%s://%s%s",
+        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+        $_SERVER['SERVER_NAME'],
+        $_SERVER['SERVER_PORT'] != 80 ? ':' . $_SERVER['SERVER_PORT'] : '',
+        $_SERVER['REQUEST_URI']
+        );
+    } catch (\Exception $e){
+        log_message('error', 'Deve definir $config[base_url] application/config/config.php');
+        return null;
+    }
+}
+
 //$config['base_url'] = 'https://www.codigosdigitais.com.br/engetecnica';
-$config['base_url'] = 'http://localhost:8090';
+$config['base_url'] = url();
 
 /*
 |--------------------------------------------------------------------------
