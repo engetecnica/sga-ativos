@@ -55,7 +55,8 @@ class Relatorio extends MY_Controller {
       $upload_path = "assets/uploads/relatorio";
       $path = __DIR__."/../../../../{$upload_path}";
       if(!is_dir($path)){
-        mkdir($path, 0777, true);
+        mkdir($path, 0775, true);
+        var_dump($path, ); exit;
       }
 
       $file = "{$path}/{$filename}";
@@ -78,7 +79,7 @@ class Relatorio extends MY_Controller {
         $data = $this->relatorio_model->$relatorio($this->input->post(), 'arquivo');
         return $this->json([
           'relatorio' =>  $this->get_relatorio_arquivo($relatorio, $data),
-          'validade' => 60
+          'validade' => 3600
         ]);
       }
       return  $this->json(['relatorio' => null]);
