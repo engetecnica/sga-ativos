@@ -1,4 +1,4 @@
-*error_log*
+*log*
 application/cache/*
 !application/cache/.gitkeep
 application/config/database.php

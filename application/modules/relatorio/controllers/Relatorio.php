@@ -32,7 +32,7 @@ class Relatorio extends MY_Controller {
     }
 
     private function get_relatorio_arquivo($relatorio_nome, $relatorio_data){
-      $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", null, null);
+      $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
       $data = [
           'css' =>  $css, 
           'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),

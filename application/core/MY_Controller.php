@@ -153,13 +153,14 @@ class MY_Controller extends MX_Controller {
 
     public function gerar_pdf($filename, $html, $mode = null) {
         $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir()."/mpdf"]);
-        $mpdf->showImageErrors = true;
+        //desconmenta com php gd instalado
+        //$mpdf->showImageErrors = true;
         $mpdf->WriteHTML($html);
         return $mpdf->Output($filename, $mode);
     }
 
     public function base64($filename){
-        $contents = file_get_contents($filename, null, null);
+        $contents = file_get_contents($filename, true, null);
         return 'data:image/' . pathinfo($filename, PATHINFO_EXTENSION) . ';base64,' . base64_encode($contents);
     }
 
