@@ -13,7 +13,7 @@ services:
       - '443'
     volumes:
     - ./:/var/www/html/
-    - ./apache_error_log:/var/log/apache2
+    - ./log:/var/log/apache2
     networks:
       - engetecnica-network-dev
     links:
