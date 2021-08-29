@@ -152,7 +152,8 @@ class MY_Controller extends MX_Controller {
     }
 
     public function gerar_pdf($filename, $html, $mode = null) {
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir()."/mpdf"]);
+        $mpdf->showImageErrors = true;
         $mpdf->WriteHTML($html);
         return $mpdf->Output($filename, $mode);
     }

@@ -18,16 +18,8 @@ class Relatorio extends MY_Controller {
         } 
         # Fecha Login
 
-        // $this->load->model('usuario/usuario_model');
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
-        // $this->load->model('funcionario/funcionario_model');
-        // $this->load->model('fornecedor/fornecedor_model');
-        // $this->load->model('ativo_interno/ativo_interno_model');
-        // $this->load->model('ativo_externo/ativo_externo_model'); 
-        // $this->load->model('ativo_veiculo/ativo_veiculo_model');
-        // $this->load->model('ferramental_estoque/ferramental_estoque_model');
-        // $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
     }
 
     function index() {
@@ -56,7 +48,6 @@ class Relatorio extends MY_Controller {
       $path = __DIR__."/../../../../{$upload_path}";
       if(!is_dir($path)){
         mkdir($path, 0775, true);
-        var_dump($path, ); exit;
       }
 
       $file = "{$path}/{$filename}";

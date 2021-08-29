@@ -2,11 +2,8 @@
 application/cache/*
 !application/cache/.gitkeep
 application/config/database.php
-assets/uploads/comprovante_fiscal
-assets/uploads/comprovante_ipva
-assets/uploads/ordem_de_servico
-assets/uploads/ferramental_estoque
-assets/uploads/relatorio
+assets/uploads/*/*
+!assets/uploads/.gitkeep
 vendor
 *.DS_Store
 local_bd.sql
