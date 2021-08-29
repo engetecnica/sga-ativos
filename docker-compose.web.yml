@@ -1,0 +1,44 @@
+version: "3.3"
+services:
+  web:
+    container_name: engetecnica-web
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.web
+    networks: 
+      - engetecnica_net_prod
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ./:/var/www/html/
+    - ./apache_error_log:/var/log/apache2
+    links:
+    - db
+
+  db:
+    container_name: engetecnica-db
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.web
+    networks: 
+      - engetecnica_net_prod
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=engetecnica
+
+    volumes:
+    - ./setup/my.cnf:/etc/my.cnf
+    #- engetecnica:/var/lib/mysql
+    restart: unless-stopped
+
+# volumes:
+#   engetecnica:
+#     external: true
+networks:
+  engetecnica_net_prod:
+    #driver: custom-driver-1
+

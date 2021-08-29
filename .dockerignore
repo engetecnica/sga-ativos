@@ -8,4 +8,7 @@ docs
 composer.json
 composer.lock
 docker-compose.yml
+docker-compose.prod.yml
 Dockerfile
+Dockerfile.heroku
+heroku.yml
