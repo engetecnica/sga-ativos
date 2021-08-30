@@ -2,6 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-   web: 
-    sed -i "s/Listen 80/Listen ${PORT:-80}/g" /etc/apache2/ports.conf /usr/local/bin/docker-entrypoint.sh apache2-foreground
-    cp application/config/heroku.database.php application/config/database.php
+   web: bundle exec puma -C config/puma.rb
