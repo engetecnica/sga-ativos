@@ -1,7 +1,9 @@
 {
     "require": {
+        "php": "^7.2.0",
         "deividfortuna/fipe": "^2.4",
-        "mpdf/mpdf": "^8.0"
+        "mpdf/mpdf": "^8.0",
+        "ext-gd": "*"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "^197.0"

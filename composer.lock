@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f57bb4d35bf46bb56f448998c6e3b800",
+    "content-hash": "0693df49042419383fad5a27fdd89f44",
     "packages": [
         {
             "name": "deividfortuna/fipe",
@@ -413,7 +413,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-gd": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
 }
