@@ -1,43 +1,10 @@
-version: "2"
+version: "3.3"
 services:
   web:
-    container_name: engetecnica_web_dev
+    container_name: engetecnica-web
     build: 
       context: .
       dockerfile: ./Dockerfile
     ports:
-    - "8000:80"
-    - "9000:443"
-    expose: 
-      - '80'
-      - '443'
-    volumes:
-    - ./:/var/www/html/
-    - ./log:/var/log/apache2
-    networks:
-      - engetecnica-network-dev
-    links:
-      - db
-
-  db:
-    container_name: engetecnica_db_dev
-    image: mariadb
-    ports:
-      - "33061:3306"
-    expose: 
-      - '3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=engetecnica
-    volumes:
-      - ./setup/my.cnf:/etc/my.cnf
-      - engetecnica:/var/lib/mysql
-    networks:
-      - engetecnica-network-dev
-    restart: always
-
-volumes:
-  engetecnica:
-    external: true
-networks:
-  engetecnica-network-dev:
+    - "80:80"
+    - "443:443"

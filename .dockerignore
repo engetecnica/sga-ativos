@@ -7,8 +7,5 @@ docs
 .git*
 composer.json
 composer.lock
-docker-compose.yml
-docker-compose.prod.yml
-Dockerfile
-Dockerfile.heroku
-heroku.yml
+docker-compose.dev.yml
+Dockerfile.dev
