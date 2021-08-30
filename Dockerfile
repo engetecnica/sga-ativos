@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php-7.1-fpm-stretch
 USER root
 WORKDIR /var/www/html/
 COPY --chown=root:root ./ ./
