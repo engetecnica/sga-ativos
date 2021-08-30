@@ -6,11 +6,9 @@ class Relatorio_model_base extends MY_Model {
   public function __construct() {
       parent::__construct();
       $this->relatorio = $this->db;
-      // $this->load->model('usuario/usuario_model');
-      // $this->load->model('empresa/empresa_model');
+      
       $this->load->model('obra/obra_model');
       $this->load->model('funcionario/funcionario_model');
-      // $this->load->model('fornecedor/fornecedor_model');
       $this->load->model('ativo_interno/ativo_interno_model');
       $this->load->model('ativo_externo/ativo_externo_model'); 
       $this->load->model('ativo_veiculo/ativo_veiculo_model');

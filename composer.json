@@ -3,9 +3,28 @@
         "deividfortuna/fipe": "^2.4",
         "mpdf/mpdf": "^8.0"
     },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "^197.0"
+    },
     "scripts": {
         "dev" : [
             "php -S 0.0.0:8090 -t ./"
+        ],
+        "dev:docker": [
+            "docker-compose -f ./docker-compose.dev.yml build ",
+            "docker-compose -f ./docker-compose.dev.yml up"
+        ],
+        "deploy": [
+            "docker-compose build",
+            "heroku container:push web",
+            "heroku container:release web",
+            "heroku labs:enable --app=engetecnica runtime-new-layer-extract"
+        ],
+        "debug": [
+            "heroku logs --source app --tail"
+        ],
+        "bash": [
+            "heroku run bash --type=worker"
         ]
-    } 
+    }
 }

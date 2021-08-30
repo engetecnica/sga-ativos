@@ -75,11 +75,11 @@ $query_builder = TRUE;
 
 
 $db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'db',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'engetecnica',
+	'dsn' => '', //getenv('CLEARDB_DATABASE_URL'),
+	'hostname' => getenv('CLEARDB_HOST'),
+	'username' => getenv('CLEARDB_USERNAME'),
+	'password' => getenv('CLEARDB_PASS'),
+	'database' => getenv('CLEARDB_DATABASE'),
     'port' => 3306, 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

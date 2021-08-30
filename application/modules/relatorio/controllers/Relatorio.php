@@ -1,12 +1,5 @@
 <?php
-
 (defined('BASEPATH')) OR exit('No direct script access allowed');
-
-use Phpml\Regression\LeastSquares;
-use Phpml\Regression\SVR;
-use Phpml\SupportVectorMachine\Kernel;
-use Phpml\Math\Matrix;
-
 
 /**
  * Description of site
@@ -25,16 +18,8 @@ class Relatorio extends MY_Controller {
         } 
         # Fecha Login
 
-        // $this->load->model('usuario/usuario_model');
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
-        // $this->load->model('funcionario/funcionario_model');
-        // $this->load->model('fornecedor/fornecedor_model');
-        // $this->load->model('ativo_interno/ativo_interno_model');
-        // $this->load->model('ativo_externo/ativo_externo_model'); 
-        // $this->load->model('ativo_veiculo/ativo_veiculo_model');
-        // $this->load->model('ferramental_estoque/ferramental_estoque_model');
-        // $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
     }
 
     function index() {
@@ -47,7 +32,7 @@ class Relatorio extends MY_Controller {
     }
 
     private function get_relatorio_arquivo($relatorio_nome, $relatorio_data){
-      $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", null, null);
+      $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
       $data = [
           'css' =>  $css, 
           'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
@@ -62,7 +47,7 @@ class Relatorio extends MY_Controller {
       $upload_path = "assets/uploads/relatorio";
       $path = __DIR__."/../../../../{$upload_path}";
       if(!is_dir($path)){
-        mkdir($path, 0777, true);
+        mkdir($path, 0775, true);
       }
 
       $file = "{$path}/{$filename}";
@@ -85,7 +70,7 @@ class Relatorio extends MY_Controller {
         $data = $this->relatorio_model->$relatorio($this->input->post(), 'arquivo');
         return $this->json([
           'relatorio' =>  $this->get_relatorio_arquivo($relatorio, $data),
-          'validade' => 60
+          'validade' => 3600
         ]);
       }
       return  $this->json(['relatorio' => null]);
