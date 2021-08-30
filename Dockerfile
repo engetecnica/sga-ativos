@@ -9,5 +9,5 @@ RUN chmod -R 775 assets/uploads
 RUN chown -R root:www-data assets/uploads
 RUN a2enmod rewrite 
 RUN apachectl restart
-RUN ./composer.phar install
+RUN php composer.phar install
 RUN echo "Production Deploy Successfully!"
