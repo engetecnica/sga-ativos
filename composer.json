@@ -27,6 +27,9 @@
         ],
         "bash": [
             "heroku run bash --type=worker"
+        ],
+        "post-install-cmd": [
+            "bash ./setup/heroku-custom-buildpack.sh"
         ]
     }
 }
