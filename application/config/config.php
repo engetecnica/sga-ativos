@@ -25,14 +25,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 
+
 function url(){
     try {
+        $name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+        $port = isset($_SERVER['SERVER_PORT']) ? ($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] != 443 ? ":".$_SERVER['SERVER_PORT'] : '') : '';
+        $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http';
         return sprintf(
-        "%s://%s%s",
-        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-        $_SERVER['SERVER_NAME'],
-        $_SERVER['SERVER_PORT'] != 80 ? ':' . $_SERVER['SERVER_PORT'] : '',
-        $_SERVER['REQUEST_URI']
+            "%s://%s%s",
+            $protocol,
+            $name,
+            $port,
+            $uri
         );
     } catch (\Exception $e){
         log_message('error', 'Deve definir $config[base_url] application/config/config.php');

@@ -1,11 +1,7 @@
 application/cache/*
 setup-docker
-apache_error_log
 docs
-.dockerignore
 .gitignore
 .git*
-composer.json
-composer.lock
 docker-compose.dev.yml
 Dockerfile.dev
