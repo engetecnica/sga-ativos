@@ -13,14 +13,8 @@
             "php -S 0.0.0:8090 -t ./"
         ],
         "dev:docker": [
-            "docker-compose -f ./docker-compose.dev.yml build ",
-            "docker-compose -f ./docker-compose.dev.yml up"
-        ],
-        "deploy": [
-            "docker-compose build",
-            "heroku container:push web",
-            "heroku container:release web",
-            "heroku labs:enable --app=engetecnica runtime-new-layer-extract"
+            "docker-compose build ",
+            "docker-compose up"
         ],
         "debug": [
             "heroku logs --source app --tail"
