@@ -114,7 +114,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'ferramentas_disponiveis_na_obra' => [
           'titulo' => 'Ferramentas Diponíveis na Obra (Em uso ou não)',
-          'filtros'=> ['id_obra'], //todas as situacoes
+          'filtros'=> ['id_obra', 'valor_total'], //todas as situacoes
           'grafico' => [
             'column' => ['Em Estoque', 'Liberado' ,'Em Transito', 'Em Operação', 'Fora de Operação', 'Com Defeito', 'Total'],
             'color' => ['Green', 'Blue', 'Yellow', '#909090', 'Black', 'Red', '#ccc'],
@@ -172,7 +172,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'patrimonio_disponivel' => [
           'titulo' => 'Patromônio Disponível',
-          'filtros'=> ['id_obra', 'tipo_veiculo'],
+          'filtros'=> ['id_obra', 'tipo_veiculo', 'valor_total'],
           'grafico' => [
             'column' => ['Ferramentas', 'Equipamentos', 'Veiculos', 'Total de Items'],
             'tipo' => 'pie'

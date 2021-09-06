@@ -193,9 +193,28 @@ class Relatorio_model extends Relatorio_model_base {
 
       $obras = $this->obra_model->get_obras();
       foreach($obras as $obra){
-        $obra->grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
+        $grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
+
+        if ($data['valor_total'] === "true") {
+          $obra->total_obra = 0;
+          foreach($grupos as $grupo){ 
+            $grupo->total_grupo = 0;
+            foreach($grupo->ativos as $ativo){ 
+              $grupo->total_grupo += floatval($ativo->valor);
+            } 
+            $obra->total_obra += floatval($grupo->total_grupo);
+          }
+        }
+
+        $obra->grupos = $grupos;
       }
-      return $obras;
+
+      $obras_data = [
+        'obras' => $obras,
+        'show_valor_total' => $data['valor_total'] === "true"
+      ];
+
+      return $obras_data;
     } else {
       $relatorio = $this->db
       ->from('ativo_externo atv')
@@ -235,8 +254,8 @@ class Relatorio_model extends Relatorio_model_base {
     }
 
     $relatorio
-    ->select('ob.id_obra, ob.codigo_obra as obra, ob.endereco')
-    ->join('obra ob', 'atv.id_obra = ob.id_obra', 'left');
+      ->select('ob.id_obra, ob.codigo_obra as obra, ob.endereco')
+      ->join('obra ob', 'atv.id_obra = ob.id_obra', 'left');
 
     if ($data['id_obra']) {
         $relatorio->where("atv.id_obra = {$data['id_obra']}");
@@ -689,17 +708,21 @@ class Relatorio_model extends Relatorio_model_base {
     return (object) $relatorio;       
   }
 
-  private function get_patrimonio_obra_items($obra){
+  private function get_patrimonio_obra_items($obra, $show_valor_total = true){
     $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
-    $obra->equipamentos_total = 0;
-    foreach($obra->equipamentos as $equipamento){
-      $obra->equipamentos_total  += $equipamento->valor;
+    if ($show_valor_total) {
+      $obra->equipamentos_total = 0;
+      foreach($obra->equipamentos as $equipamento){
+          $obra->equipamentos_total  +=  floatval($equipamento->valor);
+      }
     }
 
     $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
-    $obra->ferramentas_total = 0;
-    foreach($obra->ferramentas as $ferramenta){
-      $obra->ferramentas_total  += $ferramenta->valor;
+    if ($show_valor_total) {
+      $obra->ferramentas_total = 0;
+      foreach($obra->ferramentas as $ferramenta){
+        $obra->ferramentas_total  += floatval($ferramenta->valor);
+      }
     }
     return $obra;
   }
@@ -713,21 +736,27 @@ class Relatorio_model extends Relatorio_model_base {
         $relatorio->where("tipo_veiculo = {$data['tipo_veiculo']}");
       }
       $veiculos = $relatorio->where("situacao = '0'")->get()->result();
+      $veiculos_total = array_sum(array_map(function($veiculo) {
+        return floatval($veiculo->valor_fipe);
+      }, $veiculos));
 
       $obras = [];
+      $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
       if ($data['id_obra']) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
-        $obras[] = $this->get_patrimonio_obra_items($obra);
+        $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
       } else {
         $obras_models = $this->obra_model->get_obras();
         foreach($obras_models as $obra){
-          $obras[] = $this->get_patrimonio_obra_items($obra);
+          $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
         }
       }
 
       return (object) [
         'veiculos' => $veiculos,
+        'veiculos_total' => $veiculos_total,
         'obras' => $obras,
+        'show_valor_total' => $show_valor_total
       ];
     }
   

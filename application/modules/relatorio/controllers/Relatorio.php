@@ -70,7 +70,7 @@ class Relatorio extends MY_Controller {
         $data = $this->relatorio_model->$relatorio($this->input->post(), 'arquivo');
         return $this->json([
           'relatorio' =>  $this->get_relatorio_arquivo($relatorio, $data),
-          'validade' => 3600
+          'validade' => 120
         ]);
       }
       return  $this->json(['relatorio' => null]);

@@ -58,6 +58,19 @@
                                 </div>
 
 
+                                <div v-if="relatorio && relatorio.filtros.includes('valor_total')" class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="valor_total" class=" form-control-label">Relatório com Valores</label>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <select v-model="form.valor_total" class="form-control" id="valor_total" name="valor_total">
+                                            <option :value="false">Não</option>
+                                            <option :value="true">Sim</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
                                 <div v-if="relatorio && relatorio.filtros.includes('id_funcionario')" class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="id_funcionario" class=" form-control-label">Funcionário</label>
@@ -129,7 +142,7 @@
                                 <div class="text-center m-t-30">
                                     <a v-if="url.link" class="text-center btn btn-md btn-primary m-t-20  m-b-10" :href="url.link" download>                                                    
                                         <i class="fa fa-file-pdf-o 3x"></i>&nbsp;
-                                        Baixar Relatório <span class="badge badge-pill badge-warning" ><small>{{url.validade}}s</small></span>
+                                        Baixar Relatório <span class="badge badge-pill badge-warning" ><small>{{(url.validade)}}s</small></span>
                                     </a>
                                 </div>
 
@@ -197,6 +210,7 @@
           situacao: null,
           tipo_veiculo: 'todos',
           veiculo_placa: null,
+          valor_total: true,
         },
         url: {
             interval: null,
