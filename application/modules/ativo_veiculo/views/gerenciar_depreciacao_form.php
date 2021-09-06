@@ -136,7 +136,7 @@
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <input required="required" type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" value="">
+                                        <input type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" value="">
                                     </div>                                   
                                 </div>
                                
