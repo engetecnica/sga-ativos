@@ -245,7 +245,6 @@ class Anexo  extends MY_Controller {
           }
 
           if ($tipo == "seguro") {
-            $this->dd($this->ativo_veiculo_model->get_ativo_veiculo_seguro_lista($id_modulo_item));
             $data = array_map(function($seguro) {
               return (object) [
                 "id" => $seguro->id_ativo_veiculo_seguro,

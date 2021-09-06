@@ -1,6 +1,9 @@
 <?php
 (defined('BASEPATH')) OR exit('No direct script access allowed');
 
+use \PhpOffice\PhpSpreadsheet\Spreadsheet;
+use \PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 /**
  * Description of site
  *
@@ -31,7 +34,7 @@ class Relatorio extends MY_Controller {
       $this->get_template('relatorio_gerar', $data);
     }
 
-    private function get_relatorio_arquivo($relatorio_nome, $relatorio_data){
+    private function get_relatorio_pdf($relatorio_nome, $relatorio_data){
       $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
       $data = [
           'css' =>  $css, 
@@ -58,6 +61,20 @@ class Relatorio extends MY_Controller {
       return null;
     }
 
+    private function get_relatorio_xls($relatorio_nome, $relatorio_data){
+      //to-do
+      //$this->dd($relatorio_nome, $relatorio_data);
+      $filename = "/tmp/relatorio_{$relatorio_nome}_" . date('YmdHis', strtotime('now')).".xls";
+      $spreadsheet = new Spreadsheet();
+      $sheet = $spreadsheet->getActiveSheet();
+      $sheet->setCellValue('A1', 'Hello World !');
+      $writer = new Xlsx($spreadsheet);
+      $writer->save($filename);
+
+      //$this->dd(file_get_contents($filename));
+      return $filename;
+    }
+
     function gerar_grafico($relatorio) {
       if ($this->input->method() == 'post') {
         return $this->json($this->relatorio_model->$relatorio($this->input->post(), 'grafico'));
@@ -68,10 +85,22 @@ class Relatorio extends MY_Controller {
     function gerar_arquivo($relatorio) {
       if ($this->input->method() == 'post') {
         $data = $this->relatorio_model->$relatorio($this->input->post(), 'arquivo');
-        return $this->json([
-          'relatorio' =>  $this->get_relatorio_arquivo($relatorio, $data),
-          'validade' => 120
-        ]);
+        switch($this->input->post('tipo_arquivo')) {
+            default:
+            case 'pdf':
+              return $this->json([
+                'relatorio' =>  $this->get_relatorio_pdf($relatorio, $data),
+                'validade' => 120
+              ]); 
+            break;
+
+            case 'xls':
+              return $this->json([
+                'relatorio' =>  $this->get_relatorio_xls($relatorio, $data),
+                'validade' => 120
+              ]); 
+            break;
+        }
       }
       return  $this->json(['relatorio' => null]);
     }

@@ -9,7 +9,9 @@ class Relatorio_model extends Relatorio_model_base {
   private function extract_data($tipo, $data){
     $extracted_data = [];
     foreach($this->relatorios[$tipo]['filtros'] as $filtro){
-      $extracted_data[$filtro] = $data[$filtro];
+      if (isset($data[$filtro])) {
+        $extracted_data[$filtro] = $data[$filtro];
+      }
     }
 
     if (isset($extracted_data['periodo']) && ($extracted_data['periodo']['tipo'] == 'outro')) {
@@ -195,7 +197,7 @@ class Relatorio_model extends Relatorio_model_base {
       foreach($obras as $obra){
         $grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
 
-        if ($data['valor_total'] === "true") {
+        if (isset($data['valor_total']) && $data['valor_total'] === "true") {
           $obra->total_obra = 0;
           foreach($grupos as $grupo){ 
             $grupo->total_grupo = 0;
