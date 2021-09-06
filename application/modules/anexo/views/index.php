@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <?php
+                        <?php if (!$modulo) {
                             $url = "";
                             if (isset($id_modulo)) {
                                 $url .= "/{$id_modulo}";
@@ -18,9 +18,28 @@
                                 }
                             }
                         ?>
-                        <a href="<?php echo base_url("anexo/adicionar{$url}"); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                            <a href="<?php echo base_url("anexo/adicionar{$url}"); ?>">
+                                <button class="au-btn au-btn-icon au-btn--blue">
+                                <i class="zmdi zmdi-plus"></i>Adicionar</button>
+                            </a>
+                        <?php }  
+                            if($modulo && $refer) {
+                                $url = "{$modulo->rota}";
+                                if (isset($id_modulo)) {
+                                    $url .= "/{$id_modulo}";
+                                    if (isset($id_modulo_item)) {
+                                        $url .= "/{$id_modulo_item}";
+                                        if (isset($id_modulo_subitem)) {
+                                            $url .= "/{$id_modulo_subitem}";
+                                        }
+                                    }
+                                }    
+                        ?>
+                            <a href="<?php echo $refer; ?>">
+                                <button class="au-btn au-btn-icon au-btn--blue">
+                                <i class="zmdi zmdi-arrow-left"></i>Voltar</button>
+                            </a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -411,15 +411,13 @@ class Ativo_veiculo  extends MY_Controller {
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
 
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => 9,
-                "id_modulo_item" => $data['id_ativo_veiculo'],
-                "id_modulo_subitem" => $data['id_ativo_veiculo_quilometragem'] ? $data['id_ativo_veiculo_quilometragem'] : $this->db->insert_id(),
-                "tipo" => 'quilometragem',
-                "anexo" => "comprovante_fiscal/{$data['comprovante_fiscal']}"
-            ];
-            $this->anexo_model->salvar_formulario($anexo_data);
+            $this->salvar_anexo(
+                $data, 
+                $data['id_ativo_veiculo'], 
+                'id_ativo_veiculo_quilometragem', 
+                'comprovante_fiscal', 
+                "quilometragem"
+            );
 
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/".$this->input->post('id_ativo_veiculo')));
             return;
@@ -465,16 +463,14 @@ class Ativo_veiculo  extends MY_Controller {
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
 
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => 9,
-                "id_modulo_item" => $data['id_ativo_veiculo'],
-                "id_modulo_subitem" => $data['id_ativo_veiculo_manutencao'] ? $data['id_ativo_veiculo_manutencao'] : $this->db->insert_id(),
-                "id_configuracao" => $data['id_ativo_configuracao'],
-                "tipo" => 'manutencao',
-                "anexo" => "ordem_de_servico/{$data['ordem_de_servico']}"
-            ];
-            $this->anexo_model->salvar_formulario($anexo_data);
+            $this->salvar_anexo(
+                $data, 
+                $data['id_ativo_veiculo'], 
+                'id_ativo_veiculo_manutencao', 
+                'ordem_de_servico', 
+                "manutencao",
+                $data['id_ativo_configuracao']
+            );
 
             echo redirect(base_url("ativo_veiculo/gerenciar/manutencao/".$this->input->post('id_ativo_veiculo')));
             return;
@@ -535,15 +531,13 @@ class Ativo_veiculo  extends MY_Controller {
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
 
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => 9,
-                "id_modulo_item" => $data['id_ativo_veiculo'],
-                "id_modulo_subitem" => $data['id_ativo_veiculo_ipva'] ? $data['id_ativo_veiculo_ipva'] : $this->db->insert_id(),
-                "tipo" => 'ipva',
-                "anexo" => "comprovante_ipva/{$data['comprovante_ipva']}"
-            ];
-            $this->anexo_model->salvar_formulario($anexo_data);
+            $this->salvar_anexo(
+                $data, 
+                $data['id_ativo_veiculo'], 
+                'id_ativo_veiculo_ipva', 
+                'comprovante_ipva', 
+                "ipva"
+            );
 
             echo redirect(base_url("ativo_veiculo/gerenciar/ipva/".$this->input->post('id_ativo_veiculo')));
             return;
@@ -578,15 +572,13 @@ class Ativo_veiculo  extends MY_Controller {
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
 
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => 9,
-                "id_modulo_item" => $data['id_ativo_veiculo'],
-                "id_modulo_subitem" => $data['id_ativo_veiculo_seguro'] ? $data['id_ativo_veiculo_seguro'] : $this->db->insert_id(),
-                "tipo" => "seguro",
-                "anexo" => "contrato_seguro/{$data['contrato_seguro']}"
-            ];
-            $this->anexo_model->salvar_formulario($anexo_data);
+            $this->salvar_anexo(
+                $data, 
+                $data['id_ativo_veiculo'], 
+                'id_ativo_veiculo_seguro', 
+                'contrato_seguro', 
+                "seguro"
+            );
 
             echo redirect(base_url("ativo_veiculo/gerenciar/seguro/".$this->input->post('id_ativo_veiculo')));
             return;
@@ -622,6 +614,28 @@ class Ativo_veiculo  extends MY_Controller {
         }
         $this->session->set_flashdata('msg_erro', "Veiculo não encontrado!");
         echo redirect(base_url("ativo_veiculo"));
+    }
+
+    private function salvar_anexo($data, $id_item, $subitem_column, $path, $tipo, $id_configuracao = null){
+        if($data[$path]) {
+            $anexo_name = "{$path}/{$data[$path]}";
+            $anexo = $this->anexo_model->get_anexo_by_name($anexo_name);
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => 9,
+                "id_modulo_item" => $id_item,
+                "id_modulo_subitem" => $data[$subitem_column] ? $data[$subitem_column] : $this->db->insert_id(),
+                "id_configuracao" => $id_configuracao,
+                "tipo" =>  $tipo,
+                "anexo" => $anexo_name
+            ];
+
+            if ($anexo) {
+                $anexo_data['id_anexo'] = $anexo->id_anexo;
+            }
+            $this->anexo_model->salvar_formulario($anexo_data);
+        }
     }
 
     function deletar($id_ativo_veiculo){

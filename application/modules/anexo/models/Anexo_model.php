@@ -77,13 +77,19 @@ class Anexo_model extends MY_Model {
     return $this->db->affected_rows();
 	}
 
-	public function anexos($id_modulo = null, $id_modulo_item = null){
-		$this->db->reset_query();
-    $anexos = $this->db
+
+  public function query_anexos(){
+    $this->db->reset_query();
+    return $this->db
               ->from('anexo')
               ->select('anexo.*')
               ->join("modulo md", "md.id_modulo = anexo.id_modulo", "left")
-              ->select('md.titulo as modulo_titulo, md.rota as modulo_rota');
+              ->select('md.titulo as modulo_titulo, md.rota as modulo_rota')
+              ->group_by('id_anexo')->order_by('id_anexo', 'desc');
+  }
+
+	public function anexos($id_modulo = null, $id_modulo_item = null){
+    $anexos = $this->query_anexos();
 
     if ($id_modulo) {
       if (is_array($id_modulo)) {
@@ -100,8 +106,7 @@ class Anexo_model extends MY_Model {
         $anexos->where("anexo.id_modulo_item = {$id_modulo_item}");
       }
     }
-
-		return $anexos->group_by('id_anexo')->order_by('id_anexo', 'desc');
+		return $anexos;
   }
   
 
@@ -121,6 +126,13 @@ class Anexo_model extends MY_Model {
 
   public function get_anexo($id_modulo = null, $id_modulo_item = null){
     return $this->anexos($id_modulo, $id_modulo_item)->get()->row();
+  }
+
+  public function get_anexo_by_name($anexo){
+    return $this->query_anexos()
+                ->like('anexo', $anexo)        
+                ->get()
+                ->row();
   }
 
   public function deletar($id_anexo){
