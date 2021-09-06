@@ -84,7 +84,7 @@
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input required="required" type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
+                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div> 
 
 
@@ -139,7 +139,7 @@
                                         <label for="ordem_de_servico" class=" form-control-label">Ordem de Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
+                                        <input required="required" type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
                                         <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
