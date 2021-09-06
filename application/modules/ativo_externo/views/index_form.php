@@ -1,5 +1,5 @@
 <!-- MAIN CONTENT-->
-<div class="main-content">
+<div class="main-content" id="ativo_externo_form">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="row">
@@ -180,6 +180,18 @@
                                     </div>
                                 <?php } ?>
 
+                                
+                                <div class="row form-group">
+                                    <div class="col col-md-6">
+                                        <label for="necessecita_calibracao" class=" form-control-label">Necessecitam de calibração ou aferiação</label>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <select v-model="necessecita_calibracao" required="required" class="form-control" id="necessecita_calibracao" name="necessecita_calibracao">
+                                            <option :value="0">Não</option>
+                                            <option :value="1">Sim</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <hr>
                                 <div class="pull-left">
@@ -202,6 +214,11 @@
                                 </div>
 
                                 <div class="pull-right">
+                                    <?php if((isset($detalhes) && isset($detalhes->necessecita_calibracao)) && $detalhes->necessecita_calibracao == 1) { ?>
+                                        <a href="<?php echo base_url("ativo_externo/certificado_de_calibacao/{$detalhes->id_ativo_externo}"); ?>">
+                                            <button type="button" class="btn btn-outline-secondary">Certificado de Calibração</button>
+                                        </a>
+                                    <?php } ?>
                                     <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
                                         <a href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
                                             <button type="button" class="btn btn-outline-primary">Editar Itens</button>

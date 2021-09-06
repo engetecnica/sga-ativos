@@ -10,9 +10,16 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
+                        <a href="<?php echo base_url("ativo_externo"); ?>">
+                        <button class="au-btn au-btn-icon au-btn--blue">
+                        <i class="zmdi zmdi-arrow-left"></i>Voltar a Lista</button></a>
+                    </div>
+
+                    <div class="overview-wrap m-t-10">
+                        <h2 class="title-1"></h2>
                         <a href="<?php echo base_url("ativo_externo/editar/{$detalhes->id_ativo_externo}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-arrow-left"></i>Voltar</button></a>
+                        <i class="zmdi zmdi-arrow-left"></i>Voltar ao Ativo</button></a>
                     </div>
                 </div>
             </div>

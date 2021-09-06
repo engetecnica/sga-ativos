@@ -144,7 +144,7 @@
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
-                                <?php } ?> 
+                                <?php } ?>
 
                                 <?php if(isset($manutencao) && isset($manutencao->ordem_de_servico)){ ?>
                                     <input type="hidden" name="ordem_de_servico" id="ordem_de_servico" value="<?php echo $manutencao->ordem_de_servico; ?>">

@@ -39,6 +39,11 @@ class Anexo_model extends MY_Model {
               "modulos" =>  ['ativo_interno', 'ativo_externo', 'ativo_veiculo']
           ],
           [
+            "nome" => "Certificado de Calibação/Aferiação",
+            "slug" => "certificado_de_calibacao",
+            "modulos" =>  ['ativo_externo']
+          ],
+          [
             "nome" => "Nota/Recibo de Abastecimento",
             "slug" => "kilometragem",
             "modulos" =>  ['ativo_veiculo']

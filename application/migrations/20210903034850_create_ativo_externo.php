@@ -20,6 +20,9 @@ class Migration_Create_Ativo_Externo extends CI_Migration {
 			->add_field('situacao int(1) NOT NULL DEFAULT 0')
 			->add_field('tipo int(1) NOT NULL DEFAULT 0')
 			->add_field('valor decimal(65,2) NOT NULL DEFAULT 0.00')
+			->add_field("necessecitam_calibracao enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não,1=Sim'")
+			->add_field('certificado_de_calibacao varchar(255) NULL DEFAULT NULL')
+			->add_field('validade_certificado timestamp NULL DEFAULT NULL')
 			->create_table($this->table);
 		}
 	}
