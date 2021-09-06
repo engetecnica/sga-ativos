@@ -21,6 +21,17 @@ class Ativo_interno_model extends MY_Model {
 			->select('ativo_interno.*');;
 	}
 
+	public function search_ativos($search){
+		return $this->ativos()
+			->group_by('id_ativo_interno')
+			->order_by('nome')
+			->like('nome', $search)
+			->or_like('id_ativo_interno', $search)
+			->or_like('data_inclusao', $search)
+			->or_like('data_descarte', $search)
+			->get()->result();
+	}
+
 	public function get_lista($id_obra = null, $situacao = null){
 		$lista = $this->ativos()
 							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')

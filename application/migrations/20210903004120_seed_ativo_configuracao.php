@@ -6,7 +6,7 @@ class Migration_Seed_Ativo_Configuracao extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) && $this->db->where("id_ativo_configuracao IN (2,3,4,5)")->get('ativo_configuracao')->num_rows() == 0) {
 			$this->db->query("INSERT INTO `ativo_configuracao` VALUES 
 				(2,0,'Tipo de Ferramenta', 'tipo-ferramenta', '0'),
 				(3,0,'Tipo de Equipamento','tipo-equipamento','0'),
@@ -18,7 +18,9 @@ class Migration_Seed_Ativo_Configuracao extends CI_Migration {
 				(9,4,'Mão de Obra','mao-de-obra','0'),
 				(10,0,'Serviços Mecânicos','servico-mecanico','0'),
 				(11,10,'Troca de Óleo','troca-oleo','0'),
-				(12,10,'Substituição de Peças','troca-pecas','0');"
+				(12,10,'Substituição de Peças','troca-pecas','0'),
+				(13,10,'Substituição de Pneus','troca-pneus','0'),
+				(14,10,'Revisão','revisao','0');"
 			);
 		}
 	}

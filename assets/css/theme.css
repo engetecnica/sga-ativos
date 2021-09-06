@@ -88,7 +88,8 @@ p {
 }
 
 .table-responsive > h3{
-    margin: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 5px;
     font-size: 1.4rem;
 }
 
@@ -4818,24 +4819,53 @@ section {
     color: #fa4251;
 }
 
-#lista td, #lista2 td {
+
+#lista td, #lista2 td,
+#lista3 td, #lista4 td  {
     text-align: center;
 }
 
-#lista td > a, #lista2 td > a   {
+#lista td > a, #lista2 td > a,
+#lista3 td > a, #lista4 td > a{
     margin: 5px;
     padding: 5px;
     cursor: pointer;
 }
 
-#lista td > a > .fas.fa-edit, #lista td > a > .fas.fa-remove,
-#lista2 td > a > .fas.fa-edit, #lista2 td > a > .fas.fa-remove {
+
+a > .fas, td > a > .fa {
     font-size: 1rem;
 }
 
-#lista td > a > .fas.fa-remove,
-#lista2 td > a > .fas.fa-remove  {
-    color: #fa4251;
+
+a > .fa-remove  {
+    color: #ff4756 !important;
+}
+
+a > .fa-download  {
+    color: #2948ff !important;
+}
+
+td > a > .fa-eye  {
+    color: #117a8b !important;
+}
+
+.preview{
+    padding: 20px;
+    width: 50px;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview i {
+   font-size: 2.5rem;
+}
+
+.preview img {
+    width: 50px;
+    border-radius: 5px;
 }
 
 /* ----- Footer ----- */

@@ -13,8 +13,7 @@
             "php -S 0.0.0:8090 -t ./"
         ],
         "dev:docker": [
-            "docker-compose build ",
-            "docker-compose up"
+            "docker-compose up --build"
         ],
         "debug": [
             "heroku logs --source app --tail"

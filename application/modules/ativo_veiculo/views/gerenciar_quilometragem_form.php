@@ -17,14 +17,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Gerenciar Veículo</h2>
-
+                    <?php var_dump($dados_veiculo); ?>
+                    
                     <div class="card">
                         <div class="card-header">Registrar items do veículo</div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/quilometragem_salvar'); ?>" method="post" enctype="multipart/form-data">
 
-                                <?php if(isset($dados_veiculo) && isset($id_ativo_veiculo)){?>
+                                <?php if(isset($id_ativo_veiculo)){?>
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 

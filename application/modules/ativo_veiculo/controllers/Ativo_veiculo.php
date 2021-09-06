@@ -34,7 +34,8 @@ class Ativo_veiculo  extends MY_Controller {
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
         } 
-        # Fecha Login        
+        # Fecha Login  
+        $this->load->model('anexo/anexo_model');      
     }
 
     # Testando tipos de veiculos pela FIPE
@@ -321,6 +322,22 @@ class Ativo_veiculo  extends MY_Controller {
                 }
             break;
 
+            case 'seguro':
+                if($tipo=='adicionar'){
+                    $template = "_form";
+                    $data['id_ativo_veiculo'] = $id_ativo_veiculo;
+                } elseif($tipo=='editar') {
+                    $template = "_form";
+                } elseif($tipo=='comprovante') {
+                    $pth = file_get_contents("assets/uploads/contrato_seguro/".$id_ativo_veiculo);
+                    $nme = date("dmyis").$id_ativo_veiculo;
+                    force_download($nme, $pth);  
+                } else {
+                    $template = "";
+                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_seguro_lista($tipo);                    
+                }
+            break;
+
             case 'depreciacao':
                 if($tipo=='adicionar'){
                     $template = "_form";
@@ -373,11 +390,11 @@ class Ativo_veiculo  extends MY_Controller {
 
             $data['veiculo_km_inicial'] = $veiculo_km_inicial;
             $data['veiculo_km_final'] = $veiculo_km_final;
-            $data['veiculo_litros'] = (float) self::remocao_pontuacao($this->input->post('veiculo_litros'));
-            $data['veiculo_custo'] = (float) self::remocao_pontuacao($this->input->post('veiculo_custo')) * $data['veiculo_litros'];
+            $data['veiculo_litros'] = (float) $this->remocao_pontuacao($this->input->post('veiculo_litros'));
+            $data['veiculo_custo'] = (float) $this->remocao_pontuacao($this->input->post('veiculo_custo')) * $data['veiculo_litros'];
             $data['veiculo_km_data'] = $this->input->post('veiculo_km_data');
-            $data['comprovante_fiscal'] = ($_FILES['comprovante_fiscal'] ? self::upload_arquivo('comprovante_fiscal') : '');
-            
+
+            $data['comprovante_fiscal'] = ($_FILES['comprovante_fiscal'] ? $this->upload_arquivo('comprovante_fiscal') : '');
             if (!$data['comprovante_fiscal'] || $data['comprovante_fiscal'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 return $this->redirect($veiculo, 'quilometragem', $data);
@@ -393,6 +410,17 @@ class Ativo_veiculo  extends MY_Controller {
                     ->update('ativo_veiculo_quilometragem', $data);
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => 9,
+                "id_modulo_item" => $data['id_ativo_veiculo'],
+                "id_modulo_subitem" => $data['id_ativo_veiculo_quilometragem'] ? $data['id_ativo_veiculo_quilometragem'] : $this->db->insert_id(),
+                "tipo" => 'quilometragem',
+                "anexo" => "comprovante_fiscal/{$data['comprovante_fiscal']}"
+            ];
+            $this->anexo_model->salvar_formulario($anexo_data);
+
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/".$this->input->post('id_ativo_veiculo')));
             return;
         }
@@ -403,7 +431,6 @@ class Ativo_veiculo  extends MY_Controller {
     public function manutencao_salvar(){       
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
-
         if ($veiculo) {
             $veiculo_km = (int) $veiculo->veiculo_km;
             $data['id_fornecedor'] = $this->input->post('id_fornecedor');
@@ -417,11 +444,11 @@ class Ativo_veiculo  extends MY_Controller {
                 return $this->redirect($veiculo, 'manutencao', $data);
             }
 
-            $data['veiculo_custo'] = self::remocao_pontuacao($this->input->post('veiculo_custo'));
+            $data['veiculo_custo'] = $this->remocao_pontuacao($this->input->post('veiculo_custo'));
             $data['descricao'] = $this->input->post('descricao');
 
             if($_FILES['ordem_de_servico']['error'] == 0 && $_FILES['ordem_de_servico']['size'] > 0){
-                $data['ordem_de_servico'] = self::upload_arquivo('ordem_de_servico');
+                $data['ordem_de_servico'] = $this->upload_arquivo('ordem_de_servico');
                 if (!$data['ordem_de_servico'] || $data['ordem_de_servico'] == '') {
                     $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                     return $this->redirect($veiculo, 'manutencao', $data);
@@ -437,6 +464,18 @@ class Ativo_veiculo  extends MY_Controller {
                     ->update('ativo_veiculo_manutencao', $data);
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => 9,
+                "id_modulo_item" => $data['id_ativo_veiculo'],
+                "id_modulo_subitem" => $data['id_ativo_veiculo_manutencao'] ? $data['id_ativo_veiculo_manutencao'] : $this->db->insert_id(),
+                "id_configuracao" => $data['id_ativo_configuracao'],
+                "tipo" => 'manutencao',
+                "anexo" => "ordem_de_servico/{$data['ordem_de_servico']}"
+            ];
+            $this->anexo_model->salvar_formulario($anexo_data);
+
             echo redirect(base_url("ativo_veiculo/gerenciar/manutencao/".$this->input->post('id_ativo_veiculo')));
             return;
         }
@@ -477,10 +516,11 @@ class Ativo_veiculo  extends MY_Controller {
         if ($veiculo) {
             $data['id_ativo_veiculo_ipva'] = $this->input->post('id_ativo_veiculo_ipva');
             $data['ipva_ano'] = $this->input->post('ipva_ano');
-            $data['ipva_custo'] = self::remocao_pontuacao($this->input->post('ipva_custo'));
+            $data['ipva_custo'] = $this->remocao_pontuacao($this->input->post('ipva_custo'));
             $data['ipva_data_vencimento'] = $this->input->post('ipva_data_vencimento');
             $data['ipva_data_pagamento'] = $this->input->post('ipva_data_pagamento');
-            $data['comprovante_ipva'] = ($_FILES['comprovante_ipva'] ? self::upload_arquivo('comprovante_ipva') : '');
+
+            $data['comprovante_ipva'] = ($_FILES['comprovante_ipva'] ? $this->upload_arquivo('comprovante_ipva') : '');
             if (!$data['comprovante_ipva'] || $data['comprovante_ipva'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 return $this->redirect($veiculo, 'ipva', $data);
@@ -494,7 +534,61 @@ class Ativo_veiculo  extends MY_Controller {
                     ->update('ativo_veiculo_ipva', $data);
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => 9,
+                "id_modulo_item" => $data['id_ativo_veiculo'],
+                "id_modulo_subitem" => $data['id_ativo_veiculo_ipva'] ? $data['id_ativo_veiculo_ipva'] : $this->db->insert_id(),
+                "tipo" => 'ipva',
+                "anexo" => "comprovante_ipva/{$data['comprovante_ipva']}"
+            ];
+            $this->anexo_model->salvar_formulario($anexo_data);
+
             echo redirect(base_url("ativo_veiculo/gerenciar/ipva/".$this->input->post('id_ativo_veiculo')));
+            return;
+        }
+        $this->session->set_flashdata('msg_erro', "Veiculo não encontrado!");
+        echo redirect(base_url("ativo_veiculo"));
+    }
+
+
+    public function seguro_salvar(){
+        $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+
+        if ($veiculo) {
+            $data['id_ativo_veiculo_seguro'] = $this->input->post('id_ativo_veiculo_seguro');
+            $data['custo'] = $this->remocao_pontuacao($this->input->post('custo'));
+            $data['carencia_inicio'] = $this->input->post('carencia_inicio');
+            $data['carencia_fim'] = $this->input->post('carencia_fim');
+           
+            $data['contrato_seguro'] = ($_FILES['contrato_seguro'] ? $this->upload_arquivo('contrato_seguro') : '');
+            if (!$data['contrato_seguro'] || $data['contrato_seguro'] == '') {
+                $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
+                return $this->redirect($veiculo, 'seguro', $data);
+            }
+
+            if($data['id_ativo_veiculo_seguro'] == '' || !$data['id_ativo_veiculo_seguro']){
+                $this->db->insert('ativo_veiculo_seguro', $data);
+                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+            } else {
+                $this->db->where('id_ativo_veiculo_seguro', $data['id_ativo_veiculo_seguro'])
+                    ->update('ativo_veiculo_seguro', $data);
+                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+            }
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => 9,
+                "id_modulo_item" => $data['id_ativo_veiculo'],
+                "id_modulo_subitem" => $data['id_ativo_veiculo_seguro'] ? $data['id_ativo_veiculo_seguro'] : $this->db->insert_id(),
+                "tipo" => "seguro",
+                "anexo" => "contrato_seguro/{$data['contrato_seguro']}"
+            ];
+            $this->anexo_model->salvar_formulario($anexo_data);
+
+            echo redirect(base_url("ativo_veiculo/gerenciar/seguro/".$this->input->post('id_ativo_veiculo')));
             return;
         }
         $this->session->set_flashdata('msg_erro', "Veiculo não encontrado!");

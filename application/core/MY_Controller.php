@@ -212,7 +212,7 @@ class MY_Controller extends MX_Controller {
     }
 
     public function upload_arquivo($pasta=null) {
-        if (isset($_FILES[$pasta]) && $_FILES[$pasta]['error'] == 1) {
+        if (!isset($_FILES[$pasta]) | (isset($_FILES[$pasta]) && $_FILES[$pasta]['error'] == 1)) {
             return '';
         }
 
@@ -226,7 +226,7 @@ class MY_Controller extends MX_Controller {
         $name_file = $_FILES[$pasta]['name'];
         $ext = pathinfo($name_file, PATHINFO_EXTENSION);
        
-        $new_name = self::remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
+        $new_name = $this->remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
         $config = array(
             'upload_path' => $upload_path,
             'allowed_types' => "gif|jpg|png|jpeg|pdf",

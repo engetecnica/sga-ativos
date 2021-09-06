@@ -30,8 +30,8 @@
                                 <hr>
 
 
-                                <?php if(isset($manutencao) && isset($manutencao->id_ativo_veiculo)){?>
-                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $manutencao->id_ativo_veiculo; ?>">
+                                <?php if(isset($id_ativo_veiculo)){?>
+                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
                                 <?php if(isset($manutencao) && isset($manutencao->id_ativo_veiculo_manutencao)){?>

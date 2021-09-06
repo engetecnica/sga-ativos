@@ -24,7 +24,9 @@ class Migration_Seed_Modulo extends CI_Migration {
 				(13,12,'Estoque','ferramental_estoque','fas fa-cubes'),
 				(14,12,'Requisição','ferramental_requisicao','fas fa-dolly-flatbed'),
 				(15,0,'Relatórios','#','fa fa-line-chart'),
-				(16,15,'Gerar','relatorio','fa fa-filter');"
+				(16,15,'Gerar','relatorio','fa fa-filter'),
+				(17,0,'Anexos','#','fa fa-files-o'),
+				(18,17,'Listar','anexo','fa fa-file-archive-o');"
 			);
 		}
 	}

@@ -53,6 +53,7 @@
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>">Registrar Quilometragem</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>">Registrar Manutenção</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>">Registrar IPVA</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>">Registrar Seguro</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>">Registrar Depreciação</a>
                                             </div>
                                         </div>
