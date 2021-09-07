@@ -37,17 +37,9 @@ class Anexo  extends MY_Controller {
         "pagina" => $pagina,
         "limite" => $limite,
         "refer" => getenv("HTTP_REFERER"),
-        // "modulo" => $this->db
-        //               ->where('id_modulo', $id_modulo)
-        //               ->where('id_modulo_item', $id_modulo_item)
-        //               ->get('modulo')->row()
-      ];
-
-
-      $data['modulo'] = (object) [
-        'id_modulo' => 9,
-        'rota' => 'ativo_veiculo',
-
+        "modulo" => $this->db
+                      ->where('id_modulo', $id_modulo)
+                      ->get('modulo')->row()
       ];
 
       $data['anexos'] = $this->anexo_model->get_anexos(

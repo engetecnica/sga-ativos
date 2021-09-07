@@ -53,8 +53,11 @@
     <!-- Sweet Alert 
     <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+
     <script> 
         var base_url = "<?php echo base_url('/'); ?>"
+        var one_signal_appid = "<?php echo $this->config->item('one_signal_appid'); ?>";
     </script>
 </head>
 

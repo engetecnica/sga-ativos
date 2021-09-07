@@ -6,7 +6,7 @@ class Migration_Seed_Modulo extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) && $this->db->where('id_modulo BETWEEN 1 AND 18')->get($this->table)->num_rows() == 0) {
 			//Seeding
 			$this->db->query("INSERT INTO `{$this->table}` VALUES 
 				(1,0,'Cadastros','#','fas fa-hashtag'),
@@ -33,8 +33,8 @@ class Migration_Seed_Modulo extends CI_Migration {
 	
     //Downgrade migration
 	public function down(){
-		if ($this->db->table_exists($this->table)) {
-			$this->db->query("DELETE FROM {$this->table} WHERE 1;");
+		if ($this->db->table_exists($this->table) && $this->db->where('id_modulo BETWEEN 1 AND 18')->get($this->table)->num_rows() == 18) {
+			$this->db->query("DELETE FROM {$this->table} WHERE id_modulo BETWEEN 1 AND 18;");
 		}
 	}
 }

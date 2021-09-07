@@ -6,7 +6,7 @@ class Migration_Seed_Usuario_Nivel extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) && $this->db->where('id_usuario_nivel BETWEEN 1 AND 2')->get()->num_rows() == 0) {
 			$this->db->query("INSERT INTO `{$this->table}` VALUES (1,'Administrador'),(2,'Almoxarifado');");
 		}
 	}
@@ -14,7 +14,7 @@ class Migration_Seed_Usuario_Nivel extends CI_Migration {
     //Downgrade migration
 	public function down(){
 		if ($this->db->table_exists($this->table)) {
-			$this->db->query("DELETE FROM {$this->table} WHERE id_usuario_nivel IN (1,2);");
+			$this->db->query("DELETE FROM {$this->table} WHERE id_usuario_nivel BETWEEN 1 AND 2;");
 		}
 	}
 }

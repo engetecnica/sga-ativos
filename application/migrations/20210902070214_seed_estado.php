@@ -6,7 +6,7 @@ class Migration_Seed_Estado extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) && $this->db->where('id_estado BETWEEN 1 AND 27')->get($this->table)->num_rows() == 0) {
             $this->db->query("INSERT INTO `{$this->table}` VALUES (1,12,'Acre','AC',1),(2,27,'Alagoas','AL',2),
             (3,16,'Amapá','AP',1),(4,13,'Amazonas','AM',1),(5,29,'Bahia','BA',2),
             (6,23,'Ceará','CE',2),(7,53,'Distrito Federal','DF',5),(8,32,'Espírito Santo','ES',3),
@@ -23,7 +23,7 @@ class Migration_Seed_Estado extends CI_Migration {
     //Downgrade migration
 	public function down(){
 		if ($this->db->table_exists($this->table)) {
-			$this->db->query("DELETE FROM {$this->table} WHERE 1;");
+			$this->db->query("DELETE FROM {$this->table} WHERE id_estado BETWEEN 1 AND 27;");
 		}
 	}
 }

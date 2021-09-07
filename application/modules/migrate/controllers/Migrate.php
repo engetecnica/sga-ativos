@@ -104,8 +104,8 @@ class Migrate extends MY_Controller{
       echo "\n\033[1;34mMigrations\033[0m\n";
 
       foreach ($migrations as $key => $file) {
-        $file = explode('engetecnica', $file)[1];
-        echo "\n$key : $file";
+        $file = explode('migrations', $file)[1];
+        echo "\n$key : $file\n";
       }
       echo "\n";
       return;

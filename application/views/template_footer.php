@@ -722,7 +722,14 @@
     </script-->
     <?php } ?>
 
-    
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+            appId: window.one_signal_appid,
+            });
+        });
+    </script>
 
 </body>
 

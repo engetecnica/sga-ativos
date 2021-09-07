@@ -53,7 +53,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
-                        <h3 class="title-1 m-b-25">Anexos</h3>
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
