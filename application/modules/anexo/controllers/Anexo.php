@@ -99,7 +99,7 @@ class Anexo  extends MY_Controller {
     
       //upload file
       $anexo = 'anexo/';
-      if (!is_readable(APPPATH.'assets/uploads/anexo')) {
+      if (!is_readable(APPPATH.'../assets/uploads/anexo')) {
         $this->session->set_flashdata('msg_erro',"A pasta de destino do upload não parece ser gravável.");
         echo redirect(base_url("anexo/adicionar"));
         return;
