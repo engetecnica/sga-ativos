@@ -27,6 +27,8 @@ class MY_Controller extends MX_Controller {
         $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
     }
 
+    use MY_Trait;
+
     public function json($data = null, int $status_code = 200){
         return @$this->output
         ->set_content_type('application/json')

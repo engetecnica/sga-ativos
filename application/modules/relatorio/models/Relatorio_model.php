@@ -537,9 +537,6 @@ class Relatorio_model extends Relatorio_model_base {
             ->where("atm.data_retorno <= '$fim'");
       }
 
-      if ($data['id_obra']) {
-        $equipamentos_manutencao->where("atm.id_obra = {$data['id_obra']}");
-      }
       $equipamentos_manutencao = $equipamentos_manutencao
                                       ->group_by('atm.id_manutencao')
                                       ->get()->result();
@@ -557,9 +554,6 @@ class Relatorio_model extends Relatorio_model_base {
                   ->where("atmc.data_retorno <= '$fim'");
     }
 
-    if ($data['id_obra']) {
-      $equipamentos_manutencao_total->where("atmc.id_obra = {$data['id_obra']}");
-    }
     $equipamentos_manutencao_total = $equipamentos_manutencao_total->get()->row();
 
     if ($tipo && $tipo == 'arquivo') {
@@ -613,9 +607,6 @@ class Relatorio_model extends Relatorio_model_base {
                   ->where("atvmc.data_saida <= '$fim'");
     }
 
-    if ($data['id_obra']) {
-      $veiculos_manutencao_total->where("atvmc.id_obra = {$data['id_obra']}");
-    }
     $veiculos_manutencao_total = $veiculos_manutencao_total->get()->row();
 
     if ($tipo && $tipo == 'arquivo') {
@@ -799,7 +790,6 @@ class Relatorio_model extends Relatorio_model_base {
       ]
     );
   }
-
 
   public function count_ativos_externos($periodo_inicio, $periodo_fim){
     return $this->ativo_externo_model->ativos()

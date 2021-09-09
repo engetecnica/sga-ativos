@@ -141,8 +141,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select :required="true" v-model="form.tipo_arquivo" class="form-control" id="tipo_arquivo" name="tipo_arquivo">
-                                            <option :value="'pdf'">PDF</option>
-                                            <option :value="'xls'">XLS (Excel)</option>
+                                            <option v-for="(value, key) in relatorio.arquivo_saida" :value="value">{{key}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -250,6 +249,7 @@
             }
 
             if(this.tipo){
+                this.form.tipo_arquivo = 'pdf'
                 this.relatorio = this.relatorios[this.tipo]
                 return;
             }

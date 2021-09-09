@@ -2,7 +2,9 @@
 (defined('BASEPATH')) OR exit('No direct script access allowed');
 
 use \PhpOffice\PhpSpreadsheet\Spreadsheet;
+use \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use \PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use \PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 /**
  * Description of site
@@ -20,7 +22,6 @@ class Relatorio extends MY_Controller {
             echo redirect(base_url('login')); 
         } 
         # Fecha Login
-
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
     }
@@ -49,6 +50,7 @@ class Relatorio extends MY_Controller {
       $html = $this->load->view("/../views/relatorio_{$relatorio_nome}", $data, true);
       $upload_path = "assets/uploads/relatorio";
       $path = __DIR__."/../../../../{$upload_path}";
+
       if(!is_dir($path)){
         mkdir($path, 0775, true);
       }
@@ -61,18 +63,40 @@ class Relatorio extends MY_Controller {
       return null;
     }
 
-    private function get_relatorio_xls($relatorio_nome, $relatorio_data){
-      //to-do
-      //$this->dd($relatorio_nome, $relatorio_data);
-      $filename = "/tmp/relatorio_{$relatorio_nome}_" . date('YmdHis', strtotime('now')).".xls";
-      $spreadsheet = new Spreadsheet();
-      $sheet = $spreadsheet->getActiveSheet();
-      $sheet->setCellValue('A1', 'Hello World !');
-      $writer = new Xlsx($spreadsheet);
-      $writer->save($filename);
+    private function get_relatorio_excel($relatorio, $data, $tipo = 'xls'){
+      $store_path = "assets/uploads/relatorio";
+      $path = APPPATH."../{$store_path}";
+      $filename = "relatorio_{$relatorio}_" . date('YmdHis', strtotime('now')).".{$tipo}";
+      $file = "{$path}/{$filename}";
+      $return_file = null;
+      
+      //gerar arquivo
+      $relatorio_file = __DIR__."/../views/relatorio_{$relatorio}_excel.php";
+      if (file_exists($relatorio_file)) {
+        //Cria arquivo
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()
+        ->setCreator("Engetecnica APP")
+        ->setLastModifiedBy("Engetecnica APP")
+        ->setTitle("Office 2007 {$tipo}")
+        ->setSubject("Office 2007 {$tipo}")
+        ->setDescription("Document for Office 2007 {$tipo}, generated using PHP classes in Engetecnica APP.")
+        ->setKeywords("Office 2007 openxml php")
+        ->setCategory($relatorio);
+        $spreadsheet->removeSheetByIndex(0);
 
-      //$this->dd(file_get_contents($filename));
-      return $filename;
+        //Usada dentro do arquivo do relatório
+        $sheet = new Worksheet($spreadsheet, 'Planilha Padrão');
+
+        if (require $relatorio_file) {
+          $spreadsheet->getDefaultStyle()->getFont()->setName('Arial');
+          //$spreadsheet->getDefaultStyle()->getFont()->setSize(16);
+
+          (new Xlsx($spreadsheet))->save($file);
+          $return_file = base_url("{$store_path}/{$filename}");
+        }
+      }
+      return $return_file;
     }
 
     function gerar_grafico($relatorio) {
@@ -93,10 +117,10 @@ class Relatorio extends MY_Controller {
                 'validade' => 120
               ]); 
             break;
-
+            case 'xlsx':
             case 'xls':
               return $this->json([
-                'relatorio' =>  $this->get_relatorio_xls($relatorio, $data),
+                'relatorio' =>  $this->get_relatorio_excel($relatorio, $data, $this->input->post('tipo_arquivo')),
                 'validade' => 120
               ]); 
             break;

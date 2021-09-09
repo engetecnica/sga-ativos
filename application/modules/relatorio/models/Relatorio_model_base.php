@@ -90,7 +90,12 @@ class Relatorio_model_base extends MY_Model {
             'legend_marker' => [ "circle",  "circle", 'triangle'],
             'tipo' => 'doughnut'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'empresa' => [
           'titulo' => 'Relatório de Empresas',
@@ -100,7 +105,12 @@ class Relatorio_model_base extends MY_Model {
             'legend_marker' => [ "circle",  "circle", 'triangle'],
             'tipo' => 'column'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'obra' => [
           'titulo' => 'Relatório de Obras',
@@ -110,7 +120,12 @@ class Relatorio_model_base extends MY_Model {
             'legend_marker' => [ "circle",  "circle", 'triangle'],
             'tipo' => 'pie'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'ferramentas_disponiveis_na_obra' => [
           'titulo' => 'Ferramentas Diponíveis na Obra (Em uso ou não)',
@@ -121,7 +136,12 @@ class Relatorio_model_base extends MY_Model {
             'legend_marker' => [ "circle", "circle", "circle", "circle", "circle", "circle", 'triangle'],
             'tipo' => 'column'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'ferramentas_em_estoque' => [
           'titulo' => 'Ferramentas em Estoque',
@@ -130,7 +150,12 @@ class Relatorio_model_base extends MY_Model {
             'column' => array_merge(array_map(function($obra) {return str_replace('-', '', $obra->codigo_obra); }, $this->obra_model->get_obras()), ['Total']),
             'tipo' => 'doughnut'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'equipamentos_em_estoque' => [
           'titulo' => 'Equipamentos em Estoque',
@@ -139,7 +164,12 @@ class Relatorio_model_base extends MY_Model {
             'column' => array_merge(array_map(function($obra) {return str_replace('-', '', $obra->codigo_obra); }, $this->obra_model->get_obras()), ['Total']),
             'tipo' => 'doughnut'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'veiculos_disponiveis' => [
           'titulo' => 'Veículos Diponíveis',
@@ -148,17 +178,32 @@ class Relatorio_model_base extends MY_Model {
             'column' => ['Carro', 'Moto', 'Caminhão', 'Total'],
             'tipo' => 'doughnut'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'veiculos_depreciacao' => [
           'titulo' => 'Veículos Depreciação',
           'filtros'=> ['tipo_veiculo', 'periodo'],
-          'tipo' => 'arquivo'
+          'tipo' => 'arquivo',
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'veiculos_abastecimentos' => [
           'titulo' => 'Veículos Abastecimento',
           'filtros'=> ['tipo_veiculo', 'veiculo_placa', 'periodo'],
-          'tipo' => 'arquivo'
+          'tipo' => 'arquivo',
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
         ],
         'centro_de_custo' => [
           'titulo' => 'Centro de Custo',
@@ -168,6 +213,11 @@ class Relatorio_model_base extends MY_Model {
             'tipo' => 'column',
           ],
           'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ],
           'format' => 'money'
         ],
         'patrimonio_disponivel' => [
@@ -177,7 +227,12 @@ class Relatorio_model_base extends MY_Model {
             'column' => ['Ferramentas', 'Equipamentos', 'Veiculos', 'Total de Items'],
             'tipo' => 'pie'
           ],
-          'tipo' => ['grafico','arquivo']
+          'tipo' => ['grafico','arquivo'],
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            "XLS (Excel)" => "xls",
+            "XLSX (Excel)" => "xlsx",
+          ]
         ],
       ];
   }
