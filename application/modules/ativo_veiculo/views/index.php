@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Veículos</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning">
+                        <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
@@ -53,7 +53,9 @@
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>">Registrar Quilometragem</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>">Registrar Manutenção</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>">Registrar IPVA</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>">Registrar Seguro</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>">Registrar Depreciação</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('anexo/index/9/'.$valor->id_ativo_veiculo); ?>">Anexos</a>
                                             </div>
                                         </div>
                                     </td>

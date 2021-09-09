@@ -6,7 +6,7 @@ class Migration_Seed_Ativo_Externo_Requisicao_Status extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) &&  $this->db->where("id_requisicao_status BETWEEN 1 AND 15")->get($this->table)->num_rows() == 0) {
 			$this->db->query("INSERT INTO `{$this->table}` VALUES 
 			(1,'pendente','Pendente','danger'),
 			(2,'liberado','Liberado','primary'),
@@ -29,7 +29,7 @@ class Migration_Seed_Ativo_Externo_Requisicao_Status extends CI_Migration {
     //Downgrade migration
 	public function down(){
 		if ($this->db->table_exists($this->table)) {
-			$this->db->query("DELETE FROM `{$this->table}` WHERE id_requisicao_status>=1 or id_requisicao_status<=15;");
+			$this->db->query("DELETE FROM `{$this->table}` WHERE id_requisicao_status BETWEEN 1 AND 15;");
 		}
 	}
 }

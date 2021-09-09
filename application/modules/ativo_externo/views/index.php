@@ -45,6 +45,7 @@
                                     <th>Tipo</th>
                                     <th>Kit</th>
                                     <th>Situação</th>
+                                    <th>Gerenciar</th>
                                     <th>Opções</th>
                                     <th>valor</th>
                                 </tr>
@@ -82,6 +83,28 @@
                                     <td>
                                         <?php $status = $this->status($valor->situacao); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                    </td>
+                                    <td> 
+                                    <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Ativo
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDropAtivoExterno">
+                                                <a class="dropdown-item" href="<?php echo base_url("anexo/index/12/{$valor->id_ativo_externo}"); ?>">
+                                                    Anexos
+                                                </a>
+                                                <?php if((isset($valor) && isset($valor->id_ativo_externo)) && $valor->tipo == 1) { ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_externo/editar_items/{$valor->id_ativo_externo}"); ?>">
+                                                        Editar Itens (KIT)
+                                                    </a>
+                                                <?php } ?>
+                                                <?php if((isset($valor) && isset($valor->necessecita_calibracao)) && $valor->necessecita_calibracao == 1) { ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_externo/certificado_de_calibacao/{$valor->id_ativo_externo}"); ?>">
+                                                        Certificado de Calibração
+                                                    </a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <?php if ($valor->situacao != 10) {?>

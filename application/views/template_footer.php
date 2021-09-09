@@ -704,25 +704,21 @@
         }   
     </script>
 
-
-    <!--
-    <script src="<?php echo base_url("assets"); ?>/vendor/multi/multi.min.js"></script>
-
-    <script>
-        var select = document.getElementById("id_ativo_externo");
-        multi(select, {
-            "enable_search": true,
-            "search_placeholder": "Procure por ferramentas a serem disponibilizadas",
-            "non_selected_header": null,
-            "selected_header": null,
-            "limit": -1,
-            "limit_reached": function () {},
-        });   
-        
-    </script-->
     <?php } ?>
 
-    
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: window.one_signal_appid,
+                // safari_web_id: "web.onesignal.auto.0dd8fdab-49d8-437b-ac06-36c9d15991be",
+                // notifyButton: {
+                //     enable: true,
+                // },
+                // subdomainName: "engetecnica"
+            });
+        });
+    </script>
 
 </body>
 

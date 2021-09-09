@@ -24,7 +24,7 @@
 
                             <form action="<?php echo base_url('ativo_veiculo/ipva_salvar'); ?>" method="post" enctype="multipart/form-data">
 
-                                <?php if(isset($dados_veiculo) && isset($id_ativo_veiculo)){?>
+                                <?php if(isset($id_ativo_veiculo)){?>
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 

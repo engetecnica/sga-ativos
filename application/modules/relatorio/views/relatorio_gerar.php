@@ -123,13 +123,36 @@
                                     </div>
                                 </div>
 
+                                <div v-if="relatorio && relatorio.filtros.includes('valor_total')" class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="valor_total" class=" form-control-label">Relatório com Valores</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <select v-model="form.valor_total" class="form-control" id="valor_total" name="valor_total">
+                                            <option :value="false">Não</option>
+                                            <option :value="true">Sim</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div v-if="relatorio" class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="tipo_arquivo" class=" form-control-label">Tipo de Arquido de Saída</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <select :required="true" v-model="form.tipo_arquivo" class="form-control" id="tipo_arquivo" name="tipo_arquivo">
+                                            <option v-for="(value, key) in relatorio.arquivo_saida" :value="value">{{key}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                           
                                 <div v-if="show_chart" id="grafico" class="relatorio_grafico m-b-20"></div>
                         
                                 <div class="text-center m-t-30">
                                     <a v-if="url.link" class="text-center btn btn-md btn-primary m-t-20  m-b-10" :href="url.link" download>                                                    
                                         <i class="fa fa-file-pdf-o 3x"></i>&nbsp;
-                                        Baixar Relatório <span class="badge badge-pill badge-warning" ><small>{{url.validade}}s</small></span>
+                                        Baixar Relatório <span class="badge badge-pill badge-warning" ><small>{{(url.validade)}}s</small></span>
                                     </a>
                                 </div>
 
@@ -197,6 +220,8 @@
           situacao: null,
           tipo_veiculo: 'todos',
           veiculo_placa: null,
+          valor_total: true,
+          tipo_arquivo: 'pdf',
         },
         url: {
             interval: null,
@@ -224,6 +249,7 @@
             }
 
             if(this.tipo){
+                this.form.tipo_arquivo = 'pdf'
                 this.relatorio = this.relatorios[this.tipo]
                 return;
             }

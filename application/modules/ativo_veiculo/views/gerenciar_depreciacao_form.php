@@ -23,7 +23,7 @@
 
                             <form action="<?php echo base_url('ativo_veiculo/depreciacao_salvar'); ?>" method="post" enctype="multipart/form-data">
 
-                                <?php if(isset($dados_veiculo) && isset($id_ativo_veiculo)){?>
+                                <?php if(isset($id_ativo_veiculo)){?>
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
@@ -136,7 +136,7 @@
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <input required="required" type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" value="">
+                                        <input type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" value="">
                                     </div>                                   
                                 </div>
                                

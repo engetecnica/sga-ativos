@@ -78,7 +78,7 @@ h1 , b {
 }
 h2{
   font-size: 1em;
-  color:  #f5811e;
+  color:#f5811e;
 }
 h3{
   font-size: 0.9em;
@@ -115,7 +115,6 @@ table th{
     font-weight: lighter;
     padding: .5em;
     background-color: #ccc;
-    /*background-color:  #f5811e;*/
     background-color: #ccc;
 }
 table tr{
@@ -126,4 +125,11 @@ table td {
   text-align: center;
   padding: .5em;
   font-size: .85em;
+}
+
+
+.td-destak{
+  color: #000;
+  font-weight: 900;
+  font-size: 1.2rem;
 }

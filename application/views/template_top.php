@@ -12,6 +12,10 @@
     <!-- Title Page-->
     <title>Engetecnica | <?php echo date("Y"); ?></title>
 
+        
+    <!-- Jquery JS-->
+    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
+
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url('assets'); ?>/css/font-face.css" rel="stylesheet" media="all">
     <link href="<?php echo base_url('assets'); ?>/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
@@ -42,9 +46,6 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/css/datatable.css" />
     <!--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />-->
-    
-    <!-- Jquery JS-->
-    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
 
     <!-- Vue.js -->
     <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
@@ -52,8 +53,11 @@
     <!-- Sweet Alert 
     <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+
     <script> 
         var base_url = "<?php echo base_url('/'); ?>"
+        var one_signal_appid = "<?php echo $this->config->item('one_signal_appid'); ?>";
     </script>
 </head>
 

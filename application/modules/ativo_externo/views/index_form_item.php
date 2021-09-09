@@ -46,6 +46,14 @@
                                 value="<?php echo $item->tipo; ?>"
                                 required="required"
                             >
+
+                            <input 
+                                type="hidden" 
+                                name="necessecitam_calibracao" 
+                                id="necessecitam_calibracao"
+                                value="<?php echo $item->necessecitam_calibracao; ?>"
+                                required="required"
+                            >
                             
                             <input 
                                 type="hidden" 

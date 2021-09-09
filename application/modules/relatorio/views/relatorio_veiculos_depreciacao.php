@@ -16,6 +16,7 @@
             <th>Tipo</th>
             <th>Marca/Modelo</th>
             <th>Kilometragem</th>
+            <th>Valor FIPE</th>
             <th>Situação</th>
             <th>Data/Hora</th>
           </tr>
@@ -28,6 +29,7 @@
             <td><?php echo ucfirst($item->tipo_veiculo);?> </td>
             <td><?php echo $item->veiculo;?> </td>
             <td><?php echo $item->veiculo_km; ?></td>
+            <td><?php echo $this->formata_moeda($item->valor_fipe); ?></td>
             <td>
               <?php $situacao = $this->get_situacao($item->situacao);?>
               <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>

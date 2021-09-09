@@ -6,7 +6,7 @@ class Migration_Seed_Modulo extends CI_Migration {
 
     //Upgrade migration
 	public function up(){
-		if ($this->db->table_exists($this->table)) {
+		if ($this->db->table_exists($this->table) && $this->db->where('id_modulo BETWEEN 1 AND 18')->get($this->table)->num_rows() == 0) {
 			//Seeding
 			$this->db->query("INSERT INTO `{$this->table}` VALUES 
 				(1,0,'Cadastros','#','fas fa-hashtag'),
@@ -24,15 +24,17 @@ class Migration_Seed_Modulo extends CI_Migration {
 				(13,12,'Estoque','ferramental_estoque','fas fa-cubes'),
 				(14,12,'Requisição','ferramental_requisicao','fas fa-dolly-flatbed'),
 				(15,0,'Relatórios','#','fa fa-line-chart'),
-				(16,15,'Gerar','relatorio','fa fa-filter');"
+				(16,15,'Gerar','relatorio','fa fa-filter'),
+				(17,0,'Anexos','#','fa fa-files-o'),
+				(18,17,'Listar','anexo','fa fa-file-archive-o');"
 			);
 		}
 	}
 	
     //Downgrade migration
 	public function down(){
-		if ($this->db->table_exists($this->table)) {
-			$this->db->query("DELETE FROM {$this->table} WHERE 1;");
+		if ($this->db->table_exists($this->table) && $this->db->where('id_modulo BETWEEN 1 AND 18')->get($this->table)->num_rows() == 18) {
+			$this->db->query("DELETE FROM {$this->table} WHERE id_modulo BETWEEN 1 AND 18;");
 		}
 	}
 }

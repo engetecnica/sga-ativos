@@ -36,6 +36,19 @@ class Ativo_externo_model extends MY_Model {
 		return $ativos;
 	}
 
+	public function search_ativos($search, $out_kit = true){
+		return $this->ativos()
+			->group_by('atv.id_ativo_externo')
+			->order_by('atv.codigo')
+			->like('nome', $search)
+			->or_like('codigo', $search)
+			->or_like('id_ativo_externo', $search)
+			->or_like('data_inclusao', $search)
+			->or_like('data_descarte', $search)
+			->get()->result();
+	}
+
+
 	public function get_ativos($id_obra=null, $situacao=null){
 		$ativos = $this->ativos()
 				->group_by('atv.id_ativo_externo')

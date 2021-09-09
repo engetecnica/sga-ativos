@@ -30,7 +30,7 @@ class Index extends MY_Controller {
     function index() {
         $id_empresa = $this->user->id_empresa;
         $id_obra = $this->user->id_obra;
-
+   
         if ($this->user->nivel == 1){
             $data['estoque'] = count($this->ativo_externo_model->get_estoque($id_obra, null, 12));
             $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 11], 0, 5);
