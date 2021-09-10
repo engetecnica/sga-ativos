@@ -145,8 +145,8 @@
                                                 <label for="ferramental_estoque" class=" form-control-label">Anexar Termo</label>
                                             </div>
                                             <div class="col col-md-10">
-                                                <input required="required" type="file" id="ferramental_estoque" name="ferramental_estoque" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
-                                                <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                                <input required="required" type="file" id="ferramental_estoque" name="ferramental_estoque" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
+                                                <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                                 <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                             </div>
                                         </div>

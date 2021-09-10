@@ -460,16 +460,11 @@
             }, 13000);
 
         });
-        
-    
-
-        $("input").keyup(function() {
-           // $(this).val($(this).val().toUpperCase());
-        });        
+               
 
         $('.litros').mask("##0,0", {reverse: true});
         $('.cpf').mask('000.000.000-00');
-        $('.valor').mask('000.000.000.000.000,00', {reverse: true});
+        $('.valor').mask('0.000,00', {reverse: true});
         $(".telefone").mask("(99) 9999-9999");
         $(".celular").mask("(99) 9 9999-9999");
 

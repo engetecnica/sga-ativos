@@ -57,7 +57,8 @@ class Ativo_veiculo_model extends MY_Model {
 			->select('ativo_configuracao.titulo as servico')
 			->join("ativo_veiculo atv", "atv.id_ativo_veiculo=mnt.id_ativo_veiculo")
 			->join("fornecedor frn", "frn.id_fornecedor=mnt.id_fornecedor")
-			->join('ativo_configuracao', 'ativo_configuracao.id_ativo_configuracao=mnt.id_ativo_configuracao');
+			->join('ativo_configuracao', 'ativo_configuracao.id_ativo_configuracao=mnt.id_ativo_configuracao')
+			->order_by('mnt.id_ativo_veiculo_manutencao', 'desc');
 	}
 
 	public function get_ativo_veiculo_manutencao_lista($id_ativo_veiculo = null, $em_andamento = null){
@@ -87,9 +88,10 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function get_ativo_veiculo_km_lista($id_ativo_veiculo){
-		$this->db->select('ativo_veiculo_quilometragem.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa');
-		$this->db->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo");
-		$this->db->where("ativo_veiculo_quilometragem.id_ativo_veiculo", $id_ativo_veiculo);
+		$this->db->select('ativo_veiculo_quilometragem.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo")
+				->where("ativo_veiculo_quilometragem.id_ativo_veiculo", $id_ativo_veiculo)
+				->order_by('ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem', 'desc');
 		return $this->db
 				->group_by('id_ativo_veiculo_quilometragem')
 				->get('ativo_veiculo_quilometragem')
@@ -98,9 +100,10 @@ class Ativo_veiculo_model extends MY_Model {
 
 
 	public function get_ativo_veiculo_ipva_lista($id_ativo_veiculo){
-		$this->db->select('ativo_veiculo_ipva.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa');
-		$this->db->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_ipva.id_ativo_veiculo");
-		$this->db->where("ativo_veiculo_ipva.id_ativo_veiculo", $id_ativo_veiculo);
+		$this->db->select('ativo_veiculo_ipva.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_ipva.id_ativo_veiculo")
+				->where("ativo_veiculo_ipva.id_ativo_veiculo", $id_ativo_veiculo)
+				->order_by('ativo_veiculo_ipva.id_ativo_veiculo_ipva', 'desc');
 		return $this->db
 				->group_by('id_ativo_veiculo_ipva')
 				->get('ativo_veiculo_ipva')
@@ -108,9 +111,10 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 	
 	public function get_ativo_veiculo_seguro_lista($id_ativo_veiculo){
-		$this->db->select('ativo_veiculo_seguro.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa');
-		$this->db->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_seguro.id_ativo_veiculo");
-		$this->db->where("ativo_veiculo_seguro.id_ativo_veiculo", $id_ativo_veiculo);
+		$this->db->select('ativo_veiculo_seguro.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_seguro.id_ativo_veiculo")
+				->where("ativo_veiculo_seguro.id_ativo_veiculo", $id_ativo_veiculo)	
+				->order_by('ativo_veiculo_seguro.id_ativo_veiculo_seguro', 'desc');
 		return $this->db
 				->group_by('id_ativo_veiculo_seguro')
 				->get('ativo_veiculo_seguro')

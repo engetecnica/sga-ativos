@@ -20,6 +20,7 @@
                         <table class="table table-borderless table-striped table-earning">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
                                     <th>Km Inicial</th>
@@ -38,6 +39,7 @@
                                         @$media = ($valor->veiculo_km_final - $valor->veiculo_km_inicial) / $valor->veiculo_litros;
                                 ?>
                                 <tr>
+                                    <td><?php echo $valor->id_ativo_veiculo_quilometragem; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td><?php echo $valor->veiculo_km_inicial; ?></td>

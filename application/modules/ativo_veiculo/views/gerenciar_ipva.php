@@ -20,6 +20,7 @@
                         <table class="table table-borderless table-striped table-earning">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
                                     <th>Custo</th>
@@ -33,6 +34,7 @@
                                     foreach($lista as $valor){ 
                                 ?>
                                 <tr>
+                                    <td><?php echo $valor->id_ativo_veiculo_ipva; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td>R$ <?php echo number_format($valor->ipva_custo, 2, ',', '.'); ?></td>

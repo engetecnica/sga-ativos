@@ -36,8 +36,8 @@
                                         <label for="certificado_de_calibacao" class=" form-control-label">Anexar Certificado de Controle</label>
                                     </div>
                                     <div class="col-12 col-md-8">
-                                        <input required="required" type="file" id="certificado_de_calibacao" name="certificado_de_calibacao" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <input required="required" type="file" id="certificado_de_calibacao" name="certificado_de_calibacao" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>

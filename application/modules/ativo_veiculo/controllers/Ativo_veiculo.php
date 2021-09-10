@@ -356,10 +356,10 @@ class Ativo_veiculo  extends MY_Controller {
         $this->get_template("gerenciar_".$entrada.$template, $data);
     }
 
-    private function redirect($veiculo, $tipo, $data){
+    private function redirect($veiculo, $tipo, $data, $acao = "adicionar"){
         $url = "ativo_veiculo";
         if (!$data["id_ativo_veiculo_{$tipo}"]) {
-            $url .= "/gerenciar/{$tipo}/adicionar/{$veiculo->id_ativo_veiculo}";
+            $url .= "/gerenciar/{$tipo}/{$acao}/{$veiculo->id_ativo_veiculo}";
         } else {
             $url .= "/gerenciar/{$tipo}/{$veiculo->id_ativo_veiculo}";
         }
@@ -449,7 +449,7 @@ class Ativo_veiculo  extends MY_Controller {
                 $data['ordem_de_servico'] = $this->upload_arquivo('ordem_de_servico');
                 if (!$data['ordem_de_servico'] || $data['ordem_de_servico'] == '') {
                     $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
-                    return $this->redirect($veiculo, 'manutencao', $data);
+                    return $this->redirect($veiculo, 'manutencao', $data, $data['id_ativo_veiculo_manutencao'] ? 'editar' : 'adicionar');
                 }
             }
 
@@ -628,7 +628,9 @@ class Ativo_veiculo  extends MY_Controller {
                 "id_modulo_subitem" => $data[$subitem_column] ? $data[$subitem_column] : $this->db->insert_id(),
                 "id_configuracao" => $id_configuracao,
                 "tipo" =>  $tipo,
-                "anexo" => $anexo_name
+                "anexo" => $anexo_name,
+                "titulo" => $anexo_name,
+                "descricao" => $anexo_name,
             ];
 
             if ($anexo) {

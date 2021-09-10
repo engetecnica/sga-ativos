@@ -119,7 +119,7 @@
                                             <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                         </div>
                                         <div class="col-12 col-md-2">
-                                            <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" value="<?php echo $manutencao->veiculo_custo;?>" class="form-control valor" value="">
+                                            <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0,00" value="<?php echo floatval($manutencao->veiculo_custo);?>" class="form-control valor">
                                         </div>
                                     </div>
                                 <?php } ?> 
@@ -139,8 +139,8 @@
                                         <label for="ordem_de_servico" class=" form-control-label">Ordem de Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input required="required" type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.PDF, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <input <?php echo isset($manutencao) ? "required" : ""?> type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
