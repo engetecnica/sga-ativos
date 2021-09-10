@@ -73,138 +73,32 @@
         } ); 
     </script>
 
-    <?php if($this->session->userdata('logado')==true){ ?>
+    <?php if($this->session->userdata('logado') == true){ ?>
+        
     <script>
-        /* Alterar Status da Requisição */
-       // $(document).ready(function () {
 
-        //function alterar_requisicao()//onde chama essa funcao?? nao pode
-        //{
-            /* Itens da Requisição múltipla */
-                
+        /* Itens da Requisição múltipla */    
+        $(".listagem").append($("#item_lista").html());
+        
+        $(document).on("click", ".add_line", function(){
+            $(".listagem").append($("#item_lista").html());
+            $(".listagem .item-lista").last().addClass('id_ativo_externo_grupo');
+        })
+        $(document).on("click", ".remove_line", function(){
+            if($(".remove_line").length >= 1) {
+                $(this).closest(".item-lista").remove();
+            }
+            if($(".remove_line").length == 0) {
                 $(".listagem").append($("#item_lista").html());
-                $(document).on("click", ".add_line", function(){
-                    $(".listagem").append($("#item_lista").html());
-                    $(".listagem .item-lista").last().addClass('id_ativo_externo_grupo');
-                })
-                $(document).on("click", ".remove_line", function(){
-                    if($(".remove_line").length >= 1) {
-                        $(this).closest(".item-lista").remove();
-                    }
-
-                    if($(".remove_line").length == 0) {
-                        $(".listagem").append($("#item_lista").html());
-                        $(".listagem .item-lista").last();
-                    }
-                })
-
-            /* Fecha Itens da Requisição múltipla */
-
-            $(document).on("click", ".alterar_requisicao", function(event){
-
-                event.preventDefault();
-
-                var id_ferramental_requisicao = $(this).attr('data-id');
-                var status = $(this).attr('data-status');
-
-                Swal.fire({
-                    title: 'Atualize Requisição '+id_ferramental_requisicao,
-                    input: 'select',
-                    inputOptions: { 
-                        <?php if($this->session->userdata('logado')->nivel==1){ ?>'1': 'Pendente', <?php } ?>
-                        <?php if($this->session->userdata('logado')->nivel==1){ ?>'2': 'Liberado', <?php } ?>
-                        <?php if($this->session->userdata('logado')->nivel==1){ ?>'3': 'Em Trânsito', <?php } ?>
-                        '4': 'Recebido',
-                        '5': 'Em Operação',
-                        <?php if($this->session->userdata('logado')->nivel==1){ ?>'6': 'Sem Estoque', <?php } ?>
-                        <?php if($this->session->userdata('logado')->nivel==1){ ?>'7': 'Transferido', <?php } ?>
-                        '8': 'Com Defeito',
-                        '9': 'Devolvido',
-                        '10': 'Fora de Operação'
-                    },
-                    inputValue : status,
-                    text: "Atualize a requisição selecionando um novo status. Cuidado ao atualizar!",
-                    showCancelButton: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: 'Atualizar Requisição',
-                    cancelButtonText: "Cancelar",                    
-                    inputPlaceholder: 'Relecione o Status',
-                    inputValidator: function(value) {
-                        return new Promise(function(resolve, reject) {
-                            if (value !== '') {
-                                resolve();
-                            } else {
-                                resolve('Você precisa selecionar um status.');
-                            }
-                        });
-                    }
-                }).then(function(result) {
-                    
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                            url: '<?php echo base_url('ferramental_requisicao/atualizar_status'); ?>',
-                            type: "post",
-                            data: 
-                                {
-                                    id_ferramental_requisicao: id_ferramental_requisicao, 
-                                    id_requisicao_status:result.value
-                                },
-                            success: function (response) {
-                                console.log('Processo atualização', 'processo concluido');              
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                               console.log(textStatus, errorThrown);
-                            }
-                        })
-
-                        Swal.fire({
-                            html: 'Aguarde enquanto o sistema processa sua requisição.',
-
-                            didOpen: () => {
-                                Swal.showLoading()
-                                timerInterval = setInterval(() => {
-                                    const content = Swal.getContent()
-                                    if (content) {
-                                        const b = content.querySelector('b')
-                                        if (b) {
-                                            b.textContent = Swal.getTimerLeft()
-                                        }
-                                    }
-                                }, 100);
-
-                                var timer = setTimeout(function() {
-                                    Swal.fire({
-                                      title: 'Atualizado!',
-                                      text: 'Sua requisição foi processada.',
-                                      icon: 'success',
-                                      showConfirmButton: false
-                                    })
-                                }, 5000);
-
-                                var timer = setTimeout(function() {
-                                    Swal.close();
-                                    location.reload();
-                                }, 8000);
-
-                            }
-                        });
-                    }
-
-                });
-
-            });
+                $(".listagem .item-lista").last();
+            }
+        })
     
-       // }
-
-
-       // });
 
         /* Set init functions */
         $('.select-search').select2();
 
-        /* Validação da liberação da requisição */
-
+        /* Adjust Anchor */
         var adjustAnchor = function(e) {
             e.preventDefault()
             var hash = $(window.location.hash)
@@ -227,110 +121,6 @@
                     sidebar.show('fast')
                 }
             });
-            
-            $("#liberar_requisicao").attr("disabled", true);
-
-            $(".qtdeitem").keyup(function() {
-
-                // Iniciando
-                var qtde_solicitada             = 0;
-                var qtde_solicitada_estoque     = 0;
-                var disponivel_estoque          = 0;
-                var qtde_devolvida              = 0;    
-                var qtdedevolvida_solicitada    = 0;     
-
-                // Quantidade do item solicitada na requisição
-                var qtde_solicitada             = parseInt($("#qtde_solicitada").val());
-
-                // Quantidade solicitada do que tem no estoque
-                var qtde_solicitada_estoque     = parseInt($("#estoque").val());
-
-                // Quantidade disponível em estoque
-                var disponivel_estoque          = parseInt($("#disponivel_estoque").val());
-
-                // Verifica se a quantidade solicitada é maior do que a quantidade disponível
-                if(qtde_solicitada_estoque > disponivel_estoque)
-                {
-
-                    Swal.fire({
-                        title: 'Erro!',
-                        text: 'A quantidade digitada não pode ser maior que '+ disponivel_estoque,
-                        icon: 'error',
-                        confirmButtonText: 'Ok, fechar.'
-                    })   
-
-                    $("#liberar_requisicao").attr("disabled", true);                 
-                    return false;
-                } 
-
-                // Retorno
-                console.log('Qde Solicitada: ', qtde_solicitada);
-                console.log('Qde Solicitada do Estoque: ', qtde_solicitada_estoque);
-
-                // Soma a quantidade de items dentro do loop das obras
-                $(".qtdedevolvida").each(function(index){
-
-                    qtdedevolvida_solicitada = qtdedevolvida_solicitada + Number($(this).val());
-                    var qtdedevolvida_disponivel = $(this).attr('data-qtde_devolvida_disponivel');
-
-                    if(qtdedevolvida_solicitada > qtdedevolvida_disponivel)
-                    {
-
-                        Swal.fire({
-                            title: 'Erro!',
-                            text: 'Este item dispõe de apenas '+ qtdedevolvida_disponivel + ' em estoque.',
-                            icon: 'error',
-                            confirmButtonText: 'Ok, fechar.'
-                        })                          
-
-                        console.log("Erro: ", "Esse item dispõe somente de " + qtdedevolvida_disponivel + " items");
-                        return false;
-                    }
-
-                    // Retorno
-                    console.log('Qde devolvida Solicitada: ' + qtdedevolvida_solicitada + ' :: Qde devolvida disponível: ' + qtdedevolvida_disponivel);
-
-                });
-
-                // Somando todos os campos 
-                var qtde_total = 0;
-                $(".qtdeitem").each(function(index){
-                    qtde_total = qtde_total + Number($(this).val());
-                });   
-
-                if(qtde_total > qtde_solicitada)
-                {
-
-                    $("#liberar_requisicao").attr("disabled", false);
-
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        text: 'Você completou a quantidade solicitada. Quantidade: '+ qtde_solicitada +'',
-                        icon: 'success',
-                        confirmButtonText: 'Ok, fechar.'
-                    })              
-
-                    $(this).val(qtde_solicitada);       
-                    return false;
-                    
-                    console.log("Erro: ", "Você já completou a quantidade de items solicitada. Soma: " + qtde_total + "\n");
-                } 
-                else 
-                {
-                    //console.log('Soma: ' +qtde_total)
-
-                    if(qtde_total == qtde_solicitada)
-                    {
-                        $("#liberar_requisicao").attr("disabled", false);
-                        //console.log('Está autorizado a salvar')
-                    } 
-                    else
-                    {
-                        $("#liberar_requisicao").attr("disabled", true);
-                    } 
-                }
-
-            });      
         });
 
         <?php if($this->session->flashdata('msg_success')==true){ ?>
@@ -377,90 +167,7 @@
                 "max" : quantidade,
                 "min" : '1'
             });
-        });
-
-        $("#transferir_ferramenta").click(function(){
-            var quantidade = $("#quantidade").val();
-            var id_ferramental_obra = $("#id_ferramental_obra").val();
-            var id_obra_destino = $("#id_obra_destino").val();
-
-            $.ajax({
-                url: '<?php echo base_url('ferramental_obra/gerenciar/disponibilizar/'); ?>'+id_obra,
-                type: "post",
-                data: {quantidade: quantidade, id_ferramental_obra:id_ferramental_obra, id_obra_destino: id_obra_destino, id_obra:id_obra, id_ativo_externo:id_ativo_externo} ,
-                success: function (response) {
-                    alert('processo concluido')              
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                   console.log(textStatus, errorThrown);
-                }
-            }); 
-        });
-
-
-        // Ação para transferir a ferramenta para outro setor - enviar solicitação
-        $("#transferir_ferramenta_acao").click(function(){
-
-            var id_ativo_externo = $("#id_ativo_externo").val();
-            var quantidade = $("#quantidade").val();
-            var id_ferramental_obra = $("#id_ferramental_obra").val();
-            var id_obra_destino = $("#id_obra_destino").val();
-            var id_obra_atual = $("#id_obra_atual").val();
-            var timeout;
-
-            Swal.fire({
-                title: 'Por favor, aguarde.',
-                html: 'Processando autorização de transferência.',
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-
-                    // envia requisição em back-end
-                    $.ajax({
-                        url: '<?php echo base_url('ferramental_obra/gerenciar/disponibilizar/solicitar_autorizacao'); ?>',
-                        type: "post",
-                        data: {
-                                id_ativo_externo:id_ativo_externo, 
-                                quantidade:quantidade, 
-                                id_ferramental_obra:id_ferramental_obra, 
-                                id_obra_destino:id_obra_destino, 
-                                id_obra_atual:id_obra_atual
-                        },
-                        success: function (response) {
-
-                            $('#transferencia_modal').modal('hide');
-                            Swal.showLoading();
-
-                            timeout = setTimeout(function () { 
-                                timeout = false;
-                                Swal.close();
-                            }, 6000);                            
-                            
-                            timeout = setTimeout(function () { 
-                                Swal.fire({
-                                    title: 'Sucesso',
-                                    text: "Sua solicitação foi registrada e está em análise.",
-                                    icon: 'warning',
-                                    showConfirmButton: false,
-                                    timer: 5500
-                                }).then((result) => {
-                                    
-                                })
-                            }, 6500);                              
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           console.log(textStatus, errorThrown);
-                        }
-                    });                    
-
-                },
-            }); 
-    
-            setTimeout(function () {
-                document.location.reload(true);
-            }, 13000);
-
-        });
-               
+        });   
 
         $('.litros').mask("##0,0", {reverse: true});
         $('.cpf').mask('000.000.000-00');
@@ -706,12 +413,22 @@
         OneSignal.push(function() {
             OneSignal.init({
                 appId: window.one_signal_appid,
-                // safari_web_id: "web.onesignal.auto.0dd8fdab-49d8-437b-ac06-36c9d15991be",
-                // notifyButton: {
-                //     enable: true,
-                // },
-                // subdomainName: "engetecnica"
+                notifyButton: {
+                    enable: true,
+                },
             });
+
+            OneSignal.on('subscriptionChange', function (isSubscribed) {
+                if (user && isSubscribed) {
+                    OneSignal.sendTag({...user});
+                }
+            });
+
+            if(user){
+                OneSignal.setExternalUserId(user.id_usuario);
+            } else {
+                OneSignal.removeExternalUserId();
+            }
         });
     </script>
 

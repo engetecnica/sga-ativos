@@ -58,6 +58,7 @@
     <script> 
         var base_url = "<?php echo base_url('/'); ?>"
         var one_signal_appid = "<?php echo $this->config->item('one_signal_appid'); ?>";
+        var user = JSON.parse('<?php echo json_encode($user); ?>') || null;
     </script>
 </head>
 
