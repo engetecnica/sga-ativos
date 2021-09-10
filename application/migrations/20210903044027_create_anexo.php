@@ -9,11 +9,11 @@ class Migration_Create_Anexo extends CI_Migration {
 		if (!$this->db->table_exists($this->table)) {
 			$this->dbforge
 			->add_field('id_anexo int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY')
-			->add_field('usuario_id int(11) NULL')
+			->add_field('id_usuario int(11) NULL')
 			->add_field('id_modulo int(11) NULL')
 			->add_field('id_modulo_item int(11) NULL')
 			->add_field('id_modulo_subitem int(11) NULL')
-			->add_field('id_ativo_configuracao int(11) NULL')
+			->add_field('id_configuracao int(11) NULL')
 			->add_field('titulo varchar(255) NULL')
 			->add_field('tipo varchar(255) NULL')
 			->add_field('descricao text NULL')

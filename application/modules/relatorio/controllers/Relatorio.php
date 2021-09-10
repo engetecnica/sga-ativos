@@ -81,7 +81,7 @@ class Relatorio extends MY_Controller {
         ->setTitle("Office 2007 {$tipo}")
         ->setSubject("Office 2007 {$tipo}")
         ->setDescription("Document for Office 2007 {$tipo}, generated using PHP classes in Engetecnica APP.")
-        ->setKeywords("Office 2007 openxml php")
+        ->setKeywords("Office 2007 openxml php Excel spreadsheet")
         ->setCategory($relatorio);
         $spreadsheet->removeSheetByIndex(0);
 
@@ -90,8 +90,6 @@ class Relatorio extends MY_Controller {
 
         if (require $relatorio_file) {
           $spreadsheet->getDefaultStyle()->getFont()->setName('Arial');
-          //$spreadsheet->getDefaultStyle()->getFont()->setSize(16);
-
           (new Xlsx($spreadsheet))->save($file);
           $return_file = base_url("{$store_path}/{$filename}");
         }
