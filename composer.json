@@ -5,7 +5,8 @@
         "deividfortuna/fipe": "^2.4",
         "mpdf/mpdf": "^8.0",
         "ext-gd": "*",
-        "phpoffice/phpspreadsheet": "^1.18"
+        "phpoffice/phpspreadsheet": "^1.18",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "^197.0"

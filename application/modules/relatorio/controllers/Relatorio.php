@@ -24,6 +24,7 @@ class Relatorio extends MY_Controller {
         # Fecha Login
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
+        $this->load->model('notificacoes_model');
     }
 
     function index() {
@@ -143,5 +144,9 @@ class Relatorio extends MY_Controller {
           unlink($file);
         }
       }
+    }
+
+    public function segmentos() {
+      $this->notificacoes_model->getSegmentos();
     }
   }

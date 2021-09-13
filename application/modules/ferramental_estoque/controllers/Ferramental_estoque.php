@@ -164,12 +164,6 @@ class Ferramental_estoque  extends MY_Controller {
 
     # Grava Retirada
     function salvar(){
-        # Dados
-        $data['id_obra'] = $this->input->post('id_obra');
-        $data['id_funcionario'] = $this->input->post('id_funcionario');
-        $data['status'] = 1; # Pendente
-        $items = array();
-
         if (count($this->input->post('quantidade')) > 0) {
             # Dados
             $id_retirada = $this->input->post('id_retirada');
@@ -184,6 +178,7 @@ class Ferramental_estoque  extends MY_Controller {
                 $id_retirada = $this->ferramental_estoque_model->salvar_formulario($retirada);
             }
 
+            $items = array();
             foreach($this->input->post('quantidade') as $k=>$item){
                 if ((int) $this->input->post('quantidade')[$k] > 0) {
                     $items[$k] = array();
@@ -218,6 +213,18 @@ class Ferramental_estoque  extends MY_Controller {
                 }
             } else{ 
                 $this->db->insert_batch("ativo_externo_retirada_item", $items);
+                $this->notificacoes_model->enviar_push(
+                    "Retirada de Ferramentas Pendênte", 
+                    "Nova Retirada de Ferramentas pendênte de aprovação. Clique na Notificação para mais detalhes.", 
+                    [
+                        "filters" => [
+                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+                            ["operator" => "AND"],
+                            ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
+                        ],
+                        "url" => "ferramental_estoque/detalhes/{$id_retirada}"
+                    ]
+                );
             }
 
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
@@ -479,14 +486,14 @@ class Ferramental_estoque  extends MY_Controller {
             }
 
             if(in_array($retirada->status, [2, 4, 9])) {
-                $css = file_get_contents( __DIR__ ."/../../../../assets/css/termo_de_resposabilidade_retirada.css", null, null);
+                $css = file_get_contents( __DIR__ ."/../../../../assets/css/termo_de_resposabilidade_retirada.css", true, null);
 
                 $header_path = __DIR__ ."/../../../../assets/images/docs/termo_header.png";
-                $header_data = file_get_contents($header_path, null, null);
+                $header_data = file_get_contents($header_path, true, null);
                 $header_base64 = 'data:image/' . pathinfo($header_path, PATHINFO_EXTENSION) . ';base64,' . base64_encode($header_data);
 
                 $footer_path = __DIR__ ."/../../../../assets/images/docs/termo_footer.png";
-                $footer_data = file_get_contents($footer_path, null, null);
+                $footer_data = file_get_contents($footer_path, true, null);
                 $footer_base64 = 'data:image/' . pathinfo($footer_path, PATHINFO_EXTENSION) . ';base64,' . base64_encode($footer_data);
 
                 $data = [
@@ -514,7 +521,8 @@ class Ferramental_estoque  extends MY_Controller {
     function anexar_termo_resposabilidade($id_retirada){
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
         if($retirada) {
-            $dados['termo_de_reponsabilidade'] = ($_FILES['ferramental_estoque'] ? self::upload_arquivo('ferramental_estoque') : '');
+            $dados['id_retirada'] = $id_retirada;
+            $dados['termo_de_reponsabilidade'] = ($_FILES['ferramental_estoque'] ? $this->upload_arquivo('ferramental_estoque') : '');
             if (!$dados['termo_de_reponsabilidade'] || $dados['termo_de_reponsabilidade'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
@@ -524,6 +532,14 @@ class Ferramental_estoque  extends MY_Controller {
             $this->db->where('id_retirada', $id_retirada)
                                 ->update('ativo_externo_retirada', $dados);
             $this->session->set_flashdata('msg_success', "Anexo atualizado com sucesso!");
+            $this->salvar_anexo(
+                13,
+                $dados, 
+                $dados['id_retirada'], 
+                null, 
+                'termo_de_reponsabilidade', 
+                "termo_de_reponsabilidade"
+            );
             echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
             return;
         }

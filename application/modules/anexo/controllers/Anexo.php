@@ -19,7 +19,8 @@ class Anexo  extends MY_Controller {
         }
         $this->load->model('ativo_externo/ativo_externo_model');
         $this->load->model('ativo_interno/ativo_interno_model');  
-        $this->load->model('ativo_veiculo/ativo_veiculo_model');    
+        $this->load->model('ativo_veiculo/ativo_veiculo_model');
+        $this->load->model('ferramental_estoque/ferramental_estoque_model');
     }
 
     function index(
@@ -143,6 +144,21 @@ class Anexo  extends MY_Controller {
       $data = [];
 
       switch ($modulo) {
+        case 'ferramental_estoque':
+          $data = array_map(function($retirada) {
+            return (object) [
+              "id" => $retirada->id_retirada,
+              "descricao" => sprintf(
+                "%s - %s - %s - %s",
+                $retirada->id_retirada,
+                $retirada->funcionario,
+                $retirada->obra,
+                date('d/m/Y H:i:s', strtotime($retirada->data_inclusao))
+              )
+            ];
+          },$this->ferramental_estoque_model->search_retiradas($search));
+        break;
+
         case 'ativo_externo':
           $data = array_map(function($ativo) {
             return (object) [
@@ -185,6 +201,7 @@ class Anexo  extends MY_Controller {
       $data = [];
 
       switch ($modulo) {
+        case 'ferramental_estoque':
         case 'ativo_externo':
           $data = [];
         break;

@@ -50,6 +50,21 @@ class ferramental_estoque_model extends MY_Model {
 						->result();
 	}
 
+
+	public function search_retiradas($search){
+		return $this->db
+			->from('ativo_externo_retirada retirada')
+			->select('retirada.*, ob.*, fn.*, fn.nome as funcionario, ob.codigo_obra as obra')
+			->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
+			->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
+			->group_by('retirada.id_retirada')
+			->order_by('retirada.id_retirada', 'desc')
+			->like('retirada.id_retirada', $search)
+			->or_like('fn.nome', $search)
+			->or_like('ob.codigo_obra', $search)
+			->get()->result();
+	}
+
 	public function get_retirada($id_retirada, $id_obra = null, $id_funcionario = null){
 		$retirada = $this->db
 					->select('retirada.*, ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')

@@ -418,16 +418,19 @@
                 },
             });
 
-            OneSignal.on('subscriptionChange', function (isSubscribed) {
-                if (user && isSubscribed) {
-                    OneSignal.sendTag({...user});
-                }
-            });
-
             if(user){
-                OneSignal.setExternalUserId(user.id_usuario);
-            } else {
-                OneSignal.removeExternalUserId();
+                OneSignal.setExternalUserId(user.id_usuario)
+                OneSignal.sendTag("id_empresa", user.id_empresa)
+                OneSignal.sendTag("id_obra", user.id_obra)
+                OneSignal.sendTag("usuario", user.usuario)
+                OneSignal.sendTag("situacao", user.situacao)
+                OneSignal.sendTag("situacao_nome", user.situacao_nome == "0" ? 'Ativo' : 'Inativo')
+                OneSignal.sendTag("nivel", user.nivel)
+                OneSignal.sendTag("nivel_nome", user.nivel_nome)
+                OneSignal.sendTag("empresa", user.empresa)
+                OneSignal.sendTag("empresa_razao", user.empresa_razao)
+                OneSignal.sendTag("codigo_obra", user.codigo_obra)
+                OneSignal.sendTag("data_criacao", user.data_criacao)
             }
         });
     </script>

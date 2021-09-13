@@ -19,6 +19,10 @@ class Anexo_model extends MY_Model {
         [
           "nome" => "Ativos Veículos - Veículos",
           "rota" => "ativo_veiculo",
+        ],
+        [
+          "nome" => "Ferramental Estoque",
+          "rota" => "ferramental_estoque",
         ]
       ];
 
@@ -57,6 +61,11 @@ class Anexo_model extends MY_Model {
               "nome" => "Nota/Recibo de Seguro",
               "slug" => "seguro",
               "modulos" =>  ['ativo_veiculo']
+          ],
+          [
+            "nome" => "Termo de Reponsabilidade",
+            "slug" => "termo_de_reponsabilidade",
+            "modulos" => ['ferramental_estoque']
           ],
           [
               "nome" => "Outro",

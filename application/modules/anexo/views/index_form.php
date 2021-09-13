@@ -200,15 +200,21 @@ var anexo_form = new Vue({
     },
     methods: {
         getItems(){
+            url = `${base_url}anexo/items/${this.anexo_modulo.rota}`
+            if (this.search_items) {
+                url += `/${this.search_items}`
+            }
+
             if (this.anexo_modulo && this.anexo_tipo) {
                 window.$.ajax({
                     method: "GET",
-                    url: `${base_url}anexo/items/${this.anexo_modulo.rota}/${this.search_items}`,
+                    url: url,
                 })
                 .then((response) => {
                     this.item = null
                     this.items = response
                     this.subitems = []
+                    console.log(this.items)
                 })
                 .catch(() => {
                     this.item = null
@@ -252,6 +258,7 @@ var anexo_form = new Vue({
         anexo_modulo(){
             if(this.anexo_modulo) {
                 this.modulo = this.anexo_modulo.rota
+                this.anexo_tipo = null
                 return this.getItems()
             }
             this.anexo_tipo = null

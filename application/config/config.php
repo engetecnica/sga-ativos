@@ -550,3 +550,5 @@ $config['proxy_ips'] = '';
  * One Signal Notifications
  */
 $config['one_signal_appid'] = "825688da-a801-4c3e-9d05-8d643c5af4e7";
+$config['one_signal_apikey'] = "YjhiZGU5ZjItMThhNy00M2I3LTk2ZjctMmFmNzY2Mzg5MDIz";
+$config['one_signal_apiurl'] = "https://onesignal.com";

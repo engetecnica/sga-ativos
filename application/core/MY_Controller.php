@@ -24,7 +24,8 @@ class MY_Controller extends MX_Controller {
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
-        $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
+        $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
+        $this->load->model('anexo/anexo_model');
     }
 
     use MY_Trait;
@@ -38,7 +39,7 @@ class MY_Controller extends MX_Controller {
 
     public function get_template($template=null, $data=null){
         $data['user'] = $this->user;
-        $data['modulos'] = self::get_modulos($this->user->nivel);
+        $data['modulos'] = $this->get_modulos($this->user->nivel);
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);
         $this->load->view("../views/template_footer", $data);
@@ -53,12 +54,8 @@ class MY_Controller extends MX_Controller {
 
     public function buscar_dados_logado($logado=null){
         if($logado) {
-            $user = $this->db
-            ->select('usuario.*, empresa.*')
-            ->where("usuario.id_usuario = {$logado->id_usuario}")
-            ->join('empresa', "empresa.id_empresa = {$logado->id_empresa}")
-            ->get('usuario')
-            ->row();
+            $this->load->model('usuario/usuario_model');
+            $user = $this->usuario_model->get_usuario($logado->id_usuario);
 
             if ($user) {
                 unset($user->senha);
@@ -154,7 +151,7 @@ class MY_Controller extends MX_Controller {
     }
 
     public function gerar_pdf($filename, $html, $mode = null) {
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir()."/mpdf"]);
+        $mpdf = new Mpdf(['tempDir' => sys_get_temp_dir()."/mpdf"]);
         //desconmenta com php gd instalado
         //$mpdf->showImageErrors = true;
         $mpdf->WriteHTML($html);
@@ -249,6 +246,30 @@ class MY_Controller extends MX_Controller {
             $image = $imageDetailArray['file_name'];
         }
         return $image;
+    }
+
+    public function salvar_anexo($id_modulo, $data, $id_item, $subitem_column = null, $path, $tipo, $id_configuracao = null){
+        if($data[$path]) {
+            $anexo_name = "{$path}/{$data[$path]}";
+            $anexo = $this->anexo_model->get_anexo_by_name($anexo_name);
+
+            $anexo_data = [
+                "id_usuario" => $this->user->id_usuario,
+                "id_modulo" => $id_modulo,
+                "id_modulo_item" => $id_item,
+                "id_modulo_subitem" =>  $subitem_column && $data[$subitem_column] ? $data[$subitem_column] : $this->db->insert_id(),
+                "id_configuracao" => $id_configuracao,
+                "tipo" =>  $tipo,
+                "anexo" => $anexo_name,
+                "titulo" => $anexo_name,
+                "descricao" => ucfirst(str_replace("_", " ", $anexo_name)),
+            ];
+
+            if ($anexo) {
+                $anexo_data['id_anexo'] = $anexo->id_anexo;
+            }
+            $this->anexo_model->salvar_formulario($anexo_data);
+        }
     }
     
     public function dd(...$data){

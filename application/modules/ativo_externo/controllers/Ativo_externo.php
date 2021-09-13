@@ -19,7 +19,7 @@ class Ativo_externo  extends MY_Controller {
         } 
         # Fecha Login 
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
-        $this->load->model('anexo/anexo_model');     
+        $this->load->model('anexo/anexo_model');   
     }
 
     function index($subitem=null) {
@@ -261,6 +261,17 @@ class Ativo_externo  extends MY_Controller {
 
         if( $mode == 'insert'){
             $this->db->insert_batch("ativo_externo", $dados);
+
+            $this->notificacoes_model->enviar_push(
+                "Novas Ferramentas", 
+                "Novas Ferramentas Adicionadas ao Sistema.", 
+                [
+                    "filters" => [
+                        ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
+                    ],
+                ]
+            );
+
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_externo"));
             return;
@@ -399,6 +410,15 @@ class Ativo_externo  extends MY_Controller {
 
         if( $mode == 'insert_grupo' && $this->db->insert_batch("ativo_externo", $dados))
         {
+            $this->notificacoes_model->enviar_push(
+                "Novas Grupo de Ferramentas", 
+                "Novas Grupo de Ferramentas Adicionadas ao Sistema.", 
+                [
+                    "filters" => [
+                        ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
+                    ],
+                ]
+            );
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         }
         echo redirect(base_url("ativo_externo#lista2"));

@@ -94,8 +94,8 @@
                                 <?php } ?>
                             </ul>
                         </li> 
-                        <?php } ?>  
-                   
+                        <?php } ?> 
+                        
                         <li>
                             <a href="<?php echo base_url('logout'); ?>">
                                 <i class="fas fa-power-off"></i>Sair do Sistema</a>
