@@ -92,18 +92,27 @@
                                         <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="">
-                                    </div>
-
-
-                                    <div class="col">
-                                        <label for="veiculo_km_data" class=" form-control-label">Data</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
                                     </div>
                                 </div>
                                 <?php } ?>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="veiculo_km_data" class=" form-control-label">Data Serviço</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                    </div>
+
+                                    <div class="col col-md-2">
+                                        <label for="data_vencimento" class=" form-control-label">Data Vencimento</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" value="<?php echo isset($manutencao) ? $manutencao->data_vencimento: ''?>">
+                                    </div>
+                                </div>
+
 
                                 <?php if(isset($manutencao) && isset($manutencao->veiculo_km_atual)){ ?>
                                     <input type="hidden" name="veiculo_km_atual" id="veiculo_km_atual" value="<?php echo $manutencao->veiculo_km_atual; ?>">

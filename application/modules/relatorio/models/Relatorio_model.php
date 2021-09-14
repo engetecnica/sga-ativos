@@ -735,7 +735,7 @@ class Relatorio_model extends Relatorio_model_base {
 
       $obras = [];
       $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
-      if ($data['id_obra']) {
+      if (isset($data['id_obra'])) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
         $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
       } else {
@@ -890,5 +890,58 @@ class Relatorio_model extends Relatorio_model_base {
     }
 
     return $meses_porcentagens;
+  }
+
+  public function limpar_tmp(){
+    $path = __DIR__."/../../../../assets/uploads/relatorio";
+    foreach(glob("{$path}/relatorio_*") as $file){
+      $filetime = strtotime(explode(".", substr(strrchr($file, "_"), 1))[0]);
+      if ($filetime <= strtotime('-2 minutes')) {
+        unlink($file);
+      }
+    }
+    return true;
+  }
+
+  public function informe_vencimentos($days = 30){
+    //$date = date('Y-m-d', strtotime("2021-10-13")); //temp
+    $date = date('Y-m-d', strtotime("+ $days days"));
+    $results = [];
+
+    foreach($this->relatorio_model->vencimentos as $modulo => $vencimento){
+      $this->load->model("{$modulo}/{$modulo}_model");
+
+      foreach($vencimento as $key => $tipo){
+        $relatorio = $this->db->where("{$tipo['coluna']} = '{$date}'")
+                              ->select("{$tipo['tabela']}.*");
+
+        if ($modulo == 'ativo_veiculo') {
+          $id_modulo = "id_{$modulo}";
+          $relatorio->join($modulo, "$modulo.$id_modulo={$tipo['tabela']}.$id_modulo")
+                    ->select("$modulo.*");
+
+         if ($key == 'manutencao') {
+            $relatorio
+              ->select('frn.razao_social as fornecedor')
+              ->select('ativo_configuracao.id_ativo_configuracao, ativo_configuracao.titulo as servico')
+              ->join("fornecedor frn", "frn.id_fornecedor={$tipo['tabela']}.id_fornecedor", 'left')
+              ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$tipo['tabela']}.id_ativo_configuracao", 'left');
+         }
+          
+          $relatorio->group_by("{$tipo['tabela']}.$id_modulo");
+        }
+
+        $relatorio_data = $relatorio->get($tipo['tabela'])->result();
+        if (count($relatorio_data) >= 1) {
+          $results[] = (object) [
+            'data' => $relatorio_data,
+            'modulo' => $modulo,
+            'tipo' => $key
+          ];
+        }
+      }
+    }
+
+    return $results;
   }
 }

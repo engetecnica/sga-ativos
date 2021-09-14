@@ -24,8 +24,8 @@
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
                                     <th>Custo</th>
-                                    <th>Vencimento</th>
                                     <th>Pagamento</th>
+                                    <th>Vencimento</th>
                                     <th>Comprovante</th>
                                 </tr>
                             </thead>
@@ -38,16 +38,8 @@
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td>R$ <?php echo number_format($valor->ipva_custo, 2, ',', '.'); ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->ipva_data_vencimento)); ?></td>
-                                    <td>
-                                        <?php 
-                                            if($valor->ipva_data_pagamento=='0000-00-00'){ 
-                                                echo "-"; 
-                                            } else { 
-                                                echo date("d/m/Y", strtotime($valor->ipva_data_pagamento)); 
-                                            } 
-                                        ?>
-                                    </td>
+                                    <td><?php echo $valor->ipva_data_pagamento ? date("d/m/Y", strtotime($valor->ipva_data_pagamento)) : "-"; ?></td>
+                                    <td><?php echo $valor->ipva_data_vencimento ? date("d/m/Y", strtotime($valor->ipva_data_vencimento)) : "-"; ?></td>
                                     <td width="15%">
                                         <?php if($valor->comprovante_ipva){ ?>
                                         <a target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_ipva/{$valor->comprovante_ipva}"); ?>">

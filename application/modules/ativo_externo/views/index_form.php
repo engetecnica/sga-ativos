@@ -178,7 +178,7 @@
                                             <textarea name="observacao" id="observacao" rows="9" placeholder="Descrição..." class="form-control"><?php if(isset($detalhes) && isset($detalhes->observacao)){ echo $detalhes->observacao; } ?></textarea>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php }?>
 
                                 
                                 <div class="row form-group">
@@ -187,8 +187,8 @@
                                     </div>
                                     <div class="col col-md-6">
                                         <select v-model="necessecita_calibracao" required="required" class="form-control" id="necessecita_calibracao" name="necessecita_calibracao">
-                                            <option :value="0">Não</option>
-                                            <option :value="1">Sim</option>
+                                            <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '0' ? "selected='selected'" : ''; ?> value="0">Não</option>
+                                            <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
                                         </select>
                                     </div>
                                 </div>
@@ -215,7 +215,7 @@
 
                                 <div class="pull-right">
                                     <?php if((isset($detalhes) && isset($detalhes->necessecita_calibracao)) && $detalhes->necessecita_calibracao == 1) { ?>
-                                        <a href="<?php echo base_url("ativo_externo/certificado_de_calibacao/{$detalhes->id_ativo_externo}"); ?>">
+                                        <a href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
                                             <button type="button" class="btn btn-outline-secondary">Certificado de Calibração</button>
                                         </a>
                                     <?php } ?>

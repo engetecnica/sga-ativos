@@ -7,7 +7,7 @@ class MY_model extends CI_Model {
     public function __construct()
     {
         parent::__construct();
-        $this->user = self::buscar_dados_logado($this->session->userdata('logado'));
+        $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
     }
 
     public function formatArrayReplied($items = [], $id_item = null){

@@ -444,6 +444,7 @@ class Ativo_veiculo  extends MY_Controller {
 
             $data['veiculo_custo'] = $this->remocao_pontuacao($this->input->post('veiculo_custo'));
             $data['descricao'] = $this->input->post('descricao');
+            $data['data_vencimento'] = $this->input->post('data_vencimento');
 
             if($_FILES['ordem_de_servico']['error'] == 0 && $_FILES['ordem_de_servico']['size'] > 0){
                 $data['ordem_de_servico'] = $this->upload_arquivo('ordem_de_servico');
@@ -516,6 +517,7 @@ class Ativo_veiculo  extends MY_Controller {
             $data['ipva_custo'] = $this->remocao_pontuacao($this->input->post('ipva_custo'));
             $data['ipva_data_vencimento'] = $this->input->post('ipva_data_vencimento');
             $data['ipva_data_pagamento'] = $this->input->post('ipva_data_pagamento');
+            $data['ipva_data_vencimento'] = $this->input->post('ipva_data_vencimento');
 
             $data['comprovante_ipva'] = ($_FILES['comprovante_ipva'] ? $this->upload_arquivo('comprovante_ipva') : '');
             if (!$data['comprovante_ipva'] || $data['comprovante_ipva'] == '') {
@@ -555,7 +557,7 @@ class Ativo_veiculo  extends MY_Controller {
 
         if ($veiculo) {
             $data['id_ativo_veiculo_seguro'] = $this->input->post('id_ativo_veiculo_seguro');
-            $data['custo'] = $this->remocao_pontuacao($this->input->post('custo'));
+            $data['seguro_custo'] = $this->remocao_pontuacao($this->input->post('seguro_custo'));
             $data['carencia_inicio'] = $this->input->post('carencia_inicio');
             $data['carencia_fim'] = $this->input->post('carencia_fim');
            

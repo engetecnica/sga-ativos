@@ -65,39 +65,66 @@ class Ativo_externo  extends MY_Controller {
     }
 
 
-    function certificado_de_calibacao($id_ativo_externo){
+    function certificado_de_calibracao($id_ativo_externo){
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
         $data['detalhes'] = $this->ativo_externo_model->get_ativo($id_ativo_externo);
-    	$this->get_template('index_certificado_de_calibacao', $data);
+    	$this->get_template('index_certificado_de_calibracao', $data);
     }
 
 
-    function salvar_certificado_de_calibacao($id_ativo_externo){
+    function salvar_certificado_de_calibracao($id_ativo_externo){
         $ativo =  $this->ativo_externo_model->get_ativo($id_ativo_externo);
         if ($ativo) {
-            $data['certificado_de_calibacao'] = ($_FILES['certificado_de_calibacao'] ? $this->upload_arquivo('certificado_de_calibacao') : '');
-            if (!$data['certificado_de_calibacao'] || $data['certificado_de_calibacao'] == '') {
+            $data['certificado_de_calibracao'] = ($_FILES['certificado_de_calibracao'] ? $this->upload_arquivo('certificado_de_calibracao') : '');
+            if (!$data['certificado_de_calibracao'] || $data['certificado_de_calibracao'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do certificado deve ser menor ou igual a ".ini_get('upload_max_filesize'));
-                return redirect(base_url("ativo_externo/certificado_de_calibacao/{$id_ativo_externo}"));
+                return redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
             }
 
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => 12,
-                "id_modulo_item" => $id_ativo_externo,
-                "tipo" => 'certificado_de_calibacao',
-                "anexo" => "certificado_de_calibacao/{$data['certificado_de_calibacao']}"
-            ];
-            $this->anexo_model->salvar_formulario($anexo_data);
-
-            $dados = [
-                'necessecitam_calibracao' => 1,
-                'certificado_de_calibacao' => $data['certificado_de_calibacao'],
+            $certificado = [
+                'certificado_de_calibracao' => $data['certificado_de_calibracao'],
+                'inclusao_certificado' => date("Y-m-d", strtotime('now')),
                 'validade_certificado' => $this->input->post('validade_certificado')
             ];
-            $this->db->where('id_ativo_externo', $id_ativo_externo)->update('ativo_externo', $dados);
+            $this->db->where('id_ativo_externo', $id_ativo_externo)->update('ativo_externo', $certificado);
+
+            $this->salvar_anexo(
+                12, 
+                $data, 
+                $id_ativo_externo, 
+                null, 
+                'certificado_de_calibracao', 
+                'certificado_de_calibracao'
+            );
+
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
-            echo redirect(base_url("ativo_externo/{$id_ativo_externo}"));
+            echo redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
+            return;
+        }
+
+        $this->session->set_flashdata('msg_error', "Nenhum ativo encontrado!");
+        return redirect(base_url("ativo_externo"));
+    }
+
+    function deletar_certificado_de_calibracao($id_ativo_externo){
+        $ativo =  $this->ativo_externo_model->get_ativo($id_ativo_externo);
+        if ($ativo) {
+       
+            $certificado = [
+                'certificado_de_calibracao' => null,
+                'inclusao_certificado' => null,
+                'validade_certificado' => null
+            ];
+            $this->db->where('id_ativo_externo', $id_ativo_externo)->update('ativo_externo', $certificado);
+
+            $this->db->where('anexo', "certificado_de_calibracao/{$ativo->certificado_de_calibracao}")
+                    ->delete('anexo');
+
+            $path = __DIR__."/../../../assets/uploads";        
+            unlink("{$path}/certificado_de_calibracao/{$ativo->certificado_de_calibracao}");
+            
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+            echo redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
             return;
         }
 
@@ -187,7 +214,7 @@ class Ativo_externo  extends MY_Controller {
                  $items[$i]['id_obra']                        = $id_obra;
                  $items[$i]['nome']                           = ucwords($this->input->post('nome'));
                  $items[$i]['observacao']                     = $this->input->post('observacao');
-                 $items[$i]['necessecitam_calibracao']        = $this->input->post('necessecitam_calibracao');
+                 $items[$i]['necessecita_calibracao']        = $this->input->post('necessecita_calibracao');
                  $items[$i]['codigo']                         = strtoupper($this->input->post('codigo'));
 
                 $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -205,7 +232,7 @@ class Ativo_externo  extends MY_Controller {
                 'valor' => $items[0]['valor'],
                 'id_obra' => $id_obra,
                 'observacao' => $items[0]['observacao'],
-                'necessecitam_calibracao' => $items[0]['necessecitam_calibracao'],
+                'necessecita_calibracao' => $items[0]['necessecita_calibracao'],
                 'ativos' => $items
             ]);
 
@@ -240,7 +267,7 @@ class Ativo_externo  extends MY_Controller {
                 $dados[$k]['nome']                          = $this->input->post('item')[$k];
                 $dados[$k]['valor']                         = $this->input->post('valor');
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
-                $dados[$k]['necessecitam_calibracao']       = $this->input->post('necessecitam_calibracao');
+                $dados[$k]['necessecita_calibracao']       = $this->input->post('necessecita_calibracao');
                 $dados[$k]['tipo'] = $this->input->post('tipo');
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
                 
@@ -297,7 +324,7 @@ class Ativo_externo  extends MY_Controller {
                     $items[$i]['id_obra']                        = $this->input->post('id_obra');
                     $items[$i]['nome']                           = $this->input->post('nome');
                     $items[$i]['observacao']                     = $grupo->observacao;
-                    $items[$i]['necessecitam_calibracao']        = $grupo->necessecitam_calibracao;
+                    $items[$i]['necessecita_calibracao']        = $grupo->necessecita_calibracao;
                     $items[$i]['codigo']                         = $this->input->post('codigo');
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -321,8 +348,8 @@ class Ativo_externo  extends MY_Controller {
                        $items[$i]['observacao'] = $this->input->post('observacao');
                     }
 
-                    if ($this->input->post('necessecitam_calibracao')) {
-                        $items[$i]['necessecitam_calibracao'] = $this->input->post('necessecitam_calibracao');
+                    if ($this->input->post('necessecita_calibracao')) {
+                        $items[$i]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao');
                      }
                     
                     if ($this->input->post('valor')) {
@@ -342,7 +369,7 @@ class Ativo_externo  extends MY_Controller {
                 'valor' => $items[0]['valor'],
                 'id_obra' => $grupo->id_obra,
                 'observacao' => $grupo->observacao,
-                'necessecitam_calibracao' => $grupo->necessecitam_calibracao,
+                'necessecita_calibracao' => $grupo->necessecita_calibracao,
                 'ativos' => $items
             ]);
             $data['url'] = base_url("ativo_externo/gravar_items_grupo");
@@ -380,10 +407,10 @@ class Ativo_externo  extends MY_Controller {
                     $dados[$k]['observacao'] = $this->input->post('observacao');
                 }
 
-                if (is_array($this->input->post('necessecitam_calibracao'))) {
-                    $dados[$k]['necessecitam_calibracao'] = $this->input->post('necessecitam_calibracao')[$k];
+                if (is_array($this->input->post('necessecita_calibracao'))) {
+                    $dados[$k]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao')[$k];
                 } else {
-                    $dados[$k]['necessecitam_calibracao'] = $this->input->post('necessecitam_calibracao');
+                    $dados[$k]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao');
                 }
 
                 if($mode == 'insert_grupo') {

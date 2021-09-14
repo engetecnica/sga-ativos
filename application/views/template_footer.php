@@ -403,7 +403,41 @@
                     $(selector).mask(MercoSulMaskBehavior, mercoSulOptions);
                 });
             });
-        }   
+        }
+        
+        $(document).ready(function() {
+            var confirm_submit = null;
+
+            $('.confirm-submit').submit((event) => {
+                if (confirm_submit == null) {
+                    event.preventDefault();
+                    let acao = $(this).attr('data-acao') || 'Confirmar';
+                    let icon = $(this).attr('data-icon') || 'warning';
+                    let title = 'Você tem certeza?';
+                    let text = "Esta operação não poderá ser revertida.";
+
+                    Swal.fire({
+                        title: title,
+                        text: text,
+                        icon: icon,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        canceButtonText: 'Cancelar',
+                        confirmButtonText: 'Sim, ' + acao + '!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            confirm_submit = result.isConfirmed
+                            $(event.target).submit();
+                        }
+                    }).catch(() => {
+                        confirm_submit = null
+                    });
+                }
+            })
+
+        })
+
     </script>
 
     <?php } ?>

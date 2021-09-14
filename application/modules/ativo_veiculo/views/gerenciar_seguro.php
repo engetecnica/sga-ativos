@@ -39,20 +39,12 @@
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td>R$ <?php echo number_format($valor->seguro_custo, 2, ',', '.'); ?></td>
                                     <td><?php echo date("d/m/Y", strtotime($valor->carencia_inicio)); ?></td>
-                                    <td>
-                                        <?php 
-                                            if(!$valor->carencia_fim){ 
-                                                echo "-"; 
-                                            } else { 
-                                                echo date("d/m/Y", strtotime($valor->carencia_fim));
-                                            } 
-                                        ?>
-                                    </td>
+                                    <td><? echo isset($valor->carencia_fim) ? date("d/m/Y", strtotime($valor->carencia_fim)) : "-" ;?></td>
                                     <td width="15%">
-                                        <?php if($valor->comprovante_seguro){ ?>
-                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_seguro/{$valor->comprovante_seguro}"); ?>">
+                                        <?php if(isset($valor->contrato_seguro)){ ?>
+                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
-                                                Baixar Comprovante
+                                                Baixar Contrato
                                             </button>
                                         </a>                           
                                         <?php } ?>

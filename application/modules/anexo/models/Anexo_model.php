@@ -44,7 +44,7 @@ class Anexo_model extends MY_Model {
           ],
           [
             "nome" => "Certificado de Calibação/Aferiação",
-            "slug" => "certificado_de_calibacao",
+            "slug" => "certificado_de_calibracao",
             "modulos" =>  ['ativo_externo']
           ],
           [

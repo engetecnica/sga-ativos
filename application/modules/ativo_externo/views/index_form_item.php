@@ -49,9 +49,9 @@
 
                             <input 
                                 type="hidden" 
-                                name="necessecitam_calibracao" 
-                                id="necessecitam_calibracao"
-                                value="<?php echo $item->necessecitam_calibracao; ?>"
+                                name="necessecita_calibracao" 
+                                id="necessecita_calibracao"
+                                value="<?php echo $item->necessecita_calibracao; ?>"
                                 required="required"
                             >
                             

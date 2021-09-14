@@ -136,17 +136,30 @@ class Relatorio extends MY_Controller {
       return $this->json($this->relatorio_model->crescimento_empresa_custos());
     }
 
-    function limpar_tmp(){
-      $path = __DIR__."/../../../../assets/uploads/relatorio";
-      foreach(glob("{$path}/relatorio_*.pdf") as $file){
-        $filetime = strtotime(explode(".", substr(strrchr($file, "_"), 1))[0]);
-        if ($filetime <= strtotime('-2 minutes')) {
-          unlink($file);
-        }
+    public function informe_vencimentos(){
+      $relatorio_data = $this->relatorio_model->informe_vencimentos();
+
+      if (count($relatorio_data) > 0) {
+        $data = [
+            'css' =>  file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null), 
+            'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
+            'header' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_header.png"),
+            'footer' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_footer.png"),
+            'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
+            'relatorio' => $relatorio_data
+        ];
+
+        $message_html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
+        return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $message_html, $this->config->item("notifications_address"));
       }
+      return true;
     }
 
-    public function segmentos() {
-      $this->notificacoes_model->getSegmentos();
+    public function automations() {
+      $status = [
+        'limpar_tmp' => $this->relatorio_model->limpar_tmp(),
+        'informe_vencimentos' => $this->informe_vencimentos()
+      ];
+      echo json_encode($status);
     }
   }

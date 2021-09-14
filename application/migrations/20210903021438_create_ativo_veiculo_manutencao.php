@@ -19,6 +19,7 @@ class Migration_Create_Ativo_Veiculo_Manutencao extends CI_Migration {
 			->add_field('descricao text NOT NULL')
 			->add_field('data_entrada timestamp NOT NULL DEFAULT current_timestamp()')
 			->add_field('data_saida timestamp NULL DEFAULT NULL')
+			->add_field('data_vencimento date NULL DEFAULT NULL')
 			->create_table($this->table);
 		}
 	}

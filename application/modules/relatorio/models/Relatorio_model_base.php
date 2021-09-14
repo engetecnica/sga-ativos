@@ -1,7 +1,7 @@
 <?php 
 class Relatorio_model_base extends MY_Model {
 
-  public $relatorio, $periodos, $situacao_lista, $relatorios, $tipos_veiculos;
+  public $relatorio, $periodos, $situacao_lista, $relatorios, $tipos_veiculos, $vencimentos;
   
   public function __construct() {
       parent::__construct();
@@ -234,6 +234,29 @@ class Relatorio_model_base extends MY_Model {
             "XLSX (Excel)" => "xlsx",
           ]
         ],
+      ];
+
+      $this->vencimentos  = [
+        "ativo_veiculo" => [
+          "manutencao" => [
+            "tabela" => "ativo_veiculo_manutencao",
+            "coluna" => "data_vencimento"
+          ],
+          "ipva" => [
+            "tabela" => "ativo_veiculo_ipva",
+            "coluna" => "ipva_data_vencimento"
+          ],
+          "seguro" => [
+            "tabela" => "ativo_veiculo_seguro",
+            "coluna" => "carencia_fim"
+          ],
+        ],
+        "ativo_externo" => [
+          "calibracao" => [
+            "tabela" => "ativo_externo",
+            "coluna" => "validade_certificado"
+          ],
+        ]
       ];
   }
 

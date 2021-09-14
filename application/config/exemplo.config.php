@@ -547,8 +547,25 @@ $config['proxy_ips'] = '';
 
 
 /** 
- * One Signal Notifications
+ * App One Signal Notifications
  */
-$config['one_signal_appid'] = "825688da-a801-4c3e-9d05-8d643c5af4e7";
-$config['one_signal_apikey'] = "YjhiZGU5ZjItMThhNy00M2I3LTk2ZjctMmFmNzY2Mzg5MDIz";
+$config['one_signal_appid'] = "825688da-a801-4c3e-9d05-8d643c5af4kjsd";
+$config['one_signal_apikey'] = "YjhiZGU5ZjItMThhNy00M2I3LTk2ZjctMmFmNzYlshdjkhs";
 $config['one_signal_apiurl'] = "https://onesignal.com";
+
+
+
+/** 
+ * App Email Notifications
+ */
+$config['notifications_address'] = [
+    "Adm" => "adm@exemplo.com",
+    "Adm2" => "adm2@exemplo.com",
+    //...
+];
+
+$config['notifications_email'] = "mail@exemplo.com";
+// $config['notifications_email_password'] = "minhasenha123";
+
+$config['sendgrid_apikey'] = "SG.j4b03xvNSOapiJF6gD_Hpw.QD4P607I3G9D4UioplkaeTnhCBCIY4nB1eEasSHQRHTE";
+

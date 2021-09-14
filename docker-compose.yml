@@ -30,9 +30,9 @@ services:
       - MYSQL_DATABASE=engetecnica
     volumes:
       - ./setup/my.cnf:/etc/my.cnf
-      - engetecnica:/var/lib/mysql
+      - engetecnica2:/var/lib/mysql
     restart: always
 
 volumes:
-  engetecnica:
+  engetecnica2:
     external: true

@@ -8,7 +8,7 @@ class Migration_Seed_Usuario_Modulo extends CI_Migration {
 	public function up(){
 		$num_rows = $this->db->where('id_usuario_nivel=1 and id_modulo=1')
 							->where('id_usuario_nivel=1 and id_modulo=18')
-							->get()->num_rows();
+							->get($this->table)->num_rows();
 
 		if ($this->db->table_exists($this->table) && $num_rows == 0) {
 			$this->db->query("INSERT INTO `{$this->table}` VALUES 

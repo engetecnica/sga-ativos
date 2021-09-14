@@ -45,6 +45,7 @@
                                     <th>Tipo</th>
                                     <th>Kit</th>
                                     <th>Situação</th>
+                                    <th>Necessita Calibração</th>
                                     <th>Gerenciar</th>
                                     <th>Opções</th>
                                     <th>valor</th>
@@ -84,6 +85,14 @@
                                         <?php $status = $this->status($valor->situacao); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
+
+                                    <td>
+                                        <?php 
+                                            $text = isset($valor->necessecita_calibracao) && $valor->necessecita_calibracao == '1' ?  'Sim' : 'Não';
+                                            $class = isset($valor->necessecita_calibracao) && $valor->necessecita_calibracao == '1' ?  'success' : 'danger';
+                                         ?>
+                                        <span class="badge badge-<? echo $class;?>"><?php echo $text;?></span>
+                                    </td>
                                     <td> 
                                     <div class="btn-group" role="group">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,7 +108,7 @@
                                                     </a>
                                                 <?php } ?>
                                                 <?php if((isset($valor) && isset($valor->necessecita_calibracao)) && $valor->necessecita_calibracao == 1) { ?>
-                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_externo/certificado_de_calibacao/{$valor->id_ativo_externo}"); ?>">
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$valor->id_ativo_externo}"); ?>">
                                                         Certificado de Calibração
                                                     </a>
                                                 <?php } ?>

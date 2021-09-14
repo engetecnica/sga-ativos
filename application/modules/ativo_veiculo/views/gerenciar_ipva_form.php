@@ -46,26 +46,30 @@
                                         </select>
                                     </div>   
                                 
-
+                                    <div class="col col-md-2">
+                                        <label for="ipva_custo" class=" form-control-label">Custo</label>
+                                    </div>
                                     <div class="col-12 col-md-2">
                                         <input required="required" type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" value="">
                                     </div>
+                                </div>
 
-                                    <div class="col col-md-1">
-                                        <label for="ipva_data_vencimento" class=" form-control-label">Vencimento</label>
-                                    </div>                                    
-
-                                    <div class="col-12 col-md-2">
-                                        <input required="required" type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" value="<?php echo date("Y-m-d"); ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
                                         <label for="ipva_data_pagamento" class=" form-control-label">Pagamento</label>
                                     </div>                                    
 
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="date" id="ipva_data_pagamento" name="ipva_data_pagamento" class="form-control" value="">
-                                    </div>                                    
+                                    </div>
+                            
+                                
+                                    <div class="col col-md-2">
+                                        <label for="ipva_data_vencimento" class=" form-control-label">Vencimento</label>
+                                    </div>        
+                                    <div class="col-12 col-md-4">
+                                        <input required="required" type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" value="">
+                                    </div>
                                 </div>
 
 

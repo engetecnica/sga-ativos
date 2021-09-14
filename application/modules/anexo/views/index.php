@@ -83,19 +83,24 @@
                                     <td><?php echo ucfirst($anexo->tipo); ?></td>
                                     <td><?php echo date('d/m/Y H:i:s', strtotime($anexo->data_inclusao)); ?></td>
                                     <td>
-                                      
-                                        <a target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>"><i class="fa fa-eye"></i></a>
-                                        <a download href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>"><i class="fa fa-download"></i></a>
-                                 
-                                        <?php if (($anexo->id_usuario == $user->id_usuario) && (strripos($anexo->anexo, 'anexo') != false)) {?>
-                                        <a href="javascript:void(0)" 
-                                            data-href="<?php echo base_url("anexo/deletar/{$anexo->id_anexo}"); ?>" 
-                                            data-registro="<?php echo $anexo->id_anexo;?>" 
-                                            data-tabela="anexo" class="deletar_registro"
-                                        >
-                                            <i class="fas fa-remove"></i>
-                                        </a>
-                                        <?php  } ?> 
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Anexo
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
+                                                <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Visualizar</a>
+                                                <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Baixar</a>
+                                                <?php if (($anexo->id_usuario == $user->id_usuario) && (strripos($anexo->anexo, 'anexo') != false)) {?>
+                                                    <a  
+                                                        class="dropdown-item" 
+                                                        href="javascript:void(0)" 
+                                                        data-href="<?php echo base_url("anexo/deletar/{$anexo->id_anexo}"); ?>" 
+                                                        data-registro="<?php echo $anexo->id_anexo;?>" 
+                                                        data-tabela="anexo" class="deletar_registro"
+                                                    >Excluir</a>
+                                                <?php } ?> 
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

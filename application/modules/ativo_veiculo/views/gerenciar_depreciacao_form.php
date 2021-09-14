@@ -64,20 +64,10 @@
                                         <label for="tipo_veiculo" class=" form-control-label">Tipo</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <!--<select class="form-control selectpicker" id="tipo_veiculo" name="tipo_veiculo" data-live-search="true">
-                                            <option value="0">Tipo</option>
-                                            <option value="moto">Moto</option>
-                                            <option value="carro">Carro</option>
-                                            <option value="caminhao">Caminhão</option>
-                                        </select>-->
                                         <input  class="form-control" readonly value="<?php echo $dados_veiculo->tipo_veiculo; ?>"  id="tipo_veiculo" name="tipo_veiculo">
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <!--<select class="form-control selectpicker" id="id_marca" name="id_marca" data-live-search="true">
-                                            <option value="0">Marca</option>
-                                        </select>
-                                        -->
                                         <input type="text" class="form-control" readonly value="<?php echo $dados_veiculo->fabricante->marca; ?>">
                                         <input type="hidden" class="form-control" readonly value="<?php echo $dados_veiculo->id_marca; ?>"  id="id_marca" name="id_marca">
                                     </div>
@@ -89,19 +79,11 @@
                                     </div>                                    
                                     
                                     <div class="col-12 col-md-3">
-                                    <!--
-                                        <select class="form-control selectpicker" id="ano" name="ano" data-live-search="true">
-                                            <option value="0">Ano</option>
-                                        </select> -->
                                         <input class="form-control" readonly value="<?php echo $dados_veiculo->ano; ?>"  id="ano" name="ano">
                                         <input type="hidden" class="form-control" readonly value="<?php echo $dados_veiculo->id_modelo; ?>"  id="id_modelo" name="id_modelo">
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                    <!--
-                                        <select class="form-control" id="veiculo" name="veiculo">
-                                            <option value="0">Veículo</option>
-                                        </select-->
                                         <input class="form-control" readonly value="<?php echo $dados_veiculo->veiculo; ?>"  id="veiculo" name="veiculo">
                                     </div>                                    
 
@@ -112,17 +94,14 @@
                                         <label for="valor_fipe" class=" form-control-label">Valor Fipe</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <!--<input type="text" id="valor_fipe" name="valor_fipe" placeholder="0,00" class="form-control" value="" readonly="">-->
                                         <input class="form-control" readonly value="<?php echo number_format($dados_veiculo->valor_fipe, 2, ',', '.'); ?>"  id="valor_fipe" name="valor_fipe">
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <!--<input type="text" id="codigo_fipe" name="codigo_fipe" placeholder="Cód Fipe" class="form-control" value="" readonly="">-->
                                         <input class="form-control" readonly value="<?php echo $dados_veiculo->codigo_fipe; ?>"  id="codigo_fipe" name="codigo_fipe">
                                     </div>
 
                                     <div class="col-12 col-md-4">
-                                        <!--<input type="text" id="fipe_mes_referencia" name="fipe_mes_referencia" placeholder="Referência" style="text-transform: uppercase;" class="form-control" value="" readonly="">-->
                                         <input class="form-control" readonly value="<?php echo $dados_veiculo->fipe_mes_referencia; ?>"  id="fipe_mes_referencia" name="fipe_mes_referencia">
                                     </div>
                                 </div>

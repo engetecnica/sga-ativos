@@ -17,26 +17,67 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Certificado de Calibração</h2>
 
+                    <?php if(isset($detalhes->certificado_de_calibracao) && isset($detalhes->inclusao_certificado)) { ?>
                     <div class="card">
-            
-                        <div class="card-header">Novo Certificado</div>     
+                        <div class="card-header">Certificado Atual</div> 
               
                         <div class="card-body">
+                            
+                                <table class="table table-responsiv table-striped table-bordered table-s">
+                                    <tr>
+                                        <th width="5%">Data Inclusão</th>
+                                        <th width="5%">Data Vencimento</th>
+                                        <th width="20%">Anexo</th>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo date('d/m/Y', strtotime($detalhes->inclusao_certificado)); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($detalhes->validade_certificado)); ?></td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Gerenciar Anexo
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
+                                                    <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Visualizar</a>
+                                                    <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Baixar</a>
+                                                    <a  
+                                                        class="dropdown-item deletar_registro" 
+                                                        href="javascript:void(0)" 
+                                                        data-href="<?php echo base_url("ativo_externo/deletar_certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>" 
+                                                        data-tabela="<?php echo "ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"; ?>"
+                                                    >Excluir</a>
+                                                    <a class="dropdown-item" href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">Ver todos os anexos</a>          
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <?php } ?>
+
+                    <div class="card">
+                        <div class="card-header">Novo Certificado</div> 
+              
+                        <div class="card-body">
+
                             <form 
-                                action="<?php echo base_url("ativo_externo/salvar_certificado_de_calibacao/{$detalhes->id_ativo_externo}"); ?>"
+                                id="form_certificado_de_calibracao"
+                                class="confirm-submit"
+                                action="<?php echo base_url("ativo_externo/salvar_certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>"
                                 method="post" 
                                 enctype="multipart/form-data"
                              >
                                 <input type="hidden" id="id_ativo_externo" name="id_ativo_externo" value="<?php echo $detalhes->id_ativo_externo;?>" />
-                                <input type="hidden" id="necessecitam_calibracao" name="necessecitam_calibracao" value="1" />
-                                    
-                                
+                              
                                 <div class="row form-group">
                                     <div class="col col-md-4">
-                                        <label for="certificado_de_calibacao" class=" form-control-label">Anexar Certificado de Controle</label>
+                                        <label for="certificado_de_calibracao" class=" form-control-label">Anexar Certificado de Controle</label>
                                     </div>
                                     <div class="col-12 col-md-8">
-                                        <input required="required" type="file" id="certificado_de_calibacao" name="certificado_de_calibacao" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
+                                        <input required="required" type="file" id="certificado_de_calibracao" name="certificado_de_calibracao" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
                                         <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
@@ -65,12 +106,6 @@
                                     </button>                                                
                                     </a>
                                 </div>
-
-                                <div class="pull-right">
-                                    <a href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">
-                                        <button type="button" class="btn btn-outline-primary">Ver outros anexos</button>
-                                    </a>
-                                </div>
                             </form>
 
                         </div>
@@ -97,7 +132,7 @@ var ativo_externo_form = new Vue({
     el: "#ativo_externo_form",
     data(){
         return {
-            necessecitam_calibracao: 0,
+            necessecita_calibracao: 0,
         }
     }
 })

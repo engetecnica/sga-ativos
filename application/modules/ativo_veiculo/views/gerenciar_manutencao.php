@@ -29,6 +29,7 @@
                                     <th>Custo</th>
                                     <th>Data Entrada</th>
                                     <th>Data Saída</th>
+                                    <th>Data Vencimento</th>
                                     <th>Comprovante</th>
                                     <th>Ações</th>
                                 </tr>
@@ -47,6 +48,7 @@
                                     <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
                                     <td><?php echo date("d/m/Y", strtotime($valor->data_entrada)); ?></td>
                                     <td><?php echo isset($valor->data_saida) ? date("d/m/Y", strtotime($valor->data_saida)) : '-' ; ?></td>
+                                    <td><?php echo isset($valor->data_vencimento) ? date("d/m/Y", strtotime($valor->data_vencimento)) : '-' ; ?></td>
                                     <td>
                                         <?php if($valor->ordem_de_servico){ ?>
                                         <a target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">

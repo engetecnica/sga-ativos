@@ -26,6 +26,7 @@ class MY_Controller extends MX_Controller {
         }
         $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
         $this->load->model('anexo/anexo_model');
+        $this->load->model('relatorio/notificacoes_model');
     }
 
     use MY_Trait;

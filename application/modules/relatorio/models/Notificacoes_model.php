@@ -1,10 +1,13 @@
 <?php 
 require_once(__DIR__."/Relatorio_model_base.php");
-use GuzzleHttp\Client;
+use \GuzzleHttp\Client;
+use \SendGrid\Mail\Mail;
+use \SendGrid as SendGridClass;
+
 
 class Notificacoes_model extends MY_model {
 
-  private $client, $headers;
+  private $client, $push_headers, $email_headers;
 
   public function __construct() {
       parent::__construct();
@@ -16,36 +19,15 @@ class Notificacoes_model extends MY_model {
         'base_uri' => $this->config->item('one_signal_apiurl')
     ]);
 
-    $this->headers = [
+    $this->push_headers = [
         "Content-Type" => "application/json; charset=utf-8",
         "Authorization" => "Basic {$this->config->item('one_signal_apikey')}"
     ];
-  }
 
-  public function getSegmentos(){
-
-    //$this->dd($this->user);
-    // $response = $this->enviar_push("Test Api Notification 2", "Test message ok 2!", [
-    //     "filters" => [
-    //         ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
-    //         ["operator" => "OR"],
-    //         ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "2"]
-    //     ],
-    //     "url" => base_url("ativo_interno/editar/2")
-    // ]);
-
-    $response = $this->enviar_push("Nova Requisição de Ferramentas", "Nova Requisição de Ferramentas criada para a obra ", [
-        "filters" => [
-            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
-            ["operator" => "AND"],
-            ["field" => "tag", "key" => "id_obra", "relation" => "!=", "value" => $this->user->id_obra],
-        ],
-        "include_external_user_ids" => [$this->user->id_usuario],
-        "url" => "ferramental_requisicao/detalhes/1000000073"
-    ]);
-
-    $this->dd($response);
-    $this->enviar_email("Test Email", "Test email ok!", ["messiasdias.ti@gmail.com"]);
+    $this->email_headers = [
+      "Content-Type" => "application/json; charset=utf-8",
+      "Authorization" => "Basic {$this->config->item('one_signal_apikey')}"
+    ];
   }
 
   public function enviar_push($titulo, $texto, ...$opcoes){
@@ -79,7 +61,7 @@ class Notificacoes_model extends MY_model {
 
     $response = $this->client->post("/api/v1/notifications", [
         'body' => json_encode($body),
-        'headers' => $this->headers
+        'headers' => $this->push_headers
     ]);
 
     return (object) [
@@ -88,9 +70,33 @@ class Notificacoes_model extends MY_model {
     ];
   }
 
-  public function enviar_email($titulo, $texto, $destinos = []){
-    $this->dd($titulo, $texto, $destinos);
-  }
+  public function enviar_email($assunto, $mensagem, $destinos = []){
+    $sgmail = new Mail(); 
+    $sgmail->setSubject($assunto);
+    $sgmail->setFrom($this->config->item('notifications_email'), "Engetecnica App");
+    $sgmail->addContent("text/html", $mensagem);
 
-      
+    foreach ($destinos as $nome => $email){
+      $sgmail->addTo($email, $nome);
+    }
+
+    $sendgrid = new SendGridClass($this->config->item('sendgrid_apikey'));
+
+    try {
+        $response = $sendgrid->send($sgmail);
+        if ($response->statusCode() != 200) {
+          $log = $response->statusCode() . "\n".
+                implode(', ', $response->headers()).
+                $response->body() . "\n";
+          log_message(1, $log);
+        }
+  
+        return $response->statusCode() == 200;
+    } catch (Exception $e) {
+        log_message(1, 'Caught exception: '. $e->getMessage() ."\n");
+        return false;
+    }
+
+    return true;
+  }   
 }
