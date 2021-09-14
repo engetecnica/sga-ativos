@@ -84,51 +84,6 @@
                     </div>
                 </div>
             </div>
-
-            
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class=" table-responsive  table--no-card m-b-40">
-                        <h3 class="title-1 m-b-25">Itens</h3>
-                        <table class="table table--no-card table-borderless table-striped table-earning" id="lista2">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Código</th>
-                                    <th>Item</th>
-                                    <th>Tipo</th>
-                                    <th>Situação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($estoque as $valor){ ?>
-                                <tr>
-                                  <td id="<?php echo $valor->id_ativo_externo; ?>"><?php echo $valor->id_ativo_externo; ?></td>
-                                    <td>
-                                        <button class="badge badge-success">    
-                                            <?php echo $valor->codigo; ?>
-                                        </button>
-                                    </td>
-                                    <td><?php echo $valor->nome; ?></td>
-                                    <td>
-                                        <?php if($valor->tipo == 1) { ?>
-                                            <button class="badge badge-primary">Kit</button>
-                                          <?php } else { ?>
-                                            <button class="badge badge-secondary">Unidade</button>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <?php $status = $this->status($valor->situacao); ?>
-                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
             
             <div class="row">
                 <div class="col-md-12">

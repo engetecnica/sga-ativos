@@ -26,11 +26,7 @@ class Ferramental_estoque  extends MY_Controller {
     function index() {
         $obra_base = $this->get_obra_base();
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
-
         $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($id_obra);
-        $data['estoque'] = $this->ativo_externo_model->get_estoque($id_obra);
-        $data['grupos'] = $this->ativo_externo_model->get_grupos();
-        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
         $this->get_template('index', $data);
     }
 
@@ -38,7 +34,6 @@ class Ferramental_estoque  extends MY_Controller {
         $obra_base = $this->get_obra_base();
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
         $data['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
-        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
         if ($data['retirada']) {
