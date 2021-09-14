@@ -904,8 +904,8 @@ class Relatorio_model extends Relatorio_model_base {
   }
 
   public function informe_vencimentos($days = 30){
-    //$date = date('Y-m-d', strtotime("2021-10-13")); //temp
-    $date = date('Y-m-d', strtotime("+ $days days"));
+    $date = date('Y-m-d', strtotime("2021-10-13")); //temp
+    //$date = date('Y-m-d', strtotime("+ $days days"));
     $results = [];
 
     foreach($this->relatorio_model->vencimentos as $modulo => $vencimento){

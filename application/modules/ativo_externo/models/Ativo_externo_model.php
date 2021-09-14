@@ -225,7 +225,7 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 	public function get_proximo_grupo(){
-	$grupos =  $this->ativos()
+		$grupos =  $this->ativos()
 		->order_by('id_ativo_externo_grupo')
 		->group_by('id_ativo_externo_grupo')
 		->get()

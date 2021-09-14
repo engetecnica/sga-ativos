@@ -155,11 +155,11 @@ class Relatorio extends MY_Controller {
       return true;
     }
 
-    public function automations() {
+    public function automacoes() {
       $status = [
         'limpar_tmp' => $this->relatorio_model->limpar_tmp(),
         'informe_vencimentos' => $this->informe_vencimentos()
       ];
-      echo json_encode($status);
+      $this->json($status);
     }
   }

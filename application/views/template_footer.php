@@ -152,11 +152,11 @@
 
         // Transferência de Ferramenta - Preenchimento da Modal
         $(".transferir_ferramenta").click(function(){
-            var id_obra = $(this).attr("data-id_obra");
-            var id_ferramental_obra = $(this).attr("data-id_ferramental_obra");
-            var id_ativo_externo = $(this).attr("data-id_ativo_externo");
-            var quantidade = $(this).attr("data-quantidade");
-            var item = $(this).attr("data-item");
+            let id_obra = $(this).attr("data-id_obra");
+            let id_ferramental_obra = $(this).attr("data-id_ferramental_obra");
+            let id_ativo_externo = $(this).attr("data-id_ativo_externo");
+            let quantidade = $(this).attr("data-quantidade");
+            let item = $(this).attr("data-item");
 
             $("#item").val(item);
             $("#quantidade").val(quantidade);
@@ -177,9 +177,10 @@
 
 
         $(".deletar_registro").click(function(){
-            var id_registro = $(this).attr('data-id');
-            var tabela = $(this).attr('data-tabela');
-            var url_post = $(this).attr('data-href');
+            let id_registro = $(this).attr('data-id');
+            let tabela = $(this).attr('data-tabela');
+            let url_post = $(this).attr('data-href');
+            let redirect = $(this).attr('data-redirect') ? $(this).attr('data-redirect') : true;
 
             Swal.fire({
                 title: 'Você tem certeza?',
@@ -197,14 +198,22 @@
                         data: id_registro ,
                         success: function (response) {
                             Swal.fire(
-                                'Deletado!',
-                                'Registro removido com sucesso.',
+                                'Excluido!',
+                                'Registro Excluido com sucesso!',
                                 'success'
                             )
-                            window.location = "<?php echo base_url()?>" + tabela; 
+
+                            if (redirect == true) {
+                                window.location = "<?php echo base_url()?>" + tabela;
+                            }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                            console.log(textStatus, errorThrown);
+                           Swal.fire(
+                                'Erro',
+                                'Ops, Ocorreu um erro ao tentar Remover os dados!',
+                                'success'
+                            )
                         }
                     });
                 }

@@ -16,8 +16,7 @@ class Ativo_configuracao  extends MY_Controller {
         # Login
         if($this->session->userdata('logado')==null){
             echo redirect(base_url('login')); 
-        } 
-        # Fecha Login        
+        }
     }
 
     function index($subitem=null) {
@@ -42,7 +41,28 @@ class Ativo_configuracao  extends MY_Controller {
         $data['id_ativo_configuracao_vinculo'] = $this->input->post('id_ativo_configuracao_vinculo');
         $data['titulo'] = $this->input->post('titulo');
         $data['situacao'] = $this->input->post('situacao');
-        $tratamento = $this->ativo_configuracao_model->salvar_formulario($data);
+
+        $configuracao = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao']);
+        $vinculo = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao_vinculo']);
+     
+        if ($vinculo) {
+            if ($configuracao && $vinculo->slug == "categoria-ferramenta") {
+                $this->db->where("nome", $configuracao->titulo)
+                        ->update('ativo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
+            }
+
+            if (!$configuracao && $vinculo->slug == "categoria-ferramenta") {
+                if ($this->db->where('nome', ucwords($data['titulo']))->get('ativo_externo_categoria')->num_rows() > 0) {
+                    $this->session->set_flashdata('msg_erro', "Já existe um item com o mesmo nome!");
+                    echo redirect(base_url("ativo_configuracao/adicionar"));
+                    return;
+                }
+                $this->db->insert('ativo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
+            }
+        }
+
+        $data['titulo'] = ucwords($data['titulo']);
+        $this->ativo_configuracao_model->salvar_formulario($data);
 
         if($data['id_ativo_configuracao']==''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
@@ -53,8 +73,12 @@ class Ativo_configuracao  extends MY_Controller {
     }
 
     function deletar($id=null){
-        $this->db->where('id_ativo_configuracao', $id);
-        return $this->db->delete('ativo_configuracao');
+        $configuracao = $this->ativo_configuracao_model->get_ativo_configuracao($id);
+        if ($this->db->where('nome', $configuracao->titulo)->get('ativo_externo_categoria')->num_rows() > 0) {
+            $this->db->where("nome", $configuracao->titulo)->delete('ativo_externo_categoria');
+        }        
+
+        return $this->db->where('id_ativo_configuracao', $id)->delete('ativo_configuracao');
     }
 
 }
