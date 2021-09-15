@@ -84,16 +84,8 @@ class Notificacoes_model extends MY_model {
 
     try {
         $response = $sendgrid->send($sgmail);
-        // if ($response->statusCode() != 200) {
-        //   $log = $response->statusCode() . "\n".
-        //         implode(', ', $response->headers()).
-        //         $response->body() . "\n";
-        //   log_message(1, $log);
-        // }
-  
-        return $response->statusCode() == 200;
+        return $response->statusCode() == 200 || $response->statusCode() == 202;
     } catch (Exception $e) {
-        //log_message(1, 'Caught exception: '. $e->getMessage() ."\n");
         return false;
     }
 

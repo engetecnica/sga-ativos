@@ -559,14 +559,15 @@ $config['one_signal_apiurl'] = getenv("ONESIGNAL_APIURL");
  * App Email Notifications
 */
 //From
-$config['notifications_email'] = getenv("APP_NOTIFICATION_EMAIL");
+$config['notifications_email'] = getenv("APP_NOTIFICATION_FROM_EMAIL");
 
 //To
+$name = getenv("APP_NOTIFICATION_TO_NAME");
 $config['notifications_address'] = [
-    getenv("APP_NOTIFICATION_ADDRES_NAME") => getenv("APP_NOTIFICATION_ADDRES"),
+    "{$name}" => getenv("APP_NOTIFICATION_TO_EMAIL"),
     //...
 ];
 
 //SendGrid
-$config['sendgrid_apikey'] = getenv("ONESIGNAL_APPID");
+$config['sendgrid_apikey'] = getenv("SENDGRID_APIKEY");
 
