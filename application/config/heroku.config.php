@@ -547,28 +547,26 @@ $config['proxy_ips'] = '';
 
 
 /** 
- * App One Signal Notifications
+ * One Signal Notifications
  */
-$config['one_signal_appid'] = "825688da-a801-4c3e-9d05-8d643c5af4kjsd";
-$config['one_signal_apikey'] = "YjhiZGU5ZjItMThhNy00M2I3LTk2ZjctMmFmNzYlshdjkhs";
-$config['one_signal_apiurl'] = "https://onesignal.com";
+$config['one_signal_appid'] = getenv("ONESIGNAL_APPID");
+$config['one_signal_apikey'] = getenv("ONESIGNAL_APIKEY");
+$config['one_signal_apiurl'] = getenv("ONESIGNAL_APIURL");
 
 
 
 /** 
  * App Email Notifications
- */
-
+*/
 //From
-$config['notifications_email'] = "mail@exemplo.com";
+$config['notifications_email'] = getenv("APP_NOTIFICATION_EMAIL");
 
- //to
+//To
 $config['notifications_address'] = [
-    "Adm" => "adm@exemplo.com",
-    "Adm2" => "adm2@exemplo.com",
+    getenv("APP_NOTIFICATION_ADDRES_NAME") => getenv("APP_NOTIFICATION_ADDRES"),
     //...
 ];
 
 //SendGrid
-$config['sendgrid_apikey'] = "SG.j4b03xvNSOapiJF6gD_Hpw.QD4P607I3G9D4UioplkaeTnhCBCIY4nB1eEasSHQRHTE";
+$config['sendgrid_apikey'] = getenv("ONESIGNAL_APPID");
 
