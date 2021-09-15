@@ -30,7 +30,6 @@ class Anexo  extends MY_Controller {
       $pagina = null, 
       $limite = null
     ){
-
       $data = [
         "id_modulo" => $id_modulo,
         "id_modulo_item" => $id_modulo_item,
@@ -277,6 +276,5 @@ class Anexo  extends MY_Controller {
       }
 
       $this->json($data, 200);
-    } 
-    
+    }  
 }

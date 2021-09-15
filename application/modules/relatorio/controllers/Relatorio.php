@@ -24,6 +24,7 @@ class Relatorio extends MY_Controller {
         # Fecha Login
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
+        $this->load->model('anexo/anexo_model');
         $this->load->model('notificacoes_model');
     }
 
@@ -158,7 +159,8 @@ class Relatorio extends MY_Controller {
     public function automacoes() {
       $status = [
         'limpar_tmp' => $this->relatorio_model->limpar_tmp(),
-        'informe_vencimentos' => $this->informe_vencimentos()
+        'informe_vencimentos' => $this->informe_vencimentos(),
+        'remove_orphans_anexos' => $this->anexo_model->removeOrphans()
       ];
       $this->json($status);
     }
