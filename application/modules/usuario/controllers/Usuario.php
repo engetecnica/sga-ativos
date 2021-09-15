@@ -77,7 +77,7 @@ class usuario  extends MY_Controller {
         $confirmar_senha = strlen($this->input->post('confirmar_senha')) > 0 ? $this->input->post('confirmar_senha') : null;
         $data['senha'] = $this->verificaSenha($senha, $confirmar_senha);
 
-        if (($senha && $confirmar_senha) &&  ($data['senha'] === null)) {
+        if (($senha && $confirmar_senha) && $data['senha'] == null) {
             $this->session->set_flashdata('msg_erro', "As senhas fornecidas não conferem!");
 
             if($data['id_usuario'] == null){
@@ -86,7 +86,13 @@ class usuario  extends MY_Controller {
                 echo redirect(base_url("usuario/editar/{$data['id_usuario']}"));          
             }
             return;
-        }
+        } 
+
+        if ($data['id_usuario'] == null && $data['senha'] == null) {
+            $this->session->set_flashdata('msg_erro', "Deve fornecer uma senha e confirmar!");
+            echo redirect(base_url("usuario/adicionar"));
+            return;
+        } 
 
         if ($data['id_usuario'] && !$data['senha']) {
             $usuario = $this->usuario_model->get_usuario($data['id_usuario'], true);
