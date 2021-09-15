@@ -19,11 +19,17 @@
         "dev:docker": [
             "docker-compose up --build"
         ],
-        "debug": [
+        "heroku:debug": [
             "heroku logs --source app --tail"
         ],
-        "bash": [
+        "heroku:bash": [
             "heroku run bash --type=worker"
+        ],
+        "heroku:config": [
+            "heroku run \"bash setup/heroku-custom-buildpack.sh\""
+        ],
+        "post-install-cmd": [
+            "bash setup/heroku-custom-buildpack.sh"
         ]
     }
 }
