@@ -120,8 +120,11 @@ class Ativo_externo  extends MY_Controller {
             $this->db->where('anexo', "certificado_de_calibracao/{$ativo->certificado_de_calibracao}")
                     ->delete('anexo');
 
-            $path = __DIR__."/../../../assets/uploads";        
-            unlink("{$path}/certificado_de_calibracao/{$ativo->certificado_de_calibracao}");
+            $path = __DIR__."/../../../../assets/uploads";
+            $file = "{$path}/certificado_de_calibracao/{$ativo->certificado_de_calibracao}";
+            if (file_exists($file)) {
+                unlink($file);
+            }
             
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             echo redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
