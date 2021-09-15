@@ -701,23 +701,26 @@ class Relatorio_model extends Relatorio_model_base {
     return (object) $relatorio;       
   }
 
-  private function get_patrimonio_obra_items($obra, $show_valor_total = true){
-    $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
-    if ($show_valor_total) {
-      $obra->equipamentos_total = 0;
-      foreach($obra->equipamentos as $equipamento){
-          $obra->equipamentos_total  +=  floatval($equipamento->valor);
+  private function get_patrimonio_obra_items($obra = null, $show_valor_total = true){
+    if ($obra) {
+      $obra->equipamentos = $this->ativo_interno_model->get_lista($obra->id_obra);
+      if ($show_valor_total) {
+        $obra->equipamentos_total = 0;
+        foreach($obra->equipamentos as $equipamento){
+            $obra->equipamentos_total  +=  floatval($equipamento->valor);
+        }
       }
-    }
 
-    $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
-    if ($show_valor_total) {
-      $obra->ferramentas_total = 0;
-      foreach($obra->ferramentas as $ferramenta){
-        $obra->ferramentas_total  += floatval($ferramenta->valor);
+      $obra->ferramentas = $this->ativo_externo_model->get_ativos($obra->id_obra);
+      if ($show_valor_total) {
+        $obra->ferramentas_total = 0;
+        foreach($obra->ferramentas as $ferramenta){
+          $obra->ferramentas_total  += floatval($ferramenta->valor);
+        }
       }
+      return $obra;
     }
-    return $obra;
+    return null;
   }
 
   public function patrimonio_disponivel($data=null, $tipo=null){

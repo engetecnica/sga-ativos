@@ -25,7 +25,7 @@ class Ferramental_estoque  extends MY_Controller {
 
     function index() {
         $obra_base = $this->get_obra_base();
-        $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
+        $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : ($obra_base ? $obra_base->id_obra : null);
         $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($id_obra);
         $this->get_template('index', $data);
     }

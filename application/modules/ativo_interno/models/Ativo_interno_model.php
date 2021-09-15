@@ -37,7 +37,7 @@ class Ativo_interno_model extends MY_Model {
 							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
 							->select('codigo_obra as obra');
 
-		if ($id_obra){
+		if ($id_obra != null){
 			$lista->where("ativo_interno.id_obra = $id_obra");
 		}
 

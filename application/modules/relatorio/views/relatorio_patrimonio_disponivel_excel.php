@@ -68,40 +68,44 @@ if ($data->show_valor_total) {
     Table data Deinitions
 */
 $e = $f = $v = 2;
-foreach ($data->obras as $obra) {
-    foreach ($obra->ferramentas as $ferramenta) {
-        $ferramentas_total++;
-        $ferramentas_valor_total += $ferramenta->valor;
-        $sheet_ferramentas->setCellValue("A{$f}", $ferramenta->id_ativo_externo);
-        $sheet_ferramentas->setCellValue("B{$f}", $ferramenta->id_ativo_externo_grupo);
-        $sheet_ferramentas->setCellValue("C{$f}", $ferramenta->codigo);
-        $sheet_ferramentas->setCellValue("D{$f}", $ferramenta->nome);
-        $sheet_ferramentas->setCellValue("E{$f}", $ferramenta->obra);
-        $sheet_ferramentas->setCellValue("F{$f}", $this->formata_data_hora($ferramenta->data_inclusao));
-        $sheet_ferramentas->setCellValue("G{$f}",  $this->formata_data_hora($ferramenta->data_descarte));
-        $sheet_ferramentas->setCellValue("H{$f}", $this->status($ferramenta->situacao)['texto']);
+if (count($data->obras) > 0) {
+    foreach ($data->obras as $obra) {
+        if ($obra) {
+            foreach ($obra->ferramentas as $ferramenta) {
+                $ferramentas_total++;
+                $ferramentas_valor_total += $ferramenta->valor;
+                $sheet_ferramentas->setCellValue("A{$f}", $ferramenta->id_ativo_externo);
+                $sheet_ferramentas->setCellValue("B{$f}", $ferramenta->id_ativo_externo_grupo);
+                $sheet_ferramentas->setCellValue("C{$f}", $ferramenta->codigo);
+                $sheet_ferramentas->setCellValue("D{$f}", $ferramenta->nome);
+                $sheet_ferramentas->setCellValue("E{$f}", $ferramenta->obra);
+                $sheet_ferramentas->setCellValue("F{$f}", $this->formata_data_hora($ferramenta->data_inclusao));
+                $sheet_ferramentas->setCellValue("G{$f}",  $this->formata_data_hora($ferramenta->data_descarte));
+                $sheet_ferramentas->setCellValue("H{$f}", $this->status($ferramenta->situacao)['texto']);
 
-        if ($data->show_valor_total) {
-            $sheet_ferramentas->setCellValue("I{$f}", $this->formata_moeda($ferramenta->valor));
+                if ($data->show_valor_total) {
+                    $sheet_ferramentas->setCellValue("I{$f}", $this->formata_moeda($ferramenta->valor));
+                }
+                $f++;
+            }
+            
+            foreach ($obra->equipamentos as $equipamento) {
+                $equipamentos_total++;
+                $equipamentos_valor_total += $equipamento->valor;
+
+                $sheet_equipamentos->setCellValue("A{$e}", $equipamento->id_ativo_interno);
+                $sheet_equipamentos->setCellValue("B{$e}", $equipamento->nome);
+                $sheet_equipamentos->setCellValue("C{$e}", $equipamento->obra);
+                $sheet_equipamentos->setCellValue("D{$e}", $this->formata_data_hora($equipamento->data_inclusao));
+                $sheet_equipamentos->setCellValue("E{$e}",  $this->formata_data_hora($equipamento->data_descarte));
+                $sheet_equipamentos->setCellValue("F{$e}", $this->get_situacao($equipamento->situacao)['texto']);
+
+                if ($data->show_valor_total) {
+                    $sheet_equipamentos->setCellValue("G{$e}", $this->formata_moeda($equipamento->valor));
+                }
+                $e++;
+            }
         }
-        $f++;
-    }
-    
-    foreach ($obra->equipamentos as $equipamento) {
-        $equipamentos_total++;
-        $equipamentos_valor_total += $equipamento->valor;
-
-        $sheet_equipamentos->setCellValue("A{$e}", $equipamento->id_ativo_interno);
-        $sheet_equipamentos->setCellValue("B{$e}", $equipamento->nome);
-        $sheet_equipamentos->setCellValue("C{$e}", $equipamento->obra);
-        $sheet_equipamentos->setCellValue("D{$e}", $this->formata_data_hora($equipamento->data_inclusao));
-        $sheet_equipamentos->setCellValue("E{$e}",  $this->formata_data_hora($equipamento->data_descarte));
-        $sheet_equipamentos->setCellValue("F{$e}", $this->get_situacao($equipamento->situacao)['texto']);
-
-        if ($data->show_valor_total) {
-            $sheet_equipamentos->setCellValue("G{$e}", $this->formata_moeda($equipamento->valor));
-        }
-        $e++;
     }
 }
 

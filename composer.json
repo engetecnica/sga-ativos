@@ -14,7 +14,7 @@
     },
     "scripts": {
         "dev" : [
-            "php -S 0.0.0:8090 -t ./"
+            "php -S 0.0.0:8000 -t ./"
         ],
         "dev:docker": [
             "docker-compose up --build"
