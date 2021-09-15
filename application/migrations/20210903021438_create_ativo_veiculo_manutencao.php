@@ -13,7 +13,7 @@ class Migration_Create_Ativo_Veiculo_Manutencao extends CI_Migration {
 			->add_field('id_ativo_configuracao int(10) NOT NULL DEFAULT 0')
 			->add_field('id_ativo_veiculo int(10) NOT NULL')
 			->add_field('veiculo_km_atual int(10) NOT NULL')
-			->add_field('veiculo_custo float NOT NULL')
+			->add_field('veiculo_custo DECIMAL(13, 2) NOT NULL')
 			->add_field('veiculo_km_data date NOT NULL')
 			->add_field('ordem_de_servico varchar(255) DEFAULT NULL')
 			->add_field('descricao text NOT NULL')

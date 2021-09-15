@@ -11,7 +11,7 @@ class Migration_Create_Ativo_Interno extends CI_Migration {
 			->add_field('id_ativo_interno int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY')
 			->add_field('id_obra int(11) DEFAULT NULL')
 			->add_field('nome varchar(255) NOT NULL')
-			->add_field('valor float NOT NULL')
+			->add_field('valor DECIMAL(13, 2) NOT NULL')
 			->add_field('quantidade int(10) NOT NULL DEFAULT 1')
 			->add_field('observacao text NOT NULL')
 			->add_field('data_inclusao timestamp NOT NULL DEFAULT current_timestamp()')

@@ -10,6 +10,7 @@ class Migration_Create_Ativo_Interno_Manutencao extends CI_Migration {
 			$this->dbforge
 			->add_field('id_manutencao int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY')
 			->add_field('id_ativo_interno int(11) NOT NULL')
+			->add_field('valor DECIMAL(13, 2) NOT NULL')
 			->add_field('data_saida timestamp NULL DEFAULT current_timestamp()')
 			->add_field('data_retorno timestamp NULL DEFAULT NULL')
 			->add_field("situacao enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '0: Em manutencão, 1: Retorno OK, 2:Retorno com pendência'")
