@@ -27,7 +27,7 @@ class Migration_Create_Obra extends CI_Migration {
 			->add_field('data_criacao timestamp NOT NULL DEFAULT current_timestamp()')
 			->add_field('data_atualizacao timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()')
 			->add_field("situacao enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Ativo, 1=Inativo'")
-			->add_field('obra_base tinyint(1) DEFAULT NULL')
+			->add_field("obra_base enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não, 1=Sim'")
 			->create_table($this->table);
 		}
 	}

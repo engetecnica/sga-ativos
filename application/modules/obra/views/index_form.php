@@ -177,7 +177,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select <?php echo (isset($detalhes) && isset($detalhes->obra_base)) ? 'disabled' : '';?> name="obra_base" id="obra_base" class="form-control">
-                                            <option value="" <?php if(isset($detalhes) && isset($detalhes->obra_base) && $detalhes->obra_base==null){ echo "selected='selected'"; } ?>>Não</option>
+                                            <option value="0" <?php if(isset($detalhes) && isset($detalhes->obra_base) && $detalhes->obra_base==0){ echo "selected='selected'"; } ?>>Não</option>
                                             <option value="1" <?php if(isset($detalhes) && isset($detalhes->obra_base) && $detalhes->obra_base==1){ echo "selected='selected'"; } ?>>Sim</option>
                                         </select>
                                     </div>

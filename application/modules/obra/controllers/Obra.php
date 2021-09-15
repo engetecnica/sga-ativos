@@ -55,9 +55,10 @@ class Obra  extends MY_Controller {
         $data['responsavel_email'] = $this->input->post('responsavel_email');
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
-
-        $tratamento = $this->obra_model->salvar_formulario($data);
-        if ($this->input->post('obra_base') && ($this->input->post('obra_base') == 1)){
+        $data['obra_base'] = $this->input->post('obra_base');
+       
+        $this->obra_model->salvar_formulario($data);
+        if ($data['obra_base'] == 1){
             $this->obra_model->set_obra_base($data['id_obra']);
         }
 
@@ -69,9 +70,8 @@ class Obra  extends MY_Controller {
         echo redirect(base_url("obra"));
     }
 
-    function deletar($id=null){
-        $this->db->where('id_obra', $id);
-        return $this->db->delete('obra');
+    function deletar($id){
+        return $this->db->where('id_obra', $id)->delete('obra');
     }
 
 }
