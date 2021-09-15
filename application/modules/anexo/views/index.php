@@ -90,13 +90,16 @@
                                             <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
                                                 <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Visualizar</a>
                                                 <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Baixar</a>
-                                                <?php if (($anexo->id_usuario == $user->id_usuario) && (strripos($anexo->anexo, 'anexo') != false)) {?>
+                                                <?php 
+                                                    $startWithAnexo = strripos($anexo->anexo, 'anexo') > -1 && strripos($anexo->anexo, 'anexo') !== false;
+                                                    if (($anexo->id_usuario == $user->id_usuario) && $startWithAnexo) {
+                                                ?>
                                                     <a  
-                                                        class="dropdown-item" 
+                                                        class="dropdown-item deletar_registro" 
                                                         href="javascript:void(0)" 
                                                         data-href="<?php echo base_url("anexo/deletar/{$anexo->id_anexo}"); ?>" 
                                                         data-registro="<?php echo $anexo->id_anexo;?>" 
-                                                        data-tabela="anexo" class="deletar_registro"
+                                                        data-tabela="anexo"
                                                     >Excluir</a>
                                                 <?php } ?> 
                                             </div>

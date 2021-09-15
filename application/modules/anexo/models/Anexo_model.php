@@ -144,13 +144,6 @@ class Anexo_model extends MY_Model {
                 ->row();
   }
 
-  public function deletar($id_anexo){
-    if ($this->db->where('id_anexo', $id_anexo)->get('anexo')->num_rows() == 1) {
-      return $this->db->where('id_anexo', $id_anexo)->delete('anexo');
-    }
-    return false;  
-  }
-
   public function get_anexo_tipo($slug){
     foreach($this->tipos as $tipo) {
       if ($tipo['slug'] === $slug) {
@@ -160,5 +153,4 @@ class Anexo_model extends MY_Model {
 
     return null;
   }
-
 }

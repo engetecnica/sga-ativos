@@ -135,7 +135,17 @@ class Anexo  extends MY_Controller {
     function deletar($id_anexo){
       $success = false;
       if ($this->input->method() == "post") {
-        $success = $this->anexo_model->deletar($id_anexo);
+        $anexo = $this->db->where('id_anexo', $id_anexo)->get('anexo')->row();
+
+        if ($anexo) {
+          $success = $this->db->where('id_anexo', $anexo->id_anexo)->delete('anexo');
+          $path = __DIR__."/../../../../assets/uploads";
+          $file = "$path/{$anexo->anexo}";
+
+          if ($success && file_exists($file)) {
+            unlink($file);
+          }
+        }
       }
       return $this->json(['success' => $success],  $success ? 200 : 404);
     }
