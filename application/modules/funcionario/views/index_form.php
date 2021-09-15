@@ -191,7 +191,7 @@
                                         <label for="email" class=" form-control-label">E-mail</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="email" id="email" name="email" placeholder="E-mail" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>" required="required">
+                                        <input type="email" id="email" name="email" placeholder="E-mail" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>">
                                     </div> 
                                 </div>
 
