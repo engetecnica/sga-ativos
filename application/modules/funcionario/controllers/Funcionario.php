@@ -93,7 +93,7 @@ class funcionario  extends MY_Controller {
 
     function funcionario_exists($data = []){
         $funcionario = $this->db
-            ->where("(cpf={$data['cpf']} OR rg={$data['rg']}) AND id_funcionario != {$data['id_funcionario']}")
+            ->where("(cpf='{$data['cpf']}' OR rg='{$data['rg']}') AND id_funcionario != {$data['id_funcionario']}")
             ->get('funcionario')->result();
 
         if ($funcionario) {
