@@ -164,4 +164,21 @@ class Relatorio extends MY_Controller {
       ];
       $this->json($status);
     }
+
+    public function test_email(){
+      $return = $this->notificacoes_model->enviar_email("Test Email", "<h1> Test email ok!</h1>", $this->config->item("notifications_address"));
+      $this->json(['success' => $return]);
+    }
+
+    public function test_push(){
+      $return = $this->notificacoes_model->enviar_push("Test Push", "Test Push Notications ok!", [
+        "filters" => [
+            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+            ["operator" => "AND"],
+            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "2"],
+        ],
+        "url" => "/"
+      ]);
+      $this->json($return);
+    }
   }
