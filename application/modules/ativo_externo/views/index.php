@@ -134,7 +134,7 @@
                                             <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $valor->id_ativo_externo; ?>"  redirect="true" data-tabela="ativo_externo" class="confirmar_registro"><i class="fas fa-ban text-warning"></i></a>
                                         <?php } ?>
                                     </td>
-                                    <td><?php echo $valor->valor; ?></td>
+                                    <td><?php echo $this->formata_moeda($valor->valor); ?></td>
                                 </tr>
                                <?php } ?>
                             </tbody>

@@ -17,8 +17,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Gerenciar Veículo</h2>
-                    <?php var_dump($dados_veiculo); ?>
-                    
                     <div class="card">
                         <div class="card-header">Registrar items do veículo</div>
                         <div class="card-body">

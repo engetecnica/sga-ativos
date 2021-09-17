@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Relatórios</h2>
 
-                    <div class="card">
+                    <div class="card table table-responsive table--no-card ">
                         <div class="card-header">Gerar Relatório</div>
                         <div class="card-body">
                                 <div class="row form-group">

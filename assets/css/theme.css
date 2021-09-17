@@ -87,9 +87,10 @@ p {
     min-width: 100% !important;
 }
 
-.table-responsive > h3{
+.table-responsive  > h3, .table--no-card > h3{
     margin-top: 20px;
-    margin-bottom: 5px;
+    margin-left: 20px;
+    margin-bottom: 5px !important;
     font-size: 1.4rem;
 }
 

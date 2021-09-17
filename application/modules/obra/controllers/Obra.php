@@ -57,11 +57,11 @@ class Obra  extends MY_Controller {
         $data['situacao'] = $this->input->post('situacao');
         $data['obra_base'] = $this->input->post('obra_base');
        
-        $this->obra_model->salvar_formulario($data);
-        if ($data['obra_base'] == 1){
+        if ((int)$data['obra_base'] === 1){
             $this->obra_model->set_obra_base($data['id_obra']);
         }
 
+        $this->obra_model->salvar_formulario($data);
         if($data['id_obra']==''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {

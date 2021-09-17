@@ -42,8 +42,9 @@ class Ativo_externo  extends MY_Controller {
                 'tipo' => $grupo->tipo,
                 'id_ativo_externo_categoria' => $grupo->id_ativo_externo_categoria,
                 'id_ativo_externo_grupo' => $grupo->id_ativo_externo_grupo,
+                'necessecita_calibracao' => $grupo->necessecita_calibracao,
                 'nome' => $grupo->nome,
-                'valor' => $grupo->valor,
+                'valor' => $grupo->valor
             ];
             $data['mode'] = "insert_grupo";
         }
@@ -150,6 +151,7 @@ class Ativo_externo  extends MY_Controller {
                 'tipo' => $grupo->tipo,
                 'id_ativo_externo_categoria' => $grupo->id_ativo_externo_categoria,
                 'id_ativo_externo_grupo' => $grupo->id_ativo_externo_grupo,
+                'necessecita_calibracao' => $grupo->necessecita_calibracao,
                 'nome' => $grupo->nome,
                 'valor' => $grupo->valor,
                 'id_obra' => $grupo->id_obra,

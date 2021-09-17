@@ -214,7 +214,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    <?php if((isset($detalhes) && isset($detalhes->necessecita_calibracao)) && $detalhes->necessecita_calibracao == 1) { ?>
+                                    <?php if((isset($detalhes) && isset($detalhes->necessecita_calibracao) &&  isset($detalhes->id_ativo_externo)) && $detalhes->necessecita_calibracao == 1) { ?>
                                         <a href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
                                             <button type="button" class="btn btn-outline-secondary">Certificado de Calibração</button>
                                         </a>
