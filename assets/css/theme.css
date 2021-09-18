@@ -4828,16 +4828,21 @@ section {
     text-align: center;
 }
 
+
 #lista td > a, #lista2 td > a,
 #lista3 td > a, #lista4 td > a{
-    margin: 5px;
-    padding: 5px;
+    margin: 0px;
+    padding: 0px;
     cursor: pointer;
 }
 
+label {
+    text-align: right !important;
+}
 
 a > .fas, td > a > .fa {
     font-size: 1rem;
+    margin: 5px;
 }
 
 

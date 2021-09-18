@@ -1,5 +1,5 @@
 <page>
-<style media="all"><?php echo $css;?></style>
+<style media="all" ><?php echo $css;?></style>
 <header>
     <img src="<?php echo $header;?>">
 </header>
@@ -7,7 +7,10 @@
 <h1>Informe de Vencimentos</h1>
 <p>Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
 
-<?php foreach($relatorio as $rel) {?>
+<?php 
+   if (count($relatorio) > 0){
+
+    foreach($relatorio as $rel) {?>
 
  <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
     <?php if ($rel->tipo == 'manutencao') { ?>  
@@ -138,6 +141,8 @@
 
    <?php } ?>
 
+  <?php } } else {  ?>
+    <strong>Nenhum item encontrado para o período.</strong>
   <?php } ?>
 
 <footer>

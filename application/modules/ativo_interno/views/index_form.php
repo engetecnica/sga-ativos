@@ -57,7 +57,7 @@
                                     <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-8">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->nome)){ echo $ativo->nome; } ?>">
@@ -68,7 +68,7 @@
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Atribuído</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
                                         value="<?php if(isset($ativo) && isset($ativo->valor)){ echo number_format($ativo->valor, 2, ',', '.'); } ?>">
@@ -76,7 +76,7 @@
                                     <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="number" id="quantidade" name="quantidade" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->quantidade)){ echo $ativo->quantidade; } else { echo "1"; } ?>">
@@ -87,7 +87,7 @@
                                     <div class="col col-md-2">
                                         <label for="observacao" class=" form-control-label">Observações</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-8">
                                         <textarea 
                                             <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                             name="observacao" id="observacao" rows="9" placeholder="Observações..." class="form-control"

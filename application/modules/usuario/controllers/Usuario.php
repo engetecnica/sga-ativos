@@ -28,6 +28,7 @@ class usuario  extends MY_Controller {
     }
 
     function adicionar(){
+        $data['form_type'] = "adicionar";
         $data['detalhes'] =  (object) [
             'nivel' => null,
             'empresas' => $this->get_empresas(),
@@ -57,6 +58,7 @@ class usuario  extends MY_Controller {
         $usuario = $this->usuario_model->get_usuario($id_usuario);
         $data = null;
         if ($usuario) {
+            $data['form_type'] = "editar";
             $data['detalhes'] = $usuario;
             $data['detalhes']->empresas = $this->get_empresas();
             $data['detalhes']->obras = $this->obra_model->get_obras();

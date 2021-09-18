@@ -34,7 +34,7 @@
                                 <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-4">
                                         <label for="nivel" class=" form-control-label">Nível de Permissão</label>
                                     </div>
                                     <div class="col-12 col-md-8">
@@ -60,7 +60,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-4">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
                                     <div class="col-12 col-md-8">
@@ -84,7 +84,7 @@
                                 </div>
                                 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-4">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
                                     <div class="col-12 col-md-8">
@@ -107,49 +107,53 @@
                                     </div>
                                 </div>    
 
+
+                                <?php if ($form_type == "adicionar") {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="usuario" class=" form-control-label">Nome de Usuário</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-3">
                                         <input required type="text" id="usuario" name="usuario" placeholder="seu_username" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->usuario)){ echo $detalhes->usuario; } ?>">
                                     </div>
-                                </div>
-                            
                                 <!--
-                                <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="email" class=" form-control-label">Email</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
-                                        <input type="email" id="email" name="email" placeholder="seu_email@exemplo.com" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>">
+                                    <div class="col-12 col-md-4">
+                                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>">
                                     </div>
-                                </div>
                                 -->
-
+                                
+                                </div>
+                                <?php } else {?>
+                                    <input type="hidden" name="usuario" id="usuario" value="<?php echo $detalhes->usuario; ?>">
+                                    <!--<input type="hidden" name="email" id="email" value="<?php //echo $detalhes->email; ?>">-->
+                                <?php }?>
+                                
+                                <?php if ($form_type == "adicionar") {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label  for="senha" class=" form-control-label">Senha</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-3">
                                         <input type="password" id="senha" name="senha" placeholder="********" class="form-control" value="">
                                     </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
+                                
+                                    <div class="col col-md-3">
                                         <label for="confirmar_senha" class=" form-control-label">Confirmar Senha</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-3">
                                         <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="********" class="form-control" value="">
                                     </div>
                                 </div>
+                                <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-3">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>
