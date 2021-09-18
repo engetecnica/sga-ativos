@@ -60,13 +60,13 @@
                                                     href="javascript:void(0)"
                                                     class="confirmar_registro"
                                                     data-registro="<?php echo $valor->id_ativo_interno;?>"
-                                                    data-acao="Descartar"
                                                     data-href="<?php echo base_url("ativo_interno/descartar/{$valor->id_ativo_interno}");?>"
                                                     data-tabela="<?php echo base_url("ativo_interno");?>"
-                                                    data-redirect="true"
-                                                    data-acao="Enviar" data-icon="info" data-message="false"
-                                                    data-title="Enviar para Transferencia" data-redirect="true"
-                                                    data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                                    data-redirect="true" data-icon="info" data-message="false"
+                                                    data-acao="Descartar"
+                                                    data-title="Confirmar descarte do ativo" data-redirect="true"
+                                                    data-text="Clique 'Sim, Confirmar!' para confirmar o descarte do ativo."
+
                                                 >                                                
                                                    Descartar Ativo                                              
                                                 </a>

@@ -51,7 +51,7 @@
     <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
     <script src="<?php echo base_url('assets'); ?>/js/v-mask.min.js"></script>
     <script>
-        // As a plugin
+        //VUE plugins
         Vue.use(VueMask.VueMaskPlugin);
     </script>
 

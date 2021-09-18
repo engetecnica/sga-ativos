@@ -150,10 +150,10 @@
         })
         <?php } ?>
 
-        $('.litros').mask("##0,0", {reverse: true});
+        $('.litros').mask("##0,0 L", {reverse: true});
         $('.cpf').mask('000.000.000-00');
         $('.cnpj').mask('00.000.000/0001-00');
-        $('.valor').mask('0.000,00', {reverse: true});
+        $('.valor').mask('000.000.000.000,00 R$', {reverse: true});
         $(".telefone").mask("(00) 0000-0000");
         $(".celular").mask("(00) 9 0000-0000");
 
