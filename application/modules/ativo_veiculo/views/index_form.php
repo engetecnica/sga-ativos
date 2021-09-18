@@ -94,7 +94,7 @@
                                         <label for="veiculo_placa" class=" form-control-label">Placa</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="text" id="veiculo_placa" name="veiculo_placa" placeholder="Placa" class="form-control placa" value="">
+                                        <input required="required" type="text" id="veiculo_placa" name="veiculo_placa" placeholder="Placa" class="form-control veiculo_placa" value="">
                                     </div>
 
                                     <div class="col-12 col-md-3">

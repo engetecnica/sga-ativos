@@ -86,7 +86,7 @@
                                         <label for="veiculo_placa" class=" form-control-label">Veículo/Placa</label>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <input type="text" v-model="form.veiculo_placa" class="form-control" id="veiculo_placa" name="veiculo_placa"/>
+                                        <input type="text" v-model="form.veiculo_placa" v-mask="'AAA-#N##'" class="form-control veiculo_placa" id="veiculo_placa" name="veiculo_placa"/>
                                     </div>
                                 </div>
 
@@ -271,7 +271,7 @@
             }
             this.form.periodo.inicio = this.periodos['todo_periodo'].periodo_inicio
             this.form.periodo.fim = this.periodos['todo_periodo'].periodo_fim
-        }
+        },
     },
     methods: {
         set_tipo(event){

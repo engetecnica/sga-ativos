@@ -49,10 +49,17 @@
 
     <!-- Vue.js -->
     <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
+    <script src="<?php echo base_url('assets'); ?>/js/v-mask.min.js"></script>
+    <script>
+        // As a plugin
+        Vue.use(VueMask.VueMaskPlugin);
+    </script>
 
     <!-- Sweet Alert 
     <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- One Signal -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 
     <script> 

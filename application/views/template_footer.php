@@ -150,31 +150,19 @@
         })
         <?php } ?>
 
-        // Transferência de Ferramenta - Preenchimento da Modal
-        $(".transferir_ferramenta").click(function(){
-            let id_obra = $(this).attr("data-id_obra");
-            let id_ferramental_obra = $(this).attr("data-id_ferramental_obra");
-            let id_ativo_externo = $(this).attr("data-id_ativo_externo");
-            let quantidade = $(this).attr("data-quantidade");
-            let item = $(this).attr("data-item");
-
-            $("#item").val(item);
-            $("#quantidade").val(quantidade);
-            $("#id_ativo_externo").val(id_ativo_externo);
-            $("#id_ferramental_obra").val(id_ferramental_obra);
-            $("#id_obra").val(id_obra);
-            $("#quantidade").attr({
-                "max" : quantidade,
-                "min" : '1'
-            });
-        });   
-
         $('.litros').mask("##0,0", {reverse: true});
         $('.cpf').mask('000.000.000-00');
+        $('.cnpj').mask('00.000.000/0001-00');
         $('.valor').mask('0.000,00', {reverse: true});
-        $(".telefone").mask("(99) 9999-9999");
-        $(".celular").mask("(99) 9 9999-9999");
+        $(".telefone").mask("(00) 0000-0000");
+        $(".celular").mask("(00) 9 0000-0000");
 
+        var veiculo_placa_options =  {
+            onKeyPress: function(placa, e, field, options) {
+                $(field)[0].value = placa.toUpperCase();
+            }
+            };
+        $('.veiculo_placa').mask('SSS-0A00', veiculo_placa_options);
 
         $(".deletar_registro").click(function(){
             let id_registro = $(this).attr('data-id');
@@ -382,37 +370,6 @@
             }
         });        
 
-        $(document).ready(function () {
-            maskMercosul('.placa');
-        });
-        
-        function maskMercosul(selector) {
-            var MercoSulMaskBehavior = function (val) {
-                var myMask = 'AAA0A00';
-                var mercosul = /([A-Za-z]{3}[0-9]{1}[A-Za-z]{1})/;
-                var normal = /([A-Za-z]{3}[0-9]{2})/;
-                var replaced = val.replace(/[^\w]/g, '');
-                if (normal.exec(replaced)) {
-                    myMask = 'AAA-0000';
-                } else if (mercosul.exec(replaced)) {
-                    myMask = 'AAA0A00';
-                }
-                return myMask;
-            },
-            mercoSulOptions = {
-                onKeyPress: function(val, e, field, options) {
-                    field.mask(MercoSulMaskBehavior.apply({}, arguments), options);
-                }
-            };
-            $(function() {
-                $(selector).bind('paste', function(e) {
-                    $(this).unmask();
-                });
-                $(selector).bind('input', function(e) {
-                    $(selector).mask(MercoSulMaskBehavior, mercoSulOptions);
-                });
-            });
-        }
         
         $(document).ready(function() {
             var confirm_submit = null;
