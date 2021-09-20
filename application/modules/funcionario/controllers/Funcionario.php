@@ -18,7 +18,7 @@ class funcionario  extends MY_Controller {
             echo redirect(base_url('login')); 
         } 
         # Fecha Login
-        $this->load->model('obra/obra_model');         
+        $this->load->model('obra/obra_model');                
     }
 
     function index($subitem=null) {

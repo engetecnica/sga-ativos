@@ -15,6 +15,7 @@ class Migration_Create_Funcionario extends CI_Migration {
 			->add_field('rg varchar(255) NOT NULL')
 			->add_field('cpf varchar(100) NOT NULL')
 			->add_field('data_nascimento date NOT NULL')
+			//
 			->add_field('endereco varchar(255) NOT NULL')
 			->add_field('endereco_numero varchar(30) NOT NULL')
 			->add_field('endereco_complemento varchar(255) NOT NULL')
@@ -22,9 +23,11 @@ class Migration_Create_Funcionario extends CI_Migration {
 			->add_field('endereco_cep varchar(15) NOT NULL')
 			->add_field('endereco_cidade varchar(255) NOT NULL')
 			->add_field('endereco_estado int(10) NOT NULL DEFAULT 0')
+			//
 			->add_field('email varchar(255) NULL DEFAULT NULL')
 			->add_field('telefone varchar(255) NULL DEFAULT NULL')
 			->add_field('celular varchar(255) NULL DEFAULT NULL')
+			//
 			->add_field('observacao text NOT NULL')
 			->add_field('data_criacao timestamp NOT NULL DEFAULT current_timestamp()')
 			->add_field('data_atualizacao timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()')

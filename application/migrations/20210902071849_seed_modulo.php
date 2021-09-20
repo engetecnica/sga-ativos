@@ -9,7 +9,7 @@ class Migration_Seed_Modulo extends CI_Migration {
 		if ($this->db->table_exists($this->table) && $this->db->where('id_modulo BETWEEN 1 AND 18')->get($this->table)->num_rows() == 0) {
 			//Seeding
 			$this->db->query("INSERT INTO `{$this->table}` VALUES 
-				(1,0,'Cadastros','#','fas fa-hashtag'),
+				(1,0,'Cadastros','#','fas fa-hashtag'),	
 				(2,1,'Usuários','usuario','fas fa-smile'),
 				(3,1,'Funcionários','funcionario','fas fa-users'),
 				(4,1,'Empresas','empresa','fas fa-coffee'),
