@@ -62,63 +62,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="endereco" class=" form-control-label">Endereço da Obra</label>
-                                    </div>
-                                    <div class="col-12 col-md-5">
-                                        <input type="text" id="endereco" name="endereco" placeholder="Endereço" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco)){ echo $detalhes->endereco; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="endereco_numero" class=" form-control-label">Número</label>
-                                    </div>
-                                    <div class="col-12 col-md-1">
-                                        <input type="text" id="endereco_numero" name="endereco_numero" placeholder="Número" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco_numero)){ echo $detalhes->endereco_numero; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="endereco_complemento" class=" form-control-label">Complemento</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="endereco_complemento" name="endereco_complemento" placeholder="Complemento" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco_complemento)){ echo $detalhes->endereco_complemento; } ?>">
-                                    </div>                                                                                                
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="endereco_bairro" class=" form-control-label">Bairro</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="endereco_bairro" name="endereco_bairro" placeholder="Bairro" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco_bairro)){ echo $detalhes->endereco_bairro; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="endereco_cep" class=" form-control-label">CEP</label>
-                                    </div>
-                                    <div class="col-12 col-md-1">
-                                        <input type="text" id="endereco_cep" name="endereco_cep" placeholder="CEP" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco_cep)){ echo $detalhes->endereco_cep; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="endereco_cidade" class=" form-control-label">Cidade</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="endereco_cidade" name="endereco_cidade" placeholder="Cidade" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->endereco_cidade)){ echo $detalhes->endereco_cidade; } ?>">
-                                    </div>      
-
-                                    <div class="col col-md-1">
-                                        <label for="endereco_estado" class=" form-control-label">Estado</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <select id="endereco_estado" name="endereco_estado" class="form-control">
-                                            <option value="0">Selecione o Estado</option>
-                                        <?php foreach($estados as $estado){ ?>
-                                            <option value="<?php echo $estado->id_estado; ?>" <?php if(isset($detalhes) && isset($detalhes->endereco_estado) && $detalhes->endereco_estado==$estado->id_estado){ echo "selected='selected'"; } ?>><?php echo $estado->estado; ?></option>
-                                        <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
+                                <?php $this->view("endereco_contato/endereco_form_fields"); ?>
+                               
 
                                 <div class="row form-group">
                                     <div class="col col-md-4">
@@ -129,29 +74,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="responsavel_telefone" class=" form-control-label">Telefone</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="responsavel_telefone" name="responsavel_telefone" placeholder="Telefone" class="telefone form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_telefone)){ echo $detalhes->responsavel_telefone; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="responsavel_celular" class=" form-control-label">Celular</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="responsavel_celular" name="responsavel_celular" placeholder="Celular" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_celular)){ echo $detalhes->responsavel_celular; } ?>">
-                                    </div>
-
-                                    <div class="col col-md-1">
-                                        <label for="responsavel_email" class=" form-control-label">E-mail</label>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <input type="email" id="responsavel_email" name="responsavel_email" placeholder="E-mail" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel_email)){ echo $detalhes->responsavel_email; } ?>">
-                                    </div>      
-
-                                </div>
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
