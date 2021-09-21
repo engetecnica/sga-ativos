@@ -116,17 +116,19 @@
                                     <input type="hidden" name="id_empresa" id="id_empresa" value="<?php echo $detalhes->id_empresa; ?>">
                                     <input type="hidden" name="id_obra" id="id_obra" value="<?php echo $detalhes->id_obra; ?>">
                                 <?php } ?>
-                        
+                    
+
+                                <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
+
                                 <div class="row form-group">
-                                    <div class="col col-md-4">
+                                    <div class="col col-md-3">
                                         <label for="nome" class=" form-control-label">Nome</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-9">
                                         <input type="text" id="nome" name="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>
                                 </div>
 
-                                <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
                                         <label for="usuario" class=" form-control-label">Usuário</label>
@@ -143,11 +145,30 @@
                                     </div>
                                 </div>
                                 <?php } else {?>
-                                    <input type="hidden" name="usuario" id="usuario" value="<?php echo $detalhes->usuario; ?>">
-                                    <input type="hidden" name="email" id="email" value="<?php echo $detalhes->email; ?>">
+                                    <div class="row form-group">
+                                        <input type="hidden" name="usuario" id="usuario" value="<?php echo $detalhes->usuario; ?>">
+                                        
+                                        <div class="col col-md-2">
+                                        <label for="nome" class=" form-control-label">Nome</label>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <input type="text" id="nome" name="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                        </div>
+
+                                        <?php if (!isset($detalhes->email)) {?>
+                                            <div class="col col-md-2">
+                                                <label for="email" class=" form-control-label">Email</label>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>">
+                                            </div>
+                                        <?php } else {?>
+                                            <input type="hidden" name="email" id="email" value="<?php echo isset($detalhes->email) ? $detalhes->email : ''; ?>">
+                                        <?php } ?>
+                                    </div>
                                 <?php }?>
                                 
-                                <?php if ($form_type == "adicionar") {?>
+                                <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
                                         <label  for="senha" class=" form-control-label">Senha</label>
@@ -165,12 +186,25 @@
                                 </div>
                                 <?php } ?>
 
+                                <?php if ($is_self) {?>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="avatar" class=" form-control-label">Imagem do Usuário</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input required="required" type="file" id="avatar" name="avatar" class="form-control" accept="image/*" style="margin-bottom: 5px;"> 
+                                        <small size='2'>Formato aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
+                                    </div>
+                                </div>
+                                <?php } ?>
+
                                 <?php if (!$is_self) {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>

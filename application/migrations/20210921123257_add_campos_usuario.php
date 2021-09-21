@@ -12,6 +12,7 @@ class Migration_Add_Campos_Usuario extends CI_Migration {
 			$this->dbforge->add_column($this->table, 'email_confirmado_em timestamp NULL DEFAULT NULL AFTER email');
 			$this->dbforge->add_column($this->table, 'codigo_recuperacao varchar(50) NULL DEFAULT NULL AFTER email_confirmado_em');
 			$this->dbforge->add_column($this->table, 'codigo_recuperacao_validade timestamp NULL DEFAULT NULL AFTER codigo_recuperacao');
+			$this->dbforge->add_column($this->table, 'avatar varchar(255) NULL DEFAULT NULL AFTER codigo_recuperacao_validade');
 		}
 	}
 	
@@ -23,6 +24,7 @@ class Migration_Add_Campos_Usuario extends CI_Migration {
 			$this->dbforge->drop_column($this->table, 'email_confirmado_em');
 			$this->dbforge->drop_column($this->table, 'codigo_recuperacao');
 			$this->dbforge->drop_column($this->table, 'codigo_recuperacao_validade');
+			$this->dbforge->drop_column($this->table, 'avatar');
 		}
 	}
 }

@@ -46,6 +46,7 @@ class usuario  extends MY_Controller {
             'obras' => $this->obra_model->get_obras(),
             'niveis' => $this->get_niveis()
         ];
+        $data['upload_max_filesize'] = ini_get('upload_max_filesize');
     	$this->get_template('index_form', $data);
     }
 
@@ -60,6 +61,7 @@ class usuario  extends MY_Controller {
             $data['detalhes']->obras = $this->obra_model->get_obras();
             $data['detalhes']->niveis = $this->get_niveis();
         }
+        $data['upload_max_filesize'] = ini_get('upload_max_filesize');
         $this->get_template('index_form', $data);
     }
 
@@ -118,6 +120,22 @@ class usuario  extends MY_Controller {
             return;
         }
 
+        if ($_FILES['avatar']) {
+            $data['avatar'] = ($_FILES['avatar'] ? $this->upload_arquivo('avatar') : '');
+            if (!$data['avatar'] || $data['avatar'] == '') {
+                $this->session->set_flashdata('msg_erro', "O tamanho da imagem deve ser menor ou igual a ".ini_get('upload_max_filesize'));
+                return $this->redirect($data);
+            }
+
+            if (isset($usuario->avatar)) {
+                $path = __DIR__."/../../../../assets/uploads/avatar";
+                $file = "$path/{$usuario->avatar}";
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+        }
+
         $this->usuario_model->salvar_formulario($data);
         if($data['id_usuario'] == null){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
@@ -147,7 +165,7 @@ class usuario  extends MY_Controller {
             echo redirect(base_url(""));
             return;
         }
-        
+
         return $this->json(['success' => $this->usuario_model->solicitar_confirmacao_email($id_usuario)]);
     }
 

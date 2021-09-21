@@ -20,6 +20,7 @@
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th width="7%">Id</th>
                                     <th>Nome</th>
                                     <th>Usuário</th>
@@ -36,10 +37,19 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <?php if($this->session->userdata('logado')->id_usuario != $valor->id_usuario){ ?>
                                     <tr id="<?php echo $valor->id_usuario; ?>">
+                                        <td>
+                                        <a href="<?php echo base_url("usuario/editar/{$valor->id_usuario}"); ?>">
+                                            <?php if (isset($valor->avatar)) {?>
+                                                <img src="<?php echo base_url("assets/uploads/avatar/{$valor->avatar}"); ?>" alt="Imagem do usuário" />
+                                            <?php } else {?>
+                                                <img src="<?php echo base_url('assets/images/icon/avatar-01.jpg'); ?>" alt="Imagem do usuário" />
+                                            <?php }?>
+                                        </a>
+                                        </td>
                                         <td><?php echo $valor->id_usuario; ?></td>
                                         <td>
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
-                                            <?php echo $valor->nome; ?>
+                                            <?php echo isset($valor->nome) ? $valor->nome : '-'; ?>
                                             </a>
                                         </td>
                                         <td>
