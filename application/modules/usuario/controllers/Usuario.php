@@ -120,7 +120,7 @@ class usuario  extends MY_Controller {
             return;
         }
 
-        if ($_FILES['avatar']) {
+        if (isset($_FILES['avatar'])) {
             $data['avatar'] = ($_FILES['avatar'] ? $this->upload_arquivo('avatar') : '');
             if (!$data['avatar'] || $data['avatar'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho da imagem deve ser menor ou igual a ".ini_get('upload_max_filesize'));

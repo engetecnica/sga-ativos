@@ -51,7 +51,7 @@
                                             data-registro="<?php echo $valor->id_ativo_interno;?>" 
                                             data-tabela="ativo_interno/manutencao/<?php echo $ativo->id_ativo_interno;?>" class="deletar_registro"
                                           >
-                                            <i class="fas fa-remove"></i>
+                                            <i class="fas fa-trash"></i>
                                           </a>
                                         <?php } ?>
                                     </td>

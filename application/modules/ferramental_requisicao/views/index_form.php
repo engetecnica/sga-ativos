@@ -86,7 +86,7 @@
                                     </button>
                                     <a class="m-t-10" href="<?php echo base_url('ferramental_requisicao');?>">
                                         <button class="btn btn-info" type="button">                                                    
-                                            <i class="fa fa-remove "></i>&nbsp;
+                                            <i class="fa fa-ban "></i>&nbsp;
                                             <span id="cancelar-form">Cancelar</span>
                                         </button>                                                
                                     </a>

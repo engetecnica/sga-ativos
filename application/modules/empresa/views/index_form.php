@@ -108,7 +108,7 @@
                                     </button>
                                     <a href="<?php echo base_url('empresa');?>">
                                     <button class="btn btn-info" type="button">                                                    
-                                        <i class="fa fa-remove "></i>&nbsp;
+                                        <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
                                     </button>                                                
                                     </a>

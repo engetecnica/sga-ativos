@@ -48,7 +48,7 @@
                                     <td class="text-right">
                                         <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i></a>
                                         <?php if (!$valor->obra_base) { ?>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" data-registro="<?php echo $valor->id_obra;?>" data-tabela="obra" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <a href="javascript:void(0)" data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" data-registro="<?php echo $valor->id_obra;?>" data-tabela="obra" class="deletar_registro"><i class="fas fa-trash"></i></a>
                                         <?php } ?>
                                     </td>
                                 </tr>

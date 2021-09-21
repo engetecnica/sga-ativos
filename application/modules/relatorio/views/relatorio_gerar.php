@@ -164,7 +164,7 @@
                                         <span id="submit-form">Gerar</span>
                                     </button>
                                     <button @click="reset()" class="btn btn-info" type="button">                                                    
-                                        <i class="fa fa-remove "></i>&nbsp;
+                                        <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Limpar</span>
                                     </button>  
                                 </div>

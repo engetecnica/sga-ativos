@@ -53,7 +53,7 @@
                                 </button>
                                 <a href="<?php echo base_url("ativo_interno/manutencao_editar/{$ativo->id_ativo_interno}/{$manutencao->id_manutencao}#obs");?>">
                                 <button class="btn btn-info" type="button">                                                    
-                                    <i class="fa fa-remove "></i>&nbsp;
+                                    <i class="fa fa-ban "></i>&nbsp;
                                     <span id="cancelar-form">Cancelar</span>
                                 </button>                                                
                                 </a>

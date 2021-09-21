@@ -60,7 +60,7 @@
                                         </div>
                                     </td>
                                     <td class="text-right">
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-tabela="ativo_veiculo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-tabela="ativo_veiculo" class="deletar_registro"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                <?php } ?>

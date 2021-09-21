@@ -100,7 +100,7 @@
                                     </button>
                                     <a href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}");?>">
                                     <button class="btn btn-info" type="button">                                                    
-                                        <i class="fa fa-remove "></i>&nbsp;
+                                        <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
                                     </button>                                                
                                     </a>
@@ -147,7 +147,7 @@
                                         data-registro="<?php echo $valor->id_obs;?>" 
                                         data-tabela="ativo_interno/manutencao_editar/<?php echo "{$ativo->id_ativo_interno}/{$manutencao->id_manutencao}";?>" class="deletar_registro"
                                       >
-                                        <i class="fas fa-remove"></i>
+                                        <i class="fas fa-trash"></i>
                                       </a>
                                       <?php } ?>
                                     </td>

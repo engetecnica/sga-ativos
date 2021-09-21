@@ -159,13 +159,13 @@
                                                 <div class="content">
                                                     <h5 class="name m-b-10">
                                                         <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}") ;?>">
-                                                            <?php isset($user->nome) ? ucwords($user->nome) : $user->usuario; ?>
+                                                            <?php echo isset($user->nome) ? ucwords($user->nome) : $user->usuario; ?>
                                                         </a>
                                                     </h5>
                                                     <div class="name">
                                                        <small><b>Nível:</b><br><?php echo $user->nivel_nome; ?></small><br>
                                                        <small><b>Usuário:</b><br> <?php echo $user->usuario; ?></small><br>
-                                                       <?php if (isset($user->email)) { ?>
+                                                       <?php if ($user->email != null) { ?>
                                                        <small><b>Email:</b><br><?php echo $user->email; ?></small><br>
                                                        <?php } ?>
                                                        <small><b>Empresa:</b><br><?php echo $user->razao_social; ?></small><br>

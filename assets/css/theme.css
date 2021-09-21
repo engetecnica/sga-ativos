@@ -4873,16 +4873,29 @@ a > .fas, td > a > .fa {
 }
 
 
-a > .fa-remove  {
+a > .fa-trash, a .fa-remove {
     color: #ff4756 !important;
 }
 
-a > .fa-download  {
+a > .fa-download {
     color: #2948ff !important;
 }
 
-td > a > .fa-eye  {
+
+td > a > .fa-eye {
     color: #117a8b !important;
+}
+
+
+a > .fa-envelope {
+    color: #ffc107 !important;
+}
+
+
+td > .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
 }
 
 .preview{

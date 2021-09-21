@@ -43,7 +43,7 @@
                                     </td>
                                     <td class="text-right">
                                         <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>"><i class="fas fa-edit"></i></a>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('fornecedor'); ?>/deletar/<?php echo $valor->id_fornecedor; ?>" data-registro="<?php echo $valor->id_fornecedor;?>" data-tabela="fornecedor" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                        <a href="javascript:void(0)" data-href="<?php echo base_url('fornecedor'); ?>/deletar/<?php echo $valor->id_fornecedor; ?>" data-registro="<?php echo $valor->id_fornecedor;?>" data-tabela="fornecedor" class="deletar_registro"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                <?php } ?>

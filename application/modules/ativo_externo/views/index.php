@@ -126,7 +126,7 @@
                                                 data-registro="<?php echo $valor->id_ativo_externo;?>" 
                                                 data-tabela="ativo_externo" class="deletar_registro"
                                             >
-                                                <i class="fas fa-remove"></i>
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         <?php } ?>
 
@@ -183,7 +183,7 @@
                                         <?php } ?>
 
                                         <?php if ($valor->estoque == $valor->total) {?>
-                                            <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-remove"></i></a>
+                                            <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" data-tabela="ativo_externo" class="deletar_registro"><i class="fas fa-trash"></i></a>
                                         <?php } ?>
 
                                         <?php if (($valor->estoque < $valor->total) && ($valor->estoque == $valor->foradeoperacao)) {?>
