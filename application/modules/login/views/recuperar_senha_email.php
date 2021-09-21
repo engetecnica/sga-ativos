@@ -12,8 +12,8 @@
                 <input class="au-input au-input--full" type="text" name="email" id="email" placeholder="seuemail@exemplo.com.br" required="" onfocus="">
             </div>
             <div class="col col-md-10 offset-1 m-t-40 text-center">
-                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">Enviar Código de Recuperação</button>
-                <a class="au-link--blue" href="<?php echo base_url("login/recuperar_senha")?>" >Já possue um código?</a>
+                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Enviar Código de Recuperação</button>
+                <a class="au-link--blue" href="<?php echo base_url("login")?>" >Voltar ao Início</a>
             </div>
         </form>
     </div>

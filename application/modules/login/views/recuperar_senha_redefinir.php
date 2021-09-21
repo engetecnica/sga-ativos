@@ -21,7 +21,7 @@
             </div>
 
             <div class="col col-md-10 offset-1 m-t-40 text-center">
-                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">Salvar Nova Senha</button>
+                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Salvar Nova Senha</button>
             </div>
         </form>
     </div>

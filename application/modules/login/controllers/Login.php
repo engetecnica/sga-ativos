@@ -126,6 +126,25 @@ class Login  extends MY_Controller {
        $this->session->set_flashdata('msg_erro', "Código inválido ou Usuário Não encontrado!");
        echo redirect(base_url("login"));
     }
+
+    function usuario() {
+		$senha = sha1($this->input->post('senha'));
+        $username = sha1($this->input->post('usuario'));
+		$usuario = $this->db->where('usuario', $username)
+							->where('senha', $senha)
+							->get('usuario')->row();
+		if (!$usuario) {
+			$usuario = $this->db
+				->where('email', $username)
+				->where('senha', $senha)
+				->get('usuario')->row();
+		}
+
+        if ($usuario) {
+            return $this->json(['usuario' => $usuario]);
+        }
+        return $this->json(['usuario' => null]);
+    }
 }
 
 /* End of file Site.php */

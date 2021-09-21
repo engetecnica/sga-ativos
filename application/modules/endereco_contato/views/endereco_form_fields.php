@@ -6,7 +6,8 @@
         <label for="endereco_cep" class=" form-control-label">CEP</label>
     </div>
     <div class="col-12 col-md-2">
-        <input @blur="getEnderecoBycep" type="text" id="endereco_cep" name="endereco_cep" v-model="endereco_cep" placeholder="CEP" class="form-control">
+        <input :class="{'invalid-input': msg != null}" @blur="getEnderecoBycep" type="text" id="endereco_cep" name="endereco_cep" v-model="endereco_cep" placeholder="CEP" class="form-control cep">
+        <div  class="invalid-text">{{msg}}</div>
     </div>
     <div class="col col-md-2">
         <label for="endereco" class=" form-control-label">Endereço</label>
@@ -73,6 +74,7 @@
         el: "#endereco_form_fields",
         data(){
             return {
+                msg: null,
                 estados: window.estados,
                 endereco: null,
                 endereco_numero: null,
@@ -92,16 +94,25 @@
                     })
                     .done(function(response) {
                         if (!response.erro) {
+                            endereco_form_fields.msg = null
                             endereco_form_fields.endereco = response.logradouro
                             endereco_form_fields.endereco_bairro = response.bairro
                             endereco_form_fields.endereco_complemento = response.complemento
                             endereco_form_fields.endereco_cidade = response.localidade
                             endereco_form_fields.endereco_cep = response.cep
                             endereco_form_fields.endereco_estado = (endereco_form_fields.estados.find((estado) => {return estado.uf.toLowerCase() == response.uf.toLowerCase()})).id_estado
+                            return
                         }
+                        endereco_form_fields.msg = "CEP não localizado!"
                     })
-                }
-            }
+                    .fail(() => {
+                        endereco_form_fields.msg = "CEP não localizado!"
+                        console.log(endereco_form_fields.msg )
+                    })
+            
+                }    
+            },
+
         },
         watch: {
             endereco_cep(){

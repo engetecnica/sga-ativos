@@ -17,14 +17,14 @@
         <label for="<?php echo $telefone; ?>" class="form-control-label">Telefone</label>
     </div>
     <div class="col-12 col-md-3">
-        <input type="text" id="<?php echo $telefone; ?>" name="<?php echo $telefone; ?>" placeholder="(41) 4040-4676" class="telefone form-control" value="<?php if(isset($detalhes) && isset($detalhes->$telefone)){ echo $detalhes->$telefone; } ?>">
+        <input type="text" id="<?php echo $telefone; ?>" name="<?php echo $telefone; ?>" placeholder="(00) 0000-0000" class="telefone form-control" value="<?php if(isset($detalhes) && isset($detalhes->$telefone)){ echo $detalhes->$telefone; } ?>">
     </div>
 
     <div class="col col-md-1">
         <label for="<?php echo $celular; ?>" class="form-control-label">Celular</label>
     </div>
     <div class="col-12 col-md-3">
-        <input type="text" id="<?php echo $celular; ?>" name="<?php echo $celular; ?>" placeholder="(41) 9 9182-1872" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->$celular)){ echo $detalhes->$celular; } ?>" required="required">
+        <input type="text" id="<?php echo $celular; ?>" name="<?php echo $celular; ?>" placeholder="(00) 9 0000-0000" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->$celular)){ echo $detalhes->$celular; } ?>" required="required">
     </div>
 
     <div class="col col-md-1">

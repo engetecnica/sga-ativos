@@ -14910,3 +14910,24 @@ label {
 .canvasjs-chart-credit{
     display: none !important;
 }
+
+.invalid-input {
+    border-color: #c02028 !important;
+}
+
+
+.invalid-input :focus {
+    outline-color: #c02028;
+}
+
+.invalid-text {
+    color: #c02028;
+    font-size: .65rem;
+    display: inline-block;
+    width: 100%;
+}
+
+.form-check {
+    display: inline-flex;
+    align-items: center;
+}
