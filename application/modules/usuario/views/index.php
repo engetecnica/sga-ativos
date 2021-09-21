@@ -21,12 +21,13 @@
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
-                                    <th>Nome de Usuário</th>
+                                    <th>Nome</th>
+                                    <th>Usuário</th>
                                     <th>Empresa</th>
                                     <th>Obra</th>
                                     <th>Nível</th>
                                     <th>Situação</th>
-                                    <th>Ciação</th>
+                                    <th>Criação</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
                             </thead>
@@ -36,6 +37,11 @@
                                 <?php if($this->session->userdata('logado')->id_usuario != $valor->id_usuario){ ?>
                                     <tr id="<?php echo $valor->id_usuario; ?>">
                                         <td><?php echo $valor->id_usuario; ?></td>
+                                        <td>
+                                            <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
+                                            <?php echo $valor->nome; ?>
+                                            </a>
+                                        </td>
                                         <td>
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
                                             <?php echo $valor->usuario; ?>
@@ -53,6 +59,10 @@
                                         </td>
                                         <td><?php echo $valor->data_criacao ? date('d/m/Y H:i:s', strtotime($valor->data_criacao)) : ''; ?></td>
                                         <td class="text-right">
+                                            <?php if (!isset($valor->email_confirmado_em)) {?>
+                                            <a href="#" class="solicitar_confirmacao_email" data-id_usuario="<?php echo $valor->id_usuario; ?>"><i class="fa fa-envelope"></i></a>
+                                            <?php } ?>
+
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>"><i class="fas fa-edit"></i></a>
                                             <?php if($valor->id_usuario>1){ ?>
                                             <a href="javascript:void(0)" data-href="<?php echo base_url('usuario'); ?>/deletar/<?php echo $valor->id_usuario; ?>" data-registro="<?php echo $valor->id_usuario;?>" data-tabela="usuario" class="deletar_registro"><i class="fas fa-remove"></i></a>
@@ -77,5 +87,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('.solicitar_confirmacao_email').click(function(event) {
+        event.preventDefault();
+        let id_usuario = $(this).attr('data-id_usuario')
+  
+        $.ajax({
+            method: "GET",
+            url: `${base_url}usuario/solicitar_confirmacao_email/${id_usuario}`,
+        })
+        .always((response) => {
+            if (response.success == true) {
+                Swal.fire({
+                    title: 'Enviado!',
+                    text: 'Email de confirmação enviado com Sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok, fechar.'
+                })
+                return
+            }
+
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Ocorreu um erro ao tentar enviar o Email de confirmação!',
+                icon: 'error',
+                confirmButtonText: 'Ok, fechar.'
+             }) 
+        })
+    });
+</script>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

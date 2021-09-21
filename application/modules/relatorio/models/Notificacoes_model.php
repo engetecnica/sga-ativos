@@ -75,9 +75,15 @@ class Notificacoes_model extends MY_model {
     $sgmail->setSubject($assunto);
     $sgmail->setFrom($this->config->item('notifications_email'), "Engetecnica App");
     $sgmail->addContent("text/html", $mensagem);
-
+    
+    $email_count = 0;
     foreach ($destinos as $nome => $email){
+      if ($email == null && $email_count == 0) {
+        return false;
+      }
+
       $sgmail->addTo($email, $nome);
+      $email_count++;
     }
 
     $sendgrid = new SendGridClass($this->config->item('sendgrid_apikey'));

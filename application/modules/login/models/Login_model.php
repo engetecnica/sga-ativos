@@ -6,17 +6,31 @@ class Login_model extends MY_Model {
         parent::__construct();
     }	
 
-	public function verificar_login(){
-		$username = $this->input->post('usuario');
-		$senha = sha1($this->input->post('senha'));
+	public function verificar_login($username = null, $senha = null, $senha_sha1 = false){
+		if (!$username) {
+			$username = $this->input->post('usuario');
+		}
+
+		if (!$senha) {
+			$senha = $this->input->post('senha');
+			if ($senha_sha1 == false) {
+				$senha = sha1($this->input->post('senha'));
+			}
+		}
 
 		// Verifica se o ID existe
-		$this->db->where('usuario', $username);
 		if($this->db->get('usuario')->num_rows() > 0){
 			$usuario = $this->db->where('usuario', $username)
-													->where('senha', $senha)
-													->get('usuario')->row();
+								->where('senha', $senha)
+								->get('usuario')->row();
+			if (!$usuario) {
+				$usuario = $this->db
+							->where('email', $username)
+							->where('senha', $senha)
+							->get('usuario')->row();
+			}
 
+			
 			if($usuario){
 				if((int) $usuario->situacao == 1){
 					$this->session->set_flashdata('msg_erro', "Usuário inativo, favor contatar um administrado do Sistema!");

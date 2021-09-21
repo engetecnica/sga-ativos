@@ -22,19 +22,20 @@ trait MY_Trait {
       }
   
       public function get_usuario_nivel($nivel=null){
-        $texto = $nivel;
-        $class = "";
+        $texto = "Desconhecido";
+        $class = "danger";
           
         switch ($nivel) {
           default:
           case 0:
-            $texto = $nivel;
             $class = "info";
           break;
-          case "Administrador":
+          case 1:
+            $texto = "Administrador";
             $class = "info";
           break;
-          case "Almoxarifado":
+          case 2:
+            $texto = "Almoxarifado";
             $class = "warning";
           break;
         }

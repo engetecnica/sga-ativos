@@ -2,6 +2,11 @@
 
 class usuario_model extends MY_Model {
 
+	function __construct() {
+        parent::__construct();
+        $this->load->model('relatorio/notificacoes_model');
+    }
+
 	public function salvar_formulario($data=null){
 		$this->db->where('usuario', $data['usuario']);
 		$usuario = $this->db->get('usuario')->row();
@@ -13,6 +18,10 @@ class usuario_model extends MY_Model {
 			}
 
 			$this->db->insert('usuario', $data);
+
+			if ($data['email'] != null) {
+				$this->usuario_model->solicitar_confirmacao_email($this->db->insert_id());
+			}
 			return "salvar_ok";
 		} else {
 
@@ -26,14 +35,47 @@ class usuario_model extends MY_Model {
 		}
 	}
 
+	public function verificaSenha($senha, $confirmar_senha) {
+        $senha = strlen($senha) > 0 ? $senha : null;
+        $confirmar_senha = strlen($confirmar_senha) > 0 ? $confirmar_senha : null;
+
+        if($senha && $confirmar_senha) {
+            if ($senha == $confirmar_senha ) {
+                return sha1($confirmar_senha);
+            }
+
+            if ($senha != $confirmar_senha) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+	public function gerar_codigo(){
+		$codigo = rand(100001, 999999);
+		while($this->usuario()->where('codigo_recuperacao', $codigo)->get()->num_rows() > 0){
+			$codigo = rand(100001, 999999);
+		}
+		return $codigo;
+	}
+
+	public function usuario(){
+		$usuario = $this->db
+			->from('usuario')
+			->select('usuario.*')
+			->select('ob.codigo_obra, ob.id_obra')
+			->select('ep.razao_social as empresa_razao, ep.razao_social, ep.nome_fantasia as empresa, ep.nome_fantasia') 
+			->select('un.nivel as nivel_nome, un.id_usuario_nivel as nivel')
+			->join("empresa ep", "ep.id_empresa=usuario.id_empresa", "left")
+			->join("obra ob", "ob.id_obra=usuario.id_obra", "left")
+			->join("usuario_nivel un", "un.id_usuario_nivel=usuario.nivel", "left")
+			->group_by('usuario.id_usuario')
+			->order_by('usuario.usuario', 'ASC');
+		return $usuario;
+	}
+
 	public function get_lista($id_empresa = null, $id_obra = null, $situacao = null){
-		$lista = $this->db
-		->select('usuario.*, ob.codigo_obra, ob.id_obra, ep.razao_social, ep.nome_fantasia, un.nivel')
-		->from('usuario')
-		->order_by('usuario', 'ASC')
-		->join("empresa ep", "ep.id_empresa=usuario.id_empresa", "left")
-		->join("obra ob", "ob.id_obra=usuario.id_obra", "left")
-		->join("usuario_nivel un", "un.id_usuario_nivel=usuario.nivel", "left");
+		$lista = $this->usuario();
 
 		if ($id_empresa) {
 			$$lista->where("usuario.id_empresa = {$id_empresa}");
@@ -56,20 +98,100 @@ class usuario_model extends MY_Model {
 								->get()->result();
 							}
 
-	public function get_usuario($id=null, $included_pass = false){
-		$usuario = $this->db
-		->select('usuario.*, ob.codigo_obra, ob.id_obra, ep.razao_social as empresa_razao, ep.nome_fantasia as empresa, un.nivel as nivel_nome')
-		->from('usuario')
-		->order_by('usuario.usuario', 'ASC')
-		->join("empresa ep", "ep.id_empresa=usuario.id_empresa", "left")
-		->join("obra ob", "ob.id_obra=usuario.id_obra", "left")
-		->join("usuario_nivel un", "un.id_usuario_nivel=usuario.nivel", "left")
-		->where('id_usuario', $id)
-		->get()->row();
+	public function get_usuario($id=null, $includes_pass = false){
+		$usuario = $this->usuario()
+					->where('id_usuario', $id)
+					->get()->row();
 
-		if ($included_pass == false) {
+		if ($includes_pass == false) {
 			unset($usuario->senha);
 		}
 		return $usuario;
+	}
+
+	public function get_usuario_email($email, $includes_pass = false){
+		$usuario = $this->usuario()->where("email = '{$email}'")->get()->row();
+		
+		if ($includes_pass == false) {
+			unset($usuario->senha);
+		}
+		return $usuario;
+	}
+
+	public function get_usuario_codigo($codigo_recuperacao, $includes_pass = false){
+		$now = date('Y-m-d H:i:s');
+
+		$usuario = $this->usuario()
+			->where('codigo_recuperacao', $codigo_recuperacao)
+			->where("codigo_recuperacao_validade >= '$now'")
+			->get()->row();
+
+		if ($includes_pass == false) {
+			unset($usuario->senha);
+		}
+		return $usuario;
+	}
+
+	public function exists_email($email, $id = null){
+		$usuario = $this->usuario()->where("email = '{$email}'");
+
+		if ($id) {
+			$usuario->where("id_usuario != $id");
+		} 
+		return $usuario->get()->num_rows() > 0;
+	}
+
+	public function exists_usuario($usuario, $id = null){
+		$usuario = $this->usuario()->where('usuario', $usuario);
+		if ($id) {
+			$usuario->where("id_usuario != $id");
+		} 
+		return $usuario->get()->num_rows() > 0;
+	}
+
+	public function solicitar_confirmacao_email($id_usuario){
+        $usuario = $this->get_usuario($id_usuario);
+
+        if ($usuario) {
+            $validade = date('Y-m-d H:i:s', strtotime("+30 days"));
+            $codigo = $this->gerar_codigo();
+            $enviado = $this->enviar_email_confirmacao($usuario, $codigo, $validade);
+
+            if ($enviado) {
+                $this->db
+                    ->where("id_usuario = {$usuario->id_usuario}")
+                    ->update('usuario', [
+                        "codigo_recuperacao" => $codigo,
+                        "codigo_recuperacao_validade" => $validade
+                ]);
+
+                return $enviado;
+            }
+        }
+
+        return false;
+    }
+
+	public function enviar_email_confirmacao($usuario, $codigo, $validade = "+30 days"){
+		//temp texto
+		$link = '<a target="_blank" href="'.base_url("login/confirmar_email/{$codigo}").'">Clique aqui para Confirmar!</a>';
+
+		$texto = "<h1>Confirmar Email</h1>".
+			"<p>Olá <b>{$usuario->nome}</b>!<br>Essa é uma messagem de confirmação válida até ". date("d/m/Y H:i:s", strtotime($validade)). 
+			", clique no link abaixo para validar sua conta.".
+			"<br> $link </p>";
+
+		return $this->notificacoes_model->enviar_email("Confirmar Email", $texto, ["{$usuario->nome}" => $usuario->email]);
+	}
+
+	public function enviar_email_recuperacao($usuario, $codigo, $validade = "+60 minutes"){
+		//temp texto
+		$link = '<a target="_blank" href="'.base_url("login/nova_senha/{$codigo}").'">Clique aqui para Redefinir sua Senha</a>';
+
+		$texto = "<h1>Código de Recuperação</h1>".
+			"<p>Olá <b>{$usuario->nome}</b>!<br>Seu código de recuperação é: {$codigo}, Válido até ". date("d/m/Y H:i:s", strtotime($validade)).
+			"<br> $link </p>";
+
+		return $this->notificacoes_model->enviar_email("Código de Recuperação", $texto, ["{$usuario->nome}" => $usuario->email]);
 	}
 }

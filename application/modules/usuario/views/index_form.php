@@ -6,17 +6,21 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"></h2>
-                        <?php $id = isset($detalhes) && isset($detalhes->id_usuario) ? "#".$detalhes->id_usuario : '';?>
+                        <?php 
+                            if (!$is_self) {
+                            $id = isset($detalhes) && isset($detalhes->id_usuario) ? "#".$detalhes->id_usuario : '';
+                        ?>
                         <a href="<?php echo base_url("usuario$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25">Usuários</h2>
+                    <h2 class="title-1 m-b-25">Usuário</h2>
                     <div class="card">
                         <?php if(isset($detalhes) && isset($detalhes->id_usuario)){?>
                             <div class="card-header">Editar Usuário</div>
@@ -32,7 +36,8 @@
                                 <?php if(isset($detalhes) && isset($detalhes->id_usuario)){?>
                                     <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $detalhes->id_usuario; ?>">
                                 <?php } ?>
-
+                                
+                                <?php if (!$is_self) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-4">
                                         <label for="nivel" class=" form-control-label">Nível de Permissão</label>
@@ -105,30 +110,41 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>    
+                                </div> 
+                                <?php } else { ?>
+                                    <input type="hidden" name="nivel" id="nivel" value="<?php echo $detalhes->nivel; ?>">
+                                    <input type="hidden" name="id_empresa" id="id_empresa" value="<?php echo $detalhes->id_empresa; ?>">
+                                    <input type="hidden" name="id_obra" id="id_obra" value="<?php echo $detalhes->id_obra; ?>">
+                                <?php } ?>
+                        
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="nome" class=" form-control-label">Nome</label>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <input type="text" id="nome" name="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                    </div>
+                                </div>
 
-
-                                <?php if ($form_type == "adicionar") {?>
+                                <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
-                                        <label for="usuario" class=" form-control-label">Nome de Usuário</label>
+                                        <label for="usuario" class=" form-control-label">Usuário</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input required type="text" id="usuario" name="usuario" placeholder="seu_username" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->usuario)){ echo $detalhes->usuario; } ?>">
+                                        <input required type="text" id="usuario" name="usuario" placeholder="username" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->usuario)){ echo $detalhes->usuario; } ?>">
                                     </div>
-                                <!--
+                                
                                     <div class="col col-md-2">
                                         <label for="email" class=" form-control-label">Email</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->email)){ echo $detalhes->email; } ?>">
                                     </div>
-                                -->
-                                
                                 </div>
                                 <?php } else {?>
                                     <input type="hidden" name="usuario" id="usuario" value="<?php echo $detalhes->usuario; ?>">
-                                    <!--<input type="hidden" name="email" id="email" value="<?php //echo $detalhes->email; ?>">-->
+                                    <input type="hidden" name="email" id="email" value="<?php echo $detalhes->email; ?>">
                                 <?php }?>
                                 
                                 <?php if ($form_type == "adicionar") {?>
@@ -149,6 +165,7 @@
                                 </div>
                                 <?php } ?>
 
+                                <?php if (!$is_self) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
                                         <label for="situacao" class=" form-control-label">Situação</label>
@@ -160,6 +177,9 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                    <input type="hidden" name="situacao" id="situacao" value="<?php echo $detalhes->situacao; ?>">
+                                <?php } ?>
                                 
                                 <hr>
                                 <div class="pull-left">
@@ -167,12 +187,22 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
+
+                                    <?php  if (!$is_self) { ?>
                                     <a href="<?php echo base_url('usuario');?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-remove "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
                                     </button>                                                
                                     </a>
+                                    <?php  } else { ?>
+                                    <a href="<?php echo base_url();?>">
+                                    <button class="btn btn-info" type="button">                                                    
+                                        <i class="fa fa-remove "></i>&nbsp;
+                                        <span id="cancelar-form">Cancelar</span>
+                                    </button>                                                
+                                    </a>
+                                    <?php } ?>
                                 </div>
                             </form>
 

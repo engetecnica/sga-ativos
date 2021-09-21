@@ -11,7 +11,7 @@ class Migration_Create_Usuario extends CI_Migration {
 			->add_field('id_usuario int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY')
 			->add_field('id_empresa int(10) NOT NULL')
 			->add_field('id_obra int(10) NOT NULL DEFAULT 0')
-			->add_field('usuario varchar(200) NOT NULL')
+			->add_field('usuario varchar(50) NOT NULL')
 			->add_field('senha varchar(255) NOT NULL')
 			->add_field('data_criacao timestamp NOT NULL DEFAULT current_timestamp()')
 			->add_field('nivel int(10) NOT NULL DEFAULT 0')

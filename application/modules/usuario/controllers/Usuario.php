@@ -22,13 +22,24 @@ class usuario  extends MY_Controller {
     }
 
     function index($subitem=null) {
+        if ($this->user->nivel != 1) {
+            echo redirect(base_url(""));
+            return;
+        }
+
         $data['lista'] = $this->usuario_model->get_lista();
     	$subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
     }
 
     function adicionar(){
+        if ($this->user->nivel != 1) {
+            echo redirect(base_url(""));
+            return;
+        }
+
         $data['form_type'] = "adicionar";
+        $data['is_self'] = false;
         $data['detalhes'] =  (object) [
             'nivel' => null,
             'empresas' => $this->get_empresas(),
@@ -38,27 +49,12 @@ class usuario  extends MY_Controller {
     	$this->get_template('index_form', $data);
     }
 
-    function verificaSenha($senha, $confirmar_senha) {
-        $senha = strlen($senha) > 0 ? $senha : null;
-        $confirmar_senha = strlen($confirmar_senha) > 0 ? $confirmar_senha : null;
-
-        if($senha && $confirmar_senha) {
-            if ($senha == $confirmar_senha ) {
-                return sha1($confirmar_senha);
-            }
-
-            if ($senha != $confirmar_senha) {
-                return null;
-            }
-        }
-        return null;
-    }
-
     function editar($id_usuario=null){
         $usuario = $this->usuario_model->get_usuario($id_usuario);
         $data = null;
         if ($usuario) {
             $data['form_type'] = "editar";
+            $data['is_self'] = $usuario->id_usuario == $this->user->id_usuario;
             $data['detalhes'] = $usuario;
             $data['detalhes']->empresas = $this->get_empresas();
             $data['detalhes']->obras = $this->obra_model->get_obras();
@@ -69,15 +65,22 @@ class usuario  extends MY_Controller {
 
     function salvar(){
         $data['id_usuario'] = $this->input->post('id_usuario');
+        $usuario = $this->usuario_model->get_usuario($data['id_usuario']);
+
         $data['usuario'] = $this->input->post('usuario');
-        $data['nivel'] = $this->input->post('nivel');
-        $data['id_empresa'] = $this->input->post('id_empresa');
-        $data['id_obra'] = $this->input->post('id_obra');
-        $data['situacao'] = $this->input->post('situacao');
+        $data['nome'] = $this->input->post('nome');
+        $data['email'] = $this->input->post('email');
+     
+        if ($usuario && $this->user->id_usuario != $usuario->id_usuario || !$usuario && $this->user->nivel == 1) {
+            $data['situacao'] = $this->input->post('situacao');
+            $data['nivel'] = $this->input->post('nivel');
+            $data['id_empresa'] = $this->input->post('id_empresa');
+            $data['id_obra'] = $this->input->post('id_obra');
+        }
 
         $senha = strlen($this->input->post('senha')) > 0 ? $this->input->post('senha') : null;
         $confirmar_senha = strlen($this->input->post('confirmar_senha')) > 0 ? $this->input->post('confirmar_senha') : null;
-        $data['senha'] = $this->verificaSenha($senha, $confirmar_senha);
+        $data['senha'] = $this->usuario_model->verificaSenha($senha, $confirmar_senha);
 
         if (($senha && $confirmar_senha) && $data['senha'] == null) {
             $this->session->set_flashdata('msg_erro', "As senhas fornecidas não conferem!");
@@ -103,31 +106,63 @@ class usuario  extends MY_Controller {
             }
         }
 
-        $status = $this->usuario_model->salvar_formulario($data);
-        if ($status === 'salvar_ok') {
-            if($data['id_usuario'] == null){
-                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
-            } else {
-                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
-            }
-            echo redirect(base_url("usuario"));
+        if ($this->usuario_model->exists_usuario($data['usuario'], $data['id_usuario'])) {
+            $this->session->set_flashdata('msg_erro', "Nome de usuário já existe na base de dados!");
+            $this->redirect($data);
+            return;
         }
 
-        if ($status === 'salvar_error') {
-            $this->session->set_flashdata('msg_erro', "Nome de usuário já existe na base de dados!");
-            if($data['id_usuario'] == null){
-                echo redirect(base_url("usuario/adicionar"));
-            } else {
-                echo redirect(base_url("usuario/editar/{$data['id_usuario']}"));          
-            }
+        if ($this->usuario_model->exists_email($data['email'], $data['id_usuario'])) {
+            $this->session->set_flashdata('msg_erro', "Já existe um usuário cadastrado com o email especificado na base de dados!");
+            $this->redirect($data);
+            return;
         }
+
+        $this->usuario_model->salvar_formulario($data);
+        if($data['id_usuario'] == null){
+            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+        } else {
+            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
+        }
+
+        if ($data['id_usuario'] != null && $this->user->id_usuario == $data['id_usuario']) {
+            echo redirect(base_url(""));
+            return;
+        }
+        echo redirect(base_url("usuario"));
     }
 
     function deletar($id=null){
+        if ($this->user->nivel != 1) {
+            echo redirect(base_url(""));
+            return;
+        }
+
         $this->db->where('id_usuario', $id);
         return $this->db->delete('usuario');
     }
 
+    function solicitar_confirmacao_email($id_usuario){
+        if ($this->user->nivel != 1) {
+            echo redirect(base_url(""));
+            return;
+        }
+        
+        return $this->json(['success' => $this->usuario_model->solicitar_confirmacao_email($id_usuario)]);
+    }
+
+    private function redirect($data) {
+        if ($data['id_usuario'] != null && $this->user->id_usuario == $data['id_usuario']) {
+            echo redirect(base_url("usuario/editar/{$data['id_usuario']}")); 
+            return;
+        }
+
+        if($data['id_usuario'] == null){
+            echo redirect(base_url("usuario/adicionar"));
+        } else {
+            echo redirect(base_url("usuario/editar/{$data['id_usuario']}"));          
+        }
+    }
 }
 
 /* End of file Site.php */

@@ -138,20 +138,27 @@
                                             <img src="<?php echo base_url('assets'); ?>/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $user->usuario; ?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo ucwords($user->nome); ?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <?php if (isset($user->razao_social)) { ?>
                                             <div class="info clearfix">
                                                 <div class="image">
-                                                    <a href="#">
+                                                    <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}"); ?>">
                                                         <img src="<?php echo base_url('assets'); ?>/images/icon/avatar-01.jpg" alt="John Doe" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#"><?php echo $user->razao_social; ?></a>
+                                                    <h5 class="name m-b-10">
+                                                        <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}") ;?>"><?php echo $user->nome; ?></a>
                                                     </h5>
+                                                    <div class="name">
+                                                       <small><b>Nível:</b><br><?php echo $user->nivel_nome; ?></small><br>
+                                                       <small><b>Usuário:</b><br> <?php echo $user->usuario; ?></small><br>
+                                                       <small><b>Email:</b><br><?php echo $user->email; ?></small><br>
+                                                       <small><b>Empresa:</b><br><?php echo $user->razao_social; ?></small><br>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                             <?php } ?>
