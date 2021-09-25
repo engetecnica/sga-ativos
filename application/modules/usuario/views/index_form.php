@@ -192,7 +192,7 @@
                                         <label for="avatar" class=" form-control-label">Imagem do Usuário</label>
                                     </div>
                                     <div class="col col-md-8">
-                                        <input required="required" type="file" id="avatar" name="avatar" class="form-control" accept="image/*" style="margin-bottom: 5px;"> 
+                                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" style="margin-bottom: 5px;"> 
                                         <small size='2'>Formato aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>

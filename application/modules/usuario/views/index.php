@@ -69,7 +69,7 @@
                                         </td>
                                         <td><?php echo $valor->data_criacao ? date('d/m/Y H:i:s', strtotime($valor->data_criacao)) : ''; ?></td>
                                         <td class="text-right">
-                                            <?php if (!isset($valor->email_confirmado_em)) {?>
+                                            <?php if (isset($valor->email) && !isset($valor->email_confirmado_em)) {?>
                                             <a href="#" class="solicitar_confirmacao_email" data-id_usuario="<?php echo $valor->id_usuario; ?>"><i class="fa fa-envelope"></i></a>
                                             <?php } ?>
 

@@ -114,13 +114,23 @@ class usuario  extends MY_Controller {
             return;
         }
 
-        if ($this->usuario_model->exists_email($data['email'], $data['id_usuario'])) {
+        if ($this->usuario_model->exists_email($data['email'], $data['id_usuario']) && $data['email'] != null) {
             $this->session->set_flashdata('msg_erro', "Já existe um usuário cadastrado com o email especificado na base de dados!");
             $this->redirect($data);
             return;
         }
 
-        if (isset($_FILES['avatar'])) {
+        if ($data['email'] != null && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $this->session->set_flashdata('msg_erro', "O Email especificado é inválido!");
+            $this->redirect($data);
+            return;
+        }   
+
+        if ($usuario && $usuario->email != $data['email']) {
+            $data['email_confirmado_em'] = null;
+        }
+
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['size'] > 0) {
             $data['avatar'] = ($_FILES['avatar'] ? $this->upload_arquivo('avatar') : '');
             if (!$data['avatar'] || $data['avatar'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho da imagem deve ser menor ou igual a ".ini_get('upload_max_filesize'));
