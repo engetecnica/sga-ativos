@@ -6,7 +6,9 @@
         <label for="endereco_cep" class=" form-control-label">CEP</label>
     </div>
     <div class="col-12 col-md-2">
-        <input :class="{'invalid-input': msg != null}" @blur="getEnderecoBycep" type="text" id="endereco_cep" name="endereco_cep" v-model="endereco_cep" placeholder="CEP" class="form-control cep">
+        <input :class="{'invalid-input': msg != null}" @blur="getEnderecoBycep" 
+            type="text" id="endereco_cep" name="endereco_cep"  v-mask="['#####-###']"
+            v-model="endereco_cep" placeholder="CEP" class="form-control cep">
         <div  class="invalid-text">{{msg}}</div>
     </div>
     <div class="col col-md-2">
