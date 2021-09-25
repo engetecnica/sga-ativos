@@ -102,7 +102,10 @@
                             </ul>
                         </li> 
                         <?php } ?> 
-                        
+                        <li>
+                            <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}");; ?>">
+                                <i class="zmdi zmdi-account-box"></i>Meus Dados</a>
+                        </li>
                         <li>
                             <a href="<?php echo base_url('logout'); ?>">
                                 <i class="fas fa-power-off"></i>Sair do Sistema</a>
@@ -176,6 +179,8 @@
                                             <?php } ?>
 
                                             <div class="account-dropdown__footer">
+                                                <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}");; ?>">
+                                                    <i class="zmdi zmdi-account-box"></i>Editar Meus Dados</a>
                                                 <a href="<?php echo base_url('logout'); ?>">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
