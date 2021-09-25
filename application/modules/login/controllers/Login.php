@@ -63,7 +63,7 @@ class Login  extends MY_Controller {
         echo redirect(base_url("login/recuperar_senha"));
     }
 
-    function nova_senha($codigo){
+    function nova_senha($codigo = null){
         $usuario = $this->usuario_model->get_usuario_codigo($codigo);
 
         if ($usuario) {

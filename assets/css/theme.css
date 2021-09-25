@@ -423,6 +423,11 @@ section {
     display: block;
 }
 
+.login-form .row {
+    padding: 0 ;
+    margin: 10px auto;
+}
+
 .login-content {
     background: #fff;
     padding: 30px 30px 20px;

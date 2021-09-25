@@ -8,17 +8,17 @@
     </div>                           
     <div class="login-form">
         <form id="login-form" action="<?php echo base_url('login/acessar');?>" method="post" enctype="multipart/form-data">
-            <div class="row form-group col-md-10 offset-1">
+            <div class="row form-group col col-md-10 offset-md-1">
                 <label for="usuario">Usuário ou Email</label>
                 <input v-model="selecionado.usuario" class="au-input au-input--full" type="text" name="usuario" id="usuario" placeholder="Usuário" required="" onfocus="">
             </div>
-            <div class="row form-group col-md-10 offset-1">
+            <div class="row form-group col col-md-10 offset-md-1">
                 <label for="senha">Senha</label>
                 <input v-model="selecionado.senha" class="au-input au-input--full" type="password" name="senha" id="senha" placeholder="Senha" required="">
             </div>
-            <div class="col col-md-10 offset-1 m-t-40 text-center">
-                <button class="au-btn au-btn--block au-btn--green" type="submit">Acessar Sistema</button>
-                <a class="au-link--blue m-t-20" href="<?php echo base_url("login/recuperar_senha")?>" >Esqueci Minha Senha</a>
+            <div class="row form-group col col-md-10 offset-md-1 m-t-40 text-center">
+                <button class="au-btn au-btn--block au-btn--green m-b-20 m-t-20" type="submit">Acessar Sistema</button>
+                <a class="au-link--blue" href="<?php echo base_url("login/recuperar_senha")?>" >Esqueci Minha Senha</a>
             </div>
         </form>
     </div>
