@@ -15,9 +15,8 @@
     $veiculos_valor_total = 0;
   ?>
 
-  <?php foreach($relatorio->obras as $obra) { ?>
+  <?php foreach($relatorio->obras as $obra) { if ($obra) { ?>
   <h2><?php echo $obra->codigo_obra;?></h2>
-  
   <h3>Ferramentas</h3>
   <?php if(count($obra->ferramentas) > 0) { ?>
   <table class="tabela">
@@ -120,7 +119,7 @@
   </table>
   <?php } else { ?>
     <p>Nenhum Equipamento registrado no Local</p>
-  <?php }} ?>
+  <?php }}} ?>
 
   <h3>Veículos</h3>
   <?php if(count($relatorio->veiculos) > 0) { ?>
