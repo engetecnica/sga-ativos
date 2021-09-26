@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
+                       
                         <?php $id = isset($detalhes) ? "#".$detalhes->id_empresa : '';?>
                         <a href="<?php echo base_url("empresa$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">

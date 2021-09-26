@@ -5,7 +5,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
                         <a href="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}"); ?>">
                           <button class="au-btn au-btn-icon au-btn--blue">
                             <i class="fa fa-arrow-left"></i>Voltar ao Ativo

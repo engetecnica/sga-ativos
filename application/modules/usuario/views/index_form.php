@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
+                       
                         <?php 
                             if (!$is_self) {
                             $id = isset($detalhes) && isset($detalhes->id_usuario) ? "#".$detalhes->id_usuario : '';

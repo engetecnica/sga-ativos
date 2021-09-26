@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
+                       
                         <a href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/adicionar/'.$id_ativo_veiculo); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>

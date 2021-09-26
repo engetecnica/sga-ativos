@@ -5,7 +5,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
                         <?php if(isset($retirada))  { ?>
                             <a href="<?php echo base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}"); ?>">
                             <button class="au-btn au-btn-icon au-btn--blue">

@@ -349,8 +349,8 @@ section {
 @media (max-width: 991px) {
     .main-content {
         margin-top: 0;
-        padding-top: 50px;
-	    padding-bottom: 100px;
+        padding-top: 20px;
+	    padding-bottom: 30px;
     }
 }
 
@@ -14935,4 +14935,29 @@ label {
 .form-check {
     display: inline-flex;
     align-items: center;
+}
+
+.overview-wrap { 
+    width: 100%;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .overview-wrap .au-btn { 
+       font-size: .8rem;
+    }
+
+    .overview-wrap .au-btn > i{
+        width: 1rem;
+        font-size: 1rem;
+    }
+
+    .pull-left{
+        text-align: center !important;
+        width: 100%;
+    }
+
+    .pull-left > a , .pull-left > span, .pull-left > button {
+        margin: 5px;
+    }
 }

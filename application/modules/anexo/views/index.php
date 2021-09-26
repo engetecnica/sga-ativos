@@ -4,9 +4,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="overview-wrap">
-                        <h2 class="title-1"></h2>
-                        <?php if (!$modulo) {
+                    <div class="overview-wrap"> <?php if (!$modulo) {
                             $url = "";
                             if (isset($id_modulo)) {
                                 $url .= "/{$id_modulo}";

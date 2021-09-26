@@ -15,10 +15,8 @@
         <div class="container-fluid">
             <?php if($user->nivel == 2){?> 
             <div class="row">
-                <div class="col-md-12 m-b-40">
-                    <div class="overview-wrap">
-                        <h2 class="title-1">Estoque de Ferramentas</h2>
-                        <a href="<?php echo base_url('ferramental_estoque/adicionar'); ?>">
+                <div class="col-md-12">
+                    <div class="overview-wrap"> <a href="<?php echo base_url('ferramental_estoque/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Nova Retirada</button></a>
                     </div>
@@ -28,6 +26,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
+                <h2 class="title-1 m-b-20">Estoque de Ferramentas</h2>
                     <div class="table table--no-card table-responsive table--no-d m-b-40">
                         <h3 class="title-1 m-b-25">Retiradas</h3>
                         <table class="table table-borderless table-striped table-earning" id="lista">
