@@ -1,4 +1,4 @@
-                <section class="welcome p-t-10" style="margin-top: 100px">
+                <section class="welcome p-t-10">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
@@ -88,7 +88,7 @@
                                     <h3 class="title-3 m-b-10">Requisições Pendentes</h3>
 
                                     <?php if (!empty($requisicoes_pendentes)) { ?>
-                                    <table class="table table-responsive table-borderless table-striped  table-top-campaign">
+                                    <table class="table table-responsive table-borderless table-striped table-top-campaign">
                                         <thead>
                                             <th scope="col" width="40%">Requisição/Solicitante</th> 
                                             <th scope="col" width="40%">Status</th>
@@ -118,16 +118,16 @@
                                             <?php }  ?>
                                         </tbody>
                                     </table>
-
-                                    <div class="col-8 pull-left m-t-40"> 
-                                        <?php echo count($requisicoes_pendentes); ?> 
-                                        De 
-                                        <?php echo $requisicoes_pendentes_total; ?> 
-                                        Requisições Pendêntes
+                                
+                                    <div class="row">
+                                        <div class="col-12 col-md-8 m-t-20"> 
+                                            <?php echo count($requisicoes_pendentes); ?> 
+                                            De 
+                                            <?php echo $requisicoes_pendentes_total; ?> 
+                                            Requisições Pendêntes
+                                        </div>
+                                        <a class="col-12 offset-md-1 col-md-3 m-t-20 btn btn-sm btn-outline-primary"  href="<?php echo base_url("ferramental_requisicao/"); ?>" >Ver Todas</a> 
                                     </div>
-
-                                    <a class="col-4 pull-right m-t-40 btn btn-sm btn-outline-primary"  href="<?php echo base_url("ferramental_requisicao/"); ?>" >Ver Todas</a> 
-
                                     <?php } else { ?>
                                         <p>Nehuma Requisicão Pendente</p>
                                     <?php } ?>
@@ -171,8 +171,10 @@
                             <div class="col-md-12">
                                 <h3 class="title-4 m-b-35">Amostra de Patrimônio </h3>
                                 <?php foreach($patrimonio->obras as $obra) { ?>
-                                    <div class="table--no-card m-b-40">
-                                        <h4 class="title-5 m-b-10">Ferramentas</h4>
+                                    
+
+                                    <div class="table-responsive table--no-card m-b-40">
+                                        <h4 class="title-5 m-b-10 m-t-10 m-l-10">Ferramentas</h4>
                                         <?php if(count($obra->ferramentas) > 0) { ?>
                                         <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
                                             <thead>
@@ -206,8 +208,8 @@
                                         <?php } ?>
                                     </div>
 
-                                    <div class="table--no-card m-b-40">
-                                        <h4 class="title-5 m-b-10">Equipamentos</h4>
+                                    <div class="table-responsive table--no-card m-b-40">
+                                        <h4 class="title-5 m-b-10 m-t-10 m-l-10">Equipamentos</h4>
                                         <?php if(count($obra->equipamentos) > 0) { ?>
                                             <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
                                             <thead>
@@ -240,8 +242,8 @@
                                     </div>
 
                                      <?php if($user->nivel == 1) { ?>   
-                                        <div class="table--no-card m-b-40">
-                                            <h4 class="title-5 m-b-10">Veículos</h4>
+                                        <div class="table-responsive table--no-card m-b-40">
+                                            <h4 class="title-5 m-b-10 m-t-10 m-l-10">Veículos</h4>
                                             <?php if(count($patrimonio->veiculos) > 0) { ?>
                                                 <table class="table table-responsive table-borderless table-striped table-earning" id="lista3">
                                                 <thead>

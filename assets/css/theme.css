@@ -4300,7 +4300,7 @@ section {
 }
 
 .top-campaign {
-    padding-bottom: 97px;
+    padding-bottom: 30px;
     margin-bottom: 40px;
 }
 
@@ -5080,6 +5080,16 @@ td > a {
     border: none;
     margin-top: 20px;
     margin-bottom: 0;
+}
+
+.welcome {
+    margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+.welcome {
+    margin-top: 100px;
+}
 }
 
 .welcome2 {
@@ -14970,4 +14980,8 @@ label {
     .pull-left > a , .pull-left > span, .pull-left > button {
         margin: 5px;
     }
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    max-width: 160px !important;
 }
