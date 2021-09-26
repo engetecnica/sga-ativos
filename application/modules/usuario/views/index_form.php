@@ -188,20 +188,20 @@
 
                                 <?php if ($is_self) {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <label for="avatar" class=" form-control-label">Imagem do Usuário</label>
                                     </div>
-                                    <div class="col col-md-8">
+                                    <div class="col-12 col-md-6">
                                         <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
-                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
+                                        <small size='2'>Formato aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong> 
+                                        Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
                                 <?php } ?>
 
                                 <?php if (!$is_self) {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col-12 col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
                                     <div class="col-12 col-md-4">
