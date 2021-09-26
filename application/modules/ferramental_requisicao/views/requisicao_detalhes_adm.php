@@ -64,7 +64,7 @@
                                             <th scope="col" width="30%">Despachante</th>
                                             <th scope="col" width="30%">Origem</th>
                                             <th scope="col" width="30%">Solicitante</th>
-                                            <th scope="col" width="30%">Destino</th>
+                                            <th scope="col" width="5%">Destino</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -99,7 +99,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning" id="lista">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>
