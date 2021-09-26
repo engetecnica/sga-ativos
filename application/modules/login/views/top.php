@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Engetécnica | <?php echo isset($title) ? $title : date("Y"); ?>;</title>
+    <title>Engetécnica | <?php echo isset($title) ? $title : date("Y"); ?></title>
 
     
     <!-- Fontfaces CSS-->

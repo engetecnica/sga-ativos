@@ -1,4 +1,4 @@
-<?php $this->view("top"); ?>
+<?php $this->view("top", ['title' => "Entrar"]); ?>
 
 <div class="login-content">
     <div class="login-logo">
