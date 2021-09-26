@@ -39,10 +39,10 @@
                                 
                                 <?php if (!$is_self) {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-4">
-                                        <label for="nivel" class=" form-control-label">Nível de Permissão</label>
+                                    <div class="col col-md-2">
+                                        <label for="nivel" class=" form-control-label">Nível</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                 
                                         <select 
                                             class="form-control" 
@@ -62,13 +62,35 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
+                       
+                                    <div class="col col-md-1">
+                                        <label for="id_obra" class=" form-control-label">Obra</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <select 
+                                            class="form-control" 
+                                            name="id_obra" 
+                                            id="id_obra"
+                                            required
+                                        >
+                                            <option value="" >Nenhuma obra selecionada</option>
+                                            <?php foreach ($detalhes->obras as $value) { ?>
+                                                <option 
+                                                    <?php echo isset($detalhes->id_obra) && $value->id_obra == $detalhes->id_obra ? 'selected' : ''?>
+                                                    value="<?php echo $value->id_obra; ?>"
+                                                >
+                                                    <?php echo "{$value->id_obra} - {$value->codigo_obra}"; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div> 
 
-                                <div class="row form-group">
-                                    <div class="col col-md-4">
+                                <div class="row form-group m-b-40">
+                                    <div class="col col-md-2">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_empresa" 
@@ -88,29 +110,6 @@
                                     </div>
                                 </div>
                                 
-                                <div class="row form-group">
-                                    <div class="col col-md-4">
-                                        <label for="id_obra" class=" form-control-label">Obra</label>
-                                    </div>
-                                    <div class="col-12 col-md-8">
-                                        <select 
-                                            class="form-control" 
-                                            name="id_obra" 
-                                            id="id_obra"
-                                            required
-                                        >
-                                            <option value="" >Nenhuma obra selecionada</option>
-                                            <?php foreach ($detalhes->obras as $value) { ?>
-                                                <option 
-                                                    <?php echo isset($detalhes->id_obra) && $value->id_obra == $detalhes->id_obra ? 'selected' : ''?>
-                                                    value="<?php echo $value->id_obra; ?>"
-                                                >
-                                                    <?php echo "{$value->id_obra} - {$value->codigo_obra}"; ?>
-                                                </option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div> 
                                 <?php } else { ?>
                                     <input type="hidden" name="nivel" id="nivel" value="<?php echo $detalhes->nivel; ?>">
                                     <input type="hidden" name="id_empresa" id="id_empresa" value="<?php echo $detalhes->id_empresa; ?>">
@@ -206,8 +205,8 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select name="situacao" id="situacao" class="form-control">
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>
+                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>
                                         </select>
                                     </div>
                                 </div>

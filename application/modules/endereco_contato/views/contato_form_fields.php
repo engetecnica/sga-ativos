@@ -1,4 +1,3 @@
-<hr>
 <?php 
     if (!isset($prefix)) {
         $prefix = "";
@@ -7,7 +6,7 @@
     }
 ?>
 
-<div class="row form-group">
+<div class="row form-group m-t-40 m-b-40">
     <?php 
         $telefone = "{$prefix}telefone"; 
         $celular = "{$prefix}celular";

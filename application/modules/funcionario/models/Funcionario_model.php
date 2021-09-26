@@ -35,6 +35,11 @@ class funcionario_model extends MY_Model {
 			}
 		}
 
+		$funcionarios->join("obra ob", "ob.id_obra = fn.id_obra")
+					->select("ob.codigo_obra as codigo_obra, ob.endereco as obra_endereco", "left")
+					->join("empresa ep", "ep.id_empresa = fn.id_empresa", "left")
+					->select("ep.razao_social as empresa_social, ep.nome_fantasia as empresa");
+
 		return $funcionarios->order_by('fn.nome', 'ASC')->get()->result();
 	}
 

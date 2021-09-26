@@ -25,16 +25,16 @@
                     <div class="card">
                         <div class="card-header">{{retirada ? 'Editar' : 'Incluir'}} Retirada</div>
                         <div class="card-body">
-                            <h3 class="title-2 m-b-25">Funcionário Solicitante</h3>
                             <form action="<?php echo base_url('ferramental_estoque/salvar'); ?>" method="post" enctype="multipart/form-data">
                                
+                                <h3 class="title-2 m-b-20 m-t-25">Funcionário Solicitante</h3>
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table-borderless table-striped table-earning" id="lista">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Nome</th>
-                                            <th scope="col" width="20%">CPF</th>
-                                            <th scope="col" width="20%">RG</th>
+                                            <th scope="col" width="30%">Nome</th>
+                                            <th scope="col" width="30%">CPF</th>
+                                            <th scope="col" width="30%">RG</th>
                                             <th scope="col" width="20%">Selecionar</th>
                                         </tr>
                                     </thead>
@@ -55,14 +55,14 @@
                                     </tbody>
                                 </table>
 
-                                <h3 class="title-2 m-b-25">Itens da Retirada</h3>
+                                <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
                                 <!-- Itens da Retirada -->
-                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" >
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="20%">Nome</th>
-                                            <th scope="col" width="20%">Qtd. em Estoque</th>
-                                            <th scope="col" width="20%">Selecionar</th>
+                                            <th scope="col" width="40%">Nome</th>
+                                            <th scope="col" width="40%">Qtd. em Estoque</th>
+                                            <th scope="col" width="10%">Selecionar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -178,14 +178,14 @@
 </div>
 
 <script>
-    var retirada = <?php echo isset($retirada)  ? json_encode($retirada) : 'null'; ?>;
+    var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : 'null'; ?>`;
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         data() {
             return {
-                grupos: JSON.parse('<?php echo json_encode($grupos); ?>'),
+                grupos: JSON.parse(`<?php echo json_encode($grupos); ?>`),
                 grupos_selecionados: [],
-                funcionarios: JSON.parse('<?php echo json_encode($funcionarios); ?>'),
+                funcionarios: JSON.parse(`<?php echo json_encode($funcionarios); ?>`),
                 retirada: null,
                 id_obra: "<?php echo $id_obra; ?>",
                 id_funcionario: null,

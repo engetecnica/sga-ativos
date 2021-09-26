@@ -1,6 +1,5 @@
 
-<div id="endereco_form_fields">
-<hr>
+<div id="endereco_form_fields" class="m-t-40 m-b-40">
 <div class="row form-group">
     <div class="col col-md-1">
         <label for="endereco_cep" class=" form-control-label">CEP</label>
@@ -109,7 +108,6 @@
                     })
                     .fail(() => {
                         endereco_form_fields.msg = "CEP não localizado!"
-                        console.log(endereco_form_fields.msg )
                     })
             
                 }    

@@ -24,6 +24,8 @@
                                     <th>Nome Completo</th>
                                     <th>E-mail</th>
                                     <th>Celular</th>
+                                    <th>Empresa</th>
+                                    <th>Obra</th>
                                     <th>Situação</th>
                                     <th class="text-right">Opções</th>
                                 </tr>
@@ -35,6 +37,8 @@
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->email; ?></td>
                                     <td><?php echo $valor->celular; ?></td>
+                                    <td><?php echo $valor->empresa_social; ?></td>
+                                    <td><?php echo $valor->codigo_obra; ?></td>
                                     <td>
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>

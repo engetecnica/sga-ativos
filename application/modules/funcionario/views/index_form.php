@@ -35,10 +35,10 @@
                                 <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-5">
                                         <select 
                                             class="form-control" 
                                             name="id_empresa" 
@@ -56,13 +56,11 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
-                                
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
+                              
+                                    <div class="col col-md-1">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_obra" 
@@ -82,11 +80,11 @@
                                     </div>
                                 </div>    
 
-                                <div class="row form-group">
+                                <div class="row form-group m-t-40 m-b-40">
                                     <div class="col col-md-3">
                                         <label for="nome" class=" form-control-label">Nome Completo</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-8">
                                         <input type="text" id="nome" name="nome" placeholder="Nome Completo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>" required="required">
                                     </div>
                                 </div>    
