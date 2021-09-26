@@ -183,21 +183,39 @@ class Relatorio_model extends Relatorio_model_base {
   public function ferramentas_disponiveis_na_obra($data=null, $tipo=null) {
     $data = $this->extract_data('ferramentas_disponiveis_na_obra', $data);
     $relatorio = null;
+    $obras_data = [
+      'obras' => [],
+      'show_valor_total' => isset($data['valor_total']) && $data['valor_total'] === "true"
+    ];
 
     if ($tipo && $tipo == 'arquivo') {
       if ($data['id_obra']) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
         $obra->grupos = [];
         $obra->grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
-        
-        return [$obra];
+        $grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
+
+        if ($obras_data['show_valor_total']) {
+          $obra->total_obra = 0;
+          foreach($grupos as $grupo){ 
+            $grupo->total_grupo = 0;
+            foreach($grupo->ativos as $ativo){ 
+              $grupo->total_grupo += floatval($ativo->valor);
+            } 
+            $obra->total_obra += floatval($grupo->total_grupo);
+          }
+        }
+
+        $obra->grupos = $grupos;
+        $obras_data['obras'] = [$obra];
+        return $obras_data;
       }
 
       $obras = $this->obra_model->get_obras();
       foreach($obras as $obra){
         $grupos = $this->ativo_externo_model->get_grupos($obra->id_obra);
 
-        if (isset($data['valor_total']) && $data['valor_total'] === "true") {
+        if ($obras_data['show_valor_total']) {
           $obra->total_obra = 0;
           foreach($grupos as $grupo){ 
             $grupo->total_grupo = 0;
@@ -211,11 +229,7 @@ class Relatorio_model extends Relatorio_model_base {
         $obra->grupos = $grupos;
       }
 
-      $obras_data = [
-        'obras' => $obras,
-        'show_valor_total' => $data['valor_total'] === "true"
-      ];
-
+      $obras_data['obras'] = $obras;
       return $obras_data;
     } else {
       $relatorio = $this->db

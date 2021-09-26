@@ -15,7 +15,7 @@
     $veiculos_valor_total = 0;
   ?>
 
-  <?php foreach($relatorio->obras as $obra) { if ($obra) { ?>
+  <?php foreach($relatorio->obras as $obra) { if (isset($obra)) { ?>
   <h2><?php echo $obra->codigo_obra;?></h2>
   <h3>Ferramentas</h3>
   <?php if(count($obra->ferramentas) > 0) { ?>

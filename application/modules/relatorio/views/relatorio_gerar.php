@@ -187,12 +187,12 @@
 <!-- END PAGE CONTAINER-->
 
 <script>
-  var relatorios = JSON.parse('<?php echo json_encode($relatorios); ?>') || []
-  var periodos = JSON.parse('<?php echo json_encode($periodos); ?>')
-  var empresas =  JSON.parse('<?php echo json_encode($empresas); ?>')
-  var tipos_veiculos = JSON.parse('<?php echo json_encode($tipos_veiculos); ?>')
-  var obras = JSON.parse('<?php echo json_encode($obras); ?>')
-  var status_lista = JSON.parse('<?php echo json_encode($this->status_lista()); ?>')
+  var relatorios = JSON.parse(`<?php echo json_encode($relatorios); ?>`) || []
+  var periodos = JSON.parse(`<?php echo json_encode($periodos); ?>`)
+  var empresas =  JSON.parse(`<?php echo json_encode($empresas); ?>`)
+  var tipos_veiculos = JSON.parse(`<?php echo json_encode($tipos_veiculos); ?>`)
+  var obras = JSON.parse(`<?php echo json_encode($obras); ?>`)
+  var status_lista = JSON.parse(`<?php echo json_encode($this->status_lista()); ?>`)
     
   var relatorio_gerar = new Vue({
     el: "#relatorio_gerar",

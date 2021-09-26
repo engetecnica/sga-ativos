@@ -7,7 +7,9 @@
   <h1>Ferramentas Diponíveis na Obra (Em uso ou não)</h1>
   <p>Relatório de Ferramentas diponíveis, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
   
-  <?php foreach($relatorio['obras'] as $i => $obra) { ?>
+  <?php 
+  if (isset($relatorio['obras'])) {
+  foreach($relatorio['obras'] as $i => $obra) { ?>
   <h2><?php echo $obra->codigo_obra;?></h2>
   <table class="tabela">
       <thead>
@@ -61,7 +63,7 @@
           <?php } ?>
       </tbody>
   </table>
-  <?php } ?>
+  <?php } } ?>
 
 
 <footer>
