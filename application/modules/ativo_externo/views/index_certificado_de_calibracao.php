@@ -21,36 +21,35 @@
                         <div class="card-header">Certificado Atual</div> 
               
                         <div class="card-body">
-                            
-                                <table class="table table-responsiv table-striped table-bordered table-s">
-                                    <tr>
-                                        <th width="5%">Data Inclusão</th>
-                                        <th width="5%">Data Vencimento</th>
-                                        <th width="20%">Anexo</th>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo date('d/m/Y', strtotime($detalhes->inclusao_certificado)); ?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($detalhes->validade_certificado)); ?></td>
-                                        <td class="text-center">
-                                            <div class="btn-group" role="group">
-                                                <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Gerenciar Anexo
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
-                                                    <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Visualizar</a>
-                                                    <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Baixar</a>
-                                                    <a  
-                                                        class="dropdown-item deletar_registro" 
-                                                        href="javascript:void(0)" 
-                                                        data-href="<?php echo base_url("ativo_externo/deletar_certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>" 
-                                                        data-tabela="<?php echo "ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"; ?>"
-                                                    >Excluir</a>
-                                                    <a class="dropdown-item" href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">Ver todos os anexos</a>          
-                                                </div>
+                            <table class="table table-responsive table-striped table-bordered" style="min-height: 180px;">
+                                <tr>
+                                    <th width="5%">Data Inclusão</th>
+                                    <th width="5%">Data Vencimento</th>
+                                    <th width="20%">Anexo</th>
+                                </tr>
+                                <tr>
+                                    <td><?php echo date('d/m/Y', strtotime($detalhes->inclusao_certificado)); ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($detalhes->validade_certificado)); ?></td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Anexo
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
+                                                <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Visualizar</a>
+                                                <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Baixar</a>
+                                                <a  
+                                                    class="dropdown-item deletar_registro" 
+                                                    href="javascript:void(0)" 
+                                                    data-href="<?php echo base_url("ativo_externo/deletar_certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>" 
+                                                    data-tabela="<?php echo "ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"; ?>"
+                                                >Excluir</a>
+                                                <a class="dropdown-item" href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">Ver todos os anexos</a>          
                                             </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
 
