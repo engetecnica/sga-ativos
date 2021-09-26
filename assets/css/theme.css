@@ -14841,6 +14841,12 @@ td > a {
     display: none !important;
 }
 
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-light {
     border: 1px solid #ced4da !important;
     background-color: #FFFFFF;

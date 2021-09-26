@@ -378,10 +378,10 @@
             $('.confirm-submit').submit((event) => {
                 if (confirm_submit == null) {
                     event.preventDefault();
-                    let acao = $(this).attr('data-acao') || 'Confirmar';
-                    let icon = $(this).attr('data-icon') || 'warning';
-                    let title = 'Você tem certeza?';
-                    let text = "Esta operação não poderá ser revertida.";
+                    let acao = $(event.target).attr('data-acao') || 'Confirmar';
+                    let icon = $(event.target).attr('data-icon') || 'warning';
+                    let title = $(event.target).attr('data-title') || 'Você tem certeza?';
+                    let text =  $(event.target).attr('data-text') || "Esta operação não poderá ser revertida.";
 
                     Swal.fire({
                         title: title,

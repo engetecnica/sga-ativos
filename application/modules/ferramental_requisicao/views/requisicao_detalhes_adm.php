@@ -15,7 +15,13 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" method="post" enctype="multipart/form-data"> 
+                    <form 
+                        class="confirm-submit" action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" 
+                        method="post" enctype="multipart/form-data"
+                        data-acao="Liberar" data-icon="success" data-message="false"
+                        data-title="Liberar Transferência" data-redirect="true"
+                        data-text="Clique 'Sim, Liberar!' para confirmar a liberação da Requisição dos itens solicitados."
+                    > 
                         <h2 class="title-1 m-b-25">Detalhes da Requisição Administração</h2>
                         <div class="card">
                             <input type="hidden" name="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
@@ -159,7 +165,7 @@
 
                                     <?php if(in_array($requisicao->status, [1, 11])){?>
                                         <div class="text-center">
-                                            <button class=" btn-custom m-b-10" type="submit" id="liberar_requisicao_btn">
+                                            <button class=" btn-custom m-b-10" type="submit" id="liberar_requisicao_btn" >
                                                 <i class="fa fa-check"></i>&nbsp;
                                                 Liberar Requisição
                                             </button>
@@ -184,7 +190,7 @@
                                         <a
                                             class="confirmar_registro text-center m-b-10 m-t-20"
                                             href="javascript:void(0)"
-                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-acao="Enviar" data-icon="success" data-message="false"
                                             data-title="Enviar para Transferencia" data-redirect="true"
                                             data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
                                             data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"

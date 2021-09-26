@@ -26,7 +26,13 @@
                             $url .= "/{$requisicao->item->id_requisicao_item}";
                         }
                     ?>
-                    <form action="<?php echo base_url($url); ?>" method="post" enctype="multipart/form-data"> 
+                    <form 
+                        class="confirm-submit" action="<?php echo base_url($url); ?>" method="post" enctype="multipart/form-data"
+                        data-acao="Receber" data-icon="warning" data-message="false"
+                        data-title="Receber Transferência" data-redirect="true"
+                        data-text="Clique 'Sim, Receber!' para confirmar a recepção/devolução dos itens solicitados.
+                        Ao atestar que os items estão todos funcionando, a responsabilidade é inteiramente sua, por isso,
+                        confira a situação de cada item antes de aceitá-los."> 
 
                         <input type="hidden" name="id_requisicao" id="id_requisicao" value="<?php echo $requisicao->id_requisicao; ?>">
                         <h2 class="title-1 m-b-25">Detalhar Itens da Requisição</h2>
@@ -81,9 +87,10 @@
                                     <div class="text-center">
                                         <p class="text-center" style="padding: 25px;"><b>Atenção:</b> Todos os items acima descritos foram transferidos e estão sendo recebidos por você. <br>Ao atestar que os items estão todos funcionando, a responsabilidade é inteiramente sua, por isso,<br> <font color='red'>confira a situação de cada item antes de aceitá-los.</font> </p>
                                         <hr>
-                                        <button class="btn btn-danger" type="submit" id="">
+                                        <button class="btn btn-success" type="submit">
                                             <i class="fa fa-check "></i>&nbsp;
-                                            Estou de acordo e quero aceitar os items.
+                                            <b class="d-none d-lg-block">Estou de acordo, Aceitar os items!</b>
+                                            <b class="d-lg-none" >Sim, Aceitar items!</b>
                                         </button>
                                     </div>   
                                 <?php } ?>                             

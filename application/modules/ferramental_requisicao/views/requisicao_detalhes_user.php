@@ -59,7 +59,7 @@
                                             <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                             <td> 
                                                 <a 
-                                                    class="btn btn-sm btn-danger confirmar_registro" href="javascript:void(0);"
+                                                    class="btn btn-sm btn-default confirmar_registro" href="javascript:void(0);"
                                                     data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
                                                     data-title="Remover Requisição" data-acao="Remover"  data-redirect="true"
                                                     data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
@@ -191,7 +191,7 @@
                                                             <div class="dropdown-divider"></div>
 
                                                             <a 
-                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                                class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
                                                                 data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                                 data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
                                                                 data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
@@ -228,7 +228,7 @@
                                             <a
                                             class="confirmar_registro text-center m-b-10"
                                             href="javascript:void(0)"
-                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-acao="Enviar" data-icon="success" data-message="false"
                                             data-title="Enviar para Transferencia" data-redirect="true"
                                             data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
                                             data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
@@ -247,7 +247,7 @@
                                             <a
                                             class="confirmar_registro text-center m-b-10"
                                             href="javascript:void(0)"
-                                            data-acao="Enviar" data-icon="info" data-message="false"
+                                            data-acao="Enviar" data-icon="success" data-message="false"
                                             data-title="Enviar para Transferencia" data-redirect="true"
                                             data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens dos itens marcados como devolvidos ou com defeito."
                                             data-href="<?php echo base_url("ferramental_requisicao/transferir_devolucao/{$requisicao->id_requisicao}");?>"
