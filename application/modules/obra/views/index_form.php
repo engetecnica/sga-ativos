@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel', 'requireds' => []]); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">

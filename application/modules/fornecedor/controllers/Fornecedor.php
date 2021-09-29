@@ -59,9 +59,9 @@ class fornecedor  extends MY_Controller {
         $data['responsavel_email'] = $this->input->post('responsavel_email');
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
-
-        $tratamento = $this->fornecedor_model->salvar_formulario($data);
-        if($data['id_fornecedor']==''){
+        
+        $this->fornecedor_model->salvar_formulario($data);
+        if(!isset($data['id_fornecedor'])){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            

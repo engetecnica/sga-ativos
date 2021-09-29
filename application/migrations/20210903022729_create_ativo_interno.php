@@ -9,7 +9,7 @@ class Migration_Create_Ativo_Interno extends CI_Migration {
 		if (!$this->db->table_exists($this->table)) {
 			$this->dbforge
 			->add_field('id_ativo_interno int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY')
-			->add_field('id_obra int(11) DEFAULT NULL')
+			->add_field('id_obra int(11) NULL DEFAULT NULL')
 			->add_field('nome varchar(255) NOT NULL')
 			->add_field('valor DECIMAL(13, 2) NOT NULL')
 			->add_field('quantidade int(10) NOT NULL DEFAULT 1')

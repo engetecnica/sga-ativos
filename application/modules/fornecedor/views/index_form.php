@@ -47,7 +47,7 @@
                                         <label for="nome_fantasia" class=" form-control-label">Nome Fantasia</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="nome_fantasia" name="nome_fantasia" placeholder="Nome Fantasia" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome_fantasia)){ echo $detalhes->nome_fantasia; } ?>">
+                                        <input required="required" type="text" id="nome_fantasia" name="nome_fantasia" placeholder="Nome Fantasia" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome_fantasia)){ echo $detalhes->nome_fantasia; } ?>">
                                     </div>
                                 </div>
 
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
 
-                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel', 'requireds' => ['celular']]); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
