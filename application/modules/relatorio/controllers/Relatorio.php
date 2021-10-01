@@ -181,4 +181,65 @@ class Relatorio extends MY_Controller {
       ]);
       $this->json($return);
     }
+
+    public function db_dump($dir = null){
+      if ($this->user->nivel == 1) {
+        $path = __DIR__."/../../../../";
+        if ($dir === null) {
+          $path = "{$path}assets/db_dump/{$dir}";
+        }
+
+        $filename = "$path/dump_". date("Ymdhis") .".json";
+    
+        $tables = array_map(function($table) {
+          return array_values((array) $table)[0];
+        }, $this->db->query('show tables')->result());
+
+        $data = [];
+
+        foreach($tables as $table){
+          $data[$table] = $this->db->get($table)->result();
+        }
+        return $this->json(["dump_file" => $filename]);
+      }
+      return $this->json(["dump_file" => null]);
+    }
+
+    public function db_dump_upload($filename, $dir = null) {
+      if ($this->user->nivel == 1) {
+        $path = __DIR__."/../../../../";
+        if ($dir === null) {
+          $path = "{$path}assets/db_dump/{$dir}";
+        }
+
+        $filename = "{$path}{$filename}.json";
+
+        if (file_exists($filename)) {
+          $data = json_decode(file_get_contents($filename));
+
+          foreach($data as $table => $rows) {
+            foreach($rows as $row) {
+              $this->db->replace($table, $row);
+            }
+          }
+          return $this->json(['success' => true]);
+        }
+      }
+      return $this->json(['success' => false]);
+    }
+
+    public function db_dump_clear($dir = null) {
+      if ($this->user->nivel == 1) {
+        $path = __DIR__."/../../../../";
+        if ($dir === null) {
+          $path = "{$path}assets/db_dump/{$dir}";
+        }
+    
+        foreach(glob("$path/*.json") as $filename) {
+          unlink($filename);
+        }
+        return $this->json(['success' => true]);
+      }
+      return $this->json(['success' => true]);
+    }
   }

@@ -29,8 +29,20 @@ class usuario_model extends MY_Model {
 				return "salvar_error";
 			}
 
+			if ((strtolower($usuario->email) != strtolower($data['email']))) {
+				$data['email_confirmado_em'] = null;
+				$data['codigo_recuperacao'] = null;
+			}
+
 			$this->db->where('id_usuario', $data['id_usuario']);
 			$this->db->update('usuario', $data);
+
+			$usuario = $this->db->get('usuario')->row();
+
+			if (($usuario->email != null && $usuario->email_confirmado_em == null) && $usuario->codigo_recuperacao == null) {
+				$this->usuario_model->solicitar_confirmacao_email($usuario->id_usuario, "email_confirmacao");
+			}
+
 			return "salvar_ok";
 		}
 	}

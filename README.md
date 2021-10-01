@@ -216,6 +216,11 @@ Ambos tem o mesmo resultado.
 ## Automações
 Deve ser executada um vez ao dia o endpoint [`/relatorio/automacoes`](http://localhost:8000/relatorio/automacoes)
 
+
 ## :)
 
 Se tudo correu como o esperado, a aplicação de está online localmente em [http://localhost:8000](http://localhost:8000).
+
+
+## Ilustrações
+As images utilizadas são de uso gratuitos de acordo com a lincença [`unDraw`](https://undraw.co/license)
