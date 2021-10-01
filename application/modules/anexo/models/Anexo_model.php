@@ -154,35 +154,20 @@ class Anexo_model extends MY_Model {
     return null;
   }
 
-  public function getOrphans(){
-    $path = __DIR__."/../../../../assets/uploads/anexo/";
-    $anexos = $this->db->get('anexo')->result();
+  public function getOrphans($dir = "anexo", $table = "anexo"){
+    $path = __DIR__."/../../../../assets/uploads/{$dir}/";
+    $anexos = $this->db->get($table)->result();
     $anexos_on_db = [];
     $anexos_on_dir = glob($path."*.*");
 
     foreach(glob($path."*.*") as $key => $anexo) {
-      $anexos_on_dir[$key] =  str_replace($path, 'anexo/', $anexo);
+      $anexos_on_dir[$key] =  str_replace($path, "{$dir}/", $anexo);
     }
 
     foreach($anexos as $anexo) {
-      $anexos_on_db[] = $anexo->anexo;
+      $anexos_on_db[] = "{$dir}/{$anexo->{$dir}}";
     }
+
     return array_diff($anexos_on_dir, $anexos_on_db);
-  }
-
-  function removeOrphans(){
-    $orphans = $this->anexo_model->getOrphans();
-    $path = __DIR__."/../../../../assets/uploads";
-
-    if (count($orphans) > 0) {
-      foreach($orphans as $anexo) {
-        $file = "{$path}/{$anexo}";
-        if (file_exists($file)) {
-          unlink($file);
-        }
-      }
-      return true;
-    }
-    return false;
   } 
 }

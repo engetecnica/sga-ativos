@@ -2,8 +2,22 @@
 require_once(__DIR__."/Relatorio_model_base.php");
 class Relatorio_model extends Relatorio_model_base {
 
+  protected $uploads = [];
+
   public function __construct() {
       parent::__construct();
+      $this->load->model("anexo/anexo_model");
+
+      $this->uploads = [
+        'avatar' => 'usuario', 
+        'comprovante_fiscal' => 'ativo_veiculo_quilometragem', 
+        'contrato_seguro' => 'ativo_veiculo_seguro',
+        'ordem_de_servico' => 'ativo_veiculo_manutencao',
+        'comprovante_ipva' => 'ativo_veiculo_ipva',
+        'anexo' => 'anexo', 
+        'certificado_de_calibracao' => 'ativo_externo', 
+        'ferramental_estoque' => 'ativo_externo_retirada',
+      ];
   }
 
   private function extract_data($tipo, $data){
@@ -909,19 +923,35 @@ class Relatorio_model extends Relatorio_model_base {
     return $meses_porcentagens;
   }
 
-  public function limpar_tmp(){
-    $path = __DIR__."/../../../../assets/uploads/relatorio";
-    foreach(glob("{$path}/relatorio_*") as $file){
+  public function limpar_uploads(){
+    $delete_files = [];
+    $path = __DIR__."/../../../../assets/uploads";
+
+    foreach ($this->uploads as $dir => $table) {
+      $delete_files = array_merge($delete_files, $this->anexo_model->getOrphans($dir, $table));
+    }
+
+    foreach(glob("{$path}/relatorio/relatorio_*") as $file){
       $filetime = strtotime(explode(".", substr(strrchr($file, "_"), 1))[0]);
       if ($filetime <= strtotime('-2 minutes')) {
-        unlink($file);
+        $delete_files[] = $file;
       }
     }
+
+    foreach ($delete_files as $filename) {
+      if (strpos($filename, $path) === false) {
+        $filename = "$path/$filename";
+      }
+
+      if (file_exists($filename)) {
+        unlink($filename);
+      }
+    }
+
     return true;
   }
 
   public function informe_vencimentos($days = 30){
-    //$date = date('Y-m-d', strtotime("2021-10-13")); //temp
     $date = date('Y-m-d', strtotime("+ $days days"));
     $results = [];
 

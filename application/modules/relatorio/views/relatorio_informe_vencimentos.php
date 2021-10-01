@@ -1,11 +1,22 @@
-<page>
-<style media="all" ><?php echo $css;?></style>
-<header>
-    <img src="<?php echo $header;?>">
-</header>
+<?php 
 
-<h1>Informe de Vencimentos</h1>
-<p>Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
+$this->load->view('email_top', ['ilustration' => ['schedule_meeting'], "assunto" => "Informe de Vencimentos", "dias" => $dias]); 
+
+$styles = [
+    "btn" => "background: #fd9e0f; color: #FFFFFF; font-weight: 400; font-size: 25px; padding: 20px 35px;
+    text-decoration:none; border-radius: 5px; margin: 10px; cursor: pointer;",
+    "table" => "border: none; box-shadow: 1px 1px 10px rgba(0,0,0, .1); border-radius: 8px; margin: 0 auto;",
+    "thead" => "background-color: #003; color: #FFF; font-size: 16px; text-align: center; font-weight: bold;",
+    "tr_td_th" => "padding: 20px;",
+    "first_th" => "border-radius: 5px 0 0 0;",
+    "last_th" => "border-radius: 0 5px 0 0;",
+    "tr" => "font-size: 16px; text-align: center; padding: 20px;",
+    "tr2" => "background: #FFE;",
+];
+
+?>
+
+<strong style="color: #fd9e0f; font-size:25px;">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias</strong><br><br>
 
 <?php 
    if (count($relatorio) > 0){
@@ -14,31 +25,31 @@
 
  <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
     <?php if ($rel->tipo == 'manutencao') { ?>  
-    <h2>Manuteções</h2>
-    <table class="tabela">
-        <thead>
-            <tr>
-                <th>Manutenção ID</th>
-                <th>Veículo ID</th>
-                <th>Marca/Modelo</th>
-                <th>Placa</th>
-                <th>Fornecedor</th>
-                <th>Tipo Manutenção</th>
-                <th>Data Manutenção</th>
-                <th>Data Vencimento</th>
+    <h3>Manuteções</h3>
+    <table style="<?php echo $styles['table'];?>">
+        <thead style="<?php echo $styles['thead'];?>">
+            <tr style="<?php echo $styles['tr'];?>">
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['first_th'];?>" >Manutenção ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Veículo ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Marca/Modelo</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Placa</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Fornecedor</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Tipo Manutenção</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Data Manutenção</th>
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Data Vencimento</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $manutencao) { ?>
-            <tr>
-                <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
-                <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
-                <td><?php echo $manutencao->veiculo; ?></td>
-                <td><?php echo $manutencao->veiculo_placa; ?></td>
-                <td><?php echo $manutencao->fornecedor; ?></td>
-                <td><?php echo $manutencao->servico; ?></td>
-                <td><?php echo date("d/m/Y", strtotime($manutencao->data_entrada));?> </td>
-                <td><?php echo date("d/m/Y", strtotime($manutencao->data_vencimento));?> </td>
+            <tr style="<?php echo $styles['tr'];?>">
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->id_ativo_veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->veiculo_placa; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->fornecedor; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->servico; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($manutencao->data_entrada));?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($manutencao->data_vencimento));?> </td>
             </tr>
             <?php } ?>
         </tbody>
@@ -47,31 +58,31 @@
 
 
     <?php if ($rel->tipo == 'ipva') { ?>  
-    <h2>IPVA</h2>
-    <table class="tabela">
-        <thead>
-            <tr>
-                <th>IPVA ID</th>
-                <th>Veículo ID</th>
-                <th>Marca/Modelo</th>
-                <th>Placa</th>
-                <th>Ano Referência</th>
-                <th>Custo</th>
-                <th>Data Pagamento</th>
-                <th>Data Vencimento</th>
+    <h3>IPVA</h3>
+    <table style="<?php echo $styles['table'];?>">
+        <thead style="<?php echo $styles['thead'];?>">
+            <tr style="<?php echo $styles['tr'];?>">
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['first_th'];?>" >IPVA ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Veículo ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Marca/Modelo</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Placa</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Ano Referência</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Custo</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Data Pagamento</th>
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Data Vencimento</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $ipva) { ?>
-            <tr>
-                <td><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
-                <td><?php echo $ipva->id_ativo_veiculo; ?></td>
-                <td><?php echo $ipva->veiculo; ?></td>
-                <td><?php echo $ipva->veiculo_placa; ?></td>
-                <td><?php echo $ipva->ipva_ano; ?></td>
-                <td><?php echo $this->formata_moeda($ipva->ipva_custo); ?></td>
-                <td><?php echo date("d/m/Y", strtotime($ipva->ipva_data_pagamento));?> </td>
-                <td><?php echo date("d/m/Y", strtotime($ipva->ipva_data_vencimento));?> </td>
+            <tr style="<?php echo $styles['tr']; echo $i + 1 % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->id_ativo_veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->veiculo_placa; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->ipva_ano; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_moeda($ipva->ipva_custo); ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($ipva->ipva_data_pagamento));?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($ipva->ipva_data_vencimento));?> </td>
             </tr>
             <?php } ?>
         </tbody>
@@ -80,31 +91,31 @@
 
 
     <?php if ($rel->tipo == 'seguro') { ?>  
-    <h2>Seguro</h2>
-    <table class="tabela">
-        <thead>
-            <tr>
-                <th>Seguro ID</th>
-                <th>Veículo ID</th>
-                <th>Marca/Modelo</th>
-                <th>Placa</th>
-                <th>Mês Referência FIPE</th>
-                <th>Custo</th>
-                <th>Carência Inicio</th>
-                <th>Carência Final</th>
+    <h3>Seguro</h3>
+    <table style="<?php echo $styles['table'];?>">
+        <thead style="<?php echo $styles['thead'];?>">
+            <tr style="<?php echo $styles['tr'];?>">
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['first_th'];?>" >Seguro ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Veículo ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Marca/Modelo</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Placa</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Mês Referência FIPE</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Custo</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Carência Inicio</th>
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Carência Final</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $seguro) { ?>
-            <tr>
-                <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
-                <td><?php echo $seguro->id_ativo_veiculo; ?></td>
-                <td><?php echo $seguro->veiculo; ?></td>
-                <td><?php echo $seguro->veiculo_placa; ?></td>
-                <td><?php echo ucfirst($seguro->fipe_mes_referencia); ?></td>
-                <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
-                <td><?php echo date("d/m/Y", strtotime($seguro->carencia_inicio));?> </td>
-                <td><?php echo date("d/m/Y", strtotime($seguro->carencia_fim));?> </td>
+            <tr style="<?php echo $styles['tr']; echo $i + 1 % 2 == 0 ? $styles['tr']  : $styles['tr2']; ?>">
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->id_ativo_veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->veiculo_placa; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo ucfirst($seguro->fipe_mes_referencia); ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($seguro->carencia_inicio));?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($seguro->carencia_fim));?> </td>
             </tr>
             <?php } ?>
         </tbody>
@@ -114,25 +125,25 @@
 
   <?php if ($rel->modulo == 'ativo_externo') { ?>   
     <?php if ($rel->tipo == 'calibracao') { ?>  
-    <h2>Calibação/Aferição</h2>
-    <table class="tabela">
-        <thead>
-            <tr>
-                <th>Ativo ID</th>
-                <th>Código</th>
-                <th>Nome/Descrição</th>
-                <th>Data Inclusão</th>
-                <th>Data vencimento</th>
+    <h3>Certificado de Calibação/Aferição</h3>
+    <table style="<?php echo $styles['table'];?>">
+        <thead style="<?php echo $styles['thead'];?>">
+            <tr style="<?php echo $styles['tr'];?>">
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['first_th'];?>" >Ativo ID</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Código</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Nome/Descrição</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Data Inclusão</th>
+                <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Data vencimento</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach($rel->data as $i => $ativo) { ?>
-            <tr>
-                <td><?php echo $ativo->id_ativo_externo; ?></td>
-                <td><?php echo $ativo->codigo; ?></td>
-                <td><?php echo $ativo->nome; ?></td>
-                <td><?php echo date("d/m/Y", strtotime($ativo->inclusao_certificado));?> </td>
-                <td><?php echo date("d/m/Y", strtotime($ativo->validade_certificado));?> </td>
+            <?php foreach($rel->data as $i => $ativo) { $i++; ?>
+            <tr style="<?php echo $styles['tr']; echo ($i % 2 )== 0 ? $styles['tr']  : $styles['tr2'];?>">
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->id_ativo_externo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->codigo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->nome; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($ativo->inclusao_certificado));?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo date("d/m/Y", strtotime($ativo->validade_certificado));?> </td>
             </tr>
             <?php } ?>
         </tbody>
@@ -145,8 +156,8 @@
     <strong>Nenhum item encontrado para o período.</strong>
   <?php } ?>
 
-<footer>
-  <img src="<?php echo $footer; ?>"><br>
-  <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small>
-</footer>
-</page>
+<br>
+<p>Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></p>
+<br> </br>
+
+<?php $this->load->view('email_footer'); ?>

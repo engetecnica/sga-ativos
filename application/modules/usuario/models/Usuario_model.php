@@ -20,7 +20,7 @@ class usuario_model extends MY_Model {
 			$this->db->insert('usuario', $data);
 
 			if ($data['email'] != null) {
-				$this->usuario_model->solicitar_confirmacao_email($this->db->insert_id());
+				$this->usuario_model->solicitar_confirmacao_email($this->db->insert_id(), "email_bem_vindo");
 			}
 			return "salvar_ok";
 		} else {
@@ -149,13 +149,13 @@ class usuario_model extends MY_Model {
 		return $usuario->get()->num_rows() > 0;
 	}
 
-	public function solicitar_confirmacao_email($id_usuario){
+	public function solicitar_confirmacao_email($id_usuario, $template = "email_confirmacao"){
         $usuario = $this->get_usuario($id_usuario);
 
         if ($usuario) {
             $validade = date('Y-m-d H:i:s', strtotime("+30 days"));
             $codigo = $this->gerar_codigo();
-            $enviado = $this->enviar_email_confirmacao($usuario, $codigo, $validade);
+            $enviado = $this->enviar_email_confirmacao($usuario, $codigo, $validade, $template);
 
             if ($enviado) {
                 $this->db
@@ -172,26 +172,31 @@ class usuario_model extends MY_Model {
         return false;
     }
 
-	public function enviar_email_confirmacao($usuario, $codigo, $validade = "+30 days"){
-		//temp texto
-		$link = '<a target="_blank" href="'.base_url("login/confirmar_email/{$codigo}").'">Clique aqui para Confirmar!</a>';
+	public function enviar_email_confirmacao($usuario, $codigo, $validade = "+30 days", $template = "email_confirmacao"){
+		$html = $this->load->view(
+			"relatorio/{$template}", 
+			[
+				'usuario' => $usuario, 
+				"codigo" => $codigo, 
+				"validade" => strtotime($validade)
+			], 
+			true
+		);
 
-		$texto = "<h1>Confirmar Email</h1>".
-			"<p>Olá <b>{$usuario->nome}</b>!<br>Essa é uma messagem de confirmação válida até ". date("d/m/Y H:i:s", strtotime($validade)). 
-			", clique no link abaixo para validar sua conta.".
-			"<br> $link </p>";
-
-		return $this->notificacoes_model->enviar_email("Confirmar Email", $texto, ["{$usuario->nome}" => $usuario->email]);
+		return $this->notificacoes_model->enviar_email("Confirmar Email", $html, ["{$usuario->nome}" => $usuario->email]);
 	}
 
 	public function enviar_email_recuperacao($usuario, $codigo, $validade = "+60 minutes"){
-		//temp texto
-		$link = '<a target="_blank" href="'.base_url("login/nova_senha/{$codigo}").'">Clique aqui para Redefinir sua Senha</a>';
+		$html = $this->load->view(
+				'relatorio/email_recuperacao', 
+				[
+					'usuario' => $usuario, 
+					"codigo" => $codigo, 
+					"validade" =>  strtotime($validade)
+				], 
+				true
+		);
 
-		$texto = "<h1>Código de Recuperação</h1>".
-			"<p>Olá <b>{$usuario->nome}</b>!<br>Seu código de recuperação é: {$codigo}, Válido até ". date("d/m/Y H:i:s", strtotime($validade)).
-			"<br> $link </p>";
-
-		return $this->notificacoes_model->enviar_email("Código de Recuperação", $texto, ["{$usuario->nome}" => $usuario->email]);
+		return $this->notificacoes_model->enviar_email("Código de Recuperação", $html, ["{$usuario->nome}" => $usuario->email]);
 	}
 }

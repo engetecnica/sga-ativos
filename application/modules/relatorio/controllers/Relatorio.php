@@ -137,36 +137,36 @@ class Relatorio extends MY_Controller {
       return $this->json($this->relatorio_model->crescimento_empresa_custos());
     }
 
-    public function informe_vencimentos(){
-      $relatorio_data = $this->relatorio_model->informe_vencimentos();
+    public function informe_vencimentos($dias_restantes = 30){
+      $relatorio_data = $this->relatorio_model->informe_vencimentos($dias_restantes);
 
       if (count($relatorio_data) > 0) {
         $data = [
-            'css' =>  file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null), 
-            'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
-            'header' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_header.png"),
-            'footer' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_footer.png"),
             'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
-            'relatorio' => $relatorio_data
+            'relatorio' => $relatorio_data,
+            'dias' => $dias_restantes,
         ];
 
-        $message_html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
-        return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $message_html, $this->config->item("notifications_address"));
+        $html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
+        return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
       }
       return true;
     }
 
     public function automacoes() {
       $status = [
-        'limpar_tmp' => $this->relatorio_model->limpar_tmp(),
+        'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
         'informe_vencimentos' => $this->informe_vencimentos(),
-        'remove_orphans_anexos' => $this->anexo_model->removeOrphans()
       ];
       $this->json($status);
     }
 
     public function test_email(){
-      $return = $this->notificacoes_model->enviar_email("Test Email", "<h1> Test email ok!</h1>", $this->config->item("notifications_address"));
+      $top = $this->load->view('email_top', ['ilustration' => "welcome", "assunto" => "Test email"], true);
+      $email = "<h1> Test email ok!</h1> <p> Test email ok!  Test email ok!  Test email ok!  Test email ok!</p>";
+      $footer = $this->load->view('email_footer', null, true);
+      $html = $top.$email.$footer;
+      $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));
       $this->json(['success' => $return]);
     }
 

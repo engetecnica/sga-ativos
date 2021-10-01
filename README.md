@@ -196,7 +196,7 @@ composer dev
 Para utilizar com o Docker (assumindo que tenha instalado) com containers Apache e Mysql, Se não existir um volume chamado `engetecnica` crie como o commando a seguir: 
 
 ```bash
-docker volume create engetecnica
+docker volume create engetecnica/
 ```
 e inicie o ambiente de desenvolvimento com:
 
@@ -212,6 +212,9 @@ docker-compose up --build
 
 Ambos tem o mesmo resultado.
 
+
+## Automações
+Deve ser executada um vez ao dia o endpoint [`/relatorio/automacoes`](http://localhost:8000/relatorio/automacoes)
 
 ## :)
 
