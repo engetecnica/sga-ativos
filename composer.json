@@ -30,6 +30,15 @@
         ],
         "post-install-cmd": [
             "bash setup/heroku-custom-buildpack.sh"
+        ],
+        "docker:dump": [
+            "docker exec -it engetecnica_db mysqldump -u root --password=\"root\" engetecnica > ../engetecnica-dump.sql"
+        ],
+        "docker:db": [
+            "docker exec -it engetecnica_db /bin/bash"
+        ],
+        "docker:web": [
+            "docker exec -it engetecnica_web /bin/bash"
         ]
     }
 }

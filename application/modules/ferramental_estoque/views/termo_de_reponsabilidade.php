@@ -65,7 +65,6 @@
             <th>N. Iten</th>
             <th>Código</th>
             <th>Descrição / Nome</th>
-            <!--<th>Modelo/Marca</th>-->
             <th>Valor Unitário</th>
             <th>Data de conferência</th>
             <th>Visto do Comodatário na retirada</th>
@@ -81,7 +80,6 @@
             <td><?php echo ($num + 1); ?></td>
             <td><?php echo $ativo->codigo; ?></td>
             <td><?php echo $ativo->nome; ?></td>
-            <!--<td></td>-->
             <td><?php echo "R$ " .$ativo->valor; ?></td>
             <td> ____/____/______ </td>
             <td></td>
@@ -92,7 +90,6 @@
             <td></td>
             <td></td>
             <td></td>
-            <!--<td></td>-->
             <td>Total de Itens</td>
             <td><?php echo $total_items; ?></td>
             <td>Valor Total</td>
@@ -107,7 +104,7 @@
         <br><span>__________________________________________________________________</span><br>
         <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b></small><br>
         <small>Representante:</small> <small><b><?php echo $retirada->responsavel; ?></b></small><br>
-        <small>CPF:</small> <small><b><?php echo $retirada->responsavel; ?></b></small><br>
+        <small>CPF:</small> <small><b><?php echo $retirada->responsavel_cpf; ?></b></small><br>
       </div>
 
       <div class="assinatura">

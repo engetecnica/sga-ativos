@@ -65,9 +65,9 @@
                                     <td><?php echo isset($valor->data_descarte) ? date("d/m/Y H:i", strtotime($valor->data_descarte)) : "-"; ?></td>
                                     <td>
                                         <?php if($valor->tipo == 1) { ?>
-                                            <button class="btn btn-outline-primary btn-sm">Kit</button>
+                                            <button class="badge badge-primary badge-sm">Kit</button>
                                         <?php } else { ?>
-                                            <button class="btn btn-outline-secondary btn-sm">Unidade</button>
+                                            <button class="badge badge-secondary badge-sm">Unidade</button>
                                         <?php } ?>
                                     </td>
                                     <td>
@@ -75,11 +75,11 @@
                                         <?php if($kit) { ?>
                                             <a 
                                                 href="<?php echo base_url('ativo_externo'); ?>/editar_items/<?php echo $kit->id_ativo_externo; ?>" 
-                                                class="btn btn-outline-info"
+                                                class="btn btn-outline-primary"
                                             >
                                                 <?php echo  $kit->codigo; ?>
                                             </a>
-                                        <?php } ?>
+                                        <?php } else {echo "-";} ?>
                                     </td>
                                     <td>
                                         <?php $status = $this->status($valor->situacao); ?>

@@ -63,7 +63,7 @@
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="0">Ativo</option>
                                             <option value="1">Inativo</option>

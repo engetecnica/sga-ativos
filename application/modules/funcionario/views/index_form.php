@@ -35,10 +35,10 @@
                                 <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-1">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
-                                    <div class="col-12 col-md-5">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_empresa" 
@@ -81,10 +81,10 @@
                                 </div>    
 
                                 <div class="row form-group m-t-40 m-b-40">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome Completo</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" id="nome" name="nome" placeholder="Nome Completo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>" required="required">
                                     </div>
                                 </div>    
@@ -106,7 +106,7 @@
                                         <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control cpf" value="<?php if(isset($detalhes) && isset($detalhes->cpf)){ echo $detalhes->cpf; } ?>" required="required">
                                     </div>
                                     
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-1">
                                         <label for="data_nascimento" class=" form-control-label">Nascimento</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -131,7 +131,7 @@
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='0'){ echo "selected='selected'"; } ?>>Ativo</option>
                                             <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao=='1'){ echo "selected='selected'"; } ?>>Inativo</option>

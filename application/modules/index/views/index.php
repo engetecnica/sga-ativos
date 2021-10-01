@@ -204,7 +204,7 @@
                                             </tbody>
                                         </table>
                                         <?php } else { ?>
-                                            <p>Nenhuma Ferramenta registrada no Local</p>
+                                            <p class="m-b-10 m-t-10 m-l-10">Nenhuma Ferramenta registrada no Local</p>
                                         <?php } ?>
                                     </div>
 
@@ -237,7 +237,7 @@
                                             </tbody>
                                         </table>
                                         <?php } else { ?>
-                                            <p>Nenhum Equipamento registrado no Local</p>
+                                            <p class="m-b-10 m-t-10 m-l-10">Nenhum Equipamento registrado no Local</p>
                                         <?php } ?>
                                     </div>
 
@@ -273,39 +273,10 @@
                                                 </tbody>
                                             </table>
                                             <?php } else { ?>
-                                                <p>Nenhum Veículo registrado</p>
+                                                <p class="m-b-10 m-t-10 m-l-10">Nenhum Veículo registrado</p>
                                             <?php } ?>
                                         </div>
-                                    <?php } ?>   
-                                <!--
-                                <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
-                                        <thead>
-                                            <tr>
-                                                <th>Data</th>
-                                                <th>#</th>
-                                                <th>#</th>
-                                                <th>#</th>
-                                                <th>#</th>
-                                                <th>#</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="tr-shadow">
-                                                <td>23/03/2021 12:00</td>
-                                                <td>1221</td>
-                                                <td class="desc">R$ 0,00</td>
-                                                <td>R$ 0,00</td>
-                                                <td>R$ 0,00</td>
-                                                <td>R$ 0,00</td>
-                                                <td>R$ 0,00</td>
-                                            </tr>
-                                            <tr class="spacer"></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                -->
+                                    <?php } ?>
                                 <?php } ?>
                             </div>
                         </div>

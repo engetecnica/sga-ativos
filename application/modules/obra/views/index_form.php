@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel', 'requireds' => []]); ?>
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
@@ -86,17 +86,17 @@
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
+                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
                                         </select>
                                     </div>
 
                                     <div class="col col-md-2">
                                         <label for="obra_base" class=" form-control-label">Obra Base</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-2">
                                         <select name="obra_base" id="obra_base" class="form-control">
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->obra_base) && $detalhes->obra_base==0){ echo "selected='selected'"; } ?>>Não</option>
                                             <option value="1" <?php if(isset($detalhes) && isset($detalhes->obra_base) && $detalhes->obra_base==1){ echo "selected='selected'"; } ?>>Sim</option>

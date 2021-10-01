@@ -55,8 +55,8 @@
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <td scope="col" width="30%"> 
                                                     <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>
-                                                    <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
-                                                        <?php echo $relativa->id_requisicao; ?>
+                                                    <a class="btn btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
+                                                        <?php echo $requisicao->tipo == 1 ? 'Ver Devolução' : 'Ver Requisição'?>
                                                     </a>
                                                 </td>
                                             <?php } ?>
@@ -89,7 +89,7 @@
                                             <th scope="col" width="30%">Solicitado</th>
                                             <th scope="col" width="30%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
                                             <th scope="col" width="30%">Transferido</th>
-                                            <th scope="col" width="30%">Recebido</th>
+                                            <th scope="col" width="5%">Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,7 +110,7 @@
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>
                                             <th scope="col" width="20%">Item</th>
-                                            <th scope="col">Estoque</th>
+                                            <th scope="col" width="20%">Estoque</th>
                                             <th scope="col" width="20%">Qtde. Solcitada</th>
                                             <th scope="col" width="20%">Qtde. Liberada</th>
                                             <th scope="col" width="150">Liberar</th>
@@ -209,19 +209,21 @@
 
                                     <?php if ($requisicao->tipo == 2 && $requisicao->status == 3) {?>
                                         <a 
-                                            class="btn btn-md btn-secondary confirmar_registro m-b-10"
+                                            class="text-center confirmar_registro m-b-10"
                                             href="javascript:void(0)"
                                             data-acao="Receber" data-icon="info" data-message="false"
                                             data-title="Receber Devoluções" data-redirect="true"
                                             data-text="Clique 'Sim, Receber!' para confirmar a transferência de itens devolvidos ou com defeito."
                                             data-href="<?php echo base_url("ferramental_requisicao/receber_devolucoes/{$requisicao->id_requisicao}");?>"
-                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
-                                            href="; ?>">
-                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Receber Devoluções
+                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" >
+                                        
+                                            <button class="btn btn-md btn-secondary" type="button" id="entregar_items_retirada_btn">
+                                                <i class="fas fa-clipboard-check item-menu-interno"></i> Receber Devoluções
+                                            </button>
                                         </a>
                                         <small>Clique 'Receber Devoluções' para confirmar a transferência de itens devolvidos ou com defeito.</small>
                                     <?php  } ?>
-
+                                    </div>
                                 <?php  } ?>
                             </div>
                         </div>

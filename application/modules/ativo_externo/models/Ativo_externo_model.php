@@ -26,11 +26,10 @@ class Ativo_externo_model extends MY_Model {
 							->select('kit.*')
 							->from('ativo_externo atv')
 							->join("obra", "obra.id_obra = atv.id_obra", "left");
-
 		if ($out_kit) {
 			$ativos->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit IS NULL", "left");
 		} else {
-			$ativos->join("ativo_externo_kit kit", "kit.id_ativo_externo_kit = atv.id_ativo_externo", "left");
+			$ativos->join("ativo_externo_kit kit", "kit.id_ativo_externo_item = atv.id_ativo_externo", "left");
 		}
 
 		return $ativos;
@@ -50,7 +49,7 @@ class Ativo_externo_model extends MY_Model {
 
 
 	public function get_ativos($id_obra=null, $situacao=null){
-		$ativos = $this->ativos()
+		$ativos = $this->ativos(false)
 				->group_by('atv.id_ativo_externo')
 				->order_by('atv.codigo');
 		

@@ -101,7 +101,7 @@
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="1" <?php if(isset($ativo) && isset($ativo->situacao) && $ativo->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($ativo) && isset($ativo->situacao) && $ativo->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>

@@ -132,7 +132,7 @@
                                         <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                                     </div>
 
-                                    <div class="col-12 col-md-7">
+                                    <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
                                             <option value="0">Ativo</option>
                                             <option value="1">Inativo</option>

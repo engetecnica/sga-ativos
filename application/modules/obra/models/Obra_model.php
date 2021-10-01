@@ -60,4 +60,8 @@ class Obra_model extends MY_Model {
 		return false;
 	}
 
+	public function obra_exists($codigo_obra){
+		return $this->db->where("codigo_obra", $codigo_obra)->get('obra')->num_rows() >= 1;
+	}
+
 }

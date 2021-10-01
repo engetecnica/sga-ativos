@@ -196,7 +196,7 @@ class Ativo_externo  extends MY_Controller {
         $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
         $data['mode'] = $this->input->post('mode');
         $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
-        $id_obra = $this->input->post('id_obra');
+        $id_obra = $this->input->post('id_obra')[0];
         if (!$id_obra) {
             $id_obra = $this->user->id_obra;
         }
@@ -206,11 +206,6 @@ class Ativo_externo  extends MY_Controller {
             for($i=0; $i < $quantidade; $i++) {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
                      $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
-                }
-
-                $id_obra = $this->input->post('id_obra');
-                if (!$id_obra) {
-                    $id_obra = $this->user->id_obra;
                 }
 
                  $items[$i]['id_ativo_externo_grupo']         =  $id_grupo;
@@ -279,7 +274,7 @@ class Ativo_externo  extends MY_Controller {
                 if($mode == 'insert') {
                     $dados[$k]['situacao'] = 12; // Estoque
                     $dados[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo');
-                    $dados[$k]['id_obra'] = $this->input->post('id_obra')[$k];
+                    $dados[$k]['id_obra'] = $this->input->post('id_obra');
                 }
             }
         }

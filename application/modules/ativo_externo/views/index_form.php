@@ -54,16 +54,16 @@
                                     <input type="hidden" name="id_ativo_externo_grupo" id="id_ativo_externo_grupo" value="<?php echo $detalhes->id_ativo_externo_grupo; ?>">
                                 <?php }} ?>
                                 
-                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
+                                <?php if (in_array($mode, ['insert'])){ ?>
                                 <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="tipo" class=" form-control-label">Tipo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select required="required" class="form-control" name="tipo" id="tipo">
-                                            <option value="0">Unidade</option>
-                                            <option value="1">Kit</option>
+                                            <option <?php echo isset($detalhes->tipo) && $detalhes->tipo == '0' ? "selected='selected'" : ''; ?> value="0">Unidade</option>
+                                            <option <?php echo isset($detalhes->tipo) && $detalhes->tipo == '1' ? "selected='selected'" : ''; ?> value="1">Kit</option>
                                         </select>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                     <div class="col col-md-2">
                                         <label for="id_ativo_externo_categoria" class=" form-control-label">Categoria</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_ativo_externo_categoria" 
@@ -96,15 +96,15 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
+                                
                                 <?php } ?>
                                 
                                 <?php if (in_array($mode, ['insert', 'update'])){ ?>
-                                <div class="row form-group">
+                               
                                     <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_obra" 
@@ -132,7 +132,7 @@
                                     <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>                                    
                                 </div>
@@ -182,10 +182,10 @@
 
                                 
                                 <div class="row form-group">
-                                    <div class="col col-md-6">
+                                    <div class="col-12 col-md-4">
                                         <label for="necessecita_calibracao" class=" form-control-label">Necessecitam de calibração ou aferiação</label>
                                     </div>
-                                    <div class="col col-md-6">
+                                    <div class="col-12 col-md-2">
                                         <select v-model="necessecita_calibracao" required="required" class="form-control" id="necessecita_calibracao" name="necessecita_calibracao">
                                             <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '0' ? "selected='selected'" : ''; ?> value="0">Não</option>
                                             <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
@@ -221,7 +221,7 @@
                                     <?php } ?>
                                     <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
                                         <a href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
-                                            <button type="button" class="btn btn-outline-primary">Editar Itens</button>
+                                            <button type="button" class="btn btn-outline-primary">Editar Itens no Kit</button>
                                         </a>
                                     <?php } ?>
                                 </div>

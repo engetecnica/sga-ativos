@@ -21,10 +21,10 @@
                         <table class="table table-responsive table--no-card table-borderless table-striped table-earning" id="items">
                             <thead>
                                 <tr class="active">
-                                    <th scope="col" width="5%">Item</th>
-                                    <th scope="col" width="40%">Nome</th>
-                                    <th scope="col">Condição Atual</th>
-                                    <th scope="col">#</th>
+                                    <th scope="col" width="30%">Item</th>
+                                    <th scope="col" width="30%">Nome</th>
+                                    <th scope="col" width="30%">Condição Atual</th>
+                                    <th scope="col" width=5%">#</th>
                                 </tr>
                             </thead>
                             <tbody>

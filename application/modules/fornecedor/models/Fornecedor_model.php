@@ -4,7 +4,7 @@ class fornecedor_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 
-		if(!isset($data['id_fornecedor'])){
+		if($data['id_fornecedor']==''){
 			$this->db->insert('fornecedor', $data);
 			return "salvar_ok";
 		} else {

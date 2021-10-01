@@ -27,7 +27,7 @@
         <label for="<?php echo $celular; ?>" class="form-control-label">Celular</label>
     </div>
     <div class="col-12 col-md-3">
-        <input <?php echo in_array('celular', $requireds) ? 'required="required"' : '';?> type="text" id="<?php echo $celular; ?>" name="<?php echo $celular; ?>" placeholder="(00) 9 0000-0000" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->$celular)){ echo $detalhes->$celular; } ?>" required="required">
+        <input <?php echo in_array('celular', $requireds) ? 'required="required"' : '';?> type="text" id="<?php echo $celular; ?>" name="<?php echo $celular; ?>" placeholder="(00) 9 0000-0000" class="celular form-control" value="<?php if(isset($detalhes) && isset($detalhes->$celular)){ echo $detalhes->$celular; } ?>">
     </div>
 
     <div class="col col-md-1">

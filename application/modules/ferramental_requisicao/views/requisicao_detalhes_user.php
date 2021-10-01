@@ -36,7 +36,7 @@
                                             <th scope="col" width="20%">Requisão ID</th>
                                             <th scope="col" width="20%">Solicitação</th>
                                             <th scope="col" width="20%">Tipo da Requisição</th>
-                                            <th scope="col" width="20%">Status da Requisição</th>
+                                            <th scope="col" width="5%">Status da Requisição</th>
                                             <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
                                                 <th scope="col" width="20%">Opções</th>
                                             <?php }?>
@@ -71,8 +71,8 @@
                                              <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                             <td> 
                                                 <?php $relativa = $requisicao->tipo == 1 ? $requisicao->devolucao : $requisicao->requisicao; ?>
-                                                <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
-                                                    <?php echo $relativa->id_requisicao; ?>
+                                                <a class="btn btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
+                                                    <?php echo $requisicao->tipo == 1 ? 'Ver Devolução' : 'Ver Requisição'?>
                                                 </a>
                                             </td>
                                             <?php } ?>
@@ -106,7 +106,7 @@
                                             <th scope="col" width="30%">Solicitado</th>
                                             <th scope="col" width="30%"><?php echo $requisicao->status == 15 ? 'Recusado' : 'Liberado'; ?></th>
                                             <th scope="col" width="30%">Transferido</th>
-                                            <th scope="col" width="30%">Recebido</th>
+                                            <th scope="col" width="5%">Recebido</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -61,6 +61,23 @@ class Obra  extends MY_Controller {
             $this->obra_model->set_obra_base($data['id_obra']);
         }
 
+        $obra = null; $obra_exists = $this->obra_model->obra_exists($data['codigo_obra']);
+        if ($data['id_obra'] != '') {
+            $obra = $this->obra_model->get_obra($data['id_obra']);
+        }
+
+        if (($obra == null && $obra_exists) || 
+            $obra != null && ((strtolower($obra->codigo_obra) != strtolower($data['codigo_obra'])) && $obra_exists) ) {
+            $this->session->set_flashdata('msg_erro', "Já existe uma obra com o código informado!");
+            
+            if ($obra == null) {
+                echo redirect(base_url("obra/adicionar"));
+                return;
+            }
+            echo redirect(base_url("obra/editar/{$obra->id_obra}"));
+            return;
+        }
+
         $this->obra_model->salvar_formulario($data);
         if($data['id_obra']==''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");

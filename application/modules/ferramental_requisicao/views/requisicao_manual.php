@@ -44,11 +44,11 @@
                                 <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="10%">Cód. Item</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Observações</th>
+                                            <th scope="col" width="30%">Cód. Item</th>
+                                            <th scope="col" width="50%">Item</th>
+                                            <th scope="col" width="60%">Observações</th>
                                             <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
-                                            <th scope="col" width="25%">Status</th>
+                                            <th scope="col" width="30%">Status</th>
                                             <?php } ?>
                                         </tr>
                                     </thead>

@@ -14972,12 +14972,15 @@ label {
         font-size: 1rem;
     }
 
-    .pull-left{
+
+    .pull-left, .pull-right {
         text-align: center !important;
         width: 100%;
+        margin-top: 10px;
     }
 
-    .pull-left > a , .pull-left > span, .pull-left > button {
+    .pull-left > a , .pull-left > span, .pull-left > button,
+    .pull-right > a , .pull-right > span, .pull-right > button  {
         margin: 5px;
     }
 }

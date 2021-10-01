@@ -108,18 +108,18 @@ class ferramental_requisicao_model extends MY_Model {
 			$relativo = $this->db->from('ativo_externo_requisicao_devolucao dev')->select('dev.*, req.*');
 			if ($requisicao->tipo == 1) {
 				$requisicao->devolucao = $relativo
-																->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_devolucao")
-																->where("dev.id_requisicao = {$id_requisicao}")
-																->get('ativo_externo_requisicao_devolucao')
-																->row();
+											->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_devolucao")
+											->where("dev.id_requisicao = {$id_requisicao}")
+											->get('ativo_externo_requisicao_devolucao')
+											->row();
 			}
 
 			if ($requisicao->tipo == 2) {
 				$requisicao->requisicao =  $relativo
-																->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_requisicao")
-																->where("dev.id_devolucao = {$id_requisicao}")
-																->get('ativo_externo_requisicao_devolucao')
-																->row();
+											->join("ativo_externo_requisicao req", "req.id_requisicao = dev.id_requisicao")
+											->where("dev.id_devolucao = {$id_requisicao}")
+											->get('ativo_externo_requisicao_devolucao')
+											->row();
 			}
 			return $requisicao;
 		}
@@ -139,12 +139,12 @@ class ferramental_requisicao_model extends MY_Model {
 			}
 
 			$items = $items_query->join('ativo_externo atv', 'atv.id_ativo_externo_grupo=item.id_ativo_externo_grupo')
-														->group_by('item.id_requisicao_item')->get()->result();
+								->group_by('item.id_requisicao_item')->get()->result();
 
 			foreach($items as $k => $item){
 				$items[$k]->ativos = $this
-														->get_requisicao_item($id_requisicao, $item->id_requisicao_item)
-														->ativos;
+										->get_requisicao_item($id_requisicao, $item->id_requisicao_item)
+										->ativos;
 			}
 			return $items;
 	}

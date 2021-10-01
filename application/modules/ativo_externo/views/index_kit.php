@@ -17,7 +17,7 @@
                     <div class="overview-wrap m-t-10">
                        
                         <a href="<?php echo base_url("ativo_externo/editar/{$detalhes->id_ativo_externo}"); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
+                        <button class="">
                         <i class="zmdi zmdi-arrow-left"></i>Voltar ao Ativo</button></a>
                     </div>
                 </div>
@@ -25,19 +25,60 @@
 
             <h2 class="title-1 m-b-25">Detalhes do Kit</h2>
 
-            <div class="card">
+            <div class="">
               <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="title-1 m-b-25">Todos os Itens</h3>
+                        <h3 class="title-1 m-b-25">Adicionar</h3>
                         <div class="card">
 
-                            <table class="table table-borderless table-striped table-earning" id="lista">
+                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
                                 <thead>
                                     <tr class="active">
-                                        <th scope="col">Código</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Opções</th>
+                                        <th width="25%" scope="col">Código</th>
+                                        <th width="75%" scope="col">Nome</th>
+                                        <th width="10%" scope="col">Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $i = 1; 
+                                        foreach($lista as $item){ 
+                                    ?>
+                                    <tr>
+                                        <td width="30%">
+                                          <button class="badge badge-sm badge-success" width="100%" >   
+                                              <?php echo $item->codigo; ?>
+                                          </button>
+                                        </td>
+                                        <td><?php echo $item->nome; ?></td>
+                                        <td width="7%">
+                                          <a title="Adicionar ao Kit"  href="<?php echo base_url('ativo_externo'); ?>/adicionar_item_kit/<?php echo $detalhes->id_ativo_externo; ?>/<?php echo $item->id_ativo_externo; ?>">
+                                            <button class="btn btn-sm btn-primary" type=""button>
+                                              <i class="fa fa-plus"></i> <?php echo ''; ?>
+                                            </button>
+                                         </a>
+                                      </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>                        
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="title-1 m-b-25">Todos</h3>
+                        <div class="card">
+
+                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                <thead>
+                                    <tr class="active">
+                                        <th width="25%" scope="col">Código</th>
+                                        <th width="75%" scope="col">Nome</th>
+                                        <th width="10%" scope="col">Opções</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,7 +88,7 @@
                                     ?>
                                     <tr>
                                         <td width="30%">
-                                          <button class="btn btn-sm btn-outline-success btn-codigo" width="100%" >   
+                                          <button class="badge badge-sm badge-success" width="100%" >   
                                               <?php echo $item->codigo; ?>
                                           </button>
                                         </td>
@@ -68,46 +109,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3 class="title-1 m-b-25">Adicionar Itens</h3>
-                        <div class="card">
-
-                            <table class="table table-borderless table-striped table-earning" id="lista2">
-                                <thead>
-                                    <tr class="active">
-                                        <th scope="col">Código</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Opções</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $i = 1; 
-                                        foreach($lista as $item){ 
-                                    ?>
-                                    <tr>
-                                        <td width="30%">
-                                          <button class="btn btn-sm btn-outline-success btn-codigo" width="100%" >   
-                                              <?php echo $item->codigo; ?>
-                                          </button>
-                                        </td>
-                                        <td><?php echo $item->nome; ?></td>
-                                        <td width="7%">
-                                          <a title="Adicionar ao Kit"  href="<?php echo base_url('ativo_externo'); ?>/adicionar_item_kit/<?php echo $detalhes->id_ativo_externo; ?>/<?php echo $item->id_ativo_externo; ?>">
-                                            <button class="btn btn-sm btn-primary" type=""button>
-                                              <i class="fa fa-plus"></i> <?php echo ''; ?>
-                                            </button>
-                                         </a>
-                                      </td>
-                                    </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>                        
-
-                        </div>
-                    </div>
-                </div>
               </div>
             </div>
 
