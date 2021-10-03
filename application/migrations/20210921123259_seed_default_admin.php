@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Seed_Usuario_Default extends CI_Migration {
+class Migration_Seed_Default_Admin extends CI_Migration {
 	private $table = 'usuario';
 
 	//Upgrade migration
@@ -14,8 +14,8 @@ class Migration_Seed_Usuario_Default extends CI_Migration {
 			*/
 			
 			$this->db->query(
-				"INSERT INTO `usuario` 
-				VALUES (1,1,1,'engetecnica','7c4a8d09ca3762af61e59520943dc26494f8941b','2020-08-13 15:58:49',1,'0');"
+				"INSERT INTO `usuario` (id_usuario, id_empresa, id_obra, usuario, nome, senha, data_criacao, nivel, situacao)
+				VALUES (1,1,1,'engetecnica','Engetecnica' ,'7c4a8d09ca3762af61e59520943dc26494f8941b','2020-08-13 15:58:49',1,'0');"
 			);
 		}
 	}

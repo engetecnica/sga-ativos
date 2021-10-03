@@ -16,7 +16,7 @@ class Migration_Create_Ativo_Interno extends CI_Migration {
 			->add_field('observacao text NOT NULL')
 			->add_field('data_inclusao timestamp NOT NULL DEFAULT current_timestamp()')
 			->add_field('data_descarte timestamp NULL DEFAULT NULL')
-			->add_field("situacao int(1) NOT NULL DEFAULT 0 COMMENT 'Ativo , 1: Inativo , 2: Descartado'")
+			->add_field("situacao int(1) NOT NULL DEFAULT 0 COMMENT '0:Ativo , 1: Inativo , 2: Descartado'")
 			->create_table($this->table);
 		}
 	}
