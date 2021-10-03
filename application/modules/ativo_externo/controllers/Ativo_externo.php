@@ -42,7 +42,7 @@ class Ativo_externo  extends MY_Controller {
                 'tipo' => $grupo->tipo,
                 'id_ativo_externo_categoria' => $grupo->id_ativo_externo_categoria,
                 'id_ativo_externo_grupo' => $grupo->id_ativo_externo_grupo,
-                'necessecita_calibracao' => $grupo->necessecita_calibracao,
+                'necessita_calibracao' => $grupo->necessita_calibracao,
                 'nome' => $grupo->nome,
                 'valor' => $grupo->valor
             ];
@@ -151,7 +151,7 @@ class Ativo_externo  extends MY_Controller {
                 'tipo' => $grupo->tipo,
                 'id_ativo_externo_categoria' => $grupo->id_ativo_externo_categoria,
                 'id_ativo_externo_grupo' => $grupo->id_ativo_externo_grupo,
-                'necessecita_calibracao' => $grupo->necessecita_calibracao,
+                'necessita_calibracao' => $grupo->necessita_calibracao,
                 'nome' => $grupo->nome,
                 'valor' => $grupo->valor,
                 'id_obra' => $grupo->id_obra,
@@ -214,7 +214,7 @@ class Ativo_externo  extends MY_Controller {
                  $items[$i]['id_obra']                        = $id_obra;
                  $items[$i]['nome']                           = ucwords($this->input->post('nome'));
                  $items[$i]['observacao']                     = $this->input->post('observacao');
-                 $items[$i]['necessecita_calibracao']        = $this->input->post('necessecita_calibracao');
+                 $items[$i]['necessita_calibracao']        = $this->input->post('necessita_calibracao');
                  $items[$i]['codigo']                         = strtoupper($this->input->post('codigo'));
 
                 $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -232,7 +232,7 @@ class Ativo_externo  extends MY_Controller {
                 'valor' => $items[0]['valor'],
                 'id_obra' => $id_obra,
                 'observacao' => $items[0]['observacao'],
-                'necessecita_calibracao' => $items[0]['necessecita_calibracao'],
+                'necessita_calibracao' => $items[0]['necessita_calibracao'],
                 'ativos' => $items
             ]);
 
@@ -267,7 +267,7 @@ class Ativo_externo  extends MY_Controller {
                 $dados[$k]['nome']                          = $this->input->post('item')[$k];
                 $dados[$k]['valor']                         = $this->input->post('valor');
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
-                $dados[$k]['necessecita_calibracao']       = $this->input->post('necessecita_calibracao');
+                $dados[$k]['necessita_calibracao']       = $this->input->post('necessita_calibracao');
                 $dados[$k]['tipo'] = $this->input->post('tipo');
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
                 
@@ -324,7 +324,7 @@ class Ativo_externo  extends MY_Controller {
                     $items[$i]['id_obra']                        = $this->input->post('id_obra');
                     $items[$i]['nome']                           = $this->input->post('nome');
                     $items[$i]['observacao']                     = $grupo->observacao;
-                    $items[$i]['necessecita_calibracao']        = $grupo->necessecita_calibracao;
+                    $items[$i]['necessita_calibracao']        = $grupo->necessita_calibracao;
                     $items[$i]['codigo']                         = $this->input->post('codigo');
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -348,8 +348,8 @@ class Ativo_externo  extends MY_Controller {
                        $items[$i]['observacao'] = $this->input->post('observacao');
                     }
 
-                    if ($this->input->post('necessecita_calibracao')) {
-                        $items[$i]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao');
+                    if ($this->input->post('necessita_calibracao')) {
+                        $items[$i]['necessita_calibracao'] = $this->input->post('necessita_calibracao');
                      }
                     
                     if ($this->input->post('valor')) {
@@ -369,7 +369,7 @@ class Ativo_externo  extends MY_Controller {
                 'valor' => $items[0]['valor'],
                 'id_obra' => $grupo->id_obra,
                 'observacao' => $grupo->observacao,
-                'necessecita_calibracao' => $grupo->necessecita_calibracao,
+                'necessita_calibracao' => $grupo->necessita_calibracao,
                 'ativos' => $items
             ]);
             $data['url'] = base_url("ativo_externo/gravar_items_grupo");
@@ -407,10 +407,10 @@ class Ativo_externo  extends MY_Controller {
                     $dados[$k]['observacao'] = $this->input->post('observacao');
                 }
 
-                if (is_array($this->input->post('necessecita_calibracao'))) {
-                    $dados[$k]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao')[$k];
+                if (is_array($this->input->post('necessita_calibracao'))) {
+                    $dados[$k]['necessita_calibracao'] = $this->input->post('necessita_calibracao')[$k];
                 } else {
-                    $dados[$k]['necessecita_calibracao'] = $this->input->post('necessecita_calibracao');
+                    $dados[$k]['necessita_calibracao'] = $this->input->post('necessita_calibracao');
                 }
 
                 if($mode == 'insert_grupo') {

@@ -130,7 +130,7 @@ var ativo_externo_form = new Vue({
     el: "#ativo_externo_form",
     data(){
         return {
-            necessecita_calibracao: 0,
+            necessita_calibracao: 0,
         }
     }
 })

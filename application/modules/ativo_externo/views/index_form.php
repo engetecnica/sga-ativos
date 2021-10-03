@@ -183,12 +183,12 @@
                                 
                                 <div class="row form-group">
                                     <div class="col-12 col-md-4">
-                                        <label for="necessecita_calibracao" class=" form-control-label">Necessecitam de calibração ou aferiação</label>
+                                        <label for="necessita_calibracao" class=" form-control-label">Necessecitam de calibração ou aferiação</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <select v-model="necessecita_calibracao" required="required" class="form-control" id="necessecita_calibracao" name="necessecita_calibracao">
-                                            <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '0' ? "selected='selected'" : ''; ?> value="0">Não</option>
-                                            <option <?php echo isset($detalhes->necessecita_calibracao) && $detalhes->necessecita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
+                                        <select v-model="necessita_calibracao" required="required" class="form-control" id="necessita_calibracao" name="necessita_calibracao">
+                                            <option <?php echo isset($detalhes->necessita_calibracao) && $detalhes->necessita_calibracao == '0' ? "selected='selected'" : ''; ?> value="0">Não</option>
+                                            <option <?php echo isset($detalhes->necessita_calibracao) && $detalhes->necessita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
                                         </select>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@
                                 </div>
 
                                 <div class="pull-right">
-                                    <?php if((isset($detalhes) && isset($detalhes->necessecita_calibracao) &&  isset($detalhes->id_ativo_externo)) && $detalhes->necessecita_calibracao == 1) { ?>
+                                    <?php if((isset($detalhes) && isset($detalhes->necessita_calibracao) &&  isset($detalhes->id_ativo_externo)) && $detalhes->necessita_calibracao == 1) { ?>
                                         <a href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
                                             <button type="button" class="btn btn-outline-secondary">Certificado de Calibração</button>
                                         </a>

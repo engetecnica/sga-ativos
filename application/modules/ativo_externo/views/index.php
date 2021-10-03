@@ -88,8 +88,8 @@
 
                                     <td>
                                         <?php 
-                                            $text = isset($valor->necessecita_calibracao) && $valor->necessecita_calibracao == '1' ?  'Sim' : 'Não';
-                                            $class = isset($valor->necessecita_calibracao) && $valor->necessecita_calibracao == '1' ?  'success' : 'danger';
+                                            $text = isset($valor->necessita_calibracao) && $valor->necessita_calibracao == '1' ?  'Sim' : 'Não';
+                                            $class = isset($valor->necessita_calibracao) && $valor->necessita_calibracao == '1' ?  'success' : 'danger';
                                          ?>
                                         <span class="badge badge-<? echo $class;?>"><?php echo $text;?></span>
                                     </td>
@@ -107,7 +107,7 @@
                                                         Editar Itens (KIT)
                                                     </a>
                                                 <?php } ?>
-                                                <?php if((isset($valor) && isset($valor->necessecita_calibracao)) && $valor->necessecita_calibracao == 1) { ?>
+                                                <?php if((isset($valor) && isset($valor->necessita_calibracao)) && $valor->necessita_calibracao == 1) { ?>
                                                     <a class="dropdown-item" href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$valor->id_ativo_externo}"); ?>">
                                                         Certificado de Calibração
                                                     </a>

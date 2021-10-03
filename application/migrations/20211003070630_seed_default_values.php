@@ -73,21 +73,22 @@ class Migration_Seed_Default_Values extends CI_Migration {
 	/* Funcionario */
 	private function up_funcionario(){
 		if ($this->db->table_exists('funcionario') && 
-			$this->db->where("id_funcionario BETWEEN 1 AND 2")->get('funcionario')->num_rows() == 0) {
+			$this->db->where("id_funcionario BETWEEN 1 AND 3")->get('funcionario')->num_rows() == 0) {
 			$this->db->query(
 				"INSERT INTO `funcionario` 
 				(id_funcionario, id_empresa, id_obra, nome, rg, cpf, data_nascimento, data_criacao, situacao)
 				VALUES  
 				(1,1,1,'José Fernando de Lima','7.762.635-26','266.872.867-73','1972-10-18','2021-09-20 04:35:10', '0'),
-				(2,1,1,'Arnaldo Antunes','6.545.646','098.376.763-22','1991-07-20','2021-03-20 05:57:11','0');"
+				(2,1,2,'Arnaldo Antunes','6.545.646','098.376.763-22','1991-07-20','2021-03-20 05:57:11','0'),
+				(3,1,3,'Armando Antunes','6.545.647','098.376.763-23','1991-07-20','2021-03-20 05:57:11','0');;"
 			);
 		}
 	}
 
 	private function down_funcionario(){
 		if ($this->db->table_exists('funcionario') && 
-			$this->db->where("id_funcionario BETWEEN 1 AND 2")->get('funcionario')->num_rows() == 2) {
-			$this->db->query("DELETE from funcionario WHERE id_funcionario BETWEEN 1 AND 2");
+			$this->db->where("id_funcionario BETWEEN 1 AND 2")->get('funcionario')->num_rows() == 3) {
+			$this->db->query("DELETE from funcionario WHERE id_funcionario BETWEEN 1 AND 3");
 		}
 	}
 
@@ -144,11 +145,11 @@ class Migration_Seed_Default_Values extends CI_Migration {
 				"INSERT INTO `ativo_externo` 
 				(id_ativo_externo, id_ativo_externo_categoria, id_ativo_externo_grupo, id_obra, nome, codigo, data_inclusao, valor, situacao, necessita_calibracao) 
 				VALUES 
-				(1,1,1,1,'Moto Bomba','MB-001','2020-12-05 16:13:53',12,1062.00,'1','0'),
-				(2,1,1,1,'Moto Bomba','MB-002','2021-01-17 16:17:45',12,1062.89,'1','0'),
-				(3,1,1,2,'Moto Bomba','MB-003','2021-04-17 16:23:35',12,1062.00,'1','0'),
-				(4,1,1,2,'Moto Bomba','MB-004','2021-04-26 06:37:16',12,1062.89,'1','0'),
-				(5,1,1,3,'Moto Bomba','MB-005','2021-09-26 06:37:16',12,1062.89,'1','0');"
+				(1,1,1,1,'Moto Bomba','MB-001','2020-12-05 16:13:53',1062.00,'1','1'),
+				(2,1,1,1,'Moto Bomba','MB-002','2021-01-17 16:17:45',1062.89,'1','1'),
+				(3,1,1,2,'Moto Bomba','MB-003','2021-04-17 16:23:35',1062.00,'1','1'),
+				(4,1,1,2,'Moto Bomba','MB-004','2021-04-26 06:37:16',1062.89,'1','1'),
+				(5,1,1,3,'Moto Bomba','MB-005','2021-09-26 06:37:16',1062.89,'1','1');"
 			);
 		}
 	}
@@ -205,3 +206,5 @@ class Migration_Seed_Default_Values extends CI_Migration {
 		}
 	}
 }
+
+//drop table empresa,obra, funcionario, fornecedor, usuario, ativo_externo, ativo_interno, ativo_veiculo, migrations;
