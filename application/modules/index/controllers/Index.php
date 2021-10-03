@@ -24,7 +24,6 @@ class Index extends MY_Controller {
         $this->load->model('ativo_veiculo/ativo_veiculo_model');
         $this->load->model('ativo_externo/ativo_externo_model');
         $this->load->model('relatorio/relatorio_model');
-        
     }
 
     function index() {

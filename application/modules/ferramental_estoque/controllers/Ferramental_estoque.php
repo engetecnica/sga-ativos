@@ -307,8 +307,8 @@ class Ferramental_estoque  extends MY_Controller {
                     foreach($item->ativos as $ativo) {
                         $ativos[] = [
                             'id_retirada_ativo' => $ativo->id_retirada_ativo,
+                            'data_retirada' => date('Y-m-d H:i:s', strtotime('now')),
                             'status' => $item->status,
-                            'data_retirada' => date('Y-m-d H:i:s', strtotime('now'))
                         ];
 
                         $ativos_externos[] = [

@@ -200,7 +200,7 @@ class usuario_model extends MY_Model {
 
 	public function enviar_email_recuperacao($usuario, $codigo, $validade = "+60 minutes"){
 		$html = $this->load->view(
-				'relatorio/email_recuperacao', 
+				'relatorio/email_recuperar_senha', 
 				[
 					'usuario' => $usuario, 
 					"codigo" => $codigo, 
@@ -209,6 +209,6 @@ class usuario_model extends MY_Model {
 				true
 		);
 
-		return $this->notificacoes_model->enviar_email("Código de Recuperação", $html, ["{$usuario->nome}" => $usuario->email]);
+		return $this->notificacoes_model->enviar_email("Redefinição de Senha", $html, ["{$usuario->nome}" => $usuario->email]);
 	}
 }

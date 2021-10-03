@@ -104,7 +104,8 @@
         <br><span>__________________________________________________________________</span><br>
         <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b></small><br>
         <small>Representante:</small> <small><b><?php echo $retirada->responsavel; ?></b></small><br>
-        <small>CPF:</small> <small><b><?php echo $retirada->responsavel_cpf; ?></b></small><br>
+        <!--<small>CPF:</small> <small><b><?php //echo $retirada->responsavel_cpf; ?></b></small><br>-->
+        <!-- To-do: até resolver questão de vincular funcionário a usuario -->
       </div>
 
       <div class="assinatura">

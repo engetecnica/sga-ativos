@@ -27,12 +27,12 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                          <th scope="col" width="30%">Item ID</th>
-                                          <th scope="col" width="30%">Item</th>
-                                          <th scope="col" width="30%">Quantidade</th>
-                                          <th scope="col" width="30%">Status</th>
+                                          <th scope="col" width="20%">Item ID</th>
+                                          <th scope="col" width="20%">Item</th>
+                                          <th scope="col" width="20%">Quantidade</th>
+                                          <th scope="col" width="20%">Status</th>
                                           <?php if ($retirada->status == 1) { ?>
-                                          <th scope="col" width="30%">Remover</th>
+                                          <th scope="col" width="5%">Remover</th>
                                           <?php } ?>
                                         </tr>
                                     </thead>
@@ -76,7 +76,6 @@
                                             <th scope="col" width="40%">Nome</th>
                                             <th scope="col" width="40%">Data da Retirada</th>
                                             <th scope="col" width="40%">Data da Entrega</th>
-                                            <th scope="col" width="40%">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,13 +86,6 @@
                                             <td><?php echo $ativo->nome; ?></td>
                                             <td><?php echo isset($ativo->data_retirada) ? date("d/m/Y H:i", strtotime($ativo->data_retirada)) : '-'; ?></td>
                                             <td><?php echo isset($ativo->data_devolucao) ? date("d/m/Y H:i", strtotime($ativo->data_devolucao)) : '-'; ?></td>
-                                            <td>
-                                                <?php $status = $this->status($ativo->status); ?>
-                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
-                                            
-                                                <?php if($retirada->status == 1) {?>
-                                                <?php } ?>
-                                            </td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>

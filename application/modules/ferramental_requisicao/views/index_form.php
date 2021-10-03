@@ -36,7 +36,7 @@
                                     <div class="col col-md-2">
                                         <label for="id_destino" class=" form-control-label">Obra Destino</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-5">
                                         <select 
                                             class="form-control" 
                                             name="id_destino" 
@@ -62,7 +62,7 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-8"><label for="">Item</label></div>
+                                    <div class="col-md-4"><label for="">Item</label></div>
                                     <div class="col-md-2"><label for="">Quantidade</label></div>
                                     <div class="col-md-2"><label for=""></label></div>
                                 </div>
@@ -73,7 +73,7 @@
                                 <hr>
 
                                 <div class="row form-group">                                   
-                                    <div class="col-12 col-md-12">
+                                    <div class="col-12 col-md-7">
                                         <input type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
                                     </div>                                    
                                 </div>
@@ -112,7 +112,7 @@
 
 <template id="item_lista">
     <div class="row item-lista" style="margin-bottom: 10px;">
-        <div class="col-md-8 m-t-10">
+        <div class="col-md-4 m-t-10">
             <div class="exchange1">
                 <select required="required" name="id_ativo_externo_grupo[]" class="form-control">
                     <option value="">Buscar Item</option>

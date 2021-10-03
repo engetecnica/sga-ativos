@@ -14,8 +14,13 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="<?php echo base_url('ferramental_estoque/devolver_items_retirada_salvar'); ?>" method="post" enctype="multipart/form-data"> 
-                        <h2 class="title-1 m-b-25">Devolvers Itens da Retirada</h2>
+                    <form action="<?php echo base_url('ferramental_estoque/devolver_items_retirada_salvar'); ?>" method="post" enctype="multipart/form-data"
+                        class="confirm-submit"
+                        data-acao="Devolver" data-icon="success" data-message="false"
+                        data-title="Devolver Itens" data-redirect="true"
+                        data-text="Clique 'Sim, Devolver!' para confirmar a devolução dos itens retirados."
+                    > 
+                        <h2 class="title-1 m-b-25">Devolver Itens da Retirada</h2>
                         <div class="card">
                             <input type="hidden" name="id_retirada" value="<?php echo $retirada->id_retirada; ?>">
                             <input type="hidden" name="id_obra" value="<?php echo $retirada->id_obra; ?>">
@@ -51,8 +56,8 @@
                                         <tr class="active">
                                             <th scope="col" width="10%">Ativo ID</th>
                                             <th scope="col" width="10%">Código</th>
-                                            <th scope="col" width="50%">Nome</th>
-                                            <th scope="col" width="30%">Situação</th>
+                                            <th scope="col" width="40%">Nome</th>
+                                            <th scope="col" width="20%">Situação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,9 +73,9 @@
                                                     <?php echo (isset($no_aceite) && $no_aceite == true )? 'disabled' : ''; ?>
                                                     class="form-control" name="status_<?php echo $ativo->id_retirada_item; ?>[]" id="status_<?php echo $ativo->id_retirada_item; ?>[]" required="required"
                                                 >
-                                                    <option readonly="readonly" value="" <?php if($ativo->status && $ativo->status==4) echo "selected='selected'"; ?>>Recebido</option>
+                                                <option readonly="readonly" value="" <?php if($ativo->status && $ativo->status==4) echo "selected='selected'"; ?>>Recebido</option>
                                                     <option value="9" <?php if($ativo->status && $ativo->status==9) echo "selected='selected'"; ?>>Devolvido</option>
-                                                    <option value="8" <?php if($ativo->status && $ativo->status==8) echo "selected='selected'"; ?>>Com Defeito </option>
+                                                    <option value="8" <?php if($ativo->status && $ativo->status==8) echo "selected='selected'"; ?>>Devolvido (Com Defeito)</option>
                                                 </select>
                                             </td>
                                         </tr>

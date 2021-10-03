@@ -16,17 +16,17 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Detalhes da Retirada Administração</h2>
                     <div class="card">
-                        <div class="card-body table--no-card">
+                        <div class="card-body">
                             <!-- Detalhes da Retirada -->
                             <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                          <th scope="col">Retirada ID</th>
-                                          <th scope="col">Funcionário</th>
-                                          <th scope="col">Obra</th>
-                                          <th scope="col">Data</th>
-                                          <th scope="col">Status</th>
-                                          <th width="50%">Detalhes</th>
+                                          <th width="10%" scope="col">Retirada ID</th>
+                                          <th width="10%" scope="col">Funcionário</th>
+                                          <th width="" scope="col">Obra</th>
+                                          <th width="" scope="col">Data</th>
+                                          <th width="" scope="col">Status</th>
+                                          <th width="" scope="col">Detalhes</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,13 +55,13 @@
                             <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
-                                            <th>Item Id</th>
-                                            <th>Item</th>
-                                            <th>Quantidade</th>
-                                            <th>Data da Entrega</th>
-                                            <th>Data da Devolucao</th>
-                                            <th>Situação</th>
-                                            <th>Detalhes</th>
+                                            <th width="10%" scope="col">Item Id</th>
+                                            <th width="10%" scope="col">Item</th>
+                                            <th width="" scope="col">Quantidade</th>
+                                            <th width="" scope="col">Data da Entrega</th>
+                                            <th width="" scope="col">Data da Devolucao</th>
+                                            <th width="" scope="col">Situação</th>
+                                            <th width="" scope="col">Detalhes</th>
                                         </tr>
                                     </thead>
                                     <tbody>

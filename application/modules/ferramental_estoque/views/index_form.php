@@ -32,9 +32,9 @@
                                 <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="30%">Nome</th>
-                                            <th scope="col" width="30%">CPF</th>
-                                            <th scope="col" width="30%">RG</th>
+                                            <th scope="col" width="35%">Nome</th>
+                                            <th scope="col" width="35%">CPF</th>
+                                            <th scope="col" width="35%">RG</th>
                                             <th scope="col" width="20%">Selecionar</th>
                                         </tr>
                                     </thead>
@@ -60,8 +60,8 @@
                                 <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" >
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="40%">Nome</th>
-                                            <th scope="col" width="40%">Qtd. em Estoque</th>
+                                            <th scope="col" width="50%">Nome</th>
+                                            <th scope="col" width="50%">Qtd. em Estoque</th>
                                             <th scope="col" width="10%">Selecionar</th>
                                         </tr>
                                     </thead>
@@ -87,7 +87,7 @@
                              
 
                                 <div class="row">
-                                    <div class="col-md-8"><label for="">Item</label></div>
+                                    <div class="col-md-4"><label for="">Item</label></div>
                                     <div class="col-md-2"><label for="">Quantidade</label></div>
                                     <div class="col-md-2"><label for=""></label></div>
                                 </div>
@@ -109,7 +109,7 @@
                                             :value="grupos_selecionados[sg].id_ativo_externo_grupo"
                                         >
 
-                                        <div class="col-md-8">
+                                        <div class="col-md-4">
                                             <div class="exchange1">
                                                 <input
                                                     type="text" readonly
@@ -178,7 +178,7 @@
 </div>
 
 <script>
-    var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : 'null'; ?>`;
+    var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : null; ?>`;
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         data() {
@@ -292,9 +292,9 @@
         },
         mounted(){
             if(retirada) {
-                this.retirada = retirada
-                this.id_funcionario = retirada.id_funcionario
-                this.id_obra = retirada.id_obra
+                this.retirada = JSON.parse(retirada)
+                this.id_funcionario = this.retirada.id_funcionario
+                this.id_obra = this.retirada.id_obra
 
                 this.grupos_selecionados = this.retirada.items.map((item) => {
                     return {
@@ -305,6 +305,7 @@
                         quantidade: item.quantidade 
                     }
                 })
+
                 this.permite_form = true
             }
         }

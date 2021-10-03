@@ -134,10 +134,16 @@ class Ferramental_requisicao  extends MY_Controller {
        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($this->input->post('id_requisicao'), $this->user);
        $items = $this->input->post('item');
        $quantidade = $this->input->post('quantidade');
-      
+     
         if ($requisicao && $this->input->method() == 'post') {
             if ($this->user->nivel != 1 || !in_array($requisicao->status, [1, 11])) {
                 $this->session->set_flashdata('msg_erro', "Requisição não pode ser liberada!");
+                echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+                return;
+            }
+
+            if (!$quantidade) {
+                $this->session->set_flashdata('msg_erro', "Deve especificar quantidade de itens a ser liberados!");
                 echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
                 return;
             }
@@ -402,7 +408,7 @@ class Ferramental_requisicao  extends MY_Controller {
         return;
     }
 
-    function recusar_requisicao($id_requisicao){
+    public function recusar_requisicao($id_requisicao){
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $this->user);
         
         if ($id_requisicao && $this->input->method() ==  'post') {
@@ -412,14 +418,44 @@ class Ferramental_requisicao  extends MY_Controller {
                 return;
             }
 
-            $requisicao_items = [];
+            $requisicao_items = $requisicao_ativos = $ativos_externos = [];
             foreach($requisicao->items as $item) {
+                if (count($item->ativos) > 0) {
+                    foreach ($item->ativos as $ativo) {
+                        $requisicao_ativos[] = [
+                            'id_requisicao_ativo' => $ativo->id_requisicao_ativo,
+                            'data_transferido' => null,
+                            'status' => 15,
+                        ];
+
+                        $ativos_externos[] = [
+                            'id_ativo_externo' => $ativo->id_ativo_externo,
+                            'situacao' => 12,
+                            'id_obra' => $requisicao->id_origem,
+                        ];
+
+                        $ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
+                        if ($ativo_externo->tipo == 1) {
+                            $this->ferramental_requisicao_model->liberar_kit($ativo_externo, $ativos_externos, 3);
+                        }
+                    }
+                }
+
+
                 $requisicao_items[] = [
                     'id_requisicao_item' =>  $item->id_requisicao_item,
                     'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
                     'status' => 15
                 ];
-            }   
+            }
+            
+            if (!empty($ativos_externos)) {
+                $this->db->update_batch("ativo_externo", $ativos_externos, 'id_ativo_externo');
+            }
+            
+            if (!empty($requisicao_ativos)) {
+                $this->db->update_batch("ativo_externo_requisicao_ativo", $requisicao_ativos, 'id_requisicao_ativo');
+            }
 
             if (!empty($requisicao_items)) {
                 $this->db->update_batch("ativo_externo_requisicao_item", $requisicao_items, 'id_requisicao_item');
@@ -427,8 +463,8 @@ class Ferramental_requisicao  extends MY_Controller {
 
             $this->ferramental_requisicao_model->salvar_formulario([
                 'id_requisicao' => $requisicao->id_requisicao,
-                'id_origem' => $this->user->id_obra,
-                'id_despachante' =>$this->user->id_usuario,
+                'id_origem' => $requisicao->id_origem,
+                'id_despachante' => $this->user->id_usuario,
                 'status' => 15,
                 'data_liberado' => date('Y-m-d H:i:s', strtotime('now'))
             ]);

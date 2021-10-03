@@ -39,6 +39,9 @@
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
                                             <?php } ?>
+                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                            <th>Opções</th>
+                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,6 +55,18 @@
                                                 <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
+                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                            <td> 
+                                                <a 
+                                                    class="btn btn-sm btn-default confirmar_registro" href="javascript:void(0);"
+                                                    data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
+                                                    data-title="Remover Requisição" data-acao="Remover"  data-redirect="true"
+                                                    data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
+                                                >
+                                                    <i class="fa fa-trash item-menu-interno"></i>
+                                                </a>
+                                            </td>
+                                            <?php } ?>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <td scope="col" width="30%"> 
                                                     <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>

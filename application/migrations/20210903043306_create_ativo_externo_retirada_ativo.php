@@ -14,6 +14,7 @@ class Migration_Create_Ativo_Externo_Retirada_Ativo extends CI_Migration {
 			->add_field('id_ativo_externo int(11) NOT NULL')
 			->add_field('data_retirada datetime DEFAULT NULL')
 			->add_field('data_devolucao datetime DEFAULT NULL')
+			->add_field('status int(11) NOT NULL DEFAULT 1')
 			->create_table($this->table);
 		}
 	}

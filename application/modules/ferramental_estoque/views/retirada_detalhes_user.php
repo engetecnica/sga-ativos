@@ -22,12 +22,12 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                          <th scope="col">Retirada ID</th>
-                                          <th scope="col">Funcionário</th>
-                                          <th scope="col">Obra</th>
-                                          <th scope="col">Data</th>
-                                          <th scope="col">Status</th>
-                                          <th width="50%">Detalhes</th>
+                                          <th width="10%" scope="col">Retirada ID</th>
+                                          <th width="10%" scope="col">Funcionário</th>
+                                          <th width="" scope="col">Obra</th>
+                                          <th width="" scope="col">Data</th>
+                                          <th width="" scope="col">Status</th>
+                                          <th width="" scope="col">Detalhes</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,13 +73,13 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
-                                            <th>Item Id</th>
-                                            <th>Item</th>
-                                            <th>Quantidade</th>
-                                            <th>Data da Entrega</th>
-                                            <th>Data da Devolucao</th>
-                                            <th>Situação</th>
-                                            <th>Detalhes</th>
+                                            <th width="10%" scope="col">Item Id</th>
+                                            <th width="10%" scope="col">Item</th>
+                                            <th width="" scope="col">Quantidade</th>
+                                            <th width="" scope="col">Data da Entrega</th>
+                                            <th width="" scope="col">Data da Devolucao</th>
+                                            <th width="" scope="col">Situação</th>
+                                            <th width="" scope="col">Detalhes</th>
                                             <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
                                                 <th>Devolver</th>
                                             <?php } ?>
@@ -171,7 +171,8 @@
                                             <i class="fa fa-check 4x"></i>&nbsp;
                                             Liberar Retirada
                                         </button>
-                                      </a>
+                                      </a><br>
+                                      <small>Clique para Liberar ou Recusar a Requisição dos itens solicitados.</small>
                                     </div>
                                 <?php } ?>
 
@@ -189,7 +190,7 @@
                             
                                 <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 2){  ?>
                                       <a
-                                        class="confirmar_registro pull-right"
+                                        class="confirmar_registro text-center"
                                         href="javascript:void(0)"
                                         data-acao="Marcar" data-icon="info" data-message="false"
                                         data-title="Marcar como Entregues" data-redirect="true"
@@ -206,7 +207,7 @@
 
                                 <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 4){  ?>
                                       <a
-                                        class="confirmar_registro pull-right"
+                                        class="confirmar_registro text-center"
                                         href="javascript:void(0)"
                                         data-acao="Devolver" data-icon="info" data-message="false"
                                         data-title="Devolver Retirada" data-redirect="true"
