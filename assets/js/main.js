@@ -600,7 +600,6 @@
       .done(function(response) {
         let crecimento_empresa_data = []
         let crecimento_empresa_labels = []
-        let meses = []
         let ctx = document.getElementById("crecimento_empresa");
 
         Object.values(response).forEach((mes, index) => {

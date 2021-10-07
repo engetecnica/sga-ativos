@@ -133,10 +133,6 @@ class Relatorio extends MY_Controller {
       return $this->json($this->relatorio_model->crescimento_empresa());
     }
 
-    public function crescimento_empresa_custos(){
-      return $this->json($this->relatorio_model->crescimento_empresa_custos());
-    }
-
     public function informe_vencimentos($dias_restantes = 30){
       $relatorio_data = $this->relatorio_model->informe_vencimentos($dias_restantes);
 
@@ -158,7 +154,7 @@ class Relatorio extends MY_Controller {
         'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
         'informe_vencimentos' => $this->informe_vencimentos(),
       ];
-      $this->json($status);
+      echo json_encode($status);
     }
 
     public function test_email(){

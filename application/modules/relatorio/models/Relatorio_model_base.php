@@ -134,7 +134,7 @@ class Relatorio_model_base extends MY_Model {
             'column' => ['Em Estoque', 'Liberado' ,'Em Transito', 'Em Operação', 'Fora de Operação', 'Com Defeito', 'Total'],
             'color' => ['Green', 'Blue', 'Yellow', '#909090', 'Black', 'Red', '#ccc'],
             'legend_marker' => [ "circle", "circle", "circle", "circle", "circle", "circle", 'triangle'],
-            'tipo' => 'column'
+            'tipo' => 'doughnut'
           ],
           'tipo' => ['grafico','arquivo'],
           'arquivo_saida' => [

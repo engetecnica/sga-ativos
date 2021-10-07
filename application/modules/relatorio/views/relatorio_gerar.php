@@ -123,7 +123,7 @@
                                 </div>
 
                                 <div v-if="relatorio && relatorio.filtros.includes('valor_total')" class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-4">
                                         <label for="valor_total" class=" form-control-label">Relatório com Valores</label>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -134,7 +134,7 @@
                                     </div>
                                 </div>
 
-                                <div v-if="relatorio" class="row form-group">
+                                <div v-if="relatorio && relatorio.arquivo_saida.length > 1" class="row form-group">
                                     <div class="col col-md-3">
                                         <label for="tipo_arquivo" class=" form-control-label">Tipo de Arquido de Saída</label>
                                     </div>
@@ -144,6 +144,8 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <input v-if="relatorio && relatorio.arquivo_saida.length == 1" type="hidden" v-model="form.tipo_arquivo" value="pdf" />
 
                           
                                 <div v-if="show_chart" id="grafico" class="relatorio_grafico m-b-20"></div>

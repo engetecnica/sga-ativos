@@ -143,13 +143,13 @@ class Migration_Seed_Default_Values extends CI_Migration {
 			$this->db->where("id_ativo_externo BETWEEN 1 AND 5")->get('ativo_externo')->num_rows() == 0) {
 			$this->db->query(
 				"INSERT INTO `ativo_externo` 
-				(id_ativo_externo, id_ativo_externo_categoria, id_ativo_externo_grupo, id_obra, nome, codigo, data_inclusao, valor, situacao, necessita_calibracao) 
+				(id_ativo_externo, id_ativo_externo_categoria, id_ativo_externo_grupo, id_obra, nome, codigo, data_inclusao, valor, necessita_calibracao, situacao) 
 				VALUES 
-				(1,1,1,1,'Moto Bomba','MB-001','2020-12-05 16:13:53',1062.00,'1','1'),
-				(2,1,1,1,'Moto Bomba','MB-002','2021-01-17 16:17:45',1062.89,'1','1'),
-				(3,1,1,2,'Moto Bomba','MB-003','2021-04-17 16:23:35',1062.00,'1','1'),
-				(4,1,1,2,'Moto Bomba','MB-004','2021-04-26 06:37:16',1062.89,'1','1'),
-				(5,1,1,3,'Moto Bomba','MB-005','2021-09-26 06:37:16',1062.89,'1','1');"
+				(1,1,1,1,'Moto Bomba','MB-001','2020-12-05 16:13:53',1062.00,'1','12'),
+				(2,1,1,1,'Moto Bomba','MB-002','2021-01-17 16:17:45',1062.89,'1','12'),
+				(3,1,1,2,'Moto Bomba','MB-003','2021-04-17 16:23:35',1062.00,'1','12'),
+				(4,1,1,2,'Moto Bomba','MB-004','2021-04-26 06:37:16',1062.89,'1','12'),
+				(5,1,1,3,'Moto Bomba','MB-005','2021-09-26 06:37:16',1062.89,'1','12');"
 			);
 		}
 	}
@@ -206,5 +206,3 @@ class Migration_Seed_Default_Values extends CI_Migration {
 		}
 	}
 }
-
-//drop table empresa,obra, funcionario, fornecedor, usuario, ativo_externo, ativo_interno, ativo_veiculo, migrations;

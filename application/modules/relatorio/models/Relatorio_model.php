@@ -766,7 +766,7 @@ class Relatorio_model extends Relatorio_model_base {
 
       $obras = [];
       $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
-      if (isset($data['id_obra'])) {
+      if ($data['id_obra'] != null) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
         $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
       } else {
@@ -851,11 +851,11 @@ class Relatorio_model extends Relatorio_model_base {
             ->from('funcionario')
             ->where("data_criacao >= '$periodo_inicio'")
             ->where("data_criacao <= '$periodo_fim'")
+            ->where("situacao = '0'")
             ->get()->num_rows();
   }
 
   public function crescimento_empresa(){
-    $meses_31_dias = [1,3,5,7,8,10,12];
     $meses_porcentagens = $meses_total = [];
 
     for($i=0; $i < 13; $i++){
@@ -863,64 +863,24 @@ class Relatorio_model extends Relatorio_model_base {
       $ultimo_dia = date('t', strtotime($inicio));
       $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-{$i} months"));
 
-      $mes = (int) date('m', strtotime($inicio));
-      $meses_total[$mes] = 0;
-      $meses_total[$mes] += (float) $this->count_ativos_externos($inicio, $fim);
-      $meses_total[$mes] += (float) $this->count_ativos_internos($inicio, $fim);
-      $meses_total[$mes] += (float) $this->count_ativos_veiculos($inicio, $fim);
-      $meses_total[$mes] += (float) $this->count_colaboradores($inicio, $fim);
+      $mes = (int) date('Ym', strtotime($inicio));
+      $mes_atual = 0;
+      $mes_atual += (int) $this->count_ativos_externos($inicio, $fim);
+      $mes_atual += (int) $this->count_ativos_internos($inicio, $fim);
+      $mes_atual += (int) $this->count_ativos_veiculos($inicio, $fim);
+      $mes_atual += (int) $this->count_colaboradores($inicio, $fim);
+      $meses_total[$mes] = $mes_atual;
 
-      $v_menor = (float) isset($meses_total[$mes + 1]) ? $meses_total[$mes + 1] : 0;
-      $v_maior = (float) $meses_total[$mes];
+      $index_mes_anterior = (int) date('Ym', strtotime("$fim +1 days"));
+      $mes_anterior = array_key_exists($index_mes_anterior, $meses_total) ? (int) $meses_total[$index_mes_anterior] : 0;
+      $mes_atual = (int) $meses_total[$mes] + $mes_anterior;
 
-      //V = ((Vmaior - Vmenor)/Vmenor) * 100
-      $meses_porcentagens[$i][0] = $mes;
-      if ($v_menor > 0){
-         $meses_porcentagens[$i][1] = number_format(((($v_maior + $v_menor)/$v_menor) * 100), 2);
-      } else {
-        $meses_porcentagens[$i][1] = number_format(((($v_maior - $v_menor) * $v_menor) / 100), 2);
-      }
+      //crescimento (em %) = (receita do mês atual + receita do mês anterior) * receita do mês anterior / 100
+      $meses_porcentagens[$i][0] = (int) date('m', strtotime($inicio));
+      $meses_porcentagens[$i][1] = ($mes_anterior > 0) ? number_format(((($mes_atual + $mes_anterior) * $mes_anterior) / 100), 2) : 0;
     }
 
     return array_reverse($meses_porcentagens);
-  }
-
-  public function crescimento_empresa_custos(){
-    $meses_31_dias = [1,3,5,7,8,10,12];
-    $meses_porcentagens = $meses_total = [];
-
-    for($i=12; $i > 0; $i--){
-      $inicio = date('Y-m-01 00:00:00', strtotime("-{$i} months"));
-      $ultimo_dia = date('t', strtotime($inicio));
-      $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-{$i} months"));
-     
-      $centro_de_custo = $this->centro_de_custo(
-        [
-          'periodo' => [
-            'tipo' => 'outro',
-            'inicio' => $inicio,
-            'fim' => $fim
-          ],
-          'id_obra' => null,
-        ],
-        'grafico'
-      );
-      $mes = (int) date('m', strtotime($inicio));
-      $meses_total[$mes] = (float) $centro_de_custo->total;
-
-      $v_menor = isset($meses_total[$mes - 1]) ? $meses_total[$mes - 1] : 0;
-      $v_maior = $meses_total[$mes];
-
-      //V = ((Vmaior - Vmenor)/Vmenor) * 100
-      $valor = $v_maior - $v_menor;
-      if ($v_menor > 0){
-        $meses_porcentagens[$mes] = number_format((($valor/$v_menor) * 100), 2);
-      } else {
-        $meses_porcentagens[$mes] = number_format((($valor * $v_menor) / 100), 2);
-      }
-    }
-
-    return $meses_porcentagens;
   }
 
   public function limpar_uploads(){

@@ -165,7 +165,9 @@ class Anexo_model extends MY_Model {
     }
 
     foreach($anexos as $anexo) {
-      $anexos_on_db[] = "{$dir}/{$anexo->{$dir}}";
+      if (isset($anexo->{$dir})) {
+        $anexos_on_db[] = "{$dir}/{$anexo->{$dir}}";
+      }
     }
 
     return array_diff($anexos_on_dir, $anexos_on_db);
