@@ -7,6 +7,7 @@ class Relatorio_model extends Relatorio_model_base {
   public function __construct() {
       parent::__construct();
       $this->load->model("anexo/anexo_model");
+      $this->load->model("notificacoes_model");
 
       $this->uploads = [
         'avatar' => 'usuario', 
@@ -822,43 +823,52 @@ class Relatorio_model extends Relatorio_model_base {
     );
   }
 
-  public function count_ativos_externos($periodo_inicio, $periodo_fim){
-    return $this->ativo_externo_model->ativos()
-            ->where("data_inclusao >= '$periodo_inicio'")
-            ->where("data_inclusao <= '$periodo_fim'")
-            ->where("data_descarte IS NULL")
-             ->get()->num_rows();
+
+  private function filter_by_periodo($query, $column, $periodo_inicio = null, $periodo_fim = null) {
+    if ($periodo_inicio) {
+      $query->where("{$column} >= '$periodo_inicio'");
+    }
+
+    if ($periodo_fim) {
+      $query->where("{$column} <= '$periodo_fim'");
+    }
+    return $query;
   }
 
-  public function count_ativos_internos($periodo_inicio, $periodo_fim){
-    return $this->ativo_interno_model->ativos()
-            ->where("data_inclusao >= '$periodo_inicio'")
-            ->where("data_inclusao <= '$periodo_fim'")
-            ->where("data_descarte IS NULL")
-            ->get()->num_rows();
+
+  public function count_ativos_externos($periodo_inicio = null, $periodo_fim = null){
+    $ativos = $this->filter_by_periodo($this->ativo_externo_model->ativos(),'data_inclusao',$periodo_inicio, $periodo_fim);
+    return $ativos->where("data_descarte IS NULL")->get()->num_rows();
   }
 
-  public function count_ativos_veiculos($periodo_inicio, $periodo_fim){
-    return $this->ativo_veiculo_model->ativos()
-            ->where("data >= '$periodo_inicio'")
-            ->where("data <= '$periodo_fim'")
-            ->where("situacao = '0'")
-            ->get()->num_rows();
+  public function count_ativos_internos($periodo_inicio = null, $periodo_fim = null){
+    $ativos = $this->filter_by_periodo($this->ativo_interno_model->ativos(), 'data_inclusao', $periodo_inicio, $periodo_fim);
+    return $ativos->where("data_descarte IS NULL")->get()->num_rows();
   }
 
-  public function count_colaboradores($periodo_inicio, $periodo_fim){
-    return $this->db
-            ->from('funcionario')
-            ->where("data_criacao >= '$periodo_inicio'")
-            ->where("data_criacao <= '$periodo_fim'")
-            ->where("situacao = '0'")
-            ->get()->num_rows();
+  public function count_ativos_veiculos($periodo_inicio = null, $periodo_fim = null){
+    $veiculos = $this->filter_by_periodo($this->ativo_veiculo_model->ativos(), 'data', $periodo_inicio, $periodo_fim);
+    return $veiculos->where("situacao = '0'")->get()->num_rows();   
+  }
+
+  public function count_colaboradores($periodo_inicio = null, $periodo_fim = null){
+    $funcionarios = $this->filter_by_periodo($this->db->from('funcionario'), 'data_criacao', $periodo_inicio, $periodo_fim);
+    return $funcionarios->where("situacao = '0'")->get()->num_rows();
   }
 
   public function crescimento_empresa(){
-    $meses_porcentagens = $meses_total = [];
+    $meses_porcentagens = $meses_total = $meses = [];
+    $inicio =  date("1991-07-20 06:20:00"); //My Brithdate :)
+    $ultimo_dia = date('t');
+    $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-13 months"));
 
-    for($i=0; $i < 13; $i++){
+    $total = 0;
+    $total += (int) $this->count_ativos_externos(null);
+    $total += (int) $this->count_ativos_internos(null);
+    $total += (int) $this->count_ativos_veiculos(null);
+    $total += (int) $this->count_colaboradores(null);
+
+    for($i=0; $i < 12; $i++){
       $inicio = date('Y-m-01 00:00:00', strtotime("-{$i} months"));
       $ultimo_dia = date('t', strtotime($inicio));
       $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-{$i} months"));
@@ -869,18 +879,34 @@ class Relatorio_model extends Relatorio_model_base {
       $mes_atual += (int) $this->count_ativos_internos($inicio, $fim);
       $mes_atual += (int) $this->count_ativos_veiculos($inicio, $fim);
       $mes_atual += (int) $this->count_colaboradores($inicio, $fim);
-      $meses_total[$mes] = $mes_atual;
+      $meses[$mes] = $mes_atual;
 
-      $index_mes_anterior = (int) date('Ym', strtotime("$fim +1 days"));
-      $mes_anterior = array_key_exists($index_mes_anterior, $meses_total) ? (int) $meses_total[$index_mes_anterior] : 0;
-      $mes_atual = (int) $meses_total[$mes] + $mes_anterior;
+      $index_mes_anterior = (int) date('Ym', strtotime("$inicio -1 days"));
+      $mes_anterior = array_key_exists($index_mes_anterior, $meses) ? (int) $meses[$index_mes_anterior][1] : 0;
 
-      //crescimento (em %) = (receita do mês atual + receita do mês anterior) * receita do mês anterior / 100
-      $meses_porcentagens[$i][0] = (int) date('m', strtotime($inicio));
-      $meses_porcentagens[$i][1] = ($mes_anterior > 0) ? number_format(((($mes_atual + $mes_anterior) * $mes_anterior) / 100), 2) : 0;
+      $meses_total[$i] = (object) [
+        "total" => $total,
+        "mes" => (int) date('m', strtotime($inicio)),
+        "mes_ano" => $mes,
+        "mes_anterior" => $mes_anterior,
+        "mes_atual" => $mes_atual
+      ];
     }
 
-    return array_reverse($meses_porcentagens);
+
+    $i = 0;
+    foreach(array_reverse($meses_total, true) as  $mes) {
+      $crescimento = 0;
+      if ($mes->total > 0) {
+        $crescimento = (float) ($mes->mes_atual / $mes->total) * 100;
+      }
+
+      $meses_porcentagens[$i][0] = $mes->mes;
+      $meses_porcentagens[$i][1] =  number_format($crescimento, 2);
+      $i++;
+    }
+
+    return $meses_porcentagens;
   }
 
   public function limpar_uploads(){
@@ -950,5 +976,21 @@ class Relatorio_model extends Relatorio_model_base {
     }
 
     return $results;
+  }
+
+  public function enviar_informe_vencimentos($dias_restantes = 30){
+    $relatorio_data = $this->informe_vencimentos($dias_restantes);
+  
+    if (count($relatorio_data) > 0) {
+      $data = [
+          'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
+          'relatorio' => $relatorio_data,
+          'dias' => $dias_restantes,
+      ];
+
+      $html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
+      return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
+    }
+    return true;
   }
 }
