@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Migration_Create_Ativo_Externo_Requisicao_Ativo extends CI_Migration {
-	private $table = 'ativo_externo_item_requisicao_ativo';
+	private $table = 'ativo_externo_requisicao_ativo';
 
     //Upgrade migration
 	public function up(){
