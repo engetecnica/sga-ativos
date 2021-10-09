@@ -78,6 +78,7 @@
           <tr>
             <th>ID</th>
             <th>Nome</th>
+            <th>Marca</th>
             <th>Registro</th>
             <th>Descarte</th>
             <th>Situação</th>
@@ -94,6 +95,7 @@
           <tr>
             <td><?php echo $equipamento->id_ativo_interno; ?></td>
             <td><?php echo $equipamento->nome; ?></td>
+            <td><?php echo isset($equipamento->marca) ? $equipamento->marca : '-'; ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($equipamento->data_inclusao)); ?></td>
             <td><?php echo isset($equipamento->data_descarte) ? date('d/m/Y H:i:s', strtotime($equipamento->data_descarte)) : '-'; ?></td>
             <td>
@@ -107,6 +109,7 @@
         <?php } ?>
         <?php if ($relatorio->show_valor_total) { ?>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -40,6 +40,7 @@ class Ativo_interno  extends MY_Controller {
     function salvar(){
         $data['id_ativo_interno'] = !is_null($this->input->post('id_ativo_interno')) ? $this->input->post('id_ativo_interno') : '';
         $data['nome'] = $this->input->post('nome');
+        $data['marca'] = $this->input->post('marca');
 
         $valor = str_replace("R$ ", "", $this->input->post('valor'));
         $valor = str_replace(".", "", $valor);

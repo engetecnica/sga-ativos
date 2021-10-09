@@ -57,10 +57,19 @@
                                     <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome do Ativo</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->nome)){ echo $ativo->nome; } ?>">
+                                    </div>
+
+                                    <div class="col col-md-1">
+                                        <label for="marca" class=" form-control-label">Marca</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
+                                        required="required" type="text" id="marca" name="marca" placeholder="Marca do Ativo" class="form-control" 
+                                        value="<?php if(isset($ativo) && isset($ativo->marca)){ echo $ativo->marca; } ?>">
                                     </div>
                                 </div>
 

@@ -32,10 +32,11 @@ $sheet_ferramentas->setCellValue('H1', 'Situação');
 
 $sheet_equipamentos->setCellValue('A1', 'ID');
 $sheet_equipamentos->setCellValue('B1', 'Nome');
-$sheet_equipamentos->setCellValue('C1', 'Obra');
-$sheet_equipamentos->setCellValue('D1', 'Registro');
-$sheet_equipamentos->setCellValue('E1', 'Descarte');
-$sheet_equipamentos->setCellValue('F1', 'Situação');
+$sheet_equipamentos->setCellValue('C1', 'Marca');
+$sheet_equipamentos->setCellValue('D1', 'Obra');
+$sheet_equipamentos->setCellValue('E1', 'Registro');
+$sheet_equipamentos->setCellValue('F1', 'Descarte');
+$sheet_equipamentos->setCellValue('G1', 'Situação');
 
 $sheet_veiculos->setCellValue('A1', 'ID');
 $sheet_veiculos->setCellValue('B1', 'Placa');
@@ -95,13 +96,14 @@ if (count($data->obras) > 0) {
 
                 $sheet_equipamentos->setCellValue("A{$e}", $equipamento->id_ativo_interno);
                 $sheet_equipamentos->setCellValue("B{$e}", $equipamento->nome);
-                $sheet_equipamentos->setCellValue("C{$e}", $equipamento->obra);
-                $sheet_equipamentos->setCellValue("D{$e}", $this->formata_data_hora($equipamento->data_inclusao));
-                $sheet_equipamentos->setCellValue("E{$e}",  $this->formata_data_hora($equipamento->data_descarte));
-                $sheet_equipamentos->setCellValue("F{$e}", $this->get_situacao($equipamento->situacao)['texto']);
+                $sheet_equipamentos->setCellValue("C{$e}", isset($equipamento->nome) ? $equipamento->nome : '');
+                $sheet_equipamentos->setCellValue("D{$e}", $equipamento->obra);
+                $sheet_equipamentos->setCellValue("E{$e}", $this->formata_data_hora($equipamento->data_inclusao));
+                $sheet_equipamentos->setCellValue("F{$e}",  $this->formata_data_hora($equipamento->data_descarte));
+                $sheet_equipamentos->setCellValue("G{$e}", $this->get_situacao($equipamento->situacao)['texto']);
 
                 if ($data->show_valor_total) {
-                    $sheet_equipamentos->setCellValue("G{$e}", $this->formata_moeda($equipamento->valor));
+                    $sheet_equipamentos->setCellValue("H{$e}", $this->formata_moeda($equipamento->valor));
                 }
                 $e++;
             }
@@ -140,13 +142,13 @@ if ($data->show_valor_total) {
 
 $e++;
 if ($data->show_valor_total) {
-    $sheet_equipamentos->setCellValue("D{$e}", 'Quantidade Total em Equipamentos');
-    $sheet_equipamentos->setCellValue("E{$e}",$equipamentos_total);
-    $sheet_equipamentos->setCellValue("F{$e}", 'Valor Total em Equipamentos');
-    $sheet_equipamentos->setCellValue("G{$e}", $this->formata_moeda($equipamentos_valor_total));
-} else {
     $sheet_equipamentos->setCellValue("E{$e}", 'Quantidade Total em Equipamentos');
     $sheet_equipamentos->setCellValue("F{$e}",$equipamentos_total);
+    $sheet_equipamentos->setCellValue("G{$e}", 'Valor Total em Equipamentos');
+    $sheet_equipamentos->setCellValue("H{$e}", $this->formata_moeda($equipamentos_valor_total));
+} else {
+    $sheet_equipamentos->setCellValue("F{$e}", 'Quantidade Total em Equipamentos');
+    $sheet_equipamentos->setCellValue("G{$e}",$equipamentos_total);
 }
 
 $v++;

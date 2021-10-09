@@ -14,6 +14,7 @@
           <tr>
             <th>ID Equipamento</th>
             <th>Nome</th>
+            <th>Marca</th>
             <th>Registro</th>
             <th>Situação</th>
           </tr>
@@ -23,6 +24,7 @@
           <tr>
             <td><?php echo $equipamento->id_ativo_interno; ?></td>
             <td><?php echo $equipamento->nome; ?></td>
+            <td><?php echo isset($equipamento->marca) ? $equipamento->marca : '-'; ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($obra->data_criacao)); ?></td>
             <td>
               <?php $situacao = $this->get_situacao($obra->situacao);?>

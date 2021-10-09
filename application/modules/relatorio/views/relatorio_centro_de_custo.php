@@ -49,6 +49,7 @@
           <tr>
             <th>ID</th>
             <th>Nome</th>
+            <th>Marca</th>
             <th>Registro</th>
             <th>Custo</th>
           </tr>
@@ -58,11 +59,13 @@
           <tr>
             <td><?php echo $equipamento->id_ativo_interno; ?></td>
             <td><?php echo $equipamento->nome; ?></td>
+            <td><?php echo isset($equipamento->marca) ? $equipamento->marca : '-'; ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($equipamento->data_inclusao)); ?></td>
             <td><?php echo $this->formata_moeda($equipamento->valor); ?></td>
           </tr>
         <?php } ?>
          <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td>Total</td>

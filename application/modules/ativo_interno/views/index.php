@@ -22,6 +22,7 @@
                                 <tr>
                                     <th width="7%">Id</th>
                                     <th width="20%">Título</th>
+                                    <th width="20%">Marca</th>
                                     <th width="15%">Valor Atribuído</th>
                                     <th>Quantidade</th>
                                     <th>Inclusão</th>
@@ -36,6 +37,7 @@
                                 <tr id="<?php echo $valor->id_ativo_interno; ?>">
                                     <td><?php echo $valor->id_ativo_interno; ?></td>
                                     <td><?php echo $valor->nome; ?></td>
+                                    <td><?php echo isset($valor->marca) ? $valor->marca : '-'; ?></td>
                                     <td>R$ <?php echo number_format($valor->valor, 2, ',', '.'); ?></td>
                                     <td><?php echo $valor->quantidade; ?></td>
                                     <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
