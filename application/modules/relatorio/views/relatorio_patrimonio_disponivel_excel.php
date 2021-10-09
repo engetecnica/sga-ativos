@@ -96,7 +96,7 @@ if (count($data->obras) > 0) {
 
                 $sheet_equipamentos->setCellValue("A{$e}", $equipamento->id_ativo_interno);
                 $sheet_equipamentos->setCellValue("B{$e}", $equipamento->nome);
-                $sheet_equipamentos->setCellValue("C{$e}", isset($equipamento->nome) ? $equipamento->nome : '');
+                $sheet_equipamentos->setCellValue("C{$e}", isset($equipamento->marca) ? $equipamento->marca : '');
                 $sheet_equipamentos->setCellValue("D{$e}", $equipamento->obra);
                 $sheet_equipamentos->setCellValue("E{$e}", $this->formata_data_hora($equipamento->data_inclusao));
                 $sheet_equipamentos->setCellValue("F{$e}",  $this->formata_data_hora($equipamento->data_descarte));
@@ -236,8 +236,8 @@ foreach (range('A', 'I') as $col) {
 
 
 //Format header equipamentos
-$sheet_equipamentos_range = "A1:". ($data->show_valor_total ? "G1" : "F1");
-$sheet_equipamentos_range2 = $data->show_valor_total ? "D$e:G$e" : "E$e:F$e";
+$sheet_equipamentos_range = "A1:". ($data->show_valor_total ? "H1" : "G1");
+$sheet_equipamentos_range2 = $data->show_valor_total ? "E$e:H$e" : "F$e:G$e";
 $spreadsheet->addSheet($sheet_equipamentos, 1);
 $sheet_equipamentos->getStyle($sheet_equipamentos_range)
 ->getFont()
@@ -274,7 +274,7 @@ $sheet_equipamentos->getStyle($sheet_equipamentos_range2)
 $sheet_equipamentos->getRowDimension('1')->setRowHeight($row_height, $row_unity);
 $sheet_equipamentos->getRowDimension($e)->setRowHeight($row_height, $row_unity);
 
-foreach (range('A', 'G') as $col) {
+foreach (range('A', 'H') as $col) {
     $sheet_equipamentos->getColumnDimension($col)->setAutoSize(true);
 }
 

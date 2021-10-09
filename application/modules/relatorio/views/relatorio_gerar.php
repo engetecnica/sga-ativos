@@ -23,7 +23,7 @@
                                     <div class="col col-md-2">
                                         <label for="tipo" class=" form-control-label">Relatório</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select required="required" v-model="tipo" @change="set_tipo($event)" class="form-control" id="tipo" name="tipo">
                                             <option :value="null">Selecione um Tipo de Relatório</option>
                                             <option v-for="(relatorio, key) in relatorios" :value="key" :key="key">{{relatorio.titulo}}</option>
@@ -31,37 +31,38 @@
                                     </div>
                                 </div>
 
-                                <div v-if="relatorio && relatorio.filtros.includes('id_empresa')" class="row form-group">
+                                <div class="row form-group">
+                                    <template v-if="relatorio && relatorio.filtros.includes('id_empresa')">
                                     <div class="col col-md-2">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select v-model="form.id_empresa" class="form-control" id="id_empresa" name="id_empresa">
                                             <option :value="null">Todas as Empresas</option>
                                             <option v-for="(empresa, key) in empresas" :value="empresa.id_empresa" :key="key">{{empresa.razao_social}}</option>
                                         </select>
                                     </div>
-                                </div>
-
-
-                                <div v-if="relatorio && relatorio.filtros.includes('id_obra')" class="row form-group">
+                                    </template>
+                              
+                                    <template v-if="relatorio && relatorio.filtros.includes('id_obra')">
                                     <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select v-model="form.id_obra" class="form-control" id="id_obra" name="id_obra">
                                             <option :value="null">Todas as Obras</option>
                                             <option v-for="(obra, key) in filter_obras" :value="obra.id_obra" :key="key">{{obra.codigo_obra}}</option>
                                         </select>
                                     </div>
+                                    </template>
                                 </div>
 
 
                                 <div v-if="relatorio && relatorio.filtros.includes('id_funcionario')" class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-1">
                                         <label for="id_funcionario" class=" form-control-label">Funcionário</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select v-model="form.id_funcionario" class="form-control" id="id_funcionario" name="id_funcionario">
                                             <option :value="null">Todos os Funcionários</option>
                                             <option v-for="(funcionario, key) in filter_funcionarios" :value="funcionario.id_funcionario" :key="key">{{funcionario.nome}}</option>
@@ -69,80 +70,79 @@
                                     </div>
                                 </div>
 
-                                <div v-if="relatorio && relatorio.filtros.includes('tipo_veiculo')" class="row form-group">
-                                    <div class="col col-md-2">
+                                <div class="row form-group">
+                                    <template v-if="relatorio && relatorio.filtros.includes('tipo_veiculo')">
+                                    <div class="col col-md-3">
                                         <label for="tipo_veiculo" class=" form-control-label">Tipo de Veículo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-3">
                                         <select v-model="form.tipo_veiculo" class="form-control" id="tipo_veiculo" name="tipo_veiculo">
                                             <option v-for="(tipo, key) in tipos_veiculos" :value="key" :key="key">{{tipo}}</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div v-if="relatorio && relatorio.filtros.includes('veiculo_placa')" class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_placa" class=" form-control-label">Veículo/Placa</label>
+                                    </template>
+                               
+                                    <template v-if="relatorio && relatorio.filtros.includes('veiculo_placa')">
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_placa" class=" form-control-label">Placa do Veículo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-3">
                                         <input type="text" v-model="form.veiculo_placa" v-mask="'AAA-#N##'" class="form-control veiculo_placa" id="veiculo_placa" name="veiculo_placa"/>
                                     </div>
+                                    </template>
                                 </div>
 
 
                                 <div v-if="relatorio && relatorio.filtros.includes('periodo')" class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-1">
                                         <label for="periodo_tipo" class=" form-control-label">Período</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-3">
                                         <select required="required" v-model="form.periodo.tipo" class="form-control" id="periodo_tipo" name="periodo_tipo">
                                             <option v-for="(periodo, key) in periodos" :value="key" :key="key">{{periodo.titulo}}</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div class="row form-group" v-if="(form.periodo && form.periodo.tipo) && form.periodo.tipo == 'outro'">
-                                    <div class="col-12 col-md-6">
-                                        <div class="col col-md-2">
+                                    
+                                    <template v-if="(form.periodo && form.periodo.tipo) && form.periodo.tipo == 'outro'">
+                                        <div class="col col-md-1">
                                             <label for="tipo" class=" form-control-label">Início</label>
                                         </div>
-                                        <div class="col-12 col-md-10">
+                                        <div class="col-12 col-xs-4 col-md-3">
                                             <input class="form-control" required="required" v-model="form.periodo.inicio" type="date" id="periodo_inicio" name="periodo_inicio" />
                                         </div>
-                                    </div>
-
-
-                                    <div class="col-12 col-md-6">
-                                        <div class="col col-md-2">
+                                    
+                                        <div class="col col-md-1">
                                             <label for="tipo" class=" form-control-label">Fim</label>
                                         </div>
-                                        <div class="col-12 col-md-10">
-                                        <input class="form-control" required="required" v-model="form.periodo.fim" type="date"  id="periodo_fim" name="periodo_fim" />
+                                        <div class="col-12 col-xs-4 col-md-3">
+                                            <input class="form-control" required="required" v-model="form.periodo.fim" type="date"  id="periodo_fim" name="periodo_fim" />
                                         </div>
-                                    </div>
+                                    </template>
                                 </div>
 
-                                <div v-if="relatorio && relatorio.filtros.includes('valor_total')" class="row form-group">
-                                    <div class="col col-md-4">
+                                <div class="row form-group">
+                                    <template  v-if="relatorio && relatorio.filtros.includes('valor_total')">
+                                    <div class="col col-md-2">
                                         <label for="valor_total" class=" form-control-label">Relatório com Valores</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-2">
                                         <select v-model="form.valor_total" class="form-control" id="valor_total" name="valor_total">
                                             <option :value="false">Não</option>
                                             <option :value="true">Sim</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div v-if="relatorio && relatorio.arquivo_saida.length > 1" class="row form-group">
-                                    <div class="col col-md-3">
+                                    </template>
+                             
+                                    <template v-if="relatorio && Object.keys(relatorio.arquivo_saida).length > 1">
+                                    <div class="col col-md-2">
                                         <label for="tipo_arquivo" class=" form-control-label">Tipo de Arquido de Saída</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-2">
                                         <select :required="true" v-model="form.tipo_arquivo" class="form-control" id="tipo_arquivo" name="tipo_arquivo">
                                             <option v-for="(value, key) in relatorio.arquivo_saida" :value="value">{{key}}</option>
                                         </select>
                                     </div>
+                                    </template>
                                 </div>
 
                                 <input v-if="relatorio && relatorio.arquivo_saida.length == 1" type="hidden" v-model="form.tipo_arquivo" value="pdf" />
@@ -222,7 +222,7 @@
           tipo_veiculo: 'todos',
           veiculo_placa: null,
           valor_total: true,
-          tipo_arquivo: 'pdf',
+          tipo_arquivo: 'xls',
         },
         url: {
             interval: null,
@@ -250,13 +250,18 @@
             }
 
             if(this.tipo){
-                this.form.tipo_arquivo = 'pdf'
+                this.form.tipo_arquivo =  (this.relatorio && Object.keys(this.relatorio.arquivo_saida).length > 1) ? 'xls' : 'pdf'
                 this.relatorio = this.relatorios[this.tipo]
                 return;
             }
 
             this.relatorio = null
             this.form.id_empresa = null
+        },
+        relatorio(){
+            if (this.relatorio) {
+
+            }
         },
         "form.id_empresa"(){
             this.form.id_obra = null
