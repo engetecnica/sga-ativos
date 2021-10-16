@@ -858,15 +858,9 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function crescimento_empresa(){
     $meses_porcentagens = $meses_total = $meses = [];
-    $inicio =  date("1991-07-20 06:20:00"); //My Brithdate :)
+    $inicio =  date("1991-07-20 06:20:00");
     $ultimo_dia = date('t');
     $fim = date("Y-m-{$ultimo_dia} 23:59:59", strtotime("-13 months"));
-
-    $total = 0;
-    $total += (int) $this->count_ativos_externos(null);
-    $total += (int) $this->count_ativos_internos(null);
-    $total += (int) $this->count_ativos_veiculos(null);
-    $total += (int) $this->count_colaboradores(null);
 
     for($i=0; $i < 12; $i++){
       $inicio = date('Y-m-01 00:00:00', strtotime("-{$i} months"));
@@ -880,6 +874,14 @@ class Relatorio_model extends Relatorio_model_base {
       $mes_atual += (int) $this->count_ativos_veiculos($inicio, $fim);
       $mes_atual += (int) $this->count_colaboradores($inicio, $fim);
       $meses[$mes] = $mes_atual;
+
+      $total_fim = date("Y-m-d 23:59:59", strtotime("$fim -1 days"));
+      $total = 0; 
+      $total += (int) $this->count_ativos_externos(null, $total_fim);
+      $total += (int) $this->count_ativos_internos(null, $total_fim);
+      $total += (int) $this->count_ativos_veiculos(null, $total_fim);
+      $total += (int) $this->count_colaboradores(null, $total_fim);
+      var_dump($total, $total_fim); echo "<br><br";
 
       $index_mes_anterior = (int) date('Ym', strtotime("$inicio -1 days"));
       $mes_anterior = array_key_exists($index_mes_anterior, $meses) ? (int) $meses[$index_mes_anterior][1] : 0;

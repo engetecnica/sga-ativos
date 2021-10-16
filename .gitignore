@@ -1,8 +1,6 @@
 *log*
 application/cache/*
 !application/cache/.gitkeep
-application/config/database.php
-application/config/config.php
 assets/uploads/*/*
 !assets/uploads/*/.gitkeep
 !assets/uploads/.gitkeep
@@ -10,3 +8,4 @@ vendor
 *.DS_Store
 local_bd.sql
 *dump_*
+.env

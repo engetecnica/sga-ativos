@@ -73,19 +73,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-
 $db['default'] = array(
-	'dsn' => '', //getenv('CLEARDB_DATABASE_URL'),
-	'hostname' => getenv('CLEARDB_HOST'),
-	'username' => getenv('CLEARDB_USERNAME'),
-	'password' => getenv('CLEARDB_PASS'),
-	'database' => getenv('CLEARDB_DATABASE'),
-    'port' => 3306, 
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
+	'dsn' => isset($_ENV['DB_URL']) ? $_ENV['DB_URL'] : null,
+	'hostname' => isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost',
+	'username' => isset($_ENV['DB_USER']) ? $_ENV['DB_USER'] : 'root',
+	'password' => isset($_ENV['DB_PASS']) ? $_ENV['DB_PASS'] : 'root',
+	'database' => isset($_ENV['DB_DATABASE']) ? $_ENV['DB_DATABASE'] : 'engetecnica',
+    'port' => isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : 3306, 
+	'dbdriver' => isset($_ENV['DB_DRIVER']) ? $_ENV['DB_DRIVER'] : 'mysqli',
+	'dbprefix' => isset($_ENV['DB_PREFIX']) ? $_ENV['DB_PREFIX'] : '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
+	'db_debug' => ENVIRONMENT !== 'production',
+	'cache_on' => TRUE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
 	'dbcollat' => 'utf8_general_ci',

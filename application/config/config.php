@@ -123,7 +123,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -546,12 +546,17 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
+/**
+ * Custom Upload Size
+ */
+$config['upload_max_filesize'] = 10;
+
 /** 
  * One Signal Notifications
  */
-$config['one_signal_appid'] = getenv("ONESIGNAL_APPID");
-$config['one_signal_apikey'] = getenv("ONESIGNAL_APIKEY");
-$config['one_signal_apiurl'] = getenv("ONESIGNAL_APIURL");
+$config['one_signal_appid'] = $_ENV["ONESIGNAL_APPID"];
+$config['one_signal_apikey'] = $_ENV["ONESIGNAL_APIKEY"];
+$config['one_signal_apiurl'] = $_ENV["ONESIGNAL_APIURL"];
 
 
 
@@ -559,15 +564,22 @@ $config['one_signal_apiurl'] = getenv("ONESIGNAL_APIURL");
  * App Email Notifications
 */
 //From
-$config['notifications_email'] = getenv("APP_NOTIFICATION_FROM_EMAIL");
+$config['notifications_email'] = $_ENV["APP_NOTIFICATION_FROM_EMAIL"];
 
 //To
-$name = getenv("APP_NOTIFICATION_TO_NAME");
-$config['notifications_address'] = [
-    "{$name}" => getenv("APP_NOTIFICATION_TO_EMAIL"),
-    //...
-];
+if (isset($_ENV["APP_NOTIFICATION_TO_NAME"]) && isset($_ENV["APP_NOTIFICATION_TO_EMAIL"])) {
+    $name = $_ENV["APP_NOTIFICATION_TO_NAME"];
+    $email = $_ENV["APP_NOTIFICATION_TO_EMAIL"];
+    $config['notifications_address'][$name] = $email;
+}
+
+foreach (range(1, 10) as $id) {
+    if (isset($_ENV["APP_NOTIFICATION_TO_NAME{$id}"]) && isset($_ENV["APP_NOTIFICATION_TO_EMAIL{$id}"])) {
+        $name = $_ENV["APP_NOTIFICATION_TO_NAME{$id}"];
+        $email = $_ENV["APP_NOTIFICATION_TO_EMAIL{$id}"];
+        $config['notifications_address'][$name] = $email;
+    }
+}
 
 //SendGrid
-$config['sendgrid_apikey'] = getenv("SENDGRID_APIKEY");
-
+$config['sendgrid_apikey'] = $_ENV["SENDGRID_APIKEY"];
