@@ -4854,6 +4854,10 @@ section {
     color: #fa4251;
 }
 
+#lista .table-responsive{
+    min-height: 200px !important;
+}
+
 
 #lista td, #lista2 td,
 #lista3 td, #lista4 td  {

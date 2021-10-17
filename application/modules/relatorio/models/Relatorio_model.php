@@ -881,7 +881,6 @@ class Relatorio_model extends Relatorio_model_base {
       $total += (int) $this->count_ativos_internos(null, $total_fim);
       $total += (int) $this->count_ativos_veiculos(null, $total_fim);
       $total += (int) $this->count_colaboradores(null, $total_fim);
-      var_dump($total, $total_fim); echo "<br><br";
 
       $index_mes_anterior = (int) date('Ym', strtotime("$inicio -1 days"));
       $mes_anterior = array_key_exists($index_mes_anterior, $meses) ? (int) $meses[$index_mes_anterior][1] : 0;

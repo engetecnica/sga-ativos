@@ -21,23 +21,22 @@
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
-                                    <th>Tipo</th>
-                                    <th>Veículo</th>
                                     <th>Placa</th>
+                                    <th>Veículo</th>
+                                    <th>Tipo</th>
                                     <th>Tabela Fipe</th>
                                     <th>Referência</th>
                                     <th>Situação</th>
-                                    <th width="7%">Registros</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
                                     <td><?php echo $valor->id_ativo_veiculo; ?></td>
-                                    <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>
-                                    <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
+                                    <td><?php echo $valor->veiculo; ?></td>
+                                    <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>
                                     <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
                                     <td>
@@ -50,17 +49,19 @@
                                                 Gerenciar Veículo
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>">Registrar Quilometragem</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>">Registrar Manutenção</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>">Registrar IPVA</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>">Registrar Seguro</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>">Registrar Depreciação</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>">Quilometragem</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>">Manutenção</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>">IPVA</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>">Seguro</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>">Depreciação</a>
                                                 <a class="dropdown-item" href="<?php echo base_url('anexo/index/9/'.$valor->id_ativo_veiculo); ?>">Anexos</a>
+                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>">Editar</a>
+                                                <?php if ($this->ativo_veiculo_model->permit_delete($valor->id_ativo_veiculo)) {?>
+                                                <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" 
+                                                data-tabela="ativo_veiculo" class="dropdown-item deletar_registro">Excluir</a>
+                                                <?php } ?>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-tabela="ativo_veiculo" class="deletar_registro"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                <?php } ?>

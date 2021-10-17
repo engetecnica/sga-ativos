@@ -150,7 +150,7 @@
         })
         <?php } ?>
 
-        $('.litros').mask("##0,0 L", {reverse: true});
+        $('.litros').mask("####,## L", {reverse: true});
         $('.cpf').mask('000.000.000-00');
         $('.rg').mask('0.000.000-00');
         $('.cnpj').mask('00.000.000/0001-00');
@@ -192,8 +192,8 @@
                                 'success'
                             )
 
-                            if (redirect == true) {
-                                window.location = "<?php echo base_url()?>" + tabela;
+                            if (redirect == true || redirect === "true") {
+                                window.location = `${base_url}${tabela}`;
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -251,7 +251,7 @@
                                     }
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    if (redirect == true) {
+                                    if (redirect == true || redirect === "true") {
                                         window.location = tabela;
                                         return;
                                     }

@@ -9,6 +9,11 @@
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
                     </div>
+                    <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
+                    </div>
                 </div>
             </div>
 
@@ -25,7 +30,7 @@
                                     <th>Custo</th>
                                     <th>Carência Inicio</th>
                                     <th>Carência Final</th>
-                                    <th>Comprovante</th>
+                                    <th>Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,13 +45,33 @@
                                     <td><?php echo date("d/m/Y", strtotime($valor->carencia_inicio)); ?></td>
                                     <td><? echo isset($valor->carencia_fim) ? date("d/m/Y", strtotime($valor->carencia_fim)) : "-" ;?></td>
                                     <td width="15%">
-                                        <?php if(isset($valor->contrato_seguro)){ ?>
-                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
-                                                Baixar Contrato
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupGerenciarSeguto" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Seguro
                                             </button>
-                                        </a>                           
-                                        <?php } ?>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarSeguto">
+                                                <?php if($this->ativo_veiculo_model->permit_edit_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}");?>">
+                                                    Editar
+                                                    </a>
+                                                <?php } ?>
+
+                                                <?php if($valor->contrato_seguro){ ?>
+                                                    <a class="dropdown-item" target="_blank" href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
+                                                        Visualizar Comprovante
+                                                    </a>  
+                                                    <a class="dropdown-item" target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
+                                                        Baixar Comprovante
+                                                    </a>                           
+                                                <?php } ?>
+
+                                                <?php if($this->ativo_veiculo_model->permit_delete_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>
+                                                    <a href="javascript:void(0)" data-href="<?php echo base_url("ativo_veiculo/seguro_deletar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}"); ?>" 
+                                                        data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-redirect="true"
+                                                        data-tabela="ativo_veiculo/gerenciar/seguro/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item deletar_registro">Excluir</a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

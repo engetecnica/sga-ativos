@@ -16,16 +16,19 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25">Gerenciar Veículo</h2>
+                    <h2 class="title-1 m-b-25">Gerenciar IPVA</h2>
 
                     <div class="card">
                         <div class="card-header">Registrar items do veículo</div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/ipva_salvar'); ?>" method="post" enctype="multipart/form-data">
-
                                 <?php if(isset($id_ativo_veiculo)){?>
-                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
+                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
+                                <?php } ?>
+
+                                <?php if(isset($ipva) && isset($ipva->id_ativo_veiculo_ipva)){?>
+                                    <input type="hidden" name="id_ativo_veiculo_ipva" id="id_ativo_veiculo_ipva" value="<?php echo $ipva->id_ativo_veiculo_ipva; ?>">
                                 <?php } ?>
 
                                 <p><strong>CONTROLE DE IPVA DE VEÍCULO</strong></p>
@@ -40,8 +43,8 @@
                                     <div class="col-12 col-md-2">
                                         <select required="required" class="form-control" id="ipva_ano" name="ipva_ano">
                                             <option value="">Ano</option>
-                                            <?php for($i=date("Y"); $i<=date("Y")+5; $i++){ ?>
-                                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                            <?php for($i=date("Y")-5; $i<=date("Y")+5; $i++){ ?>
+                                            <option <?php echo isset($ipva) && isset($ipva->ipva_ano) && $ipva->ipva_ano == $i  ? 'selected="selected"' : '';?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>   
@@ -50,7 +53,8 @@
                                         <label for="ipva_custo" class=" form-control-label">Custo</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input required="required" type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" value="">
+                                        <input required="required" type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" 
+                                        value="<?php echo isset($ipva) && isset($ipva->ipva_custo) ? $ipva->ipva_custo : ''?>">
                                     </div>
                                 </div>
 
@@ -60,7 +64,8 @@
                                     </div>                                    
 
                                     <div class="col-12 col-md-4">
-                                        <input required="required" type="date" id="ipva_data_pagamento" name="ipva_data_pagamento" class="form-control" value="">
+                                        <input required="required" type="date" id="ipva_data_pagamento" name="ipva_data_pagamento" class="form-control" 
+                                        value="<?php echo isset($ipva) && isset($ipva->ipva_data_pagamento) ? date("Y-m-d", strtotime($ipva->ipva_data_pagamento)) : ''?>">
                                     </div>
                             
                                 
@@ -68,21 +73,18 @@
                                         <label for="ipva_data_vencimento" class=" form-control-label">Vencimento</label>
                                     </div>        
                                     <div class="col-12 col-md-4">
-                                        <input required="required" type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" value="">
+                                        <input required="required" type="date" id="ipva_data_vencimento" name="ipva_data_vencimento" class="form-control" 
+                                        value="<?php echo isset($ipva) && isset($ipva->ipva_data_vencimento) ? date("Y-m-d", strtotime($ipva->ipva_data_vencimento)) : ''?>">
                                     </div>
                                 </div>
 
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="comprovante_ipva" class=" form-control-label">Comprovante</label>
-                                    </div>
-                                    <div class="col-12 col-md-10">
-                                        <input required="required" type="file" id="comprovante_ipva" name="comprovante_ipva" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
-                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
-                                    </div>
-                                </div>
+                                <?php
+                                    $this->load->view('gerenciar_anexo', [
+                                        'label' => "Comprovante",
+                                        'item' => isset($ipva) ? $ipva : null,
+                                        'anexo' => "comprovante_ipva",
+                                    ]);
+                                ?>
                                 
                                 <hr>
                                 <div class="pull-left">
@@ -90,7 +92,7 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url('ativo_veiculo');?>">
+                                    <a href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/{$id_ativo_veiculo}");?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

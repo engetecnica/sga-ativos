@@ -13,8 +13,7 @@
           <tr>
             <th>#</th>
             <th>Placa</th>
-            <th>Km Inicial</th>
-            <th>Km Final</th>
+            <th>Km Atual</th>
             <th>Quant. em Litros</th>
             <th>Data/Hora</th>
             <th>Custo Por Litro</th>
@@ -26,8 +25,7 @@
           <tr>
             <td><?php echo ($i + 1); ?></td>
             <td><?php echo $item->veiculo_placa; ?></td>
-            <td><?php echo $item->veiculo_km_inicial;?></td>
-            <td><?php echo $item->veiculo_km_final;?></td>
+            <td><?php echo $item->veiculo_km;?></td>
             <td><?php echo $item->veiculo_litros; ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($item->data));?> </td>
             <td><?php echo $this->formata_moeda($item->veiculo_custo); ?></td>
@@ -35,7 +33,6 @@
           </tr>
         <?php } ?>
           <tr>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>

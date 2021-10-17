@@ -38,126 +38,89 @@
                                 <input type="hidden" name="id_ativo_veiculo_manutencao" id="id_ativo_veiculo_manutencao" value="<?php echo $manutencao->id_ativo_veiculo_manutencao; ?>">
                                 <?php } ?>
 
-                                <?php if(!isset($manutencao)) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="id_fornecedor" class=" form-control-label">Fornecedor</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select required="required" class="form-control" id="id_fornecedor" name="id_fornecedor">
                                             <option value="">Selecione um Fornecedor</option>
                                             <?php foreach($fornecedores as $fornecedor){ ?>
-                                                <option value="<?php echo  $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
+                                                <option <?php echo (isset($manutencao) && isset($manutencao->id_fornecedor)) && (int) $manutencao->id_fornecedor === (int) $fornecedor->id_fornecedor ? 'selected="selected"' : '';?>
+                                                 value="<?php echo  $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
-                                <?php } ?>
-
-                                <?php if(isset($manutencao) && isset($manutencao->id_fornecedor)){ ?>
-                                    <input type="hidden" name="id_fornecedor" id="id_fornecedor" value="<?php echo $manutencao->id_fornecedor; ?>">
-                                <?php } ?>
-
-                                <?php if(!isset($manutencao)) {?>
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
+                             
+                                    <div class="col col-md-1">
                                         <label for="id_ativo_configuracao" class=" form-control-label">Serviço</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select required="required" class="form-control" id="id_ativo_configuracao" name="id_ativo_configuracao">
-                                            <option value="">Selecione o Tipo do Serviço</option>
+                                            <option  alue="">Selecione o Tipo do Serviço</option>
                                             <?php foreach($tipo_servico as $servico){ ?>
-                                            <option value="<?php echo $servico->id_ativo_configuracao; ?>"><?php echo $servico->titulo; ?></option>
+                                            <option <?php echo (isset($manutencao) && isset($manutencao->id_ativo_configuracao)) && $manutencao->id_ativo_configuracao == $servico->id_ativo_configuracao ? 'selected="selected"' : '';?>
+                                             value="<?php echo $servico->id_ativo_configuracao; ?>"><?php echo $servico->titulo; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
-                                <?php } ?>
+                                 </div>
 
-                                <?php if(isset($manutencao) && isset($manutencao->id_ativo_configuracao)){ ?>
-                                    <input type="hidden" name="id_ativo_configuracao" id="id_ativo_configuracao" value="<?php echo $manutencao->id_ativo_configuracao; ?>">
-                                <?php } ?>                                
 
-                                <?php if(!isset($manutencao)) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
+                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" 
+                                            value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div> 
 
 
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-1">
                                         <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
                                     </div>
                                 </div>
-                                <?php } ?>
+                             
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="veiculo_km_data" class=" form-control-label">Data Serviço</label>
+                                        <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" 
+                                        value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : ''?>">
                                     </div>
 
                                     <div class="col col-md-2">
                                         <label for="data_vencimento" class=" form-control-label">Data Vencimento</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" value="<?php echo isset($manutencao) ? $manutencao->data_vencimento: ''?>">
+                                    <div class="col-12 col-md-3">
+                                        <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" 
+                                        value="<?php echo isset($manutencao) && isset($manutencao->data_vencimento) ? date('Y-m-d', strtotime($manutencao->data_vencimento)) : ''?>">
                                     </div>
                                 </div>
 
-
-                                <?php if(isset($manutencao) && isset($manutencao->veiculo_km_atual)){ ?>
-                                    <input type="hidden" name="veiculo_km_atual" id="veiculo_km_atual" value="<?php echo $manutencao->veiculo_km_atual; ?>">
-                                <?php } ?> 
-
-                                <?php if(isset($manutencao) && isset($manutencao->veiculo_km_data)){ ?>
-                                    <input type="hidden" name="veiculo_km_data" id="veiculo_km_data" value="<?php echo $manutencao->veiculo_km_data; ?>">
-                                <?php } ?> 
-
-                                <?php if(isset($manutencao) && isset($manutencao->veiculo_custo)){ ?>
-                                    <div class="row form-group">
-                                        <div class="col col-md-2">
-                                            <label for="veiculo_custo" class=" form-control-label">Custo</label>
-                                        </div>
-                                        <div class="col-12 col-md-2">
-                                            <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0,00" value="<?php echo floatval($manutencao->veiculo_custo);?>" class="form-control valor">
-                                        </div>
-                                    </div>
-                                <?php } ?> 
-
+                              
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="descricao" class=" form-control-label">Descrição</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-9">
                                         <textarea rows="5" class="form-control" id="descricao" name="descricao"></textarea>
                                     </div>
                                 </div>
                                 
-                                <?php if((isset($manutencao) && ($manutencao->ordem_de_servico == '')) | !isset($manutencao)) { ?>
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="ordem_de_servico" class=" form-control-label">Ordem de Serviço</label>
-                                    </div>
-                                    <div class="col-12 col-md-10">
-                                        <input <?php echo isset($manutencao) ? "required" : ""?> type="file" id="ordem_de_servico" name="ordem_de_servico" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
-                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
-                                    </div>
-                                </div>
-                                <?php } ?>
-
-                                <?php if(isset($manutencao) && isset($manutencao->ordem_de_servico)){ ?>
-                                    <input type="hidden" name="ordem_de_servico" id="ordem_de_servico" value="<?php echo $manutencao->ordem_de_servico; ?>">
-                                <?php } ?> 
+                                <?php 
+                                    $this->load->view('gerenciar_anexo', [
+                                        'label' => "Ordem de Serviço",
+                                        'item' => isset($manutencao) ? $manutencao : null,
+                                        'anexo' => "ordem_de_servico",
+                                    ]);
+                                ?>
                                 
                                 <hr>
                                 <div class="pull-left">

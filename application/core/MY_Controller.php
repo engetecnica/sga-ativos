@@ -165,7 +165,7 @@ class MY_Controller extends MX_Controller {
     }
 
     public function remocao_pontuacao($string=null){
-        return str_replace(",", ".", str_replace(".", "", $string));
+        return str_replace([',','R$'], ['.', ''], str_replace('.', "", $string));
     }
 
     public function remocao_acentos($string=null, $slug=false){

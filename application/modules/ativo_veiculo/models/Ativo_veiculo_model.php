@@ -143,11 +143,102 @@ class Ativo_veiculo_model extends MY_Model {
 							->result();
 	}
 
-	# Gerenciamento de veículos
-	# Função de Base
 	public function get_ativo_veiculo_detalhes($id_ativo_veiculo){
 		$this->db->where("id_ativo_veiculo", $id_ativo_veiculo);
 		return $this->db->get('ativo_veiculo')->row();
+	}
+
+	public function permit_delete($id_ativo_veiculo){
+		return !in_array(true,[
+			$this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->limit(5)
+				->get("ativo_veiculo_manutencao")
+				->num_rows() >= 1,
+
+			$this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->limit(5)
+				->get("ativo_veiculo_ipva")
+				->num_rows() >= 1,
+			$this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->limit(5)
+				->get("ativo_veiculo_seguro")
+				->num_rows() >= 1,
+			$this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->limit(5)
+				->get("ativo_veiculo_quilometragem")
+				->num_rows() >= 1
+		]);
+	}
+
+	public function permit_edit_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem){
+		$quilometragem = $this->db
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_quilometragem', $id_ativo_veiculo_quilometragem)
+					->get("ativo_veiculo_quilometragem")
+					->row();
+		return !$quilometragem->comprovante_fiscal || $this->permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem);
+	}
+
+
+	public function permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem){
+		$quilometragem = $this->db
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_quilometragem', $id_ativo_veiculo_quilometragem)
+					->get("ativo_veiculo_quilometragem")
+					->row();
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("id_ativo_veiculo_quilometragem > '{$quilometragem->id_ativo_veiculo_quilometragem}'")
+				->get("ativo_veiculo_quilometragem")
+				->num_rows() === 0;
+	}
+
+	public function permit_add_ipva($id_ativo_veiculo, $ano){
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("ipva_ano = '{$ano}'")
+				->get("ativo_veiculo_ipva")
+				->num_rows() === 0;
+	}
+
+	public function permit_edit_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva){
+		$ipva = $this->db
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_ipva', $id_ativo_veiculo_ipva)
+					->get("ativo_veiculo_ipva")
+					->row();
+		return !$ipva->comprovante_ipva || $this->permit_delete_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva);
+	}
+
+	public function permit_delete_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva){
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("id_ativo_veiculo_ipva > '{$id_ativo_veiculo_ipva}'")
+				->get("ativo_veiculo_ipva")
+				->num_rows() === 0;
+	}
+
+	public function permit_edit_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro){
+		$seguro = $this->db
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_seguro', $id_ativo_veiculo_seguro)
+					->get("ativo_veiculo_seguro")
+					->row();
+		return !$seguro->contrato_seguro || $this->permit_delete_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro);
+	}
+
+	public function permit_delete_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro){
+		$now = date("Y-m-d");
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("id_ativo_veiculo_seguro > '{$id_ativo_veiculo_seguro}'")
+				->where("carencia_fim > '{$now}'")
+				->get("ativo_veiculo_seguro")
+				->num_rows() === 0;
 	}
 
 

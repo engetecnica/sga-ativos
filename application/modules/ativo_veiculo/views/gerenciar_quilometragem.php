@@ -5,10 +5,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
                         <a href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/adicionar/'.$id_ativo_veiculo); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                    </div>
+                    <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
                     </div>
                 </div>
             </div>
@@ -23,14 +27,11 @@
                                     <th>ID</th>
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
-                                    <th>Km Inicial</th>
-                                    <th>Km Final</th>
+                                    <th>Km Atual</th>
                                     <th>Litros</th>
-                                    <th>Média</th>
                                     <th>Custo</th>
                                     <th>Data</th>
-                                    <th>Comprovante</th>
-
+                                    <th>Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,20 +43,38 @@
                                     <td><?php echo $valor->id_ativo_veiculo_quilometragem; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
-                                    <td><?php echo $valor->veiculo_km_inicial; ?></td>
-                                    <td><?php echo $valor->veiculo_km_final; ?></td>
+                                    <td><?php echo $valor->veiculo_km; ?></td>
                                     <td><?php echo $valor->veiculo_litros; ?></td>
-                                    <td><?php echo number_format($media, 2, '.', ''); ?></td>
                                     <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
                                     <td><?php echo date("d/m/Y", strtotime($valor->data)); ?></td>
-                                    <td>
-                                        <?php if($valor->comprovante_fiscal){ ?>
-                                        <a target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-danger btn-sm">
-                                                Baixar Comprovante
+                                    <td> 
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupGerenciarQuilometragem" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Quilometragem
                                             </button>
-                                        </a>                           
-                                        <?php } ?>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarQuilometragem">
+                                                <?php if($this->ativo_veiculo_model->permit_edit_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}");?>">
+                                                    Editar
+                                                    </a>
+                                                <?php } ?>
+
+                                                <?php if($valor->comprovante_fiscal){ ?>
+                                                    <a class="dropdown-item" target="_blank" href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
+                                                        Visualizar Comprovante
+                                                    </a>  
+                                                    <a class="dropdown-item" target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
+                                                        Baixar Comprovante
+                                                    </a>                           
+                                                <?php } ?>
+
+                                                <?php if($this->ativo_veiculo_model->permit_delete_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>
+                                                    <a href="javascript:void(0)" data-href="<?php echo base_url("ativo_veiculo/quilometragem_deletar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}"); ?>" 
+                                                        data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-redirect="true"
+                                                        data-tabela="ativo_veiculo/gerenciar/quilometragem/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item deletar_registro">Excluir</a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
 
                                 </tr>

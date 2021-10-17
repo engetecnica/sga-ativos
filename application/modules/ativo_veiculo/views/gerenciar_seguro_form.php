@@ -22,9 +22,12 @@
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/seguro_salvar'); ?>" method="post" enctype="multipart/form-data">
-
                                 <?php if(isset($id_ativo_veiculo)){?>
-                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
+                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
+                                <?php } ?>
+
+                                <?php if(isset($seguro) && isset($seguro->id_ativo_veiculo_seguro)){?>
+                                    <input type="hidden" name="id_ativo_veiculo_seguro" id="id_ativo_veiculo_seguro" value="<?php echo $seguro->id_ativo_veiculo_seguro; ?>">
                                 <?php } ?>
 
                                 <p><strong>CONTROLE DE SEGURO DE VEÍCULO</strong></p>
@@ -33,42 +36,43 @@
                                 <hr>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="carencia_inicio" class=" form-control-label">Carência Inicio</label>
                                     </div>                                    
 
-                                    <div class="col-12 col-md-2">
-                                        <input required="required" type="date" id="carencia_inicio" name="carencia_inicio" class="form-control" value="<?php echo date("Y-m-d"); ?>">
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="date" id="carencia_inicio" name="carencia_inicio" class="form-control" 
+                                        value="<?php echo  isset($seguro) && isset($seguro->carencia_inicio) ? date('Y-m-d', strtotime($seguro->carencia_inicio)) : date("Y-m-d"); ?>">
                                     </div>
 
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="carencia_fim" class=" form-control-label">Carência Final</label>
                                     </div>                                    
 
-                                    <div class="col-12 col-md-2">
-                                        <input required="required" type="date" id="carencia_fim" name="carencia_fim" class="form-control" value="">
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="date" id="carencia_fim" name="carencia_fim" class="form-control" 
+                                        value="<?php echo isset($seguro) && isset($seguro->carencia_fim) ? date('Y-m-d', strtotime($seguro->carencia_fim)) : '';?>">
                                     </div> 
-                                    
-                                    <div class="col col-md-2">
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-1">
                                         <label for="seguro_ano" class=" form-control-label">Custo</label>
                                     </div>
         
                                     <div class="col-12 col-md-2">
-                                        <input required="required" type="text" id="seguro_custo" name="seguro_custo" placeholder="0.00" class="form-control valor" value="">
+                                        <input required="required" type="text" id="seguro_custo" name="seguro_custo" placeholder="0.00" class="form-control valor" 
+                                        value="<?php echo isset($seguro) && isset($seguro->seguro_custo) ? $seguro->seguro_custo : '';?>">
                                     </div>
                                 </div>
 
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="contrato_seguro" class=" form-control-label">Contrado</label>
-                                    </div>
-                                    <div class="col-12 col-md-10">
-                                        <input required="required" type="file" id="contrato_seguro" name="contrato_seguro" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
-                                        <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
-                                    </div>
-                                </div>
+                                <?php
+                                    $this->load->view('gerenciar_anexo', [
+                                        'label' => "Contrado",
+                                        'item' => isset($seguro) ? $seguro : null,
+                                        'anexo' => "contrato_seguro",
+                                    ]);
+                                ?>
                                 
                                 <hr>
                                 <div class="pull-left">
@@ -76,7 +80,7 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url('ativo_veiculo');?>">
+                                    <a href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/{$id_ativo_veiculo}");?>">
                                     <button class="btn btn-info" type="button">                                                    
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

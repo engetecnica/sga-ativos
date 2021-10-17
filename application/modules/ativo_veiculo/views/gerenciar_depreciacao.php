@@ -5,10 +5,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
                         <a href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/adicionar/'.$id_ativo_veiculo); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                    </div>
+                    <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
                     </div>
                 </div>
             </div>
