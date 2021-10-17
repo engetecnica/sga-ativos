@@ -44,36 +44,30 @@
                                 <input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>">
                                 
                                 <?php if (in_array($mode, ['update', 'update_grupo'])){ ?>
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
-                                    <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $detalhes->id_ativo_externo; ?>">
-                                    <input type="hidden" name="codigo" id="codigo" value="<?php echo $detalhes->codigo; ?>">
-                                <?php } }?>
+                                    <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
+                                        <input type="hidden" name="id_ativo_externo[]" id="id_ativo_externo[]" value="<?php echo $detalhes->id_ativo_externo; ?>">
+                                        <input type="hidden" name="codigo" id="codigo" value="<?php echo $detalhes->codigo; ?>">
+                                    <?php } }?>
 
-                                <?php if (in_array($mode, ['update', 'insert_grupo', 'update_grupo'])){ ?>
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo_grupo)){?>
-                                    <input type="hidden" name="id_ativo_externo_grupo" id="id_ativo_externo_grupo" value="<?php echo $detalhes->id_ativo_externo_grupo; ?>">
-                                <?php }} ?>
+                                    <?php if (in_array($mode, ['update', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo_grupo)){?>
+                                        <input type="hidden" name="id_ativo_externo_grupo" id="id_ativo_externo_grupo" value="<?php echo $detalhes->id_ativo_externo_grupo; ?>">
+                                    <?php }} ?>
                                 
-                                <?php if (in_array($mode, ['insert'])){ ?>
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_externo)){?>
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="tipo" class=" form-control-label">Tipo</label>
+                              
+                                    <div class="row form-group">
+                                        <div class="col col-md-2">
+                                            <label for="tipo" class=" form-control-label">Tipo</label>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <select required="required" class="form-control" name="tipo" id="tipo">
+                                                <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '0' ? "selected='selected'" : ''; ?> value="0">Unidade</option>
+                                                <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '1' ? "selected='selected'" : ''; ?> value="1">Kit</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <select required="required" class="form-control" name="tipo" id="tipo">
-                                            <option <?php echo isset($detalhes->tipo) && $detalhes->tipo == '0' ? "selected='selected'" : ''; ?> value="0">Unidade</option>
-                                            <option <?php echo isset($detalhes->tipo) && $detalhes->tipo == '1' ? "selected='selected'" : ''; ?> value="1">Kit</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <?php }} ?>
 
-                                <?php if (in_array($mode, ['insert_grupo', 'update_grupo'])){ ?>
-                                <?php if((isset($detalhes) && !isset($detalhes->id_ativo_externo)) && isset($detalhes->tipo) ){?>
-                                    <input type="hidden" name="tipo" id="tipo" value="<?php echo $detalhes->tipo; ?>">
-                                <?php } } ?>
-                                
+                               
                                 <?php if (in_array($mode, ['insert', 'update'])){ ?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
@@ -127,23 +121,27 @@
                                 </div>    
                                 <?php } ?>                             
 
-                                <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="nome" class=" form-control-label">Nome do Ativo</label>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
-                                    </div>                                    
-                                </div>
-                                <?php } ?>
 
                                 <?php if (in_array($mode, ['insert_grupo'])){ ?>
                                     <input type="hidden" id="nome" name="nome" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                 <?php } ?>
 
+                                <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <div class="row form-group">
+                                <?php } ?>  
+                                    
+                                <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
+                                    <div class="col col-md-2">
+                                        <label for="nome" class=" form-control-label">Nome</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input required="required" type="text" id="nome" name="nome" placeholder="Nome do Ativo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                    </div>                                  
+                                <?php } ?>
+
+
                                 <?php if (in_array($mode, ['insert', 'update' , 'insert_grupo', 'update_grupo'])){ ?>
-                                <div class="row form-group">
+                                
                                     <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo'])){ ?>
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Unitário</label>
@@ -153,20 +151,32 @@
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
                                         value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
                                     </div>
+                                    
                                     <?php } ?>
-                                    <?php if (in_array($mode, ['insert', 'insert_grupo'])){ ?>
-                                    <div class="col col-md-2">
-                                        <label for="quantidade" class=" form-control-label">Quantidade</label>
+
+                                    <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
                                     </div>
-                                    <div class="col-12 col-md-2">
-                                        <input 
-                                            <?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? 'readonly' : ''; ?>
-                                            type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" 
-                                            value="<?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? $detalhes->quantidade : '1' ; ?>"
-                                        >
-                                    </div> 
-                                    <?php } ?>                              
-                                </div>
+                                    <?php } ?>
+
+                                    <?php if (in_array($mode, ['insert', 'insert_grupo'])){ ?>
+
+                                        <?php if (in_array($mode, ['insert', 'update', 'update_grupo' ])){ ?>
+                                            <div class="row form-group">
+                                        <?php } ?>
+                                        <div class="col col-md-2">
+                                            <label for="quantidade" class=" form-control-label">Quantidade</label>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <input 
+                                                <?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? 'readonly' : ''; ?>
+                                                type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" 
+                                                value="<?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? $detalhes->quantidade : '1' ; ?>"
+                                            >
+                                        </div> 
+                                        <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo' ])){ ?>
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>   
                                 <?php } ?>
 
                                 <?php if (in_array($mode, ['insert', 'update', 'ínsert_grupo'])){ ?>
