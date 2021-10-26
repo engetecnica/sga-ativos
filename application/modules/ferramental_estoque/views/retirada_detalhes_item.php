@@ -27,12 +27,12 @@
                                 <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
-                                          <th scope="col" width="20%">Item ID</th>
-                                          <th scope="col" width="20%">Item</th>
+                                          <th scope="col" width="10%">Item ID</th>
+                                          <th scope="col" width="40%">Item</th>
                                           <th scope="col" width="20%">Quantidade</th>
                                           <th scope="col" width="20%">Status</th>
                                           <?php if ($retirada->status == 1) { ?>
-                                          <th scope="col" width="5%">Remover</th>
+                                          <th scope="col" width="10%">Remover</th>
                                           <?php } ?>
                                         </tr>
                                     </thead>
