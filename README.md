@@ -15,68 +15,46 @@ composer install
 <br>
 
 ## Configurações
-Deve copiar os arquivos exemplo e preencher os arquivos de configuração da aplicação em geral e banco de dados nos respectivos arquivos: 
-`application/config/config.php` e `application/config/database.php`.
+Deve copiar o arquivo de exemplo `.env.example` e preencher o arquivo de configuração `.env` na raiz da aplicação.
 
-> `application/config/config.php`
+> `.env`
 
-```php
-// Parte relevante referente a aplicação, o restante fical como o padrão
-
-/** 
- * App Email Notifications
- */
-
-// Endereço que assume o envio de emails como remetente
-//From
-$config['notifications_email'] = "mail@exemplo.com";
-
-// Serão notificados em casos de avisos como exemplo o Informe de vencimentos de serviços e seguros e ipva.
- //to 
-$config['notifications_address'] = [
-    "Adm" => "adm@exemplo.com",
-    "Adm2" => "adm2@exemplo.com",
-    //...
-];
+```bash
+#App
+CI_ENV="development"
+APP_NAME="Engetecnica App"
+APP_UPLOAD_MAX_SIZE=50
+APP_TIMEZONE="America/Sao_Paulo"
 
 
-//SendGrid
-$config['sendgrid_apikey'] = "SG.j4b03xvNSOapiJF6gD_Hpw.QD4P607I3G9D4UioplkaeTnhCBCIY4nB1eEasSHQRHTE";
+#Email Notifications
+APP_NOTIFICATION_FROM_EMAIL="app@mail.com"
+APP_NOTIFICATION_TO_NAME="Administrador"
+APP_NOTIFICATION_TO_EMAIL="adm@mail.com"
+APP_NOTIFICATION_TO_NAME2="Administrador 2"
+APP_NOTIFICATION_TO_EMAIL2="adm2@mail.com"
+#APP_NOTIFICATION_TO_NAMELX ...
+#APP_NOTIFICATION_TO_EMAILX ...
 
+#OneSignal
+ONESIGNAL_APPID="825688da-a801-4c3e-9d05-789uythgrcxv"
+ONESIGNAL_APIKEY="YjhiZGU5ZjItMThhNy19Z2I3LTk2ZjctMmFmNzY2Mzg5MDIz"
+ONESIGNAL_APIURL="https://onesignal.com"
+
+#SendGrid
+SENDGRID_APIKEY="SG.KT_MWSDd3SjCINrr6mYYrIg.Z_R0RCXgIUhGjE-qANTvp5MlenN-ObhtVL6HjRMQ8k4"
+
+#Database
+#DB_URL=""
+DB_DRIVER="mysqli"
+DB_PORT=33061
+DB_HOST="localhost"
+DB_USER="root"
+DB_PASS="root"
+DB_DATABASE="engetecnica"
+#DB_DATABASE_PREFIX=""
+#DB_MG_VERSION=""
 ```
-
-> `application/config/database.php`
-
-```php
-$active_group = 'default';
-$query_builder = TRUE;
-
-
-$db['default'] = array(
-	//'dsn'	=> '',
-	'hostname' => 'db',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'engetecnica',
-    'port' => 3306, 
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'autoinit' => TRUE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
-```
-
 <br>
 
 ## Migrações do Banco de Dados
