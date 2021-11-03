@@ -56,6 +56,7 @@ class Ferramental_requisicao  extends MY_Controller {
 
         if ($this->user->nivel == 1) {
             $requisicao['id_destino'] = $this->input->post('id_destino');
+            $requisicao['id_origem'] = $this->user->id_obra;
             $requisicao['id_despachante'] = $this->user->id_usuario;
         }
 
@@ -549,7 +550,8 @@ class Ferramental_requisicao  extends MY_Controller {
     public function aceite_manual($id_requisicao, $id_requisicao_item = null) {
         $requisicao = $this->ferramental_requisicao_model->get_requisicao($id_requisicao);
         if($requisicao && ($this->user->id_obra == $requisicao->id_destino)) {
-            if (($this->user->nivel == 1 && $requisicao->tipo == 1) | (!$id_requisicao_item || ($this->user->nivel == 2 && $requisicao->tipo == 2))) {
+
+            if (!$id_requisicao_item || ($this->user->nivel == 2 && $requisicao->tipo == 2)) {
                 $this->session->set_flashdata('msg_erro', "Usuário não pode aceitar essa Requisição!");
                 echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));  
                 return;
@@ -560,7 +562,7 @@ class Ferramental_requisicao  extends MY_Controller {
                 if ($retorno) {
                     $this->notificacoes_model->enviar_push(
                         "Requisição Recebida", 
-                        "Requisição de Ferramentas {$requisicao->id_requisicao} Recebida pelo almoxarife da obra. Clique na Notificação para mais detalhes.", 
+                        "Requisição de Ferramentas {$requisicao->id_requisicao} Recebida na obra. Clique na Notificação para mais detalhes.", 
                         [
                             "filters" => [
                                 ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],

@@ -91,7 +91,7 @@
                                     <tbody>
                                         <tr>
                                             <td><?php echo $requisicao->despachante ; ?></td>
-                                            <td><?php echo $requisicao->origem ; ?></td>
+                                            <td><?php echo $requisicao->origem; ?></td>
                                             <td><?php echo $requisicao->solicitante ; ?></td>
                                             <td><?php echo $requisicao->destino ; ?></td>
                                         </tr>
@@ -120,7 +120,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning"  style="min-height: 200px;">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>
@@ -130,6 +130,7 @@
                                             <th scope="col" width="20%">Qtde. Liberada</th>
                                             <th scope="col" width="150">Liberar</th>
                                             <th scope="col">Situação</th>
+                                            <th scope="col" width="30%">Opções</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -168,6 +169,55 @@
                                                     <?php echo  $status['texto']; ?>
                                                 </button>
                                             </td>
+                                            <td>
+                                            <?php if (($requisicao->tipo == 1 && in_array($item->status, [3, 13])) && $requisicao->id_destino == $user->id_obra) {?>
+                                                <div class="btn-group">
+                                                    <button 
+                                                        class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                        type="button"
+                                                        data-toggle="dropdown" 
+                                                        aria-haspopup="true" 
+                                                        aria-expanded="false"
+                                                    >
+                                                        Opções
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <?php if ($item->status == 3) {?>
+                                                        <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
+                                                            <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a 
+                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                            data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
+                                                        >
+                                                            <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a 
+                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                            data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
+                                                            data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
+                                                        >
+                                                            <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <?php } ?>
+                                                        <a 
+                                                            class="dropdown-item btn-sm btn-primary" 
+                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
+                                                        >
+                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
+                                                        </a>
+                                                    </div>
+                                                </div>   
+                                                <?php } else {   ?>   
+                                                    -
+                                                <?php }  ?>   
+                                            </td>   
                                         </tr>
                                         <?php } ?>
                                     </tbody>
@@ -178,13 +228,20 @@
                                     <hr>
                                     <div class="col offset-md-3 col-md-6 text-center d-flex flex-column">
 
-                                    <?php if(in_array($requisicao->status, [1, 11])){?>
+                                    <?php if(in_array($requisicao->status, [1, 11])){ ?>
                                         <div class="text-center">
+
+                                            <?php if ($user->id_obra == $requisicao->id_origem  || !$requisicao->id_origem) { ?>
                                             <button class=" btn-custom m-b-10" type="submit" id="liberar_requisicao_btn" >
                                                 <i class="fa fa-check"></i>&nbsp;
                                                 Liberar Requisição
                                             </button>
+                                            <?php } ?>
 
+                                            <?php 
+                                                if (($user->id_usuario != $requisicao->id_solicitante && $user->id_obra == $requisicao->id_origem ) || 
+                                                    !$requisicao->id_origem) { 
+                                            ?>
                                             <a
                                                 class="confirmar_registro m-b-10"
                                                 href="javascript:void(0)"
@@ -199,9 +256,17 @@
                                                     Recusar Requisição
                                                 </button>
                                             </a>
+                                            <?php } ?>
                                         </div>
+                                        <?php if ($user->id_obra == $requisicao->id_origem || !$requisicao->id_origem ) { ?>
                                         <small>Clique para Liberar ou Recusar a Requisição dos itens solicitados.</small>
-                                    <?php } if(($requisicao->tipo == 1 && in_array($requisicao->status, [2,11])) && (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))){ ?>
+                                        <?php } ?>
+                                    <?php } ?> 
+
+                                    <?php 
+                                        if(($requisicao->tipo == 1 && in_array($requisicao->status, [2,11])) && 
+                                            (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))) { 
+                                    ?>
                                         <a
                                             class="confirmar_registro text-center m-b-10 m-t-20"
                                             href="javascript:void(0)"
@@ -218,7 +283,7 @@
                                         </a>
                                         <small>Clique 'Enviar para Transferência' para confirmar a transferência dos itens solicitados. 
                                         Somente após o a saída para transporte.</small>
-                                        </div>
+                                     
                                     <?php  } ?>
 
 
@@ -238,7 +303,7 @@
                                         </a>
                                         <small>Clique 'Receber Devoluções' para confirmar a transferência de itens devolvidos ou com defeito.</small>
                                     <?php  } ?>
-                                    </div>
+                                </div>
                                 <?php  } ?>
                             </div>
                         </div>

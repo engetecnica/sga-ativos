@@ -201,7 +201,7 @@
                                                             <div class="dropdown-divider"></div>
                                                             <?php } ?>
                                                             <a 
-                                                                class="dropdown-item btn btn-sm btn-primary" 
+                                                                class="dropdown-item btn-sm btn-primary" 
                                                                 href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                             >
                                                                 <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
