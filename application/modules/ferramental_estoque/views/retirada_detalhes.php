@@ -14,7 +14,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                        <h2 class="title-1 m-b-25">Detalhes da Retirada Almoxarifado</h2>
+                        <h2 class="title-1 m-b-25">Detalhes da Retirada</h2>
                         <div class="card">
                           
                             <div class="card-body">
@@ -78,6 +78,7 @@
                                             <th width="" scope="col">Quantidade</th>
                                             <th width="" scope="col">Data da Entrega</th>
                                             <th width="" scope="col">Data da Devolucao</th>
+                                            <th width="" scope="col">Devolução Prevista</th>
                                             <th width="" scope="col">Situação</th>
                                             <th width="" scope="col">Detalhes</th>
                                             <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
@@ -100,7 +101,8 @@
                                             </td>
                                             <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo isset($item->data_retirada) ? date("d/m/Y H:i", strtotime($item->data_retirada)) : '-'; ?></td>
-                                            <td><?php echo isset($item->data_devolucao) ? date("d/m/Y H:i", strtotime($item->data_devolucao)) : '-'; ?></td>
+                                            <td><?php echo isset($item->devolucao_prevista) ? date("d/m/Y H:i", strtotime($item->data_devolucao)) : '-'; ?></td>
+                                            <td><?php echo isset($item->devolucao_prevista) ? date("d/m/Y H:i", strtotime($item->devolucao_prevista)) : '-'; ?></td>
                                             <td>
                                                 <?php $status = $this->status($item->status); ?>
                                                 <span class="badge badge-sm badge-<?php echo $status['class']; ?>">
@@ -136,7 +138,7 @@
                                 <?php } ?>
 
                                 <div class="container row">
-                                <?php if(!$retirada->termo_de_reponsabilidade && in_array($retirada->status, [2, 4])){  ?>
+                                <?php if(in_array($retirada->status, [2, 4])){  ?>
                                     <hr>
                                     <form class="col" action="<?php echo base_url("ferramental_estoque/anexar_termo_resposabilidade/{$retirada->id_retirada}"); ?>" method="post" enctype="multipart/form-data">
                                         <div class="row form-group">
@@ -158,7 +160,7 @@
                                 </div>
 
 
-                                <?php if($user->nivel == 2 && $retirada->status == 1){  ?>
+                                <?php if($retirada->status == 1){  ?>
                                     <hr>
                                     <div class="text-center">
                                       <a
@@ -221,6 +223,23 @@
                                       </a>
                                 <?php } ?>
                                 </div>
+
+                                <?php if($user->nivel == 1 && $retirada->status == 14){?> 
+                                <hr>
+                                <div class="text-center">
+                                    <a
+                                        class="confirmar_registro" data-tabela="<?php echo base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}");?>" 
+                                        href="javascript:void(0)" data-registro="<?php echo $retirada->id_retirada;?>"
+                                        data-acao="Autorizar Retirada"  data-redirect="true"
+                                        data-href="<?php echo base_url("ferramental_estoque/liberar_retirada/{$retirada->id_retirada}");?>"
+                                    >
+                                        <button class="btn-custom" type="submit" id="liberar_retirada_btn">
+                                            <i class="fa fa-check "></i>&nbsp;
+                                            Autorizar Retirada
+                                        </button>
+                                    </a>
+                                </div>
+                            <?php } ?>
 
 
                             </div>

@@ -1,19 +1,7 @@
 <!-- MAIN CONTENT-->
-<style>
-    .btn-contagem {
-        width: 50px;
-        height: 30px;
-        font-weight: bold;
-    }
-    .btn-codigo {
-        width: 100%;
-        font-weight: bold;
-    }
-</style>
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
-            <?php if($user->nivel == 2){?> 
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap"> <a href="<?php echo base_url('ferramental_estoque/adicionar'); ?>">
@@ -22,7 +10,6 @@
                     </div>
                 </div>
             </div>
-            <?php } ?> 
 
             <div class="row">
                 <div class="col-lg-12">
@@ -36,6 +23,7 @@
                                     <th>Obra</th>
                                     <th>Funcionário</th>
                                     <th>Data</th>
+                                    <th>Devolução Prevista</th>
                                     <th>Status</th>
                                     <th>Opções</th>
                                 </tr>
@@ -51,6 +39,7 @@
                                     <td><?php echo $valor->obra; ?></td>
                                     <td><?php echo $valor->funcionario; ?></td>
                                     <td><?php echo date("d/m/Y H:i", strtotime($valor->data_inclusao)); ?></td>
+                                    <td><?php echo isset($item->devolucao_prevista) ? date("d/m/Y H:i", strtotime($item->devolucao_prevista)) : '-'; ?></td>
                                     <td>
                                         <?php $status = $this->status($valor->status); ?>
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>

@@ -25,14 +25,14 @@
                     <div class="card">
                         <div class="card-header">{{retirada ? 'Editar' : 'Incluir'}} Retirada</div>
                         <div class="card-body">
-                            <form action="<?php echo base_url('ferramental_estoque/salvar'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="form-retirada" action="<?php echo base_url('ferramental_estoque/salvar'); ?>" method="post" enctype="multipart/form-data">
                                
                                 <h3 class="title-2 m-b-20 m-t-25">Funcionário Solicitante</h3>
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="35%">Nome</th>
+                                            <th scope="col" width="85%">Nome</th>
                                             <th scope="col" width="35%">CPF</th>
                                             <th scope="col" width="35%">RG</th>
                                             <th scope="col" width="20%">Selecionar</th>
@@ -57,11 +57,11 @@
 
                                 <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
                                 <!-- Itens da Retirada -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" >
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" id="lista2">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="50%">Nome</th>
-                                            <th scope="col" width="50%">Qtd. em Estoque</th>
+                                            <th scope="col" width="90%">Nome</th>
+                                            <th scope="col" width="90%">Qtd. em Estoque</th>
                                             <th scope="col" width="10%">Selecionar</th>
                                         </tr>
                                     </thead>
@@ -136,18 +136,34 @@
                                     </div>
 
                                 </div>
-                                
-                                <hr>
 
-                                <div class="row form-group">                                   
-                                    <div class="col-12 col-md-12">
-                                        <input type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
+                                <br><br>
+
+                                <div class="row form-group">
+                                    <div class="col-12 col-md-2">
+                                        <label>Devolução Pevista</label>
+                                    </div>                                   
+                                    <div class="col-12 col-md-2">
+                                        <input type="date" class="form-control" name="devolucao_prevista_data" id="devolucao_prevista_data" :value="devolucao_prevista_data">
+                                    </div> 
+                                    <div class="col-12 col-md-2">
+                                        <input type="text" class="form-control hora" name="devolucao_prevista_hora" id="devolucao_prevista_hora" :value="devolucao_prevista_hora" placeholder="00:00:00">
+                                    </div>                                             
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-12 col-md-2">
+                                        <label>Observações</label>
+                                    </div>                                    
+                                    <div class="col-12 col-md-4">
+                                        <textarea type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
+                                        </textarea>
                                     </div>                                    
                                 </div>
 
                                 <hr>
                                 <div class="pull-left">
-                                    <button class="btn btn-primary" :disabled="!permite_form">                                                    
+                                    <button  type="submit" form="form-retirada" class="btn btn-primary" :disabled="!permite_form">                                                    
                                         <i class="fa fa-save "></i>&nbsp;
                                         <span id="submit-form">Salvar Requisição</span>
                                     </button>
@@ -192,6 +208,9 @@
                 retiradas: [],
                 solicitar_autorizacao: false,
                 permite_form: false,
+                user: window.user,
+                devolucao_prevista_data: null,
+                devolucao_prevista_hora: null,
             }
         },
         methods: {
@@ -229,7 +248,7 @@
                 this.grupos_selecionados.push({...item, quantidade: 1})
             },
             remove_item(index, item){
-                if (this.retirada) {
+                if (this.retirada && this.retirada.items.length > 0) {
                     window.$.ajax({
                         method: "POST",
                         url: base_url + `ferramental_estoque/remove_item/${item.id_retirada_item}`
@@ -240,7 +259,7 @@
                         }
                     })
                     return
-                } 
+                }
                 estoque.grupos_selecionados.splice(index, 1)
             },
             lista_retiradas(id_funcionario, solilicitar = true){
@@ -254,11 +273,12 @@
                 .done(function(lista) {
                     let retiradas = JSON.parse(lista)
                     let isConfirmed = false
+                    let msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
 
                     if ((retiradas.length > 0) && solilicitar) {
                         Swal.fire({
-                            title: 'Usuário bloqueado!',
-                            text: 'Usuário comtém retiradas pendêntes no sistema. Continuar aguardando confirmação de um Administrador?',
+                            title: 'Funcionário Bloqueado!',
+                            text: `Existe retirada pendênte no sistema para o funcionário selecionado. ${msg}`,
                             icon: 'warning',
                             confirmButtonText: 'Sim, Continuar!',
                             showConfirmButton: true,
@@ -295,6 +315,11 @@
                 this.retirada = JSON.parse(retirada)
                 this.id_funcionario = this.retirada.id_funcionario
                 this.id_obra = this.retirada.id_obra
+                if (this.retirada.devolucao_prevista) { 
+                    let explode = this.retirada.devolucao_prevista.split(" ")
+                    this.devolucao_prevista_data = explode[0]
+                    this.devolucao_prevista_hora = explode[1]
+                }
 
                 this.grupos_selecionados = this.retirada.items.map((item) => {
                     return {

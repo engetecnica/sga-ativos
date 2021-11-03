@@ -37,11 +37,7 @@ class Ferramental_estoque  extends MY_Controller {
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
         if ($data['retirada']) {
-            if ($this->user->nivel == 1) {
-                $this->get_template('retirada_detalhes_adm', $data);
-            } else {
-                $this->get_template('retirada_detalhes_user', $data);
-            }
+            $this->get_template('retirada_detalhes', $data);
             return;
         }
         $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
@@ -159,18 +155,22 @@ class Ferramental_estoque  extends MY_Controller {
 
     # Grava Retirada
     function salvar(){
-        if (count($this->input->post('quantidade')) > 0) {
+        if ($this->input->post('quantidade') && count($this->input->post('quantidade')) > 0) {
             # Dados
             $id_retirada = $this->input->post('id_retirada');
             $retirada['id_obra'] = $this->input->post('id_obra');
             $retirada['id_funcionario'] = $this->input->post('id_funcionario');
             $retirada['status'] = 1; # Pendente
             $retirada['observacoes'] = $this->input->post('observacoes');
-
+            $devolucao_prevista = $this->input->post('devolucao_prevista_data') . " " . $this->input->post('devolucao_prevista_hora');
+            $retirada['devolucao_prevista'] = date("Y-m-d H:i:s", strtotime($devolucao_prevista));
+    
             $mode = 'update';
             if (!$id_retirada) {
                 $mode = 'insert';
                 $id_retirada = $this->ferramental_estoque_model->salvar_formulario($retirada);
+            } else {
+                $retirada['id_retirada'] =  $id_retirada;
             }
 
             $items = array();
@@ -206,6 +206,8 @@ class Ferramental_estoque  extends MY_Controller {
                 if (count($items_insert) > 0) {
                     $this->db->insert_batch("ativo_externo_retirada_item", $items_insert);
                 }
+                
+                $this->ferramental_estoque_model->salvar_formulario($retirada);
             } else{ 
                 $this->db->insert_batch("ativo_externo_retirada_item", $items);
                 $this->notificacoes_model->enviar_push(
