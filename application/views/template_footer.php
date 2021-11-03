@@ -158,12 +158,48 @@
         $(".telefone").mask("(00) 0000-0000");
         $(".celular").mask("(00) 9 0000-0000");
 
-        var veiculo_placa_options =  {
+        $('.veiculo_placa').mask('SSS-0A00',  {
             onKeyPress: function(placa, e, field, options) {
                 $(field)[0].value = placa.toUpperCase();
             }
-            };
-        $('.veiculo_placa').mask('SSS-0A00', veiculo_placa_options);
+        });
+
+        $(".hora").mask("Hh:NZ:NZ", {
+            translation:  {
+                'Z': {pattern: /[0-9]/, optional: true}, 
+                'N': {pattern: /[0-5]/, optional: true},
+                'H': {pattern: /[0-2]/, optional: false},
+                'h': {pattern: /[0-9]/, optional: true},
+            },
+            onChange: function (hora, e, field, options) {
+                let explode_hora = hora.split(':');
+
+                if (explode_hora.length == 1) {
+                    let valor = parseInt(explode_hora[0]);
+                    if (valor >= 0 && valor < 24) {
+                        $(field)[0].value = explode_hora.join(":");
+                        return
+                    }
+                }
+
+                if (explode_hora.length == 2) {
+                    let valor = parseInt(explode_hora[1]);
+                    if(valor >= 0 && valor < 60) {
+                        $(field)[0].value = explode_hora.join(":");
+                        return
+                    }
+                }
+
+                if (explode_hora.length == 3) {
+                    let valor = parseInt(explode_hora[2]);
+                    if(valor >= 0 && valor < 60) {
+                        $(field)[0].value = explode_hora.join(":");
+                        return
+                    }
+                }
+                $(field)[0].value = ""
+            }
+        });
 
         $(".deletar_registro").click(function(){
             let id_registro = $(this).attr('data-id');
@@ -220,6 +256,12 @@
             let redirect = $(this).attr('data-redirect') ? true : false;
             let icon = $(this).attr('data-icon') || 'warning';
             let msg = $(this).attr('data-message') == 'false' ? false : true;
+            let beforeCallback = $(this).attr('before-callback') == '' ? () => { } : window[$(this).attr('before-callback')];
+            let afterCallback = $(this).attr('after-callback') == '' ? () => { } : window[$(this).attr('after-callback')];
+
+            if (typeof beforeCallback == 'function') {
+                beforeCallback(event, $(this));
+            }
 
             Swal.fire({
                 title: title,
@@ -265,6 +307,10 @@
                     } else { 
                         window.location = url_post;
                     }
+                }
+
+                if (typeof afterCallback == 'function') {
+                    afterCallback(event, $(this), result);
                 }
             })
         }
