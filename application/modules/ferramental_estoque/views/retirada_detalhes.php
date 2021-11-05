@@ -19,7 +19,7 @@
                           
                             <div class="card-body">
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table--no-card table-responsive-md table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                           <th width="10%" scope="col">Retirada ID</th>
@@ -61,6 +61,16 @@
                                                     <i class="fas fa-edit"></i>
                                                 </button>   
                                             </a>
+                                            <a 
+                                            class="confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
+                                            href="javascript:void(0)" data-registro="<?php echo $retirada->id_retirada;?>"
+                                            data-acao="Remover Retirada"  data-redirect="true"
+                                            data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$retirada->id_retirada}");?>"
+                                            >
+                                                <button class="btn btn-sm btn-danger" type="button">                                                    
+                                                    <i class="fas fa-trash"></i>
+                                                </button>                                                
+                                            </a>
                                           <?php } ?>
                                       </td>
                                     </tbody>
@@ -70,7 +80,7 @@
 
                                 <?php if(!empty($retirada->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
+                                <table class="table table--no-card table-responsive-md table-borderless table-striped table-earning" id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th width="10%" scope="col">Item Id</th>

@@ -21,7 +21,7 @@
                         <div class="card-header">Certificado Atual</div> 
               
                         <div class="card-body">
-                            <table class="table table-responsive table-striped table-bordered" style="min-height: 180px;">
+                            <table class="table table-responsive-md table-striped table-bordered" style="min-height: 180px;">
                                 <tr>
                                     <th width="5%">Data Inclusão</th>
                                     <th width="5%">Data Vencimento</th>

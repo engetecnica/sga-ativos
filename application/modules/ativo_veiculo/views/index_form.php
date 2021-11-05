@@ -23,7 +23,7 @@
                                 <?php if (isset($detalhes) && isset($detalhes->id_ativo_veiculo)) {?>
                                 <p><strong>DADOS DO VEICULO</strong></p>
                         
-                                <table class="table table-responsive table-striped table-bordered">
+                                <table class="table table-responsive-md table-striped table-bordered">
                                     <tr>
                                         <th>Tipo</th>
                                         <th>Modelo</th>

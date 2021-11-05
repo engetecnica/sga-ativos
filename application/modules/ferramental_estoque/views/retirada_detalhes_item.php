@@ -24,7 +24,7 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista">
+                                <table class="table table--no-card table-responsive-md table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                           <th scope="col" width="10%">Item ID</th>
@@ -68,7 +68,7 @@
                                 <hr>
 
 
-                                <table class="table table--no-card table-responsive table-borderless table-striped table-earning"  id="lista2">
+                                <table class="table table--no-card table-responsive-md table-borderless table-striped table-earning"  id="lista2">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="40%">Ativo ID</th>

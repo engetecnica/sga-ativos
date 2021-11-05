@@ -29,7 +29,7 @@
                             <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
                             <div class="card-body">
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="30%">Requisão ID</th>
@@ -79,7 +79,7 @@
                                     </tbody>
                                 </table>
 
-                                <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive-md table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="30%">Despachante</th>
@@ -98,7 +98,7 @@
                                     </tbody>
                                 </table> 
 
-                                <table class="m-t-20 table table-responsive table--no-card table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive-md table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="30%">Solicitado</th>
@@ -120,7 +120,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning"  style="min-height: 200px;">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning"  style="min-height: 200px;">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>

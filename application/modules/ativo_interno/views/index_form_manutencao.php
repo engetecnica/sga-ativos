@@ -42,20 +42,22 @@
                                     <div class="col col-md-2">
                                         <label for="data_saida" class=" form-control-label">Data Saída</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <input 
                                         <?php echo isset($manutencao) && isset($manutencao->id_manutencao) ? 'readonly' : ''?> 
                                         required="required" type="date" id="data_saida" name="data_saida" placeholder="Nome do Ativo" class="form-control" 
                                         value="<?php echo isset($manutencao) ? date('Y-m-d', strtotime($manutencao->data_saida)) : ''; ?>">
                                     </div>
+                                <?php if(!isset($manutencao) || !isset($manutencao->id_manutencao)){?>
                                 </div>
+                                <?php } ?>
 
                                 <?php if(isset($manutencao) && isset($manutencao->id_manutencao)){?>
-                                <div class="row form-group">
+                                
                                     <div class="col col-md-2">
                                         <label for="data_retorno" class=" form-control-label">Data Retorno</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <input 
                                           required="required" type="date" id="data_retorno" name="data_retorno" placeholder="Nome do Ativo" class="form-control" 
                                           value="<?php echo isset($manutencao->data_retorno) ? date('Y-m-d', strtotime($manutencao->data_retorno)) : ''; ?>"
@@ -73,11 +75,10 @@
                                           value="<?php if(isset($manutencao) && isset($manutencao->valor)){ echo $this->formata_moeda($manutencao->valor); }?>"
                                         >
                                     </div>
-                                </div>
+                                
                                 <?php } ?>
                               
                                 <?php if (isset($manutencao) && (int) $ativo->situacao <= 1) {?>
-                                <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>

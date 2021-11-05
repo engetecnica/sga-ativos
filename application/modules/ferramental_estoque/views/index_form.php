@@ -29,7 +29,7 @@
                                
                                 <h3 class="title-2 m-b-20 m-t-25">Funcionário Solicitante</h3>
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" id="lista">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="85%">Nome</th>
@@ -43,7 +43,7 @@
                                             <td>{{funcionario.nome}}</td>
                                             <td>{{funcionario.cpf}}</td>
                                             <td>{{funcionario.rg}}</td>
-                                            <td width="10%">
+                                            <td>
                                                 <a v-if="id_funcionario == funcionario.id_funcionario" class="btn btn-sm btn-primary" @click="seleciona_funcionario()" >
                                                    <i class="fas fa-check text-light"></i>
                                                 </a>
@@ -57,20 +57,30 @@
 
                                 <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
                                 <!-- Itens da Retirada -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning  m-b-25" id="lista2">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista2">
                                     <thead>
-                                        <tr class="active">
-                                            <th scope="col" width="90%">Nome</th>
-                                            <th scope="col" width="90%">Qtd. em Estoque</th>
+                                        <tr>
+                                            <th scope="col" width="80%">Nome</th>
+                                            <th scope="col" width="10%">Qtd. em Estoque</th>
                                             <th scope="col" width="10%">Selecionar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="grupo in grupos.filter((gp) => {return !in_grupos_selecionados(gp.id_ativo_externo_grupo)})" :key="grupo.id_ativo_externo_grupo" >
+                                        <tr v-for="grupo in grupos_filted" :key="grupo.id_ativo_externo_grupo" >
                                             <td>{{grupo.nome}}</td>
                                             <td>{{grupo.estoque}}</td>
-                                            <td width="10%">
+                                            <td>
                                                 <a v-if="grupo.estoque > 0" class="btn btn-sm btn-primary" @click="add_item(grupo)" >
+                                                   <i class="fas fa-plus text-light"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr v-if="grupos_filted.length == 0" >
+                                            <td>Nemhum grupo diponível</td>
+                                            <td>0</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-secondary" disabled="disabled">
                                                    <i class="fas fa-plus text-light"></i>
                                                 </a>
                                             </td>
@@ -144,10 +154,10 @@
                                         <label>Devolução Pevista</label>
                                     </div>                                   
                                     <div class="col-12 col-md-2">
-                                        <input type="date" class="form-control" name="devolucao_prevista_data" id="devolucao_prevista_data" :value="devolucao_prevista_data">
+                                        <input require="required" type="date" class="form-control" name="devolucao_prevista_data" id="devolucao_prevista_data" :value="devolucao_prevista_data" v-model="devolucao_prevista_data">
                                     </div> 
                                     <div class="col-12 col-md-2">
-                                        <input type="text" class="form-control hora" name="devolucao_prevista_hora" id="devolucao_prevista_hora" :value="devolucao_prevista_hora" placeholder="00:00:00">
+                                        <input require="required" type="text" class="form-control hora" name="devolucao_prevista_hora" id="devolucao_prevista_hora" :value="devolucao_prevista_hora" v-model="devolucao_prevista_hora" placeholder="00:00:00">
                                     </div>                                             
                                 </div>
 
@@ -197,6 +207,14 @@
     var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : null; ?>`;
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
+        computed: {
+            grupos_filted(){
+                return this.grupos.filter((gp) => {return !this.in_grupos_selecionados(gp.id_ativo_externo_grupo)});  
+            },
+            permite_form() {
+                return (this.devolucao_prevista_data && this.devolucao_prevista_hora) && (this.id_funcionario && this.grupos_selecionados.length > 0);
+            }
+        },
         data() {
             return {
                 grupos: JSON.parse(`<?php echo json_encode($grupos); ?>`),
@@ -207,7 +225,6 @@
                 id_funcionario: null,
                 retiradas: [],
                 solicitar_autorizacao: false,
-                permite_form: false,
                 user: window.user,
                 devolucao_prevista_data: null,
                 devolucao_prevista_hora: null,
@@ -233,7 +250,6 @@
                 this.id_funcionario = null
                 this.solicitar_autorizacao  = false
                 this.retiradas = []
-                this.permite_form = false
             },
             add_item(item = null){
                 if(!item){
@@ -305,7 +321,6 @@
 
                     estoque.retiradas = retiradas
                     estoque.id_funcionario = id_funcionario 
-                    estoque.permite_form = true
                 });
             },
             
@@ -330,8 +345,15 @@
                         quantidade: item.quantidade 
                     }
                 })
-
-                this.permite_form = true
+            }
+        },
+        watch: {
+            devolucao_prevista_hora(){
+                setTimeout( () => {
+                    if (this.devolucao_prevista_hora === "") {
+                        this.devolucao_prevista_hora = null
+                    }
+                }, 10)
             }
         }
     })

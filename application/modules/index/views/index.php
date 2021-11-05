@@ -88,7 +88,7 @@
                                     <h3 class="title-3 m-b-10">Requisições Pendentes</h3>
 
                                     <?php if (!empty($requisicoes_pendentes)) { ?>
-                                    <table class="table table-responsive table-borderless table-striped table-top-campaign">
+                                    <table class="table table-responsive-md table-borderless table-striped table-top-campaign">
                                         <thead>
                                             <th scope="col" width="40%">Requisição/Solicitante</th> 
                                             <th scope="col" width="40%">Status</th>
@@ -176,7 +176,7 @@
                                     <div class="table-responsive table--no-card m-b-40">
                                         <h4 class="title-5 m-b-10 m-t-10 m-l-10">Ferramentas</h4>
                                         <?php if(count($obra->ferramentas) > 0) { ?>
-                                        <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                                        <table class="table table-responsive-md table-borderless table-striped table-earning" id="lista">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" width="30%">ID</th>
@@ -211,7 +211,7 @@
                                     <div class="table-responsive table--no-card m-b-40">
                                         <h4 class="title-5 m-b-10 m-t-10 m-l-10">Equipamentos</h4>
                                         <?php if(count($obra->equipamentos) > 0) { ?>
-                                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                                            <table class="table table-responsive-md table-borderless table-striped table-earning" id="lista2">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" width="30%">ID</th>
@@ -245,7 +245,7 @@
                                         <div class="table-responsive table--no-card m-b-40">
                                             <h4 class="title-5 m-b-10 m-t-10 m-l-10">Veículos</h4>
                                             <?php if(count($patrimonio->veiculos) > 0) { ?>
-                                                <table class="table table-responsive table-borderless table-striped table-earning" id="lista3">
+                                                <table class="table table-responsive-md table-borderless table-striped table-earning" id="lista3">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" width="30%">ID</th>

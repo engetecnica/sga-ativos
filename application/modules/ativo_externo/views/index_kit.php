@@ -32,7 +32,7 @@
                         <h3 class="title-1 m-b-25">Adicionar</h3>
                         <div class="card">
 
-                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista2">
+                            <table class="table table-responsive-md table-borderless table-striped table-earning" id="lista2">
                                 <thead>
                                     <tr class="active">
                                         <th width="25%" scope="col">Código</th>
@@ -73,7 +73,7 @@
                         <h3 class="title-1 m-b-25">Todos</h3>
                         <div class="card">
 
-                            <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                            <table class="table table-responsive-md table-borderless table-striped table-earning" id="lista">
                                 <thead>
                                     <tr class="active">
                                         <th width="25%" scope="col">Código</th>

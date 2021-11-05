@@ -41,7 +41,7 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Cód. Item</th>
