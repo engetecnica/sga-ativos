@@ -1,31 +1,13 @@
-<?php 
-
-$this->load->view('email_top', ['ilustration' => ['schedule_meeting'], "assunto" => "Informe de Vencimentos", "dias" => $dias]); 
-
-$styles = [
-    "btn" => "background: #fd9e0f; color: #FFFFFF; font-weight: 400; font-size: 25px; padding: 20px 35px;
-    text-decoration:none; border-radius: 5px; margin: 10px; cursor: pointer;",
-    "table" => "border: none; box-shadow: 1px 1px 10px rgba(0,0,0, .1); border-radius: 8px; margin: 0 auto;",
-    "thead" => "background-color: #003; color: #FFF; font-size: 16px; text-align: center; font-weight: bold;",
-    "tr_td_th" => "padding: 20px;",
-    "first_th" => "border-radius: 5px 0 0 0;",
-    "last_th" => "border-radius: 0 5px 0 0;",
-    "tr" => "font-size: 16px; text-align: center; padding: 20px;",
-    "tr2" => "background: #FFE;",
-];
-
-?>
-
-<strong style="color: #fd9e0f; font-size:25px;">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias</strong><br><br>
+<?php $this->load->view('email_top', ['ilustration' => ['schedule_meeting'], "assunto" => "Informe de Vencimentos", "dias" => $dias]); ?>
 
 <?php 
    if (count($relatorio) > 0){
 
     foreach($relatorio as $rel) {?>
-
+    <strong style="<?php echo $styles['strong'];?>">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias</strong><br>
  <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
     <?php if ($rel->tipo == 'manutencao') { ?>  
-    <h3>Manuteções</h3>
+    <h3 style="<?php echo $styles['title'];?>">Manuteções</h3>
     <table style="<?php echo $styles['table'];?>">
         <thead style="<?php echo $styles['thead'];?>">
             <tr style="<?php echo $styles['tr'];?>">
@@ -58,7 +40,7 @@ $styles = [
 
 
     <?php if ($rel->tipo == 'ipva') { ?>  
-    <h3>IPVA</h3>
+    <h3 style="<?php echo $styles['title'];?>">IPVA</h3>
     <table style="<?php echo $styles['table'];?>">
         <thead style="<?php echo $styles['thead'];?>">
             <tr style="<?php echo $styles['tr'];?>">
@@ -91,7 +73,7 @@ $styles = [
 
 
     <?php if ($rel->tipo == 'seguro') { ?>  
-    <h3>Seguro</h3>
+    <h3 style="<?php echo $styles['title'];?>">Seguro</h3>
     <table style="<?php echo $styles['table'];?>">
         <thead style="<?php echo $styles['thead'];?>">
             <tr style="<?php echo $styles['tr'];?>">
@@ -125,7 +107,7 @@ $styles = [
 
   <?php if ($rel->modulo == 'ativo_externo') { ?>   
     <?php if ($rel->tipo == 'calibracao') { ?>  
-    <h3>Certificado de Calibação/Aferição</h3>
+    <h3 style="<?php echo $styles['title'];?>">Certificado de Calibação/Aferição</h3>
     <table style="<?php echo $styles['table'];?>">
         <thead style="<?php echo $styles['thead'];?>">
             <tr style="<?php echo $styles['tr'];?>">
@@ -153,11 +135,11 @@ $styles = [
    <?php } ?>
 
   <?php } } else {  ?>
-    <strong>Nenhum item encontrado para o período.</strong>
+    <strong style="<?php echo $styles['strong'];?>" >Nenhum item encontrado para o período.</strong>
   <?php } ?>
 
 <br>
-<p>Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></p>
+<p style="<?php echo $styles['p'];?>">Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></p>
 <br> </br>
 
 <?php $this->load->view('email_footer'); ?>

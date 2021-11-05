@@ -132,20 +132,4 @@ class Relatorio extends MY_Controller {
     public function crescimento_empresa(){
       return $this->json($this->relatorio_model->crescimento_empresa());
     }
-
-    public function informe_vencimentos($dias_restantes = 30){
-      $relatorio_data = $this->relatorio_model->informe_vencimentos($dias_restantes);
-
-      if (count($relatorio_data) > 0) {
-        $data = [
-            'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
-            'relatorio' => $relatorio_data,
-            'dias' => $dias_restantes,
-        ];
-
-        $html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
-        return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
-      }
-      return true;
-    }
 }

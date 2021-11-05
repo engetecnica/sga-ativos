@@ -96,5 +96,13 @@ class Notificacoes_model extends MY_model {
     }
 
     return true;
-  }   
+  }
+  
+  public function getEmailStyles(){
+    try {
+      return include "./application/config/email_style.php";
+    } catch (\Exception $e) {
+      return [];
+    }
+  }
 }

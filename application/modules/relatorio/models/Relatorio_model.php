@@ -981,16 +981,46 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function enviar_informe_vencimentos($dias_restantes = 30){
     $relatorio_data = $this->informe_vencimentos($dias_restantes);
-  
+
     if (count($relatorio_data) > 0) {
       $data = [
           'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
           'relatorio' => $relatorio_data,
           'dias' => $dias_restantes,
+          'styles' => $this->notificacoes_model->getEmailStyles(), 
       ];
-
-      $html = $this->load->view("/../views/relatorio_informe_vencimentos", $data, true);
+      $html = $this->load->view("relatorio/relatorio_informe_vencimentos", $data, true);
       return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
+    }
+    return true;
+  }
+
+
+  public function informe_retiradas_pendentes($devolucao_prevista = "now"){
+    return $this->db
+            ->where("status NOT IN (4)")
+            ->where("devolucao_prevista <= '{$devolucao_prevista}'")
+            ->join("funcionario fn", "fn.id_funcionario = atv.id_funcionario")
+            ->select("fn.nome as funcionario, fn.data_nascimento as funcionario_nascimento, fn.rg as funcionario_rg, fn.cpf as funcionario_cpf")
+            ->join("obra ob", "ob.id_obra = atv.id_obra")
+            ->select("ob.codigo_obra as obra, ob.endereco as obra_endereco")
+            ->select("atv.*")
+            ->get('ativo_externo_retirada atv')->result();
+  }
+
+  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "-1 days"){
+    $data_hora_vencimento = date("Y-m-d 23:59:59", strtotime($data_hora_vencimento));
+    $relatorio_data = $this->informe_retiradas_pendentes($data_hora_vencimento);
+    if (count($relatorio_data) > 0) {
+      $data = [
+          'data_hora' => date("Y-m-d H:i:s", strtotime("now")),
+          'relatorio' => $relatorio_data,
+          'vencimento' => $data_hora_vencimento,
+          'styles' => $this->notificacoes_model->getEmailStyles(),
+      ];
+      $html = $this->load->view("relatorio/relatorio_informe_retiradas_pendentes", $data, true);
+      $date = date("d/m/Y", strtotime($data_hora_vencimento));
+      return $this->notificacoes_model->enviar_email("Retiradas Pêndentes de Devolução | $date", $html, $this->config->item("notifications_address"));
     }
     return true;
   }

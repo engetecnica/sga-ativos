@@ -23,6 +23,7 @@ class App extends MY_Controller {
           'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
           'limpar_exports' => $this->db_export_clear(),
           'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
+          'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
         ];
 
         $this->json($status);
@@ -30,7 +31,7 @@ class App extends MY_Controller {
   
     public function test_email(){
       $top = $this->load->view('relatorio/email_top', ['ilustration' => "welcome", "assunto" => "Test email"], true);
-      $email = "<h1> Test email ok!</h1> <p> Test email ok!  Test email ok!  Test email ok!  Test email ok!</p>";
+      $email = "<h1> Test email ok!</h1> <p> Test email ok!</p>";
       $footer = $this->load->view('relatorio/email_footer', null, true);
       $html = $top.$email.$footer;
       $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));
