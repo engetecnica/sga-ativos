@@ -86,7 +86,7 @@
                         </div>
                         <?php if ($retirada->status == 4) {?>
                           <div class="text-center">
-                            <hr><button class="btn-custom" type="submit"><i class="fas fa-undo 4x"></i>&nbsp;Devolver Itens</button>
+                            <hr><button class="btn btn-primary" type="submit"><i class="fas fa-undo 4x"></i>&nbsp;Devolver Itens</button>
                           </div>
                         <?php  } ?>
                     </form>

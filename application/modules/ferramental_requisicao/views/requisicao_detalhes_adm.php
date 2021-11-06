@@ -16,11 +16,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form 
-                        class="confirm-submit" action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" 
+                        class="confirm-submit" id="requisicao_form" action="<?php echo base_url('ferramental_requisicao/liberar_requisicao'); ?>" 
                         method="post" enctype="multipart/form-data"
                         data-acao="Liberar" data-icon="success" data-message="false"
-                        data-title="Liberar Transferência" data-redirect="true"
-                        data-text="Clique 'Sim, Liberar!' para confirmar a liberação da Requisição dos itens solicitados."
+                        data-title="Liberar Requisição" data-redirect="true"
+                        data-text="Clique 'Sim, Liberar!' para confirmar a liberação dos itens solicitados na Requisição."
                     > 
                         <h2 class="title-1 m-b-25">Detalhes da Requisição Administração</h2>
                         <div class="card">
@@ -34,14 +34,12 @@
                                         <tr class="active">
                                             <th scope="col" width="30%">Requisão ID</th>
                                             <th scope="col" width="30%">Solicitação</th>
-                                            <th scope="col" width="30%">Tipo da Requisição</th>
-                                            <th scope="col" width="30%" >Status da Requisição</th>
+                                            <th scope="col" width="30%">Tipo</th>
+                                            <th scope="col" width="30%" >Status</th>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
                                             <?php } ?>
-                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
-                                            <th>Opções</th>
-                                            <?php } ?>
+                                            <th>Gerenciar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,26 +53,106 @@
                                                 <?php $status = $this->status($requisicao->status); ?>
                                                 <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                             </td>
-                                            <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
-                                            <td> 
-                                                <a 
-                                                    class="btn btn-sm btn-default confirmar_registro" href="javascript:void(0);"
-                                                    data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
-                                                    data-title="Remover Requisição" data-acao="Remover"  data-redirect="true"
-                                                    data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
-                                                >
-                                                    <i class="fa fa-trash item-menu-interno"></i>
-                                                </a>
-                                            </td>
-                                            <?php } ?>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <td scope="col" width="30%"> 
                                                     <?php $relativa = ($requisicao->tipo == 1) ? $requisicao->devolucao : $requisicao->requisicao; ?>
-                                                    <a class="btn btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
+                                                    <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$relativa->id_requisicao}"); ?>">
                                                         <?php echo $requisicao->tipo == 1 ? 'Ver Devolução' : 'Ver Requisição'?>
                                                     </a>
                                                 </td>
                                             <?php } ?>
+                                            <td> 
+                                                <div class="btn-group" role="group">
+                                                    <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-<?php echo $status['class'];?> btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Gerenciar
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
+                                                       
+                                                        <?php if($user->nivel == 1) { ?>
+                                                            <?php if(in_array($requisicao->status, [1, 11])){ ?>
+                                                                    <?php if ($user->id_obra == $requisicao->id_origem  || !$requisicao->id_origem) { ?>
+                                                                        <a
+                                                                        class="dropdown-item  confirmar_registro" href="javascript:void(0)">
+                                                                        <i class="fa fa-check-circle 2x"></i>&nbsp;
+                                                                        <button class="" style="text-align: left !important;" type="submit" formtarget="requisicao_form" >
+                                                                            Liberar Requisição
+                                                                        </button>
+                                                                        </a>
+                                                                    <?php } ?>
+
+                                                                    <?php 
+                                                                        if (($user->id_usuario != $requisicao->id_solicitante && $user->id_obra == $requisicao->id_origem ) || 
+                                                                            !$requisicao->id_origem) { 
+                                                                    ?>
+                                                                        <div class="dropdown-divider"></div>
+                                                                        <a
+                                                                            class="dropdown-item  confirmar_registro"
+                                                                            href="javascript:void(0)"
+                                                                            data-acao="Recusar" data-icon="warning" data-message="false"
+                                                                            data-title="Recusar Requisição" data-redirect="true"
+                                                                            data-text="Clique 'Sim, Recusar!' para recusar a Requisição dos itens solicitados."
+                                                                            data-href="<?php echo base_url("ferramental_requisicao/recusar_requisicao/{$requisicao->id_requisicao}");?>"
+                                                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                                                        >
+                                                                            <i class="fa fa-ban" aria-hidden="true"></i> Recusar Requisição
+                                                                        </a>
+                                                                        <div class="dropdown-divider"></div>
+                                                                    <?php }  ?>
+                                                                <?php } ?>
+
+                                                                <?php 
+                                                                    if(($requisicao->tipo == 1 && in_array($requisicao->status, [2,11])) && 
+                                                                        (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))) { 
+                                                                ?>
+                                                                    <a
+                                                                        class="dropdown-item  confirmar_registro"
+                                                                        href="javascript:void(0)"
+                                                                        data-acao="Enviar" data-icon="success" data-message="false"
+                                                                        data-title="Enviar para Transferencia" data-redirect="true"
+                                                                        data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
+                                                                        data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
+                                                                        data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
+                                                                    >
+                                                                        <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;Enviar para Transferência
+                                                                    </a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                <?php  } ?>
+
+
+                                                                <?php if ($requisicao->tipo == 2 && $requisicao->status == 3) {?>
+                                                                    <a 
+                                                                        class="dropdown-item  confirmar_registro"
+                                                                        href="javascript:void(0)"
+                                                                        data-acao="Receber" data-icon="info" data-message="false"
+                                                                        data-title="Receber Devoluções" data-redirect="true"
+                                                                        data-text="Clique 'Sim, Receber!' para confirmar a transferência de itens devolvidos ou com defeito."
+                                                                        data-href="<?php echo base_url("ferramental_requisicao/receber_devolucoes/{$requisicao->id_requisicao}");?>"
+                                                                        data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                    >
+                                                                        <i class="fas fa-clipboard-check"></i> Receber Devoluções
+                                                                    </a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                <?php  } ?>
+                                                        <?php } ?>
+
+                                                        <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                                            <a 
+                                                                class="dropdown-item  confirmar_registro" href="javascript:void(0);"
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
+                                                                data-title="Excluir Requisição" data-acao="Excluir"  data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/deletar/{$requisicao->id_requisicao}");?>"
+                                                            >
+                                                                <i class="fa fa-trash"></i> Excluir
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                        <?php } ?>
+
+                                                        <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
+                                                            <i class="fa fa-question-circle"></i> Ajuda
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -183,12 +261,12 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <?php if ($item->status == 3) {?>
-                                                        <a class="dropdown-item btn-sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
+                                                        <a class="dropdown-item -sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
                                                             <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                         </a>
                                                         <div class="dropdown-divider"></div>
                                                         <a 
-                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            class="dropdown-item -sm confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
                                                             data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
@@ -197,7 +275,7 @@
                                                         </a>
                                                         <div class="dropdown-divider"></div>
                                                         <a 
-                                                            class="dropdown-item btn-sm confirmar_registro" href="javascript:void(0);"
+                                                            class="dropdown-item -sm confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
                                                             data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
@@ -207,7 +285,7 @@
                                                         <div class="dropdown-divider"></div>
                                                         <?php } ?>
                                                         <a 
-                                                            class="dropdown-item btn-sm btn-primary" 
+                                                            class="dropdown-item -sm btn-primary" 
                                                             href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                         >
                                                             <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
@@ -223,103 +301,26 @@
                                     </tbody>
                                 </table>
                                 <?php } ?>
-
-                                <?php if($user->nivel == 1){  ?>
-                                    <hr>
-                                    <div class="col offset-md-3 col-md-6 text-center d-flex flex-column">
-
-                                    <?php if(in_array($requisicao->status, [1, 11])){ ?>
-                                        <div class="text-center">
-
-                                            <?php if ($user->id_obra == $requisicao->id_origem  || !$requisicao->id_origem) { ?>
-                                            <button class=" btn-custom m-b-10" type="submit" id="liberar_requisicao_btn" >
-                                                <i class="fa fa-check"></i>&nbsp;
-                                                Liberar Requisição
-                                            </button>
-                                            <?php } ?>
-
-                                            <?php 
-                                                if (($user->id_usuario != $requisicao->id_solicitante && $user->id_obra == $requisicao->id_origem ) || 
-                                                    !$requisicao->id_origem) { 
-                                            ?>
-                                            <a
-                                                class="confirmar_registro m-b-10"
-                                                href="javascript:void(0)"
-                                                data-acao="Recusar" data-icon="warning" data-message="false"
-                                                data-title="Recusar Requisição" data-redirect="true"
-                                                data-text="Clique 'Sim, Recusar!' para recusar a Requisição dos itens solicitados."
-                                                data-href="<?php echo base_url("ferramental_requisicao/recusar_requisicao/{$requisicao->id_requisicao}");?>"
-                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
-                                            >
-                                                <button class="btn btn-md btn-light" type="button" id="entregar_items_retirada_btn">
-                                                    <i class="fa fa-ban 4x" aria-hidden="true"></i>&nbsp;
-                                                    Recusar Requisição
-                                                </button>
-                                            </a>
-                                            <?php } ?>
-                                        </div>
-                                        <?php if ($user->id_obra == $requisicao->id_origem || !$requisicao->id_origem ) { ?>
-                                        <small>Clique para Liberar ou Recusar a Requisição dos itens solicitados.</small>
-                                        <?php } ?>
-                                    <?php } ?> 
-
-                                    <?php 
-                                        if(($requisicao->tipo == 1 && in_array($requisicao->status, [2,11])) && 
-                                            (($user->id_usuario == $requisicao->id_despachante) || ($user->id_obra == $requisicao->id_origem))) { 
-                                    ?>
-                                        <a
-                                            class="confirmar_registro text-center m-b-10 m-t-20"
-                                            href="javascript:void(0)"
-                                            data-acao="Enviar" data-icon="success" data-message="false"
-                                            data-title="Enviar para Transferencia" data-redirect="true"
-                                            data-text="Clique 'Sim, Enviar!' para confirmar a transferencia dos itens solicitados."
-                                            data-href="<?php echo base_url("ferramental_requisicao/transferir_requisicao/{$requisicao->id_requisicao}");?>"
-                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
-                                        >
-                                            <button class="btn btn-md btn-success" type="button" id="entregar_items_retirada_btn">
-                                                <i class="fa fa-truck 4x" aria-hidden="true"></i>&nbsp;
-                                                Enviar para Transferência
-                                            </button>
-                                        </a>
-                                        <small>Clique 'Enviar para Transferência' para confirmar a transferência dos itens solicitados. 
-                                        Somente após o a saída para transporte.</small>
-                                     
-                                    <?php  } ?>
-
-
-                                    <?php if ($requisicao->tipo == 2 && $requisicao->status == 3) {?>
-                                        <a 
-                                            class="text-center confirmar_registro m-b-10"
-                                            href="javascript:void(0)"
-                                            data-acao="Receber" data-icon="info" data-message="false"
-                                            data-title="Receber Devoluções" data-redirect="true"
-                                            data-text="Clique 'Sim, Receber!' para confirmar a transferência de itens devolvidos ou com defeito."
-                                            data-href="<?php echo base_url("ferramental_requisicao/receber_devolucoes/{$requisicao->id_requisicao}");?>"
-                                            data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" >
-                                        
-                                            <button class="btn btn-md btn-secondary" type="button" id="entregar_items_retirada_btn">
-                                                <i class="fas fa-clipboard-check item-menu-interno"></i> Receber Devoluções
-                                            </button>
-                                        </a>
-                                        <small>Clique 'Receber Devoluções' para confirmar a transferência de itens devolvidos ou com defeito.</small>
-                                    <?php  } ?>
-                                </div>
-                                <?php  } ?>
                             </div>
                         </div>
-                    </form>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="copyright">
+                <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
             </div>
         </div>
     </div>
+    </div>
 </div>
+</div>
+
+<?php $this->load->view('requisicao_modal_ajuda'); ?>
+
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

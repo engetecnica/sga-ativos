@@ -17,7 +17,9 @@
                     <h2 class="title-1 m-b-25">Configurações</h2>
 
                     <div class="card">
-                        <div class="card-header">Nova Configuração</div>
+                        <div class="card-header">
+                            <?php echo isset($detalhes) && isset($detalhes->id_ativo_configuracao) ? 'Editar Configuração' : 'Nova Configuração' ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_configuracao/salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -55,8 +57,8 @@
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <select name="situacao" id="situacao" class="form-control">
-                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
                                             <option value="0" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>>Ativo</option>
+                                            <option value="1" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==1){ echo "selected='selected'"; } ?>>Inativo</option>
                                         </select>
                                     </div>
                                 </div>
@@ -68,10 +70,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url("ativo_configuracao{$id}");?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

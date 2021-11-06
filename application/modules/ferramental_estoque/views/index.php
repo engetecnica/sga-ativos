@@ -14,9 +14,9 @@
             <div class="row">
                 <div class="col-lg-12">
                 <h2 class="title-1 m-b-20">Estoque de Ferramentas</h2>
-                    <div class="table table--no-card table-responsive-md table--no-d m-b-40">
+                    <div class="tabl table--no-card table-responsive table--no- m-b-40">
                         <h3 class="title-1 m-b-25">Retiradas</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista">
+                        <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
                                     <th>Retirada ID</th>
@@ -25,7 +25,7 @@
                                     <th>Data</th>
                                     <th>Devolução Prevista</th>
                                     <th>Status</th>
-                                    <th>Opções</th>
+                                    <th>Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,25 +45,39 @@
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm btn-outline-<?php echo $status['class'];?>" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>"><i class="fas fa-list"></i> Detalhes</a>
-                                        
-                                        <?php if($valor->status == 1) {?>
-                                        <a href="<?php echo base_url("ferramental_estoque/editar/{$valor->id_retirada}"); ?>">
-                                            <button class="btn btn-sm btn-primary" type="button">                                                    
-                                                <i class="fas fa-edit"></i>
-                                            </button>   
-                                        </a>
-                                        <a 
-                                            class="confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
-                                            href="javascript:void(0)" data-registro="<?php echo $valor->id_retirada;?>"
-                                            data-acao="Remover Retirada"  data-redirect="true"
-                                            data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$valor->id_retirada}");?>"
-                                        >
-                                            <button class="btn btn-sm btn-danger" type="button">                                                    
-                                                <i class="fas fa-trash"></i>
-                                            </button>                                                
-                                        </a>
-                                        <?php } ?>
+                                        <div class="btn-group" role="group">
+                                            <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
+                                                <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">
+                                                    <i class="fas fa-list"></i> Detalhes
+                                                </a>
+
+                                                <?php if(isset($valor->termo_de_reponsabilidade)) { ?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/ferramental_estoque/{$valor->termo_de_reponsabilidade}"); ?>">
+                                                        <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
+                                                    </a>
+                                                <?php } ?>
+
+                                                <?php if($valor->status == 1) {?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/editar/{$valor->id_retirada}"); ?>">
+                                                        <i class="fas fa-edit"></i> Editar  
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a 
+                                                        class="dropdown-item btn confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
+                                                        href="javascript:void(0)" data-registro="<?php echo $valor->id_retirada;?>"
+                                                        data-acao="Remover Retirada"  data-redirect="true"
+                                                        data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$valor->id_retirada}");?>"
+                                                    >                                                   
+                                                        <i class="fas fa-trash"></i> Excluir                                               
+                                                    </a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

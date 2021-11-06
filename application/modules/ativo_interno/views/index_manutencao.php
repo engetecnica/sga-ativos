@@ -26,7 +26,7 @@
                                     <th>Data da Retorno</th>
                                     <th>Situação</th>
                                     <th>Valor</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,18 +41,31 @@
                                     </td>
                                     <td><?php echo $this->formata_moeda($valor->manutencao_valor);?></td>
                                     <td class="text-right">
-                                          <a href="<?php echo base_url("ativo_interno/manutencao_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>"><i class="fas fa-edit"></i></a>
-                                
-                                        <?php if ((int) $valor->situacao == 0) { ?>
-                                          <a 
-                                            href="javascript:void(0)" 
-                                            data-href="<?php echo base_url("ativo_interno/manutencao_remover/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>" 
-                                            data-registro="<?php echo $valor->id_ativo_interno;?>" 
-                                            data-tabela="ativo_interno/manutencao/<?php echo $ativo->id_ativo_interno;?>" class="deletar_registro"
-                                          >
-                                            <i class="fas fa-trash"></i>
-                                          </a>
-                                        <?php } ?>
+                                        <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu">
+                                              <a class="dropdown-item " href="<?php echo base_url("ativo_interno/manutencao_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>"><i class="fas fa-edit"></i> Editar</a>
+                                              <?php if ((int) $valor->situacao == 0) { ?>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                  href="javascript:void(0)" 
+                                                  data-href="<?php echo base_url("ativo_interno/manutencao_remover/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>" 
+                                                  data-registro="<?php echo $valor->id_ativo_interno;?>" 
+                                                  data-tabela="ativo_interno/manutencao/<?php echo $ativo->id_ativo_interno;?>" class="dropdown-item  deletar_registro"
+                                                >
+                                                  <i class="fas fa-trash"></i> Excluir
+                                                </a>
+                                              <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

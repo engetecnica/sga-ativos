@@ -19,7 +19,9 @@
                     <h2 class="title-1 m-b-25">Empresas</h2>
 
                     <div class="card">
-                        <div class="card-header">Nova Empresa</div>
+                        <div class="card-header">
+                            <?php echo isset($detalhes) && isset($detalhes->id_empresa) ? 'Editar Empresa' : 'Nova Empresa' ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('empresa/salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -107,10 +109,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('empresa');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

@@ -56,7 +56,6 @@
                                 <tr>
                                     <th>Prévia</th>
                                     <th>ID</th>
-                                    <th>Título</th>
                                     <th>Descrição</th>
                                     <th>Modulo</th>
                                     <th>Tipo</th>
@@ -75,7 +74,6 @@
                                         <?php } ?>
                                     </td>
                                     <td><?php echo $anexo->id_anexo; ?></td>
-                                    <td><?php echo $anexo->titulo; ?></td>
                                     <td><?php echo $anexo->descricao; ?></td>
                                     <td><?php echo $anexo->modulo_titulo; ?></td>
                                     <td><?php echo ucfirst($anexo->tipo); ?></td>

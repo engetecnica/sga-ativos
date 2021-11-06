@@ -22,13 +22,9 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Usuário</h2>
                     <div class="card">
-                        <?php if(isset($detalhes) && isset($detalhes->id_usuario)){?>
-                            <div class="card-header">Editar Usuário</div>
-                        <?php }?>
-
-                         <?php if(isset($detalhes) && !isset($detalhes->id_usuario)) {?>
-                            <div class="card-header">Novo Usuário</div>
-                         <?php } ?>
+                    <div class="card-header">
+                            <?php echo isset($detalhes) && isset($detalhes->id_usuario) ? 'Editar Usuário' : 'Novo Usuário' ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('usuario/salvar'); ?>" method="post" enctype="multipart/form-data" autocomplete="off">
@@ -223,17 +219,17 @@
 
                                     <?php  if (!$is_self) { ?>
                                     <a href="<?php echo base_url('usuario');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                     <?php  } else { ?>
                                     <a href="<?php echo base_url();?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                     <?php } ?>
                                 </div>

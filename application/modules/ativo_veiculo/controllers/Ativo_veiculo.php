@@ -316,6 +316,10 @@ class Ativo_veiculo  extends MY_Controller
                         ->limit(1)
                         ->get('ativo_veiculo_quilometragem')
                         ->row();
+
+                    if ($data['ultimo_km']->id_ativo_veiculo_quilometragem == $data['quilometragem']->id_ativo_veiculo_quilometragem) {
+                        $data['ultimo_km'] = null;
+                    }    
                         
                     $template = "_form";
                 } elseif ($tipo == 'comprovante') {
@@ -387,11 +391,14 @@ class Ativo_veiculo  extends MY_Controller
                 break;
 
             case 'depreciacao':
+                $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo);
                 if ($tipo == 'adicionar') {
                     $template = "_form";
-                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo);
                 } elseif ($tipo == 'editar') {
                     $template = "_form";
+                    $data['depreciacao'] = $this->db->where('id_ativo_veiculo_depreciacao', $id_gerenciar_item)
+                    ->where('id_ativo_veiculo', $id_ativo_veiculo)
+                    ->get('ativo_veiculo_depreciacao')->row();
                 } else {
                     $template = "";
                     $data['dados_veiculo'] = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($tipo);
@@ -534,8 +541,6 @@ class Ativo_veiculo  extends MY_Controller
             }
 
             if ($data['id_ativo_veiculo_manutencao'] == '' || !$data['id_ativo_veiculo_manutencao']) {
-                $data['veiculo_km_data'] = $data['data_entrada'];
-
                 if (!$data['data_vencimento']) {
                     unset($data['data_vencimento']);
                 }
@@ -543,7 +548,6 @@ class Ativo_veiculo  extends MY_Controller
                 $this->db->insert('ativo_veiculo_manutencao', $data);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
-                unset($data['veiculo_km_data']);
                 $this->db->where('id_ativo_veiculo_manutencao', $data['id_ativo_veiculo_manutencao'])
                     ->update('ativo_veiculo_manutencao', $data);
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
@@ -787,15 +791,21 @@ class Ativo_veiculo  extends MY_Controller
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
 
         if ($veiculo) {
-            $valor_fipe = str_replace("R$ ", "", $this->input->post('valor_fipe'));
+            $valor_fipe = str_replace("R$", "", $this->input->post('valor_fipe'));
             $valor_fipe = str_replace(".", "", $valor_fipe);
             $valor_fipe = str_replace(",", ".", $valor_fipe);
-            $data['valor_fipe'] = $valor_fipe;
+            $data['veiculo_valor_fipe'] = trim($valor_fipe);
+
+            $valor_depreciacao = str_replace("R$", "", $this->input->post('veiculo_valor_depreciacao'));
+            $valor_depreciacao = str_replace(".", "", $valor_depreciacao);
+            $valor_depreciacao = str_replace(",", ".", $valor_depreciacao);
+            $data['veiculo_valor_depreciacao'] = trim($valor_depreciacao);
+
             $data['fipe_mes_referencia'] = $this->input->post('fipe_mes_referencia');
             $data['veiculo_km'] = $this->input->post('veiculo_km');
             $data['veiculo_observacoes'] = $this->input->post('veiculo_observacoes');
             $data['id_ativo_veiculo_depreciacao'] = $this->input->post('id_ativo_veiculo_depreciacao');
-
+            //$this->dd($data);
             if ($data['id_ativo_veiculo_depreciacao'] == '' || !$data['id_ativo_veiculo_depreciacao']) {
                 $this->db->insert('ativo_veiculo_depreciacao', $data);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
@@ -811,9 +821,52 @@ class Ativo_veiculo  extends MY_Controller
         echo redirect(base_url("ativo_veiculo"));
     }
 
+    public function depreciacao_deletar($id_ativo_veiculo, $id_ativo_veiculo_depreciacao)
+    {
+        $depreciacao = $this->db
+            ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
+            ->where("id_ativo_veiculo_depreciacao = {$id_ativo_veiculo_depreciacao}")
+            ->get('ativo_veiculo_depreciacao')->num_rows() == 1;
+
+        if (!$depreciacao) {
+            $this->session->set_flashdata('msg_erro', "Lançamento depreciacao não encontrado!");
+            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        if (!$this->ativo_veiculo_model->permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao)) {
+            $this->session->set_flashdata('msg_erro', "Lançamento depreciacao não pode ser excluído!");
+            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        $this->db->where("id_ativo_veiculo_depreciacao = {$id_ativo_veiculo_depreciacao}")->delete('ativo_veiculo_depreciacao');
+        echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
+        return true;
+    }
+
+    function deletar_anexo($tabela, $id_item, $anexo){
+        $item  = $this->db->where("id_$tabela = $id_item")->get($tabela)->row();
+        if ($item && $this->user->nivel == 1) {
+            $file = $item->$anexo;
+            $this->db->where("id_$tabela = $id_item")->update($tabela, [$anexo => ""]);
+            $this->db->where("anexo = '$anexo/$file'")->delete("anexo");
+            $file = file_exists(APPPATH."../assets/uploads/$anexo/$file");
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+    }
+
     function deletar($id_ativo_veiculo)
     {
-        if ($this->ativo_veiculo_model->permit_delete($id_ativo_veiculo)) {
+        if ($this->ativo_veiculo_model->permit_delete($id_ativo_veiculo) && $this->user->nivel == 1) {
             return $this->db->where('id_ativo_veiculo', $id_ativo_veiculo)->delete('ativo_veiculo');
         }
         $this->session->set_flashdata('msg_erro', "Veículo contém itens lançados, não pode ser excluído!");

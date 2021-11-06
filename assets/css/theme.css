@@ -40,6 +40,11 @@ Notes:	decreasing heading by 0.4em with every subsequent heading level
 /*                   GENERIC                           */
 /*-----------------------------------------------------*/
 /* ----- Normalize ----- */
+
+:root {
+    --primary : #fd9e0f;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -85,6 +90,7 @@ p {
     padding-right: 1px;
     background-color: #FFFFFF;
 }
+
 
 .table-responsive  > h3, .table--no-card > h3{
     margin-top: 20px;
@@ -526,17 +532,28 @@ section {
     margin-right: 5px;
 }
 
+.au-btn--green,
 .au-btn--blue {
-    background: #4272d7;
+    /*background: #4272d7;*/
+    background: var(--primary);
+    opacity: .8;
 }
 
+.au-btn--green:hover,
+.au-btn--blue:hover {
+    /*background: #4272d7;*/
+    background: var(--primary);
+    opacity: 1;
+}
+
+/* 
 .au-btn--green {
     background: #63c76a;
 }
 
 .au-btn--green:hover {
     background: #59bd60;
-}
+} */
 
 .au-btn-plus {
     position: absolute;
@@ -1237,10 +1254,11 @@ section {
 
 /* ----- Header ----- */
 .header-desktop {
+    user-select: none;
     background: #f5f5f5;
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1); 
     position: fixed;
     top: 0;
     right: 0;
@@ -1626,7 +1644,8 @@ section {
 }
 
 .account-dropdown__footer a:hover {
-    background: #4272d7;
+    /*background: #4272d7;*/
+    background: var(--primary);
     color: #fff;
 }
 
@@ -1648,10 +1667,13 @@ section {
 }
 
 @media (min-width: 991px) {
-    .btn-mobile-menu, .btn-close-mobile-menu{
+    .btn-mobile-menu,
+    .btn-close-mobile-menu,
+    .btn-close-mobile-menu2{
         display: none;
     }
 }
+
 
 @media (max-width: 991px) {
     .menu-sidebar {
@@ -1660,14 +1682,17 @@ section {
         min-height: 100vh;
         width: 100vw;
     }
-    .btn-mobile-menu, .btn-close-mobile-menu{
+    .btn-mobile-menu, 
+    .btn-close-mobile-menu,
+    .btn-close-mobile-menu2{
         display: block;
         cursor: pointer;
     }
-    .btn-close-mobile-menu {
+    .btn-close-mobile-menu,
+    .btn-close-mobile-menu2 {
         position: absolute;
-        background-color: var(--secondary);
-        color: #FFF;
+        color: var(--secondary);
+        /* color: #FFF; */
         z-index: 11;
         bottom: 20px;
         right: 20px;
@@ -1707,6 +1732,7 @@ section {
     border-right: 1px solid #e5e5e5;
     position: relative;
     z-index: 3;
+    user-select: none;
 }
 
 .menu-sidebar .navbar__list .navbar__sub-list {
@@ -1742,11 +1768,12 @@ section {
 }
 
 .navbar-sidebar .navbar__list li a:hover {
-    color: #4272d7;
+    color: var(--primary);
 }
 
+
 .navbar-sidebar .navbar__list li.active > a {
-    color: #4272d7;
+    color: var(--primary);
 }
 
 .has-sub {
@@ -4332,9 +4359,9 @@ section {
 }
 
 .table--no-card {
-    /* -webkit-border-radius: 10px !important;
-    -moz-border-radius: 10px !important;
-    border-radius: 10px !important; */
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px !important; 
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1) !important;
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1) !important;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1) !important;
@@ -4343,12 +4370,17 @@ section {
 .table--no-card  thead {
     min-width: 100% inherit !important;
     position: relative;
+    min-height: 200px !important;
 }
 
 .table--no-card  th {
     position: relative;
     min-width: 33% !important;
     max-width: 300px !important;
+}
+
+.table--no-card table {
+    min-height: 250px !important;
 }
 
 .table-earning thead th {
@@ -4875,17 +4907,19 @@ label {
     text-align: right !important;
 }
 
-a > .fas, td > a > .fa {
+.fas, 
+.fa {
     font-size: 1rem;
-    margin: 5px;
 }
 
 
-a > .fa-trash, a .fa-remove {
+<<<<<<< HEAD
+=======
+/* a > .fa-trash, a .fa-remove {
     color: #ff4756 !important;
 }
 
-a > .fa-download {
+a > .fa-download, a .fa-edit {
     color: #2948ff !important;
 }
 
@@ -4897,9 +4931,10 @@ td > a > .fa-eye {
 
 a > .fa-envelope {
     color: #ffc107 !important;
-}
+} */
 
 
+>>>>>>> d4c018f... Atualiza modulo veiculo depreciacao
 td > .avatar {
     width: 45px;
     height: 45px;
@@ -4908,6 +4943,15 @@ td > .avatar {
 
 td > a {
     padding: 5px !important;
+}
+
+.dropdown-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    align-items: center;
+    /*border: solid 1px red !important;
+    padding: 0 !important;*/
 }
 
 .preview{
@@ -14990,4 +15034,90 @@ label {
 
 .dataTables_wrapper .dataTables_filter input {
     max-width: 160px !important;
+}
+
+.js-sub-list li a{
+    margin: 0;
+    display: flex;
+}
+
+.btn-primary {
+    background:  var(--primary) !important;
+    border-color:  var(--primary) !important;
+    opacity: .8;
+}
+
+.btn-primary:disabled {
+    opacity: .5 !important;
+}
+
+.btn-primary:hover {
+   opacity: 1;
+}
+
+.btn-secondary {
+    opacity: .8;
+}
+
+.btn-secondary:hover {
+   opacity: 1;
+}
+
+.dropdown-item:hover,
+.dropdown-item:active,
+.dropdown-item:focus  {
+    outline: none !important;
+    border: none !important;
+    background: #FFF !important;
+}
+
+.dropdown-menu.show{
+    z-index: 2000 !important;
+}
+
+div::-webkit-scrollbar,
+html::-webkit-scrollbar,
+.menu-sidebar::-webkit-scrollbar {
+    width: 5px;
+    max-height: 5px !important;
+}
+
+html::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+    background: #FFF !important;
+    border-radius: 0px !important;
+    transition: all ease-in-out .8s !important;
+}
+
+html::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb,
+.menu-sidebar::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    opacity: .5 !important; 
+    border-radius: 7px !important;
+    transition-delay: .3s;
+    transition: all ease-in-out .8s !important;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover,
+.menu-sidebar::-webkit-scrollbar-thumb:hover {
+    transition-delay: .3s !important;
+    transition: all ease-in-out .8s !important;
+    background: var(--primary);
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+
+.menu-sidebar::-webkit-scrollbar-track {
+    background: #FFF !important;
+}
+
+.menu-sidebar::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+.menu-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
 }

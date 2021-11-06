@@ -16,16 +16,16 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25">Gerenciar Veículo</h2>
+                    <h2 class="title-1 m-b-25">Gerenciar Manutenção do Veículo</h2>
 
                     <div class="card">
-                        <div class="card-header">Registrar items do veículo</div>
+                        <div class="card-header">
+                            <?php echo isset($manutencao) && isset($manutencao->id_ativo_veiculo_manutencao) ? "Editar Registro de Manutenção" : "Novo Registro de manutenção" ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/manutencao_salvar'); ?>" method="post" enctype="multipart/form-data">
-                                
-                                <p><strong>CONTROLE DE MANUTENÇÕES DO VEÍCULO</strong></p>
-                                <hr>
+                        
                                 <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
                                 <hr>
 
@@ -119,6 +119,10 @@
                                         'label' => "Ordem de Serviço",
                                         'item' => isset($manutencao) ? $manutencao : null,
                                         'anexo' => "ordem_de_servico",
+                                        'controller' => 'ativo_veiculo',
+                                        'tabela' => 'ativo_veiculo_manutencao',
+                                        'id_item' => isset($manutencao) ? $manutencao->id_ativo_veiculo_manutencao : null,
+                                        'redirect' => isset($manutencao) ?  "ativo_veiculo/gerenciar/manutencao/editar/{$id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}" : ""
                                     ]);
                                 ?>
                                 
@@ -129,10 +133,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$id_ativo_veiculo);?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

@@ -121,8 +121,27 @@ trait MY_Trait {
         $lista = $this->status_lista();
         $texto = "Desconhecido"; $class = "muted"; $slug = "desconhecido";
   
-        foreach ($lista as $k => $item){
+        foreach ($lista as $item){
           if ($item->id_status == $status) {
+            $texto = $item->texto;
+            $class = $item->class;
+            $slug = $item->slug;
+          }
+        }
+  
+        return [
+            'texto' => $texto,
+            'class' => $class,
+            'slug' => $slug,
+        ];
+      }
+
+      public function status_by_name($status=null) {
+        $lista = $this->status_lista();
+        $texto = "Desconhecido"; $class = "muted"; $slug = "desconhecido";
+  
+        foreach ($lista as $item){
+          if ($item->slug == $status) {
             $texto = $item->texto;
             $class = $item->class;
             $slug = $item->slug;
@@ -151,11 +170,11 @@ trait MY_Trait {
       }
 
       public function formata_data_hora($data_hora = null){
-        return !$data_hora ? "-" : date("d/m/Y H:i:s", strtotime($data_hora));
+        return $data_hora == "0000-00-00 00:00:00" || !$data_hora ? "-" : date("d/m/Y H:i:s", strtotime($data_hora));
       }
 
       public function formata_data($data = null){
-        return !$data ? "-" : date("d/m/Y", strtotime($data));
+        return $data == "0000-00-00" || !$data ? "-" : date("d/m/Y", strtotime($data));
       }
   
       public function get_ativo_externo_on_lista($lista, $id){
@@ -172,4 +191,13 @@ trait MY_Trait {
         echo redirect(base_url());
         return;
       }
+
+      public function dd(...$data){
+        foreach($data as $dt) {
+            echo "<pre>";
+            echo print_r($dt, true);
+            echo "</pre>";
+        }
+        exit;
+    }
 }

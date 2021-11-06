@@ -216,24 +216,41 @@
                                     </button>
 
                                     <a href="<?php echo base_url("ativo_externo$id");?>" class="m-t-10">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
 
-                                <div class="pull-right">
-                                    <?php if((isset($detalhes) && isset($detalhes->necessita_calibracao) &&  isset($detalhes->id_ativo_externo)) && $detalhes->necessita_calibracao == 1) { ?>
-                                        <a href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
-                                            <button type="button" class="btn btn-outline-secondary">Certificado de Calibração</button>
-                                        </a>
-                                    <?php } ?>
-                                    <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
-                                        <a href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
-                                            <button type="button" class="btn btn-outline-primary">Editar Itens no Kit</button>
-                                        </a>
-                                    <?php } ?>
+                                <div class="pull-right btn-group m-t-10" role="group">
+                                    <button id="ativo_externo_group" type="button" class="btn btn-outline-info btn-md dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Gerenciar Ativo
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="ativo_externo_group">
+                                            <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
+                                                <div class="dropdwon-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
+                                                    <i class="fa fa-th-large"></i> Editar Itens (KIT)
+                                                </a>
+                                            <?php } ?>
+                                            
+                                            <div class="dropdwon-divider"></div>
+                                            <a class="dropdown-item " href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
+                                             <i class="fa fa-balance-scale"></i> Cert. de Calibração
+                                            </a>
+                                            <?php if ($detalhes->situacao == 8) {?>
+                                                <div class="dropdwon-divider"></div>
+                                                <a href="javascript:void(0)" 
+                                                data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $detalhes->id_ativo_externo; ?>"  redirect="true" 
+                                                data-tabela="ativo_externo" class="dropdown-item  confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
+                                            <?php } ?>
+                                            
+                                            <div class="dropdwon-divider"></div>
+                                            <a class="dropdown-item " href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">
+                                                <i class="fa fa-files-o"></i> Anexos
+                                            </a>
+                                    </div>
                                 </div>
                             </form>
 

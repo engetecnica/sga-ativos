@@ -19,7 +19,9 @@
                     <h2 class="title-1 m-b-25">Ativo Interno</h2>
 
                     <div class="card">
-                        <div class="card-header">Novo Ativo</div>
+                        <div class="card-header">
+                            <?php echo isset($ativo) && isset($ativo->id_ativo_interno) ? 'Editar Equipamento' : 'Novo Equipamento' ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_interno/salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -128,10 +130,10 @@
                                     </button>
                                     <?php } ?>
                                     <a href="<?php echo base_url("ativo_interno$id");?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
 

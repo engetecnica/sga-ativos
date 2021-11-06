@@ -48,17 +48,28 @@
                                     </td>
                                     <td><?php echo $valor->obra; ?></td>
                                     <td class="text-right">
-                                        <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Equipamento
+                                        <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item" href="<?php echo base_url("ativo_interno/manutencao/{$valor->id_ativo_interno}"); ?>">Histórico de Manutenção</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_interno'); ?>/editar/<?php echo $valor->id_ativo_interno; ?>"> Editar</a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_interno/editar/{$valor->id_ativo_interno}"); ?>"> 
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_interno/manutencao/{$valor->id_ativo_interno}"); ?>">
+                                                    <i class="fa fa-wrench"></i> Manutenção
+                                                </a>
                                                 <?php if((int) $valor->situacao < 2){?>
+                                                <div class="dropdown-divider"></div>
                                                 <a 
-                                        
-                                                    class="dropdown-item confirmar_registro"
+                                                    class="dropdown-item  confirmar_registro"
                                                     href="javascript:void(0)"
                                                     class="confirmar_registro"
                                                     data-registro="<?php echo $valor->id_ativo_interno;?>"
@@ -70,12 +81,21 @@
                                                     data-text="Clique 'Sim, Confirmar!' para confirmar o descarte do ativo."
 
                                                 >                                                
-                                                   Descartar Ativo                                              
+                                                    <i class="fas fa-ban"></i> Descartar                                              
                                                 </a>
                                                 <?php } ?>
                                                
                                                 <?php if((int) $valor->situacao == 2 && !isset($valor->data_descarte)){?>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-href="<?php echo base_url('ativo_interno'); ?>/deletar/<?php echo $valor->id_ativo_interno; ?>" data-registro="<?php echo $valor->id_ativo_interno;?>" data-tabela="ativo_interno" class="deletar_registro">Remover</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a 
+                                                        class="dropdown-item  deletar_registro" 
+                                                        href="javascript:void(0)" 
+                                                        data-href="<?php echo base_url('ativo_interno'); ?>/deletar/<?php echo $valor->id_ativo_interno; ?>" 
+                                                        data-registro="<?php echo $valor->id_ativo_interno;?>" 
+                                                        data-tabela="ativo_interno" 
+                                                    > 
+                                                        <i class="fas fa-trash"></i> Remover
+                                                    </a>
                                                 <?php } ?>
                                             </div>
                                         </div>

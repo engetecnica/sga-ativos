@@ -36,15 +36,19 @@
                                                 Gerenciar Anexo
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
-                                                <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Visualizar</a>
-                                                <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>">Baixar</a>
+                                                <div class="dropdwon-divider"></div>
+                                                <a class="dropdown-item " target="_black" href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>"><i class="fa fa-eye"></i> Visualizar</a>
+                                                <div class="dropdwon-divider"></div>
+                                                <a class="dropdown-item " download href="<?php echo base_url("assets/uploads/certificado_de_calibracao/{$detalhes->certificado_de_calibracao}"); ?>"><i class="fa fa-download"></i> Baixar</a>
+                                                <div class="dropdwon-divider"></div>
                                                 <a  
-                                                    class="dropdown-item deletar_registro" 
+                                                    class="dropdown-item  deletar_registro" 
                                                     href="javascript:void(0)" 
                                                     data-href="<?php echo base_url("ativo_externo/deletar_certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>" 
                                                     data-tabela="<?php echo "ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"; ?>"
-                                                >Excluir</a>
-                                                <a class="dropdown-item" href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">Ver todos os anexos</a>          
+                                                ><i class="fa fa-trash"></i>Excluir</a>
+                                                <div class="dropdwon-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>"><i class="fa fa-files-o"></i> Todos</a>          
                                             </div>
                                         </div>
                                     </td>
@@ -98,10 +102,10 @@
                                     </button>
 
                                     <a href="<?php echo base_url("ativo_externo/editar/{$detalhes->id_ativo_externo}");?>" class="m-t-10">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

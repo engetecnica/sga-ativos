@@ -10,9 +10,10 @@ class Migration_Create_Ativo_Veiculo_Depreciacao extends CI_Migration {
 			$this->dbforge
 			->add_field('id_ativo_veiculo_depreciacao int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY')
 			->add_field('id_ativo_veiculo int(10) NOT NULL')
-			->add_field('valor_fipe DECIMAL(13, 2) NOT NULL DEFAULT 0')
-			->add_field('fipe_mes_referencia varchar(255) NOT NULL')
+			->add_field('fipe_mes_referencia varchar(255) NULL DEFAULT NULL')
+			->add_field('veiculo_valor_fipe DECIMAL(13, 2) NULL DEFAULT 0')
 			->add_field('veiculo_km varchar(20) NULL DEFAULT NULL')
+			->add_field('veiculo_valor_depreciacao DECIMAL(13, 2) NOT NULL DEFAULT 0')
 			->add_field('veiculo_observacoes text NULL DEFAULT NULL')
 			->add_field('veiculo_data timestamp NOT NULL DEFAULT current_timestamp()')
 			->create_table($this->table);

@@ -89,7 +89,7 @@ class Ferramental_requisicao  extends MY_Controller {
                 ]
             );
 
-            echo redirect(base_url("ferramental_requisicao/"));
+            echo redirect(base_url("ferramental_requisicao"));
             return;
         }
         $this->session->set_flashdata('msg_success', "Nenhum registro salvo!");
@@ -112,9 +112,7 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     public function detalhes_item($id_requisicao, $id_requisicao_item = null){
-        $requisicao_item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_requisicao_item);
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
-
         $ativos = [];
         foreach($requisicao->items as $item) {
             if (($item->id_requisicao_item == $id_requisicao_item) || !$id_requisicao_item) {

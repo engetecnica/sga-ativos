@@ -56,6 +56,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 require_once __DIR__.'/application/config/dotenv.php';
 date_default_timezone_set(getenv("APP_TIMEZONE") ? getenv("APP_TIMEZONE") : 'America/Sao_Paulo');
+setlocale(LC_MONETARY, getenv("APP_MONETARY") ? getenv("APP_MONETARY") : 'pt_BR');
 ini_set('upload_max_filesize', getenv("APP_UPLOAD_MAX_SIZE") ? (int) getenv("APP_UPLOAD_MAX_SIZE") : 50);
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 

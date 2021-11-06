@@ -19,13 +19,9 @@
                     <h2 class="title-1 m-b-25">Funcionário</h2>
 
                     <div class="card">
-                        <?php if(isset($detalhes) && isset($detalhes->id_funcionario)){?>
-                            <div class="card-header">Editar Funcionário</div>
-                        <?php }?>
-
-                         <?php if(isset($detalhes) && !isset($detalhes->id_funcionario)) {?>
-                            <div class="card-header">Novo Funcionário</div>
-                         <?php } ?>
+                        <div class="card-header">
+                            <?php echo isset($detalhes) && isset($detalhes->id_funcionario) ? 'Editar Funcionário' : 'Novo Funcionário' ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('funcionario/salvar'); ?>" method="post" enctype="multipart/form-data" id="vendedores">
@@ -146,10 +142,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('funcionario');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

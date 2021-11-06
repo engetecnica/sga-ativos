@@ -150,10 +150,10 @@
                                 <br><br>
 
                                 <div class="row form-group">
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <label>Devolução Pevista</label>
                                     </div>                                   
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <input require="required" type="date" class="form-control" name="devolucao_prevista_data" id="devolucao_prevista_data" :value="devolucao_prevista_data" v-model="devolucao_prevista_data">
                                     </div> 
                                     <div class="col-12 col-md-2">
@@ -162,10 +162,10 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-3">
                                         <label>Observações</label>
                                     </div>                                    
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-5">
                                         <textarea type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
                                         </textarea>
                                     </div>                                    
@@ -178,10 +178,10 @@
                                         <span id="submit-form">Salvar Requisição</span>
                                     </button>
                                     <a href="<?php echo base_url('ferramental_estoque');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

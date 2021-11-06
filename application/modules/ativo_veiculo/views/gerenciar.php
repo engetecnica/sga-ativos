@@ -78,10 +78,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('ativo_veiculo');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

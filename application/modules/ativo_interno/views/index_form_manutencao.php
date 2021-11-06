@@ -99,10 +99,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}");?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>
@@ -139,17 +139,36 @@
                                     <td><?php echo $valor->data_edicao ? date("d/m/Y", strtotime($valor->data_edicao)) : "-" ?></td>
                       
                                     <td class="text-right">
-                                    <?php if($ativo->situacao <= 1){ ?>
-                                      <a href="<?php echo base_url("ativo_interno/manutencao_obs_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}/{$valor->id_obs}"); ?>"><i class="fas fa-edit"></i></a>
-                                      <a 
-                                        href="javascript:void(0)#obs" 
-                                        data-href="<?php echo base_url("ativo_interno/manutencao_obs_remover/{$valor->id_obs}"); ?>" 
-                                        data-registro="<?php echo $valor->id_obs;?>" 
-                                        data-tabela="ativo_interno/manutencao_editar/<?php echo "{$ativo->id_ativo_interno}/{$manutencao->id_manutencao}";?>" class="deletar_registro"
-                                      >
-                                        <i class="fas fa-trash"></i>
-                                      </a>
-                                      <?php } ?>
+                                     
+
+                                      <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <?php if($ativo->situacao <= 1){ ?>
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_interno/manutencao_obs_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}/{$valor->id_obs}"); ?>">
+                                                <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    href="javascript:void(0)#obs" 
+                                                    data-href="<?php echo base_url("ativo_interno/manutencao_obs_remover/{$valor->id_obs}"); ?>" 
+                                                    data-registro="<?php echo $valor->id_obs;?>" 
+                                                    data-tabela="ativo_interno/manutencao_editar/<?php echo "{$ativo->id_ativo_interno}/{$manutencao->id_manutencao}";?>" 
+                                                    class="dropdown-item  deletar_registro"
+                                                >
+                                                    <i class="fas fa-trash"></i> Excluir
+                                                </a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

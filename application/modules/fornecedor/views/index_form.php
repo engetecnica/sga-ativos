@@ -19,14 +19,7 @@
                     <h2 class="title-1 m-b-25">Fornecedores</h2>
 
                     <div class="card">
-                        <?php if(isset($detalhes) && isset($detalhes->id_fornecedor)){?>
-                            <div class="card-header">Editar Fornecedor</div>
-                        <?php }?>
-
-                         <?php if(isset($detalhes) && !isset($detalhes->id_fornecedor)) {?>
-                            <div class="card-header">Novo Fornecedor</div>
-                         <?php } ?>
-                        
+                        <div class="card-header"><?php echo isset($detalhes) && isset($detalhes->id_fornecedor) ? 'Editar Fornecedor' : 'Novo Fornecedor' ?></div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('fornecedor/salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -114,10 +107,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('fornecedor');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

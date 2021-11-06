@@ -133,10 +133,10 @@
                                     </button>
                                     <?php $id = isset($anexo) ? "#".$anexo->id_anexo : '';?>
                                     <a href="<?php echo base_url("anexo$id"); ?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

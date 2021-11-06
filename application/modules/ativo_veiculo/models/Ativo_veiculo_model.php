@@ -139,6 +139,7 @@ class Ativo_veiculo_model extends MY_Model {
 	public function get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo){
 		$this->db->where('id_ativo_veiculo', $id_ativo_veiculo);
 		return $this->db->group_by('id_ativo_veiculo_depreciacao')
+							->select('*')
 							->get('ativo_veiculo_depreciacao')
 							->result();
 	}
@@ -238,6 +239,23 @@ class Ativo_veiculo_model extends MY_Model {
 				->where("id_ativo_veiculo_seguro > '{$id_ativo_veiculo_seguro}'")
 				->where("carencia_fim > '{$now}'")
 				->get("ativo_veiculo_seguro")
+				->num_rows() === 0;
+	}
+
+	public function permit_edit_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao){
+		$depreciacao = $this->db
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_depreciacao', $id_ativo_veiculo_depreciacao)
+					->get("ativo_veiculo_depreciacao")
+					->row();
+		return $depreciacao || $this->permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao);
+	}
+
+	public function permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao){
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("id_ativo_veiculo_depreciacao > '{$id_ativo_veiculo_depreciacao}'")
+				->get("ativo_veiculo_depreciacao")
 				->num_rows() === 0;
 	}
 

@@ -64,10 +64,10 @@
                                     -->
                                     <td>
                                         <a 
-                                            class="btn btn-outline-secondary" 
+                                            class="btn btn-secondary btn-sm" 
                                             href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>"
                                         >
-                                            Detalhes da Requisição
+                                            Gerenciar
                                         </a>
                                     </td>
                                 </tr>

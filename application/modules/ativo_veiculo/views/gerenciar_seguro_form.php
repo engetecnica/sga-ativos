@@ -18,7 +18,9 @@
                     <h2 class="title-1 m-b-25">Gerenciar Seguro do Veículo</h2>
 
                     <div class="card">
-                        <div class="card-header">Registrar items do veículo</div>
+                        <div class="card-header">
+                            <?php echo isset($seguro) && isset($seguro->id_ativo_veiculo_seguro) ? "Editar Registro de Seguro" : "Novo Registro de Seguro" ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/seguro_salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -30,8 +32,6 @@
                                     <input type="hidden" name="id_ativo_veiculo_seguro" id="id_ativo_veiculo_seguro" value="<?php echo $seguro->id_ativo_veiculo_seguro; ?>">
                                 <?php } ?>
 
-                                <p><strong>CONTROLE DE SEGURO DE VEÍCULO</strong></p>
-                                <hr>
                                 <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
                                 <hr>
 
@@ -71,6 +71,10 @@
                                         'label' => "Contrado",
                                         'item' => isset($seguro) ? $seguro : null,
                                         'anexo' => "contrato_seguro",
+                                        'controller' => 'ativo_veiculo',
+                                        'tabela' => 'ativo_veiculo_seguro',
+                                        'id_item' => isset($seguro) ? $seguro->id_ativo_veiculo_seguro : null,
+                                        'redirect' => isset($seguro) ?  "ativo_veiculo/gerenciar/seguro/editar/{$id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}" : ""
                                     ]);
                                 ?>
                                 
@@ -81,10 +85,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/{$id_ativo_veiculo}");?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

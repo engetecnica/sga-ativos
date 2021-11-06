@@ -64,47 +64,53 @@
 
     <script> 
         var base_url = "<?php echo base_url('/'); ?>"
+        var url = "<?php echo $url; ?>";
+        var uri = "<?php echo $uri; ?>";
         var one_signal_appid = "<?php echo $this->config->item('one_signal_appid'); ?>";
         var user = JSON.parse('<?php echo json_encode($user); ?>') || null;
     </script>
 </head>
 
+<!-- animsition-disabled -->
 <body class="animsition-disabled">
     <div class="page-wrapper">
 
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar" id="menu-sidebar">
-            <button onClick="$('#menu-sidebar').hide('fast')" type="button" class="btn-close-mobile-menu">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            </button>
-
             <div class="logo">
-                <a href="#">
+                <a href="/">
                     <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png" alt="" />
                 </a>
+
+                <button onClick="$('#menu-sidebar').hide('fast')" type="button" class="btn-close-mobile-menu2">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
             </div>
+
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li>
+                        <li class="<?php echo $uri == "" ? "active" : "";?>">
                             <a href="<?php echo base_url(); ?>">
                                 <i class="fas fa-chart-bar"></i>Entrada</a>
                         </li>
 
                         <?php foreach($modulos->modulo as $mod){ ?>
-                        <li class="has-sub">
-                            <a class="js-arrow open" href="<?php echo base_url($mod->rota); ?>">
-                            <i class="<?php echo $mod->icone; ?>"></i><?php echo $mod->titulo; ?></a>
+                            
+                        <li class="has-sub <?php echo $uri == $mod->rota ? "active" : "";?>">
+                            <a class="<?php echo $mod->rota == "#" || empty($mod->rota) ? "js-arrow" : "";?>" href="<?php echo base_url($mod->rota); ?>">
+                                <i class="<?php echo $mod->icone; ?>"></i><?php echo $mod->titulo; ?>
+                            </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <?php foreach($mod->submodulo as $sub){ ?>
-                                <li><a href="<?php echo base_url($sub->rota); ?>"><i class="<?php echo $sub->icone; ?>"></i><?php echo $sub->titulo; ?></a></li>
+                                <li class="<?php echo $uri === $sub->rota || (substr($uri, 0, strlen($sub->rota)) == $sub->rota && $uri != "usuario/editar/{$user->id_usuario}") ? "active" : "";?>"><a href="<?php echo base_url($sub->rota); ?>"><i class="<?php echo $sub->icone; ?>"></i><?php echo $sub->titulo; ?></a></li>
                                 <?php } ?>
                             </ul>
                         </li> 
                         <?php } ?> 
-                        <li >
+                        <li class="<?php echo $uri == "usuario/editar/{$user->id_usuario}" ? "active" : "";?>">
                             <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}");; ?>">
-                                <i class="zmdi zmdi-account-box"></i>Meus Dados</a>
+                                <i class="fa fa-user-circle"></i>Meus Dados</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('logout'); ?>">
@@ -134,7 +140,6 @@
                             -->
                             <div></div>
                             <div class="header-button">
-
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
@@ -180,7 +185,7 @@
 
                                             <div class="account-dropdown__footer">
                                                 <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}");; ?>">
-                                                    <i class="zmdi zmdi-account-box"></i>Meus Dados</a>
+                                                    <i class="fa fa-user-circle"></i>Meus Dados</a>
                                                 <a href="<?php echo base_url('logout'); ?>">
                                                     <i class="zmdi zmdi-power"></i>Sair do Sistema</a>
                                             </div>

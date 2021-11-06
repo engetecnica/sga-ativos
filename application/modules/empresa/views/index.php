@@ -26,7 +26,7 @@
                                     <th>E-mail</th>
                                     <th>Celular</th>
                                     <th>Situação</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,8 +42,35 @@
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td class="text-right">
-                                        <a href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>"><i class="fas fa-edit"></i></a>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('empresa'); ?>/deletar/<?php echo $valor->id_empresa; ?>" data-registro="<?php echo $valor->id_empresa;?>" data-tabela="empresa" class="deletar_registro"><i class="fas fa-trash"></i></a>
+                                        <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a 
+                                                    class="dropdown-item " 
+                                                    href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>"
+                                                >
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    class="dropdown-item  deletar_registro" 
+                                                    href="javascript:void(0)" 
+                                                    data-href="<?php echo base_url('empresa'); ?>/deletar/<?php echo $valor->id_empresa; ?>" 
+                                                    data-registro="<?php echo $valor->id_empresa;?>" 
+                                                    data-tabela="empresa"
+                                                >
+                                                    <i class="fas fa-trash"></i> Excluir
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

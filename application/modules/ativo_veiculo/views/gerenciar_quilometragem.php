@@ -10,9 +10,14 @@
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
                     </div>
                     <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Listar Todos os Veículos</button></a>
+                    </div>
+                    <div class="overview-wrap m-t-10">
                         <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
                         <button class="">
-                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Veículo</button></a>
                     </div>
                 </div>
             </div>
@@ -45,33 +50,40 @@
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td><?php echo $valor->veiculo_km; ?></td>
                                     <td><?php echo $valor->veiculo_litros; ?></td>
-                                    <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->data)); ?></td>
+                                    <td>R$ <?php echo $this->formata_moeda($valor->veiculo_custo); ?></td>
+                                    <td><?php echo $this->formata_data($valor->data); ?></td>
                                     <td> 
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupGerenciarQuilometragem" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Quilometragem
+                                            <button id="btnGroupGerenciarQuilometragem" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarQuilometragem">
                                                 <?php if($this->ativo_veiculo_model->permit_edit_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>
-                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}");?>">
-                                                    Editar
+                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}");?>">
+                                                    <i class="fa fa-edit"></i> Editar
                                                     </a>
                                                 <?php } ?>
 
                                                 <?php if($valor->comprovante_fiscal){ ?>
-                                                    <a class="dropdown-item" target="_blank" href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        Visualizar Comprovante
-                                                    </a>  
-                                                    <a class="dropdown-item" target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        Baixar Comprovante
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
+                                                        <i class="fa fa-eye"></i> Ver Comprovante
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>  
+                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
+                                                        <i class="fa fa-download"></i> Baixar Comprovante
                                                     </a>                           
                                                 <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>
+                                                    <div class="dropdown-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url("ativo_veiculo/quilometragem_deletar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}"); ?>" 
                                                         data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-redirect="true"
-                                                        data-tabela="ativo_veiculo/gerenciar/quilometragem/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item deletar_registro">Excluir</a>
+                                                        data-tabela="ativo_veiculo/gerenciar/quilometragem/<?php echo $valor->id_ativo_veiculo; ?>" 
+                                                        class="dropdown-item  deletar_registro"
+                                                    >
+                                                    <i class="fa fa-trash"></i> Excluir
+                                                    </a>
                                                 <?php } ?>
                                             </div>
                                         </div>

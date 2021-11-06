@@ -10,9 +10,14 @@
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
                     </div>
                     <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Listar Todos os Veículos</button></a>
+                    </div>
+                    <div class="overview-wrap m-t-10">
                         <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
                         <button class="">
-                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Veículo</button></a>
                     </div>
                 </div>
             </div>
@@ -41,34 +46,38 @@
                                     <td><?php echo $valor->id_ativo_veiculo_seguro; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
-                                    <td>R$ <?php echo number_format($valor->seguro_custo, 2, ',', '.'); ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->carencia_inicio)); ?></td>
-                                    <td><? echo isset($valor->carencia_fim) ? date("d/m/Y", strtotime($valor->carencia_fim)) : "-" ;?></td>
+                                    <td>R$ <?php echo $this->formata_moeda($valor->seguro_custo); ?></td>
+                                    <td><?php echo $this->formata_data($valor->carencia_inicio); ?></td>
+                                    <td><? echo $this->formata_data($valor->carencia_fim)?></td>
                                     <td width="15%">
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupGerenciarSeguto" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Seguro
+                                            <button id="btnGroupGerenciarSeguto" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarSeguto">
                                                 <?php if($this->ativo_veiculo_model->permit_edit_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>
-                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}");?>">
-                                                    Editar
+                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}");?>">
+                                                    <i class="fa fa-edit"></i> Editar
                                                     </a>
                                                 <?php } ?>
 
                                                 <?php if($valor->contrato_seguro){ ?>
-                                                    <a class="dropdown-item" target="_blank" href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
-                                                        Visualizar Comprovante
-                                                    </a>  
-                                                    <a class="dropdown-item" target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
-                                                        Baixar Comprovante
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
+                                                    <i class="fa fa-eye"></i> Ver Compovante
+                                                    </a> 
+                                                    <div class="dropdown-divider"></div> 
+                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
+                                                    <i class="fa fa-download"></i> Baixar Comprovante
                                                     </a>                           
                                                 <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>
+                                                    <div class="dropdown-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url("ativo_veiculo/seguro_deletar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}"); ?>" 
                                                         data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-redirect="true"
-                                                        data-tabela="ativo_veiculo/gerenciar/seguro/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item deletar_registro">Excluir</a>
+                                                        data-tabela="ativo_veiculo/gerenciar/seguro/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item  deletar_registro">
+                                                        <i class="fa fa-trash"></i> Excluir</a>
                                                 <?php } ?>
                                             </div>
                                         </div>

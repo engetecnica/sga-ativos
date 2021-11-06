@@ -23,7 +23,7 @@
                                     <th>Titulo</th>
                                     <th>Categoria</th>
                                     <th>Situação</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,10 +37,42 @@
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td class="text-right">
-                                        <a href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>"><i class="fas fa-edit"></i></a>
+                                        <!-- <a href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>"><i class="fas fa-edit"></i></a>
                                         <?php if ($valor->id_ativo_configuracao > 15) {?>
                                         <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_configuracao'); ?>/deletar/<?php echo $valor->id_ativo_configuracao; ?>" data-registro="<?php echo $valor->id_ativo_configuracao;?>" data-tabela="ativo_configuracao" class="deletar_registro"><i class="fas fa-trash"></i></a>
-                                        <?php } ?>
+                                        <?php } ?> -->
+
+                                        <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a 
+                                                    class="dropdown-item " 
+                                                    href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>"
+                                                >
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <?php if ($valor->id_ativo_configuracao > 15) {?>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    class="dropdown-item  deletar_registro" 
+                                                    href="javascript:void(0)" 
+                                                    data-href="<?php echo base_url('ativo_configuracao'); ?>/deletar/<?php echo $valor->id_ativo_configuracao; ?>" 
+                                                    data-registro="<?php echo $valor->id_ativo_configuracao;?>" 
+                                                    data-tabela="ativo_configuracao"
+                                                >
+                                                    <i class="fas fa-trash"></i> Excluir
+                                                </a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

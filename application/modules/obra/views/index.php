@@ -28,7 +28,7 @@
                                     <th>Celular</th>
                                     <th>Situação</th>
                                     <th>Obra Base</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,10 +46,31 @@
                                     </td>
                                     <td><?php echo $this->get_obra_base($valor->obra_base); ?></td>
                                     <td class="text-right">
-                                        <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i></a>
-                                        <?php if (!$valor->obra_base) { ?>
-                                        <a href="javascript:void(0)" data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" data-registro="<?php echo $valor->id_obra;?>" data-tabela="obra" class="deletar_registro"><i class="fas fa-trash"></i></a>
-                                        <?php } ?>
+                                        <div class="btn-group">
+                                            <button 
+                                                class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                type="button"
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false"
+                                            >
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item " href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                <?php if (!$valor->obra_base) { ?>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    class="dropdown-item  deletar_registro" 
+                                                    href="javascript:void(0)" 
+                                                    data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" 
+                                                    data-registro="<?php echo $valor->id_obra;?>" 
+                                                    data-tabela="obra"
+                                                >
+                                                <i class="fas fa-trash"></i> Excluir</a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                <?php } ?>

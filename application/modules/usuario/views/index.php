@@ -29,7 +29,7 @@
                                     <th>Nível</th>
                                     <th>Situação</th>
                                     <th>Criação</th>
-                                    <th class="text-right">Opções</th>
+                                    <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
                        
@@ -69,14 +69,42 @@
                                         </td>
                                         <td><?php echo $valor->data_criacao ? date('d/m/Y H:i:s', strtotime($valor->data_criacao)) : ''; ?></td>
                                         <td class="text-right">
-                                            <?php if (isset($valor->email) && !isset($valor->email_confirmado_em)) {?>
-                                            <a href="#" class="solicitar_confirmacao_email" data-id_usuario="<?php echo $valor->id_usuario; ?>"><i class="fa fa-envelope"></i></a>
-                                            <?php } ?>
+                                            <div class="btn-group">
+                                                <button 
+                                                    class="btn btn-secondary btn-sm dropdown-toggle" 
+                                                    type="button"
+                                                    data-toggle="dropdown" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false"
+                                                >
+                                                    Gerenciar
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <?php if (isset($valor->email) && !isset($valor->email_confirmado_em)) {?>
+                                                    <a  
+                                                        href="#" class="dropdown-item  solicitar_confirmacao_email" 
+                                                        data-redirect="false"
+                                                        data-id_usuario="<?php echo $valor->id_usuario; ?>"
+                                                    >
+                                                        <i class="fa fa-envelope"></i> Verificar Email
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <?php } ?>
 
-                                            <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>"><i class="fas fa-edit"></i></a>
-                                            <?php if($valor->id_usuario != $user->id_usuario && $user->nivel == 1){ ?>
-                                                <a href="javascript:void(0)" data-href="<?php echo base_url('usuario'); ?>/deletar/<?php echo $valor->id_usuario; ?>" data-registro="<?php echo $valor->id_usuario;?>" data-tabela="usuario" class="deletar_registro"><i class="fas fa-trash"></i></a>
-                                            <?php } ?>
+                                                    <a class="dropdown-item " href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                    <?php if($valor->id_usuario != $user->id_usuario && $user->nivel == 1){ ?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a 
+                                                        href="javascript:void(0)" 
+                                                        data-href="<?php echo base_url('usuario'); ?>/deletar/<?php echo $valor->id_usuario; ?>" 
+                                                        data-registro="<?php echo $valor->id_usuario;?>" data-tabela="usuario" 
+                                                        class="dropdown-item  deletar_registro"
+                                                    >
+                                                        <i class="fas fa-trash"></i> Excluir
+                                                    </a>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -102,29 +130,44 @@
     $('.solicitar_confirmacao_email').click(function(event) {
         event.preventDefault();
         let id_usuario = $(this).attr('data-id_usuario')
-  
-        $.ajax({
-            method: "GET",
-            url: `${base_url}usuario/solicitar_confirmacao_email/${id_usuario}`,
-        })
-        .always((response) => {
-            if (response.success == true) {
-                Swal.fire({
-                    title: 'Enviado!',
-                    text: 'Email de confirmação enviado com Sucesso!',
-                    icon: 'success',
-                    confirmButtonText: 'Ok, fechar.'
+
+        Swal.fire({
+            title: "Enviar email de Confirmação",
+            text: "Um email de verificação será enviado ao usuário para confirmar sua veracidade e acesso, Deseja continuar?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, Enviar!'
+        }).then((result) => {
+                console.log(result)
+            if(result.isConfirmed) {
+                $.ajax({
+                    method: "GET",
+                    url: `${base_url}usuario/solicitar_confirmacao_email/${id_usuario}`,
                 })
-                return
+                .always((response) => {
+                    if (response.success == true) {
+                        Swal.fire({
+                            title: 'Enviado!',
+                            text: 'Email de confirmação enviado com Sucesso!',
+                            icon: 'success',
+                            confirmButtonText: 'Ok, Fechar.'
+                        })
+                        return
+                    }
+
+                    Swal.fire({
+                        title: 'Erro ao enviar!',
+                        text: 'Ocorreu um erro ao tentar enviar o Email de confirmação, Favor verificar endereço de email cadastrado.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok, Fechar.'
+                    }) 
+                })
             }
 
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Ocorreu um erro ao tentar enviar o Email de confirmação!',
-                icon: 'error',
-                confirmButtonText: 'Ok, fechar.'
-             }) 
-        })
+        });
+
     });
 </script>
 <!-- END MAIN CONTENT-->

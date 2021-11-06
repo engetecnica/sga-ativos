@@ -98,9 +98,6 @@ table {
   widows: 4;
 }
 
-table:last-child {
-  border: solid 1px red !important; 
-}
 
 table th,table tr, table td{
   border: solid .5px  #ccc;

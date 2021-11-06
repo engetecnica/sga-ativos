@@ -11,30 +11,32 @@
   <table class="tabela">
       <thead>
           <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Placa</th>
             <th>Tipo</th>
             <th>Marca/Modelo</th>
             <th>Kilometragem</th>
             <th>Valor FIPE</th>
-            <th>Situação</th>
+            <th>Valor Depreciação</th>
             <th>Data/Hora</th>
+            <!-- <th>Situação</th> -->
           </tr>
       </thead>
       <tbody>
-        <?php foreach($relatorio as $i => $item) { ?>
+        <?php foreach($relatorio as $i => $item) {?>
           <tr>
-            <td><?php echo ($i + 1); ?></td>
+            <td><?php echo  $item->id_ativo_veiculo_depreciacao; ?></td>
             <td><?php echo $item->veiculo_placa; ?></td>
             <td><?php echo ucfirst($item->tipo_veiculo);?> </td>
             <td><?php echo $item->veiculo;?> </td>
             <td><?php echo $item->veiculo_km; ?></td>
-            <td><?php echo $this->formata_moeda($item->valor_fipe); ?></td>
-            <td>
+            <td><?php echo $this->formata_moeda($item->veiculo_valor_fipe); ?></td>
+            <td><?php echo $this->formata_moeda($item->veiculo_valor_depreciacao); ?></td>
+            <td><?php echo date('d/m/Y H:i:s', strtotime($item->data));?> </td>
+            <!-- <td>
               <?php $situacao = $this->get_situacao($item->situacao);?>
               <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
-            </td>
-            <td><?php echo date('d/m/Y H:i:s', strtotime($item->data));?> </td>
+            </td> -->
           </tr>
         <?php } ?>
       </tbody>

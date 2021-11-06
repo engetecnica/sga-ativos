@@ -21,7 +21,7 @@
                         <div class="card-header"><?php echo isset($detalhes) && isset($detalhes->id_ativo_veiculo) ? "Editar" : "Novo"; ?> Veículo</div>
                         <div class="card-body">
                                 <?php if (isset($detalhes) && isset($detalhes->id_ativo_veiculo)) {?>
-                                <p><strong>DADOS DO VEICULO</strong></p>
+                                <p class="m-b-10"><strong>DADOS DO VEICULO</strong></p>
                         
                                 <table class="table table-responsive-md table-striped table-bordered">
                                     <tr>
@@ -182,10 +182,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url('ativo_veiculo');?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
 
@@ -196,17 +196,17 @@
                                                 Gerenciar Veículo
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$detalhes->id_ativo_veiculo); ?>">Quilometragem</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$detalhes->id_ativo_veiculo); ?>">Manutenção</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$detalhes->id_ativo_veiculo); ?>">IPVA</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$detalhes->id_ativo_veiculo); ?>">Seguro</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$detalhes->id_ativo_veiculo); ?>">Depreciação</a>
-                                                <a class="dropdown-item" href="<?php echo base_url('anexo/index/9/'.$detalhes->id_ativo_veiculo); ?>">Anexos</a>
-                                                <!--
-                                                <a class="dropdown-item" href="<?php echo base_url('ativo_veiculo/editar/'.$detalhes->id_ativo_veiculo); ?>">Editar</a>
-                                                <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $detalhes->id_ativo_veiculo; ?>" data-registro="<?php echo $detalhes->id_ativo_veiculo;?>" 
-                                                data-tabela="ativo_veiculo" class="dropdown-item deletar_registro">Excluir</a>
-                                                -->
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-car"></i> Quilometragem</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$detalhes->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-id-card"></i> IPVA</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-lock"></i> Seguro</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-sort-amount-asc"></i> Depreciação</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('anexo/index/9/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-files-o"></i> Anexos</a>
                                             </div>
                                         </div>
                                 </div>

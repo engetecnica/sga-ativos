@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url('assets'); ?>/vendor/circle-progress/circle-progress.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -70,7 +71,13 @@
                     }
                 }, 100)
             })
-        } ); 
+
+            $('.has-sub>.list-unstyled>li').each((i, li) => {
+                if ($(li).hasClass("active")) {
+                    $($(li).parent()).siblings('.js-arrow').click()
+                }
+            })
+        }); 
     </script>
 
     <?php if($this->session->userdata('logado') == true){ ?>

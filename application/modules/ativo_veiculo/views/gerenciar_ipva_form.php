@@ -19,7 +19,9 @@
                     <h2 class="title-1 m-b-25">Gerenciar IPVA</h2>
 
                     <div class="card">
-                        <div class="card-header">Registrar items do veículo</div>
+                        <div class="card-header">
+                            <?php echo isset($ipva) && isset($ipva->id_ativo_veiculo_ipva) ? "Editar Registro de IPVA" : "Novo Registro de IPVA" ?>
+                        </div>
                         <div class="card-body">
 
                             <form action="<?php echo base_url('ativo_veiculo/ipva_salvar'); ?>" method="post" enctype="multipart/form-data">
@@ -31,8 +33,6 @@
                                     <input type="hidden" name="id_ativo_veiculo_ipva" id="id_ativo_veiculo_ipva" value="<?php echo $ipva->id_ativo_veiculo_ipva; ?>">
                                 <?php } ?>
 
-                                <p><strong>CONTROLE DE IPVA DE VEÍCULO</strong></p>
-                                <hr>
                                 <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
                                 <hr>
 
@@ -83,6 +83,10 @@
                                         'label' => "Comprovante",
                                         'item' => isset($ipva) ? $ipva : null,
                                         'anexo' => "comprovante_ipva",
+                                        'controller' => 'ativo_veiculo',
+                                        'tabela' => 'ativo_veiculo_ipva',
+                                        'id_item' => isset($ipva) ? $ipva->id_ativo_veiculo_ipva : null,
+                                        'redirect' => isset($ipva) ?  "ativo_veiculo/gerenciar/ipva/editar/{$id_ativo_veiculo}/{$ipva->id_ativo_veiculo_ipva}" : ""
                                     ]);
                                 ?>
                                 
@@ -93,10 +97,10 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
                                     <a href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/{$id_ativo_veiculo}");?>">
-                                    <button class="btn btn-info" type="button">                                                    
+                                    <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
-                                    </button>                                                
+                                    </button>                              
                                     </a>
                                 </div>
                             </form>

@@ -52,6 +52,8 @@ class MY_Controller extends MX_Controller {
     }
 
     public function get_template($template=null, $data=null){
+        $data['url'] =  current_url();
+        $data['uri'] = uri_string();
         $data['user'] = $this->user;
         $data['modulos'] = $this->get_modulos($this->user->nivel);
         $this->load->view("../views/template_top", $data);
@@ -284,15 +286,6 @@ class MY_Controller extends MX_Controller {
             }
             $this->anexo_model->salvar_formulario($anexo_data);
         }
-    }
-    
-    public function dd(...$data){
-        foreach($data as $dt) {
-            echo "<pre>";
-            echo print_r($dt, true);
-            echo "</pre>";
-        }
-        exit;
     }
 }
  

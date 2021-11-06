@@ -10,9 +10,14 @@
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
                     </div>
                     <div class="overview-wrap m-t-10">
+                        <a href="<?php echo base_url("ativo_veiculo"); ?>">
+                        <button class="">
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Listar Todos os Veículos</button></a>
+                    </div>
+                    <div class="overview-wrap m-t-10">
                         <a href="<?php echo base_url("ativo_veiculo/editar/{$id_ativo_veiculo}"); ?>">
                         <button class="">
-                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Ativo</button></a>
+                        <i class="zmdi zmdi-arrow-left"></i>&nbsp;Editar Veículo</button></a>
                     </div>
                 </div>
             </div>
@@ -49,43 +54,47 @@
                                     <td><?php echo $valor->servico; ?></td>
                                     <td><?php echo $valor->veiculo_km_atual; ?></td>
                                     <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->data_entrada)); ?></td>
-                                    <td><?php echo isset($valor->data_saida) ? date("d/m/Y", strtotime($valor->data_saida)) : '-' ; ?></td>
-                                    <td><?php echo isset($valor->data_vencimento) ? date("d/m/Y", strtotime($valor->data_vencimento)) : '-' ; ?></td>
+                                    <td><?php echo $this->formata_data($valor->data_entrada) ; ?></td>
+                                    <td><?php echo isset($valor->data_saida) ? $this->formata_data($valor->data_saida) : '-' ; ?></td>
+                                    <td><?php echo isset($valor->data_vencimento) ? $this->formata_data($valor->data_vencimento) : '-' ; ?></td>
                                     <td> 
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupGerenciarManutencao" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Manutenção
+                                            <button id="btnGroupGerenciarManutencao" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarManutencao">
                                                 <?php if(!$valor->data_saida){ ?>
-                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>">
-                                                    Editar
+                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>">
+                                                    <i class="fa fa-edit"></i> Editar
                                                     </a>
                                                     <?php if($valor->ordem_de_servico){ ?>
+                                                        <div class="dropdown-divider"></div>
                                                         <a
-                                                            class="dropdown-item confirmar_registro" data-tabela="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$valor->id_ativo_veiculo}");?>" 
+                                                            class="dropdown-item  confirmar_registro" data-tabela="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$valor->id_ativo_veiculo}");?>" 
                                                             href="javascript:void(0)" data-registro=""
                                                             data-acao="Marca como Finalizada"  data-redirect="true"
                                                             data-href="<?php echo base_url("ativo_veiculo/manutencao_saida/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>"
                                                         >
-                                                            Marca como Finalizada
+                                                        <i class="fa fa-check"></i> Marca como Finalizada
                                                         </a>
                                                     <?php } ?>
                                                 <?php } ?>
                                                 <?php if($valor->ordem_de_servico){ ?>
-                                                    <a class="dropdown-item" target="_blank" href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
-                                                        Visualizar Comprovante
-                                                    </a>  
-                                                    <a class="dropdown-item" target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
-                                                        Baixar Comprovante
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
+                                                    <i class="fa fa-eye"></i> Ver Compovante
+                                                    </a> 
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
+                                                    <i class="fa fa-download"></i> Baixar Comprovante
                                                     </a>                           
                                                 <?php } ?>
 
                                                 <?php if(!$valor->data_saida){ ?>
+                                                    <div class="dropdown-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url("ativo_veiculo/manutencao_deletar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}"); ?>" 
                                                         data-registro="<?php echo $valor->id_ativo_veiculo;?>" data-redirect="true"
-                                                        data-tabela="ativo_veiculo/gerenciar/manutencao/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item deletar_registro">Excluir</a>
+                                                        data-tabela="ativo_veiculo/gerenciar/manutencao/<?php echo $valor->id_ativo_veiculo; ?>" class="dropdown-item  deletar_registro"><i class="fa fa-trash"></i> Excluir</a>
                                                 <?php } ?>
                                             </div>
                                         </div>
