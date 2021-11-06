@@ -135,6 +135,16 @@ trait MY_Trait {
             'slug' => $slug,
         ];
       }
+
+      public function status_is($id, $name) : bool {
+        $lista = $this->status_lista();
+        foreach ($lista as $item){
+          if ($item->id_status == $id && $item->slug == $name) {
+            return true;
+          }
+        }
+        return false;
+      }
   
       public function formata_moeda($valor = 0){
         return "R$ ". number_format($valor, 2, ',', '.');
@@ -155,5 +165,11 @@ trait MY_Trait {
           }
         }
         return null;
+      }
+
+      public function sem_acesso(){
+        $this->session->set_flashdata('msg_erro', "Você não possui acesso a este módulo.");
+        echo redirect(base_url());
+        return;
       }
 }

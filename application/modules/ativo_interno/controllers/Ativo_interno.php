@@ -12,12 +12,6 @@ class Ativo_interno  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_interno_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login    
         $this->load->model('obra/obra_model');    
     }
 

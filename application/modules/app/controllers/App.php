@@ -11,7 +11,7 @@ class App extends MY_Controller {
     protected $path;
 
     function __construct() {
-        parent::__construct();
+        parent::__construct(false);
         $this->load->model('relatorio/relatorio_model');
         $this->load->model('relatorio/notificacoes_model');
         $this->load->helper('download');

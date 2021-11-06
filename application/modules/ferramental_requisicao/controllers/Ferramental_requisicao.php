@@ -12,11 +12,6 @@ class Ferramental_requisicao  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ferramental_requisicao_model');
-    
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        }
         $this->load->model('ativo_externo/ativo_externo_model');
         $this->load->model('obra/obra_model');
         $this->load->model('usuario/usuario_model');        

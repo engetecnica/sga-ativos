@@ -12,12 +12,6 @@ class Obra  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('obra_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login        
     }
 
     function index() {

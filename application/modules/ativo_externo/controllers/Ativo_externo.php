@@ -12,12 +12,6 @@ class Ativo_externo  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_externo_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login 
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
         $this->load->model('anexo/anexo_model');   
     }

@@ -8,6 +8,7 @@
     </div>                           
     <div class="login-form">
         <form id="login-form" action="<?php echo base_url('login/acessar');?>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="redirect_to" id="redirect_to" value="<?php echo $redirect_to ? $redirect_to : null; ?>"/>
             <div class="row form-group col col-md-10 offset-md-1">
                 <label for="usuario">Usuário ou Email</label>
                 <input v-model="selecionado.usuario" class="au-input au-input--full" type="text" name="usuario" id="usuario" placeholder="Usuário" required="" onfocus="">

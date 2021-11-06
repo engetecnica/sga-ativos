@@ -11,13 +11,7 @@ class Empresa  extends MY_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('empresa_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login        
+        $this->load->model('empresa_model');     
     }
 
     function index($subitem=null) {

@@ -12,11 +12,6 @@ class Ativo_configuracao  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_configuracao_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        }
     }
 
     function index($subitem=null) {

@@ -11,16 +11,13 @@ class Ferramental_estoque  extends MY_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('ferramental_estoque_model');
-    
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
+        if ($this->is_auth()) {
+            $this->load->model('ferramental_estoque_model');
+            $this->load->model('empresa/empresa_model'); 
+            $this->load->model('ativo_externo/ativo_externo_model');
+            $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
+            $this->load->model('funcionario/funcionario_model');   
         }
-        $this->load->model('empresa/empresa_model'); 
-        $this->load->model('ativo_externo/ativo_externo_model');
-        $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
-        $this->load->model('funcionario/funcionario_model');     
     }
 
     function index() {

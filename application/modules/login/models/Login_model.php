@@ -47,9 +47,8 @@ class Login_model extends MY_Model {
 
 			$this->session->set_userdata('modulos', json_encode($modulos));
 			$this->session->set_userdata('logado', $usuario);
-			redirect(base_url());
-			return;
-
+			redirect(base_url($this->input->post('redirect_to')));
+			$this->session->unset_userdata('redirect_to');
 		} else {
 			$this->session->set_flashdata('msg_erro', "Senha digitada está incorreta.");
 			echo redirect(base_url("login"));

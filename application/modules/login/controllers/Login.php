@@ -10,21 +10,21 @@
 class Login  extends MY_Controller {
 
     function __construct() {
-        parent::__construct();
+        parent::__construct(false);
         $this->load->model('login_model'); 
-        $this->load->model('usuario/usuario_model');        
+        $this->load->model('usuario/usuario_model');    
     }
 
-    function index($subitem=null) {
+    function index() {
         //$this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
         if($this->session->userdata('logado')==true){
             redirect(base_url());
         }
-        $this->load->view('index');
+        $this->load->view('index', ['redirect_to' => $this->input->get('redirect_to')]);
     }
 
     function acessar(){
-    	$this->login_model->verificar_login();
+        return $this->login_model->verificar_login();
     }
 
     function logout(){

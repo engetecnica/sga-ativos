@@ -16,12 +16,6 @@ class Relatorio extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('relatorio_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login
         $this->load->model('empresa/empresa_model');
         $this->load->model('obra/obra_model');
         $this->load->model('anexo/anexo_model');

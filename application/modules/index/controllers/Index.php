@@ -12,12 +12,6 @@ class Index extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('index_model');
-        
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login
         $this->load->model('empresa/empresa_model');
         $this->load->model('funcionario/funcionario_model');
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
@@ -47,11 +41,6 @@ class Index extends MY_Controller {
         
         $data['patrimonio'] = $this->relatorio_model->patrimonio_disponivel($data_patrimonio, 'arquivo');
         $this->get_template('index', $data);
-    }
-
-    function sem_acesso(){
-    	$this->session->set_flashdata('msg_erro', "Você não possui acesso a este módulo.");
-    	echo redirect(base_url());
     }
 
     # Manipular novos registros através do CSV

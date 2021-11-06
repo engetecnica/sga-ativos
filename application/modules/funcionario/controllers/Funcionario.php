@@ -12,12 +12,6 @@ class funcionario  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('funcionario_model');
-
-        # Login
-        if($this->session->userdata('logado')==null){
-            echo redirect(base_url('login')); 
-        } 
-        # Fecha Login
         $this->load->model('obra/obra_model');                
     }
 

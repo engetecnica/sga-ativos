@@ -17,9 +17,10 @@ use \Mpdf\Mpdf;
 
 class MY_Controller extends MX_Controller {
  
-    protected $user;
+    protected $user, $logado;
 
-    function __construct() {
+
+    function __construct($auth_user_required = true) {
         parent::__construct();
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
@@ -27,9 +28,21 @@ class MY_Controller extends MX_Controller {
         $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
         $this->load->model('anexo/anexo_model');
         $this->load->model('relatorio/notificacoes_model');
+
+        $this->logado = true;
+        if($auth_user_required && !$this->user){
+            $redirect_to = $_SERVER['REQUEST_URI'];
+            $this->session->set_userdata('redirect_to', $redirect_to);
+            echo redirect(base_url("login?redirect_to={$redirect_to}"));
+            $this->logado = false;
+        }
     }
 
     use MY_Trait;
+
+    public function is_auth(){
+        return $this->logado;
+    }
 
     public function json($data = null, int $status_code = 200){
         return @$this->output
