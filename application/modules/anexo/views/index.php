@@ -56,36 +56,51 @@
                                 <tr>
                                     <th>Prévia</th>
                                     <th>ID</th>
-                                    <th>Descrição</th>
                                     <th>Modulo</th>
                                     <th>Tipo</th>
                                     <th>Data de Inclusão</th>
-                                    <th>Opções</th>
+                                    <th>Gerenciar</th>
+                                    <th>Titulo</th>
+                                    <th>Descrição</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php  foreach($anexos as $anexo){?>
+                                <?php foreach($anexos as $anexo) {?>
                                 <tr id="<?php echo "anexo-{$anexo->id_anexo}"; ?>">
                                     <td class="preview"> 
-                                        <?php if (file_exists($anexo->anexo) && explode('/', mime_content_type($anexo->anexo))[0] == "image") { ?>
-                                            <img src="<?php echo $anexo->anexo;?>" />
-                                        <?php } elseif (!file_exists($anexo->anexo)) { ?>
-                                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        <a target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">
+                                        <?php 
+                                            $path = APPPATH."../assets/uploads/";
+                                            $file = $path.$anexo->anexo;
+                                            if (file_exists($file) && explode('/', mime_content_type($file))[0] == "image") { 
+                                        ?>
+                                            <img src="<?php echo base_url("assets/uploads/{$anexo->anexo}");?>" />
+                                        <?php }  elseif(file_exists($file) && mime_content_type($file) == "application/pdf") { ?>
+                                            <embed
+                                                src="<?php echo base_url("assets/uploads/{$anexo->anexo}");?>"
+                                                type="application/pdf"
+                                                frameBorder="0"
+                                                scrolling="auto"
+                                                height="100%"
+                                                width="110%"
+                                            ></embed>
+                                        <?php } else { ?>
+                                            <i class="fa fa-file" aria-hidden="true"></i>
                                         <?php } ?>
+                                        </a>
                                     </td>
                                     <td><?php echo $anexo->id_anexo; ?></td>
-                                    <td><?php echo $anexo->descricao; ?></td>
                                     <td><?php echo $anexo->modulo_titulo; ?></td>
-                                    <td><?php echo ucfirst($anexo->tipo); ?></td>
+                                    <td><?php echo $this->anexo_model->get_anexo_tipo($anexo->tipo)['nome'];?></td>
                                     <td><?php echo date('d/m/Y H:i:s', strtotime($anexo->data_inclusao)); ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Anexo
+                                            <button id="btnGroupCertificadoAnexo" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupCertificadoAnexo">
-                                                <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Visualizar</a>
-                                                <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>">Baixar</a>
+                                                <a class="dropdown-item" target="_black" href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>"><i class="fa fa-eye"></i> Visualizar</a>
+                                                <a class="dropdown-item" download href="<?php echo base_url("assets/uploads/{$anexo->anexo}"); ?>"><i class="fa fa-download"></i> Baixar</a>
                                                 <?php 
                                                     $startWithAnexo = strripos($anexo->anexo, 'anexo') > -1 && strripos($anexo->anexo, 'anexo') !== false;
                                                     if (($anexo->id_usuario == $user->id_usuario) && $startWithAnexo) {
@@ -96,11 +111,13 @@
                                                         data-href="<?php echo base_url("anexo/deletar/{$anexo->id_anexo}"); ?>" 
                                                         data-registro="<?php echo $anexo->id_anexo;?>" 
                                                         data-tabela="anexo"
-                                                    >Excluir</a>
+                                                    ><i class="fa fa-trash"></i> Excluir</a>
                                                 <?php } ?> 
                                             </div>
                                         </div>
                                     </td>
+                                    <td><?php echo $anexo->titulo; ?></td>
+                                    <td><?php echo $anexo->descricao; ?></td>
                                 </tr>
                                <?php } ?>
                             </tbody>

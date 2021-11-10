@@ -4913,28 +4913,6 @@ label {
 }
 
 
-<<<<<<< HEAD
-=======
-/* a > .fa-trash, a .fa-remove {
-    color: #ff4756 !important;
-}
-
-a > .fa-download, a .fa-edit {
-    color: #2948ff !important;
-}
-
-
-td > a > .fa-eye {
-    color: #117a8b !important;
-}
-
-
-a > .fa-envelope {
-    color: #ffc107 !important;
-} */
-
-
->>>>>>> d4c018f... Atualiza modulo veiculo depreciacao
 td > .avatar {
     width: 45px;
     height: 45px;
@@ -4950,17 +4928,20 @@ td > a {
     flex-direction: row;
     justify-content: space-between !important;
     align-items: center;
-    /*border: solid 1px red !important;
-    padding: 0 !important;*/
 }
 
 .preview{
     padding: 20px;
-    width: 50px;
+    width: 130px;
     min-height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.preview > a {
+    text-decoration: none;
+    color: var(--secondary) !important;
 }
 
 .preview i {
@@ -4968,7 +4949,7 @@ td > a {
 }
 
 .preview img {
-    width: 50px;
+    width: 25rem !important;
     border-radius: 5px;
 }
 

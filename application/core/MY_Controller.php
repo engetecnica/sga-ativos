@@ -278,7 +278,7 @@ class MY_Controller extends MX_Controller {
                 "tipo" =>  $tipo,
                 "anexo" => $anexo_name,
                 "titulo" => $anexo_name,
-                "descricao" => ucfirst(str_replace("_", " ", $anexo_name)),
+                "descricao" => null,
             ];
 
             if ($anexo) {

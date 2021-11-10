@@ -516,7 +516,7 @@ class Ferramental_estoque  extends MY_Controller {
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
         if($retirada) {
             $dados['id_retirada'] = $id_retirada;
-            $dados['termo_de_reponsabilidade'] = ($_FILES['ferramental_estoque'] ? $this->upload_arquivo('ferramental_estoque') : '');
+            $dados['termo_de_reponsabilidade'] = ($_FILES['ferramental_estoque'] ? $this->upload_arquivo('termo_de_reponsabilidade') : '');
             if (!$dados['termo_de_reponsabilidade'] || $dados['termo_de_reponsabilidade'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));

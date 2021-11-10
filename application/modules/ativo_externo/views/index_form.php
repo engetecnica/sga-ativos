@@ -222,7 +222,7 @@
                                     </button>                              
                                     </a>
                                 </div>
-
+                                <?php if (isset($detalhes) && isset($detalhes->id_ativo_externo)) { ?>
                                 <div class="pull-right btn-group m-t-10" role="group">
                                     <button id="ativo_externo_group" type="button" class="btn btn-outline-info btn-md dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Gerenciar Ativo
@@ -252,6 +252,7 @@
                                             </a>
                                     </div>
                                 </div>
+                                <?php } ?>
                             </form>
 
                         </div>

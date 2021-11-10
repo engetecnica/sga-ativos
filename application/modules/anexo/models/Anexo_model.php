@@ -49,7 +49,7 @@ class Anexo_model extends MY_Model {
           ],
           [
             "nome" => "Nota/Recibo de Abastecimento",
-            "slug" => "kilometragem",
+            "slug" => "quilometragem",
             "modulos" =>  ['ativo_veiculo']
           ],
           [
@@ -150,7 +150,6 @@ class Anexo_model extends MY_Model {
         return $tipo;
       }
     }
-
     return null;
   }
 

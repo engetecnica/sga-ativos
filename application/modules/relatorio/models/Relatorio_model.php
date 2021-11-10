@@ -935,7 +935,22 @@ class Relatorio_model extends Relatorio_model_base {
       }
     }
 
-    return true;
+    return $this->limpar_anexos_excluidos();
+  }
+
+  public function limpar_anexos_excluidos(){
+      $anexos = $this->anexo_model->get_anexos();
+      $anexos_excluir_id = [];
+      $path = APPPATH."../assets/uploads/";
+
+      foreach ($anexos as $anexo) {
+        if (!file_exists($path.$anexo->anexo)) {
+          $anexos_excluir_id = array_merge($anexos_excluir_id, [$anexo->id_anexo]);
+        }
+      }
+
+      $this->db->where("id_anexo  IN ('".implode("','", $anexos_excluir_id)."')")->delete('anexo');
+      return true;
   }
 
   public function informe_vencimentos($days = 30){
