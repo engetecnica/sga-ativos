@@ -116,19 +116,19 @@
                                 <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="nome" class=" form-control-label">Nome</label>
                                     </div>
-                                    <div class="col-12 col-md-9">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" id="nome" name="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="usuario" class=" form-control-label">Usuário</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required type="text" id="usuario" name="usuario" placeholder="username" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->usuario)){ echo $detalhes->usuario; } ?>">
                                     </div>
                                 
@@ -165,17 +165,17 @@
                                 
                                 <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label  for="senha" class=" form-control-label">Senha</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input type="password" id="senha" name="senha" placeholder="********" class="form-control" value="">
                                     </div>
                                 
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="confirmar_senha" class=" form-control-label">Confirmar Senha</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="********" class="form-control" value="">
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
 
                                 <?php if ($is_self) {?>
                                 <div class="row form-group">
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-2">
                                         <label for="avatar" class=" form-control-label">Imagem do Usuário</label>
                                     </div>
                                     <div class="col-12 col-md-6">

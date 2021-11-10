@@ -14,9 +14,9 @@
             <div class="row">
                 <div class="col-lg-12">
                 <h2 class="title-1 m-b-20">Estoque de Ferramentas</h2>
-                    <div class="tabl table--no-card table-responsive table--no- m-b-40">
+                    <div class="table table--no-card table-responsive table--no- m-b-40">
                         <h3 class="title-1 m-b-25">Retiradas</h3>
-                        <table class="table table-responsive table-borderless table-striped table-earning" id="lista">
+                        <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
                                     <th>Retirada ID</th>
@@ -56,7 +56,7 @@
 
                                                 <?php if(isset($valor->termo_de_reponsabilidade)) { ?>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/ferramental_estoque/{$valor->termo_de_reponsabilidade}"); ?>">
+                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/termo_de_reponsabilidade/{$valor->termo_de_reponsabilidade}"); ?>">
                                                         <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
                                                     </a>
                                                 <?php } ?>

@@ -34,11 +34,11 @@
                                     <div class="col col-md-2">
                                         <label for="codigo_obra" class="form-control-label">Código da Obra</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="codigo_obra" name="codigo_obra" placeholder="OBR-001" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->codigo_obra)){ echo $detalhes->codigo_obra; } ?>">
                                     </div>
                               
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="razao_social" class=" form-control-label">Empresa Responsável</label>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -57,18 +57,18 @@
                                 </div>
 
                                 <?php $this->view("endereco_contato/endereco_form_fields"); ?>
+
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
                                
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="responsavel" class=" form-control-label">Técnico Responsável</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="responsavel" name="responsavel" placeholder="Responsável" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel)){ echo $detalhes->responsavel; } ?>">
                                     </div>
                                 </div>
-
-                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">

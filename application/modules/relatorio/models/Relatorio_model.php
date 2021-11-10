@@ -438,6 +438,11 @@ class Relatorio_model extends Relatorio_model_base {
       $relatorio->where("vdp.veiculo_data >= '$inicio'")
                  ->where("vdp.veiculo_data <= '$fim'");
     }
+
+    if (isset($data['veiculo_placa'])) {
+      $relatorio->where("atv.veiculo_placa = '{$data['veiculo_placa']}'");
+    }
+
     return $relatorio->get()->result();
   }
 
@@ -1013,7 +1018,7 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function informe_retiradas_pendentes($devolucao_prevista = "now"){
     return $this->db
-            ->where("status NOT IN (4)")
+            ->where("status NOT IN (1,2,9)")
             ->where("devolucao_prevista <= '{$devolucao_prevista}'")
             ->join("funcionario fn", "fn.id_funcionario = atv.id_funcionario")
             ->select("fn.nome as funcionario, fn.data_nascimento as funcionario_nascimento, fn.rg as funcionario_rg, fn.cpf as funcionario_cpf")

@@ -1,16 +1,16 @@
 
 <div id="endereco_form_fields" class="m-t-40 m-b-40">
     <div class="row form-group">
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco_cep" class=" form-control-label">CEP</label>
         </div>
-        <div class="col-12 col-md-2">
+        <div class="col-12 col-md-4">
             <input :class="{'invalid-input': msg != null}" @blur="getEnderecoBycep" 
                 type="text" id="endereco_cep" name="endereco_cep"  v-mask="['#####-###']"
-                v-model="endereco_cep" placeholder="CEP" class="form-control cep">
+                v-model="endereco_cep" placeholder="00000-000" class="form-control cep">
             <div  class="invalid-text">{{msg}}</div>
         </div>
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco" class=" form-control-label">Endereço</label>
         </div>
         <div class="col-12 col-md-4">
@@ -19,13 +19,13 @@
     </div>
 
     <div class="row form-group">
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco_numero" class=" form-control-label">Número</label>
         </div>
-        <div class="col-12 col-md-2">
+        <div class="col-12 col-md-4">
             <input type="text" id="endereco_numero" name="endereco_numero" v-model="endereco_numero" placeholder="9009" class="form-control">
         </div>
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco_bairro" class=" form-control-label">Bairro</label>
         </div>
         <div class="col-12 col-md-4">
@@ -34,16 +34,16 @@
     </div>
 
     <div class="row form-group">
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco_cidade" class=" form-control-label">Cidade</label>
         </div>
         <div class="col-12 col-md-4">
             <input type="text" id="endereco_cidade" name="endereco_cidade" v-model="endereco_cidade" placeholder="Cidade" class="form-control">
         </div>
-        <div class="col col-md-1">
+        <div class="col col-md-2">
             <label for="endereco_estado" class=" form-control-label">Estado</label>
         </div>
-        <div class="col-12 col-md-2">
+        <div class="col-12 col-md-4">
             <select id="endereco_estado" name="endereco_estado" v-model="endereco_estado" class="form-control">
                 <option value="null">Selecione o Estado</option>
                 <option v-for="estado in estados" :value="estado.id_estado">{{estado.estado}}</option>

@@ -35,7 +35,11 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->id_ativo_interno; ?>">
-                                    <td><?php echo $valor->id_ativo_interno; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url("ativo_interno/editar/{$valor->id_ativo_interno}"); ?>"> 
+                                            <?php echo $valor->id_ativo_interno; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo isset($valor->marca) ? $valor->marca : '-'; ?></td>
                                     <td>R$ <?php echo number_format($valor->valor, 2, ',', '.'); ?></td>

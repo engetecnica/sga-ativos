@@ -75,21 +75,19 @@
                                 <input type="hidden" id="id_ativo_externo" name="id_ativo_externo" value="<?php echo $detalhes->id_ativo_externo;?>" />
                               
                                 <div class="row form-group">
-                                    <div class="col col-md-4">
-                                        <label for="certificado_de_calibracao" class=" form-control-label">Anexar Certificado de Controle</label>
+                                    <div class="col col-md-2">
+                                        <label for="certificado_de_calibracao" class=" form-control-label">Anexar Certificado</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-6">
                                         <input required="required" type="file" id="certificado_de_calibracao" name="certificado_de_calibracao" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
                                         <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
                                         <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
-                                </div>
 
-                                <div class="row form-group">
-                                    <div class="col col-md-4">
-                                        <label for="validade_certificado" class=" form-control-label">Validade do Certificado</label>
+                                    <div class="col col-md-2">
+                                        <label for="validade_certificado" class=" form-control-label">Validade</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-2">
                                         <input required="required" type="date" id="validade_certificado" name="validade_certificado" class="form-control" style="margin-bottom: 5px;"> 
                                     </div>
                                 </div>

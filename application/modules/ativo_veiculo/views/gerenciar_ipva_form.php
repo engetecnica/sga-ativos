@@ -40,7 +40,7 @@
                                     <div class="col col-md-2">
                                         <label for="ipva_ano" class=" form-control-label">Referência</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <select required="required" class="form-control" id="ipva_ano" name="ipva_ano">
                                             <option value="">Ano</option>
                                             <?php for($i=date("Y")-5; $i<=date("Y")+5; $i++){ ?>
@@ -52,7 +52,7 @@
                                     <div class="col col-md-2">
                                         <label for="ipva_custo" class=" form-control-label">Custo</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="ipva_custo" name="ipva_custo" placeholder="0.00" class="form-control valor" 
                                         value="<?php echo isset($ipva) && isset($ipva->ipva_custo) ? $ipva->ipva_custo : ''?>">
                                     </div>

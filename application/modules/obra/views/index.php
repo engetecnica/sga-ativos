@@ -34,7 +34,11 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->id_obra; ?>">
-                                    <td><?php echo $valor->id_obra; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                            <?php echo $valor->id_obra; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->codigo_obra; ?></td>
                                     <td><?php echo $valor->empresa; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>

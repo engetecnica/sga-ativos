@@ -52,7 +52,7 @@
                                         </select>
                                     </div>
                              
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="id_ativo_configuracao" class=" form-control-label">Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -71,16 +71,16 @@
                                     <div class="col col-md-2">
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" 
                                             value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div> 
 
 
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                     <div class="col col-md-2">
                                         <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" 
                                         value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : ''?>">
                                     </div>
@@ -98,7 +98,7 @@
                                     <div class="col col-md-2">
                                         <label for="data_vencimento" class=" form-control-label">Data Vencimento</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" 
                                         value="<?php echo isset($manutencao) && isset($manutencao->data_vencimento) ? date('Y-m-d', strtotime($manutencao->data_vencimento)) : ''?>">
                                     </div>

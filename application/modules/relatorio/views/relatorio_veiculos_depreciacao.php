@@ -19,7 +19,6 @@
             <th>Valor FIPE</th>
             <th>Valor Depreciação</th>
             <th>Data/Hora</th>
-            <!-- <th>Situação</th> -->
           </tr>
       </thead>
       <tbody>
@@ -33,10 +32,6 @@
             <td><?php echo $this->formata_moeda($item->veiculo_valor_fipe); ?></td>
             <td><?php echo $this->formata_moeda($item->veiculo_valor_depreciacao); ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($item->data));?> </td>
-            <!-- <td>
-              <?php $situacao = $this->get_situacao($item->situacao);?>
-              <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
-            </td> -->
           </tr>
         <?php } ?>
       </tbody>

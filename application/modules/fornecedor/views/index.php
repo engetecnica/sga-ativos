@@ -32,7 +32,11 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->id_fornecedor; ?>">
-                                    <td><?php echo $valor->id_fornecedor; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>">
+                                            <?php echo $valor->id_fornecedor; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->razao_social; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>

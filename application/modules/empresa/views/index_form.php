@@ -47,40 +47,41 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="cnpj" class=" form-control-label">CNPJ</label>
                                     </div>
                                     <div class="col-12 col-md-2">
                                         <input required="required" type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0001-00" class="form-control cnpj" value="<?php if(isset($detalhes) && isset($detalhes->cnpj)){ echo $detalhes->cnpj; } ?>">
                                     </div>
 
-                                    <div class="col col-md-1">
-                                        <label for="inscricao_estadual" class=" form-control-label">Insc. Est.</label>
+                                    <div class="col col-md-2">
+                                        <label for="inscricao_estadual" class=" form-control-label">Inscrição Estadual</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="inscricao_estadual" name="inscricao_estadual" placeholder="Inscrição Estadual" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->inscricao_estadual)){ echo $detalhes->inscricao_estadual; } ?>">
+                                        <input type="text" id="inscricao_estadual" name="inscricao_estadual" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->inscricao_estadual)){ echo $detalhes->inscricao_estadual; } ?>">
                                     </div>
 
-                                    <div class="col col-md-1">
-                                        <label for="inscricao_municipal" class=" form-control-label">Insc. Mun.</label>
+                                    <div class="col col-md-2">
+                                        <label for="inscricao_municipal" class=" form-control-label">Inscrição Municipal</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input type="text" id="inscricao_municipal" name="inscricao_municipal" placeholder="Inscrição Municipal" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->inscricao_municipal)){ echo $detalhes->inscricao_municipal; } ?>">
+                                        <input type="text" id="inscricao_municipal" name="inscricao_municipal" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->inscricao_municipal)){ echo $detalhes->inscricao_municipal; } ?>">
                                     </div>                                                                                                
                                 </div>
 
                                 <?php $this->view("endereco_contato/endereco_form_fields"); ?>
 
+                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="responsavel" class=" form-control-label">Responsável</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" id="responsavel" name="responsavel" placeholder="Responsável" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->responsavel)){ echo $detalhes->responsavel; } ?>">
                                     </div>
                                 </div>
 
-                                <?php $this->view("endereco_contato/contato_form_fields", ['prefix' => 'responsavel']); ?>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">

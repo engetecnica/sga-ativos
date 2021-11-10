@@ -122,17 +122,17 @@
                                 </div> -->
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_valor_depreciacao" class=" form-control-label">Valor de Depreciação</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" class="form-control valor" placeholder="0,00 R$" value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_valor_depreciacao) ?  $depreciacao->veiculo_valor_depreciacao : ''; ?>"  id="veiculo_valor_depreciacao" name="veiculo_valor_depreciacao">
                                     </div>
 
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="0 KM" class="form-control" 
                                             min="<?php echo $dados_veiculo->veiculo_km; ?>"  value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_km) ?  $depreciacao->veiculo_km : ''; ?>">
                                     </div>

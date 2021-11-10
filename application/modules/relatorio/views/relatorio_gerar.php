@@ -72,10 +72,10 @@
 
                                 <div class="row form-group">
                                     <template v-if="relatorio && relatorio.filtros.includes('tipo_veiculo')">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="tipo_veiculo" class=" form-control-label">Tipo de Veículo</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <select v-model="form.tipo_veiculo" class="form-control" id="tipo_veiculo" name="tipo_veiculo">
                                             <option v-for="(tipo, key) in tipos_veiculos" :value="key" :key="key">{{tipo}}</option>
                                         </select>
@@ -83,10 +83,10 @@
                                     </template>
                                
                                     <template v-if="relatorio && relatorio.filtros.includes('veiculo_placa')">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_placa" class=" form-control-label">Placa do Veículo</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" v-model="form.veiculo_placa" v-mask="'AAA-#N##'" class="form-control veiculo_placa" id="veiculo_placa" name="veiculo_placa"/>
                                     </div>
                                     </template>

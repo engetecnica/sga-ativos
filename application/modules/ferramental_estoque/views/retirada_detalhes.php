@@ -104,7 +104,7 @@
 
                                                 <?php if(isset($retirada->termo_de_reponsabilidade)) { ?>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/ferramental_estoque/{$retirada->termo_de_reponsabilidade}"); ?>">
+                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/termo_de_reponsabilidade/{$retirada->termo_de_reponsabilidade}"); ?>">
                                                         <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
                                                     </a>
                                                 <?php } ?>
@@ -145,11 +145,11 @@
 
                                 <?php if(!empty($retirada->items)){ ?>
                                 <h3 class="title-1 m-t-40">Itens</h3>
-                                <table style="min-height: 180px;" class="table table--no-card table-responsive table-borderless table-striped table-earning" id="lista2">
+                                <table style="min-height: 180px;" class="table table--no-card table-responsive-lg table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th width="10%" scope="col">Item Id</th>
-                                            <th width="10%" scope="col">Item</th>
+                                            <th width="50%" scope="col">Item</th>
                                             <th width="" scope="col">Quantidade</th>
                                             <th width="" scope="col">Data da Entrega</th>
                                             <th width="" scope="col">Data da Devolucao</th>

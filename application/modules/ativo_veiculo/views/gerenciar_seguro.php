@@ -48,7 +48,7 @@
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td>R$ <?php echo $this->formata_moeda($valor->seguro_custo); ?></td>
                                     <td><?php echo $this->formata_data($valor->carencia_inicio); ?></td>
-                                    <td><? echo $this->formata_data($valor->carencia_fim)?></td>
+                                    <td><?php echo $this->formata_data($valor->carencia_fim); ?></td>
                                     <td width="15%">
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupGerenciarSeguto" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

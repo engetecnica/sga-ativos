@@ -36,31 +36,31 @@
                                 <hr>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="carencia_inicio" class=" form-control-label">Carência Inicio</label>
                                     </div>                                    
 
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="date" id="carencia_inicio" name="carencia_inicio" class="form-control" 
                                         value="<?php echo  isset($seguro) && isset($seguro->carencia_inicio) ? date('Y-m-d', strtotime($seguro->carencia_inicio)) : date("Y-m-d"); ?>">
                                     </div>
 
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="carencia_fim" class=" form-control-label">Carência Final</label>
                                     </div>                                    
 
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="date" id="carencia_fim" name="carencia_fim" class="form-control" 
                                         value="<?php echo isset($seguro) && isset($seguro->carencia_fim) ? date('Y-m-d', strtotime($seguro->carencia_fim)) : '';?>">
                                     </div> 
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="seguro_ano" class=" form-control-label">Custo</label>
                                     </div>
         
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input required="required" type="text" id="seguro_custo" name="seguro_custo" placeholder="0.00" class="form-control valor" 
                                         value="<?php echo isset($seguro) && isset($seguro->seguro_custo) ? $seguro->seguro_custo : '';?>">
                                     </div>

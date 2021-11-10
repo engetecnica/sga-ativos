@@ -21,7 +21,7 @@
                     <div class="card">
                         <div class="card-header">Por favor, defina um código para cada item</div>
                         <div class="card-body">
-                            <form action="<?php echo $url; ?>" method="post" enctype="multipart/form-data">
+                            <form action="<?php echo $form_url; ?>" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>">
 
                             <input 

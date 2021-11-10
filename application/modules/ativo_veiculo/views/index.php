@@ -33,7 +33,7 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
-                                    <td><?php echo $valor->id_ativo_veiculo; ?></td>
+                                    <td><a href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><?php echo $valor->id_ativo_veiculo; ?></a></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>

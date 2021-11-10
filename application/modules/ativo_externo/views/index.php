@@ -54,7 +54,7 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo "ativo-".$valor->id_ativo_externo; ?>">
                                     <td>
-                                        <a class="btn btn-sm btn-outline-success btn-codigo" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
+                                        <a class="" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
                                             <?php echo $valor->codigo; ?>
                                         </a>
                                     </td>
@@ -73,10 +73,8 @@
                                         <?php $kit = $this->get_ativo_externo_on_lista($lista, $valor->id_ativo_externo_kit); ?>
                                         <?php if($kit) { ?>
                                             <a 
-                                                href="<?php echo base_url('ativo_externo'); ?>/editar_items/<?php echo $kit->id_ativo_externo; ?>" 
-                                                class="btn btn-outline-primary"
-                                            >
-                                                <?php echo  $kit->codigo; ?>
+                                                href="<?php echo base_url('ativo_externo'); ?>/editar_items/<?php echo $kit->id_ativo_externo; ?>">
+                                                <?php echo $kit->codigo; ?>
                                             </a>
                                         <?php } else {echo "-";} ?>
                                     </td>
@@ -90,7 +88,7 @@
                                             $text = isset($valor->necessita_calibracao) && $valor->necessita_calibracao == '1' ?  'Sim' : 'Não';
                                             $class = isset($valor->necessita_calibracao) && $valor->necessita_calibracao == '1' ?  'success' : 'danger';
                                          ?>
-                                        <span class="badge badge-<? echo $class;?>"><?php echo $text;?></span>
+                                        <span class="badge badge-<?php echo $class;?>"><?php echo $text;?></span>
                                     </td>
                                     <td><?php echo $this->formata_moeda($valor->valor); ?></td>
                                     <td> 

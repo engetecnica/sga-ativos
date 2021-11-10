@@ -85,7 +85,7 @@
                                         <span id="submit-form">Enviar Requisição</span>
                                     </button>
                                     <a class="m-t-10" href="<?php echo base_url('ferramental_requisicao');?>">
-                                        <button class="btn btn-info" type="button">                                                    
+                                        <button class="btn btn-secondary" type="button">                                                    
                                             <i class="fa fa-ban "></i>&nbsp;
                                             <span id="cancelar-form">Cancelar</span>
                                         </button>                                                

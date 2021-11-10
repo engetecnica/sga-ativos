@@ -26,11 +26,11 @@ class Ativo_externo  extends MY_Controller {
 
     function adicionar($id_ativo_externo_grupo=null){
         $data['mode'] = "insert";
-        $data['url'] = base_url("ativo_externo/salvar");
+        $data['form_url'] = base_url("ativo_externo/salvar");
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
         
         if ($id_ativo_externo_grupo) {
-            $data['url'] = base_url("ativo_externo/salvar_grupo");
+            $data['form_url'] = base_url("ativo_externo/salvar_grupo");
             $grupo = $this->ativo_externo_model->get_grupo($id_ativo_externo_grupo);
             $data['detalhes'] = (object) [
                 'tipo' => $grupo->tipo,
@@ -51,7 +51,7 @@ class Ativo_externo  extends MY_Controller {
     function editar($id_ativo_externo=null){
         $data['mode'] = "update";
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
-        $data['url'] = base_url("ativo_externo/salvar");
+        $data['form_url'] = base_url("ativo_externo/salvar");
         $data['detalhes'] = $this->ativo_externo_model->get_ativo($id_ativo_externo);
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
@@ -135,7 +135,7 @@ class Ativo_externo  extends MY_Controller {
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
         $data['categoria'] = $this->ativo_externo_model->get_categoria();
-        $data['url'] = base_url("ativo_externo/salvar_grupo");
+        $data['form_url'] = base_url("ativo_externo/salvar_grupo");
         $grupo = $this->ativo_externo_model->get_grupo($id_ativo_externo_grupo);
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
@@ -217,7 +217,7 @@ class Ativo_externo  extends MY_Controller {
                 $items[$i]['valor'] = $valor;
             }
 
-            $data['url'] = base_url("ativo_externo/gravar_items");
+            $data['form_url'] = base_url("ativo_externo/gravar_items");
             $data['item'] = (object) array_merge($data, [
                 'nome' => $items[0]['nome'],
                 'id_ativo_externo_grupo' => $items[0]['id_ativo_externo_grupo'],
@@ -366,7 +366,7 @@ class Ativo_externo  extends MY_Controller {
                 'necessita_calibracao' => $grupo->necessita_calibracao,
                 'ativos' => $items
             ]);
-            $data['url'] = base_url("ativo_externo/gravar_items_grupo");
+            $data['form_url'] = base_url("ativo_externo/gravar_items_grupo");
             $data['mode'] = $mode;
             $this->get_template('index_form_item', $data);
             return;

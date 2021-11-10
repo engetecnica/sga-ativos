@@ -32,7 +32,7 @@
                                     <div class="col col-md-2">
                                         <label for="razao_social" class=" form-control-label">Tipo da Configuração</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select class="form-control" id="id_ativo_configuracao_vinculo" name="id_ativo_configuracao_vinculo">
                                             <option value="0">Configuração Principal</option>
                                             <?php foreach($lista_categoria as $valor){ ?>
@@ -40,13 +40,11 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div class="row form-group">
+                               
                                     <div class="col col-md-2">
                                         <label for="titulo" class=" form-control-label">Titulo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" id="titulo" name="titulo" placeholder="Titulo da Configuração" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->titulo)){ echo $detalhes->titulo; } ?>">
                                     </div>
                                 </div>

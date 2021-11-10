@@ -175,7 +175,7 @@ class Relatorio_model_base extends MY_Model {
           'titulo' => 'Veículos Diponíveis',
           'filtros'=> ['tipo_veiculo'],
           'grafico' => [
-            'column' => ['Carro', 'Moto', 'Caminhão', 'Total'],
+            'column' => ['Carro', 'Moto', 'Caminhão', 'Total', 'periodo'],
             'tipo' => 'doughnut'
           ],
           'tipo' => ['grafico','arquivo'],
@@ -187,7 +187,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'veiculos_depreciacao' => [
           'titulo' => 'Veículos Depreciação',
-          'filtros'=> ['tipo_veiculo', 'periodo'],
+          'filtros'=> ['tipo_veiculo','veiculo_placa', 'periodo'],
           'tipo' => 'arquivo',
           'arquivo_saida' => [
             "PDF" => "pdf",

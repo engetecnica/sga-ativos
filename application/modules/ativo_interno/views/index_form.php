@@ -34,7 +34,7 @@
                                     <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <select 
                                             class="form-control" 
                                             name="id_obra" 
@@ -65,10 +65,10 @@
                                         value="<?php if(isset($ativo) && isset($ativo->nome)){ echo $ativo->nome; } ?>">
                                     </div>
 
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="marca" class=" form-control-label">Marca</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required" type="text" id="marca" name="marca" placeholder="Marca do Ativo" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->marca)){ echo $ativo->marca; } ?>">
@@ -79,7 +79,7 @@
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Atribuído</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
                                         value="<?php if(isset($ativo) && isset($ativo->valor)){ echo number_format($ativo->valor, 2, ',', '.'); } ?>">
@@ -87,7 +87,7 @@
                                     <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="number" id="quantidade" name="quantidade" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->quantidade)){ echo $ativo->quantidade; } else { echo "1"; } ?>">

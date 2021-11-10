@@ -29,7 +29,11 @@
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo "configuracao-{$valor->id_ativo_configuracao}"?>">
-                                    <td><?php echo $valor->id_ativo_configuracao; ?></td>
+                                    <td>
+                                        <a  href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>">
+                                            <?php echo $valor->id_ativo_configuracao; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->titulo; ?></td>
                                     <td><?php echo ($valor->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_ativo_configuracao_vinculo; ?></td>
                                     <td>

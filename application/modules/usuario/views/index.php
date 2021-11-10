@@ -46,7 +46,11 @@
                                                 <?php }?>
                                             </a>
                                         </td>
-                                        <td><?php echo $valor->id_usuario; ?></td>
+                                        <td>
+                                        <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
+                                            <?php echo $valor->id_usuario; ?>
+                                        </a>
+                                        </td>
                                         <td>
                                             <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
                                             <?php echo isset($valor->nome) ? $valor->nome : '-'; ?>

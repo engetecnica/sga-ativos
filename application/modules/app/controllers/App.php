@@ -25,7 +25,6 @@ class App extends MY_Controller {
           'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
           'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
         ];
-
         $this->json($status);
     }
   

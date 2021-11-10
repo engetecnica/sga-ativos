@@ -22,38 +22,37 @@
                         <div class="card-body">
 
                             <form  action="<?php echo base_url('anexo/salvar'); ?>" method="post" enctype="multipart/form-data">
+                                
+                                <input  type="hidden"  id="modulo" name="modulo" v-model="modulo" />
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="razao_social" class=" form-control-label">Modulo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select  class="form-control" required="required" type="text" id="anexo_modulo" name="anexo_modulo" v-model="anexo_modulo">
                                             <option :value="null">Selecione um Modulo</option>
                                             <option v-for="md in modulos" :value="md">{{md.nome}}</option>
                                         </select>
                                     </div>
-                                </div>
-                                <input  type="hidden"  id="modulo" name="modulo" v-model="modulo" />
 
-
-                                <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="anexo_tipo" class=" form-control-label">Tipo de Anexo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <select :readonly="!modulo"  class="form-control" required="required" type="text" id="anexo_tipo" name="anexo_tipo" v-model="anexo_tipo">
                                             <option :value="null">Selecione um Tipo de Anexo</option>
                                             <option v-for="tipo in tiposFiltred" :value="tipo">{{tipo.nome}}</option>
                                         </select>
                                     </div>
                                 </div>
+                                
                                 <input type="hidden" id="tipo" name="tipo" v-model="tipo" />
 
                                 <div v-if="tipo == 'manutencao' && modulo === 'ativo_veiculo'" class="row form-group">
-                                    <div class="col col-md-4">
+                                    <div class="col col-md-2">
                                         <label for="anexo_servico" class=" form-control-label">Serviços</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <select :readonly="subitems.lenght == 0"  class="form-control" required="required" type="text" id="servico" name="servico" v-model="servico">
                                             <option :value="null">Selecione um Serviço</option>
                                             <option v-for="serv in servicos" :value="serv.id_ativo_configuracao">{{serv.titulo}}</option>
@@ -62,19 +61,18 @@
                                 </div>
 
                                 <div v-if="tipo" class="row form-group">
-                                    <div class="col col-md-4">
+                                    <div class="col col-md-2">
                                         <label for="item" class=" form-control-label">Buscar Item</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <input @keyup.enter、="getItems()" @input="getItems()" @blur="getItems()" :readonly="items.lenght == 0" type="text" class="form-control" v-model="search_items" placeholder="Buscar" />
                                     </div>
-                                </div>
-
-                                <div v-if="items.length > 0" class="row form-group">
-                                    <div class="col col-md-4">
+                            
+                                
+                                    <div v-if="items.length > 0" class="col col-md-2">
                                         <label for="item" class=" form-control-label">Modulo Item</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div v-if="items.length > 0" class="col-12 col-md-4">
                                         <select :readonly="items.length == 0"  class="form-control" type="text" id="item" name="item" v-model="item">
                                             <option :value="null">Selecione um Item</option>
                                             <option v-for="it in items" :value="it.id">{{it.descricao}}</option>
@@ -83,10 +81,10 @@
                                 </div>
 
                                 <div v-if="subitems.length > 0" class="row form-group">
-                                    <div class="col col-md-4">
+                                    <div class="col col-md-2">
                                         <label for="subitem" class=" form-control-label">Modulo Subitem</label>
                                     </div>
-                                    <div class="col-12 col-md-8">
+                                    <div class="col-12 col-md-4">
                                         <select class="form-control" type="text" id="subitem" name="subitem" v-model="subitem">
                                             <option :value="null">Selecione um Subitem</option>
                                             <option v-for="it in subitems" :value="it.id">{{it.descricao}}</option>
@@ -100,7 +98,7 @@
                                     <div class="col col-md-2">
                                         <label for="titulo" class=" form-control-label">Titulo do Anexo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-4">
                                         <input type="text" id="titulo" name="titulo" placeholder="Titulo do Anexo" class="form-control"/>
                                     </div>
                                 </div>
@@ -109,7 +107,7 @@
                                     <div class="col col-md-2">
                                         <label for="descricao" class=" form-control-label">Descrição</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-6">
                                         <textarea id="descricao" name="descricao" placeholder="Descreva seu anexo aqui" class="form-control"></textarea>
                                     </div>
                                 </div>
@@ -119,7 +117,7 @@
                                     <div class="col col-md-2">
                                         <label for="anexo" class=" form-control-label">Anexo</label>
                                     </div>
-                                    <div class="col-12 col-md-10">
+                                    <div class="col-12 col-md-6">
                                         <input required="required" type="file" id="anexo" name="anexo" placeholder="Seu Anexo Aqui" class="form-control">
                                     </div>
                                 </div>

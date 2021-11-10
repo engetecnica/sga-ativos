@@ -30,7 +30,7 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="m-t-20 table table-responsive table--no-card m-b-10 table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive-md table--no-card m-b-10 table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Requisão ID</th>

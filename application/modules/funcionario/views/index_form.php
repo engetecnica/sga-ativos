@@ -81,32 +81,32 @@
                                         <label for="nome" class=" form-control-label">Nome Completo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="nome" name="nome" placeholder="Nome Completo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>" required="required">
+                                        <input type="text" id="nome" name="nome" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>" required="required">
+                                    </div>
+
+                                    <div class="col col-md-2">
+                                        <label for="data_nascimento" class=" form-control-label">Nascimento</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->data_nascimento)){ echo $detalhes->data_nascimento; } ?>" required="required">
                                     </div>
                                 </div>    
 
                                 <div class="row form-group">
                                 
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="rg" class=" form-control-label">RG</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="rg" name="rg" placeholder="RG" class="form-control rg" value="<?php if(isset($detalhes) && isset($detalhes->cpf)){ echo $detalhes->rg; } ?>" required="required">
+                                    <div class="col-12 col-md-4">
+                                        <input type="text" id="rg" name="rg" placeholder="00 000 000-00" class="form-control rg" value="<?php if(isset($detalhes) && isset($detalhes->cpf)){ echo $detalhes->rg; } ?>" required="required">
                                     </div>
                                
 
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="cpf" class="form-control-label">CPF</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
-                                        <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control cpf" value="<?php if(isset($detalhes) && isset($detalhes->cpf)){ echo $detalhes->cpf; } ?>" required="required">
-                                    </div>
-                                    
-                                    <div class="col col-md-1">
-                                        <label for="data_nascimento" class=" form-control-label">Nascimento</label>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->data_nascimento)){ echo $detalhes->data_nascimento; } ?>" required="required">
+                                    <div class="col-12 col-md-4">
+                                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" class="form-control cpf" value="<?php if(isset($detalhes) && isset($detalhes->cpf)){ echo $detalhes->cpf; } ?>" required="required">
                                     </div>
                                 </div>
 

@@ -58,7 +58,7 @@ class Anexo_model extends MY_Model {
               "modulos" =>  ['ativo_veiculo']
           ],
           [
-              "nome" => "Nota/Recibo de Seguro",
+              "nome" => "Contrato de Seguro",
               "slug" => "seguro",
               "modulos" =>  ['ativo_veiculo']
           ],

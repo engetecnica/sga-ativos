@@ -37,7 +37,7 @@
 
                         <div class="card-body">
                             <form 
-                                action="<?php echo $url; ?>"
+                                action="<?php echo $form_url; ?>"
                                 method="post" 
                                 enctype="multipart/form-data"
                              >
@@ -146,7 +146,7 @@
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Unitário</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    <div class="col-12 col-md-4">
                                         <input
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
                                         value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo number_format($detalhes->valor, 2, ',', '.'); } ?>">
@@ -166,7 +166,7 @@
                                         <div class="col col-md-2">
                                             <label for="quantidade" class=" form-control-label">Quantidade</label>
                                         </div>
-                                        <div class="col-12 col-md-2">
+                                        <div class="col-12 col-md-4">
                                             <input 
                                                 <?php echo (isset($detalhes) && isset($detalhes->quantidade)) ? 'readonly' : ''; ?>
                                                 type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" 
