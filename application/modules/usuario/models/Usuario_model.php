@@ -25,7 +25,7 @@ class usuario_model extends MY_Model {
 			return "salvar_ok";
 		} else {
 
-			if ($usuario && ($usuario->id_usuario != $data['id_usuario'])) {
+			if ($usuario && ($this->user->id_usuario != $data['id_usuario'])) {
 				return "salvar_error";
 			}
 
@@ -190,7 +190,8 @@ class usuario_model extends MY_Model {
 			[
 				'usuario' => $usuario, 
 				"codigo" => $codigo, 
-				"validade" => strtotime($validade)
+				"validade" => strtotime($validade),
+				'styles' => $this->notificacoes_model->getEmailStyles(),
 			], 
 			true
 		);
@@ -204,7 +205,8 @@ class usuario_model extends MY_Model {
 				[
 					'usuario' => $usuario, 
 					"codigo" => $codigo, 
-					"validade" =>  strtotime($validade)
+					"validade" =>  strtotime($validade),
+					'styles' => $this->notificacoes_model->getEmailStyles(),
 				], 
 				true
 		);

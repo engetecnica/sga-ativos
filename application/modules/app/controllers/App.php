@@ -8,7 +8,7 @@
  */
 class App extends MY_Controller {
 
-    protected $path;
+    protected $path, $erro_enviroment;
 
     function __construct() {
         parent::__construct(false);
@@ -16,12 +16,14 @@ class App extends MY_Controller {
         $this->load->model('relatorio/notificacoes_model');
         $this->load->helper('download');
         $this->path = __DIR__."/../../../../assets/exports";
+        $this->erro_enviroment = "Atenção! Essa ação tem uso restrito ao modo 'Desenvolvimento' (development), há riscos ao ser executada
+        em modo produção (production).";
     }
 
     public function automacoes() {
         $status = [
-          'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
           'limpar_exports' => $this->db_export_clear(),
+          'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
           'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
           'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
         ];
@@ -29,49 +31,63 @@ class App extends MY_Controller {
     }
   
     public function test_email(){
-      $top = $this->load->view('relatorio/email_top', ['ilustration' => "welcome", "assunto" => "Test email"], true);
-      $email = "<h1> Test email ok!</h1> <p> Test email ok!</p>";
-      $footer = $this->load->view('relatorio/email_footer', null, true);
-      $html = $top.$email.$footer;
-      $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));
+      $return = $this->erro_enviroment;
+      if (getenv('CI_ENV') == 'development') {
+        $top = $this->load->view('relatorio/email_top', ['ilustration' => "welcome", "assunto" => "Test email"], true);
+        $email = "<h1> Test email ok!</h1> <p> Test email ok!</p>";
+        $footer = $this->load->view('relatorio/email_footer', null, true);
+        $html = $top.$email.$footer;
+        $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));
+      }
       $this->json(['success' => $return]);
     }
   
     public function test_push(){
-      $return = $this->notificacoes_model->enviar_push("Test Push", "Test Push Notications ok!", [
-        "filters" => [
-            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
-            ["operator" => "AND"],
-            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "2"],
-        ],
-        "url" => "/"
-      ]);
+      $return = $this->erro_enviroment;
+      if (getenv('CI_ENV') == 'development') {
+        $return = $this->notificacoes_model->enviar_push("Test Push", "Test Push Notications ok!", [
+          "filters" => [
+              ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+              ["operator" => "AND"],
+              ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "2"],
+          ],
+          "url" => "/"
+        ]);
+      }
       $this->json($return);
     }
   
     public function export(){
-      if ($this->user && $this->user->nivel == 1) {
-        $filename = "{$this->path}/". date("Ymdhis") .".json";
-    
-        $tables = array_map(function($table) {
-          return array_values((array) $table)[0];
-        }, $this->db->query('show tables')->result());
+      if (getenv('CI_ENV') == 'development') {
+        if ($this->user && $this->user->nivel == 1) {
+          $filename = "{$this->path}/". date("Ymdhis") .".json";
+      
+          $tables = array_map(function($table) {
+            return array_values((array) $table)[0];
+          }, $this->db->query('show tables')->result());
 
-        $data = [];
-        foreach($tables as $table){
-          $data[$table] = $this->db->get($table)->result();
+          $data = [];
+          foreach($tables as $table){
+            $data[$table] = $this->db->get($table)->result();
+          }
+
+          file_put_contents($filename, json_encode($data));
+          return force_download($filename, null);
         }
-
-        file_put_contents($filename, json_encode($data));
-        return force_download($filename, null);
+        echo "Ocorreu um erro ao gerar arquivo!";
+        return;
       }
-      echo "Ocorreu um erro ao gerar arquivo!";
+
+      echo $this->erro_enviroment;
     }
   
     private function db_export_clear() {
+      if (getenv('CI_ENV') == 'development') {
         foreach(glob("{$this->path}/*.json") as $filename) {
           unlink($filename);
         }
         return true;
+      }
+      return false;
     }
 }

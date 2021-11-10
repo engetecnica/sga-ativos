@@ -15,7 +15,7 @@ class Migrate extends MY_Controller{
 
     public function index($version = null) 
     {
-      if (ENVIRONMENT == 'development') {
+      if (getenv('CI_ENV') == 'development') {
         $this->load->library("migration");
         $error =  "\n\033[1;31mOcorreu um Erro ao migrar o Banco de Dados\n\n\033[0m";
         $migrations = $this->migration->find_migrations();
@@ -102,12 +102,14 @@ class Migrate extends MY_Controller{
       }
       $migrations = $this->migration->find_migrations();
       echo "\n\033[1;34mMigrations\033[0m\n";
-
+      $total = 0;
       foreach ($migrations as $key => $file) {
         $file = explode('migrations', $file)[1];
-        echo "\n$key : $file\n";
+        $name = ucwords(trim(str_replace(["/{$key}", ".php", "_"], ["", "", " "], $file)));
+        echo "\n$key : $name\n";
+        $total++;
       }
-      echo "\n";
+      echo "\nTotal: {$total}\n";
       return;
     }
 }
