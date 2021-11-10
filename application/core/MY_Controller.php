@@ -28,13 +28,18 @@ class MY_Controller extends MX_Controller {
         $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
         $this->load->model('anexo/anexo_model');
         $this->load->model('relatorio/notificacoes_model');
+        
+        if ($this->user) {
+            $this->logado = true;
+        }
 
-        $this->logado = true;
         if($auth_user_required && !$this->user){
-            $redirect_to = $_SERVER['REQUEST_URI'];
-            $this->session->set_userdata('redirect_to', $redirect_to);
-            echo redirect(base_url("login?redirect_to={$redirect_to}"));
-            $this->logado = false;
+            if (isset($_SERVER['REQUEST_URI'])) { 
+                $redirect_to = $_SERVER['REQUEST_URI'];
+                $this->session->set_userdata('redirect_to', $redirect_to);
+                echo redirect(base_url("login?redirect_to={$redirect_to}"));
+                $this->logado = false;
+            }
         }
     }
 
