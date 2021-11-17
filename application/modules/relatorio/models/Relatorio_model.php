@@ -426,7 +426,6 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function veiculos_depreciacao($data=null){
     $data = $this->extract_data('veiculos_depreciacao', $data);
-
     $relatorio = $this->db
         ->from('ativo_veiculo_depreciacao vdp')
         ->join('ativo_veiculo atv', 'vdp.id_ativo_veiculo = atv.id_ativo_veiculo');
@@ -439,10 +438,9 @@ class Relatorio_model extends Relatorio_model_base {
                  ->where("vdp.veiculo_data <= '$fim'");
     }
 
-    if (isset($data['veiculo_placa'])) {
+    if (isset($data['veiculo_placa']) && !empty($data['veiculo_placa'])) {
       $relatorio->where("atv.veiculo_placa = '{$data['veiculo_placa']}'");
     }
-
     return $relatorio->get()->result();
   }
 

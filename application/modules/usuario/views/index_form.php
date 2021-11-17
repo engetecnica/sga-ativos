@@ -120,7 +120,7 @@
                                         <label for="nome" class=" form-control-label">Nome</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="nome" name="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
+                                        <input type="text" id="nome" name="nome" id="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>
                                 </div>
 

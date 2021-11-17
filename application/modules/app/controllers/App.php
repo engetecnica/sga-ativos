@@ -33,8 +33,12 @@ class App extends MY_Controller {
     public function test_email(){
       $return = $this->erro_enviroment;
       if (getenv('CI_ENV') == 'development') {
-        $top = $this->load->view('relatorio/email_top', ['ilustration' => "welcome", "assunto" => "Test email"], true);
-        $email = "<h1> Test email ok!</h1> <p> Test email ok!</p>";
+        $top = $this->load->view('relatorio/email_top', [
+          'ilustration' => "welcome", 
+          "assunto" => "Test email", 
+          "styles" => $this->notificacoes_model->getEmailStyles()
+        ], true);
+        $email = "<h1> Teste email</h1> <p>Essa é uma mensagem de teste, caso esteja lendo isso, significa que tudo está funcionando como o esperado.</p>";
         $footer = $this->load->view('relatorio/email_footer', null, true);
         $html = $top.$email.$footer;
         $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));

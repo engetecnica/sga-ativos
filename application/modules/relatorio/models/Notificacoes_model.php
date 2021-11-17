@@ -58,16 +58,23 @@ class Notificacoes_model extends MY_model {
             $body['url'] = base_url($body['url']);
         }
     }
+    try {
+      $response = $this->client->post("/api/v1/notifications", [
+          'body' => json_encode($body),
+          'headers' => $this->push_headers
+      ]);
 
-    $response = $this->client->post("/api/v1/notifications", [
-        'body' => json_encode($body),
-        'headers' => $this->push_headers
-    ]);
-
-    return (object) [
-        "status" => $response->getStatusCode(),
-        "body" => json_decode($response->getBody()->getContents())
-    ];
+      return (object) [
+          "status" => $response->getStatusCode(),
+          "body" => json_decode($response->getBody()->getContents())
+      ];
+    }
+    catch (Exception $e) {
+      return (object) [
+        "status" => $e->getCode(),
+        "body" => ['errors' => [$e->getMessage()]]
+      ];
+    }
   }
 
   public function enviar_email($assunto, $mensagem, $destinos = []){
@@ -94,7 +101,6 @@ class Notificacoes_model extends MY_model {
     } catch (Exception $e) {
         return false;
     }
-
     return true;
   }
   

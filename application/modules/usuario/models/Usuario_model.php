@@ -11,7 +11,7 @@ class usuario_model extends MY_Model {
 		$this->db->where('usuario', $data['usuario']);
 		$usuario = $this->db->get('usuario')->row();
 
-		if($data['id_usuario'] == null){
+		if($data['id_usuario'] === null){
 			$data['data_criacao'] = date('Y-m-d H:i:s', strtotime('now'));
 			if ($usuario) {
 				return "salvar_error";
@@ -24,8 +24,7 @@ class usuario_model extends MY_Model {
 			}
 			return "salvar_ok";
 		} else {
-
-			if ($usuario && ($this->user->id_usuario != $data['id_usuario'])) {
+			if ($this->user->id_usuario != $data['id_usuario'] && $this->user->nivel == 2) {
 				return "salvar_error";
 			}
 
@@ -33,10 +32,8 @@ class usuario_model extends MY_Model {
 				$data['email_confirmado_em'] = null;
 				$data['codigo_recuperacao'] = null;
 			}
-
-			$this->db->where('id_usuario', $data['id_usuario']);
-			$this->db->update('usuario', $data);
-
+			
+			$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
 			$usuario = $this->db->get('usuario')->row();
 
 			if (($usuario->email != null && $usuario->email_confirmado_em == null) && $usuario->codigo_recuperacao == null) {

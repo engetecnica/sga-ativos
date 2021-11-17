@@ -62,7 +62,7 @@ class usuario  extends MY_Controller {
     function salvar(){
         $data['id_usuario'] = $this->input->post('id_usuario');
         $usuario = $this->usuario_model->get_usuario($data['id_usuario']);
-
+    
         $data['usuario'] = $this->input->post('usuario');
         $data['nome'] = $this->input->post('nome');
         $data['email'] = $this->input->post('email');
@@ -139,7 +139,7 @@ class usuario  extends MY_Controller {
                 }
             }
         }
-
+        
         $this->usuario_model->salvar_formulario($data);
         if($data['id_usuario'] == null){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
