@@ -100,20 +100,25 @@ trait MY_Trait {
           ];
       }
   
-      public function status_lista() {
+      public function status_lista($type = 'object') {
         $lista = $this->session->status_lista;
         if (!$lista) {
           $lista = $this->ferramental_requisicao_model->get_requisicao_status();
           $this->session->status_lista = json_encode($lista);
         }
   
-        return array_map(function($item) {
-          return (object) [
+        return array_map(function($item) use ($type) {
+          $new_item = [
             'texto' => $item->texto,
             'class' => $item->classe,
             'slug' => $item->slug,
             'id_status' => $item->id_requisicao_status
           ];
+
+          if ($type === 'object') {
+            return (object) $new_item;
+          }
+          return $new_item;
         }, is_string($lista) ? json_decode($lista) : $lista);
       }
   

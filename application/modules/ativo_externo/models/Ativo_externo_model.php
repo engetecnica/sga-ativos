@@ -182,11 +182,11 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 	public function get_kit_items($id_ativo_externo_kit){
-		return $this->db->select('ativo_externo_kit.*, ativo_externo.*,  obra.*')
-		->from('ativo_externo_kit')
+		return $this->db->select('kit.*, ativo_externo.*,  obra.*')
+		->from('ativo_externo_kit kit')
 		->order_by('ativo_externo.codigo', 'ASC')
-		->where("ativo_externo_kit.id_ativo_externo_kit = {$id_ativo_externo_kit}")
-		->join("ativo_externo", "ativo_externo.id_ativo_externo=ativo_externo_kit.id_ativo_externo_item", "left")
+		->where("kit.id_ativo_externo_kit = {$id_ativo_externo_kit}")
+		->join("ativo_externo", "ativo_externo.id_ativo_externo=kit.id_ativo_externo_item", "left")
 		->join("obra", "obra.id_obra=ativo_externo.id_obra")
 		->group_by('ativo_externo.id_ativo_externo')
 		->get()->result();
@@ -194,11 +194,11 @@ class Ativo_externo_model extends MY_Model {
 
 	public function get_out_kit_items($id_ativo_externo_kit, array $items_ids, $id_obra = null){
 		$not_items_array = array_merge($items_ids, [$id_ativo_externo_kit]);
-		return $this->db->select('ativo_externo.*, ativo_externo_kit.*')
+		return $this->db->select('ativo_externo.*, kit.*')
 		->from('ativo_externo')
 		->order_by('codigo', 'ASC')
-		->join('ativo_externo_kit', "ativo_externo_kit.id_ativo_externo_item = ativo_externo.id_ativo_externo", 'left')
-		->where("ativo_externo_kit.id_ativo_externo_kit IS NULL")
+		->join('ativo_externo_kit kit', "kit.id_ativo_externo_item = ativo_externo.id_ativo_externo", 'left')
+		->where("kit.id_ativo_externo_kit IS NULL")
 		->where("ativo_externo.id_ativo_externo NOT IN (".implode(',', $not_items_array).")")
 		->where('ativo_externo.situacao = 12')
 		->group_by('ativo_externo.id_ativo_externo')
@@ -234,5 +234,31 @@ class Ativo_externo_model extends MY_Model {
 			return $grupos[count($grupos) - 1]->id_ativo_externo_grupo + 1;
 		}
 		return 1;
+	}
+
+	public function permit_edit_situacao($id_ativo_externo){
+		$retiradas = $this->db
+			->join("ativo_externo_retirada_ativo rat", "atv.id_ativo_externo = rat.id_ativo_externo")
+			->where('atv.id_ativo_externo', $id_ativo_externo)
+			->where('rat.status != 9')
+			->get("ativo_externo atv")
+			->num_rows();
+
+		$requisicoes = $this->db
+			->join("ativo_externo_requisicao_ativo rat", "atv.id_ativo_externo = rat.id_ativo_externo")
+			->where('atv.id_ativo_externo', $id_ativo_externo)
+			->where('rat.status != 3')
+			->get("ativo_externo atv")
+			->num_rows();
+
+		return ($retiradas + $requisicoes) === 0;
+	}
+
+	public function permit_delete_grupo($id_ativo_externo_grupo){
+		return $this->db
+				->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+				->where('situacao != 12')
+				->get("ativo_externo")
+				->num_rows() === 0;
 	}
 }

@@ -17,7 +17,7 @@ class Ativo_externo  extends MY_Controller {
     }
 
     function index($subitem=null) {
-        $data['lista'] = $this->ativo_externo_model->get_ativos();
+        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->nivel != 1 ? $this->user->id_obra : null);
         $data['grupos'] = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
     	$subitem = ($subitem==null ? 'index' : $subitem);
@@ -56,6 +56,7 @@ class Ativo_externo  extends MY_Controller {
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
         $data['categoria'] = $this->ativo_externo_model->get_categoria();
+        $data['status_lista'] = $this->status_lista();
         $this->get_template('index_form', $data);
     }
 
@@ -190,7 +191,8 @@ class Ativo_externo  extends MY_Controller {
         $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
         $data['mode'] = $this->input->post('mode');
         $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
-        $id_obra = $this->input->post('id_obra')[0];
+        $id_obra = $this->input->post('id_obra');
+    
         if (!$id_obra) {
             $id_obra = $this->user->id_obra;
         }
@@ -199,7 +201,11 @@ class Ativo_externo  extends MY_Controller {
             $items = [];
             for($i=0; $i < $quantidade; $i++) {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
-                     $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
+                    $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
+                    
+                    if ($this->ativo_externo_model->permit_edit_situacao($items[$i]['id_ativo_externo'])) {
+                        $items[$i]['situacao'] = $this->input->post('situacao')[$i];
+                    }
                 }
 
                  $items[$i]['id_ativo_externo_grupo']         =  $id_grupo;
@@ -227,6 +233,7 @@ class Ativo_externo  extends MY_Controller {
                 'id_obra' => $id_obra,
                 'observacao' => $items[0]['observacao'],
                 'necessita_calibracao' => $items[0]['necessita_calibracao'],
+                'situacao' => isset($items[0]['situacao']) ? $items[0]['situacao'] : null,
                 'ativos' => $items
             ]);
 
@@ -261,9 +268,14 @@ class Ativo_externo  extends MY_Controller {
                 $dados[$k]['nome']                          = $this->input->post('item')[$k];
                 $dados[$k]['valor']                         = $this->input->post('valor');
                 $dados[$k]['observacao']                    = $this->input->post('observacao');
-                $dados[$k]['necessita_calibracao']       = $this->input->post('necessita_calibracao');
+                $dados[$k]['necessita_calibracao']          = $this->input->post('necessita_calibracao');
                 $dados[$k]['tipo'] = $this->input->post('tipo');
                 $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
+
+                if (($ativo && $mode == 'update') && $this->input->post('situacao') !== null) {
+                    $dados[$k]['situacao'] = $this->input->post('situacao');
+                    $dados[$k]['data_descarte'] = ($dados[$k]['situacao'] == 10 && $ativo->data_descarte == null)  ? date('Y-m-d H:i:s') : null;
+                }
                 
                 if($mode == 'insert') {
                     $dados[$k]['situacao'] = 12; // Estoque
@@ -318,7 +330,7 @@ class Ativo_externo  extends MY_Controller {
                     $items[$i]['id_obra']                        = $this->input->post('id_obra');
                     $items[$i]['nome']                           = $this->input->post('nome');
                     $items[$i]['observacao']                     = $grupo->observacao;
-                    $items[$i]['necessita_calibracao']        = $grupo->necessita_calibracao;
+                    $items[$i]['necessita_calibracao']           = $grupo->necessita_calibracao;
                     $items[$i]['codigo']                         = $this->input->post('codigo');
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));

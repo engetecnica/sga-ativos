@@ -51,12 +51,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($lista as $valor){ ?>
+                                <?php 
+                                    foreach($lista as $valor){ 
+                                    $self_obra = $valor->id_obra === $user->id_obra;
+                                ?>
                                 <tr id="<?php echo "ativo-".$valor->id_ativo_externo; ?>">
                                     <td>
-                                        <a class="" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
-                                            <?php echo $valor->codigo; ?>
-                                        </a>
+                                        <?php if ($self_obra) {?>
+                                            <a class="" href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>">    
+                                                <?php echo $valor->codigo; ?>
+                                            </a>
+                                        <?php } else { echo $valor->codigo; } ?>
                                     </td>
                                     <td><?php echo $valor->nome; ?></td>
                                     <td><?php echo $valor->obra; ?></td>
@@ -97,11 +102,11 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="ativo_externo_item">
-                                                <?php if ($valor->situacao != 10) {?>
+                                                <?php if ($self_obra) {?>
                                                     <div class="dropdwon-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fa fa-edit"></i> Editar</a>
                                                 <?php } ?>
-                                                <?php if((isset($valor) && isset($valor->id_ativo_externo)) && $valor->tipo == 1) { ?>
+                                                <?php if(((isset($valor) && isset($valor->id_ativo_externo)) && $valor->tipo == 1) && ($self_obra)) { ?>
                                                     <div class="dropdwon-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_externo/editar_items/{$valor->id_ativo_externo}"); ?>">
                                                         <i class="fa fa-th-large"></i> Editar Itens (KIT)
@@ -114,7 +119,7 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if ($valor->situacao == 12) {?>
+                                                <?php if ($valor->situacao == 12 && ($self_obra)) {?>
                                                     <div class="dropdwon-divider"></div>
                                                     <a href="javascript:void(0)" 
                                                         data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" 
@@ -125,11 +130,11 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if ($valor->situacao == 8) {?>
+                                                <?php if ($valor->situacao == 8 && ($self_obra)) {?>
                                                     <div class="dropdwon-divider"></div>
                                                     <a href="javascript:void(0)" 
                                                     data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $valor->id_ativo_externo; ?>"  redirect="true" 
-                                                    data-tabela="ativo_externo" class="dropdown-item  confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
+                                                    data-tabela="ativo_externo" class="dropdown-item confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
                                                 <?php } ?>
                                                 
                                                 <div class="dropdwon-divider"></div>
@@ -192,7 +197,7 @@
                                                     <i class="fa fa-edit"></i> Editar</a>
                                                 <?php } ?>
 
-                                                <?php if ($valor->estoque == $valor->total) {?>
+                                                <?php if ($valor->estoque == $valor->total && $this->ativo_externo_model->permit_delete_grupo($valor->id_ativo_externo_grupo)) {?>
                                                     <div class="dropdwon-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
                                                     data-tabela="ativo_externo" class="dropdown-item  deletar_registro">Excluir Grupo</a>

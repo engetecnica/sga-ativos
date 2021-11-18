@@ -54,6 +54,14 @@
                                 value="<?php echo $item->necessita_calibracao; ?>"
                                 required="required"
                             >
+
+                            <input 
+                                type="hidden" 
+                                name="situacao" 
+                                id="situacao"
+                                value="<?php echo $item->situacao; ?>"
+                                required="required"
+                            >
                             
                             <input 
                                 type="hidden" 

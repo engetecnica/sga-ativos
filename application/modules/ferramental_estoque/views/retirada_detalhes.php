@@ -154,10 +154,7 @@
                                             <th width="" scope="col">Data da Entrega</th>
                                             <th width="" scope="col">Data da Devolucao</th>
                                             <th width="" scope="col">Situação</th>
-                                            <th width="" scope="col">Detalhes</th>
-                                            <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
-                                                <th>Devolver</th>
-                                            <?php } ?>
+                                            <th width="" scope="col">Gerenciar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,8 +171,8 @@
                                                 </a>
                                             </td>
                                             <td><?php echo $item->quantidade; ?></td>
-                                            <td><?php echo isset($item->data_retirada) ? date("d/m/Y H:i", strtotime($item->data_retirada)) : '-'; ?></td>
-                                            <td><?php echo isset($item->devolucao_prevista) ? date("d/m/Y H:i", strtotime($item->data_devolucao)) : '-'; ?></td>
+                                            <td><?php echo $this->formata_data_hora($item->data_retirada); ?></td>
+                                            <td><?php echo $this->formata_data_hora($item->data_devolucao); ?></td>
                                             <td>
                                                 <?php $status = $this->status($item->status); ?>
                                                 <span class="badge badge-sm badge-<?php echo $status['class']; ?>">
@@ -183,27 +180,31 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="<?php echo base_url("ferramental_estoque/detalhes_item/{$item->id_retirada}/{$item->id_retirada_item}"); ?>" class="btn btn-sm btn-secondary">
-                                                    Detalhes
-                                                </a>
-                                            </td>
-                                            <?php if($user->nivel == 2 && $retirada->status == 4){  ?>
-                                            <td>
-                                                <a
-                                                    class="confirmar_registro pull-right"
-                                                    href="javascript:void(0)"
-                                                    data-acao="Devolver" data-icon="info" data-message="false"
-                                                    data-title="Devolver Retirada" data-redirect="true"
-                                                    data-text="Clique 'Sim, Devolver!' para confirmar a devolução dos itens por parte do funcionário, considerando que imprimiu e assinou o Termo de Responsabilidade corretamente como esperado."
-                                                    data-href="<?php echo base_url("ferramental_estoque/devolver_items_retirada/{$retirada->id_retirada}/{$item->id_retirada_item}");?>"
-                                                >
-                                                    <button class="btn btn-sm btn-secondary" type="button" id="Devolver_retirada_btn">
-                                                        <i class="fas fa-undo 4x"></i>&nbsp;
-                                                        Devolver
+                                                <div class="btn-group" role="group">
+                                                    <button id="ferramental_requisicao_item_detalhes" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Gerenciar
                                                     </button>
-                                                </a>
+                                                    <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_item_detalhes">
+                                                        <a class="dropdown-item" href="<?php echo base_url("ferramental_estoque/detalhes_item/{$item->id_retirada}/{$item->id_retirada_item}"); ?>" class="btn btn-sm btn-secondary">
+                                                            <i class="fa fa-list-alt"></i>&nbsp;Detalhes
+                                                        </a>
+
+                                                        <?php if($retirada->status == 4){  ?>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a
+                                                                class="dropdown-item confirmar_registro"
+                                                                href="javascript:void(0)"
+                                                                data-acao="Devolver" data-icon="info" data-message="false"
+                                                                data-title="Devolver Retirada" data-redirect="true"
+                                                                data-text="Clique 'Sim, Devolver!' para confirmar a devolução dos itens por parte do funcionário, considerando que imprimiu e assinou o Termo de Responsabilidade corretamente como esperado."
+                                                                data-href="<?php echo base_url("ferramental_estoque/devolver_items_retirada/{$retirada->id_retirada}/{$item->id_retirada_item}");?>"
+                                                            >
+                                                                <i class="fas fa-undo 4x"></i>&nbsp;Devolver Item
+                                                            </a>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <?php } ?>
                                         </tr>
                                         <?php } ?>
                                     </tbody>

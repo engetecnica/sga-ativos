@@ -76,16 +76,21 @@
                                             <th scope="col" width="40%">Nome</th>
                                             <th scope="col" width="40%">Data da Retirada</th>
                                             <th scope="col" width="40%">Data da Entrega</th>
+                                            <th scope="col" width="20%">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach($ativos as $ativo){ ?>
                                         <tr>
-                                            <td><?php echo $ativo->id_ativo_externo; ?></td>
+                                            <td><?php echo $ativo->id_retirada_ativo; ?></td>
                                             <td><?php echo $ativo->codigo; ?></td>
                                             <td><?php echo $ativo->nome; ?></td>
                                             <td><?php echo isset($ativo->data_retirada) ? date("d/m/Y H:i", strtotime($ativo->data_retirada)) : '-'; ?></td>
                                             <td><?php echo isset($ativo->data_devolucao) ? date("d/m/Y H:i", strtotime($ativo->data_devolucao)) : '-'; ?></td>
+                                            <td>
+                                                <?php $status = $this->status($ativo->status); ?>
+                                                <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
+                                            </td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>

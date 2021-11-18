@@ -384,36 +384,39 @@ class Ferramental_estoque  extends MY_Controller {
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
 
         if($retirada && $this->input->method() == 'post') {
-            if($retirada->status == 4) {
-                $items_devolvidos = $this->db->select('item.*')
+            $items_devolvidos_anterior = $this->db->select('item.*')
                         ->from('ativo_externo_retirada_item item')
-                        ->where("item.id_retirada = {$id_retirada}")
+                        ->where("item.id_retirada = {$retirada->id_retirada}")
                         ->where("item.status = 9")
                         ->group_by('item.id_retirada_item')
                         ->get()
                         ->num_rows();
+            $items_devolvidos = $items_devolvidos_anterior;
 
+            if($retirada->status == 4) {
                 $ativos = $ativos_externos = $items = $post_items = array();
                 foreach ($this->input->post('id_retirada_item') as $item) {
                     $post_items[$item]['ativos_externos'] = $this->input->post("id_ativo_externo_{$item}");
                     $post_items[$item]['ativos'] = $this->input->post("id_retirada_ativo_{$item}");
                     $post_items[$item]['status'] = $this->input->post("status_{$item}");
                 }
-            
+                
                 foreach ($post_items as $id => $pi){
-                    $ativos_devolvidos = $this->db->select('ativo.*')
+                    $ativos_devolvidos_anterior = $this->db->select('ativo.*')
                         ->from('ativo_externo_retirada_ativo ativo')
                         ->where("ativo.id_retirada_item = {$id}")
-                        ->where("ativo.id_retirada = {$id_retirada}")
-                        ->where("ativo.status = 9")
+                        ->where("ativo.id_retirada = {$retirada->id_retirada}")
+                        ->where("ativo.status IN (8, 9)")
                         ->group_by('ativo.id_retirada_ativo')
                         ->get()
                         ->num_rows();
 
-                    $ativos_item = $this->db->select('ativo.*')
+                    $ativos_devolvidos = $ativos_devolvidos_anterior;
+
+                    $ativos_item_total = $this->db->select('ativo.*')
                         ->from('ativo_externo_retirada_ativo ativo')
                         ->where("ativo.id_retirada_item = {$id}")
-                        ->where("ativo.id_retirada = {$id_retirada}")
+                        ->where("ativo.id_retirada = {$retirada->id_retirada}")
                         ->group_by('ativo.id_retirada_ativo')
                         ->get()
                         ->num_rows();
@@ -432,9 +435,10 @@ class Ferramental_estoque  extends MY_Controller {
                         $ativos_devolvidos++;
                     }
 
+                    $todos_ativos_devolvidos = ($ativos_devolvidos == $ativos_item_total);
                     $items[] = [
                         'id_retirada_item' => $id,
-                        'status' => ($ativos_devolvidos == $ativos_item) ? 9 : 4,
+                        'status' => $todos_ativos_devolvidos ? 9 : 4,
                         'data_devolucao' => date('Y-m-d H:i:s', strtotime('now'))
                     ];
                     $items_devolvidos++;
@@ -444,12 +448,14 @@ class Ferramental_estoque  extends MY_Controller {
                     $this->db->update_batch("ativo_externo_retirada_ativo", $ativos, 'id_retirada_ativo');
                     $this->db->update_batch("ativo_externo", $ativos_externos, 'id_ativo_externo');
                     $this->db->update_batch("ativo_externo_retirada_item", $items, 'id_retirada_item');
+
                     $this->ferramental_estoque_model->salvar_formulario([
-                        'id_retirada' => $id_retirada,
+                        'id_retirada' => $retirada->id_retirada,
                         'status' => ($items_devolvidos == count($retirada->items)) ? 9 : 4,
                     ]);
+                    
                     $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
-                    echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
+                    echo redirect(base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}"));
                     return;
                 }
 
@@ -459,7 +465,7 @@ class Ferramental_estoque  extends MY_Controller {
             }
 
             $this->session->set_flashdata('msg_erro', "Retirada não liberada para devolução!");
-            echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
+            echo redirect(base_url("ferramental_estoque/detalhes/{$retirada->id_retirada}"));
             return;
         }
 

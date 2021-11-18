@@ -44,8 +44,8 @@
                                 <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="10%">Cód. Item</th>
-                                            <th scope="col" width="20%">Item</th>
+                                            <th scope="col" width="10%">Cód. Ativo</th>
+                                            <th scope="col" width="20%">Nome do Item</th>
                                             <th scope="col" width="">Observações</th>
                                             <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
                                             <th scope="col">Status</th>

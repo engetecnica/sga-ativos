@@ -133,6 +133,12 @@
                                                                     </a>
                                                                     <div class="dropdown-divider"></div>
                                                                 <?php  } ?>
+
+                                                                <?php if ($requisicao->status == 3) {?>
+                                                                    <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
+                                                                        <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
+                                                                    </a>
+                                                                <?php } ?>
                                                         <?php } ?>
 
                                                         <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
@@ -146,6 +152,13 @@
                                                             </a>
                                                             <div class="dropdown-divider"></div>
                                                         <?php } ?>
+
+                                                        <a 
+                                                            class="dropdown-item" 
+                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}"); ?>"
+                                                        >
+                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
+                                                        </a>
 
                                                         <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
                                                             <i class="fa fa-question-circle"></i> Ajuda
@@ -198,7 +211,7 @@
 
                                 <?php if(!empty($requisicao->items)){ ?>
                                 <h3 class="title-1 m-b-25">Itens</h3>
-                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning"  style="min-height: 200px;">
+                                <table class="table table-responsive table--no-card table-borderless table-striped table-earning"  style="min-height: 200px;">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="10%">Id</th>
@@ -266,7 +279,7 @@
                                                         </a>
                                                         <div class="dropdown-divider"></div>
                                                         <a 
-                                                            class="dropdown-item -sm confirmar_registro" href="javascript:void(0);"
+                                                            class="dropdown-item confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
                                                             data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
@@ -275,7 +288,7 @@
                                                         </a>
                                                         <div class="dropdown-divider"></div>
                                                         <a 
-                                                            class="dropdown-item -sm confirmar_registro" href="javascript:void(0);"
+                                                            class="dropdown-item confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
                                                             data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
                                                             data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
@@ -285,7 +298,7 @@
                                                         <div class="dropdown-divider"></div>
                                                         <?php } ?>
                                                         <a 
-                                                            class="dropdown-item -sm btn-primary" 
+                                                            class="dropdown-item" 
                                                             href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                         >
                                                             <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos

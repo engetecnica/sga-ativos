@@ -90,11 +90,7 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                
-                                <?php } ?>
-                                
-                                <?php if (in_array($mode, ['insert', 'update'])){ ?>
-                               
+
                                     <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
@@ -104,12 +100,13 @@
                                             name="id_obra" 
                                             id="id_obra"
                                             required="required"
+                                            readonly
+                                            disabled
                                         >
                                             <option value="">Nenhuma obra selecionada</option>
-
                                             <?php foreach ($obra as $value) { ?>
                                                 <option 
-                                                    <?php echo (isset($detalhes) && isset($detalhes->id_obra)) && ($detalhes->id_obra == $value->id_obra) ? "selected" : ''; ?>
+                                                    <?php echo ((isset($detalhes) && isset($detalhes->id_obra)) && ($detalhes->id_obra == $value->id_obra))|| (!isset($detalhes) && $value->id_obra == $user->id_obra)  ? "selected" : ''; ?>
                                                     value="<?php echo $value->id_obra; ?>"
                                                 >
                                                     <?php echo $value->codigo_obra." - ".$value->endereco; ?>
@@ -118,9 +115,9 @@
 
                                         </select>
                                     </div>
-                                </div>    
-                                <?php } ?>                             
-
+                                </div>   
+                                <?php } ?>
+                                                             
 
                                 <?php if (in_array($mode, ['insert_grupo'])){ ?>
                                     <input type="hidden" id="nome" name="nome" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
@@ -201,6 +198,34 @@
                                             <option <?php echo isset($detalhes->necessita_calibracao) && $detalhes->necessita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
                                         </select>
                                     </div>
+
+                                    <?php if (in_array($mode, ['update']) && $this->ativo_externo_model->permit_edit_situacao($detalhes->id_ativo_externo)){ ?>
+                                        <div class="col col-md-2">
+                                            <label for="situacao" class=" form-control-label">Situação</label>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <select 
+                                                class="form-control" 
+                                                name="situacao[]" 
+                                                id="situacao[]"
+                                                required="required"
+                                                
+                                            >
+                                                <?php 
+                                                    foreach ($status_lista as $value) { 
+                                                        if (in_array($value->id_status, [5, 8, 10, 12])) {
+                                                ?>
+                                                    <option 
+                                                        <?php echo (isset($detalhes) && isset($detalhes->situacao)) && ($detalhes->situacao == $value->id_status) || !isset($detalhes) && $value->id_status == 12  ? "selected" : ''; ?>
+                                                        value="<?php echo $value->id_status; ?>"
+                                                    >
+                                                        <?php echo $this->status($value->id_status)['texto']; ?>
+                                                    </option>
+                                                <?php } } ?>
+
+                                            </select>
+                                        </div>
+                                    <?php } ?>
                                 </div>
 
                                 <hr>
