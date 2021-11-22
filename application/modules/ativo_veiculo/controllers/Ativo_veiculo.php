@@ -805,7 +805,7 @@ class Ativo_veiculo  extends MY_Controller
             $data['veiculo_km'] = $this->input->post('veiculo_km');
             $data['veiculo_observacoes'] = $this->input->post('veiculo_observacoes');
             $data['id_ativo_veiculo_depreciacao'] = $this->input->post('id_ativo_veiculo_depreciacao');
-            //$this->dd($data);
+
             if ($data['id_ativo_veiculo_depreciacao'] == '' || !$data['id_ativo_veiculo_depreciacao']) {
                 $this->db->insert('ativo_veiculo_depreciacao', $data);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");

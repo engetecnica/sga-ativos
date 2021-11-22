@@ -43,7 +43,7 @@
                                         <label for="id_fornecedor" class=" form-control-label">Fornecedor</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select required="required" class="form-control" id="id_fornecedor" name="id_fornecedor">
+                                        <select required="required" class="form-control select2" id="id_fornecedor" name="id_fornecedor">
                                             <option value="">Selecione um Fornecedor</option>
                                             <?php foreach($fornecedores as $fornecedor){ ?>
                                                 <option <?php echo (isset($manutencao) && isset($manutencao->id_fornecedor)) && (int) $manutencao->id_fornecedor === (int) $fornecedor->id_fornecedor ? 'selected="selected"' : '';?>
@@ -56,7 +56,7 @@
                                         <label for="id_ativo_configuracao" class=" form-control-label">Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select required="required" class="form-control" id="id_ativo_configuracao" name="id_ativo_configuracao">
+                                        <select required="required" class="form-control select2" id="id_ativo_configuracao" name="id_ativo_configuracao">
                                             <option  alue="">Selecione o Tipo do Serviço</option>
                                             <?php foreach($tipo_servico as $servico){ ?>
                                             <option <?php echo (isset($manutencao) && isset($manutencao->id_ativo_configuracao)) && $manutencao->id_ativo_configuracao == $servico->id_ativo_configuracao ? 'selected="selected"' : '';?>

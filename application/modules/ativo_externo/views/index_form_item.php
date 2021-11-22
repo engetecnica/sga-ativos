@@ -59,7 +59,7 @@
                                 type="hidden" 
                                 name="situacao" 
                                 id="situacao"
-                                value="<?php echo $item->situacao; ?>"
+                                value="<?php echo isset($item->situacao) ? $item->situacao : "12"; ?>"
                                 required="required"
                             >
                             

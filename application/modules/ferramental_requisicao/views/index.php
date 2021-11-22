@@ -32,10 +32,8 @@
                                     <th>Status</th>
                                     <th>Origem</th>
                                     <th>Destino</th>
-                                    <!--
                                     <th>Solicitante</th>
                                     <th>Despachante</th>
-                                    -->
                                     <th>Opções</th>
                                 </tr>
                             </thead>
@@ -58,10 +56,8 @@
                                     </td>
                                     <td><?php echo $valor->origem; ?></td>
                                     <td><?php echo $valor->destino; ?></td>
-                                    <!--
-                                    <td><?php echo $valor->solicitante; ?></td>
-                                    <td><?php echo $valor->despachante; ?></td>
-                                    -->
+                                    <td><?php echo $valor->solicitante_nome; ?></td>
+                                    <td><?php echo $valor->despachante_nome; ?></td>
                                     <td>
                                         <a 
                                             class="btn btn-secondary btn-sm" 

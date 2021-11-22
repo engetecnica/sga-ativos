@@ -29,7 +29,7 @@
                             <input type="hidden" name="id_destino" value="<?php echo $requisicao->id_destino; ?>">
                             <div class="card-body">
                                 <!-- Detalhes da Requisição -->
-                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning">
+                                <table class="table table-responsive-md table-striped table-bordered">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="30%">Requisão ID</th>
@@ -38,6 +38,12 @@
                                             <th scope="col" width="30%" >Status</th>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
+                                            <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_mae)) { ?>
+                                                <th>Requisição de Origem</th>
+                                            <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_filha) && isset($requisicao->data_inclusao_filha)) { ?>
+                                                <th>Requisição Complementar</th>
                                             <?php } ?>
                                             <th>Gerenciar</th>
                                         </tr>
@@ -61,18 +67,43 @@
                                                     </a>
                                                 </td>
                                             <?php } ?>
+
+                                            <?php if (isset($requisicao->id_requisicao_mae)) { ?>
+                                                <td scope="col" width="30%"> 
+                                                    <a class="btn btn-sm btn-outline-secondary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao_mae}"); ?>">
+                                                        Ver Requisição de Origem
+                                                    </a>
+                                                </td>
+                                            <?php } ?>
+
+                                            <?php if (isset($requisicao->id_requisicao_filha) && isset($requisicao->data_inclusao_filha)) { ?>
+                                                <td scope="col" width="30%"> 
+                                                    <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao_filha}"); ?>">
+                                                        Ver Requisição Complementar
+                                                    </a>
+                                                </td>
+                                            <?php } ?>
                                             <td> 
                                                 <div class="btn-group" role="group">
                                                     <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-<?php echo $status['class'];?> btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Gerenciar
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
+                                                        <?php if ($requisicao->status != 1) { ?>
+                                                        <a 
+                                                            class="dropdown-item" 
+                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}"); ?>"
+                                                        >
+                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <?php } ?>
                                                        
                                                         <?php if($user->nivel == 1) { ?>
                                                             <?php if(in_array($requisicao->status, [1, 11])){ ?>
-                                                                    <?php if ($user->id_obra == $requisicao->id_origem  || !$requisicao->id_origem) { ?>
+                                                                    <?php if ($user->id_obra == $requisicao->id_origem || ($user->id_obra != $requisicao->id_destino && !$requisicao->id_origem)) { ?>
                                                                         <a
-                                                                        class="dropdown-item  confirmar_registro" href="javascript:void(0)">
+                                                                        class="dropdown-item confirmar_registro" href="javascript:void(0)">
                                                                         <i class="fa fa-check-circle 2x"></i>&nbsp;
                                                                         <button class="" style="text-align: left !important;" type="submit" formtarget="requisicao_form" >
                                                                             Liberar Requisição
@@ -81,8 +112,7 @@
                                                                     <?php } ?>
 
                                                                     <?php 
-                                                                        if (($user->id_usuario != $requisicao->id_solicitante && $user->id_obra == $requisicao->id_origem ) || 
-                                                                            !$requisicao->id_origem) { 
+                                                                        if (($user->id_usuario != $requisicao->id_solicitante && ($user->id_obra == $requisicao->id_origem || !$requisicao->id_origem))) { 
                                                                     ?>
                                                                         <div class="dropdown-divider"></div>
                                                                         <a
@@ -94,7 +124,7 @@
                                                                             data-href="<?php echo base_url("ferramental_requisicao/recusar_requisicao/{$requisicao->id_requisicao}");?>"
                                                                             data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>"
                                                                         >
-                                                                            <i class="fa fa-ban" aria-hidden="true"></i> Recusar Requisição
+                                                                            <i class="fa fa-ban" aria-hidden="true"></i>&nbsp; Recusar Requisição
                                                                         </a>
                                                                         <div class="dropdown-divider"></div>
                                                                     <?php }  ?>
@@ -134,11 +164,23 @@
                                                                     <div class="dropdown-divider"></div>
                                                                 <?php  } ?>
 
-                                                                <?php if ($requisicao->status == 3) {?>
+                                                                <?php if ($requisicao->status == 3 && $requisicao->id_destino == $user->id_obra) {?>
                                                                     <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
                                                                         <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                                     </a>
                                                                 <?php } ?>
+                                                        <?php } ?>
+
+                                                        <?php if (($user->id_usuario == $requisicao->id_solicitante || $user->id_obra == $requisicao->id_destino) && $this->ferramental_requisicao_model->permit_solicitar_items_nao_inclusos($requisicao->id_requisicao)) {?>
+                                                            <a 
+                                                                class="dropdown-item  confirmar_registro" href="javascript:void(0);"
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                data-title="Solicitar Itens não Inclusos" data-acao="Solicitar"  data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/solicitar_items_nao_inclusos/{$requisicao->id_requisicao}");?>"
+                                                            >
+                                                                <i class="fa fa-list"></i>&nbsp; Solicitar Itens não Inclusos
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
                                                         <?php } ?>
 
                                                         <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
@@ -152,13 +194,6 @@
                                                             </a>
                                                             <div class="dropdown-divider"></div>
                                                         <?php } ?>
-
-                                                        <a 
-                                                            class="dropdown-item" 
-                                                            href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}"); ?>"
-                                                        >
-                                                            <i class="fa fa-list-alt item-menu-interno"></i> Listar de Ativos
-                                                        </a>
 
                                                         <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
                                                             <i class="fa fa-question-circle"></i> Ajuda
@@ -181,9 +216,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo $requisicao->despachante ; ?></td>
+                                            <td><?php echo $requisicao->despachante_nome ; ?></td>
                                             <td><?php echo $requisicao->origem; ?></td>
-                                            <td><?php echo $requisicao->solicitante ; ?></td>
+                                            <td><?php echo $requisicao->solicitante_nome ; ?></td>
                                             <td><?php echo $requisicao->destino ; ?></td>
                                         </tr>
                                     </tbody>
@@ -241,14 +276,14 @@
                                             <td><?php echo $item->quantidade; ?></td>
                                             <td><?php echo $item->quantidade_liberada; ?></td>
                                             <td>
-                                                <?php if (in_array($requisicao->status, [1, 11])) {?>
+                                                <?php if (in_array($requisicao->status, [1, 11]) && ($user->id_obra == $requisicao->id_origem || ($user->id_obra != $requisicao->id_destino && !$requisicao->id_origem))) {?>
                                                 <input id="item[]" name="item[]" type="hidden" value="<?php echo $item->id_requisicao_item; ?>"> 
                                                 <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
-                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" 
-                                                min="0" max="<?php 
-                                                    echo ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; 
-                                                ?>" 
-                                                <?php if($item->estoque == 0) echo "disabled"; ?> 
+                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" value="0" placeholder="0" 
+                                                    min="0" max="<?php 
+                                                        echo ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; 
+                                                    ?>" 
+                                                    <?php if($item->estoque == 0) echo " readonly"; ?> 
                                                 >
                                                 <?php } else { ?>
                                                     -

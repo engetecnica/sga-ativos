@@ -28,15 +28,15 @@ class ferramental_requisicao_model extends MY_Model {
 	}
 
 	private function requisicoes(){
-		return $this->db->select("requisicao.*, 
-				requisicao.id_requisicao as id_requisicao,
+		return $this->db->select("requisicao.*,
 				origem.codigo_obra as origem, origem.endereco as origem_endereco, 
 				origem.endereco_numero as origem_endereco_numero, origem.responsavel as origem_responsavel,
 				origem.responsavel_celular as origem_responsavel_celular, origem.responsavel_email as origem_responsavel_email,
 				destino.codigo_obra as destino, destino.endereco as destino_endereco, 
 				destino.endereco_numero as destino_endereco_numero, destino.responsavel as destino_responsavel,
 				destino.responsavel_celular as destino_responsavel_celular, destino.responsavel_email as destino_responsavel_email,    
-				sol.usuario as solicitante, adm.usuario as despachante"
+				sol.usuario as solicitante, adm.usuario as despachante,
+				sol.nome as solicitante_nome, adm.nome as despachante_nome"
 			)
 			->from('ativo_externo_requisicao requisicao')
 			->join('obra origem', 'origem.id_obra=requisicao.id_origem', 'left')
@@ -92,10 +92,14 @@ class ferramental_requisicao_model extends MY_Model {
 
 	public function get_requisicao($id_requisicao)
 	{
-			return $this->requisicoes()
-				->where("requisicao.id_requisicao = {$id_requisicao}")
-				->group_by('requisicao.id_requisicao')
-				->get()->row();
+		if (!$id_requisicao) {
+			return null;
+		}
+
+		return $this->requisicoes()
+			->where("requisicao.id_requisicao = {$id_requisicao}")
+			->group_by('requisicao.id_requisicao')
+			->get()->row();
 	}
 
 	public function get_requisicao_com_items($id_requisicao, $id_ativo_externo_grupo = null)
@@ -244,9 +248,9 @@ class ferramental_requisicao_model extends MY_Model {
 									];
 
 									$ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
-                  if ($ativo_externo->tipo == 1) {
-                    $this->liberar_kit($ativo_externo, $ativos_externos, 12, $requisicao->id_destino);
-                  }
+									if ($ativo_externo->tipo == 1) {
+										$this->liberar_kit($ativo_externo, $ativos_externos, 12, $requisicao->id_destino);
+									}
 									$k++;
 								}
 						}
@@ -382,6 +386,91 @@ class ferramental_requisicao_model extends MY_Model {
 					return true;
 				}
 				return true;
+		}
+		return false;
+	}
+
+	public function permit_solicitar_items_nao_inclusos($id_requisicao) {
+		$requisicao = $id_requisicao;
+		if (!$requisicao instanceof stdClass) {
+			$requisicao = $this->get_requisicao_com_items($id_requisicao);
+		}
+
+		if ($requisicao instanceof stdClass && (!$requisicao->data_inclusao_filha && in_array($requisicao->status, [4, 13, 15]))) {
+			$quantidades = [];
+			foreach($requisicao->items as $item) {
+				$quantidades[] = ((int) $item->quantidade - (int) $item->quantidade_liberada) > 0;
+			}
+			return in_array(true, $quantidades);
+		}
+		return false;
+	}
+
+	public function solicitar_items_nao_inclusos_requisicao($id_requisicao) {
+		$requisicao = $id_requisicao;
+		if (!$requisicao instanceof stdClass) {
+			$requisicao = $this->get_requisicao_com_items($id_requisicao);
+		}
+
+		if ($requisicao instanceof stdClass && $this->permit_solicitar_items_nao_inclusos($requisicao)) {
+			$nova_requisicao = [
+				'id_requisicao_mae' => $requisicao->id_requisicao,
+				'id_destino' => $requisicao->id_destino,
+				'id_solicitante' => $requisicao->id_solicitante,
+				'tipo' => $requisicao->tipo,
+				'status' => 1,
+			];
+			$requisicao_items = []; 
+			foreach($requisicao->items as $i => $item){
+				$quantidade = (int) $item->quantidade - (int) $item->quantidade_liberada;
+				if ($quantidade > 0) {
+					$requisicao_items[$i] = [
+						//'id_requisicao' => null,
+						'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
+						'quantidade' => $quantidade,
+						'status' => 1,
+					];
+				}
+			}
+
+			if (count($requisicao_items) > 0) {
+				$id_nova_requisicao = $this->salvar_formulario($nova_requisicao);
+				$this->salvar_formulario([
+					'id_requisicao' => $requisicao->id_requisicao,
+					'id_requisicao_filha' => $id_nova_requisicao,
+					'data_inclusao_filha' => date('Y-m-d H:i:s')
+				]);
+
+				$requisicao_items = array_map(function($item) use ($id_nova_requisicao) {
+					return array_merge($item, ['id_requisicao' => $id_nova_requisicao]);
+				}, $requisicao_items);
+				$this->db->insert_batch("ativo_externo_requisicao_item", $requisicao_items);
+
+				$msg = "Nova Requisição Complementar de Ferramentas {$id_nova_requisicao} criada e Pendênte de aprovação ";
+				if (isset($nova_requisicao['id_origem'])) {
+					$obra = $this->obra_model->get_obra($nova_requisicao['id_origem']);
+					$msg .= " Da obra {$obra->codigo_obra}";
+				}
+
+				if (isset($nova_requisicao['id_destino'])) {
+					$obra = $this->obra_model->get_obra($nova_requisicao['id_destino']);
+					$msg .= " para a obra {$obra->codigo_obra}";
+				}
+				$this->notificacoes_model->enviar_push(
+					"Requisição Complementar de Ferramentas Pendênte",
+               	 	"{$msg}. Clique na Notificação para mais detalhes.",
+					[
+						"filters" => [
+							["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+							["operator" => "AND"],
+							["field" => "tag", "key" => "id_obra", "relation" => "!=", "value" => $this->user->id_obra],
+						],
+						"include_external_user_ids" => [$this->user->id_usuario],
+						"url" => "ferramental_requisicao/detalhes/{$id_nova_requisicao}"
+					]
+				);
+				return true;
+			}
 		}
 		return false;
 	}

@@ -17,7 +17,7 @@ class Ativo_externo  extends MY_Controller {
     }
 
     function index($subitem=null) {
-        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->nivel != 1 ? $this->user->id_obra : null);
+        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->id_obra);
         $data['grupos'] = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
     	$subitem = ($subitem==null ? 'index' : $subitem);

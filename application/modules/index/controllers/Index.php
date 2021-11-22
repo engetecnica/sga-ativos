@@ -26,7 +26,7 @@ class Index extends MY_Controller {
    
         if ($this->user->nivel == 1){
             $data['estoque'] = count($this->ativo_externo_model->get_estoque($id_obra, null, 12));
-            $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 11], 0, 5);
+            $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 3, 6, 11, 14], 0, 5);
             $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 11]);
         }
 

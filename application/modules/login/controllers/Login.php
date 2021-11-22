@@ -28,9 +28,15 @@ class Login  extends MY_Controller {
     }
 
     function logout(){
+        $redirect_to = "/";
+        if (isset($_SERVER['HTTP_REFERER'])) { 
+            $redirect_to = str_replace(base_url(),"", "/".$_SERVER['HTTP_REFERER']);
+        }
+
     	$this->session->sess_destroy();
     	$this->session->unset_userdata('logado');
-    	echo redirect(base_url("login"));
+        $this->session->set_userdata('redirect_to', $redirect_to);
+    	echo redirect(base_url("login?redirect_to={$redirect_to}"));
     }
 
     function recuperar_senha(){

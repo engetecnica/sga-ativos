@@ -21,7 +21,7 @@
                 <div class="col-lg-12">
 
                     <?php 
-                        $url = "ferramental_requisicao/aceite_manual/{$requisicao->id_requisicao}";
+                        $url = "ferramental_requisicao/receber_item_manual/{$requisicao->id_requisicao}";
                         if (isset($requisicao->item)) {
                             $url .= "/{$requisicao->item->id_requisicao_item}";
                         }

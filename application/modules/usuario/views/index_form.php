@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select 
-                                            class="form-control" 
+                                            class="form-control select2" 
                                             name="id_obra" 
                                             id="id_obra"
                                             required
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select 
-                                            class="form-control" 
+                                            class="form-control select2" 
                                             name="id_empresa" 
                                             id="id_empresa"
                                             required

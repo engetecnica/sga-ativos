@@ -30,7 +30,7 @@
                             <div class="card-body">
 
                                 <!-- Detalhes da Requisição -->
-                                <table class="m-t-20 table table-responsive-md table--no-card m-b-10 table-borderless table-striped table-earning">
+                                <table class="m-t-20 table table-responsive-md table-striped table-bordered">
                                     <thead>
                                         <tr class="active">
                                             <th scope="col" width="20%">Requisão ID</th>
@@ -39,6 +39,12 @@
                                             <th scope="col" width="5%">Status</th>
                                             <?php if (isset($requisicao->requisicao) | isset($requisicao->devolucao)) { ?>
                                                 <th><?php echo $requisicao->tipo == 1 ? 'Devolução' : 'Requisição' ?></th>
+                                            <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_mae)) { ?>
+                                                <th>Requisição de Origem</th>
+                                            <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_filha) && isset($requisicao->data_inclusao_filha)) { ?>
+                                                <th>Requisição Complementar</th>
                                             <?php } ?>
                                             <th>Gerenciar</th>
                                         </tr>
@@ -62,13 +68,27 @@
                                                 </a>
                                             </td>
                                             <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_mae)) { ?>
+                                                <td scope="col" width="30%"> 
+                                                    <a class="btn btn-sm btn-outline-secondary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao_mae}"); ?>">
+                                                        Ver Requisição de Origem
+                                                    </a>
+                                                </td>
+                                            <?php } ?>
+                                            <?php if (isset($requisicao->id_requisicao_filha) && isset($requisicao->data_inclusao_filha)) { ?>
+                                                <td scope="col" width="30%"> 
+                                                    <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao_filha}"); ?>">
+                                                        Ver Requisição Complementar
+                                                    </a>
+                                                </td>
+                                            <?php } ?>
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-<?php echo $status['class'];?> btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Gerenciar
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
-                                                    <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante)) {?>
+                                                    <?php if (($requisicao->status == 1) && ($user->id_usuario == $requisicao->id_solicitante || $user->id_obra == $requisicao->id_destino)) {?>
                                                         <a 
                                                             class="dropdown-item  confirmar_registro" href="javascript:void(0);"
                                                             data-tabela="<?php echo base_url("ferramental_requisicao");?>" 
@@ -109,7 +129,27 @@
                                                                 <i class="fa fa-truck" aria-hidden="true"></i>&nbsp;
                                                                 Enviar para Transferência
                                                             </a>
+                                                            <div class="dropdown-divider"></div>
                                                         <?php  }  } ?>
+
+                                                        <?php if ($requisicao->status == 3 && $requisicao->id_destino == $user->id_obra) {?>
+                                                            <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
+                                                                <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        <?php if (($user->id_usuario == $requisicao->id_solicitante || $user->id_obra == $requisicao->id_destino) && $this->ferramental_requisicao_model->permit_solicitar_items_nao_inclusos($requisicao->id_requisicao)) {?>
+                                                            <a 
+                                                                class="dropdown-item  confirmar_registro" href="javascript:void(0);"
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                data-title="Solicitar Itens não Inclusos" data-acao="Solicitar"  data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/solicitar_items_nao_inclusos/{$requisicao->id_requisicao}");?>"
+                                                            >
+                                                                <i class="fa fa-list"></i>&nbsp; Solicitar Itens não Inclusos
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                        <?php } ?>
+
                                                         <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
                                                             <i class="fa fa-question-circle"></i> Ajuda
                                                         </a>
@@ -131,9 +171,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><?php echo $requisicao->despachante ; ?></td>
+                                            <td><?php echo $requisicao->despachante_nome ; ?></td>
                                             <td><?php echo $requisicao->origem ; ?></td>
-                                            <td><?php echo $requisicao->solicitante ; ?></td>
+                                            <td><?php echo $requisicao->solicitante_nome ; ?></td>
                                             <td><?php echo $requisicao->destino ; ?></td>
                                         </tr>
                                     </tbody>

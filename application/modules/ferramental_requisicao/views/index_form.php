@@ -38,12 +38,12 @@
                                     </div>
                                     <div class="col-12 col-md-5">
                                         <select 
-                                            class="form-control" 
+                                            class="form-control select2" 
                                             name="id_destino" 
                                             id="id_destino"
                                             required="required"
                                         >
-                                            <option value="">Nenhuma obra selecionada</option>
+                                            <option value="<?php echo $user->id_obra; ?>"> <?php echo "Minha Obra Atual"; ?></option>
                                             <?php foreach ($obras as $obra) {
                                                     if ($obra->id_obra != $user->id_obra) {
                                                 ?>
@@ -114,10 +114,10 @@
     <div class="row item-lista" style="margin-bottom: 10px;">
         <div class="col-md-4 m-t-10">
             <div class="exchange1">
-                <select required="required" name="id_ativo_externo_grupo[]" class="form-control">
+                <select required="required" name="id_ativo_externo_grupo[]" class="form-control select2">
                     <option value="">Buscar Item</option>
                     <?php foreach ($grupos as $grupo) { ?>
-                        <option value="<?php echo $grupo->id_ativo_externo_grupo; ?>"><?php echo $grupo->nome; ?></option>
+                        <option value="<?php echo $grupo->id_ativo_externo_grupo; ?>"><?php echo $grupo->nome;  ?></option>
                     <?php } ?>
                 </select>
             </div>

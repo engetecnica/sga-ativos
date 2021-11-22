@@ -42,7 +42,7 @@
                                         <label for="razao_social" class=" form-control-label">Empresa Responsável</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select required="required" class="form-control" id="id_empresa" name="id_empresa">
+                                        <select required="required" class="form-control select2" id="id_empresa" name="id_empresa">
                                             <option value="">Selecione a Empresa Responsável</option>
                                             <?php foreach($empresas as $empresa){ ?>
                                                 <option 

@@ -44,7 +44,7 @@
             <label for="endereco_estado" class=" form-control-label">Estado</label>
         </div>
         <div class="col-12 col-md-4">
-            <select id="endereco_estado" name="endereco_estado" v-model="endereco_estado" class="form-control">
+            <select id="endereco_estado" name="endereco_estado" v-model="endereco_estado" class="form-control select2">
                 <option value="null">Selecione o Estado</option>
                 <option v-for="estado in estados" :value="estado.id_estado">{{estado.estado}}</option>
             </select>

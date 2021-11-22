@@ -239,8 +239,9 @@ class Ativo_externo_model extends MY_Model {
 	public function permit_edit_situacao($id_ativo_externo){
 		$retiradas = $this->db
 			->join("ativo_externo_retirada_ativo rat", "atv.id_ativo_externo = rat.id_ativo_externo")
+			->join("ativo_externo_retirada_ativo rit", "rit.id_retirada_item = rit.id_retirada_item")
 			->where('atv.id_ativo_externo', $id_ativo_externo)
-			->where('rat.status != 9')
+			->where('rat.status != 9 AND rit.status NOT IN (8,9)')
 			->get("ativo_externo atv")
 			->num_rows();
 

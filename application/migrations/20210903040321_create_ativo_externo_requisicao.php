@@ -19,6 +19,9 @@ class Migration_Create_Ativo_Externo_Requisicao extends CI_Migration {
 			->add_field('data_recebido datetime DEFAULT NULL')
 			->add_field("tipo int(11) DEFAULT 1 COMMENT '1: Requisição, 2:Devolução'")
 			->add_field("status int(10) NOT NULL DEFAULT 1 COMMENT '1: Pendente, 2: Liberado'")
+			->add_field('id_requisicao_mae int(11) NULL DEFAULT NULL')
+			->add_field('id_requisicao_filha int(11) NULL DEFAULT NULL')
+			->add_field('data_inclusao_filha timestamp NULL DEFAULT NULL')
 			->create_table($this->table);
 		}
 	}

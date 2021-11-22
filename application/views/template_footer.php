@@ -77,6 +77,8 @@
                     $($(li).parent()).siblings('.js-arrow').click()
                 }
             })
+          
+            $(".select2").select2();
         }); 
     </script>
 
