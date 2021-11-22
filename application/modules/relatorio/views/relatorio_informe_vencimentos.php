@@ -1,11 +1,13 @@
 <?php $this->load->view('email_top', ['ilustration' => ['schedule_meeting'], "assunto" => "Informe de Vencimentos", "dias" => $dias]); ?>
 
+<strong style="<?php echo $styles['strong'];?>">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias</strong><br>
+
+
 <?php 
    if (count($relatorio) > 0){
-
-    foreach($relatorio as $rel) {?>
-    <strong style="<?php echo $styles['strong'];?>">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias</strong><br>
- <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
+    foreach($relatorio as $rel) {
+?>
+    <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
     <?php if ($rel->tipo == 'manutencao') { ?>  
     <h3 style="<?php echo $styles['title'];?>">Manuteções</h3>
     <table style="<?php echo $styles['table'];?>">
@@ -16,7 +18,7 @@
                 <th style="<?php echo $styles['tr_td_th'];?>" >Marca/Modelo</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Placa</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Fornecedor</th>
-                <th style="<?php echo $styles['tr_td_th'];?>" >Tipo Manutenção</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Tipo de Manutenção</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Data Manutenção</th>
                 <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Data Vencimento</th>
             </tr>

@@ -196,7 +196,7 @@
                                                 Gerenciar Veículo
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-car"></i> Quilometragem</a>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$detalhes->id_ativo_veiculo); ?>"><i class="fa fa-car"></i>&nbsp; Quilometragem</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$detalhes->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
                                                 <div class="dropdown-divider"></div>

@@ -4928,6 +4928,7 @@ td > a {
     flex-direction: row;
     justify-content: space-between !important;
     align-items: center;
+    cursor: pointer;
 }
 
 .preview{
@@ -15036,6 +15037,16 @@ label {
    opacity: 1;
 }
 
+.btn-outline-primary{
+    color: var(--primary) !important;
+    border-color:  var(--primary) !important;
+}
+.btn-outline-primary:hover{
+    background:  var(--primary) !important;
+    border-color:  var(--primary) !important;
+    color: #FFFFFF !important;
+}
+
 .btn-secondary {
     opacity: .8;
 }
@@ -15101,4 +15112,14 @@ div::-webkit-scrollbar-thumb:hover,
 
 .menu-sidebar::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
+}
+
+
+
+.input-group-append > .btn-primary {
+    cursor: pointer !important;
+}
+
+.input-group-append > .btn-primary  > i {
+    color: #FFFFFF !important;
 }

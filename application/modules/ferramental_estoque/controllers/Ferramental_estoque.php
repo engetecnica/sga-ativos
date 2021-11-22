@@ -161,13 +161,23 @@ class Ferramental_estoque  extends MY_Controller {
             $retirada['observacoes'] = $this->input->post('observacoes');
             $devolucao_prevista = $this->input->post('devolucao_prevista_data') . " " . $this->input->post('devolucao_prevista_hora');
             $retirada['devolucao_prevista'] = date("Y-m-d H:i:s", strtotime($devolucao_prevista));
-    
+
             $mode = 'update';
             if (!$id_retirada) {
                 $mode = 'insert';
                 $id_retirada = $this->ferramental_estoque_model->salvar_formulario($retirada);
             } else {
                 $retirada['id_retirada'] =  $id_retirada;
+            }
+
+            if (strtotime($retirada['devolucao_prevista']) < strtotime('now')) {
+                $this->session->set_flashdata('msg_success', "Data de devolução prevista deve ser maior que atual!");
+                if ($mode == 'insert') {
+                    echo redirect(base_url("ferramental_estoque/adicionar"));
+                    return;
+                }
+                echo redirect(base_url("ferramental_estoque/adicionar/{$id_retirada}"));
+                return;
             }
 
             $items = array();

@@ -168,6 +168,7 @@
                                                                     <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
                                                                         <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                                     </a>
+                                                                    <div class="dropdown-divider"></div>
                                                                 <?php } ?>
                                                         <?php } ?>
 
@@ -195,7 +196,7 @@
                                                             <div class="dropdown-divider"></div>
                                                         <?php } ?>
 
-                                                        <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
+                                                        <a class="dropdown-item" data-toggle="modal" href="" data-target="#ajudaModal">
                                                             <i class="fa fa-question-circle"></i> Ajuda
                                                         </a>
                                                     </div>
@@ -279,11 +280,11 @@
                                                 <?php if (in_array($requisicao->status, [1, 11]) && ($user->id_obra == $requisicao->id_origem || ($user->id_obra != $requisicao->id_destino && !$requisicao->id_origem))) {?>
                                                 <input id="item[]" name="item[]" type="hidden" value="<?php echo $item->id_requisicao_item; ?>"> 
                                                 <input type="hidden" name="quantidade_solicitada[]" id="quantidade_solicitada[]" value="<?php echo $item->quantidade; ?>">
-                                                <input type="number" class="form-control" id="quantidade[]" name="quantidade[]" value="0" placeholder="0" 
-                                                    min="0" max="<?php 
-                                                        echo ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; 
-                                                    ?>" 
-                                                    <?php if($item->estoque == 0) echo " readonly"; ?> 
+                                                
+                                                <?php $quantidade = ($item->estoque > $item->quantidade) ? $item->quantidade - $item->quantidade_liberada : $item->estoque - $item->quantidade_liberada; ?>
+                                                <input 
+                                                    type="number" class="form-control" id="quantidade[]" name="quantidade[]" placeholder="0" 
+                                                    min="0" max="<?php echo $quantidade; ?>" value="<?php echo $quantidade;?>" <?php if($item->estoque == 0) echo " readonly"; ?> 
                                                 >
                                                 <?php } else { ?>
                                                     -
@@ -309,7 +310,7 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <?php if ($item->status == 3) {?>
-                                                        <a class="dropdown-item -sm" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
+                                                        <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>">
                                                             <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                         </a>
                                                         <div class="dropdown-divider"></div>

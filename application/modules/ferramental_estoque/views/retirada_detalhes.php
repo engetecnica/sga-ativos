@@ -133,7 +133,7 @@
                                                 <?php } ?>
                                                 
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " data-toggle="modal" data-target="#ajudaModal">
+                                                <a class="dropdown-item " data-toggle="modal"  href="" data-target="#ajudaModal">
                                                     <i class="fa fa-question-circle"></i> Ajuda
                                                 </a>
                                             </div>

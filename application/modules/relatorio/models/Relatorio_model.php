@@ -956,16 +956,21 @@ class Relatorio_model extends Relatorio_model_base {
       return true;
   }
 
-  public function informe_vencimentos($days = 30){
-    $date = date('Y-m-d', strtotime("+ $days days"));
+  public function informe_vencimentos($days = 0){
+    $date = date('Y-m-d', strtotime("+{$days} days"));
     $results = [];
 
     foreach($this->relatorio_model->vencimentos as $modulo => $vencimento){
       $this->load->model("{$modulo}/{$modulo}_model");
 
       foreach($vencimento as $key => $tipo){
-        $relatorio = $this->db->where("{$tipo['coluna']} = '{$date}'")
-                              ->select("{$tipo['tabela']}.*");
+        $relatorio = $this->db->select("{$tipo['tabela']}.*");
+        if ($days > 0) {
+          $now = date('Y-m-d H:i:s');
+          $relatorio->where("{$tipo['coluna']} BETWEEN '{$now}' AND '{$date}'");
+        } else {
+          $relatorio->where("{$tipo['coluna']} = '{$date}'");
+        }
 
         if ($modulo == 'ativo_veiculo') {
           $id_modulo = "id_{$modulo}";
@@ -1015,9 +1020,10 @@ class Relatorio_model extends Relatorio_model_base {
 
 
   public function informe_retiradas_pendentes($devolucao_prevista = "now"){
+    $now = date("Y-m-d H:i:s", strtotime($devolucao_prevista));
     return $this->db
             ->where("status NOT IN (1,2,9)")
-            ->where("devolucao_prevista <= '{$devolucao_prevista}'")
+            ->where("devolucao_prevista <= '{$now}'")
             ->join("funcionario fn", "fn.id_funcionario = atv.id_funcionario")
             ->select("fn.nome as funcionario, fn.data_nascimento as funcionario_nascimento, fn.rg as funcionario_rg, fn.cpf as funcionario_cpf")
             ->join("obra ob", "ob.id_obra = atv.id_obra")
@@ -1026,7 +1032,7 @@ class Relatorio_model extends Relatorio_model_base {
             ->get('ativo_externo_retirada atv')->result();
   }
 
-  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "-1 days"){
+  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "now"){
     $data_hora_vencimento = date("Y-m-d 23:59:59", strtotime($data_hora_vencimento));
     $relatorio_data = $this->informe_retiradas_pendentes($data_hora_vencimento);
     if (count($relatorio_data) > 0) {

@@ -8,9 +8,8 @@
             <tr style="<?php echo $styles['tr'];?>">
                 <th style="<?php echo $styles['tr_td_th']; echo $styles['first_th'];?>" >ID Retirada</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Obra</th>
-                <th style="<?php echo $styles['tr_td_th'];?>" >Func. Nome</th>
-                <th style="<?php echo $styles['tr_td_th'];?>" >Func. Nascimento</th>
-                <th style="<?php echo $styles['tr_td_th'];?>" >Func. RG/CPF</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >Funcionário</th>
+                <th style="<?php echo $styles['tr_td_th'];?>" >RG/CPF</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Data Inclusão</th>
                 <th style="<?php echo $styles['tr_td_th'];?>" >Devolução Vencimento</th>
                 <th style="<?php echo $styles['tr_td_th']; echo $styles['last_th'];?>" >Detalhes</th>
@@ -24,7 +23,6 @@
                 </td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $retirada->obra ." - ". $retirada->obra_endereco; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $retirada->funcionario; ?></td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($retirada->funcionario_nascimento); ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $retirada->funcionario_rg . " / ".$retirada->funcionario_cpf; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($retirada->data_inclusao);?> </td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($retirada->devolucao_prevista);?> </td>
@@ -36,9 +34,9 @@
         </tbody>
     </table>
 
-  <?php } else {  ?>
-    <strong  style="<?php echo $styles['strong'];?>" >Nenhum item encontrado para o período.</strong>
-  <?php } ?>
+<?php } else {  ?>
+  <strong  style="<?php echo $styles['strong'];?>" >Nenhum item encontrado para o período.</strong>
+<?php } ?>
 
 <br>
 <p  style="<?php echo $styles['p'];?>">Relatório Informe de Retiradas Pêndentes de Devolução, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></p>

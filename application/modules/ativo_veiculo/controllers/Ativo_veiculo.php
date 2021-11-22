@@ -181,7 +181,7 @@ class Ativo_veiculo  extends MY_Controller
                 break;
         }
 
-        if (is_array($modelos['modelos'])) {
+        if (is_array($modelos)) {
             foreach ($modelos['modelos'] as $modelo) {
                 if (!is_bool($modelo) && $modelo['codigo'] == $id_modelo) {
                     return (object) [
