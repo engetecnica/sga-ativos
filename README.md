@@ -6,7 +6,7 @@
 <br>
 
 ## Como Instalar
-Assumindo que tenha php e composer instalados e configurados na sua maquina local ou servidor, e ainda que esteja no diretório raiz da aplicação, execute o comando a seguir para instalar as dependências do projeto via composer.
+Assumindo que tenha php e composer instalados e configurados na sua maquina local ou servidor, e ainda que esteja no diretório raiz da aplicação, <br>execute o comando a seguir para instalar as dependências do projeto via composer.
 
 ```bash
 composer install
@@ -91,7 +91,7 @@ php index.php migrate rollback <migration_version>
 ```
 > Muita atenção ao executar esse comando, dados podem ser perdidos ao voltar migrações
 
-* migration_version = um número que se refere a data e hora de criação do arquivo de migração, esse faz parte do nome do proprio arquivo assim que criar com com o comando create.
+* migration_version = um número que se refere a data e hora de criação do arquivo de migração, esse faz parte do nome do proprio arquivo assim que criar com com o comando create.<br>
 Fica algo como `20210902070213` e o nome completo fica algo parecido com: `20210902070213_nome_da_minha_migration.php`
 
 
@@ -192,7 +192,17 @@ Ambos tem o mesmo resultado.
 
 
 ## Automações
-Deve ser executada um vez ao dia o endpoint [`/relatorio/automacoes`](http://localhost:8000/relatorio/automacoes)
+Deve ser executada uma chamada uma vez ao dia o endpoint [`/app/automacoes`](http://localhost:8000/app/automacoes)
+
+* Rodar o comando Contab abaixo:
+```
+contab -e
+```
+* Adicionar a linha a baixo ao final do arquivo e salvar com CTLR+x em seguida Y (Yes/Sim):
+```
+00 00 * * * bash <path>/engetecnica/setup/automations.sh
+```
+> \<path\> :  Caminho para o dieretório raiz da aplicação
 
 
 ## :)
