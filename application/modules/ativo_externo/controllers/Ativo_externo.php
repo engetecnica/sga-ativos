@@ -192,13 +192,21 @@ class Ativo_externo  extends MY_Controller {
         $data['mode'] = $this->input->post('mode');
         $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
         $id_obra = $this->input->post('id_obra');
+        $prefixo = "ENG";
     
         if (!$id_obra) {
             $id_obra = $this->user->id_obra;
         }
 
+        $ativos = $this->ativo_externo_model->get_ativos(null, null);
+        $ativos_quantidade_total = count($ativos);
+
+
         if ($quantidade > 0) {
             $items = [];
+            
+            $ativos_contagem = $ativos_quantidade_total + 1; // Próximo objeto
+
             for($i=0; $i < $quantidade; $i++) {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
                     $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
@@ -208,19 +216,21 @@ class Ativo_externo  extends MY_Controller {
                     }
                 }
 
-                 $items[$i]['id_ativo_externo_grupo']         =  $id_grupo;
+                 $items[$i]['id_ativo_externo_grupo']         = $id_grupo;
                  $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
                  $items[$i]['tipo']                           = $this->input->post('tipo');
                  $items[$i]['id_obra']                        = $id_obra;
                  $items[$i]['nome']                           = ucwords($this->input->post('nome'));
                  $items[$i]['observacao']                     = $this->input->post('observacao');
-                 $items[$i]['necessita_calibracao']        = $this->input->post('necessita_calibracao');
-                 $items[$i]['codigo']                         = strtoupper($this->input->post('codigo'));
+                 $items[$i]['necessita_calibracao']           = $this->input->post('necessita_calibracao');
+                 $items[$i]['codigo']                         = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $prefixo.$ativos_contagem;
 
                 $valor = str_replace("R$ ", "", $this->input->post('valor'));
                 $valor = str_replace(".", "", $valor);
                 $valor = str_replace(",", ".", $valor); 
                 $items[$i]['valor'] = $valor;
+
+                $ativos_contagem++;
             }
 
             $data['form_url'] = base_url("ativo_externo/gravar_items");
@@ -241,8 +251,8 @@ class Ativo_externo  extends MY_Controller {
             return;
         }
 
-        $this->session->set_flashdata('msg_success', "Nenhum registro modificado!");
-        echo redirect(base_url("ativo_externo"));
+        #$this->session->set_flashdata('msg_success', "Nenhum registro modificado!");
+        #echo redirect(base_url("ativo_externo"));
     }
 
    

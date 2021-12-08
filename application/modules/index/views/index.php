@@ -83,7 +83,6 @@
                                 </div>
                             </div>
 
-                            <!-- class="col-md-6 col-lg-4" -->
                             <div class="col col-md-6">
                                 <div class="top-campaign">
                                     <h3 class="title-3">Requisições Pendentes</h3>
@@ -132,65 +131,17 @@
                                             <?php echo count($requisicoes_pendentes); ?> 
                                             De 
                                             <?php echo $requisicoes_pendentes_total; ?> 
-                                            Requisições Pendêntes
+                                            Requisições Pendentes
                                         </div>
                                         <a class="col-12 offset-md-1 col-md-3 m-t-20 btn btn-sm btn-outline-secondary"  href="<?php echo base_url("ferramental_requisicao/"); ?>" >Ver Todas</a> 
                                     </div>
                                     <?php } else { ?>
-                                        <p>Nehuma Requisicão Pendente</p>
+                                        <p>Nenhuma Requisicão Pendente</p>
                                     <?php } ?>
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <div class="top-campaign">
-                                    <h3 class="title-3">Retiradas Pendêntes</h3>
-                                    <p>Com devolução prevista até <?php echo $this->formata_data_hora($informe_retiradas_pendentes_vencimento); ?></p><br>
-                                    <?php if (count($informe_retiradas_pendentes) > 0){ ?>
-                                    <table class="table table-responsive table-borderless table-striped table-earning">
-                                        <thead>
-                                            <tr>
-                                                <th>Retirada ID</th>
-                                                <th>Obra</th>
-                                                <th>Funcionário</th>
-                                                <th>RG/CPF</th>
-                                                <th>Inclusão</th>
-                                                <th>Vencimento</th>
-                                                <th>Detalhes</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach($informe_retiradas_pendentes as $i => $retirada) { $i++; ?>
-                                            <tr>
-                                                <td>
-                                                    <?php if ($retirada->id_obra === $user->id_obra) {?>
-                                                        <a href="<?php echo base_url("ferramental_estoque/detalhes/$retirada->id_retirada") ?>"><?php echo $retirada->id_retirada; ?></a>
-                                                    <?php } else {?>
-                                                        <?php echo $retirada->id_retirada; ?>
-                                                    <?php } ?>
-                                                </td>
-                                                <td><?php echo $retirada->obra ." - ". $retirada->obra_endereco; ?></td>
-                                                <td><?php echo $retirada->funcionario; ?></td>
-                                                <td><?php echo $retirada->funcionario_rg . " / ".$retirada->funcionario_cpf; ?></td>
-                                                <td><?php echo $this->formata_data_hora($retirada->data_inclusao);?> </td>
-                                                <td><?php echo $this->formata_data_hora($retirada->devolucao_prevista);?> </td>
-                                                <td>
-                                                    <?php if ($retirada->id_obra === $user->id_obra) {?>
-                                                        <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ferramental_estoque/detalhes/$retirada->id_retirada") ?>">Mais Detalhes</a>
-                                                    <?php } else {?>
-                                                        -
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <?php } else {  ?>
-                                        <p>Nenhum item encontrado para o período.</p>
-                                    <?php } ?>
-                                </div>
-                            </div>
+                            <?php $this->load->view("retiradas_pendentes"); ?>
 
                             <?php 
                                 $this->load->view('informe_de_vencimentos', [
@@ -242,6 +193,17 @@
                 </section>
                 <?php } ?>
 
+
+                <?php if($user->nivel==2){ ?>
+                <hr class="line-seprate" />                
+                <section class="p-t-20">
+                    <div class="container">
+                        <div class="row"> 
+                            <?php $this->load->view("retiradas_pendentes"); ?>
+                        </div>
+                    </div>
+                </section>
+                <?php } ?>
                 
 
                 <hr class="line-seprate" />                
@@ -252,7 +214,7 @@
                             <div class="top-campaign">
                             <div class="col-md-12">
                                 <h3 class="title-3">Amostra de Patrimônio </h3>
-                                <p class="m-b-35">Ferramentas na Obra, Equipamentos na Obra e Todos os Veículos</p>
+                                <p class="m-b-35">Ferramentas na Obra, Equipamentos na Obra, todos os veículos re Retiradas</p>
                                 <?php foreach($patrimonio->obras as $obra) { ?>
                                     
 
@@ -324,7 +286,7 @@
                                         <?php } ?>
                                     </div>
 
-                                     <?php if($user->nivel == 1) { ?>   
+                                     <?php if($user->nivel == 1) { ?>                                           
                                         <div class="table-responsive m-b-40">
                                             <h4 class="title-5 m-t-10 m-l-10">Veículos</h4>
                                             <?php if(count($patrimonio->veiculos) > 0) { ?>
@@ -367,7 +329,6 @@
                         </div>
                     </div>
                 </section>
-                
 
 
                 <section class="p-t-60 p-b-20">

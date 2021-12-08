@@ -36,6 +36,10 @@ class Obra  extends MY_Controller {
         $data['id_obra'] = !is_null($this->input->post('id_obra')) ? $this->input->post('id_obra') : '';
         $data['id_empresa'] = !is_null($this->input->post('id_empresa')) ? $this->input->post('id_empresa') : null;
         $data['codigo_obra'] = $this->input->post('codigo_obra');
+
+        $data['obra_razaosocial'] = $this->input->post('obra_razaosocial');
+        $data['obra_cnpj'] = $this->input->post('obra_cnpj');
+
         $data['endereco'] = $this->input->post('endereco');
         $data['endereco_numero'] = $this->input->post('endereco_numero');
         $data['endereco_complemento'] = $this->input->post('endereco_complemento');

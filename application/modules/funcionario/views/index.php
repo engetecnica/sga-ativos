@@ -20,7 +20,7 @@
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
-                                    <th width="7%">Id</th>
+                                    <th width="10%">Matrícula</th>
                                     <th>Nome Completo</th>
                                     <th>E-mail</th>
                                     <th>Celular</th>
@@ -32,10 +32,10 @@
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr id="<?php echo $valor->id_funcionario; ?>">
+                                <tr id="<?php echo $valor->matricula; ?>">
                                     <td>
                                         <a href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>">
-                                            <?php echo $valor->id_funcionario; ?>
+                                            <?php echo $valor->matricula; ?>
                                         </a>
                                     </td>
                                     <td><?php echo $valor->nome; ?></td>

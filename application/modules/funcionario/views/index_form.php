@@ -31,7 +31,7 @@
                                 <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="id_empresa" class=" form-control-label">Empresa</label>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -53,7 +53,7 @@
                                         </select>
                                     </div>
                               
-                                    <div class="col col-md-1">
+                                    <div class="col col-md-2">
                                         <label for="id_obra" class=" form-control-label">Obra</label>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -75,6 +75,15 @@
                                         </select>
                                     </div>
                                 </div>    
+
+                                <div class="row form-group m-t-40 m-b-40">
+                                    <div class="col col-md-2">
+                                        <label for="matricula" class=" form-control-label">Matrícula</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input type="text" id="matricula" name="matricula" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->matricula)){ echo $detalhes->nome; } ?>" required="required">
+                                    </div>
+                                </div>
 
                                 <div class="row form-group m-t-40 m-b-40">
                                     <div class="col col-md-2">

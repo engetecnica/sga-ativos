@@ -41,6 +41,7 @@ class Ativo_interno  extends MY_Controller {
         $valor = str_replace(",", ".", $valor); 
 
         $data['valor'] = $valor;
+        $data['serie'] = $this->input->post('serie');
         $data['quantidade'] = $this->input->post('quantidade');
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');

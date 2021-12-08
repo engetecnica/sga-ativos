@@ -41,6 +41,7 @@ class funcionario  extends MY_Controller {
         $data['id_funcionario'] = !is_null($this->input->post('id_funcionario')) ? $this->input->post('id_funcionario') : '';
         $data['id_empresa'] = $this->input->post('id_empresa');
         $data['id_obra'] = $this->input->post('id_obra');
+        $data['matricula'] = $this->input->post('matricula'); // única
         $data['nome'] = $this->input->post('nome');
         $data['rg'] = $this->input->post('rg');
         $data['cpf'] = $this->input->post('cpf');

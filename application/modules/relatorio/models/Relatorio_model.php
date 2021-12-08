@@ -770,7 +770,7 @@ class Relatorio_model extends Relatorio_model_base {
 
       $obras = [];
       $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
-      if ($data['id_obra'] != null) {
+      if (isset($data['id_obra']) && $data['id_obra'] != null) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
         $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
       } else {

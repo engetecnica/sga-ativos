@@ -70,8 +70,12 @@
                                     <td>
                                         <?php if($valor->tipo == 1) { ?>
                                             <button class="badge badge-primary badge-sm">Kit</button>
-                                        <?php } else { ?>
+                                        <?php } elseif($valor->tipo == 0) { ?>
                                             <button class="badge badge-secondary badge-sm">Unidade</button>
+                                        <?php } elseif($valor->tipo == 2) { ?>
+                                            <button class="badge badge-secondary badge-sm">Metro</button>
+                                        <?php } else { ?>
+                                            <button class="badge badge-secondary badge-sm">Conjunto</button>
                                         <?php } ?>
                                     </td>
                                     <td>

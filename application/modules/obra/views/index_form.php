@@ -32,6 +32,22 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
+                                        <label for="obra_razaosocial" class="form-control-label">Razão Social</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input required="required" type="text" id="obra_razaosocial" name="obra_razaosocial" placeholder="Caso a obra possua um CNPJ exclusivo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->obra_razaosocial)){ echo $detalhes->obra_razaosocial; } ?>">
+                                    </div>
+                              
+                                    <div class="col col-md-2">
+                                        <label for="obra_cnpj" class=" form-control-label">CNPJ</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input required="required" type="text" id="obra_cnpj" name="obra_cnpj" placeholder="CNPJ" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->obra_cnpj)){ echo $detalhes->obra_cnpj; } ?>">                                        
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
                                         <label for="codigo_obra" class="form-control-label">Código da Obra</label>
                                     </div>
                                     <div class="col-12 col-md-4">

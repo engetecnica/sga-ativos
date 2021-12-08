@@ -53,6 +53,15 @@
                                             <?php } ?>
                                         </select>
                                     </div>
+
+                                    <div class="col col-md-2">
+                                        <label for="serie" class=" form-control-label">Série</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input
+                                        required="required" type="text" id="serie" name="serie" placeholder="Número de Série" class="form-control" 
+                                        value="<?php if(isset($ativo) && isset($ativo->serie)){ echo $ativo->serie; } ?>">
+                                    </div>
                                 </div>  
                                 
                                 <div class="row form-group">

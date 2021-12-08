@@ -20,7 +20,7 @@
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
                                 <tr>
-                                    <th width="7%">Id</th>
+                                    <th width="10%">Número de Série</th>
                                     <th width="20%">Título</th>
                                     <th width="20%">Marca</th>
                                     <th width="15%">Valor Atribuído</th>
@@ -37,7 +37,7 @@
                                 <tr id="<?php echo $valor->id_ativo_interno; ?>">
                                     <td>
                                         <a href="<?php echo base_url("ativo_interno/editar/{$valor->id_ativo_interno}"); ?>"> 
-                                            <?php echo $valor->id_ativo_interno; ?>
+                                            <?php echo $valor->serie; ?>
                                         </a>
                                     </td>
                                     <td><?php echo $valor->nome; ?></td>

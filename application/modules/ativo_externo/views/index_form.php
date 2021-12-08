@@ -63,6 +63,8 @@
                                             <select required="required" class="form-control" name="tipo" id="tipo">
                                                 <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '0' ? "selected='selected'" : ''; ?> value="0">Unidade</option>
                                                 <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '1' ? "selected='selected'" : ''; ?> value="1">Kit</option>
+                                                <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '2' ? "selected='selected'" : ''; ?> value="2">Metros</option>
+                                                <option <?php echo isset($detalhes->tipo) && $detalhes->tipo === '3' ? "selected='selected'" : ''; ?> value="3">Conjunto</option>
                                             </select>
                                         </div>
                                     </div>
