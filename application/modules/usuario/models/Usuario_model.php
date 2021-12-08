@@ -28,7 +28,7 @@ class usuario_model extends MY_Model {
 				return "salvar_error";
 			}
 
-			if ((strtolower($usuario->email) != strtolower($data['email']))) {
+			if (isset($data['email']) && (strtolower($usuario->email) != strtolower($data['email']))) {
 				$data['email_confirmado_em'] = null;
 				$data['codigo_recuperacao'] = null;
 			}

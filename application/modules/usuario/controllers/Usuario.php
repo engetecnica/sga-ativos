@@ -139,6 +139,10 @@ class usuario  extends MY_Controller {
                 }
             }
         }
+
+        if ($data['id_usuario'] == null && $data['id_obra'] == null) {
+            $data['id_obra'] == $this->get_obra_base()->id_obra;
+        }
         
         $this->usuario_model->salvar_formulario($data);
         if($data['id_usuario'] == null){

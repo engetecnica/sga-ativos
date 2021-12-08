@@ -18,7 +18,7 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     # Listagem de Itens
-    function index($subitem=null) {
+    function index() {
         $this->get_template('index', [
             'lista' => $this->ferramental_requisicao_model->get_lista_requisicao(),
             'status_lista' => $this->ferramental_requisicao_model->get_requisicao_status(),

@@ -101,7 +101,8 @@
                             endereco_form_fields.endereco_complemento = response.complemento
                             endereco_form_fields.endereco_cidade = response.localidade
                             endereco_form_fields.endereco_cep = response.cep
-                            endereco_form_fields.endereco_estado = (endereco_form_fields.estados.find((estado) => {return estado.uf.toLowerCase() == response.uf.toLowerCase()})).id_estado
+                            endereco_form_fields.endereco_estado = parseInt((endereco_form_fields.estados.find((estado) => {return estado.uf.toLowerCase() === response.uf.toLowerCase()})).id_estado)
+                            setTimeout(() => {$(".select2").select2()})
                             return
                         }
                         endereco_form_fields.msg = "CEP não localizado!"

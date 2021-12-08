@@ -77,7 +77,7 @@
     <p>Nenhum Equipamento registrado no peíodo</p>
   <?php } ?>
 
-  <h2>Equipamentos Manuteções</h2>
+  <h2>Equipamentos Manutenções</h2>
   <?php if(count($relatorio->equipamentos_manutecoes) > 0) { ?>
   <table class="tabela">
       <thead>
@@ -162,7 +162,7 @@
     <p>Nenhum abastecimento de veículo registrado no peíodo</p>
   <?php } ?>
 
-  <h2>Veiculos Manuteções</h2>
+  <h2>Veiculos Manutenções</h2>
   <?php if(count($relatorio->veiculos_manutecoes) > 0) { ?>
     <table class="tabela">
       <thead>

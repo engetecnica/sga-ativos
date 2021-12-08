@@ -68,7 +68,7 @@
                                                 </a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url("ativo_interno/manutencao/{$valor->id_ativo_interno}"); ?>">
-                                                    <i class="fa fa-wrench"></i> Manutenção
+                                                    <i class="fa fa-wrench"></i>&nbsp; Manutenção
                                                 </a>
                                                 <?php if((int) $valor->situacao < 2){?>
                                                 <div class="dropdown-divider"></div>

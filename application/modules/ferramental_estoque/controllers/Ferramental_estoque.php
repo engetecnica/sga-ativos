@@ -21,16 +21,12 @@ class Ferramental_estoque  extends MY_Controller {
     }
 
     function index() {
-        $obra_base = $this->get_obra_base();
-        $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : ($obra_base ? $obra_base->id_obra : null);
-        $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($id_obra);
+        $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($this->user->id_obra);
         $this->get_template('index', $data);
     }
 
     function detalhes($id_retirada) {
-        $obra_base = $this->get_obra_base();
-        $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
-        $data['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
+        $data['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada);
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
         if ($data['retirada']) {
@@ -42,11 +38,8 @@ class Ferramental_estoque  extends MY_Controller {
     }
 
     function detalhes_item($id_retirada, $id_retirada_item = null){
-        $item = null;
-        $obra_base = $this->get_obra_base();
-        $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
-        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
-
+        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
+        
         if ($retirada) {
             $ativos = $items = [];
             foreach($retirada->items as $item) {

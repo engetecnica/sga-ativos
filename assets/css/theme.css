@@ -344,7 +344,7 @@ section {
 }
 
 .main-content {
-    padding-top: 90px;
+    padding-top: 120px;
     min-height: 100vh;
     position: sticky;
     transition-delay: .3s;
@@ -1263,7 +1263,7 @@ section {
     top: 0;
     right: 0;
     left: 300px;
-    height: 75px;
+    height: 90px;
     z-index: 3;
 }
 
@@ -1285,7 +1285,7 @@ section {
         position: relative;
         top: 0;
         left: 0;
-        height: 70px;
+        height: 160px;
     }
 }
 
@@ -1714,7 +1714,7 @@ section {
 
 .menu-sidebar .logo {
     background: #f5f5f5;
-    height: 75px;
+    height: 90px;
     padding: 0 35px;
     display: -webkit-box;
     display: -webkit-flex;
@@ -15122,4 +15122,49 @@ div::-webkit-scrollbar-thumb:hover,
 
 .input-group-append > .btn-primary  > i {
     color: #FFFFFF !important;
+}
+
+.selecionar_obra{
+    padding: 10px;
+    transition: ease-in-out all .3s;
+}
+
+@media (max-width: 991px) {
+    .selecionar_obra{
+        /*border: solid 1px red;
+        padding: 20px;
+        width: calc(100% - 20px); */
+    } 
+}
+
+.selecionar_obra  > button {
+    margin-left: 10px ;
+}
+
+@media (max-width: 762px) {
+    .selecionar_obra  > button {
+        margin-left: 5px;
+    }
+}
+
+.selecionar_obra  > small {
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.selecionar_obra  > .select2 {
+    min-width: 80% !important;
+    max-width: 80% !important;
+}
+
+.selecionar_obra  .selection > .select2-selection {
+    border-radius: 3px !important; 
+}
+
+.select2-selection__arrow {
+    top: calc(50% - 13px) !important;
+}
+
+.small-m-t{
+    margin-top: 50px !important;
 }

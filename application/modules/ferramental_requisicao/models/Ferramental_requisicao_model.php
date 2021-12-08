@@ -46,22 +46,23 @@ class ferramental_requisicao_model extends MY_Model {
 	}
 
 	# Listagem
-	public function get_lista_requisicao($status = null, $offset = 0, $limite = null)
+	public function get_lista_requisicao($status = null, $offset = 0, $limite = null, $id_obra = null)
 	{
-		$requisicoes =  $this->requisicoes();
-
+		$requisicoes = $this->requisicoes();
 		if ($this->user->nivel == 2) {
-			$requisicoes->where("requisicao.id_solicitante = {$this->user->id_usuario}");
-			$requisicoes->or_where("requisicao.id_despachante = {$this->user->id_usuario}");
-			$requisicoes->or_where("requisicao.id_origem = {$this->user->id_obra}");
-			$requisicoes->or_where("requisicao.id_destino = {$this->user->id_obra}");
+			$id_obra = $this->user->id_obra;
+		}
+
+		$obra_sql = "";
+		if ($id_obra) {
+			$obra_sql = "(requisicao.id_origem = {$id_obra} OR requisicao.id_destino = {$id_obra}) AND";
 		}
 
 		if ($status) {
 			if (is_array($status)) {
-				$requisicoes->where("requisicao.status IN (".implode(',', $status).")");
+				$requisicoes->where("{$obra_sql} requisicao.status IN (".implode(',', $status).")");
 			} else {
-				$requisicoes->where("requisicao.status = {$status}");
+				$requisicoes->where("{$obra_sql} requisicao.status = {$status}");
 			}
 		}
 
@@ -75,9 +76,12 @@ class ferramental_requisicao_model extends MY_Model {
 			return $requisicoes->get()->result();
 	}
 
-	public function lista_requisicao_count($status = null){
+	public function lista_requisicao_count($status = null, $id_obra = null){
 		$requisicoes = $this->db->from('ativo_externo_requisicao requisicao')
 														->select('requisicao.*');
+		if ($id_obra) {
+			$requisicoes->where("requisicao.id_origem = {$id_obra} OR requisicao.id_origem = {$id_obra}");
+		}
 
 		if ($status) {
 			if (is_array($status)) {

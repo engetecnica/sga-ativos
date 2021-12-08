@@ -1,18 +1,18 @@
-<div v-show="informe_vencimentos == <?php echo $dias;?>" class="col-12">
+<div id="informe_vencimentos" class="col-12">
     <div class="top-campaign">
 
         <div class="row">
             <div class="col-12 col-md-9">
                 <h3 class="title-3">Lançamentos a Vencer</h3>
-                <p>A Vencer <?php echo (isset($dias) && (int) $dias > 0) ? "nos próximos {$dias} dias" : "Hoje"; ?>, 
-                    até <?php echo $this->formata_data_hora(date('Y-m-d H:i:s', strtotime("+{$dias} days"))); ?>
+                <p>A Vencer <?php echo (isset($informe_vencimentos['dias']) && (int) $informe_vencimentos['dias'] > 0) ? "nos próximos {$informe_vencimentos['dias']} dias" : "Hoje"; ?>, 
+                    até <?php echo $this->formata_data_hora(date('Y-m-d H:i:s', strtotime("+{$informe_vencimentos['dias']} days"))); ?>
                 </p>
             </div>
             <div class="col-12 col-md-3">
                 <div class="input-group">
                     <select v-model="informe_vencimentos" class="form-control">
                         <option 
-                            v-for="(dias, value) in informe_vencimentos_dias" 
+                            v-for="(value, dias) in informe_vencimentos_dias" 
                             :key="dias" 
                             :value="dias" 
                             :selected="pinned == informe_vencimentos"
@@ -37,37 +37,40 @@
 
         <div class="row">
         <div class="col-12 m-t-40">
-        <?php 
-        if (count($informe_vencimentos) > 0){
-            foreach($informe_vencimentos as $rel) {?>
-        <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
-            <?php if ($rel->tipo == 'manutencao') { ?>  
-            <strong class="title-5 m-t-30">Manuteções</strong>
+        <?php if (count((array) $informe_vencimentos['relatorio']) > 0) { ?>  
+            <?php if (in_array('manutencao', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->manutencao->data) > 0) { ?>  
+            <strong class="title-5 m-t-30">Manutenções de Veículos</strong> 
             <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                 <thead>
                     <tr>
                         <th>Manutenção ID</th>
                         <th>Veículo ID</th>
-                        <th width="50%">Marca/Modelo</th>
                         <th>Placa</th>
+                        <th width="50%">Marca/Modelo</th>
                         <th>Fornecedor</th>
                         <th>Tipo de Manutenção</th>
+                        <th>Custo</th>
                         <th>Data Manutenção</th>
                         <th>Data Vencimento</th>
+                        <th>KM Prox. Revisão *</th>
+                        <th>Tempo de Operação Prox. Revisão *</th>
                         <th>Detalhes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($rel->data as $i => $manutencao) { ?>
+                    <?php foreach($informe_vencimentos['relatorio']->manutencao->data as $i => $manutencao) { ?>
                     <tr>
                         <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                         <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
-                        <td><?php echo $manutencao->veiculo; ?></td>
                         <td><?php echo $manutencao->veiculo_placa; ?></td>
+                        <td><?php echo $manutencao->veiculo; ?></td>
                         <td><?php echo $manutencao->fornecedor; ?></td>
                         <td><?php echo $manutencao->servico; ?></td>
-                        <td><?php echo date("d/m/Y", strtotime($manutencao->data_entrada));?> </td>
-                        <td><?php echo date("d/m/Y", strtotime($manutencao->data_vencimento));?> </td>
+                        <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
+                        <td><?php echo $this->formata_data($manutencao->data_entrada);?> </td>
+                        <td><?php echo $this->formata_data($manutencao->data_vencimento); ?> </td>
+                        <td><?php echo $manutencao->veiculo_km_proxima_revisao > 0 ? ($manutencao->veiculo_km_proxima_revisao - $manutencao->veiculo_km_atual). " KM" : "-"; ?> </td>
+                        <td><?php echo isset($manutencao->horas_credito) && isset($manutencao->horas_debito) ? ($manutencao->horas_credito - $manutencao->horas_debito) . " Horas" : "-"; ?> </td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a>
                         </td>
@@ -75,10 +78,14 @@
                     <?php } ?>
                 </tbody>
             </table>
+            <p class="m-b-30 m-t-10 text-right">* Quilometragem e/ou tempo de operação restante até a proxima revisão. </p><br>
+            <?php } else { ?>
+                <strong class="title-5 m-t-30">Manutenções</strong> 
+                <p class="m-b-30">Nenhum item encontrado para o período.</p>
             <?php } ?>
 
-            <?php if ($rel->tipo == 'ipva') { ?>  
             <strong class="title-5 m-t-30">IPVA</strong>
+            <?php if (in_array('ipva', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->ipva->data) > 0) { ?>  
             <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                 <thead>
                     <tr>
@@ -94,7 +101,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($rel->data as $i => $ipva) { ?>
+                    <?php foreach($informe_vencimentos['relatorio']->ipva->data as $i => $ipva) { ?>
                     <tr>
                         <td><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
                         <td><?php echo $ipva->id_ativo_veiculo; ?></td>
@@ -102,8 +109,8 @@
                         <td><?php echo $ipva->veiculo_placa; ?></td>
                         <td><?php echo $ipva->ipva_ano; ?></td>
                         <td><?php echo $this->formata_moeda($ipva->ipva_custo); ?></td>
-                        <td><?php echo date("d/m/Y", strtotime($ipva->ipva_data_pagamento));?> </td>
-                        <td><?php echo date("d/m/Y", strtotime($ipva->ipva_data_vencimento));?> </td>
+                        <td><?php echo $this->formata_data($ipva->ipva_data_pagamento);?> </td>
+                        <td><?php echo $this->formata_data($ipva->ipva_data_vencimento);?> </td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/editar/{$ipva->id_ativo_veiculo}/{$ipva->id_ativo_veiculo_ipva}") ?>">Mais Detalhes</a>
                         </td>
@@ -111,10 +118,12 @@
                     <?php } ?>
                 </tbody>
             </table>
+            <?php } else { ?>
+                <p class="m-b-30">Nenhum item encontrado para o período.</p>
             <?php } ?>
 
-            <?php if ($rel->tipo == 'seguro') { ?>  
             <strong class="title-5 m-t-30">Seguro</strong>
+            <?php if (in_array('seguro', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->seguro->data) > 0) { ?>  
             <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                 <thead>
                     <tr>
@@ -130,7 +139,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($rel->data as $i => $seguro) { ?>
+                    <?php foreach($informe_vencimentos['relatorio']->seguro->data as $i => $seguro) { ?>
                     <tr>
                         <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
                         <td><?php echo $seguro->id_ativo_veiculo; ?></td>
@@ -138,8 +147,8 @@
                         <td><?php echo $seguro->veiculo_placa; ?></td>
                         <td><?php echo ucfirst($seguro->fipe_mes_referencia); ?></td>
                         <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
-                        <td><?php echo date("d/m/Y", strtotime($seguro->carencia_inicio));?> </td>
-                        <td><?php echo date("d/m/Y", strtotime($seguro->carencia_fim));?> </td>
+                        <td><?php echo $this->formata_data($seguro->carencia_inicio);?> </td>
+                        <td><?php echo $this->formata_data($seguro->carencia_fim);?> </td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$seguro->id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
                         </td>
@@ -147,12 +156,14 @@
                     <?php } ?>
                 </tbody>
             </table>
+            <?php } else { ?>
+                <p class="m-b-30">Nenhum item encontrado para o período.</p>
             <?php } ?>
-        <?php } ?>
+      
 
-        <?php if ($rel->modulo == 'ativo_externo') { ?>   
-            <?php if ($rel->tipo == 'calibracao') { ?>  
-            <strong class="title-5 m-t-30">Certificado de Calibação/Aferição</strong>
+       
+            <strong class="title-5 m-t-30">Certificado de Calibação/Aferição</strong>   
+            <?php if (in_array('calibracao', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->calibracao->data) > 0) { ?>  
             <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                 <thead>
                     <tr>
@@ -165,13 +176,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($rel->data as $ativo) {?>
+                    <?php foreach($informe_vencimentos['relatorio']->calibracao->data as $ativo) {?>
                     <tr>
                         <td><?php echo $ativo->id_ativo_externo; ?></td>
                         <td><?php echo $ativo->codigo; ?></td>
                         <td><?php echo $ativo->nome; ?></td>
-                        <td><?php echo date("d/m/Y", strtotime($ativo->inclusao_certificado));?> </td>
-                        <td><?php echo date("d/m/Y", strtotime($ativo->validade_certificado));?> </td>
+                        <td><?php echo $this->formata_data($ativo->inclusao_certificado);?> </td>
+                        <td><?php echo $this->formata_data($ativo->validade_certificado);?> </td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$ativo->id_ativo_externo}") ?>">Mais Detalhes</a>
                         </td>
@@ -179,12 +190,51 @@
                     <?php } ?>
                 </tbody>
             </table>
+            <?php } else { ?>
+                <p class="m-b-30">Nenhum item encontrado para o período.</p>
             <?php } ?>
-        <?php } ?>
-        <?php } } else {  ?>
+        
+        <?php } else {  ?>
             <p>Nenhum item encontrado para o período.</p>
         <?php } ?>
         </div>
         </div>
     </div>
 </div>
+
+<script>
+    var informe_vencimentos = new Vue({
+        el: "#informe_vencimentos",
+        data(){
+            return {
+                pinned: 0,
+                informe_vencimentos: 0,
+                informe_vencimentos_dias: {
+                    5 : 'em 5 Dias',
+                    15: 'em 15 Dias',
+                    30: 'em 30 Dias',
+                }
+            }
+        },
+        methods: {
+            setPinned(){
+                this.pinned = this.informe_vencimentos
+                localStorage.pinned = this.pinned
+                window.location.href = `/?informe_vencimentos=${this.pinned}#informe_vencimentos`
+            }
+        },
+        created(){
+            if (localStorage.pinned != undefined) {
+                this.pinned = parseInt(localStorage.pinned)
+            } else {
+                let dias = parseInt('<?php echo $informe_vencimentos['dias']; ?>')
+                if (dias >= 0) {
+                    this.pinned = dias
+                } else {
+                    this.pinned = 30
+                }
+            }
+            this.informe_vencimentos = this.pinned
+        }
+    })
+</script>

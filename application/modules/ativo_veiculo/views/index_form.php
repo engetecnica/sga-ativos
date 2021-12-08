@@ -20,29 +20,6 @@
                     <div class="card">
                         <div class="card-header"><?php echo isset($detalhes) && isset($detalhes->id_ativo_veiculo) ? "Editar" : "Novo"; ?> Veículo</div>
                         <div class="card-body">
-                                <?php if (isset($detalhes) && isset($detalhes->id_ativo_veiculo)) {?>
-                                <p class="m-b-10"><strong>DADOS DO VEICULO</strong></p>
-                        
-                                <table class="table table-responsive-md table-striped table-bordered">
-                                    <tr>
-                                        <th>Tipo</th>
-                                        <th>Modelo</th>
-                                        <th>Ano</th>
-                                        <th>Referência</th>
-                                        <th>Valor FIPE</th>
-                                        <th>Data</th>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $detalhes->tipo_veiculo; ?></td>
-                                        <td><?php echo $detalhes->veiculo; ?></td>
-                                        <td><?php echo $detalhes->ano; ?></td>
-                                        <td><?php echo $detalhes->fipe_mes_referencia; ?></td>
-                                        <td>R$ <?php echo number_format($detalhes->valor_fipe, 2, ',', '.'); ?></td>
-                                        <td><?php echo date("d/m/Y H:i:s", strtotime($detalhes->data)); ?></td>
-                                    </tr>
-                                </table>
-                                <hr>
-                                <?php } ?>
 
                             <form action="<?php echo base_url('ativo_veiculo/salvar'); ?>" method="post" enctype="multipart/form-data">
 
@@ -57,23 +34,29 @@
                                     <div class="col-12 col-md-3">
                                         <select <?php echo !isset($detalhes) && !isset($detalhes->id_ativo_veiculo) ? 'required="required"' : ''?> class="form-control selectpicker" 
                                             id="tipo_veiculo" name="tipo_veiculo" data-live-search="true"
+                                            value="<?php echo isset($detalhes) && isset($detalhes->tipo_veiculo) ? $detalhes->tipo_veiculo : '';?>"
                                         >
                                             <option value="">Tipo</option>
-                                            <option value="moto">Moto</option>
-                                            <option value="carro">Carro</option>
-                                            <option value="caminhao">Caminhão</option>
+                                            <option <?php echo isset($detalhes) && isset($detalhes->tipo_veiculo) && $detalhes->tipo_veiculo == "moto"  ? 'selected="selected"' : '';?> value="moto">Moto</option>
+                                            <option <?php echo isset($detalhes) && isset($detalhes->tipo_veiculo) && $detalhes->tipo_veiculo == "carro"  ? 'selected="selected"' : '';?> value="carro">Carro</option>
+                                            <option <?php echo isset($detalhes) && isset($detalhes->tipo_veiculo) && $detalhes->tipo_veiculo == "caminhao"  ? 'selected="selected"' : '';?> value="caminhao">Caminhão</option>
                                         </select>
                                     </div>
-
                                     <div class="col-12 col-md-3">
                                         <select <?php echo !isset($detalhes) && !isset($detalhes->id_ativo_veiculo) ? 'required="required"' : ''?> class="form-control selectpicker" id="id_marca" name="id_marca" data-live-search="true">
                                             <option value="">Marca</option>
+                                            <?php if(isset($detalhes) && isset($detalhes->id_marca)) { ?>
+                                            <option selected="selected"  value="<?php echo $detalhes->id_marca ?>"><?php echo $detalhes->fabricante->marca ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
 
                                     <div class="col-12 col-md-4">
                                         <select <?php echo !isset($detalhes) && !isset($detalhes->id_ativo_veiculo) ? 'required="required"' : ''?> class="form-control selectpicker" id="id_modelo" name="id_modelo" data-live-search="true">
                                             <option value="">Modelo</option>
+                                            <?php if(isset($detalhes) && isset($detalhes->id_modelo)) { ?>
+                                            <option selected="selected"  value="<?php echo $detalhes->id_modelo ?>"><?php echo $detalhes->fabricante->modelo ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -86,12 +69,18 @@
                                     <div class="col-12 col-md-3">
                                         <select <?php echo !isset($detalhes) && !isset($detalhes->id_ativo_veiculo) ? 'required="required"' : ''?> class="form-control selectpicker" id="ano" name="ano" data-live-search="true">
                                             <option value="">Ano</option>
+                                            <?php if(isset($detalhes) && isset($detalhes->ano)) { ?>
+                                            <option selected="selected"  value="<?php echo $detalhes->ano ?>"><?php echo explode('-', $detalhes->ano)[0] ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
 
                                     <div class="col-12 col-md-7">
                                         <select <?php echo !isset($detalhes) && !isset($detalhes->id_ativo_veiculo) ? 'required="required"' : ''?> class="form-control" id="veiculo" name="veiculo">
                                             <option value="">Veículo</option>
+                                            <?php if(isset($detalhes) && isset($detalhes->id_modelo)) { ?>
+                                            <option selected="selected"  value="<?php echo $detalhes->id_modelo ?>"><?php echo $detalhes->fabricante->modelo ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>                                    
 

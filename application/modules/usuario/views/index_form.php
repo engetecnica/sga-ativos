@@ -67,7 +67,6 @@
                                             class="form-control select2" 
                                             name="id_obra" 
                                             id="id_obra"
-                                            required
                                         >
                                             <option value="" >Nenhuma obra selecionada</option>
                                             <?php foreach ($detalhes->obras as $value) { ?>

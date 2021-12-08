@@ -210,5 +210,22 @@ contab -e
 Se tudo correu como o esperado, a aplicação de está online localmente em [http://localhost:8000](http://localhost:8000).
 
 
+## Deploy CPanel\Git
+Para deploy no cpanel, crie um diretorio chamado .ssh na raiz da hospedagem, gere localmente as chaves `id_rsa e id_rsa.pub`, faça
+upload dos arquivos para a hospedagem.
+No git, nas configurações do repositório em `Settings > Deploy keys`,  crie uma chave deploy tendo como conteúdo o arquivo `id_rsa.pub`.
+Feito isso, no Cpanel em `Git Version Control` crie um reporsitório em `Criar`, preencha os campos seguindo o
+[tutorial](https://stackoverflow.com/questions/53941990/git-repo-connection-failed-in-cpanel) para preencher a `Clone URL`.
+
+```
+git clone git@example.com:MyStuff/private-repository.git
+
+#You can see here a typical BitBucket SSH URL:
+git@bitbucket.org:<account_name>/<repo_name>.git
+# or
+ssh://git@bitbucket.org/<account_name>/<repo_name>.git
+```
+
+
 ## Ilustrações
 As images utilizadas são de uso gratuitos de acordo com a lincença [`unDraw`](https://undraw.co/license)

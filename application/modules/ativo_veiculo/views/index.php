@@ -51,7 +51,11 @@
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-edit"></i> Editar</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-car"></i>&nbsp; Quilometragem</a>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-road"></i>&nbsp; Quilometragem</a>
+                                                <?php if ($valor->tipo_veiculo == "caminhao") {?>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/operacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
+                                                <?php } ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
                                                 <div class="dropdown-divider"></div>

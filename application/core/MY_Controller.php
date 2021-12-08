@@ -22,11 +22,15 @@ class MY_Controller extends MX_Controller {
 
     function __construct($auth_user_required = true) {
         parent::__construct();
+
+        if(isset($_POST[0])) $_POST = json_decode(array_keys($_POST)[0], true);
+
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
         $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
         $this->load->model('anexo/anexo_model');
+        $this->load->model('obra/obra_model');
         $this->load->model('relatorio/notificacoes_model');
         
         if ($this->user) {
@@ -61,6 +65,8 @@ class MY_Controller extends MX_Controller {
         $data['uri'] = uri_string();
         $data['user'] = $this->user;
         $data['modulos'] = $this->get_modulos($this->user->nivel);
+        $data['obras'] = $this->obra_model->get_obras();
+        
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);
         $this->load->view("../views/template_footer", $data);
@@ -80,12 +86,25 @@ class MY_Controller extends MX_Controller {
 
             if ($user) {
                 unset($user->senha);
-                return $user;
+                return $this->set_obra_gerencia($user);
             }
             unset($logado->senha);
-            return $logado;
+            return $this->set_obra_gerencia($logado);
         }
         return null;
+    }
+
+    private function set_obra_gerencia($user){
+        if ($user->nivel == 1) {
+            if ($user->id_obra_gerencia) {
+                $user->id_obra = $user->id_obra_gerencia;
+            } else {
+                try {
+                    $user->id_obra = $this->get_obra_base()->id_obra;
+                } catch(\Exception $e){}
+            }
+        }
+        return $user;
     }
 
 
@@ -128,24 +147,12 @@ class MY_Controller extends MX_Controller {
         return $this->db->get('configuracao')->result();
     }
 
-    public function formatArrayReplied($items = [], $id_item = null){
-        $lista = [];
-        if ((count($items) > 0) && $id_item) {
-            foreach($items as $item) {
-                if (!isset($lista[$item->{$id_item}])) {
-                    $lista[$item->{$id_item}] = (object) $item;
-                }
-            } 
-        }
-		return $lista;
-    }
-
     public function get_empresas($id=null){
         $this->db->order_by('id_empresa', 'ASC');
         if ($id) {
             $this->db->where('id_empresa', $id);
         }
-        return $this->formatArrayReplied($this->db->get('empresa')->result(), 'id_empresa');
+        return $this->db->group_by('id_empresa')->get('empresa')->result();
     }
 
     public function get_obras($id_empresa=null){
@@ -153,7 +160,7 @@ class MY_Controller extends MX_Controller {
         if ($id_empresa) {
             $this->db->where('id_empresa', $id_empresa);
         }
-        return $this->formatArrayReplied($this->db->get('obra')->result(), 'id_empresa');
+        return $this->db->group_by('ob.id_obra')->get('obra')->result();
     }
 
     public function get_obra_base(){
@@ -168,7 +175,7 @@ class MY_Controller extends MX_Controller {
 
     public function get_niveis(){
         $this->db->order_by('id_usuario_nivel', 'ASC');
-        return $this->formatArrayReplied($this->db->get('usuario_nivel')->result(), 'id_usuario_nivel');
+        return $this->db->get('usuario_nivel')->result();
     }
 
     public function gerar_pdf($filename, $html, $mode = null) {

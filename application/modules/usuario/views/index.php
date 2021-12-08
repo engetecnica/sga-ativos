@@ -144,7 +144,6 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, Enviar!'
         }).then((result) => {
-                console.log(result)
             if(result.isConfirmed) {
                 $.ajax({
                     method: "GET",

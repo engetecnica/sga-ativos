@@ -34,7 +34,9 @@
                                     <th>Placa</th>
                                     <th>Fornecedor</th>
                                     <th>Serviço</th>
-                                    <th>KM</th>
+                                    <th>KM Atual</th>
+                                    <th>KM Próxima Revisão</th>
+                                    <th>Horas Próxima Revisão</th>
                                     <th>Custo</th>
                                     <th>Data Entrada</th>
                                     <th>Data Saída</th>
@@ -53,6 +55,8 @@
                                     <td><?php echo $valor->fornecedor; ?></td>
                                     <td><?php echo $valor->servico; ?></td>
                                     <td><?php echo $valor->veiculo_km_atual; ?></td>
+                                    <td><?php echo $valor->veiculo_km_proxima_revisao; ?></td>
+                                    <td><?php echo $valor->veiculo_hora_proxima_revisao; ?></td>
                                     <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
                                     <td><?php echo $this->formata_data($valor->data_entrada) ; ?></td>
                                     <td><?php echo isset($valor->data_saida) ? $this->formata_data($valor->data_saida) : '-' ; ?></td>

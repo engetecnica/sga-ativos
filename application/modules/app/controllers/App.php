@@ -20,14 +20,27 @@ class App extends MY_Controller {
         em modo produção (production).";
     }
 
-    public function automacoes() {
-        $status = [
-          'limpar_exports' => $this->db_export_clear(),
-          'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
-          'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
-          'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
-        ];
-        $this->json($status);
+    public function automacoes($type = "day") {
+      $status = [];
+      switch ($type) {
+        case "day":
+          $status = [
+            'limpar_exports' => $this->db_export_clear(),
+            'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
+            'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
+            'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
+          ];
+        break;
+
+        case "test":
+          $status = [
+            'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes("now", true),
+            'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(30, true),
+          ];
+        break;
+      }
+
+      $this->json($status);
     }
   
     public function test_email(){

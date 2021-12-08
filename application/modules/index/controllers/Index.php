@@ -21,26 +21,27 @@ class Index extends MY_Controller {
     }
 
     function index() {
-        $id_empresa = $this->user->id_empresa;
-        $id_obra = $this->user->id_obra;
-   
         if ($this->user->nivel == 1){
-            $data['estoque'] = count($this->ativo_externo_model->get_estoque($id_obra, null, 12));
-            $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 3, 6, 11, 14], 0, 5);
-            $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 3, 6, 11, 14]);
+            $data['estoque'] = count($this->ativo_externo_model->get_estoque($this->user->id_obra, null, 12));
+            $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 3, 6, 11, 14], 0, 5, $this->user->id_obra);
+            $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 3, 6, 11, 14], $this->user->id_obra);
         }
 
         $data['clientes'] = count($this->empresa_model->get_empresas());
-        $data['colaboradores'] = count($this->funcionario_model->get_lista($id_empresa, $id_obra));
+        $data['colaboradores'] = count($this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra));
         $data['veiculos_manutencao'] = $this->ativo_veiculo_model->count_ativo_veiculo_em_manutencao();
-        $data['informe_vencimentos_hoje'] = $this->relatorio_model->informe_vencimentos(0);
-        $data['informe_vencimentos_5dias'] = $this->relatorio_model->informe_vencimentos(5);
-        $data['informe_vencimentos_15dias'] = $this->relatorio_model->informe_vencimentos(15);
-        $data['informe_vencimentos_30dias'] = $this->relatorio_model->informe_vencimentos(30);
+
+        if ($this->input->get('informe_vencimentos') > 0 && in_array((int) $this->input->get('informe_vencimentos'), [5, 15, 30])) {
+            $data['informe_vencimentos']['relatorio'] = $this->relatorio_model->informe_vencimentos((int) $this->input->get('informe_vencimentos'), $this->user->id_obra);
+            $data['informe_vencimentos']['dias'] = (int) $this->input->get('informe_vencimentos');
+        } else {
+            $data['informe_vencimentos']['relatorio'] = $this->relatorio_model->informe_vencimentos(30, $this->user->id_obra);
+            $data['informe_vencimentos']['dias'] = 30;
+        }
 
         $today =  date("Y-m-d 23:59:59", strtotime('now'));
-        $data['informe_retiradas_pendentes'] = $this->relatorio_model->informe_retiradas_pendentes($today);
-        $data['informe_retiradas_pendentes_vencimento'] = $today;
+        $data['informe_retiradas_pendentes']['relatorio'] = $this->relatorio_model->informe_retiradas_pendentes($today, $this->user->id_obra);
+        $data['informe_retiradas_pendentes']['vencimento'] = $today;
         
         $data_patrimonio = [
             'id_obra' => $this->user->id_obra,
@@ -49,6 +50,19 @@ class Index extends MY_Controller {
         
         $data['patrimonio'] = $this->relatorio_model->patrimonio_disponivel($data_patrimonio, 'arquivo');
         $this->get_template('index', $data);
+    }
+
+    public function selecionar_obra(){
+        $success = false;
+        if ($this->user->nivel == 1 && $this->input->post("id_obra_gerencia")) {
+            $this->db
+                ->where('id_usuario', $this->user->id_usuario)
+                ->update('usuario', ["id_obra_gerencia" => $this->input->post("id_obra_gerencia")]);
+            $success = true;
+        }
+
+        $user = $this->db->where('id_usuario', $this->user->id_usuario)->get('usuario')->row();
+        return $this->json(["success" => $user && $success, 'id_obra_gerencia' => $user->id_obra_gerencia]);
     }
 
     # Manipular novos registros através do CSV

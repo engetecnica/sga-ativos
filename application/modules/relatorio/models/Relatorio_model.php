@@ -6,6 +6,7 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function __construct() {
       parent::__construct();
+      $this->load->model("ativo_veiculo/ativo_veiculo_model");
       $this->load->model("anexo/anexo_model");
       $this->load->model("notificacoes_model");
 
@@ -559,7 +560,7 @@ class Relatorio_model extends Relatorio_model_base {
     $fim = $data['periodo']['fim'];
 
     if ($tipo && $tipo == 'arquivo') {
-      //Equipamentos manuteções
+      //Equipamentos Manutenções
       $equipamentos_manutencao = $this->db->from('ativo_interno_manutencao atm')
                                         ->select('atm.*, atv.*, atm.valor as manutencao_valor, atv.valor as equipamento_valor')
                                         ->join('ativo_interno atv', 'atv.id_ativo_interno = atm.id_ativo_interno');
@@ -574,7 +575,7 @@ class Relatorio_model extends Relatorio_model_base {
                                       ->get()->result();
    }
 
-    //Equipamentos manuteções total
+    //Equipamentos Manutenções total
     $this->db->reset_query();
     $equipamentos_manutencao_total = $this->db
           ->from('ativo_interno_manutencao atmc')
@@ -608,7 +609,7 @@ class Relatorio_model extends Relatorio_model_base {
     $fim = $data['periodo']['fim'];
 
     if ($tipo && $tipo == 'arquivo') {
-      //Veiculos manuteções
+      //Veiculos Manutenções
       $veiculos_manutencao = $this->db->from('ativo_veiculo_manutencao atvm')
                                       ->select('atvm.*, atv.*, fn.id_fornecedor, fn.razao_social as fornecedor')
                                       ->join('ativo_veiculo atv', 'atv.id_ativo_veiculo = atvm.id_ativo_veiculo')
@@ -627,7 +628,7 @@ class Relatorio_model extends Relatorio_model_base {
                               ->get()->result();
    }
 
-    //Veiculos manuteções total
+    //Veiculos Manutenções total
     $this->db->reset_query();
     $veiculos_manutencao_total = $this->db
           ->from('ativo_veiculo_manutencao atvmc')
@@ -956,56 +957,95 @@ class Relatorio_model extends Relatorio_model_base {
       return true;
   }
 
-  public function informe_vencimentos($days = 0){
+  public function informe_vencimentos($days = 0, $id_obra = null){
     $date = date('Y-m-d', strtotime("+{$days} days"));
+    $now = date('Y-m-d H:i:s');
     $results = [];
+    $id_modulo = "";
 
-    foreach($this->relatorio_model->vencimentos as $modulo => $vencimento){
+    foreach($this->relatorio_model->vencimentos as $modulo => $vencimentos){
       $this->load->model("{$modulo}/{$modulo}_model");
 
-      foreach($vencimento as $key => $tipo){
-        $relatorio = $this->db->select("{$tipo['tabela']}.*");
-        if ($days > 0) {
-          $now = date('Y-m-d H:i:s');
-          $relatorio->where("{$tipo['coluna']} BETWEEN '{$now}' AND '{$date}'");
-        } else {
-          $relatorio->where("{$tipo['coluna']} = '{$date}'");
+      foreach($vencimentos as $vencimento){
+        $relatorio = $this->db->select("{$vencimento['tabela']}.*");
+        if ($id_obra && $vencimento['tabela'] == 'ativo_interno') {
+          $relatorio->where("{$vencimento['tabela']}.id_obra = '{$id_obra}'");
         }
 
         if ($modulo == 'ativo_veiculo') {
           $id_modulo = "id_{$modulo}";
-          $relatorio->join($modulo, "$modulo.$id_modulo={$tipo['tabela']}.$id_modulo")
+          $relatorio->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
                     ->select("$modulo.*");
 
-         if ($key == 'manutencao') {
+         if ($vencimento['nome'] == 'manutencao') {
             $relatorio
               ->select('frn.razao_social as fornecedor')
               ->select('ativo_configuracao.id_ativo_configuracao, ativo_configuracao.titulo as servico')
-              ->join("fornecedor frn", "frn.id_fornecedor={$tipo['tabela']}.id_fornecedor", 'left')
-              ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$tipo['tabela']}.id_ativo_configuracao", 'left');
+              ->join("fornecedor frn", "frn.id_fornecedor={$vencimento['tabela']}.id_fornecedor", 'left')
+              ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$vencimento['tabela']}.id_ativo_configuracao", 'left');
+
+            if (in_array($vencimento['coluna'], ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao']) && isset($vencimento['id_configuracao_revisao'])) {
+              switch ($vencimento['coluna']) {
+                case "veiculo_hora_proxima_revisao":
+                  $horas_credito_select = "(select sum(veiculo_hora_proxima_revisao) from ativo_veiculo_manutencao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_hora_proxima_revisao IS NOT NULL AND veiculo_hora_proxima_revisao > 0))";
+                  $horas_debito_select = "(select sum(operacao_tempo) from ativo_veiculo_operacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo)";
+                  
+                  $relatorio
+                    ->select("$horas_debito_select as horas_debito, ($horas_credito_select) as horas_credito, ($horas_credito_select - $horas_debito_select) as horas_saldo")
+                    ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
+                    ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
+                    ->where("($horas_credito_select - $horas_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.veiculo_hora_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_hora_proxima_revisao > 0)")
+                    ->or_where("({$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}')");
+                break;
+                
+                case "veiculo_km_proxima_revisao":
+                  $kms_credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+                  $kms_debito_select = "(select veiculo_km from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_ativo_veiculo_quilometragem desc limit 1)";
+                  
+                  $relatorio
+                    ->select("$kms_debito_select as km_debito, $kms_credito_select as km_credito, ($kms_credito_select - $kms_debito_select) as km_saldo")
+                    ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
+                    ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
+                    ->where("($kms_credito_select - $kms_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.veiculo_km_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_km_proxima_revisao > 0))")
+                    ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
+                break;
+              }
+            }
          }
           
-          $relatorio->group_by("{$tipo['tabela']}.$id_modulo");
+          $relatorio->group_by("{$vencimento['tabela']}.$id_modulo");
         }
 
-        $relatorio_data = $relatorio->get($tipo['tabela'])->result();
+        if (!in_array($vencimento['coluna'], ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao'])) {
+          if ($days > 0) {
+            $relatorio->where("{$vencimento['coluna']} BETWEEN '{$now}' AND '{$date}'");
+          } else {
+            $relatorio->where("{$vencimento['coluna']} = '{$date}'");
+          }
+        }
+
+        $relatorio_data = $relatorio->get($vencimento['tabela'])->result();
         if (count($relatorio_data) >= 1) {
-          $results[] = (object) [
-            'data' => $relatorio_data,
-            'modulo' => $modulo,
-            'tipo' => $key
-          ];
+          if (!isset($results[$vencimento['nome']])) {
+            $results[$vencimento['nome']] = (object) [
+              'data' => [],
+              'modulo' => $modulo,
+              'tipo' => $vencimento['nome']
+            ];
+          }
+
+          $results[$vencimento['nome']]->data = array_merge($results[$vencimento['nome']]->data, $relatorio_data);
         }
       }
     }
 
-    return $results;
+    return (object) $results;
   }
 
-  public function enviar_informe_vencimentos($dias_restantes = 30){
+  public function enviar_informe_vencimentos($dias_restantes = 30, $showhtml = false){
     $relatorio_data = $this->informe_vencimentos($dias_restantes);
 
-    if (count($relatorio_data) > 0) {
+    if (count((array) $relatorio_data) > 0) {
       $data = [
           'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
           'relatorio' => $relatorio_data,
@@ -1013,15 +1053,26 @@ class Relatorio_model extends Relatorio_model_base {
           'styles' => $this->notificacoes_model->getEmailStyles(), 
       ];
       $html = $this->load->view("relatorio/relatorio_informe_vencimentos", $data, true);
+
+      if ($showhtml) {
+        echo $html;
+        return true;
+      }
       return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
     }
     return true;
   }
 
 
-  public function informe_retiradas_pendentes($devolucao_prevista = "now"){
+  public function informe_retiradas_pendentes($devolucao_prevista = "now", $id_obra = null){
     $now = date("Y-m-d H:i:s", strtotime($devolucao_prevista));
-    return $this->db
+    $retiradas = $this->db;
+
+    if ($id_obra) {
+      $retiradas->where("atv.id_obra = {$id_obra}");
+    }
+
+    return $retiradas
             ->where("status NOT IN (1,2,9)")
             ->where("devolucao_prevista <= '{$now}'")
             ->join("funcionario fn", "fn.id_funcionario = atv.id_funcionario")
@@ -1032,7 +1083,7 @@ class Relatorio_model extends Relatorio_model_base {
             ->get('ativo_externo_retirada atv')->result();
   }
 
-  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "now"){
+  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "now", $showhtml = false){
     $data_hora_vencimento = date("Y-m-d 23:59:59", strtotime($data_hora_vencimento));
     $relatorio_data = $this->informe_retiradas_pendentes($data_hora_vencimento);
     if (count($relatorio_data) > 0) {
@@ -1042,7 +1093,13 @@ class Relatorio_model extends Relatorio_model_base {
           'vencimento' => $data_hora_vencimento,
           'styles' => $this->notificacoes_model->getEmailStyles(),
       ];
+
       $html = $this->load->view("relatorio/relatorio_informe_retiradas_pendentes", $data, true);
+      if ($showhtml) {
+        echo $html;
+        return true;
+      }
+
       $date = date("d/m/Y", strtotime($data_hora_vencimento));
       return $this->notificacoes_model->enviar_email("Retiradas Pêndentes de Devolução | $date", $html, $this->config->item("notifications_address"));
     }

@@ -28,14 +28,7 @@ class Login  extends MY_Controller {
     }
 
     function logout(){
-        $redirect_to = "/";
-        if (isset($_SERVER['SERVER_PORT']) && isset($_SERVER['HTTP_REFERER'])) { 
-            $redirect_to = str_replace(base_url() ,"/", $_SERVER['HTTP_REFERER']);
-            if (in_array($_SERVER['SERVER_PORT'], ['80', '443'])) {
-                $redirect_to = str_replace(str_replace(":{$_SERVER['SERVER_PORT']}", "", base_url()), "/", $_SERVER['HTTP_REFERER']);
-            }
-        }
-
+        $redirect_to = $this->getRef();
     	$this->session->sess_destroy();
     	$this->session->unset_userdata('logado');
         $this->session->set_userdata('redirect_to', $redirect_to);

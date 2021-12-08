@@ -36,7 +36,7 @@ class Anexo  extends MY_Controller {
         "id_modulo_subitem" => $id_modulo_subitem,  
         "pagina" => $pagina,
         "limite" => $limite,
-        "refer" => getenv("HTTP_REFERER"),
+        "refer" => $this->getRef(),
         "modulo" => $this->db
                       ->where('id_modulo', $id_modulo)
                       ->get('modulo')->row()

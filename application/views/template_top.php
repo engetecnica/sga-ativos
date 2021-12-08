@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <!-- Required meta tags-->
@@ -11,7 +11,6 @@
 
     <!-- Title Page-->
     <title>Engetecnica | <?php echo date("Y"); ?></title>
-
         
     <!-- Jquery JS-->
     <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
@@ -24,6 +23,9 @@
 
     <!-- Bootstrap CSS-->
     <link href="<?php echo base_url('assets'); ?>/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="<?php echo base_url('assets'); ?>/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/css/datatable.css" />
 
     <!-- Vendor CSS-->
     <link href="<?php echo base_url('assets'); ?>/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -38,26 +40,21 @@
     <link href="<?php echo base_url('assets'); ?>/css/theme.css" rel="stylesheet" media="all">
 
     <!-- Sweet Alert -->
-    <link rel="stylesheet" href="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.css">   
-
-
-    <link rel="stylesheet" href="<?php echo base_url('assets'); ?>/css/bootstrap-select.min.css">
-
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/vendor/multi/multi.min.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets'); ?>/css/datatable.css" />
-    <!--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
 
     <!-- Vue.js -->
-    <script src="<?php echo base_url('assets'); ?>/js/vue.js"></script>
-    <script src="<?php echo base_url('assets'); ?>/js/v-mask.min.js"></script>
+    <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
+    <!-- VUE plugins -->
     <script>
-        //VUE plugins
         Vue.use(VueMask.VueMaskPlugin);
     </script>
 
-    <!-- Sweet Alert 
-    <script src="<?php echo base_url('assets'); ?>/vendor/sweetalert/sweetalert2.min.js"></script>--> 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- axios -->
+    <script src="<?php echo base_url("assets/js/axios.min.js"); ?>"></script>
+
+    <!-- moment.js -->
+    <script src="<?php echo base_url("assets/js/moment.js"); ?>"></script>
 
     <!-- One Signal -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
@@ -138,7 +135,14 @@
                                 </button>
                             </form>
                             -->
+
+                            <!-- Seleciona Obra a Gerenciar-->
+                            <?php if($user->nivel == 1){
+                                $this->load->view('selecionar_obra', ["obras" => $obras, "user" => $user]);
+                            } else {  ?>
                             <div></div>
+                            <?php } ?>
+
                             <div class="header-button">
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">

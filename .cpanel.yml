@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/engetecnicasis/public_html/
+    - /bin/cp -Ru ./* $DEPLOYPATH

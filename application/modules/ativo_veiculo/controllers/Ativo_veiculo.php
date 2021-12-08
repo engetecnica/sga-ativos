@@ -1,20 +1,7 @@
 <?php
 
 (defined('BASEPATH')) or exit('No direct script access allowed');
-
-# Require AutoLoad
-require APPPATH . "../vendor/autoload.php";
-
-# Iniciando a FIPE - Carros, motos e caminhões
-require APPPATH . "../vendor/deividfortuna/fipe/src/IFipe.php";
-require APPPATH . "../vendor/deividfortuna/fipe/src/FipeCarros.php";
-require APPPATH . "../vendor/deividfortuna/fipe/src/FipeMotos.php";
-require APPPATH . "../vendor/deividfortuna/fipe/src/FipeCaminhoes.php";
-
-use DeividFortuna\Fipe\IFipe;
-use DeividFortuna\Fipe\FipeCarros;
-use DeividFortuna\Fipe\FipeMotos;
-use DeividFortuna\Fipe\FipeCaminhoes;
+require_once __DIR__ ."/Ativo_veiculo_trait.php";
 
 /**
  * Description of site
@@ -39,164 +26,7 @@ class Ativo_veiculo  extends MY_Controller
         # Fecha Login    
     }
 
-    # Testando tipos de veiculos pela FIPE
-    function fipe_get_marca()
-    {
-        $tipo = $this->input->post('tipo_veiculo');
-
-        switch ($tipo) {
-            case 'carro':
-                $marcas = FipeCarros::getMarcas();
-                break;
-
-            case 'moto':
-                $marcas = FipeMotos::getMarcas();
-                break;
-
-            case 'caminhao':
-                $marcas = FipeCaminhoes::getMarcas();
-                break;
-        }
-
-        foreach ($marcas as $marca) {
-            echo "<option value=" . $marca['codigo'] . ">" . $marca['nome'] . "</option>";
-        }
-    }
-
-    # Modelos - Tabela FIPE
-    public function fipe_get_modelos()
-    {
-        $tipo = $this->input->post('tipo_veiculo');
-        $codMarca = $this->input->post('id_marca');
-
-        switch ($tipo) {
-            case 'carro':
-                $modelos = FipeCarros::getModelos($codMarca);
-                break;
-
-            case 'moto':
-                $modelos = FipeMotos::getModelos($codMarca);
-                break;
-
-            case 'caminhao':
-                $modelos = FipeCaminhoes::getModelos($codMarca);
-                break;
-        }
-
-        foreach ($modelos['modelos'] as $modelo) {
-            echo "<option value=" . $modelo['codigo'] . ">" . $modelo['nome'] . "</option>";
-        }
-    }
-
-
-    # Anos - Tabela FIPE
-    public function fipe_get_anos()
-    {
-        $tipo = $this->input->post('tipo_veiculo');
-        $marca = $this->input->post('id_marca');
-        $modelo = $this->input->post('id_modelo');
-
-        switch ($tipo) {
-            case 'carro':
-                $anos = FipeCarros::getAnos($marca, $modelo);
-                break;
-
-            case 'moto':
-                $anos = FipeMotos::getAnos($marca, $modelo);
-                break;
-
-            case 'caminhao':
-                $anos = FipeCaminhoes::getAnos($marca, $modelo);
-                break;
-        }
-
-        foreach ($anos as $modelo) {
-            echo "<option value=" . $modelo['codigo'] . ">" . $modelo['nome'] . "</option>";
-        }
-    }
-
-    # Anos - Tabela FIPE
-    public function fipe_get_veiculos()
-    {
-        $tipo = $this->input->post('tipo_veiculo');
-        $marca = $this->input->post('id_marca');
-        $modelo = $this->input->post('id_modelo');
-        $ano = $this->input->post('ano');
-
-        switch ($tipo) {
-            case 'carro':
-                $veiculos = FipeCarros::getVeiculo($marca, $modelo, $ano);
-                break;
-
-            case 'moto':
-                $veiculos = FipeMotos::getVeiculo($marca, $modelo, $ano);
-                break;
-
-            case 'caminhao':
-                $veiculos = FipeCaminhoes::getVeiculo($marca, $modelo, $ano);
-                break;
-        }
-        echo json_encode($veiculos);
-    }
-
-    # Modelos - Tabela FIPE
-    public function fipe_veiculo($tipo, $id_marca, $id_modelo)
-    {
-        $marca = null;
-        $marcas = [];
-        switch ($tipo) {
-            case 'carro':
-                $marcas = FipeCarros::getMarcas();
-                break;
-
-            case 'moto':
-                $marcas = FipeMotos::getMarcas();
-                break;
-
-            case 'caminhao':
-                $marcas = FipeCaminhoes::getMarcas();
-                break;
-        }
-
-        if (is_array($marcas)) {
-            foreach ($marcas as $mar) {
-                if ($mar['codigo'] == $id_marca) {
-                    $marca = $mar['nome'];
-                    break;
-                }
-            }
-        }
-
-        switch ($tipo) {
-            case 'carro':
-                $modelos = FipeCarros::getModelos($id_marca);
-                break;
-
-            case 'moto':
-                $modelos = FipeMotos::getModelos($id_marca);
-                break;
-
-            case 'caminhao':
-                $modelos = FipeCaminhoes::getModelos($id_marca);
-                break;
-        }
-
-        if (is_array($modelos)) {
-            foreach ($modelos['modelos'] as $modelo) {
-                if (!is_bool($modelo) && $modelo['codigo'] == $id_modelo) {
-                    return (object) [
-                        'marca' => $marca,
-                        'modelo' => $modelo['nome'],
-                    ];
-                }
-            }
-        }
-
-        return (object) [
-            'marca' => '-',
-            'modelo' => '-',
-        ];
-    }
+    use Ativo_veiculo_trait;
 
     function index($subitem = null)
     {
@@ -283,10 +113,8 @@ class Ativo_veiculo  extends MY_Controller
             $id_ativo_veiculo = $tipo;
         }
 
-        $data['dados_veiculo'] = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($id_ativo_veiculo);
-        if ($data['dados_veiculo']) {
-            $data['dados_veiculo']->fabricante = $this->fipe_veiculo($data['dados_veiculo']->tipo_veiculo, $data['dados_veiculo']->id_marca, $data['dados_veiculo']->id_modelo);
-        }
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
+        $data['ultimo_km'] = $veiculo->veiculo_km;
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
 
         switch ($entrada) {
@@ -298,29 +126,11 @@ class Ativo_veiculo  extends MY_Controller
             case 'quilometragem':
                 if ($tipo == 'adicionar') {
                     $template = "_form";
-                    $data['ultimo_km'] = $this->db
-                        ->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
-                        ->order_by('data', 'desc')
-                        ->limit(1)
-                        ->get('ativo_veiculo_quilometragem')
-                        ->row();
 
                 } elseif ($tipo == 'editar') {
                     $data['quilometragem'] = $this->db->where('id_ativo_veiculo_quilometragem', $id_gerenciar_item)
                         ->where('id_ativo_veiculo', $id_ativo_veiculo)
                         ->get('ativo_veiculo_quilometragem')->row();
-
-                    $data['ultimo_km'] = $this->db
-                        ->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
-                        ->order_by('data', 'desc')
-                        ->limit(1)
-                        ->get('ativo_veiculo_quilometragem')
-                        ->row();
-
-                    if ($data['ultimo_km']->id_ativo_veiculo_quilometragem == $data['quilometragem']->id_ativo_veiculo_quilometragem) {
-                        $data['ultimo_km'] = null;
-                    }    
-                        
                     $template = "_form";
                 } elseif ($tipo == 'comprovante') {
                     $pth = file_get_contents("assets/uploads/comprovante_fiscal/" . $id_ativo_veiculo);
@@ -330,7 +140,21 @@ class Ativo_veiculo  extends MY_Controller
                     $template = "";
                     $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($tipo);
                 }
-                break;
+            break;
+            case 'operacao':
+                if ($tipo == 'adicionar') {
+                    $template = "_form";
+
+                } elseif ($tipo == 'editar') {
+                    $data['operacao'] = $this->db->where('id_ativo_veiculo_operacao', $id_gerenciar_item)
+                                        ->where('id_ativo_veiculo', $id_ativo_veiculo)
+                                        ->get('ativo_veiculo_operacao')->row();
+                    $template = "_form";
+                } else {
+                    $template = "";
+                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_operacao_lista($tipo);
+                }
+            break;
 
             case 'manutencao':
                 if ($tipo == 'adicionar') {
@@ -370,7 +194,7 @@ class Ativo_veiculo  extends MY_Controller
                     $template = "";
                     $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_ipva_lista($tipo);
                 }
-                break;
+            break;
 
             case 'seguro':
                 if ($tipo == 'adicionar') {
@@ -388,7 +212,7 @@ class Ativo_veiculo  extends MY_Controller
                     $template = "";
                     $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_seguro_lista($tipo);
                 }
-                break;
+            break;
 
             case 'depreciacao':
                 $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo);
@@ -401,12 +225,13 @@ class Ativo_veiculo  extends MY_Controller
                     ->get('ativo_veiculo_depreciacao')->row();
                 } else {
                     $template = "";
-                    $data['dados_veiculo'] = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($tipo);
+                    $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($tipo);
                     $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao_lista($tipo);
                 }
-                break;
+            break;
         }
 
+        $data['dados_veiculo'] = $veiculo;
         $this->get_template("gerenciar_" . $entrada . $template, $data);
     }
 
@@ -423,11 +248,11 @@ class Ativo_veiculo  extends MY_Controller
     }
 
     # Salvar KM
-    public function quilometragem_salvar()
+    public function quilometragem_salvar($json = false)
     {
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $data['id_ativo_veiculo_quilometragem'] = $this->input->post('id_ativo_veiculo_quilometragem');
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
         $ultimo_km = $this->db->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
                         ->order_by('data', 'desc')
                         ->limit(1)
@@ -437,7 +262,9 @@ class Ativo_veiculo  extends MY_Controller
         if ($veiculo) {
             $veiculo_km = (int) $this->input->post('veiculo_km');
             if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
-                $this->session->set_flashdata('msg_erro', "KM atual deve ser maior que a quilometragem inicial do veículo e anterior lançada!");
+                $msg =  "KM atual deve ser maior que a quilometragem inicial do veículo e anterior lançada!";
+                if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                $this->session->set_flashdata('msg_erro', $msg);
                 return $this->redirect($veiculo, 'quilometragem', $data);
             }
             
@@ -449,18 +276,24 @@ class Ativo_veiculo  extends MY_Controller
             if (isset($_FILES['comprovante_fiscal']) && ($_FILES['comprovante_fiscal']['error'] == 0 && $_FILES['comprovante_fiscal']['size'] > 0)) {
                 $data['comprovante_fiscal'] = (isset($_FILES['comprovante_fiscal']) ? $this->upload_arquivo('comprovante_fiscal') : '');
                 if (!$data['comprovante_fiscal'] || $data['comprovante_fiscal'] == '') {
-                    $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a " . ini_get('upload_max_filesize'));
+                    $msg = "O tamanho do comprovante deve ser menor ou igual a " . ini_get('upload_max_filesize');
+                    if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                    $this->session->set_flashdata('msg_erro', $msg);
                     return $this->redirect($veiculo, 'quilometragem', $data);
                 }
             }
 
             if (!$data['id_ativo_veiculo_quilometragem']) {
                 $this->db->insert('ativo_veiculo_quilometragem', $data);
-                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+                $msg = "Novo registro inserido com sucesso!";
+                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                $this->session->set_flashdata('msg_success', $msg);
             } else {
                 $this->db->where('id_ativo_veiculo_quilometragem', $data['id_ativo_veiculo_quilometragem'])
                     ->update('ativo_veiculo_quilometragem', $data);
-                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+                $msg = "Registro atualizado com sucesso!";
+                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                $this->session->set_flashdata('msg_success', $msg);
             }
 
             if (isset($_FILES['comprovante_fiscal']) && ($_FILES['comprovante_fiscal']['error'] == 0 && $_FILES['comprovante_fiscal']['size'] > 0)) {
@@ -477,53 +310,196 @@ class Ativo_veiculo  extends MY_Controller
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/" . $this->input->post('id_ativo_veiculo')));
             return;
         }
-        $this->session->set_flashdata('msg_erro', "Veiculo não encontrado!");
+
+        $msg = "Veiculo não encontrado!";
+        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+        $this->session->set_flashdata('msg_erro', $msg);
         echo redirect(base_url("ativo_veiculo"));
     }
 
-    public function quilometragem_deletar($id_ativo_veiculo, $id_ativo_veiculo_quilometragem){
+    public function quilometragem_deletar($id_ativo_veiculo, $id_ativo_veiculo_quilometragem, $json = false){
         $quilometragem = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_quilometragem = {$id_ativo_veiculo_quilometragem}")
             ->get('ativo_veiculo_quilometragem')->num_rows() == 1;
 
         if (!$quilometragem) {
-            $this->session->set_flashdata('msg_erro', "Manutenção não encontrada!");
+            $msg = "Lançamento de Quilometragem não encontrado!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
             return false;
         }
 
-        if ($this->user->nivel != 1) {
-            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
-            echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
-            return false;
-        }
+        // if ($this->user->nivel != 1) {
+        //     $msg = "Usuário sem permissão!";
+        //     if ($json) return $this->json(['success' => false, 'message' => $msg]);
+        //     $this->session->set_flashdata('msg_erro', $msg);
+        //     echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
+        //     return false;
+        // }
 
         if (!$this->ativo_veiculo_model->permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem)) {
-            $this->session->set_flashdata('msg_erro', "Lançamento Quilometragem não pode ser excluído!");
+            $msg = "Lançamento Quilometragem não pode ser excluído!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
             return false;
         }
 
         $this->db->where("id_ativo_veiculo_quilometragem = {$id_ativo_veiculo_quilometragem}")->delete('ativo_veiculo_quilometragem');
+
+        if ($json) return $this->json(['success' => true]);
         echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
         return true;
     }
 
+
+    public function count_operacao_horas($inicio, $fim){
+        return ((strtotime($fim) - strtotime($inicio)) / 60) / 60;
+    }
+
+    # Salvar Tempo de Operação para maquinas
+    public function operacao_salvar($json = false)
+    {
+        $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
+        $data['id_ativo_veiculo_operacao'] = $this->input->post('id_ativo_veiculo_operacao');
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
+        if ($veiculo) {
+            $data['operacao_tempo'] = (int) str_replace(' Horas', '', $this->input->post('operacao_tempo'));
+
+            if ($this->input->post('operacao_periodo_inicio') && $this->input->post('operacao_periodo_inicio_hora')) {
+                $data['operacao_periodo_inicio'] = $this->input->post('operacao_periodo_inicio') . " ".$this->input->post('operacao_periodo_inicio_hora');
+                if (!strtotime($data['operacao_periodo_inicio']) || strtotime($data['operacao_periodo_inicio']) > strtotime("now")) {
+                    $msg = "Período inicial da operacao inválido!";
+                    if ($json){
+                        return $this->json(['message' => $msg, 'success' => false]);
+                    }
+
+                    $this->session->set_flashdata('msg_erro', $msg);
+                    return $this->redirect($veiculo, 'operacao', $data);
+                }
+            }
+
+            if (isset($data['operacao_periodo_inicio']) && ($this->input->post('operacao_periodo_fim') && $this->input->post('operacao_periodo_fim_hora'))) {
+                $data['operacao_periodo_fim'] = $this->input->post('operacao_periodo_fim') . " ". $this->input->post('operacao_periodo_fim_hora');
+                if (!strtotime($data['operacao_periodo_fim']) || strtotime($data['operacao_periodo_fim']) < strtotime($data['operacao_periodo_inicio']) || strtotime($data['operacao_periodo_fim']) > strtotime("now")) {
+                    $msg = "Período final da operacao inválido!";
+                    if ($json){
+                        return $this->json(['message' => $msg, 'success' => false]);
+                    }
+                    
+                    $this->session->set_flashdata('msg_erro', $msg);
+                    return $this->redirect($veiculo, 'operacao', $data);
+                }
+            }
+
+            if (isset($data['operacao_periodo_fim']) && isset($data['operacao_periodo_inicio'])) {
+                $data['operacao_tempo'] = $this->count_operacao_horas($data['operacao_periodo_inicio'], $data['operacao_periodo_fim']);
+            }
+
+            if (!isset($data['operacao_tempo']) || $data['operacao_tempo'] == 0) {
+                $msg = "Tempo de operacao inválido!";
+                if ($json){
+                    return $this->json(['message' => $msg, 'success' => false]);
+                }
+
+                $this->session->set_flashdata('msg_erro', $msg);
+                return $this->redirect($veiculo, 'operacao', $data);
+            }
+
+            if (!$data['id_ativo_veiculo_operacao']) {
+                $this->db->insert('ativo_veiculo_operacao', $data);
+                $msg ="Novo registro inserido com sucesso!";
+                if ($json){
+                    return $this->json(['message' => $msg, 'success' => true]);
+                }
+                $this->session->set_flashdata('msg_success', $msg);
+            } else {
+                $this->db->where('id_ativo_veiculo_operacao', $data['id_ativo_veiculo_operacao'])
+                    ->update('ativo_veiculo_operacao', $data);
+
+                $msg = "Registro atualizado com sucesso!";
+                if ($json){
+                    return $this->json(['message' => $msg, 'success' => true]);
+                }
+                $this->session->set_flashdata('msg_success', $msg);
+            }
+
+            echo redirect(base_url("ativo_veiculo/gerenciar/operacao/" . $this->input->post('id_ativo_veiculo')));
+            return;
+        }
+
+        $msg = "Veiculo não encontrado!";
+        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+
+        $this->session->set_flashdata('msg_erro', $msg);
+        echo redirect(base_url("ativo_veiculo"));
+    }
+
+    public function operacao_deletar($id_ativo_veiculo, $id_ativo_veiculo_operacao, $json = false){
+        $operacao = $this->db
+            ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
+            ->where("id_ativo_veiculo_operacao = {$id_ativo_veiculo_operacao}")
+            ->get('ativo_veiculo_operacao')->num_rows() == 1;
+
+        if (!$operacao) {
+            $msg = "Operação não encontrada!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        // if ($this->user->nivel != 1) {
+        //     $msg = "Usuário sem permissão!";
+        //     if ($json) return $this->json(['success' => false, 'message' => $msg]);
+
+        //     $this->session->set_flashdata('msg_erro', $msg);
+        //     echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
+        //     return false;
+        // }
+
+        if (!$this->ativo_veiculo_model->permit_delete_operacao($id_ativo_veiculo, $id_ativo_veiculo_operacao)) {
+            $msg = "Lançamento Operação não pode ser excluído!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        $this->db->where("id_ativo_veiculo_operacao = {$id_ativo_veiculo_operacao}")->delete('ativo_veiculo_operacao');
+
+        if ($json) return $this->json(['success' => true]);
+        echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
+        return true;
+    }
+
+
     public function manutencao_salvar()
     {
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
         if ($veiculo) {
             $veiculo_km = (int) $veiculo->veiculo_km;
             $data['id_fornecedor'] = $this->input->post('id_fornecedor');
             $data['id_ativo_configuracao'] = $this->input->post('id_ativo_configuracao');
             $data['id_ativo_veiculo_manutencao'] = $this->input->post('id_ativo_veiculo_manutencao');
             $data['veiculo_km_atual'] = (int) $this->input->post('veiculo_km_atual');
+            $data['veiculo_km_proxima_revisao'] = (int) $this->input->post('veiculo_km_proxima_revisao');
+            $data['veiculo_hora_proxima_revisao'] = str_replace(' Horas', '', $this->input->post('veiculo_hora_proxima_revisao'));
             $data['ordem_de_servico'] = $this->input->post('ordem_de_servico');
 
             if ($data['veiculo_km_atual'] < $veiculo_km) {
                 $this->session->set_flashdata('msg_erro', "KM atual deve ser maior ou igual a quilometragem atual do veículo!");
+                return $this->redirect($veiculo, 'manutencao', $data);
+            }
+
+            if ($data['veiculo_km_proxima_revisao'] > 0  && 
+                ($data['veiculo_km_proxima_revisao'] < $veiculo_km || ((int) $data['veiculo_km_proxima_revisao'] < (int) $data['veiculo_km_atual']))) {
+                $this->session->set_flashdata('msg_erro', "KM para a próxima revisão deve ser maior ou igual a quilometragem atual do veículo!");
                 return $this->redirect($veiculo, 'manutencao', $data);
             }
 
@@ -575,7 +551,7 @@ class Ativo_veiculo  extends MY_Controller
 
     public function manutencao_saida($id_ativo_veiculo, $id_ativo_veiculo_manutencao)
     {
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($id_ativo_veiculo);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
         $manutencao = $this->db->where('id_ativo_veiculo_manutencao', $id_ativo_veiculo_manutencao)
             ->where('id_ativo_veiculo', $id_ativo_veiculo)
             ->get('ativo_veiculo_manutencao')->row();
@@ -627,7 +603,7 @@ class Ativo_veiculo  extends MY_Controller
     public function ipva_salvar()
     {
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
         if ($veiculo) {
             $data['id_ativo_veiculo_ipva'] = $this->input->post('id_ativo_veiculo_ipva');
@@ -712,7 +688,7 @@ class Ativo_veiculo  extends MY_Controller
     public function seguro_salvar()
     {
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
         if ($veiculo) {
             $data['id_ativo_veiculo_seguro'] = $this->input->post('id_ativo_veiculo_seguro');
@@ -788,7 +764,7 @@ class Ativo_veiculo  extends MY_Controller
     function depreciacao_salvar()
     {
         $data['id_ativo_veiculo'] = !is_null($this->input->post('id_ativo_veiculo')) ? $this->input->post('id_ativo_veiculo') : '';
-        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo_detalhes($data['id_ativo_veiculo']);
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
         if ($veiculo) {
             $valor_fipe = str_replace("R$", "", $this->input->post('valor_fipe'));
@@ -871,6 +847,72 @@ class Ativo_veiculo  extends MY_Controller
         }
         $this->session->set_flashdata('msg_erro', "Veículo contém itens lançados, não pode ser excluído!");
         echo redirect(base_url("ativo_veiculo"));
+    }
+
+    function buscar_veiculo($coluna, $valor){
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($valor, $coluna);
+        if ($veiculo)  {
+            return $this->json($veiculo);
+        }
+        return $this->json(null);
+    }
+
+    function consultar_extrato($tipo, $id_ativo_veiculo){
+        switch($tipo){
+            case "km":
+            case "quilometragem":
+                $data = [
+                    "historico" => [
+                        "data" => $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($id_ativo_veiculo, 5),
+                        "title" => "Quilometragem",
+                        "id_ativo_veiculo" => $id_ativo_veiculo
+                    ],
+                    "extrato" => $this->ativo_veiculo_model->get_km_extrato($id_ativo_veiculo),
+                ];
+                return $this->json($data);
+            break;
+
+            case "operacao":
+                $data = [
+                    "historico" => [
+                        "data" => $this->ativo_veiculo_model->get_ativo_veiculo_operacao_lista($id_ativo_veiculo, 5),
+                        "title" => "Tempo de Operação",
+                        "id_ativo_veiculo" => $id_ativo_veiculo
+                    ],
+                    "extrato" => $this->ativo_veiculo_model->get_operacao_extrato($id_ativo_veiculo),
+                ];
+                return $this->json($data);
+            break;
+        }
+        return $this->json(null);
+    }
+
+    function lancar_operacao($tipo, $id_ativo_veiculo){
+        $_POST['id_ativo_veiculo'] = $id_ativo_veiculo;
+
+        switch($tipo){
+            case "km":
+            case "quilometragem":
+                return $this->quilometragem_salvar(true);
+            break;
+            case "operacao":
+                return $this->operacao_salvar(true);
+            break;
+        }
+        return $this->json(null, 400);
+    }
+
+    function deletar_operacao($tipo, $id_ativo_veiculo){
+        switch($tipo){
+            case "km":
+            case "quilometragem":
+                return $this->quilometragem_deletar($id_ativo_veiculo, $this->input->post('id_ativo_veiculo_quilometragem'), true);
+            break;
+            case "operacao":
+                return $this->operacao_deletar($id_ativo_veiculo, $this->input->post('id_ativo_veiculo_operacao'), true);
+            break;
+        }
+        return $this->json(null, 400);
     }
 }
 

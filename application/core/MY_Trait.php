@@ -197,6 +197,18 @@ trait MY_Trait {
         return;
       }
 
+      public function getRef() : string
+      {
+        $redirect_to = "/";
+        if (isset($_SERVER['SERVER_PORT']) && isset($_SERVER['HTTP_REFERER'])) { 
+            $redirect_to = str_replace(base_url() ,"/", $_SERVER['HTTP_REFERER']);
+            if (in_array($_SERVER['SERVER_PORT'], ['80', '443'])) {
+                $redirect_to = str_replace(str_replace(":{$_SERVER['SERVER_PORT']}", "", base_url()), "/", $_SERVER['HTTP_REFERER']);
+            }
+        }
+        return $redirect_to;
+      }
+
       public function dd(...$data){
         foreach($data as $dt) {
             echo "<pre>";
@@ -204,5 +216,5 @@ trait MY_Trait {
             echo "</pre>";
         }
         exit;
-    }
+      }
 }

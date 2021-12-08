@@ -40,8 +40,8 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="000" class="form-control" 
-                                        min="<?php echo isset($ultimo_km) ? ((int) $ultimo_km->veiculo_km + 1) : 1; ?>"
-                                        value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_km) ? $quilometragem->veiculo_km : (isset($ultimo_km) ? ((int) $ultimo_km->veiculo_km + 1) : 0); ?>">
+                                        min="<?php echo $dados_veiculo->veiculo_km + 1; ?>"
+                                        value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_km) ? $quilometragem->veiculo_km : $dados_veiculo->veiculo_km + 1; ?>">
                                     </div>
                                     
                                     <div class="col col-md-2">
@@ -49,10 +49,9 @@
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="text" id="veiculo_litros" name="veiculo_litros" placeholder="2,2L" class="form-control litros" 
+                                        <input type="text" id="veiculo_litros" name="veiculo_litros" placeholder="2,2L" class="form-control litros" 
                                         value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_litros) ? (int) $quilometragem->veiculo_litros : ''?>">
                                     </div>
-                                    
                                 </div>
 
                                 <div class="row form-group">
@@ -60,7 +59,7 @@
                                         <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" 
+                                        <input type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" 
                                         value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_custo) ? $quilometragem->veiculo_custo : ''?>">
                                     </div>
 

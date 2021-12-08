@@ -209,7 +209,7 @@ class Relatorio_model_base extends MY_Model {
           'titulo' => 'Centro de Custo',
           'filtros'=> ['id_obra','periodo'],
           'grafico' => [
-            'column' => ['Ferramentas', 'Equipamentos', 'Veiculos Abastecimentos', 'Veiculos Manuteções', 'Total'],
+            'column' => ['Ferramentas', 'Equipamentos', 'Veiculos Abastecimentos', 'Veiculos Manutenções', 'Total'],
             'tipo' => 'column',
           ],
           'tipo' => ['grafico','arquivo'],
@@ -238,21 +238,41 @@ class Relatorio_model_base extends MY_Model {
 
       $this->vencimentos  = [
         "ativo_veiculo" => [
-          "manutencao" => [
+          [
+            "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
             "coluna" => "data_vencimento"
           ],
-          "ipva" => [
+          [
+            "nome" => "manutencao",
+            "tabela" => "ativo_veiculo_manutencao",
+            "coluna" => "veiculo_km_proxima_revisao",
+            "coluna_vencimento" => "data_vencimento",
+            "alerta" => "10000",
+            "id_configuracao_revisao" => "14"
+          ],
+          [
+            "nome" => "manutencao",
+            "tabela" => "ativo_veiculo_manutencao",
+            "coluna" => "veiculo_hora_proxima_revisao",
+            "coluna_vencimento" => "data_vencimento",
+            "alerta" => "1000",
+            "id_configuracao_revisao" => "14"
+          ],
+          [
+            "nome" => "ipva",
             "tabela" => "ativo_veiculo_ipva",
             "coluna" => "ipva_data_vencimento"
           ],
-          "seguro" => [
+          [
+            "nome" => "seguro",
             "tabela" => "ativo_veiculo_seguro",
             "coluna" => "carencia_fim"
           ],
         ],
         "ativo_externo" => [
-          "calibracao" => [
+          [
+            "nome" => "calibracao",
             "tabela" => "ativo_externo",
             "coluna" => "validade_certificado"
           ],

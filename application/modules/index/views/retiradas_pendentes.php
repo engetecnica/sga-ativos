@@ -1,8 +1,8 @@
 <div class="col-12">
     <div class="top-campaign">
         <h3 class="title-3">Retiradas Pendentes</h3>
-        <p>Com devolução prevista até <?php echo $this->formata_data_hora($informe_retiradas_pendentes_vencimento); ?></p><br>
-        <?php if (count($informe_retiradas_pendentes) > 0){ ?>
+        <p>Com devolução prevista até <?php echo $this->formata_data_hora($informe_retiradas_pendentes['vencimento']); ?></p><br>
+        <?php if (count($informe_retiradas_pendentes['relatorio']) > 0){ ?>
         <table class="table table-responsive table-borderless table-striped table-earning">
             <thead>
                 <tr>
@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($informe_retiradas_pendentes as $i => $retirada) { $i++; ?>
+                <?php foreach($informe_retiradas_pendentes['relatorio'] as $i => $retirada) { $i++; ?>
                 <tr>
                     <td>
                         <?php if ($retirada->id_obra === $user->id_obra) {?>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
         <?php } else {  ?>
-            <p>Nenhum item encontrado para o período.</p>
+            <p>Nenhuma retirada pendênte</p>
         <?php } ?>
     </div>
 </div>

@@ -84,15 +84,34 @@
                                         <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
                                     </div>
                                 </div>
-                             
+                                
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_km_proxima_revisao" class=" form-control-label">Quilometragem Próxima Revisão</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0000000" class="form-control" 
+                                        min="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? (int) $dados_veiculo->veiculo_km + 1 : 0; ?>"
+                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : ''; ?>">
+                                    </div>
+                                    
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_hora_proxima_revisao" class=" form-control-label">Horas Próxima Revisão</label>
+                                    </div>
 
+                                    <div class="col-12 col-md-3">
+                                        <input type="text" id="veiculo_hora_proxima_revisao" name="veiculo_hora_proxima_revisao" placeholder="2000 Horas" class="form-control horas" 
+                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_hora_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_hora_proxima_revisao) : ''?>">
+                                    </div>
+                                </div>
+                             
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : ''?>">
+                                        value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : date('Y-m-d');?>">
                                     </div>
 
                                     <div class="col col-md-2">

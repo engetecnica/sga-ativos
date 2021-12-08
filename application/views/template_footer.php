@@ -6,11 +6,10 @@
     </script>
     <script src="<?php echo base_url("assets/vendor/wow/wow.min.js"); ?>"></script>
     <script src="<?php echo base_url("assets/vendor/animsition/animsition.min.js"); ?>"></script>
-    <script src="<?php echo base_url("assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"); ?>">
-    </script>
-
+    <script src="<?php echo base_url("assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"); ?>"></script>
     <script src="<?php echo base_url("assets/js/Chart.js"); ?>"></script>
     <script src="<?php echo base_url("assets/vendor/select2/select2.min.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/js/lodash.js"); ?>"></script>
 
     <!-- Main JS-->
     <script src="<?php echo base_url("assets/js/main.js"); ?>"></script>
@@ -26,7 +25,7 @@
 
     <script>
         $(document).ready(function() {
-            $config_lista = {
+            var config_lista = {
                 "aLengthMenu": [
                     [10, 20, 30, 50, 100, -1],
                     [10, 20, 30, 50, 100, "Todos"]
@@ -58,10 +57,17 @@
                 }
             };
 
-            $('#lista').DataTable($config_lista);
-            $('#lista2').DataTable($config_lista);
-            $('#lista3').DataTable($config_lista);
-            $('#lista4').DataTable($config_lista);
+            $('#lista').DataTable(config_lista);
+            $('#lista1').DataTable(config_lista);
+            $('#lista2').DataTable(config_lista);
+            $('#lista3').DataTable(config_lista);
+            $('#lista4').DataTable(config_lista);
+            $('#lista5').DataTable(config_lista);
+            $('#lista6').DataTable(config_lista);
+            $('#lista7').DataTable(config_lista);
+            $('#lista8').DataTable(config_lista);
+            $('#lista9').DataTable(config_lista);
+            $('#lista10').DataTable(config_lista);
 
             $('.paginate_button').click((e) => {
                 setTimeout(() => {
@@ -77,7 +83,7 @@
                     $($(li).parent()).siblings('.js-arrow').click()
                 }
             })
-          
+            
             $(".select2").select2();
         }); 
     </script>
@@ -159,56 +165,99 @@
         })
         <?php } ?>
 
-        $('.litros').mask("####,## L", {reverse: true});
-        $('.cpf').mask('000.000.000-00');
-        $('.rg').mask('0.000.000-00');
-        $('.cnpj').mask('00.000.000/0001-00');
-        $('.valor').mask('000.000.000.000,00 R$', {reverse: true});
-        $(".telefone").mask("(00) 0000-0000");
-        $(".celular").mask("(00) 9 0000-0000");
+        function loadMasks(){
+            $('.litros').mask("####,## Litros", {reverse: true});
+            $('.horas').mask("####### Horas", {reverse: true});
+            $('.cpf').mask('000.000.000-00');
+            $('.rg').mask('0.000.000-00');
+            $('.cnpj').mask('00.000.000/0001-00');
+            $('.valor').mask('000.000.000.000,00 R$', {reverse: true});
+            $(".telefone").mask("(00) 0000-0000");
+            $(".celular").mask("(00) 9 0000-0000");
 
-        $('.veiculo_placa').mask('SSS-0A00',  {
-            onKeyPress: function(placa, e, field, options) {
-                $(field)[0].value = placa.toUpperCase();
+            $('.veiculo_placa').mask('SSS-0A00',  {
+                onKeyPress: function(placa, e, field, options) {
+                    $(field)[0].value = placa.toUpperCase();
+                }
+            });
+
+            $(".hora").mask("Hh:NZ:NZ", {
+                translation:  {
+                    'Z': {pattern: /[0-9]/, optional: true}, 
+                    'N': {pattern: /[0-5]/, optional: true},
+                    'H': {pattern: /[0-2]/, optional: false},
+                    'h': {pattern: /[0-9]/, optional: true},
+                },
+                onChange: function (hora, e, field, options) {
+                    let explode_hora = hora.split(':');
+
+                    if (explode_hora.length == 1) {
+                        let valor = parseInt(explode_hora[0]);
+                        if (valor >= 0 && valor < 24) {
+                            $(field)[0].value = explode_hora.join(":");
+                            return
+                        }
+                    }
+
+                    if (explode_hora.length == 2) {
+                        let valor = parseInt(explode_hora[1]);
+                        if(valor >= 0 && valor < 60) {
+                            $(field)[0].value = explode_hora.join(":");
+                            return
+                        }
+                    }
+
+                    if (explode_hora.length == 3) {
+                        let valor = parseInt(explode_hora[2]);
+                        if(valor >= 0 && valor < 60) {
+                            $(field)[0].value = explode_hora.join(":");
+                            return
+                        }
+                    }
+                    $(field)[0].value = ""
+                }
+            });
+        }
+
+        loadMasks()
+
+        function formata_data_hora(data_hora){
+            let formated =  moment(data_hora).format('DD/MM/YYYY H:mm:ss')
+            return formated == "Invalid date" ? '-' : formated
+        }
+
+        function formata_data(data){
+            let formated =  moment(data).format('DD/MM/YYYY')
+            return formated == "Invalid date" ? '-' : formated
+        }
+
+        function formata_hora(hora){
+            let formated =  moment(hora).format('H:mm:ss')
+            return formated == "Invalid date" ? '-' : formated
+        }
+
+
+        async function show_comfirm_msg(options = {}, callback = (result) => {}){
+            let default_options = {
+                title: 'Você tem certeza?',
+                text: "Esta operação não poderá ser revertida. Deseja continuar Continuar?",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, Continuar!'
             }
-        });
+            return await Swal.fire({...default_options, ...options}).then(async (result) => {return await callback(result)})
+        }
 
-        $(".hora").mask("Hh:NZ:NZ", {
-            translation:  {
-                'Z': {pattern: /[0-9]/, optional: true}, 
-                'N': {pattern: /[0-5]/, optional: true},
-                'H': {pattern: /[0-2]/, optional: false},
-                'h': {pattern: /[0-9]/, optional: true},
-            },
-            onChange: function (hora, e, field, options) {
-                let explode_hora = hora.split(':');
-
-                if (explode_hora.length == 1) {
-                    let valor = parseInt(explode_hora[0]);
-                    if (valor >= 0 && valor < 24) {
-                        $(field)[0].value = explode_hora.join(":");
-                        return
-                    }
-                }
-
-                if (explode_hora.length == 2) {
-                    let valor = parseInt(explode_hora[1]);
-                    if(valor >= 0 && valor < 60) {
-                        $(field)[0].value = explode_hora.join(":");
-                        return
-                    }
-                }
-
-                if (explode_hora.length == 3) {
-                    let valor = parseInt(explode_hora[2]);
-                    if(valor >= 0 && valor < 60) {
-                        $(field)[0].value = explode_hora.join(":");
-                        return
-                    }
-                }
-                $(field)[0].value = ""
-            }
-        });
+        function show_msg(title, text, type = 'success'){
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: type,
+                confirmButton: false,
+            })
+        }
 
         $(".deletar_registro").click(function(){
             let id_registro = $(this).attr('data-id');
@@ -216,15 +265,12 @@
             let url_post = $(this).attr('data-href');
             let redirect = $(this).attr('data-redirect') ? $(this).attr('data-redirect') : true;
 
-            Swal.fire({
+            show_comfirm_msg({
                 title: 'Você tem certeza?',
                 text: "Esta operação não poderá ser revertida.",
                 icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, deletar!'
-            }).then((result) => {
+            }, (result) => {
                 if (result.value) {
                     $.ajax({
                         url: url_post,
@@ -272,7 +318,7 @@
                 beforeCallback(event, $(this));
             }
 
-            Swal.fire({
+            show_comfirm_msg({
                 title: title,
                 text: text,
                 icon: icon,
@@ -280,7 +326,7 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sim, ' + acao + '!'
-            }).then((result) => {
+            }, (result) => {
                 if (result.value) {
                     if(url_post && tabela) {
                         $.ajax({
@@ -333,7 +379,7 @@
                 $("#id_marca").html("<option>...</option>");
             } else {    
                 $.ajax({
-                    url: '<?php echo base_url('ativo_veiculo/fipe_get_marca'); ?>',
+                    url: '<?php echo base_url('ativo_veiculo/fipe_get_marcas'); ?>',
                     type: "post",
                     data: {tipo_veiculo: tipo_veiculo} ,
                     success: function (response) {
@@ -438,7 +484,7 @@
                     let title = $(event.target).attr('data-title') || 'Você tem certeza?';
                     let text =  $(event.target).attr('data-text') || "Esta operação não poderá ser revertida.";
 
-                    Swal.fire({
+                    show_comfirm_msg({
                         title: title,
                         text: text,
                         icon: icon,
@@ -447,14 +493,14 @@
                         cancelButtonColor: '#d33',
                         canceButtonText: 'Cancelar',
                         confirmButtonText: 'Sim, ' + acao + '!'
-                    }).then((result) => {
+                    }, (result) => {
                         if (result.isConfirmed) {
                             confirm_submit = result.isConfirmed
                             $(event.target).submit();
                         }
                     }).catch(() => {
                         confirm_submit = null
-                    });
+                    })
                 }
             })
 
