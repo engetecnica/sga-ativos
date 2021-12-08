@@ -393,7 +393,7 @@
                     this.loading = true
                     let data = await axios
                     .get(`${window.base_url}/ativo_veiculo/consultar_extrato/${this.tipo_operacao}/${this.veiculo_dados.id_ativo_veiculo}`)
-                    .then((response) => { return (response.statusText === "OK") ? response.data : null })
+                    .then((response) => { return (response.status == 200) ? response.data : null })
                     this.veiculo_extrato = data.extrato
                     this.veiculo_historico = data.historico
                     this.loading = false
@@ -405,7 +405,7 @@
                     this.loading = true
                     this.veiculo_dados = await axios
                     .get(`${window.base_url}/ativo_veiculo/buscar_veiculo/${coluna}/${valor}`)
-                    .then(function(response) {return (response.statusText === "OK") ? response.data : null})
+                    .then(function(response) { return (response.status == 200) ? response.data : null})
 
                     this.veiculo_dados_find = false
                     if (this.veiculo_dados) {
@@ -430,7 +430,7 @@
                         let status = await axios
                         .post(`${window.base_url}/ativo_veiculo/deletar_operacao/${tipo}/${id_ativo_veiculo}`, JSON.stringify(form))
                         .then(function(response) {
-                            return (response.statusText === "OK") ? response.data : null
+                            return (response.status == 200) ? response.data : null
                         })
 
                         if (status.success)this.consultar()
