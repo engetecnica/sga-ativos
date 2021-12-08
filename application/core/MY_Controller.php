@@ -96,7 +96,7 @@ class MY_Controller extends MX_Controller {
 
     private function set_obra_gerencia($user){
         if ($user->nivel == 1) {
-            if ($user->id_obra_gerencia) {
+            if (isset($user->id_obra_gerencia)) {
                 $user->id_obra = $user->id_obra_gerencia;
             } else {
                 try {

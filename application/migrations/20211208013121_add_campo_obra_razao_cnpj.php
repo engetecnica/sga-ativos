@@ -8,7 +8,7 @@ class Migration_Add_Campo_Obra_Razao_Cnpj extends CI_Migration {
 	public function up(){
 		if ($this->db->table_exists($this->table) &&
 		 	(!$this->db->field_exists('obra_razaosocial', $this->table) && !$this->db->field_exists('obra_cnpj', $this->table))	) {
-			$this->db->query("alter table {$this->table} add column obra_razaosocial text NOT NULL after nome, add column obra_cnpj text NOT NULL after obra_razaosocial");
+			$this->db->query("alter table {$this->table} add column obra_razaosocial text NOT NULL after codigo_obra, add column obra_cnpj text NOT NULL after obra_razaosocial");
 		}
 	}
 	
