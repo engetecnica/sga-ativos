@@ -77,6 +77,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select 
+                                            required="required"
                                             class="form-control" 
                                             name="id_ativo_externo_categoria" 
                                             id="id_ativo_externo_categoria"
@@ -98,7 +99,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select 
-                                            class="form-control" 
+                                            class="form-control select2" 
                                             name="id_obra" 
                                             id="id_obra"
                                             required="required"
@@ -256,27 +257,31 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="ativo_externo_group">
                                             <?php if((isset($detalhes) && isset($detalhes->id_ativo_externo)) && $detalhes->tipo == 1) { ?>
-                                                <div class="dropdwon-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url("ativo_externo/editar_items/{$detalhes->id_ativo_externo}"); ?>">
                                                     <i class="fa fa-th-large"></i> Editar Itens (KIT)
                                                 </a>
+                                                <div class="dropdown-divider"></div>
                                             <?php } ?>
+
+                                            <a class="dropdown-item " href="<?php echo base_url("ativo_externo/manutencao/{$detalhes->id_ativo_externo}"); ?>">
+                                                <i class="fa fa-wrench"></i>&nbsp; Manutenção
+                                            </a>
                                             
-                                            <div class="dropdwon-divider"></div>
+                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item " href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$detalhes->id_ativo_externo}"); ?>">
-                                             <i class="fa fa-balance-scale"></i> Cert. de Calibração
+                                             <i class="fa fa-balance-scale"></i>&nbsp; Cert. de Calibração
                                             </a>
                                             <?php if ($detalhes->situacao == 8) {?>
-                                                <div class="dropdwon-divider"></div>
+                                                <div class="dropdown-divider"></div>
                                                 <a href="javascript:void(0)" 
                                                 data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $detalhes->id_ativo_externo; ?>"  redirect="true" 
                                                 data-tabela="ativo_externo" class="dropdown-item  confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
                                             <?php } ?>
                                             
-                                            <div class="dropdwon-divider"></div>
+                                            <!-- <div class="dropdown-divider"></div>
                                             <a class="dropdown-item " href="<?php echo base_url("anexo/index/12/{$detalhes->id_ativo_externo}"); ?>">
                                                 <i class="fa fa-files-o"></i> Anexos
-                                            </a>
+                                            </a> -->
                                     </div>
                                 </div>
                                 <?php } ?>
@@ -288,6 +293,14 @@
                 </div>
             </div>
 
+            <?php if (isset($anexos)) { ?>
+            <div id="anexos" class="row">
+                <div class="col-12">
+                    <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                </div>
+            </div>
+            <?php } ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -298,5 +311,7 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

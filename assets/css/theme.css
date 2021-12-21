@@ -4913,10 +4913,11 @@ label {
 }
 
 
+td > .avatar > img,
 td > .avatar {
     width: 45px;
     height: 45px;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 td > a {
@@ -4931,6 +4932,13 @@ td > a {
     cursor: pointer;
 }
 
+.preview-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
 .preview{
     padding: 20px;
     width: 130px;
@@ -4943,6 +4951,10 @@ td > a {
 .preview > a {
     text-decoration: none;
     color: var(--secondary) !important;
+}
+
+.preview-footer > a{
+    margin: 5px;
 }
 
 .preview i {
@@ -15167,4 +15179,39 @@ div::-webkit-scrollbar-thumb:hover,
 
 .small-m-t{
     margin-top: 50px !important;
+}
+
+.index_obs{
+    padding: 10px;
+}
+
+.index_obs > .body > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.index_obs > .body > div > img {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 7px;
+    margin-right: 20px;
+}
+
+.index_obs > .body > div > div{
+    line-height: 15px;
+}
+
+.index_obs > .body > div > div > small {
+    font-size: .6rem;
+} 
+
+.index_obs > .body > div > div > strong {
+    margin-bottom: 0;
+} 
+
+.index_obs > .body > p {
+    margin: 20px 0;
+    margin-left: 60px;
+    font-weight: 400;
 }

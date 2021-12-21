@@ -32,7 +32,11 @@
                                     <input type="hidden" id="id_ativo_veiculo_operacao" name="id_ativo_veiculo_operacao" value="<?php echo $operacao->id_ativo_veiculo_operacao;?>">
                                 <?php } ?>
 
-                                <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
+                                <p style="text-transform: uppercase">
+                                    <strong style="color: red;">
+                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                    </strong>
+                                </p>
                                 <hr>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
@@ -74,22 +78,6 @@
                                     </div>
                                     
                                 </div>
-
-                
-                              
-                                <?
-                                /*
-                                    $this->load->view('gerenciar_anexo', [
-                                        'label' => "Comprovante Fiscal",
-                                        'item' => isset($operacao) ? $operacao : null,
-                                        'anexo' => "comprovante_fiscal",
-                                        'controller' => 'ativo_veiculo',
-                                        'tabela' => 'ativo_veiculo_operacao',
-                                        'id_item' => isset($operacao) ? $operacao->id_ativo_veiculo_operacao : null,
-                                        'redirect' => isset($operacao) ?  "ativo_veiculo/gerenciar/operacao/editar/{$id_ativo_veiculo}/{$operacao->id_ativo_veiculo_operacao}" : ""
-                                    ]);
-                                */
-                                ?> 
                                 
                                 <small>Tempo de Operação ou Período devem ser obrigatoriamente definido, um ou ambos. 
                                     Se somente o período for definido, será calculado de acordo com o tempo entre início e fim.</small>
@@ -114,6 +102,14 @@
                 </div>
             </div>
 
+            <?php if (isset($anexos) && isset($operacao)) { ?>
+                <div id="anexos" class="row">
+                    <div class="col-12">
+                        <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                    </div>
+                </div>
+            <?php } ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -124,5 +120,6 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

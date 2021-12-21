@@ -32,6 +32,7 @@ class MY_Controller extends MX_Controller {
         $this->load->model('anexo/anexo_model');
         $this->load->model('obra/obra_model');
         $this->load->model('relatorio/notificacoes_model');
+        $this->load->model("configuracao/configuracao_model");
         
         if ($this->user) {
             $this->logado = true;
@@ -66,7 +67,11 @@ class MY_Controller extends MX_Controller {
         $data['user'] = $this->user;
         $data['modulos'] = $this->get_modulos($this->user->nivel);
         $data['obras'] = $this->obra_model->get_obras();
+        $data['app_config'] = $this->configuracao_model->get_configuracao();
+        $data['app_env'] = $_ENV['CI_ENV'];
         
+        if($data['app_config']) unset($data['app_config']->sendgrid_apikey, $data['app_config']->one_signal_apikey, $data['app_config']->one_signal_apiurl);
+
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);
         $this->load->view("../views/template_footer", $data);
@@ -125,7 +130,7 @@ class MY_Controller extends MX_Controller {
             ->where('modulo.id_vinculo !=', '0')
             ->where("usuario_modulo.id_usuario_nivel", $nivel)
             ->where("modulo.id_vinculo", $Obj->id_modulo)
-            ->order_by("modulo.titulo", 'ASC')
+            ->order_by("modulo.titulo", 'desc')
             ->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo")
             ->group_by("usuario_modulo.id_modulo");
 
@@ -243,30 +248,28 @@ class MY_Controller extends MX_Controller {
             return '';
         }
 
-        $upload_path = "assets/uploads/".$pasta;
-        if(!file_exists($upload_path)){
-           mkdir($upload_path, 0777, true);
+        $upload_path = __DIR__."/../../assets/uploads/{$pasta}/";
+        if(!is_dir($upload_path)){
+            $this->ultimo_erro_upload_arquivo = "Path no is a directory.";
+            return "";
         }
 
-        $image = '';
-
-        $name_file = $_FILES[$pasta]['name'];
-        $ext = pathinfo($name_file, PATHINFO_EXTENSION);
-       
-        $new_name = $this->remocao_acentos($_FILES[$pasta]['name']).".".$ext; 
         $config = array(
             'upload_path' => $upload_path,
-            'allowed_types' => "gif|jpg|png|jpeg|pdf",
+            'allowed_types' => "gif|jpg|png|jpeg|pdf|xls",
             'overwrite' => TRUE,
             'encrypt_name' => true,
             'max_size' => "100048000"
         );
-        
+    
         $this->load->library('upload');
         $this->upload->initialize($config);
 
         if(!$this->upload->do_upload($pasta)){ 
+            // - The upload destination folder does not appear to be writable.
+            // - A problem was encountered while attempting to move the uploaded file to the final destination.
             $this->ultimo_erro_upload_arquivo = $this->upload->display_errors();
+            log_message('error', $this->ultimo_erro_upload_arquivo);
             return '';
         } else{
             $this->ultimo_erro_upload_arquivo = null;
@@ -275,29 +278,44 @@ class MY_Controller extends MX_Controller {
         }
         return $image;
     }
+    
+    public function salvar_anexo(
+        array $config = [
+            "titulo" => null, 
+            "descricao" => null, 
+            "anexo" => null,
+            //outros
+            //Ex: "id_configuracao" => $id_configuracao,
+        ],
+        $id_modulo, 
+        int $id_modulo_item, 
+        string $tipo = null, 
+        int $id_modulo_subitem = null
+    ) : int {  
+        $modulo = null;
+        if(isset($config['anexo'])) {
+            if (is_int($id_modulo)) $modulo = $this->db->where('id_modulo', $id_modulo)->get('modulo')->row();
+            else $modulo = $this->db->where('rota', $id_modulo)->get('modulo')->row();
+            
+            if ($modulo) {
+                $anexo = $this->anexo_model->get_anexo_by_name($config['anexo']);
+                $anexo_data = [
+                    "id_usuario" => $this->user->id_usuario,
+                    "id_modulo" => $modulo->id_modulo,
+                    "id_modulo_item" => $id_modulo_item,
+                    "id_modulo_subitem" => $id_modulo_subitem,
+                    "tipo" =>  $tipo,
+                    "anexo" => isset($config['anexo']) ? $config['anexo'] : null,
+                    "titulo" => isset($config['titulo']) ? $config['titulo'] : null,
+                    "descricao" => isset($config['descricao']) ? $config['descricao'] : null,
+                ];
+                unset($config['path'], $config['anexo'], $config['titulo'], $config['descricao']);
 
-    public function salvar_anexo($id_modulo, $data, $id_item, $subitem_column = null, $path, $tipo, $id_configuracao = null){
-        if($data[$path]) {
-            $anexo_name = "{$path}/{$data[$path]}";
-            $anexo = $this->anexo_model->get_anexo_by_name($anexo_name);
-
-            $anexo_data = [
-                "id_usuario" => $this->user->id_usuario,
-                "id_modulo" => $id_modulo,
-                "id_modulo_item" => $id_item,
-                "id_modulo_subitem" =>  $subitem_column && $data[$subitem_column] ? $data[$subitem_column] : $this->db->insert_id(),
-                "id_configuracao" => $id_configuracao,
-                "tipo" =>  $tipo,
-                "anexo" => $anexo_name,
-                "titulo" => $anexo_name,
-                "descricao" => null,
-            ];
-
-            if ($anexo) {
-                $anexo_data['id_anexo'] = $anexo->id_anexo;
+                if ($anexo) $anexo_data['id_anexo'] = $anexo->id_anexo;
+                return $this->anexo_model->salvar_formulario(array_merge($config, $anexo_data));
             }
-            $this->anexo_model->salvar_formulario($anexo_data);
         }
+        return false;
     }
 }
  

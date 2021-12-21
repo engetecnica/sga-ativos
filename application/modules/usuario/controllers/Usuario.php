@@ -66,6 +66,8 @@ class usuario  extends MY_Controller {
         $data['usuario'] = $this->input->post('usuario');
         $data['nome'] = $this->input->post('nome');
         $data['email'] = $this->input->post('email');
+        if($this->input->post('nivel') == 1) $data['permit_notification_email'] = $this->input->post('permit_notification_email');
+        $data['permit_notification_push'] = $this->input->post('permit_notification_push');
      
         if ($usuario && $this->user->id_usuario != $usuario->id_usuario || !$usuario && $this->user->nivel == 1) {
             $data['situacao'] = $this->input->post('situacao');
@@ -143,6 +145,7 @@ class usuario  extends MY_Controller {
         if ($data['id_usuario'] == null && $data['id_obra'] == null) {
             $data['id_obra'] == $this->get_obra_base()->id_obra;
         }
+        if ($data['permit_notification_push'] == null) unset($data['permit_notification_push']); 
         
         $this->usuario_model->salvar_formulario($data);
         if($data['id_usuario'] == null){
@@ -175,6 +178,28 @@ class usuario  extends MY_Controller {
         }
 
         return $this->json(['success' => $this->usuario_model->solicitar_confirmacao_email($id_usuario)]);
+    }
+
+    function permit_notification_email($id_usuario, $permit = 2){
+        $success = false;
+        if ($this->user->nivel === 1 || $this->user->id_usuario == $id_usuario) {
+            $usuario = $this->usuario_model->get_usuario($id_usuario);
+            if($usuario) {
+                $this->db->where("id_usuario", $id_usuario)->update("usuario", ["permit_notification_email" => $permit == 2 ? '0' : '1']);
+                $success = true;
+            }
+        }
+        return $this->json(['success' => $success]);
+    }
+
+    function permit_notification_push($id_usuario, $permit = 2){
+        $success = false;
+        $usuario = $this->usuario_model->get_usuario($id_usuario);
+        if ($usuario && $this->user->id_usuario === $id_usuario) {
+            $this->db->where("id_usuario", $id_usuario)->update("usuario", ["permit_notification_push" => $permit == 2 ? '0' : '1']);
+            $success = true;   
+        }
+        return $this->json(['success' => $success]);
     }
 
     private function redirect($data) {

@@ -55,21 +55,20 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarSeguto">
-                                                <?php if($this->ativo_veiculo_model->permit_edit_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>
+                                                <?php 
+                                                    $permit_edit = $this->ativo_veiculo_model->permit_edit_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro);
+                                                    if($permit_edit){ 
+                                                ?>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}");?>">
                                                     <i class="fa fa-edit"></i> Editar
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if($valor->contrato_seguro){ ?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
-                                                    <i class="fa fa-eye"></i> Ver Compovante
-                                                    </a> 
-                                                    <div class="dropdown-divider"></div> 
-                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/contrato_seguro/{$valor->contrato_seguro}"); ?>">
-                                                    <i class="fa fa-download"></i> Baixar Comprovante
-                                                    </a>                           
+                                                <?php if(isset($valor->comprovante) && $valor->comprovante != null){ ?>
+                                                    <?php if($permit_edit){ ?> <div class="dropdown-divider"></div> <?php } ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_seguro}#anexos"); ?>">
+                                                        <i class="fa fa-files-o"></i>&nbsp; Anexos
+                                                    </a>
                                                 <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_seguro($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_seguro)){ ?>

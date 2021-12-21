@@ -418,9 +418,11 @@ class Relatorio_model extends Relatorio_model_base {
       $select = "select COUNT(id_ativo_veiculo) FROM ativo_veiculo WHERE (tipo_veiculo = 'carro' and situacao = '0')";
       $select2 = "select COUNT(id_ativo_veiculo) FROM ativo_veiculo WHERE (tipo_veiculo = 'moto' and situacao = '0')";
       $select3 = "select COUNT(id_ativo_veiculo) FROM ativo_veiculo WHERE (tipo_veiculo = 'caminhao' and situacao = '0')";
+      $select4 = "select COUNT(id_ativo_veiculo) FROM ativo_veiculo WHERE (tipo_veiculo = 'maquina' and situacao = '0')";
       $relatorio->select("($select) as carro")
                 ->select("($select2) as moto")
-                ->select("($select3) as caminhao");
+                ->select("($select3) as caminhao")
+                ->select("($select4) as maquina");
     }
     return $relatorio->where("atv.situacao = '0'")->get()->row();
   }
@@ -442,7 +444,52 @@ class Relatorio_model extends Relatorio_model_base {
     if (isset($data['veiculo_placa']) && !empty($data['veiculo_placa'])) {
       $relatorio->where("atv.veiculo_placa = '{$data['veiculo_placa']}'");
     }
+
+    if (isset($data['id_interno_maquina']) && !empty($data['id_interno_maquina'])) {
+      $relatorio->where("atv.id_interno_maquina = '{$data['id_interno_maquina']}'");
+    }
+
     return $relatorio->get()->result();
+  }
+
+
+  public function veiculos_quilometragem($data=null){
+    $data = $this->extract_data('veiculos_quilometragem', $data);
+    $kms_credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = atv.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+
+    $relatorio = $this->db
+        ->from('ativo_veiculo_quilometragem km')
+        ->join('ativo_veiculo atv', 'km.id_ativo_veiculo = atv.id_ativo_veiculo','right')
+        ->select('km.veiculo_km as km_atual, atv.veiculo_km as km_inicial, (km.veiculo_km  - atv.veiculo_km) as km_rodado')
+        ->select("atv.id_ativo_veiculo, atv.veiculo_placa, atv.veiculo, atv.veiculo_placa, atv.id_interno_maquina, atv.tipo_veiculo, atv.situacao, atv.data, atv.id_marca, atv.id_modelo")
+        ->select("(({$kms_credito_select} - km.veiculo_km) + atv.veiculo_km)  as km_ultima_revisao, {$kms_credito_select} as km_proxima_revisao");
+    
+    $inicio = $data['periodo']['inicio'];
+    $fim = $data['periodo']['fim'];
+    if ($inicio && $fim) {
+      $relatorio->where("km.data >= '$inicio'")
+                 ->where("km.data <= '$fim'");
+    }
+
+    if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] != 'todos') {
+      $relatorio->where("atv.tipo_veiculo = '{$data['tipo_veiculo']}'");
+    }
+
+    if (isset($data['veiculo_placa']) && !empty($data['veiculo_placa'])) {
+      $relatorio->where("atv.veiculo_placa = '{$data['veiculo_placa']}'");
+    }
+
+    if (isset($data['id_interno_maquina']) && !empty($data['id_interno_maquina'])) {
+      $relatorio->where("atv.id_interno_maquina = '{$data['id_interno_maquina']}'");
+    }
+ 
+    $veiculos = $relatorio->group_by('atv.id_ativo_veiculo')->get()->result();
+    if(count($veiculos) > 0) {
+      foreach($veiculos as $k => $veiculo){
+        if ($veiculo->tipo_veiculo == 'maquina') $veiculos[$k] = $this->ativo_veiculo_model->set_outros_dados_veiculo($veiculo);
+      }
+    }
+    return $veiculos;
   }
 
   public function veiculos_abastecimentos($data=null){
@@ -673,6 +720,10 @@ class Relatorio_model extends Relatorio_model_base {
       $veiculos_abastecimento->like("veiculo_placa", $data['veiculo_placa']);
     }
 
+    if (isset($data['id_interno_maquina'])) {
+      $veiculos_abastecimento->like("id_interno_maquina", $data['id_interno_maquina']);
+    }
+
     $veiculos_abastecimento = $veiculos_abastecimento->get()->result();
   
     $valor = 0;
@@ -696,7 +747,7 @@ class Relatorio_model extends Relatorio_model_base {
     $equipamentos_manutecoes = $this->custos_equipamentos_manutecoes($data, $tipo);
     $ferramentas =  $this->custos_ferramentas($data, $tipo);
     $veiculos_manutecoes = $this->custos_veiculos_manutecoes($data, $tipo);
-    $veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($data, $tipo);
+    //$veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($data, $tipo);
 
     if ($tipo && $tipo == 'arquivo') {
       return (object) [
@@ -706,8 +757,8 @@ class Relatorio_model extends Relatorio_model_base {
         'equipamentos_total' => $equipamentos->total,
         'equipamentos_manutecoes' => $equipamentos_manutecoes->lista, 
         'equipamentos_manutecoes_total' => $equipamentos_manutecoes->total, 
-        'veiculos_abastecimentos' => $veiculos_abastecimentos->lista, 
-        'veiculos_abastecimentos_total' => $veiculos_abastecimentos->total, 
+        // 'veiculos_abastecimentos' => $veiculos_abastecimentos->lista, 
+        // 'veiculos_abastecimentos_total' => $veiculos_abastecimentos->total, 
         'veiculos_manutecoes' => $veiculos_manutecoes->lista, 
         'veiculos_manutecoes_total' => $veiculos_manutecoes->total, 
         'total' => $this->formata_moeda(array_sum([
@@ -721,14 +772,14 @@ class Relatorio_model extends Relatorio_model_base {
         'ferramentas' =>  $ferramentas->total,
         'equipamentos' =>  $equipamentos->total,
         'equipamentos_manutecoes' => $equipamentos_manutecoes->total,
-        'veiculos_abastecimentos' => $veiculos_abastecimentos->total, 
+        //'veiculos_abastecimentos' => $veiculos_abastecimentos->total, 
         'veiculos_manutecoes' => $veiculos_manutecoes->total, 
         'total' => $this->formata_moeda(array_sum([
           $ferramentas->total,
           $equipamentos->total,
           $equipamentos_manutecoes->total,
           $veiculos_manutecoes->total,
-          $veiculos_abastecimentos->total
+          //$veiculos_abastecimentos->total
         ]), true)
     ];
     return (object) $relatorio;       
@@ -757,20 +808,23 @@ class Relatorio_model extends Relatorio_model_base {
   }
 
   public function patrimonio_disponivel($data=null, $tipo=null){
+    $obras = [];
+    $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
     $data = $this->extract_data('patrimonio_disponivel', $data);
 
     if ($tipo && $tipo == 'arquivo') {
       $relatorio = $this->db ->from('ativo_veiculo atv');
-      if ($data['tipo_veiculo'] && $data['tipo_veiculo'] !== 'todos') {
+      if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] !== 'todos') {
         $relatorio->where("tipo_veiculo = {$data['tipo_veiculo']}");
       }
-      $veiculos = $relatorio->where("situacao = '0'")->get()->result();
-      $veiculos_total = array_sum(array_map(function($veiculo) {
-        return floatval($veiculo->valor_fipe);
-      }, $veiculos));
+      $veiculos = $relatorio->select("atv.*")->where("situacao = '0'")->get()->result();
 
-      $obras = [];
-      $show_valor_total = isset($data['valor_total']) && $data['valor_total'] === "true";
+      $relatorio = $this->db ->from('ativo_veiculo atv');
+      if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] !== 'todos') {
+        $relatorio->where("tipo_veiculo = {$data['tipo_veiculo']}");
+      }
+      $veiculos_total = $relatorio->select("SUM(atv.valor_fipe) as valor")->where("situacao = '0'")->get()->row();
+      
       if (isset($data['id_obra']) && $data['id_obra'] != null) {
         $obra = $this->obra_model->get_obra($data['id_obra']);
         $obras[] = $this->get_patrimonio_obra_items($obra, $show_valor_total);
@@ -783,7 +837,7 @@ class Relatorio_model extends Relatorio_model_base {
 
       return (object) [
         'veiculos' => $veiculos,
-        'veiculos_total' => $veiculos_total,
+        'veiculos_total' => $veiculos_total->valor,
         'obras' => $obras,
         'show_valor_total' => $show_valor_total
       ];
@@ -809,6 +863,7 @@ class Relatorio_model extends Relatorio_model_base {
     }
     $ativos_externos =  $ativo_externo->get()->row();
 
+    $ativos_veiculos = null;
     if (!$data['id_obra']){
       $ativos_veiculos = $this->db
         ->from('ativo_veiculo atv')
@@ -818,7 +873,7 @@ class Relatorio_model extends Relatorio_model_base {
     }
 
     return (object) array_merge(
-      (array)  $ativos_internos, 
+      (array) $ativos_internos, 
       (array) $ativos_externos,
       !$data['id_obra'] ? (array) $ativos_veiculos : [],
       [
@@ -916,29 +971,16 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function limpar_uploads(){
     $delete_files = [];
-    $path = __DIR__."/../../../../assets/uploads";
+    $path = __DIR__."/../../../../assets/uploads/";
 
-    foreach ($this->uploads as $dir => $table) {
-      $delete_files = array_merge($delete_files, $this->anexo_model->getOrphans($dir, $table));
-    }
+    foreach ($this->uploads as $dir => $table) $delete_files = array_merge($delete_files, $this->anexo_model->getOrphans($dir, $table));
 
-    foreach(glob("{$path}/relatorio/relatorio_*") as $file){
+    foreach(glob("{$path}/relatorio/relatorio_*") as $file) {
       $filetime = strtotime(explode(".", substr(strrchr($file, "_"), 1))[0]);
-      if ($filetime <= strtotime('-2 minutes')) {
-        $delete_files[] = $file;
-      }
+      if ($filetime <= strtotime('-2 minutes')) $delete_files[] = $file;
     }
 
-    foreach ($delete_files as $filename) {
-      if (strpos($filename, $path) === false) {
-        $filename = "$path/$filename";
-      }
-
-      if (file_exists($filename)) {
-        unlink($filename);
-      }
-    }
-
+    foreach ($delete_files as $filename) if(file_exists($filename)) unlink($filename); 
     return $this->limpar_anexos_excluidos();
   }
 
@@ -948,9 +990,7 @@ class Relatorio_model extends Relatorio_model_base {
       $path = APPPATH."../assets/uploads/";
 
       foreach ($anexos as $anexo) {
-        if (!file_exists($path.$anexo->anexo)) {
-          $anexos_excluir_id = array_merge($anexos_excluir_id, [$anexo->id_anexo]);
-        }
+        if (!file_exists($path.$anexo->anexo)) $anexos_excluir_id = array_merge($anexos_excluir_id, [$anexo->id_anexo]);
       }
 
       $this->db->where("id_anexo  IN ('".implode("','", $anexos_excluir_id)."')")->delete('anexo');
@@ -964,10 +1004,11 @@ class Relatorio_model extends Relatorio_model_base {
     $id_modulo = "";
 
     foreach($this->relatorio_model->vencimentos as $modulo => $vencimentos){
-      $this->load->model("{$modulo}/{$modulo}_model");
-
       foreach($vencimentos as $vencimento){
         $relatorio = $this->db->select("{$vencimento['tabela']}.*");
+        
+        if (isset($vencimento['coluna_formato']) && $vencimento['coluna_formato'] == 'date') $now = date("Y-m-d", strtotime($now));
+
         if ($id_obra && $vencimento['tabela'] == 'ativo_interno') {
           $relatorio->where("{$vencimento['tabela']}.id_obra = '{$id_obra}'");
         }
@@ -1016,7 +1057,15 @@ class Relatorio_model extends Relatorio_model_base {
           $relatorio->group_by("{$vencimento['tabela']}.$id_modulo");
         }
 
-        if (!in_array($vencimento['coluna'], ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao'])) {
+        if ($modulo == 'ativo_externo' && $vencimento['tabela'] == "ativo_externo_certificado_de_calibracao") {
+          $id_modulo = "id_{$modulo}";
+          $relatorio->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
+                    ->select("$modulo.nome as ativo_nome, $modulo.codigo as ativo_codigo, $modulo.data_inclusao as ativo_data_inclusao")
+                    ->select("({$vencimento['tabela']}.data_vencimento > '{$now}') as vigencia");
+        }
+
+        $deny_by_coluna = ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao'];
+        if (!in_array($vencimento['coluna'], $deny_by_coluna)) {
           if ($days > 0) {
             $relatorio->where("{$vencimento['coluna']} BETWEEN '{$now}' AND '{$date}'");
           } else {
@@ -1038,7 +1087,7 @@ class Relatorio_model extends Relatorio_model_base {
         }
       }
     }
-
+      
     return (object) $results;
   }
 
@@ -1058,7 +1107,13 @@ class Relatorio_model extends Relatorio_model_base {
         echo $html;
         return true;
       }
-      return $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $this->config->item("notifications_address"));
+
+      $send_address = $this->config->item("notifications_address") != null ? $this->config->item("notifications_address") : [];
+      array_map(function($user) use (&$send_address) {
+        $send_address = array_merge($send_address, ["$user->nome" => $user->email]);
+      }, $this->db->where("nivel = '1' and permit_notification_email = '1' and email_confirmado_em IS NOT NULL")->get('usuario')->result());
+
+      return count($send_address) > 0 ? $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $send_address) : false;
     }
     return true;
   }

@@ -24,6 +24,11 @@
     <script src="<?php echo base_url('assets'); ?>/vendor/circle-progress/circle-progress.min.js"></script>
 
     <script>
+        function refresh_page(segment = null){
+            window.location.href = window.location.href
+            if (segment) window.location.href = window.location.href + `#${segment}`
+        }
+
         $(document).ready(function() {
             var config_lista = {
                 "aLengthMenu": [
@@ -83,7 +88,7 @@
                     $($(li).parent()).siblings('.js-arrow').click()
                 }
             })
-            
+
             $(".select2").select2();
         }); 
     </script>
@@ -168,12 +173,13 @@
         function loadMasks(){
             $('.litros').mask("####,## Litros", {reverse: true});
             $('.horas').mask("####### Horas", {reverse: true});
+            $('.km').mask("########## KM", {reverse: true});
             $('.cpf').mask('000.000.000-00');
             $('.rg').mask('0.000.000-00');
             $('.cnpj').mask('00.000.000/0001-00');
             $('.valor').mask('000.000.000.000,00 R$', {reverse: true});
-            $(".telefone").mask("(00) 0000-0000");
-            $(".celular").mask("(00) 9 0000-0000");
+            $('.telefone').mask('(00) 0000-0000');
+            $('.celular').mask('(00) 9 0000-0000');
 
             $('.veiculo_placa').mask('SSS-0A00',  {
                 onKeyPress: function(placa, e, field, options) {
@@ -373,7 +379,7 @@
         $(".confirmar_registro").click(confirmar_registro);
 
         // Trabalhado items da tabela fipe.
-        $("#tipo_veiculo").change(function(){
+        $("#tipo_veiculo").on('change',function(){
             var tipo_veiculo = $(this).val();
             if(tipo_veiculo=='0'){
                 $("#id_marca").html("<option>...</option>");
@@ -385,7 +391,6 @@
                     success: function (response) {
                         $("#id_marca").html(response);
                         $("#id_marca").attr('title', 'Selecione uma Marca');                        
-
                         $("#id_modelo").attr('title', 'Selecione um Modelo'); 
                         $("#ano").attr('title', 'Selecione o Ano'); 
                         $("#veiculo").html("<option>...</option>"); 
@@ -511,30 +516,96 @@
     <?php } ?>
 
     <script>
-        window.OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            OneSignal.init({
-                appId: window.one_signal_appid,
-                notifyButton: {
-                    enable: true,
-                },
-            });
+ 
+        if ((configuracao && configuracao.permit_notificacoes_push == 1) && OneSignal != undefined) {
+            OneSignal.push(function() {
+                OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
+                OneSignal.SERVICE_WORKER_PATH = 'assets/js/OneSignalSDKWorker.js'
+                OneSignal.SERVICE_WORKER_UPDATER_PATH = 'assets/js/OneSignalSDKUpdaterWorker.js'
+           
+                OneSignal.isPushNotificationsEnabled(function(isEnabled) {
+                    if (!isEnabled) OneSignal.showHttpPrompt()
+                    axios.get(`${base_url}usuario/permit_notification_push/${user.id_usuario}/${isEnabled ? 1 : 2}`)
+                })
 
-            if(user){
-                OneSignal.setExternalUserId(user.id_usuario)
-                OneSignal.sendTag("id_empresa", user.id_empresa)
-                OneSignal.sendTag("id_obra", user.id_obra)
-                OneSignal.sendTag("usuario", user.usuario)
-                OneSignal.sendTag("situacao", user.situacao)
-                OneSignal.sendTag("situacao_nome", user.situacao_nome == "0" ? 'Ativo' : 'Inativo')
-                OneSignal.sendTag("nivel", user.nivel)
-                OneSignal.sendTag("nivel_nome", user.nivel_nome)
-                OneSignal.sendTag("empresa", user.empresa)
-                OneSignal.sendTag("empresa_razao", user.empresa_razao)
-                OneSignal.sendTag("codigo_obra", user.codigo_obra)
-                OneSignal.sendTag("data_criacao", user.data_criacao)
-            }
-        });
+                OneSignal.init({
+                    appId: configuracao.one_signal_appid,
+                    safari_web_id: configuracao.one_signal_safari_web_id,
+                    subdomainName: base_url,
+                    allowLocalhostAsSecureOrigin: false,
+                    persistNotification: true,
+                    promptOptions: {
+                        siteName: configuracao.app_descricao,
+                        actionMessage: "Gostaríamos de mostrar notificações sobre as últimas notícias e atualizações.",
+                        exampleNotificationTitle: 'Exemplo de Notificação',
+                        exampleNotificationMessage: 'Esse é um exemplo de noticicação.',
+                        exampleNotificationCaption: 'Você pode desfazer sua inscrição a quanquer momento',
+                        acceptButtonText: "Permitir",
+                        cancelButtonText: "Não, Obrigado!",
+                        autoAcceptTitle: 'Sim, Permitir!',
+                        slidedown: {
+                            enabled: true,
+                            autoPrompt: true,
+                            timeDelay: 20,
+                            pageViews: 3
+                        }
+                    },
+                    notifyButton: {
+                        enable: true,
+                        showCredit: false,
+                        size: 'medium',
+                        //theme: 'default',
+                        position: 'bottom-right',
+                        offset: {
+                            bottom: '20px',
+                            right: '20px', 
+                            //right: '0px'
+                        },
+                        text: {
+                            'tip.state.unsubscribed': 'Inscreva-se pra receber as notificações',
+                            'tip.state.subscribed': "Você está inscrito pra receber as notificações",
+                            'tip.state.blocked': "Você está bloqueado para notificações",
+                            'message.prenotify': 'Click para se inscrever e receber as notificações',
+                            'message.action.subscribed': "Obrigado por se inscrever!",
+                            'message.action.resubscribed': "Você está inscrito para receber as notificações",
+                            'message.action.unsubscribed': "Você não receberá notificações a partir de agora",
+                            'dialog.main.title': 'Gerenciar notificações do site',
+                            'dialog.main.button.subscribe': 'Inscreva-se!',
+                            'dialog.main.button.unsubscribe': 'Desfazer inscrição',
+                            'dialog.blocked.title': 'Desbloquear Notificações',
+                            'dialog.blocked.message': "Siga as instruções para permitir as notificações"
+                        },
+                        colors: {
+                            'circle.background': '#e7a339',
+                            'circle.foreground': 'white',
+                            'badge.background': 'rgb(84,110,123)',
+                            'badge.foreground': 'white',
+                            'badge.bordercolor': 'white',
+                            'pulse.color': 'white',
+                            'dialog.button.background.hovering': '#fd7a14',
+                            'dialog.button.background.active': '#e7a339',
+                            'dialog.button.background': '#e7a339',
+                            'dialog.button.foreground': 'white'
+                        },
+                    }
+                })
+
+                if(user){
+                    OneSignal.setExternalUserId(user.id_usuario)
+                    OneSignal.sendTag("id_empresa", user.id_empresa)
+                    OneSignal.sendTag("id_obra", user.id_obra)
+                    OneSignal.sendTag("usuario", user.usuario)
+                    OneSignal.sendTag("situacao", user.situacao)
+                    OneSignal.sendTag("situacao_nome", user.situacao_nome == "0" ? 'Ativo' : 'Inativo')
+                    OneSignal.sendTag("nivel", user.nivel)
+                    OneSignal.sendTag("nivel_nome", user.nivel_nome)
+                    OneSignal.sendTag("empresa", user.empresa)
+                    OneSignal.sendTag("empresa_razao", user.empresa_razao)
+                    OneSignal.sendTag("codigo_obra", user.codigo_obra)
+                    OneSignal.sendTag("data_criacao", user.data_criacao)
+                }
+            })
+        }
     </script>
 
 </body>

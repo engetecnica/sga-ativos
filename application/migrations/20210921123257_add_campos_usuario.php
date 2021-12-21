@@ -13,6 +13,8 @@ class Migration_Add_Campos_Usuario extends CI_Migration {
 			$this->dbforge->add_column($this->table, 'codigo_recuperacao varchar(50) NULL DEFAULT NULL AFTER email_confirmado_em');
 			$this->dbforge->add_column($this->table, 'codigo_recuperacao_validade timestamp NULL DEFAULT NULL AFTER codigo_recuperacao');
 			$this->dbforge->add_column($this->table, 'avatar varchar(255) NULL DEFAULT NULL AFTER codigo_recuperacao_validade');
+			$this->dbforge->add_column($this->table, "permit_notification_email enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não, 1=Sim' after situacao");
+			$this->dbforge->add_column($this->table, "permit_notification_push enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não, 1=Sim' after permit_notification_email" );
 		}
 	}
 	
@@ -25,6 +27,8 @@ class Migration_Add_Campos_Usuario extends CI_Migration {
 			$this->dbforge->drop_column($this->table, 'codigo_recuperacao');
 			$this->dbforge->drop_column($this->table, 'codigo_recuperacao_validade');
 			$this->dbforge->drop_column($this->table, 'avatar');
+			$this->dbforge->drop_column($this->table, 'permit_notification_email');
+			$this->dbforge->drop_column($this->table, 'permit_notification_push');
 		}
 	}
 }

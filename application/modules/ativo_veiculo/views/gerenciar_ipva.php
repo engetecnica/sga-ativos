@@ -57,21 +57,20 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarIpva">
-                                                <?php if($this->ativo_veiculo_model->permit_edit_ipva($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_ipva)){ ?>
+                                                <?php 
+                                                    $permit_edit = $this->ativo_veiculo_model->permit_edit_ipva($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_ipva);
+                                                    if($permit_edit){ 
+                                                ?>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_ipva}");?>">
                                                     <i class="fa fa-edit"></i>Editar
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if($valor->comprovante_ipva){ ?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/comprovante_ipva/{$valor->comprovante_ipva}"); ?>">
-                                                    <i class="fa fa-eye"></i> Ver Compovante
+                                                <?php if(isset($valor->comprovante) && $valor->comprovante != null){ ?>
+                                                    <?php if($permit_edit){ ?> <div class="dropdown-divider"></div> <?php } ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_ipva}#anexos"); ?>">
+                                                        <i class="fa fa-files-o"></i>&nbsp; Anexos
                                                     </a>
-                                                    <div class="dropdown-divider"></div>  
-                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_ipva/{$valor->comprovante_ipva}"); ?>">
-                                                    <i class="fa fa-download"></i> Baixar Comprovante
-                                                    </a>                           
                                                 <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_ipva($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_ipva)){ ?>

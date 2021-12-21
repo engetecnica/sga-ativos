@@ -26,7 +26,11 @@
 
                             <form action="<?php echo base_url('ativo_veiculo/manutencao_salvar'); ?>" method="post" enctype="multipart/form-data">
                         
-                                <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
+                            <p style="text-transform: uppercase">
+                                    <strong style="color: red;">
+                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                    </strong>
+                                </p>
                                 <hr>
 
 
@@ -133,25 +137,13 @@
                                     </div>
                                 </div>
                                 
-                                <?php 
-                                    $this->load->view('gerenciar_anexo', [
-                                        'label' => "Ordem de Serviço",
-                                        'item' => isset($manutencao) ? $manutencao : null,
-                                        'anexo' => "ordem_de_servico",
-                                        'controller' => 'ativo_veiculo',
-                                        'tabela' => 'ativo_veiculo_manutencao',
-                                        'id_item' => isset($manutencao) ? $manutencao->id_ativo_veiculo_manutencao : null,
-                                        'redirect' => isset($manutencao) ?  "ativo_veiculo/gerenciar/manutencao/editar/{$id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}" : ""
-                                    ]);
-                                ?>
-                                
                                 <hr>
                                 <div class="pull-left">
                                     <button class="btn btn-primary">                                                    
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$id_ativo_veiculo);?>">
+                                    <a href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$id_ativo_veiculo}");?>">
                                     <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
@@ -166,6 +158,14 @@
                 </div>
             </div>
 
+            <?php if (isset($anexos) && isset($manutencao)) { ?>
+                <div id="anexos" class="row">
+                    <div class="col-12">
+                        <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                    </div>
+                </div>
+            <?php } ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -176,5 +176,6 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

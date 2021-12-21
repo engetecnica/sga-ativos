@@ -133,8 +133,8 @@
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->id_ativo_externo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->codigo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->nome; ?></td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->inclusao_certificado);?> </td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->validade_certificado);?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->data_inclusao);?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->data_validade);?> </td>
             </tr>
             <?php } ?>
         </tbody>
@@ -163,8 +163,8 @@
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->id_ativo_externo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->codigo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->nome; ?></td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->inclusao_certificado);?> </td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->validade_certificado);?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->data_inclusao);?> </td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_data($ativo->data_validade);?> </td>
             </tr>
             <?php } ?>
         </tbody>

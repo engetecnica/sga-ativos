@@ -45,7 +45,7 @@
                     <tr>
                         <th>Manutenção ID</th>
                         <th>Veículo ID</th>
-                        <th>Placa</th>
+                        <th>Placa/ID Interna Máquina</th>
                         <th width="50%">Marca/Modelo</th>
                         <th>Fornecedor</th>
                         <th>Tipo de Manutenção</th>
@@ -62,7 +62,7 @@
                     <tr>
                         <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                         <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
-                        <td><?php echo $manutencao->veiculo_placa; ?></td>
+                        <td><?php echo $manutencao->veiculo_placa ?: $manutencao->id_interno_maquina; ?></td>
                         <td><?php echo $manutencao->veiculo; ?></td>
                         <td><?php echo $manutencao->fornecedor; ?></td>
                         <td><?php echo $manutencao->servico; ?></td>
@@ -167,24 +167,32 @@
             <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                 <thead>
                     <tr>
-                        <th>Ativo ID</th>
-                        <th>Código</th>
-                        <th width="50%">Nome/Descrição</th>
-                        <th width="25%">Data Inclusão</th>
-                        <th width="25%">Data vencimento</th>
+                        <th>ID Certificado</th>
+                        <th width="20%">Ativo</th>
+                        <th>Data de Inclusão</th>
+                        <th>Data de Vencimento</th>
+                        <th>Situação</th>
+                        <th width="30%">Observação</th>
                         <th>Detalhes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($informe_vencimentos['relatorio']->calibracao->data as $ativo) {?>
+                    <?php foreach($informe_vencimentos['relatorio']->calibracao->data as $certificado) {?>
                     <tr>
-                        <td><?php echo $ativo->id_ativo_externo; ?></td>
-                        <td><?php echo $ativo->codigo; ?></td>
-                        <td><?php echo $ativo->nome; ?></td>
-                        <td><?php echo $this->formata_data($ativo->inclusao_certificado);?> </td>
-                        <td><?php echo $this->formata_data($ativo->validade_certificado);?> </td>
+                        <td><?php echo $certificado->id_certificado; ?></td>
+                        <td><?php echo "{$certificado->ativo_codigo} - {$certificado->ativo_nome}"; ?></td>
+                        <td><?php echo $this->formata_data($certificado->data_inclusao);?> </td>
+                        <td><?php echo $this->formata_data($certificado->data_vencimento);?> </td>
                         <td>
-                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$ativo->id_ativo_externo}") ?>">Mais Detalhes</a>
+                            <?php 
+                                $vigencia = $certificado->vigencia ? 'Vigente' : 'Expirado';
+                                $class = $certificado->vigencia ? "info" : "warning";
+                            ?>
+                            <span class="badge badge-<?php echo $class; ?>"><?php echo $vigencia; ?></span>
+                        </td>
+                        <td><?php echo $certificado->observacao; ?></td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$certificado->id_ativo_externo}/{$certificado->id_certificado}") ?>">Mais Detalhes</a>
                         </td>
                     </tr>
                     <?php } ?>

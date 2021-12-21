@@ -19,10 +19,12 @@ class ferramental_estoque_model extends MY_Model {
 			->where('id_retirada', $data['id_retirada'])
 			->update('ativo_externo_retirada', $data);
 	}
-	
-	public function get_lista_retiradas($id_obra = null, $id_funcionario = null, $status = null){
-			$retiradas = $this->db
-						->select('retirada.*, ob.*, fn.*, fn.nome as funcionario, ob.codigo_obra as obra')
+
+	private function query_retirada($id_obra = null, $id_funcionario = null, $status = null){
+		$retiradas = $this->db
+						->select('retirada.*, ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
+						->select('fn.cpf as funcionario_cpf, fn.rg as funcionario_rg, fn.celular as funcionario_celular, fn.nome as funcionario')
+						->select("(SELECT anexo FROM anexo WHERE tipo = 'termo_de_responsabilidade' AND id_modulo_item = retirada.id_retirada ORDER BY id_anexo desc LIMIT 1) as termo_de_responsabilidade")
 						->from('ativo_externo_retirada retirada');
 
 			if ($id_obra) {
@@ -41,52 +43,31 @@ class ferramental_estoque_model extends MY_Model {
 				}
 			}	
 
-			return $retiradas
-						->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
-						->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
-						->group_by('retirada.id_retirada')
-						->order_by('retirada.id_retirada', 'desc')
-						->get()
-						->result();
+		return $retiradas
+				->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
+				->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
+				->group_by('retirada.id_retirada')
+				->order_by('retirada.id_retirada', 'desc');
+	}
+	
+	public function get_lista_retiradas($id_obra = null, $id_funcionario = null, $status = null){
+		return $this->query_retirada($id_obra, $id_funcionario, $status)->get()->result();
 	}
 
 
 	public function search_retiradas($search){
-		return $this->db
-			->from('ativo_externo_retirada retirada')
-			->select('retirada.*, ob.*, fn.*, fn.nome as funcionario, ob.codigo_obra as obra')
-			->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
-			->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
-			->group_by('retirada.id_retirada')
-			->order_by('retirada.id_retirada', 'desc')
-			->like('retirada.id_retirada', $search)
-			->or_like('fn.nome', $search)
-			->or_like('ob.codigo_obra', $search)
-			->get()->result();
+		return $this->query_retirada()
+				->order_by('retirada.id_retirada', 'desc')
+				->like('retirada.id_retirada', $search)
+				->or_like('fn.nome', $search)
+				->or_like('ob.codigo_obra', $search)
+				->get()->result();
 	}
 
 	public function get_retirada($id_retirada, $id_obra = null, $id_funcionario = null){
-		$retirada = $this->db
-					->select('retirada.*, ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
-					->select('fn.cpf as funcionario_cpf, fn.rg as funcionario_rg, fn.celular as funcionario_celular, fn.nome as funcionario')
-					->from('ativo_externo_retirada retirada')
-					->where("retirada.id_retirada = {$id_retirada}");
-
-		if ($id_obra) {
-			$retirada->where("retirada.id_obra = {$id_obra}");
-		}
-		
-		if ($id_funcionario) {
-			$retirada->where("retirada.id_funcionario = {$id_funcionario}");
-		}	
-
-		$retirada = $retirada
-					->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
-					->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
-					->get()
-					->row();
-
+		$retirada = $this->query_retirada($id_obra, $id_funcionario)->where("retirada.id_retirada = {$id_retirada}")->get()->row();
 		if ($retirada) {
+			if ($retirada->termo_de_responsabilidade && stripos($retirada->termo_de_responsabilidade, 'anexo/') === false) $retirada->termo_de_responsabilidade = "termo_de_responsabilidade/{$retirada->termo_de_responsabilidade}";
 			$retirada->items = $this->get_retirada_items($id_retirada);
 		}
 		return $retirada;			

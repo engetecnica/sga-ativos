@@ -13,7 +13,6 @@ class Migration_Create_Ativo_Veiculo_Seguro extends CI_Migration {
 			->add_field('seguro_custo DECIMAL(13, 2) NOT NULL')
 			->add_field('carencia_inicio date NOT NULL')
 			->add_field('carencia_fim date NOT NULL')
-			->add_field('contrato_seguro varchar(255) NOT NULL')
 			->create_table($this->table);
 		}
 	}

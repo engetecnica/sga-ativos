@@ -64,16 +64,12 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <!-- <?php //if($valor->comprovante_fiscal){ ?>
+                                                <?php if(isset($anexos) && count($anexos) > 0){ ?>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" href="<?php //echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        <i class="fa fa-eye"></i> Ver Comprovante
+                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/operacao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_operacao}#anexos"); ?>">
+                                                        <i class="fa fa-files-o"></i>&nbsp; Anexos
                                                     </a>
-                                                    <div class="dropdown-divider"></div>  
-                                                    <a class="dropdown-item " target="_blank" download href="<?php //echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        <i class="fa fa-download"></i> Baixar Comprovante
-                                                    </a>                           
-                                                <?php //} ?> -->
+                                                <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_operacao($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_operacao)){ ?>
                                                     <div class="dropdown-divider"></div>

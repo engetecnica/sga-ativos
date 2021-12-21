@@ -1,5 +1,5 @@
 <?php
-(defined('BASEPATH')) OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \PhpOffice\PhpSpreadsheet\Spreadsheet;
 use \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -31,7 +31,7 @@ class Relatorio extends MY_Controller {
       $this->get_template('relatorio_gerar', $data);
     }
 
-    private function get_relatorio_pdf($relatorio_nome, $relatorio_data){
+    public function get_relatorio_pdf($relatorio_nome, $relatorio_data){
       $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
       $data = [
           'css' =>  $css, 
@@ -76,12 +76,12 @@ class Relatorio extends MY_Controller {
         ->setLastModifiedBy("Engetecnica APP")
         ->setTitle("Office 2007 {$tipo}")
         ->setSubject("Office 2007 {$tipo}")
-        ->setDescription("Document for Office 2007 {$tipo}, generated using PHP classes in Engetecnica APP.")
+        ->setDescription("Documento Office 2007 {$tipo}, gerado por Engetecnica APP")
         ->setKeywords("Office 2007 openxml php Excel spreadsheet")
         ->setCategory($relatorio);
         $spreadsheet->removeSheetByIndex(0);
 
-        //Usada dentro do arquivo do relatório
+        //Usada dentro do arquivo do relatório, não remover
         $sheet = new Worksheet($spreadsheet, 'Planilha Padrão');
 
         if (require $relatorio_file) {

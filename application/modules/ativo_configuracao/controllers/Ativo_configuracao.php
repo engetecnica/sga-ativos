@@ -57,6 +57,7 @@ class Ativo_configuracao  extends MY_Controller {
         }
 
         $data['titulo'] = ucwords($data['titulo']);
+        if($data['id_ativo_configuracao']=='') $data['permit_delete'] = 1;
         $this->ativo_configuracao_model->salvar_formulario($data);
 
         if($data['id_ativo_configuracao']==''){

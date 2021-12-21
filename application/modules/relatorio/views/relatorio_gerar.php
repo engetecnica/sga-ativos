@@ -81,14 +81,25 @@
                                         </select>
                                     </div>
                                     </template>
-                               
-                                    <template v-if="relatorio && relatorio.filtros.includes('veiculo_placa')">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_placa" class=" form-control-label">Placa do Veículo</label>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <input type="text" v-model="form.veiculo_placa" v-mask="'AAA-#N##'" class="form-control veiculo_placa" id="veiculo_placa" name="veiculo_placa"/>
-                                    </div>
+
+                                    <template v-if="form.tipo_veiculo != null">
+                                        <template v-if="(relatorio && relatorio.filtros.includes('veiculo_placa')) &&  (form.tipo_veiculo != 'maquina')">
+                                        <div class="col col-md-2">
+                                            <label for="veiculo_placa" class=" form-control-label">Placa do Veículo</label>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <input type="text" v-model="form.veiculo_placa" v-mask="'AAA-#N##'" class="form-control veiculo_placa" id="veiculo_placa" name="veiculo_placa"/>
+                                        </div>
+                                        </template>
+
+                                        <template v-if="(relatorio && relatorio.filtros.includes('id_interno_maquina')) && form.tipo_veiculo == 'maquina'">
+                                        <div class="col col-md-2">
+                                            <label for="id_interno_maquina" class=" form-control-label">ID Internada</label>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <input type="text" v-model="form.id_interno_maquina" placeholder="ENG-MAG-0000" class="form-control" id="id_interno_maquina" name="id_interno_maquina"/>
+                                        </div>
+                                        </template>
                                     </template>
                                 </div>
 
@@ -221,6 +232,7 @@
           situacao: null,
           tipo_veiculo: 'todos',
           veiculo_placa: null,
+          id_interno_maquina: null,
           valor_total: true,
           tipo_arquivo: 'xls',
         },
@@ -250,6 +262,8 @@
             }
 
             if(this.tipo){
+                if(this.tipo == 'maquina') this.form.veiculo_placa = null
+                if(this.tipo != 'maquina') this.form.id_interno_maquina = null
                 this.form.tipo_arquivo =  (this.relatorio && Object.keys(this.relatorio.arquivo_saida).length > 1) ? 'xls' : 'pdf'
                 this.relatorio = this.relatorios[this.tipo]
                 return;
@@ -261,6 +275,12 @@
         relatorio(){
             if (this.relatorio) {
 
+            }
+        },
+        "form.tipo_veiculo" (){
+            if(this.form.tipo_veiculo){
+                if(this.form.tipo_veiculo == 'maquina') this.form.veiculo_placa = null
+                if(this.form.tipo_veiculo != 'maquina') this.form.id_interno_maquina = null
             }
         },
         "form.id_empresa"(){
@@ -290,6 +310,7 @@
                 this.chart.destroy()
                 this.show_chart = false
             }
+            localStorage.removeItem("_data")
         },
         gerar(){
             if (this.tipo) {

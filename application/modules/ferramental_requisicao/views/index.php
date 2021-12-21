@@ -59,12 +59,50 @@
                                     <td><?php echo $valor->solicitante_nome; ?></td>
                                     <td><?php echo $valor->despachante_nome; ?></td>
                                     <td>
+                                    <div class="btn-group" role="group">
+                                        <button id="<?php echo "requisicao_group{$valor->id_requisicao}";?>" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Gerenciar
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="<?php echo "requisicao_group{$valor->id_requisicao}";?>">
                                         <a 
-                                            class="btn btn-secondary btn-sm" 
+                                            class="dropdown-item" 
                                             href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao}");?>"
                                         >
-                                            Gerenciar
+                                            <i class="fas fa-list"></i> Detalhes 
                                         </a>
+
+                                        <?php if ($valor->status == 3) { ?>
+                                            <div class="dropdown-divider" ></div>
+
+                                            <a 
+                                                class="dropdown-item"
+                                                href="<?php echo base_url("ferramental_requisicao/gerar_romaneio/{$valor->id_requisicao}");?>"
+                                            >
+                                                <i class="fa fa-table"></i>&nbsp; Gerar Romaneio 
+                                            </a>
+                                        <?php } ?>
+
+
+                                        <?php if ($valor->status == 3 && $valor->romaneio) { ?>
+                                            <div class="dropdown-divider" ></div>
+
+                                            <a 
+                                                class="dropdown-item" target="_blank"
+                                                href="<?php echo base_url("assets/uploads/{$valor->romaneio}");?>"
+                                            >
+                                                <i class="fa fa-eye"></i>&nbsp; Visualizar Romaneio 
+                                            </a>
+                                            <div class="dropdown-divider" ></div>
+                                            <a 
+                                                class="dropdown-item" download
+                                                href="<?php echo base_url("assets/uploads/{$valor->romaneio}");?>"
+                                            >
+                                                <i class="fa fa-download"></i>&nbsp; Baixar Romaneio 
+                                            </a>
+                                        <?php } ?>
+
+                                        </div>
+                                    </div>
                                     </td>
                                 </tr>
                                 <?php } ?>

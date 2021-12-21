@@ -14,7 +14,6 @@ class Migration_Create_Ativo_Veiculo_Ipva extends CI_Migration {
 			->add_field('ipva_custo DECIMAL(13, 2) NOT NULL')
 			->add_field('ipva_data_pagamento date NOT NULL')
 			->add_field('ipva_data_vencimento date NOT NULL')
-			->add_field('comprovante_ipva varchar(255) NOT NULL')
 			->create_table($this->table);
 		}
 	}

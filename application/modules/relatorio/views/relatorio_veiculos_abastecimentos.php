@@ -13,6 +13,7 @@
           <tr>
             <th>#</th>
             <th>Placa</th>
+            <th>Marca/Modelo</th>
             <th>Km Atual</th>
             <th>Quant. em Litros</th>
             <th>Data/Hora</th>
@@ -25,6 +26,7 @@
           <tr>
             <td><?php echo ($i + 1); ?></td>
             <td><?php echo $item->veiculo_placa; ?></td>
+            <td><?php echo isset($item->marca) ? "{$item->marca} - {$item->modelo}" : '-' ;?></td>
             <td><?php echo $item->veiculo_km;?></td>
             <td><?php echo $item->veiculo_litros; ?></td>
             <td><?php echo date('d/m/Y H:i:s', strtotime($item->data));?> </td>
@@ -33,6 +35,7 @@
           </tr>
         <?php } ?>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -156,7 +156,7 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url('ativo_veiculo');?>">
+                                    <a href="<?php echo base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}");?>">
                                     <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

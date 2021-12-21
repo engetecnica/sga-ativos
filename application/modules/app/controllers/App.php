@@ -34,6 +34,8 @@ class App extends MY_Controller {
 
         case "test":
           $status = [
+            'limpar_exports' => $this->db_export_clear(),
+            'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
             'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes("now", true),
             'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(30, true),
           ];

@@ -121,6 +121,18 @@
                                     <div class="col-12 col-md-4">
                                         <input type="text" id="nome" name="nome" id="nome" placeholder="Seu Nome" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->nome)){ echo $detalhes->nome; } ?>">
                                     </div>
+
+                                    <?php if ($is_self && $user->nivel == 1) {?>
+                                        <div class="col-12 col-md-3">
+                                            <label for="permit_notification_email" class=" form-control-label">Receber Emails de Notificações</label>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <select name="permit_notification_email" id="permit_notification_email" class="form-control">
+                                                <option value="0" <?php if(isset($detalhes) && isset($detalhes->permit_notification_email) && $detalhes->permit_notification_email=='0'){ echo "selected='selected'"; } ?>>Não</option>
+                                                <option value="1" <?php if(isset($detalhes) && isset($detalhes->permit_notification_email) && $detalhes->permit_notification_email=='1'){ echo "selected='selected'"; } ?>>Sim</option>
+                                            </select>
+                                        </div>
+                                    <?php } ?>
                                 </div>
 
                                 <div class="row form-group">
@@ -187,7 +199,7 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" style="margin-bottom: 5px;"> 
-                                        <small size='2'>Formato aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong> 
+                                        <small size='2'>Formatos aceito: <strong>*.JPG, *.PNG, *.JPEG, *.GIF</strong> 
                                         Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
                                     </div>
                                 </div>
@@ -216,15 +228,15 @@
                                         <span id="submit-form">Salvar</span>
                                     </button>
 
-                                    <?php  if (!$is_self) { ?>
-                                    <a href="<?php echo base_url('usuario');?>">
+                                    <?php  if ($is_self) { ?>
+                                    <a href="<?php echo base_url($this->getRef());?>">
                                     <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>
                                     </button>                              
                                     </a>
                                     <?php  } else { ?>
-                                    <a href="<?php echo base_url();?>">
+                                    <a href="<?php echo base_url('usuario');?>">
                                     <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

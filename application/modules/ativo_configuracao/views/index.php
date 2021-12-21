@@ -63,7 +63,7 @@
                                                 >
                                                     <i class="fas fa-edit"></i> Editar
                                                 </a>
-                                                <?php if ($valor->id_ativo_configuracao > 15) {?>
+                                                <?php if ($this->ativo_configuracao_model->permit_delete_configuracao($valor->id_ativo_configuracao)) {?>
                                                 <div class="dropdown-divider"></div>
                                                 <a 
                                                     class="dropdown-item  deletar_registro" 

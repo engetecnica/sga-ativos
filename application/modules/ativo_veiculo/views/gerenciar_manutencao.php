@@ -62,36 +62,31 @@
                                     <td><?php echo isset($valor->data_saida) ? $this->formata_data($valor->data_saida) : '-' ; ?></td>
                                     <td><?php echo isset($valor->data_vencimento) ? $this->formata_data($valor->data_vencimento) : '-' ; ?></td>
                                     <td> 
+                                        <?php if (!isset($valor->data_saida) || $user->nivel == 1) { ?>
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupGerenciarManutencao" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarManutencao">
-                                                <?php if(!$valor->data_saida){ ?>
-                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>">
-                                                    <i class="fa fa-edit"></i> Editar
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>">
+                                                <i class="fa fa-edit"></i> Editar
+                                                </a>
+                                                <?php if(!$valor->data_saida && isset($valor->ordem_de_servico)){ ?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a
+                                                        class="dropdown-item  confirmar_registro" data-tabela="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$valor->id_ativo_veiculo}");?>" 
+                                                        href="javascript:void(0)" data-registro=""
+                                                        data-acao="Marca como Finalizada"  data-redirect="true"
+                                                        data-href="<?php echo base_url("ativo_veiculo/manutencao_saida/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>"
+                                                    >
+                                                    <i class="fa fa-check"></i>&nbsp; Marca como Finalizada
                                                     </a>
-                                                    <?php if($valor->ordem_de_servico){ ?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a
-                                                            class="dropdown-item  confirmar_registro" data-tabela="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$valor->id_ativo_veiculo}");?>" 
-                                                            href="javascript:void(0)" data-registro=""
-                                                            data-acao="Marca como Finalizada"  data-redirect="true"
-                                                            data-href="<?php echo base_url("ativo_veiculo/manutencao_saida/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}");?>"
-                                                        >
-                                                        <i class="fa fa-check"></i> Marca como Finalizada
-                                                        </a>
-                                                    <?php } ?>
                                                 <?php } ?>
-                                                <?php if($valor->ordem_de_servico){ ?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
-                                                    <i class="fa fa-eye"></i> Ver Compovante
-                                                    </a> 
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/ordem_de_servico/{$valor->ordem_de_servico}"); ?>">
-                                                    <i class="fa fa-download"></i> Baixar Comprovante
-                                                    </a>                           
+                                                <?php if(isset($valor->comprovante) && $valor->comprovante != null){ ?>
+                                                    <?php if($permit_edit){ ?> <div class="dropdown-divider"></div> <?php } ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_manutencao}#anexos"); ?>">
+                                                        <i class="fa fa-files-o"></i>&nbsp; Anexos
+                                                    </a>
                                                 <?php } ?>
 
                                                 <?php if(!$valor->data_saida){ ?>
@@ -102,6 +97,9 @@
                                                 <?php } ?>
                                             </div>
                                         </div>
+                                        <?php } else { ?>
+                                            -
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

@@ -41,13 +41,18 @@ class Ativo_configuracao_model extends MY_Model {
 			}
 		}
 				
-		return $lista->order_by('ativo_configuracao.titulo', 'ASC')
+		return $lista->order_by('ativo_configuracao.id_ativo_configuracao', 'desc')
 								->get('ativo_configuracao')->result();
 	}
 
-	public function get_ativo_configuracao($id_ativo_configuracao=null){
+	public function get_ativo_configuracao($id_ativo_configuracao){
 		return $this->db
 					->where('id_ativo_configuracao', $id_ativo_configuracao)
 					->get('ativo_configuracao')->row();
+	}
+
+	public function permit_delete_configuracao($id_ativo_configuracao){
+		$configuracao = $this->get_ativo_configuracao($id_ativo_configuracao);
+		return $configuracao && $configuracao->permit_delete == '1';
 	}
 }

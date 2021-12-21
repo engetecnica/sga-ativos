@@ -32,7 +32,11 @@
                                     <input type="hidden" id="id_ativo_veiculo_quilometragem" name="id_ativo_veiculo_quilometragem" value="<?php echo $quilometragem->id_ativo_veiculo_quilometragem;?>">
                                 <?php } ?>
 
-                                <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
+                                <p style="text-transform: uppercase">
+                                    <strong style="color: red;">
+                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                    </strong>
+                                </p>
                                 <hr>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
@@ -40,51 +44,20 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="000" class="form-control" 
-                                        min="<?php echo $dados_veiculo->veiculo_km + 1; ?>"
+                                        min="<?php echo $ultimo_km + 1; ?>"
                                         value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_km) ? $quilometragem->veiculo_km : $dados_veiculo->veiculo_km + 1; ?>">
                                     </div>
-                                    
+
                                     <div class="col col-md-2">
-                                        <label for="veiculo_litros" class=" form-control-label">Quant. em Litros</label>
+                                        <label for="data" class=" form-control-label">Data</label>
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_litros" name="veiculo_litros" placeholder="2,2L" class="form-control litros" 
-                                        value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_litros) ? (int) $quilometragem->veiculo_litros : ''?>">
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_custo" class=" form-control-label">Custo</label>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" 
-                                        value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_custo) ? $quilometragem->veiculo_custo : ''?>">
-                                    </div>
-
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_km_data" class=" form-control-label">Data</label>
-                                    </div>
-
-                                    <div class="col-12 col-md-3">
-                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" 
-                                        value="<?php echo isset($quilometragem) && isset($quilometragem->veiculo_km_data) ? date('Y-m-d', strtotime($quilometragem->veiculo_km_data)) : date('Y-m-d', strtotime('now'))?>">
+                                        <input required="required" type="date" id="data" name="data" class="form-control" 
+                                        value="<?php echo isset($quilometragem) && isset($quilometragem->data) ? date('Y-m-d', strtotime($quilometragem->data)) : date('Y-m-d', strtotime('now'))?>">
                                     </div>
                                 </div>
                               
-                                <?php
-                                    $this->load->view('gerenciar_anexo', [
-                                        'label' => "Comprovante Fiscal",
-                                        'item' => isset($quilometragem) ? $quilometragem : null,
-                                        'anexo' => "comprovante_fiscal",
-                                        'controller' => 'ativo_veiculo',
-                                        'tabela' => 'ativo_veiculo_quilometragem',
-                                        'id_item' => isset($quilometragem) ? $quilometragem->id_ativo_veiculo_quilometragem : null,
-                                        'redirect' => isset($quilometragem) ?  "ativo_veiculo/gerenciar/quilometragem/editar/{$id_ativo_veiculo}/{$quilometragem->id_ativo_veiculo_quilometragem}" : ""
-                                    ]);
-                                ?>
-                                
                                 <hr>
                                 <div class="pull-left">
                                     <button class="btn btn-primary">                                                    
@@ -106,6 +79,14 @@
                 </div>
             </div>
 
+            <?php if (isset($anexos) && isset($operacao)) { ?>
+                <div id="anexos" class="row">
+                    <div class="col-12">
+                        <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                    </div>
+                </div>
+            <?php } ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -116,5 +97,6 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

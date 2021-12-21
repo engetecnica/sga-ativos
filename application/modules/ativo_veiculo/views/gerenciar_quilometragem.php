@@ -33,8 +33,6 @@
                                     <th width="7%">Veículo</th>
                                     <th>Placa</th>
                                     <th>Km Atual</th>
-                                    <th>Litros</th>
-                                    <th>Custo</th>
                                     <th>Data</th>
                                     <th>Gerenciar</th>
                                 </tr>
@@ -49,8 +47,6 @@
                                     <td><?php echo $valor->veiculo; ?></td>
                                     <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td><?php echo $valor->veiculo_km; ?></td>
-                                    <td><?php echo $valor->veiculo_litros; ?></td>
-                                    <td>R$ <?php echo $this->formata_moeda($valor->veiculo_custo); ?></td>
                                     <td><?php echo $this->formata_data($valor->data); ?></td>
                                     <td> 
                                         <div class="btn-group" role="group">
@@ -58,21 +54,19 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupGerenciarQuilometragem">
-                                                <?php if($this->ativo_veiculo_model->permit_edit_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>
+                                            <?php $permit_edit = $this->ativo_veiculo_model->permit_edit_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem); ?>
+
+                                                <?php if($permit_edit){ ?>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}");?>">
                                                     <i class="fa fa-edit"></i> Editar
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if($valor->comprovante_fiscal){ ?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " target="_blank" href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        <i class="fa fa-eye"></i> Ver Comprovante
+                                                <?php if(isset($valor->comprovante) && $valor->comprovante != null){ ?>
+                                                    <?php if($permit_edit){ ?> <div class="dropdown-divider"></div> <?php } ?>
+                                                    <a class="dropdown-item" href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/editar/{$valor->id_ativo_veiculo}/{$valor->id_ativo_veiculo_quilometragem}#anexos"); ?>">
+                                                        <i class="fa fa-files-o"></i>&nbsp; Anexos
                                                     </a>
-                                                    <div class="dropdown-divider"></div>  
-                                                    <a class="dropdown-item " target="_blank" download href="<?php echo base_url("assets/uploads/comprovante_fiscal/{$valor->comprovante_fiscal}"); ?>">
-                                                        <i class="fa fa-download"></i> Baixar Comprovante
-                                                    </a>                           
                                                 <?php } ?>
 
                                                 <?php if($this->ativo_veiculo_model->permit_delete_quilometragem($valor->id_ativo_veiculo, $valor->id_ativo_veiculo_quilometragem)){ ?>

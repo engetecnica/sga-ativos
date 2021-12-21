@@ -33,7 +33,11 @@
                                     <input type="hidden" name="id_ativo_veiculo_ipva" id="id_ativo_veiculo_ipva" value="<?php echo $ipva->id_ativo_veiculo_ipva; ?>">
                                 <?php } ?>
 
-                                <p style="text-transform: uppercase"><strong><font color="red"><?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa; ?></font></strong></p>
+                                <p style="text-transform: uppercase">
+                                    <strong style="color: red;">
+                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                    </strong>
+                                </p>
                                 <hr>
 
                                 <div class="row form-group">
@@ -41,11 +45,19 @@
                                         <label for="ipva_ano" class=" form-control-label">Referência</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select required="required" class="form-control" id="ipva_ano" name="ipva_ano">
+                                        <select required="required" class="form-control select2" id="ipva_ano" name="ipva_ano" value="<?php echo isset($ipva) && isset($ipva->ipva_ano) ? $ipva->ipva_ano : '' ?>">
                                             <option value="">Ano</option>
-                                            <?php for($i=date("Y")-5; $i<=date("Y")+5; $i++){ ?>
-                                            <option <?php echo isset($ipva) && isset($ipva->ipva_ano) && $ipva->ipva_ano == $i  ? 'selected="selected"' : '';?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
+
+                                            <?php if (isset($ipva) && isset($ipva->ipva_ano)) {?>
+                                                <option  selected="selected" value="<?php echo  $ipva->ipva_ano; ?>"><?php echo $ipva->ipva_ano; ?></option>
                                             <?php } ?>
+
+                                            <?php 
+                                                for($ano = date("Y") + 1; $ano >= date("Y") - 10; $ano--){ 
+                                                if ($this->ativo_veiculo_model->permit_add_ipva($dados_veiculo->id_ativo_veiculo, $ano)) {
+                                            ?>
+                                                <option <?php echo isset($ipva) && isset($ipva->ipva_ano) && $ipva->ipva_ano == $ano  ? 'selected="selected"' : '';?> value="<?php echo $ano; ?>"><?php echo $ano; ?></option>
+                                            <?php }} ?>
                                         </select>
                                     </div>   
                                 
@@ -77,18 +89,6 @@
                                         value="<?php echo isset($ipva) && isset($ipva->ipva_data_vencimento) ? date("Y-m-d", strtotime($ipva->ipva_data_vencimento)) : ''?>">
                                     </div>
                                 </div>
-
-                                <?php
-                                    $this->load->view('gerenciar_anexo', [
-                                        'label' => "Comprovante",
-                                        'item' => isset($ipva) ? $ipva : null,
-                                        'anexo' => "comprovante_ipva",
-                                        'controller' => 'ativo_veiculo',
-                                        'tabela' => 'ativo_veiculo_ipva',
-                                        'id_item' => isset($ipva) ? $ipva->id_ativo_veiculo_ipva : null,
-                                        'redirect' => isset($ipva) ?  "ativo_veiculo/gerenciar/ipva/editar/{$id_ativo_veiculo}/{$ipva->id_ativo_veiculo_ipva}" : ""
-                                    ]);
-                                ?>
                                 
                                 <hr>
                                 <div class="pull-left">
@@ -111,6 +111,14 @@
                 </div>
             </div>
 
+            <?php if (isset($anexos) && isset($ipva)) { ?>
+                <div id="anexos" class="row">
+                    <div class="col-12">
+                        <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                    </div>
+                </div>
+            <?php } ?>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -121,5 +129,6 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

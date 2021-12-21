@@ -134,6 +134,34 @@
                                                             <a class="dropdown-item" href="<?php echo base_url("ferramental_requisicao/manual/{$requisicao->id_requisicao}"); ?>">
                                                                 <i class="fas fa-clipboard-check item-menu-interno"></i> Aceitar Manualmente
                                                             </a>
+                                                            <div class="dropdown-divider"></div>
+                                                        <?php } ?>
+
+                                                        <?php if ($requisicao->status == 3) { ?>
+                                                            <a 
+                                                                class="dropdown-item"
+                                                                href="<?php echo base_url("ferramental_requisicao/gerar_romaneio/{$requisicao->id_requisicao}");?>"
+                                                            >
+                                                                <i class="fa fa-table"></i>&nbsp; Gerar Romaneio 
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        <?php if ($requisicao->status == 3 && $requisicao->romaneio) { ?>
+                                                            <div class="dropdown-divider" ></div>
+                                                            <a 
+                                                                class="dropdown-item" target="_blank"
+                                                                href="<?php echo base_url("assets/uploads/{$requisicao->romaneio}");?>"
+                                                            >
+                                                                <i class="fa fa-eye"></i>&nbsp; Visualizar Romaneio 
+                                                            </a>
+                                                            <div class="dropdown-divider" ></div>
+                                                            <a 
+                                                                class="dropdown-item" download
+                                                                href="<?php echo base_url("assets/uploads/{$requisicao->romaneio}");?>"
+                                                            >
+                                                                <i class="fa fa-download"></i>&nbsp; Baixar Romaneio 
+                                                            </a>
+                                                            <div class="dropdown-divider" ></div>
                                                         <?php } ?>
 
                                                         <?php if (($user->id_usuario == $requisicao->id_solicitante || $user->id_obra == $requisicao->id_destino) && $this->ferramental_requisicao_model->permit_solicitar_items_nao_inclusos($requisicao->id_requisicao)) {?>
@@ -144,6 +172,18 @@
                                                                 data-href="<?php echo base_url("ferramental_requisicao/solicitar_items_nao_inclusos/{$requisicao->id_requisicao}");?>"
                                                             >
                                                                 <i class="fa fa-list"></i>&nbsp; Solicitar Itens não Inclusos
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                        <?php } ?>
+
+                                                        <?php if ($this->ferramental_requisicao_model->permit_devolver_items_requisicao($requisicao->id_requisicao)) {?>
+                                                            <a 
+                                                                class="dropdown-item  confirmar_registro" href="javascript:void(0);"
+                                                                data-tabela="<?php echo base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}");?>" 
+                                                                data-title="Devolver Ativos não Recebidos ou Com Defeito" data-acao="Devolver"  data-redirect="true"
+                                                                data-href="<?php echo base_url("ferramental_requisicao/devolver_items_requisicao/{$requisicao->id_requisicao}");?>"
+                                                            >
+                                                                <i class="fa fa-list"></i>&nbsp; Devolver Ativos não Recebidos/Com Defeito
                                                             </a>
                                                             <div class="dropdown-divider"></div>
                                                         <?php } ?>
@@ -257,7 +297,7 @@
                                                                 class="dropdown-item" 
                                                                 href="<?php echo base_url("ferramental_requisicao/detalhes_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}"); ?>"
                                                             >
-                                                                <i class="fa fa-list-alt"></i> Detalhar Itens
+                                                                <i class="fa fa-list-alt"></i>&nbsp; Detalhar Itens
                                                             </a>
                                                             
                                                             <?php if ($item->status == 3 && $requisicao->id_destino == $user->id_obra) {?>
@@ -272,7 +312,7 @@
                                                                 data-title="Aceitar Todos" data-acao="Aceitar" data-redirect="true"
                                                                 data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/4");?>"
                                                             >
-                                                                <i class="fa fa-check item-menu-interno"></i> Aceitar Todos
+                                                                <i class="fa fa-check item-menu-interno"></i>&nbsp; Aceitar Todos
                                                             </a>
                                                             <div class="dropdown-divider"></div>
 
@@ -282,7 +322,7 @@
                                                                 data-title="Devolver Todos" data-acao="Devolver"  data-redirect="true"
                                                                 data-href="<?php echo base_url("ferramental_requisicao/receber_item/{$requisicao->id_requisicao}/{$item->id_requisicao_item}/9");?>"
                                                             >
-                                                                <i class="fa fa-truck item-menu-interno"></i> Devolver Todos
+                                                                <i class="fa fa-truck item-menu-interno"></i>&nbsp; Devolver Todos
                                                             </a>
                                                             <?php } ?>
                                                             

@@ -25,13 +25,15 @@ class MY_model extends CI_Model {
     public function buscar_dados_logado($logado=null){
         if($logado) {
             $user = $this->db
-            ->select('usuario.*, empresa.*')
+            ->select('usuario.*')
+            ->select("empresa.razao_social, empresa.nome_fantasia, empresa.cnpj")
             ->where("usuario.id_usuario = {$logado->id_usuario}")
             ->join('empresa', "empresa.id_empresa = {$logado->id_empresa}")
             ->get('usuario')
             ->row();
-
+        
             if ($user) {
+                if($user->nivel == 1 && $user->id_obra_gerencia) $user->id_obra = $user->id_obra_gerencia;
                 unset($user->senha);
                 return $user;
             }
@@ -56,6 +58,12 @@ class MY_model extends CI_Model {
             return  number_format($valor, 2, '.', '');
         }
         return "R$ ". number_format($valor, 2, ',', '.');
+    }
+
+    public function formata_moeda_float(string $valor){
+        $formatado = str_replace("R$ ", "", $valor);
+        $formatado = str_replace(".", "", $formatado);
+        return (float) str_replace(",", ".", $formatado);
     }
 
     public function dd(...$data){

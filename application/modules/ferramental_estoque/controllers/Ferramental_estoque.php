@@ -26,8 +26,11 @@ class Ferramental_estoque  extends MY_Controller {
     }
 
     function detalhes($id_retirada) {
-        $data['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada);
-        $data['upload_max_filesize'] = ini_get('upload_max_filesize');
+        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
+        $data = array_merge($this->anexo_model->getData('ferramental_estoque', $id_retirada, 'termo_de_responsabilidade'), [
+            "back_url" => "ferramental_estoque/detalhes/{$id_retirada}",
+            'retirada' => $retirada,
+        ]);
 
         if ($data['retirada']) {
             $this->get_template('retirada_detalhes', $data);
@@ -507,8 +510,8 @@ class Ferramental_estoque  extends MY_Controller {
                     'footer' => $footer_base64,
                     'data_hora' => date('d/m/Y H:i:s', strtotime($retirada->data_inclusao)),
                 ];
-                $filename = "termo_de_reponsabilidade_{$retirada->id_retirada}" . date('YmdHis', strtotime('now')).".pdf";
-                $html = $this->load->view("/../views/termo_de_reponsabilidade", $data, true);
+                $filename = "termo_de_responsabilidade_{$retirada->id_retirada}" . date('YmdHis', strtotime('now')).".pdf";
+                $html = $this->load->view("termo_de_responsabilidade", $data, true);
 
                 $this->gerar_pdf($filename, $html, 'D');
                 return;
@@ -524,25 +527,27 @@ class Ferramental_estoque  extends MY_Controller {
     function anexar_termo_resposabilidade($id_retirada){
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
         if($retirada) {
-            $dados['id_retirada'] = $id_retirada;
-            $dados['termo_de_reponsabilidade'] = ($_FILES['termo_de_reponsabilidade'] ? $this->upload_arquivo('termo_de_reponsabilidade') : '');
-            if (!$dados['termo_de_reponsabilidade'] || $dados['termo_de_reponsabilidade'] == '') {
+            $data['id_retirada'] = $id_retirada;
+            $data['termo_de_responsabilidade'] = ($_FILES['termo_de_responsabilidade'] ? $this->upload_arquivo('termo_de_responsabilidade') : '');
+            if (!$data['termo_de_responsabilidade'] || $data['termo_de_responsabilidade'] == '') {
                 $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
                 return;
             }
 
-            $this->db->where('id_retirada', $id_retirada)
-                                ->update('ativo_externo_retirada', $dados);
-            $this->session->set_flashdata('msg_success', "Anexo atualizado com sucesso!");
+            $this->db->where('id_retirada', $id_retirada)->update('ativo_externo_retirada', $data);
             $this->salvar_anexo(
-                13,
-                $dados, 
-                $dados['id_retirada'], 
-                null, 
-                'termo_de_reponsabilidade', 
-                "termo_de_reponsabilidade"
+                [
+                    "titulo" => "Termo de Responsabilidade",
+                    "descricao" => "Termo de Responsabilidade da Retirada ID {$data['id_retirada']}",
+                    "anexo" => "termo_de_responsabilidade/{$data['termo_de_responsabilidade']}",
+                ],
+                'ferramental_estoque',
+                $data['id_retirada'],
+                "termo_de_responsabilidade"
             );
+
+            $this->session->set_flashdata('msg_success', "Dados salvos com sucesso!");
             echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
             return;
         }

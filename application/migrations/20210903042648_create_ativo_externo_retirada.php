@@ -15,7 +15,7 @@ class Migration_Create_Ativo_Externo_Retirada extends CI_Migration {
 			->add_field('devolucao_prevista datetime NULL DEFAULT NULL')
 			->add_field("status int(11) DEFAULT 1 COMMENT '1:Pendente, 9:Devolvido'")
 			->add_field('observacoes text NOT NULL')
-			->add_field('termo_de_reponsabilidade text DEFAULT NULL')
+			->add_field('termo_de_responsabilidade text DEFAULT NULL')
 			->create_table($this->table);
 		}
 	}

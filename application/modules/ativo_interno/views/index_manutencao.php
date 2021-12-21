@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25"><?php echo  $ativo->nome; ?> - Manutenção</h2>
+                    <h2 class="title-1 m-b-25">Manutenção | <?php echo  $ativo->nome; ?></h2>
                     <div class="table-responsive table--no-card m-b-40">
                         <table class="table table-borderless table-striped table-earning" id="lista">
                             <thead>
@@ -33,8 +33,8 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr>
                                     <td><?php echo $valor->id_manutencao; ?></td>
-                                    <td><?php echo date("d/m/Y", strtotime($valor->data_saida)); ?></td>
-                                    <td><?php echo $valor->data_retorno ? date("d/m/Y", strtotime($valor->data_retorno)) : "-" ?></td>
+                                    <td><?php echo $this->formata_data($valor->data_saida); ?></td>
+                                    <td><?php echo $this->formata_data($valor->data_retorno); ?></td>
                                     <td>
                                       <?php $situacao = $this->get_situacao_manutencao($valor->manutencao_situacao);?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
@@ -53,12 +53,12 @@
                                             </button>
                                             <div class="dropdown-menu">
                                               <a class="dropdown-item " href="<?php echo base_url("ativo_interno/manutencao_editar/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>"><i class="fas fa-edit"></i> Editar</a>
-                                              <?php if ((int) $valor->situacao == 0) { ?>
+                                              <?php if ($this->ativo_interno_model->permit_delete_manutencao($ativo->id_ativo_interno, $valor->id_manutencao)) { ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a 
                                                   href="javascript:void(0)" 
-                                                  data-href="<?php echo base_url("ativo_interno/manutencao_remover/{$ativo->id_ativo_interno}/{$valor->id_manutencao}"); ?>" 
-                                                  data-registro="<?php echo $valor->id_ativo_interno;?>" 
+                                                  data-href="<?php echo base_url("ativo_interno/manutencao_remover/{$valor->id_manutencao}"); ?>" 
+                                                  data-registro="<?php echo $ativo->id_ativo_interno;?>" 
                                                   data-tabela="ativo_interno/manutencao/<?php echo $ativo->id_ativo_interno;?>" class="dropdown-item  deletar_registro"
                                                 >
                                                   <i class="fas fa-trash"></i> Excluir
@@ -74,7 +74,8 @@
                     </div>
                 </div>
             </div>
-            <?php if($ativo->situacao <= 1){ ?>
+
+            <?php if($this->ativo_interno_model->permit_create_manutencao($ativo->id_ativo_interno)) { ?>
             <div class="row">
                 <div class="col-12 col-md-12 text-center">
                   <a href="<?php echo base_url("ativo_interno/manutencao_adicionar/{$ativo->id_ativo_interno}"); ?>">

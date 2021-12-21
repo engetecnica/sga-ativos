@@ -27,7 +27,7 @@
             <td><?php echo  $item->id_ativo_veiculo_depreciacao; ?></td>
             <td><?php echo $item->veiculo_placa; ?></td>
             <td><?php echo ucfirst($item->tipo_veiculo);?> </td>
-            <td><?php echo $item->veiculo;?> </td>
+            <td><?php echo isset($item->marca) ? "{$item->marca} - {$item->modelo}" : '-';?> </td>
             <td><?php echo $item->veiculo_km; ?></td>
             <td><?php echo $this->formata_moeda($item->veiculo_valor_fipe); ?></td>
             <td><?php echo $this->formata_moeda($item->veiculo_valor_depreciacao); ?></td>

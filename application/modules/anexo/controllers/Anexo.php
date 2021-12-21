@@ -24,69 +24,25 @@ class Anexo  extends MY_Controller {
     }
 
     function index(
-      $id_modulo = null, 
-      $id_modulo_item = null, 
-      $id_modulo_subitem = null, 
+      $modulo_nome = null, //rota
+      $id_item = null, //id item do modulo ex: id_ativo_externo
+      $tipo = null, //tipo do anexo ex: manutencao, ipva, seguro
+      $id_subitem = null, //id subitem do modulo ex: id_ativo_externo_manutencao
       $pagina = null, 
       $limite = null
     ){
-      $data = [
-        "id_modulo" => $id_modulo,
-        "id_modulo_item" => $id_modulo_item,
-        "id_modulo_subitem" => $id_modulo_subitem,  
-        "pagina" => $pagina,
-        "limite" => $limite,
-        "refer" => $this->getRef(),
-        "modulo" => $this->db
-                      ->where('id_modulo', $id_modulo)
-                      ->get('modulo')->row()
-      ];
-
-      $data['anexos'] = $this->anexo_model->get_anexos(
-        $id_modulo,
-        $id_modulo_item,
-        $id_modulo_subitem,  
-        $pagina,
-        $limite 
-      );
-
-      $data['anexo_modulos'] = $this->anexo_model->modulos;
-      $data['anexo_tipos'] = $this->anexo_model->tipos;
-
-      $this->get_template("index", $data);
+      return $this->get_template("index", $this->anexo_model->getData($modulo_nome, $id_item, $tipo, $id_subitem, $this->getRef(), $pagina, $limite));
     }
 
     function adicionar(
-      $id_modulo = null, 
-      $id_modulo_item = null, 
-      $id_modulo_subitem = null, 
+      $modulo_nome = null, //rota
+      $id_item = null, //id item do modulo ex: id_ativo_externo
+      $tipo = null, //tipo do anexo ex: manutencao, ipva, seguro
+      $id_subitem = null, //id subitem do modulo ex: id_ativo_externo_manutencao
       $pagina = null, 
       $limite = null
     ){
-
-      $data = [
-        "id_modulo" => $id_modulo,
-        "id_modulo_item" => $id_modulo_item,
-        "id_modulo_subitem" => $id_modulo_subitem,  
-        "pagina" => $pagina,
-        "limite" => $limite,
-        "modulo" => $this->db->where('rota', $id_modulo)->get('modulo')->row()
-      ];
-
-      $data['anexos'] = $this->anexo_model->get_anexos(
-        $id_modulo,
-        $id_modulo_item,
-        $id_modulo_subitem,  
-        $pagina,
-        $limite 
-      );
-
-      $data['anexo_modulos'] = $this->anexo_model->modulos;
-      $data['anexo_tipos'] = $this->anexo_model->tipos;
-      $data['veiculos'] = $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos');
-      $data['veiculo_manutencao_servicos'] = $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos');
-
-      $this->get_template("index_form", $data);
+      return $this->get_template("index_form", $this->anexo_model->getData($modulo_nome, $id_item, $tipo, $id_subitem, $this->getRef(), $pagina, $limite));
     }
 
 
@@ -94,13 +50,16 @@ class Anexo  extends MY_Controller {
     {
       $modulo_name = str_replace("_", " ", ucfirst($this->input->post('modulo')));
       $titulo = $this->input->post('titulo') ? $this->input->post('titulo') : $modulo_name . " - ". ucfirst($this->input->post('tipo')) . " - ".date("d/m/Y H:i:s", strtotime('now'));
-      $descricao = $this->input->post('descricao') ? $this->input->post('descricao') : $this->anexo_model->get_anexo_tipo($this->input->post('tipo'))['nome'];
-      $modulo = $this->db->where('rota', $this->input->post('modulo'))->get('modulo')->row();
-    
+      $descricao = $this->input->post('descricao') ? $this->input->post('descricao') : $titulo;
+
       //upload file
       $anexo = 'anexo/';
       if (!is_readable(APPPATH.'../assets/uploads/anexo')) {
         $this->session->set_flashdata('msg_erro',"A pasta de destino do upload não parece ser gravável.");
+        if ($this->input->post('back_url')) {
+          echo redirect(base_url($this->input->post('back_url')));
+          return;
+        }
         echo redirect(base_url("anexo/adicionar"));
         return;
       }
@@ -109,24 +68,34 @@ class Anexo  extends MY_Controller {
         $anexo .= $this->upload_arquivo('anexo');
         if (!$anexo || $anexo == '') {
             $this->session->set_flashdata('msg_erro', "O tamanho do comprovante deve ser menor ou igual a ".ini_get('upload_max_filesize'));
+            if ($this->input->post('back_url')) {
+              echo redirect(base_url($this->input->post('back_url')));
+              return;
+            }
             echo redirect(base_url("anexo/adicionar"));
             return;
         }
       }
 
       $data = [
+        "id_anexo" => $this->input->post('id_anexo'),
         "id_usuario" => $this->user->id_usuario,
-        "id_modulo" => $modulo->id_modulo,
+        "id_modulo" => $this->input->post('id_modulo'),
         "id_modulo_item" => $this->input->post('item'),
-        "id_modulo_subitem" => $this->input->post('suditem'),
+        "id_modulo_subitem" => $this->input->post('subitem'),
         "id_configuracao" => $this->input->post('servico'),
         "tipo" => $this->input->post('tipo'),
         "titulo" => $titulo,
         "descricao" => $descricao,
-        "anexo" => $anexo,
+        "anexo" => $anexo
       ];
-
+      
+      if (isset($data['id_anexo']) &&  $anexo === 'anexo/') unset($data['anexo']);
       $this->anexo_model->salvar_formulario($data);
+      if ($this->input->post('back_url')) {
+        echo redirect(base_url($this->input->post('back_url')));
+        return;
+      }
       echo redirect(base_url("anexo"));
       return true;
     }
@@ -206,17 +175,18 @@ class Anexo  extends MY_Controller {
     } 
 
 
-    function subitems($modulo, $tipo, $id_modulo_item) {
+    function subitems($modulo, $tipo, $id_item) {
       $data = [];
 
       switch ($modulo) {
         case 'ferramental_estoque':
-        case 'ativo_externo':
           $data = [];
         break;
 
+        case 'ativo_externo':
         case 'ativo_interno':
           if ($tipo == "manutencao") {
+            $model_name = $modulo."_model";
             $data = array_map(function($manutencao) {
               return (object) [
                 "id" => $manutencao->id_manutencao,
@@ -224,7 +194,7 @@ class Anexo  extends MY_Controller {
                 "data" => $manutencao->data_saida,
                 "valor" => $manutencao->valor,
               ];
-            }, $this->ativo_interno_model->get_lista_manutencao($id_modulo_item));
+            }, $this->$model_name->get_lista_manutencao($id_item));
           }
         break;
 
@@ -237,7 +207,7 @@ class Anexo  extends MY_Controller {
                 "data" => $manutencao->data_entrada,
                 "valor" => $manutencao->veiculo_custo,
               ];
-            }, $this->ativo_veiculo_model->get_ativo_veiculo_manutencao_lista($id_modulo_item));
+            }, $this->ativo_veiculo_model->get_ativo_veiculo_manutencao_lista($id_item));
           }
 
           if ($tipo == "ipva") {
@@ -248,7 +218,7 @@ class Anexo  extends MY_Controller {
                 "data" => $ipva->ipva_data_pagamento,
                 "valor" => $ipva->ipva_custo,
               ];
-            }, $this->ativo_veiculo_model->get_ativo_veiculo_ipva_lista($id_modulo_item));
+            }, $this->ativo_veiculo_model->get_ativo_veiculo_ipva_lista($id_item));
           }
 
           if ($tipo == "kilometragem") {
@@ -259,7 +229,7 @@ class Anexo  extends MY_Controller {
                 "data" => $km->data,
                 "valor" => $km->veiculo_custo,
               ];
-            }, $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($id_modulo_item));
+            }, $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($id_item));
           }
 
           if ($tipo == "seguro") {
@@ -270,7 +240,7 @@ class Anexo  extends MY_Controller {
                 "data" => $seguro->data,
                 "valor" => $seguro->veiculo_custo,
               ];
-            }, $this->ativo_veiculo_model->get_ativo_veiculo_seguro_lista($id_modulo_item));
+            }, $this->ativo_veiculo_model->get_ativo_veiculo_seguro_lista($id_item));
           }
         break;
       }

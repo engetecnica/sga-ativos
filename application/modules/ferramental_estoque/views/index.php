@@ -54,9 +54,9 @@
                                                     <i class="fas fa-list"></i> Detalhes
                                                 </a>
 
-                                                <?php if(isset($valor->termo_de_reponsabilidade)) { ?>
+                                                <?php if(isset($valor->termo_de_responsabilidade)) { ?>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/termo_de_reponsabilidade/{$valor->termo_de_reponsabilidade}"); ?>">
+                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/{$valor->termo_de_responsabilidade}"); ?>">
                                                         <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
                                                     </a>
                                                 <?php } ?>

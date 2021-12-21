@@ -57,7 +57,7 @@ $route['documento'] 			= "index/sem_acesso";
 #$route['transporte'] 			= "index/sem_acesso";
 
 
-$route['configuracao'] 			= "index/sem_acesso";
+#$route['configuracao'] 			= "index/sem_acesso";
 $route['set_registros'] 		= "index/set_registros";
 
 $route['logout'] 				= "login/logout";

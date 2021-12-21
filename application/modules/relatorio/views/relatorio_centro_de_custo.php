@@ -115,8 +115,8 @@
     <p>Nenhuma manutenção de equipamento registrada no peíodo</p>
   <?php } ?>
 
-  <h2>Veiculos Abastecimentos</h2>
-  <?php if(count($relatorio->veiculos_abastecimentos) > 0) { ?>
+  <!-- <h2>Veiculos Abastecimentos</h2>
+  <?php //if(count($relatorio->veiculos_abastecimentos) > 0) { ?>
   <table class="tabela">
       <thead>
           <tr>
@@ -158,9 +158,9 @@
           </tr>
       </tbody>
   </table>
-  <?php } else { ?>
+  <?php // } else { ?>
     <p>Nenhum abastecimento de veículo registrado no peíodo</p>
-  <?php } ?>
+  <?php //} ?> -->
 
   <h2>Veiculos Manutenções</h2>
   <?php if(count($relatorio->veiculos_manutecoes) > 0) { ?>
@@ -184,8 +184,8 @@
           <tr>
             <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
             <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
-            <td><?php echo $manutencao->veiculo_placa; ?></td>
-            <td><?php echo $manutencao->veiculo; ?></td>
+            <td><?php echo $manutencao->veiculo_placa ?: $manutencao->id_interno_maquina; ?></td>
+            <td><?php echo $manutencao->marca ? "{$manutencao->marca} - {$manutencao->modelo}" : '-'; ?></td>
             <td><?php echo ucfirst($manutencao->tipo_veiculo); ?></td>
             <td><?php echo $manutencao->veiculo_km_atual; ?></td>
             <td><?php echo $manutencao->fornecedor; ?></td>

@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select 
-                                            class="form-control" 
+                                            class="form-control select2" 
                                             name="id_obra" 
                                             id="id_obra"
                                             required="required"
@@ -148,32 +148,53 @@
 
                                 <?php if(isset($ativo) && isset($ativo->id_ativo_interno)){?>
                                     <div class="pull-right">
-                                        <a href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}");?>">
-                                            <button class="btn btn-outline-info" type="button">                                                    
-                                            <i class="fa fa-wrench"></i>&nbsp;
-                                                Histórico de Manutenções
-                                            </button>                                                
-                                        </a>
-                                        <?php if((int) $ativo->situacao < 2){?>
-                                        <a 
-                                        
-                                            class="confirmar_registro text-center m-b-10"
-                                            href="javascript:void(0)"
-                                            class="confirmar_registro"
-                                            data-registro="<?php echo $ativo->id_ativo_interno;?>"
-                                            data-href="<?php echo base_url("ativo_interno/descartar/{$ativo->id_ativo_interno}");?>"
-                                            data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>"
-                                            data-icon="info" data-message="false"
-                                            data-acao="Descartar"
-                                            data-title="Confirmar descarte do ativo" data-redirect="true"
-                                            data-text="Clique 'Sim, Confirmar!' para confirmar o descarte do ativo."
-                                        >
-                                            <button class="btn btn-outline-secondary" type="button">                                                    
-                                            <i class="fa fa-ban"></i>&nbsp;
-                                                Descartar Ativo
-                                            </button>                                                
-                                        </a>
-                                        <?php } ?>
+                                        <div class="btn-group" role="group">
+                                            <button id="ativo_interno_item" type="button" class="btn btn-outline-info btn-md dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar Ativo
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="ativo_interno_item">
+                                                <a class="dropdown-item" href="<?php echo base_url("ativo_interno/manutencao/{$ativo->id_ativo_interno}"); ?>">
+                                                    <i class="fa fa-wrench"></i>&nbsp; Manutenção
+                                                </a>
+
+                                                <?php if((int) $ativo->situacao < 2){?>
+                                                <a 
+                                                    href="javascript:void(0)"
+                                                    class="dropdown-item confirmar_registro"
+                                                    data-registro="<?php echo $ativo->id_ativo_interno;?>"
+                                                    data-href="<?php echo base_url("ativo_interno/descartar/{$ativo->id_ativo_interno}");?>"
+                                                    data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>"
+                                                    data-icon="info" data-message="false"
+                                                    data-acao="Descartar"
+                                                    data-title="Confirmar descarte do ativo" data-redirect="true"
+                                                    data-text="Clique 'Sim, Confirmar!' para confirmar o descarte do ativo."
+                                                >
+                                                    <i class="fa fa-ban"></i>&nbsp; Descartar Ativo
+                                                </a>
+                                                <?php } ?>
+
+                                                <?php if((int) $ativo->situacao == 2 && $user->nivel == 1){?>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    class="dropdown-item  confirmar_registro"
+                                                    href="javascript:void(0)"
+                                                    class="confirmar_registro"
+                                                    data-registro="<?php echo $ativo->id_ativo_interno;?>"
+                                                    data-href="<?php echo base_url("ativo_interno/desfazer_descarte/{$ativo->id_ativo_interno}");?>"
+                                                    data-tabela="<?php echo base_url("ativo_interno/editar/{$ativo->id_ativo_interno}");?>"
+                                                    data-icon="info" data-message="false"
+                                                    data-acao="Defazer"
+                                                    data-title="Defazer descarte do ativo" data-redirect="true"
+                                                    data-text="Clique 'Sim, Defazer!' para defazer o descarte do ativo."
+
+                                                >                                                
+                                                    <i class="fas fa-undo"></i>&nbsp; Defazer descarte                                              
+                                                </a>
+                                                <?php } ?>
+                                            
+                                            </div>
+                                        </div>
+
                                     </div>
                                 <?php } ?>
                             </form>
@@ -183,6 +204,14 @@
 
                 </div>
             </div>
+
+            <?php if (isset($anexos)) { ?>
+            <div id="anexos" class="row">
+                <div class="col-12">
+                    <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                </div>
+            </div>
+            <?php } ?>
 
             <div class="row">
                 <div class="col-md-12">
@@ -194,5 +223,6 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

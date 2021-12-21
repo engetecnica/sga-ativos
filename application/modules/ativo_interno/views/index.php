@@ -79,13 +79,32 @@
                                                     data-registro="<?php echo $valor->id_ativo_interno;?>"
                                                     data-href="<?php echo base_url("ativo_interno/descartar/{$valor->id_ativo_interno}");?>"
                                                     data-tabela="<?php echo base_url("ativo_interno");?>"
-                                                    data-redirect="true" data-icon="info" data-message="false"
+                                                    data-icon="info" data-message="false"
                                                     data-acao="Descartar"
                                                     data-title="Confirmar descarte do ativo" data-redirect="true"
                                                     data-text="Clique 'Sim, Confirmar!' para confirmar o descarte do ativo."
 
                                                 >                                                
                                                     <i class="fas fa-ban"></i> Descartar                                              
+                                                </a>
+                                                <?php } ?>
+
+                                                <?php if((int) $valor->situacao == 2 && $user->nivel == 1){?>
+                                                <div class="dropdown-divider"></div>
+                                                <a 
+                                                    class="dropdown-item  confirmar_registro"
+                                                    href="javascript:void(0)"
+                                                    class="confirmar_registro"
+                                                    data-registro="<?php echo $valor->id_ativo_interno;?>"
+                                                    data-href="<?php echo base_url("ativo_interno/desfazer_descarte/{$valor->id_ativo_interno}");?>"
+                                                    data-tabela="<?php echo base_url("ativo_interno");?>"
+                                                    data-icon="info" data-message="false"
+                                                    data-acao="Defazer"
+                                                    data-title="Defazer descarte do ativo" data-redirect="true"
+                                                    data-text="Clique 'Sim, Defazer!' para defazer o descarte do ativo."
+
+                                                >                                                
+                                                    <i class="fas fa-undo"></i>&nbsp; Defazer descarte                                              
                                                 </a>
                                                 <?php } ?>
                                                

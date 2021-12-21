@@ -290,7 +290,7 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     public function transferir_requisicao($id_requisicao) {
-        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $this->user);
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
 
         if ($requisicao && $this->input->method() == 'post') {
             if (($requisicao->tipo == 1 &&  in_array($requisicao->status, [2, 11])) && (($this->user->id_usuario == $requisicao->id_despachante) || ($this->user->id_obra == $requisicao->id_origem))) {
@@ -329,6 +329,8 @@ class Ferramental_requisicao  extends MY_Controller {
                     'data_transferido' => date('Y-m-d H:i:s', strtotime('now')),
                     'status' => 3
                 ]);
+
+                $this->gerar_romaneio($requisicao->id_requisicao, false);
 
                 $obra = $this->obra_model->get_obra($requisicao->id_destino);
                 $this->notificacoes_model->enviar_push(
@@ -397,6 +399,8 @@ class Ferramental_requisicao  extends MY_Controller {
                     'status' => 3
                 ]);
 
+                $this->gerar_romaneio($requisicao->id_requisicao, false);
+
                 $obra = $this->obra_model->get_obra($requisicao->id_destino);
                 $this->notificacoes_model->enviar_push(
                     "Requisição de devolução Transferida", 
@@ -426,7 +430,7 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     public function recusar_requisicao($id_requisicao){
-        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao, $this->user);
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
         
         if ($id_requisicao && $this->input->method() ==  'post') {
             if ($this->user->nivel != 1 || !in_array($requisicao->status, [1, 11])) {
@@ -580,15 +584,7 @@ class Ferramental_requisicao  extends MY_Controller {
             }
 
             if ($id_requisicao_item && $this->input->method() == 'post' && isset($_POST['id_requisicao_ativo'])) {
-                $retorno = null;
-                if (is_array($id_requisicao_item)) {
-                    foreach($id_requisicao_item as $id_item){
-                        $retorno = $this->ferramental_requisicao_model->aceite_items_requisicao($id_requisicao, $id_item, $_POST['id_requisicao_ativo'], [4, $_POST['status']]);
-                    }
-                } else {
-                    $retorno = $this->ferramental_requisicao_model->aceite_items_requisicao($id_requisicao, $id_requisicao_item, $_POST['id_requisicao_ativo'], [4, $_POST['status']]);
-                }
-
+                $retorno = $this->ferramental_requisicao_model->aceite_items_requisicao($id_requisicao, $id_requisicao_item, $_POST['id_requisicao_ativo'], [4, $_POST['status']]);
                 if ($retorno) {
                     $obra = $this->obra_model->get_obra($this->user->id_obra);
                     $this->notificacoes_model->enviar_push(
@@ -623,18 +619,13 @@ class Ferramental_requisicao  extends MY_Controller {
         $requisicao_item = $this->ferramental_requisicao_model->get_requisicao_item($id_requisicao, $id_requisicao_item);
  
         if ($requisicao_item && ($this->user->id_obra == $requisicao->id_destino)) {
-            $ativos = array_map(
-                function ($ativo) {
-                    return $ativo->id_requisicao_ativo;
-                },
-                $requisicao_item->ativos
-            );
-
+            $ativos = array_map(function ($ativo){return $ativo->id_requisicao_ativo;}, $requisicao_item->ativos);
             $acao = (int) $status == 4 ? 'receber' : 'devolver';
             $acao_sinonimo = (int) $status == 4 ? 'recepção' : 'devoluçãp';
             $retorno = $this->ferramental_requisicao_model->aceite_items_requisicao($id_requisicao, $id_requisicao_item, $ativos, [(int) $status, (int)$status]);
             if ($retorno) {
                 $obra = $this->obra_model->get_obra($this->user->id_obra);
+
                 $this->notificacoes_model->enviar_push(
                     "Requisição Recebida", 
                     "Requisição de Ferramentas {$requisicao->id_requisicao}, o Almoxarife confirmou $acao_sinonimo dos itens relacionados na obra {$obra->codigo_obra}.
@@ -649,6 +640,7 @@ class Ferramental_requisicao  extends MY_Controller {
                         "url" => "ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"
                     ]
                 );
+
                 $this->session->set_flashdata('msg_success', "Você confirmou a $acao_sinonimo dos itens relacionados.");
                 return;
             }
@@ -704,7 +696,7 @@ class Ferramental_requisicao  extends MY_Controller {
             return;
         }
         $this->session->set_flashdata('msg_erro', "Requisição não localizada!");
-        echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));         
+        echo redirect(base_url("ferramental_requisicao"));         
     }
 
     public function solicitar_items_nao_inclusos($id_requisicao){
@@ -714,7 +706,7 @@ class Ferramental_requisicao  extends MY_Controller {
         if (($requisicao && $permit_solicitar) && ($requisicao->id_solicitante == $this->user->id_usuario || $requisicao->id_destino == $this->user->id_obra)) {
             $status =  $this->ferramental_requisicao_model->solicitar_items_nao_inclusos_requisicao($requisicao);
             if ($status) {
-                $this->session->set_flashdata('msg_success', "Ñova Requisição Complementar com itens não inclusos criada com sucesso!");
+                $this->session->set_flashdata('msg_success', "Nova Requisição Complementar com itens não inclusos criada com sucesso!");
                 echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));         
                 return;
             }
@@ -726,9 +718,77 @@ class Ferramental_requisicao  extends MY_Controller {
         echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));   
     }
 
+    public function devolver_items_requisicao($id_requisicao) {
+        $permit_devolver = $this->ferramental_requisicao_model->permit_devolver_items_requisicao($id_requisicao);
+        if ($permit_devolver) {
+            $status =  $this->ferramental_requisicao_model->devolver_items_requisicao($id_requisicao);
+            if ($status) {
+                $this->session->set_flashdata('msg_success', "Nova Requisição de Devolução com itens não recebidos ou com defeito criada com sucesso!");    
+                echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));     
+                return;
+            }
+            $this->session->set_flashdata('msg_erro', "Erro ao criar Requisição de Devolução com itens não recebidos ou com defeito!");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));      
+            return;
+        }
+        $this->session->set_flashdata('msg_erro', "Sem premissão para essa soliciatação!");
+        echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));   
+    }
+
     public function aceite_erro($id_requisicao){
         $this->session->set_flashdata('msg_erro', "Item não existe na requisição!");
         echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));         
+    }
+
+    public function gerar_romaneio($id_requisicao, $redirect = true) {
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
+        if ($requisicao && $requisicao->status == 3) {
+            $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
+            $data = [
+                'css' =>  $css, 
+                'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
+                'header' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_header.png"),
+                'footer' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_footer.png"),
+                'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
+                'requisicao' => $requisicao
+            ];
+
+            $filename = "requisicao_romaneio_" . date('YmdHis', strtotime('now')).".pdf";
+            $html = $this->load->view("requisicao_romaneio", $data, true);
+            //echo $html; exit;
+            $upload_path = "assets/uploads/anexo";
+            $path = __DIR__."/../../../../{$upload_path}";
+            $file = "{$path}/{$filename}";
+
+            if (!file_exists($file)) {
+                $this->gerar_pdf($file, $html);
+
+                $anexo = $this->anexo_model->query_anexos()
+                            ->where("id_modulo_item = {$id_requisicao} and tipo = 'romaneio'")
+                            ->limit(1)->get()->row();
+
+                if ($anexo) {
+                    $id_anexo = $anexo->id_anexo;
+                    $this->db->where("id_anexo = {$id_anexo}")->update("anexo", ['anexo' => "anexo/{$filename}"]);
+                } else {
+                    $id_anexo = $this->salvar_anexo(
+                        [
+                            "titulo" => "Romaneio",
+                            "descricao" => "Romaneio da Requisição ID {$id_requisicao}",
+                            "anexo" => "anexo/{$filename}",
+                        ],
+                        'ferramental_requisicao',
+                        $id_requisicao,
+                        "romaneio"
+                    );
+                } 
+
+                if(!$redirect)  return $id_anexo != null;
+            }
+        }
+
+        if(!$redirect) return false;
+        echo redirect($this->getRef());
     }
 }
 

@@ -56,6 +56,9 @@
     <!-- moment.js -->
     <script src="<?php echo base_url("assets/js/moment.js"); ?>"></script>
 
+    <!--font-awesome5.js -->
+    <script src="<?php echo base_url("assets/js/font-awesome5.js"); ?>"></script>
+
     <!-- One Signal -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 
@@ -64,7 +67,9 @@
         var url = "<?php echo $url; ?>";
         var uri = "<?php echo $uri; ?>";
         var one_signal_appid = "<?php echo $this->config->item('one_signal_appid'); ?>";
-        var user = JSON.parse('<?php echo json_encode($user); ?>') || null;
+        var user = JSON.parse(`<?php echo json_encode($user); ?>`) || null;
+        var app_env = '<?php echo $app_env; ?>' || "development";
+        var configuracao = JSON.parse(`<?php echo json_encode($app_config); ?>`) || null
     </script>
 </head>
 
@@ -91,7 +96,7 @@
                             <a href="<?php echo base_url(); ?>">
                                 <i class="fas fa-chart-bar"></i>Entrada</a>
                         </li>
-
+            
                         <?php foreach($modulos->modulo as $mod){ ?>
                             
                         <li class="has-sub <?php echo $uri == $mod->rota ? "active" : "";?>">

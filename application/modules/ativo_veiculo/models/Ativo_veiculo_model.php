@@ -5,17 +5,25 @@ class Ativo_veiculo_model extends MY_Model {
 
 	use Ativo_veiculo_trait;
 
-	public function salvar_formulario($data=null){
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
+	public function salvar_formulario($data=null){
 		if($data['id_ativo_veiculo']==''){
 			$this->db->insert('ativo_veiculo', $data);
-			return "salvar_ok";
+			$data['id_ativo_veiculo'] = $this->db->insert_id();
 		} else {
-			$this->db->where('id_ativo_veiculo', $data['id_ativo_veiculo']);
-			$this->db->update('ativo_veiculo', $data);
-			return "salvar_ok";
+			$this->db->where('id_ativo_veiculo', $data['id_ativo_veiculo'])->update('ativo_veiculo', $data);
 		}
 
+		if ($data['id_interno_maquina'] == '' && $data['tipo_veiculo'] == 'maquina') {
+			$this->db
+				->where('id_ativo_veiculo', $data['id_ativo_veiculo'])
+				->update('ativo_veiculo', ["id_interno_maquina" => $this->get_id_maquina($data['id_ativo_veiculo'])]);
+		}
+		return "salvar_ok";
 	}
 
 	public function ativos(){
@@ -43,19 +51,11 @@ class Ativo_veiculo_model extends MY_Model {
 				->get()->result();
 	}
 
-	public function get_lista(){
-		return $this->ativos()->get()->result();
-	}
+	public function set_outros_dados_veiculo(stdClass $veiculo = null){
+		if ($veiculo) {
+			if ($veiculo->tipo_veiculo == "maquina" && !$veiculo->id_interno_maquina) 
+				$veiculo->id_interno_maquina = $this->get_id_maquina($veiculo->id_ativo_veiculo);
 
-	public function get_ativo_veiculo($id_ativo_veiculo, $coluna = "id_ativo_veiculo"){
-        $veiculo = $this->ativos()->where($coluna, $id_ativo_veiculo)->get()->row();
-        if ($veiculo) {
-            $fabricante = $this->fipe_veiculo($veiculo->tipo_veiculo, $veiculo->id_marca, $veiculo->id_modelo);
-			$veiculo->descricao = "{$fabricante->marca} {$fabricante->modelo}" ;
-			$veiculo->marca = $fabricante->marca;
-			$veiculo->modelo = $fabricante->modelo;
-			$veiculo->fabricante = $fabricante;
-			
 			$ultimo_km = $this->db
 							->where("id_ativo_veiculo = {$veiculo->id_ativo_veiculo}")
 							->order_by('data', 'desc')
@@ -68,11 +68,22 @@ class Ativo_veiculo_model extends MY_Model {
 				$veiculo->veiculo_km_atual = (int) $ultimo_km->veiculo_km; 
 			}
 		}
+		return $veiculo;
+	}
 
-        return $veiculo;
+	public function get_lista($page = 1, $limit = 100){
+		$lista = $this->ativos()->limit(((int) $page * (int) $limit), (int) $page - 1)->get()->result();
+		return array_map(function($veiculo) {return $this->set_outros_dados_veiculo($veiculo);}, $lista);
+	}
+
+	public function get_ativo_veiculo($id_ativo_veiculo, $coluna = "id_ativo_veiculo"){
+        return $this->set_outros_dados_veiculo($this->ativos()->where($coluna, $id_ativo_veiculo)->get()->row());
     }
 
 	public function ativo_veiculo_manutencao(){
+			$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = mnt.id_ativo_veiculo AND tipo = 'ordem_de_servico' 
+			AND id_modulo_subitem = mnt.id_ativo_veiculo_manutencao ORDER BY id_anexo DESC LIMIT 1";
+
 			return 	$this->db
 			->from('ativo_veiculo_manutencao mnt')
 			->select('mnt.*, atv.veiculo, atv.veiculo_placa')
@@ -81,7 +92,8 @@ class Ativo_veiculo_model extends MY_Model {
 			->join("ativo_veiculo atv", "atv.id_ativo_veiculo=mnt.id_ativo_veiculo")
 			->join("fornecedor frn", "frn.id_fornecedor=mnt.id_fornecedor")
 			->join('ativo_configuracao', 'ativo_configuracao.id_ativo_configuracao=mnt.id_ativo_configuracao')
-			->order_by('mnt.id_ativo_veiculo_manutencao', 'desc');
+			->order_by('mnt.id_ativo_veiculo_manutencao', 'desc')
+			->select("($select_anexo) as ordem_de_servico");
 	}
 
 	public function get_ativo_veiculo_manutencao_lista($id_ativo_veiculo = null, $em_andamento = null){
@@ -99,9 +111,10 @@ class Ativo_veiculo_model extends MY_Model {
 			}
 		}
 
-		return $manutencoes->group_by('id_ativo_veiculo_manutencao')
-												->get('ativo_veiculo_manutencao')
-												->result();
+		return $manutencoes
+				->group_by('id_ativo_veiculo_manutencao')
+				->get('ativo_veiculo_manutencao')
+				->result();
 	}
 
 	public function count_ativo_veiculo_em_manutencao(){
@@ -110,11 +123,16 @@ class Ativo_veiculo_model extends MY_Model {
 				->get()->num_rows();
 	}
 
-	public function get_ativo_veiculo_km_lista($id_ativo_veiculo, $limit = null){
-		$this->db->select('ativo_veiculo_quilometragem.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
-				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo")
-				->where("ativo_veiculo_quilometragem.id_ativo_veiculo", $id_ativo_veiculo)
-				->order_by('ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem', 'desc');
+	public function get_ativo_veiculo_abastecimento_lista($id_ativo_veiculo, array $limit = null){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_abastecimento.id_ativo_veiculo AND tipo = 'abastecimento' 
+			AND id_modulo_subitem = ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento ORDER BY id_anexo DESC LIMIT 1";
+
+		$this->db->select('ativo_veiculo_abastecimento.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->select("($select_anexo) as comprovante")
+				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_abastecimento.id_ativo_veiculo")
+				->where("ativo_veiculo_abastecimento.id_ativo_veiculo", $id_ativo_veiculo)
+				->order_by('ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento', 'desc');
+
 		if ($limit) {
 			if (is_array($limit)) {
 				$this->db->limit($limit[0], isset($limit[1]) ? $limit[1] : null);
@@ -123,6 +141,37 @@ class Ativo_veiculo_model extends MY_Model {
 			}
 		}
 		return $this->db
+				->group_by('id_ativo_veiculo_abastecimento')
+				->get('ativo_veiculo_abastecimento')
+				->result();
+	}
+
+	public function get_ativo_veiculo_km_lista($id_ativo_veiculo, $limit = null){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
+			AND id_modulo_subitem = ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem ORDER BY id_anexo DESC LIMIT 1";
+
+		$lista =$this->db->select('ativo_veiculo_quilometragem.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->select("($select_anexo) as comprovante")
+				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo")
+				->join("anexo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_quilometragem.id_ativo_veiculo");
+		
+		if (is_array($id_ativo_veiculo)) {
+			$lista->where("ativo_veiculo.id_ativo_veiculo IN ('".implode(',', $id_ativo_veiculo)."')");
+		} else {
+			$lista->where("ativo_veiculo.id_ativo_veiculo = {$id_ativo_veiculo}");
+		}
+		
+		$lista->order_by('ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem', 'desc');
+
+		if ($limit) {
+			if (is_array($limit)) {
+				$lista->limit($limit[0], isset($limit[1]) ? $limit[1] : null);
+			} else {
+				$lista->limit($limit);
+			}
+		}
+
+		return $lista
 				->group_by('id_ativo_veiculo_quilometragem')
 				->get('ativo_veiculo_quilometragem')
 				->result();
@@ -156,10 +205,15 @@ class Ativo_veiculo_model extends MY_Model {
 
 
 	public function get_ativo_veiculo_operacao_lista($id_ativo_veiculo, $limit = null){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_operacao.id_ativo_veiculo AND tipo = 'operacao' 
+			AND id_modulo_subitem = ativo_veiculo_operacao.id_ativo_veiculo_operacao ORDER BY id_anexo DESC LIMIT 1";
+
 		$this->db->select('ativo_veiculo_operacao.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
 				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_operacao.id_ativo_veiculo")
 				->where("ativo_veiculo_operacao.id_ativo_veiculo", $id_ativo_veiculo)
+				->select("({$select_anexo}) as comprovante")
 				->order_by('ativo_veiculo_operacao.id_ativo_veiculo_operacao', 'desc');
+
 		if ($limit) {
 			if (is_array($limit)) {
 				$this->db->limit($limit[0], isset($limit[1]) ? $limit[1] : null);
@@ -194,22 +248,29 @@ class Ativo_veiculo_model extends MY_Model {
 
 
 	public function get_ativo_veiculo_ipva_lista($id_ativo_veiculo){
-		$this->db->select('ativo_veiculo_ipva.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_ipva.id_ativo_veiculo AND tipo = 'ipva' 
+			AND id_modulo_subitem = ativo_veiculo_ipva.id_ativo_veiculo_ipva ORDER BY id_anexo DESC LIMIT 1";
+
+		return 	$this->db
+				->select('ativo_veiculo_ipva.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->select("({$select_anexo}) as comprovante")
 				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_ipva.id_ativo_veiculo")
 				->where("ativo_veiculo_ipva.id_ativo_veiculo", $id_ativo_veiculo)
-				->order_by('ativo_veiculo_ipva.id_ativo_veiculo_ipva', 'desc');
-		return $this->db
+				->order_by('ativo_veiculo_ipva.id_ativo_veiculo_ipva', 'desc')
 				->group_by('id_ativo_veiculo_ipva')
 				->get('ativo_veiculo_ipva')
 				->result();
 	}
 	
 	public function get_ativo_veiculo_seguro_lista($id_ativo_veiculo){
-		$this->db->select('ativo_veiculo_seguro.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_seguro.id_ativo_veiculo AND tipo = 'seguro' 
+			AND id_modulo_subitem = ativo_veiculo_seguro.id_ativo_veiculo_seguro ORDER BY id_anexo DESC LIMIT 1";
+
+		return $this->db->select('ativo_veiculo_seguro.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+				->select("({$select_anexo}) as comprovante")
 				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_seguro.id_ativo_veiculo")
 				->where("ativo_veiculo_seguro.id_ativo_veiculo", $id_ativo_veiculo)	
-				->order_by('ativo_veiculo_seguro.id_ativo_veiculo_seguro', 'desc');
-		return $this->db
+				->order_by('ativo_veiculo_seguro.id_ativo_veiculo_seguro', 'desc')
 				->group_by('id_ativo_veiculo_seguro')
 				->get('ativo_veiculo_seguro')
 				->result();
@@ -270,12 +331,16 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
+			AND id_modulo_subitem = ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem ORDER BY id_anexo DESC LIMIT 1";
+-
 		$quilometragem = $this->db
+					->select("($select_anexo) as comprovante")
 					->where('id_ativo_veiculo', $id_ativo_veiculo)
 					->where('id_ativo_veiculo_quilometragem', $id_ativo_veiculo_quilometragem)
 					->get("ativo_veiculo_quilometragem")
 					->row();
-		return !$quilometragem->comprovante_fiscal || $this->permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem);
+		return !$quilometragem->comprovante || $this->permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem);
 	}
 
 
@@ -284,6 +349,29 @@ class Ativo_veiculo_model extends MY_Model {
 				->where('id_ativo_veiculo', $id_ativo_veiculo)
 				->where("id_ativo_veiculo_quilometragem > '{$id_ativo_veiculo_quilometragem}'")
 				->get("ativo_veiculo_quilometragem")
+				->num_rows() === 0;
+	}
+
+
+	public function permit_edit_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'abastecimento' 
+			AND id_modulo_subitem = ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento ORDER BY id_anexo DESC LIMIT 1";
+
+		$abastecimento = $this->db
+					->select("({$select_anexo}) as comprovante")
+					->where('id_ativo_veiculo', $id_ativo_veiculo)
+					->where('id_ativo_veiculo_abastecimento', $id_ativo_veiculo_abastecimento)
+					->get("ativo_veiculo_abastecimento")
+					->row();
+		return !$abastecimento->comprovante || $this->permit_delete_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento);
+	}
+
+
+	public function permit_delete_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento){
+		return $this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where("id_ativo_veiculo_abastecimento > '{$id_ativo_veiculo_abastecimento}'")
+				->get("ativo_veiculo_abastecimento")
 				->num_rows() === 0;
 	}
 
@@ -319,12 +407,16 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'ipva' 
+			AND id_modulo_subitem = ativo_veiculo_ipva.id_ativo_veiculo_ipva ORDER BY id_anexo DESC LIMIT 1";
+
 		$ipva = $this->db
+					->select("({$select_anexo}) as comprovante")
 					->where('id_ativo_veiculo', $id_ativo_veiculo)
 					->where('id_ativo_veiculo_ipva', $id_ativo_veiculo_ipva)
 					->get("ativo_veiculo_ipva")
 					->row();
-		return !$ipva->comprovante_ipva || $this->permit_delete_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva);
+		return !$ipva->comprovante || $this->permit_delete_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva);
 	}
 
 	public function permit_delete_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva){
@@ -336,12 +428,16 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro){
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'seguro' 
+			AND id_modulo_subitem = ativo_veiculo_seguro.id_ativo_veiculo_seguro ORDER BY id_anexo DESC LIMIT 1";
+			
 		$seguro = $this->db
+					->select("({$select_anexo}) as comprovante")
 					->where('id_ativo_veiculo', $id_ativo_veiculo)
 					->where('id_ativo_veiculo_seguro', $id_ativo_veiculo_seguro)
 					->get("ativo_veiculo_seguro")
 					->row();
-		return !$seguro->contrato_seguro || $this->permit_delete_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro);
+		return !$seguro->comprovante || $this->permit_delete_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro);
 	}
 
 	public function permit_delete_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro){
@@ -371,5 +467,8 @@ class Ativo_veiculo_model extends MY_Model {
 				->num_rows() === 0;
 	}
 
-
+	public function get_id_maquina($id_ativo_veiculo) : string
+	{
+		return strtoupper("ENG-MAQ-".str_pad($id_ativo_veiculo, 4, '0', STR_PAD_LEFT));
+	}
 }

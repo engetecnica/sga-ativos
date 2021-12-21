@@ -51,7 +51,7 @@ class Ativo_interno_model extends MY_Model {
 		return $lista->get()->result();
 	}
 
-	public function get_ativo_interno($id_ativo_interno=null, $situacao=null){
+	public function get_ativo($id_ativo_interno=null, $situacao=null){
 		$ativo = $this->ativos()
 							->where('id_ativo_interno', $id_ativo_interno)
 							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
@@ -75,15 +75,41 @@ class Ativo_interno_model extends MY_Model {
 		->row();
 	}
 
-	public function get_lista_manutencao($id_ativo_interno){
-		return $this->db
-		->select('manutencao.*, manutencao.valor as manutencao_valor, manutencao.situacao as manutencao_situacao, ativo.*')
+	public function get_lista_manutencao($id_ativo_interno = null, $situacao = null, $obs = false){
+		$manutencoes = $this->db
+		->select('manutencao.*, manutencao.valor as manutencao_valor, manutencao.situacao as manutencao_situacao')
+		->select('ativo.id_ativo_interno, ativo.nome, ativo.marca, ativo.id_obra, ativo.situacao as ativo_situacao')
+		->select('ob.id_obra, ob.codigo_obra')
 		->order_by('manutencao.id_manutencao', 'desc')
-		->from('ativo_interno_manutencao manutencao')
-		->where("manutencao.id_ativo_interno={$id_ativo_interno}")
-		->join('ativo_interno ativo', "ativo.id_ativo_interno=manutencao.id_ativo_interno")
-		->group_by('manutencao.id_manutencao')
-		->get()->result();
+		->from('ativo_interno_manutencao manutencao');
+
+		if ($id_ativo_interno) $manutencoes->where("manutencao.id_ativo_interno = {$id_ativo_interno}");
+		if ($this->user->nivel == 2 && $this->user->id_obra) $manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
+		if ($situacao) {
+			if (is_array($situacao)) {
+
+				$situacao_string = "";
+			 	foreach($situacao as $i => $sit) {
+					$situacao_string .= "'{$sit}'";
+					if($i < count($situacao) - 1)   $situacao_string .= ',';
+				}
+
+				$manutencoes->where("manutencao.situacao IN ({$situacao_string})");
+			} else {
+				$manutencoes->where("manutencao.situacao = {$situacao}");
+			}
+		}
+
+		$manutencoes = $manutencoes
+			->join('ativo_interno ativo', "ativo.id_ativo_interno = manutencao.id_ativo_interno")
+			->join('obra ob', "ob.id_obra = ativo.id_obra", "left")
+			->group_by('manutencao.id_manutencao')
+			->get()->result();
+
+		if ($obs) {
+			foreach($manutencoes as $k => $manutencao) $manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+		}
+		return $manutencoes;
 	}
 
 	public function get_obs($id_manutencao, $id_obs){
@@ -97,10 +123,35 @@ class Ativo_interno_model extends MY_Model {
 	public function get_lista_manutencao_obs($id_manutencao) {
 			return $this->db->select('obs.*, usuario.*')
 			->from('ativo_interno_manutencao_obs obs')
-			->order_by('obs.data_inclusao', 'DES')
+			->order_by('obs.data_inclusao', 'desc')
 			->where('id_manutencao', $id_manutencao)
 			->join('usuario', 'usuario.id_usuario=obs.id_usuario')
 			->group_by('obs.id_obs')
 			->get()->result();
+	}
+
+	public function permit_create_manutencao($id_ativo_interno){
+		return $this->db
+			->where('id_ativo_interno', $id_ativo_interno)
+			->where("situacao != 2")
+			->get('ativo_interno_manutencao')->num_rows() == 0;
+	}
+
+
+	public function permit_edit_manutencao($id_ativo_interno, $id_manutencao){
+		$manutencao = $this->db
+			->where('id_ativo_interno', $id_ativo_interno)
+			->order_by('id_manutencao', 'desc')
+			->limit(1)
+			->get('ativo_interno_manutencao')->row();
+		return $manutencao && $manutencao->id_manutencao == $id_manutencao;
+	}
+
+	public function permit_delete_manutencao($id_ativo_interno, $id_manutencao) {
+		$manutencao = $this->db
+			->where('id_ativo_interno', $id_ativo_interno)
+			->where('id_manutencao', $id_manutencao)
+			->get('ativo_interno_manutencao')->row();
+		return $this->permit_edit_manutencao($id_ativo_interno, $id_manutencao) && ($manutencao && $manutencao->situacao == 0);
 	}
 }

@@ -34,7 +34,7 @@
         <?php } ?>
         <div class="col-12 col-md-6">
             <input type="file" id="<?php echo $anexo;?>" name="<?php echo $anexo;?>" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-            <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+            <small size='2'>Formatos aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
             <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
         </div>
     </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="col-12 col-md-9">
             <input type="file" id="<?php echo $anexo;?>" name="<?php echo $anexo;?>" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-            <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
+            <small size='2'>Formatos aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
             <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
         </div>
     </div>

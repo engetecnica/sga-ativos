@@ -28,6 +28,7 @@ class ferramental_requisicao_model extends MY_Model {
 	}
 
 	private function requisicoes(){
+		$romaneio = "SELECT anexo FROM anexo WHERE id_modulo_item = requisicao.id_requisicao AND tipo = 'romaneio' ORDER BY id_anexo DESC LIMIT 1";
 		return $this->db->select("requisicao.*,
 				origem.codigo_obra as origem, origem.endereco as origem_endereco, 
 				origem.endereco_numero as origem_endereco_numero, origem.responsavel as origem_responsavel,
@@ -36,7 +37,8 @@ class ferramental_requisicao_model extends MY_Model {
 				destino.endereco_numero as destino_endereco_numero, destino.responsavel as destino_responsavel,
 				destino.responsavel_celular as destino_responsavel_celular, destino.responsavel_email as destino_responsavel_email,    
 				sol.usuario as solicitante, adm.usuario as despachante,
-				sol.nome as solicitante_nome, adm.nome as despachante_nome"
+				sol.nome as solicitante_nome, adm.nome as despachante_nome,
+				($romaneio) as romaneio"
 			)
 			->from('ativo_externo_requisicao requisicao')
 			->join('obra origem', 'origem.id_obra=requisicao.id_origem', 'left')
@@ -99,14 +101,13 @@ class ferramental_requisicao_model extends MY_Model {
 		if (!$id_requisicao) {
 			return null;
 		}
-
 		return $this->requisicoes()
 			->where("requisicao.id_requisicao = {$id_requisicao}")
 			->group_by('requisicao.id_requisicao')
 			->get()->row();
 	}
 
-	public function get_requisicao_com_items($id_requisicao, $id_ativo_externo_grupo = null)
+	public function get_requisicao_com_items($id_requisicao)
 	{
 		$requisicao = $this->get_requisicao($id_requisicao);
 		if($requisicao) {
@@ -136,7 +137,10 @@ class ferramental_requisicao_model extends MY_Model {
 
 	public function get_requisicao_items($id_requisicao, $status=null){
 			$this->db->reset_query();
-			$estoque = "select COUNT(id_ativo_externo) FROM ativo_externo WHERE (id_ativo_externo_grupo=atv.id_ativo_externo_grupo and situacao=12) and id_obra={$this->user->id_obra}";
+			$estoque = "select COUNT(id_ativo_externo) FROM ativo_externo WHERE (id_ativo_externo_grupo=atv.id_ativo_externo_grupo and situacao=12)";
+
+			if ($this->user->id_obra) $estoque .= " and id_obra = {$this->user->id_obra}";
+
 			$items_query = $this->db->select("item.*, atv.id_ativo_externo, atv.codigo, atv.nome, 
 			atv.id_ativo_externo_grupo, atv.id_obra, ($estoque) as estoque")
 			->from('ativo_externo_requisicao_item item')
@@ -169,12 +173,14 @@ class ferramental_requisicao_model extends MY_Model {
 
 			if($requisicao_item) {
 				$this->db->reset_query();
-				$requisicao_item->ativos = $this->db->select('ativo.*, atv.*, kit.*')
+				$requisicao_item->ativos = $this->db
+						->select('ativo.*, atv.*, kit.*, atc.nome as categoria')
 						->from('ativo_externo_requisicao_ativo ativo')
 						->where("ativo.id_requisicao={$id_requisicao}")
 						->where("ativo.id_requisicao_item={$id_requisicao_item}")
 						->join('ativo_externo atv', "atv.id_ativo_externo=ativo.id_ativo_externo", 'left')
 						->join('ativo_externo_kit kit', "kit.id_ativo_externo_kit = atv.id_ativo_externo", 'left')
+						->join("ativo_externo_categoria as atc", "atc.id_ativo_externo_categoria = atv.id_ativo_externo_categoria", 'left')
 						->group_by('atv.id_ativo_externo')
 						->get()
 						->result();
@@ -198,42 +204,42 @@ class ferramental_requisicao_model extends MY_Model {
 
 	public function aceite_items_requisicao($id_requisicao, $id_requisicao_item = null, array $ativos = [], array $status = [4,4]){
 			$requisicao = $this->get_requisicao_com_items($id_requisicao);	
-			$requisicao_item = $this->get_requisicao_item($id_requisicao, $id_requisicao_item);
 
 			if ($requisicao && in_array($requisicao->status, [3, 13])) {
-			  $requisicao_ativos = $ativos_externos = $requisicao_items = [];
-				$contador = $this->get_contadores($requisicao);
-
+			  	$requisicao_ativos = $ativos_externos = $requisicao_items = [];
+	
+				$k = 0;
+				$contador_items = $this->get_contadores($requisicao)->items;
 				foreach($requisicao->items as $item) {
-					if (!$id_requisicao_item | (is_array($id_requisicao_item) && in_array($item->id_requisicao_item, $id_requisicao_item)) | $item->id_requisicao_item == $id_requisicao_item) {
-						$k = 0;
+					$contador_ativos = $this->get_contadores($requisicao)->ativos;
+					if (!$id_requisicao_item | (is_array($id_requisicao_item) && in_array($item->id_requisicao_item, $id_requisicao_item)) || $item->id_requisicao_item == $id_requisicao_item) {
 						foreach($item->ativos as $ativo) {
 							$ativos_vazio = (count($ativos) == 0);
 							$ativos_in_array = ((count($ativos) > 0) && in_array($ativo->id_requisicao_ativo, $ativos));
 
 							if ($ativos_vazio | $ativos_in_array) {
-								  $situacao = 12;
+								  	$situacao = 12;
 									$st = is_array($status[1]) ? $status[1][$k] : $status[1];
 
 									if ($requisicao->tipo == 1) {
 										switch($st){
 											case 4:
-												$contador->ativos->recebido++;
+												if (count($ativos) > $contador_ativos->recebido) $contador_ativos->recebido++;
 											break;
 											case 8:
 												$situacao = $st;
-												$contador->ativos->recebido++;
+												if (count($ativos) > $contador_ativos->com_defeito) $contador_ativos->com_defeito++;
 											break;
 											case 9:
 												$situacao = $st;
-												$contador->ativos->devolvido++;
+												if (count($ativos) > $contador_ativos->devolvido) $contador_ativos->devolvido++;
 											break;
 										}
 									}
 
 									if ($requisicao->tipo == 2) {
 										$situacao = 12;
-										$contador->ativos->recebido++;
+										$contador_ativos->recebido++;
 										if($ativo->status == 8){
 											$situacao = $ativo->status;
 										}
@@ -255,23 +261,17 @@ class ferramental_requisicao_model extends MY_Model {
 									if ($ativo_externo->tipo == 1) {
 										$this->liberar_kit($ativo_externo, $ativos_externos, 12, $requisicao->id_destino);
 									}
-									$k++;
 								}
+							$k++;
 						}
 
 						$status_item = $status[0];
 						if ($requisicao->tipo == 1) {
-							if($contador->ativos->recebido == count($item->ativos)) {
-								$status_item = 4;
-							}
-
-							if($contador->ativos->com_defeito == count($item->ativos)) {
-								$status_item = 8;
-							}
-
-							if($contador->ativos->devolvido == count($item->ativos)) {
-								$status_item = 9;
-							}
+							if($contador_ativos->com_defeito == count($item->ativos)) $status_item = 8;
+							elseif($contador_ativos->devolvido == count($item->ativos)) $status_item = 9;
+							elseif($contador_ativos->recebido == count($item->ativos)) $status_item = 4;
+							elseif(array_sum([$contador_ativos->recebido, $contador_ativos->com_defeito, $contador_ativos->devolvido]) == 0) $status_item = 2;
+							else $status_item = 13;
 						}
 						
 						$requisicao_items[] = [
@@ -279,12 +279,12 @@ class ferramental_requisicao_model extends MY_Model {
 							'status' => $status_item,
 							'data_recebido' => date('Y-m-d H:i:s', strtotime('now'))
 						];
-						$contador->items->recebido++;
+						$contador_items->recebido++;
 					}
 				}
 
 				$status_requisicao = 13;
-				if(count($requisicao->items) == array_sum([$contador->items->recebido, $contador->items->com_defeito, $contador->items->devolvido])) {
+				if(count($requisicao->items) == array_sum([$contador_items->recebido, $contador_items->com_defeito, $contador_items->devolvido])) {
 					$status_requisicao = 4;
 				}
 
@@ -300,96 +300,109 @@ class ferramental_requisicao_model extends MY_Model {
 				$this->ferramental_requisicao_model->salvar_formulario($data_requisicao);
 
 				//criar requisicao (tipo 2) de devolucao para items devolvidos ou com defeito se usuario é almoxarifado
-				if (($status_requisicao == 4 && $requisicao->tipo == 1) && $this->user->nivel == 2) {
-					return $this->devolver_items_requisicao($requisicao->id_requisicao);
+				if ($status_requisicao == 4 && $requisicao->tipo == 1) {
+					$this->devolver_items_requisicao($id_requisicao);
 				}
 				return true;
 			}
 			return false;
 	}
 
-	public function devolver_items_requisicao($id_requisicao) {
-			$requisicao = $this->get_requisicao_com_items($id_requisicao);
-
-			if($requisicao && ($this->user->id_obra == $requisicao->id_destino)) {
-				if ($this->user->nivel == 1 || $requisicao->tipo == 2) { 
-					return false;
+	public function permit_devolver_items_requisicao($id_requisicao){
+		$requisicao = $this->get_requisicao_com_items($id_requisicao);
+		if(
+			($requisicao && (isset($requisicao->id_devolucao) && $requisicao->tipo == 1)) &&
+			($requisicao->id_solicitante == $this->user->id_usuario || $requisicao->id_destino == $this->user->id_obra)
+		) {
+			$contador = $this->get_contadores($requisicao);
+			$quantidade = 0;
+			if ($contador->ativos->devolvido > 0 || $contador->ativos->com_defeito > 0) {
+				foreach($requisicao->items as $item) {
+					foreach($item->ativos as $ativo) if (in_array($ativo->status, [8, 9])) $quantidade++;
 				}
+			}
+			return $quantidade > 0;
+		}
+		return false;
+	}
+
+	public function devolver_items_requisicao($id_requisicao) {
+		$requisicao = $this->get_requisicao_com_items($id_requisicao);
+		
+		if($requisicao) {
+			if ($requisicao->tipo == 2) { 
+				return false;
+			}
 			
-				$contador = $this->get_contadores($requisicao);
-				if ($contador->ativos->devolvido > 0 || $contador->ativos->com_defeito > 0) {
-					$nova_requisicao = [
-							'tipo' => 2,
-							'status' => 2,
-							'id_origem' => $requisicao->id_destino,
-							'id_destino' => $requisicao->id_origem,
-							'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
-							'id_solicitante' => $requisicao->id_despachante,
-							'id_despachante' => $requisicao->id_solicitante,
-					];
+			$contador = $this->get_contadores($requisicao);
+			if ($contador->ativos->devolvido > 0 || $contador->ativos->com_defeito > 0) {
+				$nova_requisicao = [
+						'tipo' => 2,
+						'status' => 2,
+						'id_origem' => $requisicao->id_destino,
+						'id_destino' => $requisicao->id_origem,
+						'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
+						'id_solicitante' => $requisicao->id_despachante,
+						'id_despachante' => $requisicao->id_solicitante,
+				];
+				$id_nova_requisicao = $this->salvar_formulario($nova_requisicao);
+				$ativos_externos = $requisicao_ativos = $requisicao_items  = [];
 
-					$id_nova_requisicao = $this->salvar_formulario($nova_requisicao);
-					$ativos_externos = $requisicao_ativos = $requisicao_items  = [];
-
-					foreach($requisicao->items as $item) {
-							$quantidade = 0;
-							foreach($item->ativos as $ativo) {
-									if (in_array($ativo->status, [8, 9])) {
-											$requisicao_ativos[] = [
-													'status' => $ativo->status,
-													'id_ativo_externo' => $ativo->id_ativo_externo,
-													'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
-													'id_requisicao' => $id_nova_requisicao,
-													'id_requisicao_item' => null, //$id_requisicao_item,
-													'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
-											];
-
-											$ativo_status = $ativo->status == 9 ? 12 : $ativo->status;
-											$ativos_externos[] = [
-													'id_ativo_externo' => $ativo->id_ativo_externo,
-													'situacao' => $ativo_status,
-													'id_obra' => $requisicao->id_origem,
-											];
-
-											$ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
-											if ($ativo_externo->tipo == 1) {
-												$this->liberar_kit($ativo_externo, $ativos_externos, $ativo_status, $requisicao->id_origem);
-											}
-											$quantidade++;
-									}
-							}
-
-							if ($quantidade > 0) {
-								$this->db->insert('ativo_externo_requisicao_item', [
-										'status' => 2,
-										'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
-										'id_requisicao' => $id_nova_requisicao,
-										'quantidade' => $quantidade,
-										'quantidade_liberada' => $quantidade,
-										'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
-								]);
-
-								$requisicao_items[] = [
-									'id_requisicao_item' => $this->db->insert_id(),
+				foreach($requisicao->items as $item) {
+					$quantidade = 0;
+					foreach($item->ativos as $ativo) {
+						if (in_array($ativo->status, [8, 9])) {
+							$requisicao_ativos[] = [
+									'status' => $ativo->status,
+									'id_ativo_externo' => $ativo->id_ativo_externo,
+									'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
+									'id_requisicao' => $id_nova_requisicao,
+									'id_requisicao_item' => null, //$id_requisicao_item,
 									'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
-								];
+							];
+							$ativo_status = $ativo->status == 9 ? 12 : $ativo->status;
+							$ativos_externos[] = [
+									'id_ativo_externo' => $ativo->id_ativo_externo,
+									'situacao' => $ativo_status,
+									'id_obra' => $requisicao->id_origem,
+							];
+							$ativo_externo = $this->ativo_externo_model->get_ativo($ativo->id_ativo_externo);
+							if ($ativo_externo->tipo == 1) {
+								$this->liberar_kit($ativo_externo, $ativos_externos, $ativo_status, $requisicao->id_origem);
 							}
-					}
-
-					foreach($requisicao_items as $i => $item) {
-						foreach($requisicao_ativos as $a => $ativo) {
-							if (isset($ativo['id_ativo_externo_grupo']) && ($ativo['id_ativo_externo_grupo'] == $item['id_ativo_externo_grupo'])) {
-								$requisicao_ativos[$a]['id_requisicao_item'] = $item['id_requisicao_item'];
-								unset($requisicao_ativos[$a]['id_ativo_externo_grupo']);
-							}
+							$quantidade++;
 						}
 					}
 
-					$this->db->insert_batch("ativo_externo_requisicao_ativo", $requisicao_ativos);
-					$this->db->insert('ativo_externo_requisicao_devolucao', ['id_devolucao' => $id_nova_requisicao, 'id_requisicao' => $id_requisicao]);
-					return true;
+					if ($quantidade > 0) {
+						$this->db->insert('ativo_externo_requisicao_item', [
+							'status' => 2,
+							'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
+							'id_requisicao' => $id_nova_requisicao,
+							'quantidade' => $quantidade,
+							'quantidade_liberada' => $quantidade,
+							'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
+						]);
+						$requisicao_items[] = [
+							'id_requisicao_item' => $this->db->insert_id(),
+							'id_ativo_externo_grupo' => $item->id_ativo_externo_grupo,
+						];
+					}
 				}
-				return true;
+
+				foreach($requisicao_items as $item) {
+					foreach($requisicao_ativos as $a => $ativo) {
+						if (isset($ativo['id_ativo_externo_grupo']) && ($ativo['id_ativo_externo_grupo'] == $item['id_ativo_externo_grupo'])) {
+							$requisicao_ativos[$a]['id_requisicao_item'] = $item['id_requisicao_item'];
+							unset($requisicao_ativos[$a]['id_ativo_externo_grupo']);
+						}
+					}
+				}
+
+				$this->db->insert_batch("ativo_externo_requisicao_ativo", $requisicao_ativos);
+				$this->db->insert('ativo_externo_requisicao_devolucao', ['id_devolucao' => $id_nova_requisicao, 'id_requisicao' => $id_requisicao]);
+			}
+			return true;
 		}
 		return false;
 	}
@@ -400,7 +413,10 @@ class ferramental_requisicao_model extends MY_Model {
 			$requisicao = $this->get_requisicao_com_items($id_requisicao);
 		}
 
-		if ($requisicao instanceof stdClass && (!$requisicao->data_inclusao_filha && in_array($requisicao->status, [4, 13, 15]))) {
+		if (
+			($requisicao instanceof stdClass && (!$requisicao->data_inclusao_filha && in_array($requisicao->status, [4, 13, 15]))) &&
+			($requisicao->id_solicitante == $this->user->id_usuario || $requisicao->id_destino == $this->user->id_obra)
+		) {
 			$quantidades = [];
 			foreach($requisicao->items as $item) {
 				$quantidades[] = ((int) $item->quantidade - (int) $item->quantidade_liberada) > 0;
@@ -492,7 +508,7 @@ class ferramental_requisicao_model extends MY_Model {
 				$total_items_recebido = $total_items_com_defeito = $total_items_devolvido = 0;
 				$total_ativos_recebido = $total_ativos_com_defeito = $total_ativos_devolvido = 0;
 
-				foreach($requisicao->items as $item) {
+				foreach($requisicao->items as $i => $item) {
 					switch($item->status){
 						case 4:
 							$total_items_recebido++;

@@ -1,7 +1,7 @@
 <!-- col-md-6 -->
 <div class="col-12" id="dados_operacionais">
     <div class="top-campaign">
-        <h3 class="title-3">Dados Operacionais</h3>
+        <h3 class="title-3">Dados Operacionais de Veículos e Máquinas</h3>
         <p class="m-b-30">Lançamentos e Extratos de Quilometragem e/ou Tempo de Operação de veiculos e máquinas</p>
 
         <div class="row">

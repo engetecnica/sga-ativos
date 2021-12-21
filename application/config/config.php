@@ -545,18 +545,22 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+$config['log_threshold'] = 4;
+
+$config['log_path'] = __DIR__."/../../log/";
+
 
 /**
  * Custom Upload Size
  */
-$config['upload_max_filesize'] = 10;
+$config['upload_max_filesize'] = isset($_ENV["APP_UPLOAD_MAX_SIZE"]) ? $_ENV['APP_UPLOAD_MAX_SIZE'] : 10;
 
 /** 
  * One Signal Notifications
  */
-$config['one_signal_appid'] = $_ENV["ONESIGNAL_APPID"];
-$config['one_signal_apikey'] = $_ENV["ONESIGNAL_APIKEY"];
-$config['one_signal_apiurl'] = $_ENV["ONESIGNAL_APIURL"];
+$config['one_signal_appid'] = isset($_ENV["ONESIGNAL_APPID"]) ? $_ENV["ONESIGNAL_APPID"] : null;
+$config['one_signal_apikey'] = isset($_ENV["ONESIGNAL_APIKEY"]) ? $_ENV["ONESIGNAL_APIKEY"] : null;
+$config['one_signal_apiurl'] = isset($_ENV["ONESIGNAL_APIURL"]) ? $_ENV["ONESIGNAL_APIURL"] : null;
 
 
 
@@ -564,7 +568,8 @@ $config['one_signal_apiurl'] = $_ENV["ONESIGNAL_APIURL"];
  * App Email Notifications
 */
 //From
-$config['notifications_email'] = $_ENV["APP_NOTIFICATION_FROM_EMAIL"];
+$config['notifications_email'] = isset($_ENV["APP_NOTIFICATION_FROM_EMAIL"]) ? $_ENV["APP_NOTIFICATION_FROM_EMAIL"] : null;
+$config['notifications_address'] = [];
 
 //To
 if (isset($_ENV["APP_NOTIFICATION_TO_NAME"]) && isset($_ENV["APP_NOTIFICATION_TO_EMAIL"])) {
@@ -582,4 +587,4 @@ foreach (range(1, 10) as $id) {
 }
 
 //SendGrid
-$config['sendgrid_apikey'] = $_ENV["SENDGRID_APIKEY"];
+$config['sendgrid_apikey'] = $_ENV["SENDGRID_APIKEY"] ?: null;

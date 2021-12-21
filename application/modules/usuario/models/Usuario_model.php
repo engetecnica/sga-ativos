@@ -24,22 +24,22 @@ class usuario_model extends MY_Model {
 			}
 			return "salvar_ok";
 		} else {
+			$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
 			if ($this->user->id_usuario != $data['id_usuario'] && $this->user->nivel == 2) {
 				return "salvar_error";
 			}
-
+			
 			if (isset($data['email']) && (strtolower($usuario->email) != strtolower($data['email']))) {
 				$data['email_confirmado_em'] = null;
 				$data['codigo_recuperacao'] = null;
 			}
-			
-			$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
-			$usuario = $this->db->get('usuario')->row();
 
-			if (($usuario->email != null && $usuario->email_confirmado_em == null) && $usuario->codigo_recuperacao == null) {
+			$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
+			$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
+
+			if ($usuario->email && (!$usuario->email_confirmado_em && !$usuario->codigo_recuperacao)) {
 				$this->usuario_model->solicitar_confirmacao_email($usuario->id_usuario, "email_confirmacao");
 			}
-
 			return "salvar_ok";
 		}
 	}
@@ -111,7 +111,6 @@ class usuario_model extends MY_Model {
 		$usuario = $this->usuario()
 					->where('id_usuario', $id)
 					->get()->row();
-
 		if ($includes_pass == false) {
 			unset($usuario->senha);
 		}
@@ -120,7 +119,6 @@ class usuario_model extends MY_Model {
 
 	public function get_usuario_email($email, $includes_pass = false){
 		$usuario = $this->usuario()->where("email = '{$email}'")->get()->row();
-		
 		if ($includes_pass == false) {
 			unset($usuario->senha);
 		}
@@ -129,7 +127,6 @@ class usuario_model extends MY_Model {
 
 	public function get_usuario_codigo($codigo_recuperacao, $includes_pass = false){
 		$now = date('Y-m-d H:i:s');
-
 		$usuario = $this->usuario()
 			->where('codigo_recuperacao', $codigo_recuperacao)
 			->where("codigo_recuperacao_validade >= '$now'")
@@ -143,7 +140,6 @@ class usuario_model extends MY_Model {
 
 	public function exists_email($email, $id = null){
 		$usuario = $this->usuario()->where("email = '{$email}'");
-
 		if ($id) {
 			$usuario->where("id_usuario != $id");
 		} 
@@ -160,24 +156,20 @@ class usuario_model extends MY_Model {
 
 	public function solicitar_confirmacao_email($id_usuario, $template = "email_confirmacao"){
         $usuario = $this->get_usuario($id_usuario);
-
         if ($usuario) {
             $validade = date('Y-m-d H:i:s', strtotime("+30 days"));
             $codigo = $this->gerar_codigo();
             $enviado = $this->enviar_email_confirmacao($usuario, $codigo, $validade, $template);
-
             if ($enviado) {
                 $this->db
-                    ->where("id_usuario = {$usuario->id_usuario}")
-                    ->update('usuario', [
-                        "codigo_recuperacao" => $codigo,
-                        "codigo_recuperacao_validade" => $validade
+                ->where("id_usuario = {$usuario->id_usuario}")
+                ->update('usuario', [
+                    "codigo_recuperacao" => $codigo,
+                    "codigo_recuperacao_validade" => $validade
                 ]);
-
                 return $enviado;
             }
         }
-
         return false;
     }
 
@@ -192,7 +184,6 @@ class usuario_model extends MY_Model {
 			], 
 			true
 		);
-
 		return $this->notificacoes_model->enviar_email("Confirmar Email", $html, ["{$usuario->nome}" => $usuario->email]);
 	}
 
@@ -207,7 +198,6 @@ class usuario_model extends MY_Model {
 				], 
 				true
 		);
-
 		return $this->notificacoes_model->enviar_email("Redefinição de Senha", $html, ["{$usuario->nome}" => $usuario->email]);
 	}
 }

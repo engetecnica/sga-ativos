@@ -51,6 +51,13 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
+                                        <label for="slug" class=" form-control-label">Slug/Apelidio</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <input type="text" id="slug" name="slug" placeholder="Slug/Apelidio da Configuração" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->slug)){ echo $detalhes->slug; } ?>">
+                                    </div>
+
+                                    <div class="col col-md-2">
                                         <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
                                     <div class="col-12 col-md-2">

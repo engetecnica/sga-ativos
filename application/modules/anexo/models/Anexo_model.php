@@ -28,17 +28,17 @@ class Anexo_model extends MY_Model {
 
        $this->tipos = [
           [
-              "nome" => "Nota/Recibo Compra",
+              "nome" => "Recibo Compra",
               "slug" => "compra",
               "modulos" =>  ['ativo_interno', 'ativo_externo', 'ativo_veiculo']
           ],
           [
-              "nome" => "Nota/Recibo Manutenção",
+              "nome" => "Recibo Manutenção",
               "slug" => "manutencao",
               "modulos" =>  ['ativo_interno', 'ativo_externo', 'ativo_veiculo']
           ],
           [
-              "nome" => "Foto/Declaração de Descarte",
+              "nome" => "Declaração de Descarte",
               "slug" => "descarte",
               "modulos" =>  ['ativo_interno', 'ativo_externo', 'ativo_veiculo']
           ],
@@ -48,12 +48,17 @@ class Anexo_model extends MY_Model {
             "modulos" =>  ['ativo_externo']
           ],
           [
-            "nome" => "Nota/Recibo de Abastecimento",
+            "nome" => "Comprovante de Quilometragem",
             "slug" => "quilometragem",
             "modulos" =>  ['ativo_veiculo']
           ],
           [
-              "nome" => "Nota/Recibo de IPVA",
+            "nome" => "Recibo de Abastecimento",
+            "slug" => "abastecimento",
+            "modulos" =>  ['ativo_veiculo']
+          ],
+          [
+              "nome" => "Recibo Pagamento de IPVA",
               "slug" => "ipva",
               "modulos" =>  ['ativo_veiculo']
           ],
@@ -63,27 +68,40 @@ class Anexo_model extends MY_Model {
               "modulos" =>  ['ativo_veiculo']
           ],
           [
-            "nome" => "Termo de Reponsabilidade",
-            "slug" => "termo_de_reponsabilidade",
+            "nome" => "Termo de Responsabilidade",
+            "slug" => "termo_de_responsabilidade",
             "modulos" => ['ferramental_estoque']
+          ],
+          [
+            "nome" => "Ordem de Serviço",
+            "slug" => "ordem_de_servico",
+            "modulos" =>  ['ativo_veiculo']
+          ],
+          [
+            "nome" => "Romaneio de Requisição",
+            "slug" => "romaneio",
+            "modulos" =>  ['ferramental_requisicao']
           ],
           [
               "nome" => "Outro",
               "slug" => "outro",
-              "modulos" => ['ativo_interno', 'ativo_externo', 'ativo_veiculo']
+              "modulos" => ['ativo_interno', 'ativo_externo', 'ativo_veiculo', 'ferramental_requisicao', 'ferramental_estoque']
           ]
         ];
+
+        $this->load->model("ativo_veiculo/ativo_veiculo_model");
   }
 
 	public function salvar_formulario($data){
 		if(!isset($data['id_anexo'])){
       $this->db->insert('anexo', $data);
+      return $this->db->affected_rows() ? $this->db->insert_id() : null;
 		} else {
       $this->db
         ->where('id_anexo', $data['id_anexo'])
         ->update('anexo', $data);
+        return $this->db->affected_rows() ? $data['id_anexo'] : null;
     }
-    return $this->db->affected_rows();
 	}
 
 
@@ -97,8 +115,14 @@ class Anexo_model extends MY_Model {
               ->group_by('id_anexo')->order_by('id_anexo', 'desc');
   }
 
-	public function anexos($id_modulo = null, $id_modulo_item = null){
+	public function anexos(
+    $id_modulo = null, 
+    $id_modulo_item = null, 
+    $tipo = null,
+    $id_modulo_subitem = null
+  ){
     $anexos = $this->query_anexos();
+    if ($tipo) $anexos->where("anexo.tipo = '{$tipo}'");
 
     if ($id_modulo) {
       if (is_array($id_modulo)) {
@@ -115,6 +139,14 @@ class Anexo_model extends MY_Model {
         $anexos->where("anexo.id_modulo_item = {$id_modulo_item}");
       }
     }
+
+    if ($id_modulo_subitem) {
+      if (is_array($id_modulo_subitem)) {
+        $anexos->where("anexo.id_modulo_subitem IN (".implode(',',$id_modulo_subitem).")");
+      } else {
+        $anexos->where("anexo.id_modulo_subitem = {$id_modulo_subitem}");
+      }
+    }
 		return $anexos;
   }
   
@@ -122,26 +154,22 @@ class Anexo_model extends MY_Model {
   public function get_anexos(
     $id_modulo = null, 
     $id_modulo_item = null, 
+    $tipo = null,
     $id_modulo_subitem = null, 
     $pagina = null, 
     $limite = 50
   ){
-    $anexos = $this->anexos($id_modulo,$id_modulo_item, $id_modulo_subitem);
-    if (($limite && $pagina) && ($pagina >= 1)) {
-      $anexos->limit($limite, (($limite * $pagina) - 1));
-    }
+    $anexos = $this->anexos($id_modulo, $id_modulo_item, $tipo, $id_modulo_subitem);
+    if (($limite && $pagina) && ($pagina >= 1)) $anexos->limit($limite, (($limite * $pagina) - 1));
     return $anexos->get()->result();
   }
 
-  public function get_anexo($id_modulo = null, $id_modulo_item = null){
-    return $this->anexos($id_modulo, $id_modulo_item)->get()->row();
+  public function get_anexo($id_anexo){
+    return $this->anexos()->where('id_anexo', $id_anexo)->get()->row();
   }
 
   public function get_anexo_by_name($anexo){
-    return $this->query_anexos()
-                ->like('anexo', $anexo)        
-                ->get()
-                ->row();
+    return $this->query_anexos()->like('anexo', $anexo)->get()->row();
   }
 
   public function get_anexo_tipo($slug){
@@ -150,25 +178,65 @@ class Anexo_model extends MY_Model {
         return $tipo;
       }
     }
-    return null;
+    return ['nome' => '-'];
   }
 
   public function getOrphans($dir = "anexo", $table = "anexo"){
-    $path = __DIR__."/../../../../assets/uploads/{$dir}/";
+    $path = __DIR__."/../../../../assets/uploads/{$dir}";
     $anexos = $this->db->get($table)->result();
-    $anexos_on_db = [];
-    $anexos_on_dir = glob($path."*.*");
+    $anexos_on_db = []; $anexos_on_dir = [];
 
-    foreach(glob($path."*.*") as $key => $anexo) {
-      $anexos_on_dir[$key] =  str_replace($path, "{$dir}/", $anexo);
+    foreach(glob("{$path}/*.*") as $key => $anexo) $anexos_on_dir[] = pathinfo($anexo)['basename'];
+    foreach($anexos as $anexo) if (isset($anexo->$dir)) $anexos_on_db[] = pathinfo($anexo->$dir)['basename'];
+
+    foreach($anexos_on_dir as $key => $file)  {
+      if (in_array($file, array_values($anexos_on_db))) unset($anexos_on_dir[$key]);
+      else $anexos_on_dir[$key] = "{$path}/$anexos_on_dir[$key]";
     }
-
-    foreach($anexos as $anexo) {
-      if (isset($anexo->{$dir})) {
-        $anexos_on_db[] = "{$dir}/{$anexo->{$dir}}";
+    return $anexos_on_dir;
+  }
+  
+  public function getData(
+    $modulo_nome = null, //rota
+    $id_item = null, //id item do modulo ex: id_ativo_externo
+    $tipo = null, //tipo do anexo ex: manutencao, ipva, seguro
+    $id_subitem = null, //id subitem do modulo ex: id_ativo_externo_manutencao
+    $back_url = null,
+    $pagina = null, 
+    $limite = null
+  ) : array {
+    $modulo = $this->db->where('rota', $modulo_nome)->get('modulo')->row();
+    if ($modulo) {
+      if(!$back_url) {
+        $back_url = "/{$modulo->rota}";
+        if($id_item) $back_url .= "/{$id_item}";
+        if($tipo) $back_url .= "/{$tipo}";
+        if($id_subitem) $back_url .= "/{$id_subitem}";
       }
     }
 
-    return array_diff($anexos_on_dir, $anexos_on_db);
-  } 
+    return [
+      "upload_max_filesize" => ini_get('upload_max_filesize'),
+      "id_modulo" => $modulo ? $modulo->id_modulo : null,
+      "modulo" => $modulo,
+      "tipo" => $tipo,
+      "id_item" => $id_item,
+      "id_subitem" => $id_subitem,  
+      "pagina" => $pagina,
+      "limite" => $limite,
+      "anexos" => $this->get_anexos(
+        $modulo ? $modulo->id_modulo  : null,
+        $id_item,
+        $tipo,
+        $id_subitem,  
+        $pagina,
+        $limite 
+      ),
+      "anexo_modulos" => $this->modulos,
+      "anexo_tipos" => $this->tipos,
+      "veiculos" => $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos'),
+      "veiculo_manutencao_servicos" => $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos'),
+      "back_url" => $back_url ? $back_url : null,
+    ];
+  }
 }

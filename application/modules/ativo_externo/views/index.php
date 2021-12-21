@@ -107,24 +107,46 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="ativo_externo_item">
                                                 <?php if ($self_obra) {?>
-                                                    <div class="dropdwon-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url('ativo_externo'); ?>/editar/<?php echo $valor->id_ativo_externo; ?>"><i class="fa fa-edit"></i> Editar</a>
+                                                    <div class="dropdown-divider"></div>
                                                 <?php } ?>
+
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_externo/manutencao/{$valor->id_ativo_externo}"); ?>">
+                                                    <i class="fa fa-wrench"></i>&nbsp; Manutenção
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+
                                                 <?php if(((isset($valor) && isset($valor->id_ativo_externo)) && $valor->tipo == 1) && ($self_obra)) { ?>
-                                                    <div class="dropdwon-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_externo/editar_items/{$valor->id_ativo_externo}"); ?>">
                                                         <i class="fa fa-th-large"></i> Editar Itens (KIT)
                                                     </a>
-                                                <?php } ?>
+                                                    <div class="dropdown-divider"></div>
+                                                <?php } ?> 
+
                                                 <?php if((isset($valor) && isset($valor->necessita_calibracao)) && $valor->necessita_calibracao == 1) { ?>
-                                                    <div class="dropdwon-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_externo/certificado_de_calibracao/{$valor->id_ativo_externo}"); ?>">
-                                                     <i class="fa fa-balance-scale"></i> Cert. de Calibração
+                                                     <i class="fa fa-balance-scale"></i>&nbsp; Cert. de Calibração
                                                     </a>
+                                                    <div class="dropdown-divider"></div>
                                                 <?php } ?>
 
+
+                                                <a class="dropdown-item " href="<?php echo base_url("anexo/index/12/{$valor->id_ativo_externo}"); ?>">
+                                                    <i class="fa fa-files-o"></i> Anexos
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+
+
+                                                <?php if ($valor->situacao == 8 && ($self_obra)) {?>
+                                                    <a href="javascript:void(0)" 
+                                                    data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $valor->id_ativo_externo; ?>"  redirect="true" 
+                                                    data-tabela="ativo_externo" class="dropdown-item confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
+                                                    <div class="dropdown-divider"></div>
+                                                <?php } ?>
+                                                
+
+
                                                 <?php if ($valor->situacao == 12 && ($self_obra)) {?>
-                                                    <div class="dropdwon-divider"></div>
                                                     <a href="javascript:void(0)" 
                                                         data-href="<?php echo base_url('ativo_externo'); ?>/deletar/<?php echo $valor->id_ativo_externo; ?>" 
                                                         data-registro="<?php echo $valor->id_ativo_externo;?>" 
@@ -133,18 +155,6 @@
                                                         <i class="fa fa-trash"></i> Excluir
                                                     </a>
                                                 <?php } ?>
-
-                                                <?php if ($valor->situacao == 8 && ($self_obra)) {?>
-                                                    <div class="dropdwon-divider"></div>
-                                                    <a href="javascript:void(0)" 
-                                                    data-href="<?php echo base_url('ativo_externo'); ?>/descartar/<?php echo $valor->id_ativo_externo; ?>"  redirect="true" 
-                                                    data-tabela="ativo_externo" class="dropdown-item confirmar_registro"><i class="fa fa-ban"></i> Descartar</a>
-                                                <?php } ?>
-                                                
-                                                <div class="dropdwon-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("anexo/index/12/{$valor->id_ativo_externo}"); ?>">
-                                                    <i class="fa fa-files-o"></i> Anexos
-                                                </a>
                                             </div>
                                         </div>
                                     </td>
@@ -196,19 +206,19 @@
                                                 </a>
 
                                                 <?php if ($valor->estoque > $valor->foradeoperacao) {?>
-                                                    <div class="dropdwon-divider"></div>
+                                                    <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item " href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>">
                                                     <i class="fa fa-edit"></i> Editar</a>
                                                 <?php } ?>
 
                                                 <?php if ($valor->estoque == $valor->total && $this->ativo_externo_model->permit_delete_grupo($valor->id_ativo_externo_grupo)) {?>
-                                                    <div class="dropdwon-divider"></div>
+                                                    <div class="dropdown-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
                                                     data-tabela="ativo_externo" class="dropdown-item  deletar_registro">Excluir Grupo</a>
                                                 <?php } ?>
 
                                                 <?php if (($valor->estoque < $valor->total) && ($valor->estoque == $valor->foradeoperacao)) {?>
-                                                    <div class="dropdwon-divider"></div>
+                                                    <div class="dropdown-divider"></div>
                                                     <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
                                                     redirect="true" data-tabela="ativo_externo" class="dropdown-item  confirmar_registro">Descartar Grupo</a>
                                                 <?php } ?>

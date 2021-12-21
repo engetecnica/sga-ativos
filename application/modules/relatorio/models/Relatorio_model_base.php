@@ -6,19 +6,21 @@ class Relatorio_model_base extends MY_Model {
   public function __construct() {
       parent::__construct();
       $this->relatorio = $this->db;
-      
       $this->load->model('obra/obra_model');
       $this->load->model('funcionario/funcionario_model');
       $this->load->model('ativo_interno/ativo_interno_model');
       $this->load->model('ativo_externo/ativo_externo_model'); 
       $this->load->model('ativo_veiculo/ativo_veiculo_model');
       $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
+      $this->load->model('configuracao/configuracao_model');
+      $configuracao = $this->configuracao_model->get_configuracao(1); //default config
 
       $this->tipos_veiculos =  [
         'todos' => 'Todos',
         'carro' => 'Carro', 
         'moto' => 'Moto', 
-        'caminhao' => 'Caminhão'
+        'caminhao' => 'Caminhão',
+        'maquina' => 'Máquina'
       ];
 
       $this->periodos = [
@@ -173,9 +175,9 @@ class Relatorio_model_base extends MY_Model {
         ],
         'veiculos_disponiveis' => [
           'titulo' => 'Veículos Diponíveis',
-          'filtros'=> ['tipo_veiculo'],
+          'filtros'=> ['tipo_veiculo', 'periodo'],
           'grafico' => [
-            'column' => ['Carro', 'Moto', 'Caminhão', 'Total', 'periodo'],
+            'column' => ['Carro', 'Moto', 'Caminhão', 'Máquina', 'Total'],
             'tipo' => 'doughnut'
           ],
           'tipo' => ['grafico','arquivo'],
@@ -187,7 +189,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'veiculos_depreciacao' => [
           'titulo' => 'Veículos Depreciação',
-          'filtros'=> ['tipo_veiculo','veiculo_placa', 'periodo'],
+          'filtros'=> ['tipo_veiculo', 'veiculo_placa', 'id_interno_maquina', 'periodo'],
           'tipo' => 'arquivo',
           'arquivo_saida' => [
             "PDF" => "pdf",
@@ -195,9 +197,9 @@ class Relatorio_model_base extends MY_Model {
             // "XLSX (Excel)" => "xlsx",
           ]
         ],
-        'veiculos_abastecimentos' => [
-          'titulo' => 'Veículos Abastecimento',
-          'filtros'=> ['tipo_veiculo', 'veiculo_placa', 'periodo'],
+        'veiculos_quilometragem' => [
+          'titulo' => 'Veículos Quilometragem',
+          'filtros'=> ['tipo_veiculo',   'veiculo_placa', 'id_interno_maquina', 'periodo'],
           'tipo' => 'arquivo',
           'arquivo_saida' => [
             "PDF" => "pdf",
@@ -205,6 +207,16 @@ class Relatorio_model_base extends MY_Model {
             // "XLSX (Excel)" => "xlsx",
           ]
         ],
+        // 'veiculos_abastecimentos' => [
+        //   'titulo' => 'Veículos Abastecimento',
+        //   'filtros'=> ['tipo_veiculo',  'veiculo_placa', 'id_interno_maquina', 'periodo'],
+        //   'tipo' => 'arquivo',
+        //   'arquivo_saida' => [
+        //     "PDF" => "pdf",
+        //     // "XLS (Excel)" => "xls",
+        //     // "XLSX (Excel)" => "xlsx",
+        //   ]
+        // ],
         'centro_de_custo' => [
           'titulo' => 'Centro de Custo',
           'filtros'=> ['id_obra','periodo'],
@@ -222,7 +234,7 @@ class Relatorio_model_base extends MY_Model {
         ],
         'patrimonio_disponivel' => [
           'titulo' => 'Patromônio Disponível',
-          'filtros'=> ['id_obra', 'tipo_veiculo', 'valor_total'],
+          'filtros'=> ['id_obra', 'valor_total'],
           'grafico' => [
             'column' => ['Ferramentas', 'Equipamentos', 'Veiculos', 'Total de Items'],
             'tipo' => 'pie'
@@ -241,14 +253,14 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
-            "coluna" => "data_vencimento"
+            "coluna" => "data_vencimento",
           ],
           [
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
             "coluna" => "veiculo_km_proxima_revisao",
             "coluna_vencimento" => "data_vencimento",
-            "alerta" => "10000",
+            "alerta" => $configuracao->km_alerta,
             "id_configuracao_revisao" => "14"
           ],
           [
@@ -256,7 +268,7 @@ class Relatorio_model_base extends MY_Model {
             "tabela" => "ativo_veiculo_manutencao",
             "coluna" => "veiculo_hora_proxima_revisao",
             "coluna_vencimento" => "data_vencimento",
-            "alerta" => "1000",
+            "alerta" => $configuracao->operacao_alerta,
             "id_configuracao_revisao" => "14"
           ],
           [
@@ -267,14 +279,15 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "seguro",
             "tabela" => "ativo_veiculo_seguro",
-            "coluna" => "carencia_fim"
+            "coluna" => "carencia_fim",
           ],
         ],
         "ativo_externo" => [
           [
             "nome" => "calibracao",
-            "tabela" => "ativo_externo",
-            "coluna" => "validade_certificado"
+            "tabela" => "ativo_externo_certificado_de_calibracao",
+            "coluna" => "data_vencimento",
+            "coluna_formato" => "date"
           ],
         ]
       ];

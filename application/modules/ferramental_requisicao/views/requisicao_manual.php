@@ -47,9 +47,7 @@
                                             <th scope="col" width="10%">Cód. Ativo</th>
                                             <th scope="col" width="20%">Nome do Item</th>
                                             <th scope="col" width="">Observações</th>
-                                            <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
                                             <th scope="col">Status</th>
-                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,7 +56,6 @@
                                             <td><?php echo $manual->codigo; ?></td>
                                             <td><?php echo $manual->nome; ?></td>
                                             <td><input type="" class="form-control" name="observacoes[]" id="observacoes[]" placeholder="<?php echo $manual->codigo; ?> - Observações" value="<?php if($manual->observacao) echo $manual->observacao; ?>" disabled="disabled"></td>
-                                            <?php if (!isset($no_aceite) || $no_aceite == false ) {?>
                                             <td>
                                                 <input type="hidden" name="id_requisicao_ativo[]" id="id_requisicao_ativo[]" value="<?php echo $manual->id_requisicao_ativo; ?>">
                                                 <select 
@@ -76,7 +73,6 @@
                                                     <!--<option value="10" <?php if($manual->situacao && $manual->situacao==10) echo "selected='selected'"; ?>>Fora de Operação</option>-->
                                                 </select>
                                             </td>
-                                            <?php } ?>
                                         </tr>
                                         <?php } ?>
                                     </tbody>

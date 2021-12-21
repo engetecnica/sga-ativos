@@ -147,9 +147,9 @@
           ?>
           <tr>
             <td><?php echo $veiculo->id_ativo_veiculo; ?></td>
-            <td><?php echo $veiculo->veiculo_placa; ?></td>
+            <td><?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?></td>
             <td><?php echo ucfirst($veiculo->tipo_veiculo);?> </td>
-            <td><?php echo $veiculo->veiculo;?> </td>
+            <td><?php echo isset($veiculo->marca) ? "{$veiculo->marca} - {$veiculo->modelo}" : '-';?> </td>
             <td><?php echo $veiculo->veiculo_km; ?></td>
             <td>
               <?php $situacao = $this->get_situacao($veiculo->situacao);?>

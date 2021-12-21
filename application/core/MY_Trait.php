@@ -174,6 +174,12 @@ trait MY_Trait {
         return "R$ ". number_format($valor, 2, ',', '.');
       }
 
+      public function formata_moeda_float(string $valor){
+        $formatado = str_replace("R$ ", "", $valor);
+        $formatado = str_replace(".", "", $formatado);
+        return (float) str_replace(",", ".", $formatado);
+      }
+
       public function formata_data_hora($data_hora = null){
         return $data_hora == "0000-00-00 00:00:00" || !$data_hora ? "-" : date("d/m/Y H:i:s", strtotime($data_hora));
       }
@@ -197,10 +203,9 @@ trait MY_Trait {
         return;
       }
 
-      public function getRef() : string
+      public function getRef($redirect_to = "/") : string
       {
-        $redirect_to = "/";
-        if (isset($_SERVER['SERVER_PORT']) && isset($_SERVER['HTTP_REFERER'])) { 
+        if ($redirect_to === "/" && (isset($_SERVER['SERVER_PORT']) && isset($_SERVER['HTTP_REFERER']))) { 
             $redirect_to = str_replace(base_url() ,"/", $_SERVER['HTTP_REFERER']);
             if (in_array($_SERVER['SERVER_PORT'], ['80', '443'])) {
                 $redirect_to = str_replace(str_replace(":{$_SERVER['SERVER_PORT']}", "", base_url()), "/", $_SERVER['HTTP_REFERER']);

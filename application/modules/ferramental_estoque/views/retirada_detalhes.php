@@ -61,7 +61,7 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 2){  ?>
+                                                <?php if(isset($retirada->termo_de_responsabilidade) && $retirada->status == 2){  ?>
                                                     <div class="dropdown-divider"></div>
                                                     <a
                                                         class="dropdown-item btn confirmar_registro"
@@ -76,7 +76,7 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if(isset($retirada->termo_de_reponsabilidade) && $retirada->status == 4){  ?>
+                                                <?php if(isset($retirada->termo_de_responsabilidade) && $retirada->status == 4){  ?>
                                                     <div class="dropdown-divider"></div>
                                                     <a
                                                         class="dropdown-item btn confirmar_registro"
@@ -102,14 +102,14 @@
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if(isset($retirada->termo_de_reponsabilidade)) { ?>
+                                                <?php if(isset($retirada->termo_de_responsabilidade)) { ?>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/termo_de_reponsabilidade/{$retirada->termo_de_reponsabilidade}"); ?>">
+                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/{$retirada->termo_de_responsabilidade}"); ?>">
                                                         <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
                                                     </a>
                                                 <?php } ?>
 
-                                                <?php if(!isset($retirada->termo_de_reponsabilidade) && in_array($retirada->status, [2, 4])){  ?>
+                                                <?php if(!isset($retirada->termo_de_responsabilidade) && in_array($retirada->status, [2, 4])){  ?>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item btn" download href="<?php echo base_url("ferramental_estoque/impimir_termo_resposabilidade/{$retirada->id_retirada}");?>">
                                                         <i class="fa fa-print 4x"></i>&nbsp;Imprimir Termo de Resp.
@@ -210,31 +210,20 @@
                                     </tbody>
                                 </table>
                                 <?php } ?>
-
-                                <div class="container row">
-                                <?php if(in_array($retirada->status, [2, 4])){  ?>
-                                    <hr>
-                                    <form class="col" action="<?php echo base_url("ferramental_estoque/anexar_termo_resposabilidade/{$retirada->id_retirada}"); ?>" method="post" enctype="multipart/form-data">
-                                        <div class="row form-group">
-                                            <div class="col col-md-2">
-                                                <label for="ferramental_estoque" class=" form-control-label">Anexar Termo</label>
-                                            </div>
-                                            <div class="col col-md-10">
-                                                <input required="required" type="file" id="termo_de_reponsabilidade" name="termo_de_reponsabilidade" class="form-control" accept="application/pdf, image/*, application/vnd.ms-excel" style="margin-bottom: 5px;"> 
-                                                <small size='2'>Formato aceito: <strong>*.PDF, *.XLS, *.XLSx, *.JPG, *.PNG, *.JPEG, *.GIF</strong></small>
-                                                <small size='2'>Tamanho Máximo: <strong><?php echo $upload_max_filesize;?></strong></small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="pull-right">
-                                            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i>&nbsp; Anexar</button>
-                                        </div>
-                                    </form>
-                                <?php } ?>
-                                </div>
                             </div>
                         </div>
+               
+
+                <?php if(in_array($retirada->status, [2, 4]) && isset($anexos)){  ?>
+                    <div id="anexos" class="row">
+                        <div class="col-12">
+                            <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
+                        </div>
+                    </div>
+                <?php }  ?>
+
                 </div>
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -248,6 +237,9 @@
 </div>
 </div>
 
-<?php $this->load->view('retirada_modal_ajuda'); ?>
+<?php 
+    $this->load->view('retirada_modal_ajuda');
+    $this->load->view('anexo/index_form_modal', ["show_header" => false]);
+?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

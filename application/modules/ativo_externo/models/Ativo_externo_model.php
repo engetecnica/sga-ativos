@@ -262,4 +262,128 @@ class Ativo_externo_model extends MY_Model {
 				->get("ativo_externo")
 				->num_rows() === 0;
 	}
+
+	public function get_manutencao($id_ativo_externo, $id_manutencao){
+		return $this->db
+		->where('id_manutencao', $id_manutencao)
+		->where('id_ativo_externo', $id_ativo_externo)
+		->get('ativo_externo_manutencao')
+		->row();
+	}
+
+	public function get_lista_manutencao($id_ativo_externo = null, $situacao = null, $obs = false){
+		$manutencoes = $this->db
+		->select('manutencao.*, manutencao.valor as manutencao_valor, manutencao.situacao as manutencao_situacao')
+		->select('ativo.id_ativo_externo, ativo.nome, ativo.codigo, ativo.id_obra, ativo.situacao as ativo_situacao')
+		->select('ob.id_obra, ob.codigo_obra')
+		->order_by('manutencao.id_manutencao', 'desc')
+		->from('ativo_externo_manutencao manutencao');
+
+		if ($id_ativo_externo) $manutencoes->where("manutencao.id_ativo_externo = {$id_ativo_externo}");
+		if ($this->user->nivel == 2 && $this->user->id_obra) $manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
+		if ($situacao) {
+			if (is_array($situacao)) {
+				$situacao_string = "";
+			 	foreach($situacao as $i => $sit) {
+					$situacao_string .= "'{$sit}'";
+					if($i < count($situacao) - 1)   $situacao_string .= ',';
+				}
+
+				$manutencoes->where("manutencao.situacao IN ({$situacao_string})");
+			} else {
+				$manutencoes->where("manutencao.situacao = {$situacao}");
+			}
+		}
+
+		$manutencoes = $manutencoes
+			->join('ativo_externo ativo', "ativo.id_ativo_externo = manutencao.id_ativo_externo")
+			->join('obra ob', "ob.id_obra = ativo.id_obra", "left")
+			->group_by('manutencao.id_manutencao')
+			->get()->result();
+
+		if ($obs) {
+			foreach($manutencoes as $k => $manutencao) $manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+		}
+		return $manutencoes;
+	}
+
+
+	public function certificado_de_calibracao_query(){
+		$hoje = date("Y-m-d");
+		return $this->db
+		->from('ativo_externo_certificado_de_calibracao certificado')
+		->select('ativo.id_ativo_externo, ativo.nome as ativo_nome, ativo.codigo as ativo_codigo, ativo.id_obra, ativo.situacao as ativo_situacao')
+		->select("certificado.*, (certificado.data_vencimento > '{$hoje}') as vigencia, ob.id_obra, ob.codigo_obra")
+		->select('anexo.anexo as certificado_de_calibracao')
+		->join('ativo_externo ativo', "ativo.id_ativo_externo = certificado.id_ativo_externo")
+		->join('anexo', "anexo.id_anexo = certificado.id_anexo", 'left')
+		->join('obra ob', "ob.id_obra = ativo.id_obra", "left")
+		->order_by('certificado.id_certificado', 'desc')
+		->group_by('certificado.id_certificado');
+	}
+
+	public function get_certificado_de_calibracao($id_ativo_externo, $id_certificado){
+		return $this->certificado_de_calibracao_query()
+				->where('certificado.id_certificado', $id_certificado)
+				->where('certificado.id_ativo_externo', $id_ativo_externo)
+				->get()->row();
+	}
+
+
+	public function get_lista_certificado($id_ativo_externo = null, $vigencia = null){
+		$certificados = $this->certificado_de_calibracao_query();
+		if ($id_ativo_externo) $certificados->where("certificado.id_ativo_externo = {$id_ativo_externo}");
+		if ($this->user->nivel == 2 && $this->user->id_obra) $certificados->where("ativo.id_obra = {$this->user->id_obra}");
+
+		if ($vigencia != null) {
+			if (is_array($vigencia))$certificados->where("vigencia IN (".implode(',', $vigencia).")");
+			else $certificados->where("vigencia = {$vigencia}");
+		}
+		return $certificados->get()->result();
+	}
+
+
+	public function get_obs($id_manutencao, $id_obs){
+		return $this->db
+		->where('id_manutencao', $id_manutencao)
+		->where('id_obs', $id_obs)
+		->get('ativo_externo_manutencao_obs')
+		->row();
+	}
+
+	public function get_lista_manutencao_obs($id_manutencao) {
+			return $this->db->select('obs.*, usuario.*')
+			->from('ativo_externo_manutencao_obs obs')
+			->order_by('obs.data_inclusao', 'desc')
+			->where('id_manutencao', $id_manutencao)
+			->join('usuario', 'usuario.id_usuario=obs.id_usuario')
+			->order_by('id_manutencao', 'desc')
+			->group_by('obs.id_obs')
+			->get()->result();
+	}
+
+	public function permit_create_manutencao($id_ativo_externo){
+		return $this->db
+			->where('id_ativo_externo', $id_ativo_externo)
+			->where("situacao != 2")
+			->get('ativo_externo_manutencao')->num_rows() == 0;
+	}
+
+
+	public function permit_edit_manutencao($id_ativo_externo, $id_manutencao){
+		$manutencao = $this->db
+			->where('id_ativo_externo', $id_ativo_externo)
+			->order_by('id_manutencao', 'desc')
+			->limit(1)
+			->get('ativo_externo_manutencao')->row();
+		return $manutencao && $manutencao->id_manutencao == $id_manutencao;
+	}
+
+	public function permit_delete_manutencao($id_ativo_externo, $id_manutencao) {
+		$manutencao = $this->db
+			->where('id_ativo_externo', $id_ativo_externo)
+			->where('id_manutencao', $id_manutencao)
+			->get('ativo_externo_manutencao')->row();
+		return $this->permit_edit_manutencao($id_ativo_externo, $id_manutencao) && ($manutencao && $manutencao->situacao == 0);
+	}
 }

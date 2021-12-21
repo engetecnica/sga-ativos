@@ -20,8 +20,10 @@
                         <div class="card-header">Novo Anexo</div>
 
                         <div class="card-body">
-
-                            <form  action="<?php echo base_url('anexo/salvar'); ?>" method="post" enctype="multipart/form-data">
+                            <form  action="<?php echo base_url("anexo/salvar"); ?>" method="post" enctype="multipart/form-data">
+                                <?php if ($back_url){; ?>
+                                    <input  type="hidden"  id="back_url" name="back_url" value="<?php echo $back_url; ?>" />
+                                <?php } ?>
                                 
                                 <input  type="hidden"  id="modulo" name="modulo" v-model="modulo" />
                                 <div class="row form-group">
@@ -156,11 +158,13 @@
     </div>
 </div>
 <script>
-var user = JSON.parse('<?php echo json_encode($user); ?>') || null
-var anexo_modulos = JSON.parse('<?php echo json_encode($anexo_modulos); ?>') || []
-var anexo_tipos = JSON.parse('<?php echo json_encode($anexo_tipos); ?>') || []
-var veiculo_manutencao_servicos =  JSON.parse('<?php echo json_encode($veiculo_manutencao_servicos); ?>') || []
-
+var anexo_modulos = JSON.parse(`<?php echo json_encode($anexo_modulos); ?>`) || []
+var anexo_tipos = JSON.parse(`<?php echo json_encode($anexo_tipos); ?>`) || []
+var veiculo_manutencao_servicos =  JSON.parse(`<?php echo isset($veiculo_manutencao_servicos) ? json_encode($veiculo_manutencao_servicos) : []; ?>`) || []
+var modulo = JSON.parse(`<?php echo json_encode($modulo); ?>`) || null
+var tipo = `<?php echo $tipo; ?>`|| null
+var item = `<?php echo $id_item; ?>`|| null
+var subitem = `<?php echo $id_subitem; ?>`|| null
 
 var anexo_form = new Vue({
     el: "#anexo_form",
@@ -169,7 +173,7 @@ var anexo_form = new Vue({
         base_url: window.base_url,
         user: window.user,
         titulo: null,
-        modulo: null,
+        modulo: window.modulo,
         anexo_modulo: null, 
         modulos: window.anexo_modulos,
         tipo: null,
@@ -188,7 +192,7 @@ var anexo_form = new Vue({
     },
     computed: {
         tiposFiltred() {
-            return this.anexo_modulo ? this.tipos.filter((tipo) => this.anexo_modulo && tipo.modulos.includes(this.anexo_modulo.rota)) : []
+            return this.anexo_modulo ? this.tipos.filter((tipo) => tipo.modulos.includes(this.anexo_modulo.rota)) : []
         },
         subitemsFiltred(){
             return this.search_subitems ? this.subitems.filter((sitem) => {return sitem.descricao.toLowerCase().includes(this.search_subitems.toLowerCase())}) : this.subitems
@@ -207,13 +211,10 @@ var anexo_form = new Vue({
                     url: url,
                 })
                 .then((response) => {
-                    this.item = null
                     this.items = response
                     this.subitems = []
-                    console.log(this.items)
                 })
                 .catch(() => {
-                    this.item = null
                     this.items = []
                     this.subitems = []
                 })
@@ -226,11 +227,9 @@ var anexo_form = new Vue({
                     url: `${base_url}anexo/subitems/${this.anexo_modulo.rota}/${this.anexo_tipo.slug}/${this.item}`,
                 })
                 .then((response) => {
-                    this.subitem = null
                     this.subitems = response
                 })
                 .catch(() => {
-                    this.subitem = null
                     this.subitems = []
                 })
             }

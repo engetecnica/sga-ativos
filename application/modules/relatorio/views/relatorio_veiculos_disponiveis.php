@@ -25,7 +25,7 @@
             <td><?php echo ($i + 1); ?></td>
             <td><?php echo $item->veiculo_placa; ?></td>
             <td><?php echo ucfirst($item->tipo_veiculo);?> </td>
-            <td><?php echo $item->veiculo;?> </td>
+            <td><?php echo isset($item->marca) ? "{$item->marca} - {$item->modelo}" : '-';?> </td>
             <td><?php echo $item->veiculo_km; ?></td>
             <td>
               <?php $situacao = $this->get_situacao($item->situacao);?>

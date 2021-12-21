@@ -5,9 +5,9 @@
                 <div class="col-md-12">
                     <h1 class="title-4">
                         Bem vindo
-                        <span style="color: orange;"><b><?php echo $this->session->userdata('logado')->usuario; ?>!</b></span>
+                        <span style="color: orange;"><b><?php echo ucwords(explode(' ', $this->session->userdata('logado')->nome)[0] ?: $this->session->userdata('logado')->usuario); ?>!</b></span>
                     </h1>
-                    <p>Hoje é dia <?php echo date("d/m"); ?> - <?php echo $_SERVER['REMOTE_ADDR']; ?></p>
+                    <p>Hoje é dia <?php setlocale(LC_ALL, 'pt_BR'); echo date("d/m/Y"); ?> - <?php echo $_SERVER['REMOTE_ADDR']; ?></p>
                     <hr class="line-seprate" />
                 </div>
             </div>
@@ -107,6 +107,7 @@
                     $this->load->view("dados_operacionais_veiculos"); 
                     $this->load->view("requisicoes_pendentes");  
                     $this->load->view("retiradas_pendentes");
+                    $this->load->view("ativos_manutencoes");
                     $this->load->view('informe_de_vencimentos', ['informe_vencimentos' => $informe_vencimentos]);
                 ?>
             </div>
@@ -120,11 +121,11 @@
     <section class="p-t-20">
         <div class="container">
             <div class="row"> 
-                
                 <?php 
                     $this->load->view("dados_operacionais_veiculos"); 
                     $this->load->view("requisicoes_pendentes");  
-                    $this->load->view("retiradas_pendentes"); 
+                    $this->load->view("retiradas_pendentes");
+                    $this->load->view("ativos_manutencoes"); 
                 ?>
             </div>
         </div>

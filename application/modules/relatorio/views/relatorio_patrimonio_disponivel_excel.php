@@ -116,9 +116,9 @@ foreach ($data->veiculos as $veiculo) {
     $veiculos_valor_total += $veiculo->valor_fipe;
 
     $sheet_veiculos->setCellValue("A{$v}", $veiculo->id_ativo_veiculo);
-    $sheet_veiculos->setCellValue("B{$v}", $veiculo->veiculo_placa);
-    $sheet_veiculos->setCellValue("C{$v}", $veiculo->tipo_veiculo);
-    $sheet_veiculos->setCellValue("D{$v}", $veiculo->veiculo);
+    $sheet_veiculos->setCellValue("B{$v}", $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina);
+    $sheet_veiculos->setCellValue("C{$v}", ucfirst($veiculo->tipo_veiculo));
+    $sheet_veiculos->setCellValue("D{$v}", isset($veiculo->marca) ? "{$veiculo->marca} - {$veiculo->modelo}" : '-');
     $sheet_veiculos->setCellValue("E{$v}", $veiculo->veiculo_km);
     $sheet_veiculos->setCellValue("F{$v}", $this->get_situacao($veiculo->situacao)['texto']);
 
@@ -132,12 +132,12 @@ foreach ($data->veiculos as $veiculo) {
 $f++;
 if ($data->show_valor_total) {
     $sheet_ferramentas->setCellValue("F{$f}", 'Quantidade Total em Ferramentas');
-    $sheet_ferramentas->setCellValue("G{$f}",$ferramentas_total);
+    $sheet_ferramentas->setCellValue("G{$f}", $ferramentas_total);
     $sheet_ferramentas->setCellValue("H{$f}", 'Valor Total em Ferramentas');
     $sheet_ferramentas->setCellValue("I{$f}", $this->formata_moeda($ferramentas_valor_total));
 } else {
     $sheet_ferramentas->setCellValue("G{$f}", 'Quantidade Total em Ferramentas');
-    $sheet_ferramentas->setCellValue("H{$f}",$ferramentas_total);
+    $sheet_ferramentas->setCellValue("H{$f}", $ferramentas_total);
 }
 
 $e++;
@@ -148,7 +148,7 @@ if ($data->show_valor_total) {
     $sheet_equipamentos->setCellValue("H{$e}", $this->formata_moeda($equipamentos_valor_total));
 } else {
     $sheet_equipamentos->setCellValue("F{$e}", 'Quantidade Total em Equipamentos');
-    $sheet_equipamentos->setCellValue("G{$e}",$equipamentos_total);
+    $sheet_equipamentos->setCellValue("G{$e}", $equipamentos_total);
 }
 
 $v++;
