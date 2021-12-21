@@ -19,7 +19,7 @@ class Configuracao  extends MY_Controller {
     }
 
     function salvar(){
-        $permit_notificacoes = $this->input->post('permit_notificacoes') ?: 1;
+        $permit_notificacoes = $this->input->post('permit_notificacoes') ?: 0;
         $operacao_alerta = $this->input->post('operacao_alerta') ?: 1000;
         $km_alerta = $this->input->post('km_alerta') ?: 1000;
 

@@ -3,8 +3,7 @@
 class Configuracao_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
-		$config_default = $this->get_configuracao(1); 
-		if($data['id_configuracao'] == '' || !$config_default){
+		if($this->db->where('id_configuracao', 1)->get('configuracao')->num_rows() === 0){
 			$this->db->insert('configuracao', $data);
 			return "salvar_ok";
 		} else {
@@ -18,18 +17,20 @@ class Configuracao_model extends MY_Model {
 		$configuracao = $this->db
 					->where('id_configuracao', $id_configuracao)
 					->get('configuracao')->row();
+					
+		if ($configuracao) {
+			if ($configuracao->permit_notificacoes == 1) {
+				$configuracao->permit_notificacoes = true;
+				if (!empty($configuracao->origem_email) && !empty($configuracao->sendgrid_apikey)) $configuracao->permit_notificacoes_email = true;
 
-		if ($configuracao && $configuracao->permit_notificacoes == 1) {
-			$configuracao->permit_notificacoes = true;
-			if (!empty($configuracao->origem_email) && !empty($configuracao->sendgrid_apikey)) $configuracao->permit_notificacoes_email = true;
-
-			$one_signal = [
-				!empty($configuracao->one_signal_apiurl),
-				!empty($configuracao->one_signal_apikey),
-				!empty($configuracao->one_signal_appid),
-				!empty($configuracao->one_signal_safari_web_id),
-			];
-			if (!in_array(false, $one_signal)) $configuracao->permit_notificacoes_push = true;
+				$one_signal = [
+					!empty($configuracao->one_signal_apiurl),
+					!empty($configuracao->one_signal_apikey),
+					!empty($configuracao->one_signal_appid),
+					!empty($configuracao->one_signal_safari_web_id),
+				];
+				if (!in_array(false, $one_signal)) $configuracao->permit_notificacoes_push = true;
+			}
 		}
 		else {
 			$configuracao = (object) [
