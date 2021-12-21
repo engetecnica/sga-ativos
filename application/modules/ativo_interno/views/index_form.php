@@ -5,7 +5,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
                         <?php $id = isset($ativo) ? "#".$ativo->id_ativo_interno : ''; ?>
                         <a href="<?php echo base_url("ativo_interno$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">

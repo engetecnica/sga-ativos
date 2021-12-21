@@ -162,6 +162,8 @@
         </div>
     </div>
 </div>
+<!-- END MAIN CONTENT -->
+<!-- END PAGE CONTAINER -->
 
 <script>
     $('.solicitar_confirmacao_email').click(function(event) {
@@ -212,5 +214,3 @@
         .then((response) => {if(response.data.success) input_permit.attr('checked', !input_permit.attr('checked') !== 'checked')})
     }
 </script>
-<!-- END MAIN CONTENT-->
-<!-- END PAGE CONTAINER-->

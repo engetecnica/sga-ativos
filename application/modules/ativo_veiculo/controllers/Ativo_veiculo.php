@@ -166,6 +166,20 @@ class Ativo_veiculo  extends MY_Controller
                     $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($tipo);
                 }
             break;
+            case 'abastecimento':
+                if ($tipo == 'adicionar') {
+                    $template = "_form";
+
+                } elseif ($tipo == 'editar') {
+                    $data['abastecimento'] = $this->db->where('id_ativo_veiculo_abastecimento', $id_gerenciar_item)
+                        ->where('id_ativo_veiculo', $id_ativo_veiculo)
+                        ->get('ativo_veiculo_abastecimento')->row();
+                    $template = "_form";
+                } else {
+                    $template = "";
+                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($tipo);
+                }
+            break;
             case 'operacao':
                 if ($tipo == 'adicionar') {
                     $template = "_form";

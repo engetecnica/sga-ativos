@@ -516,7 +516,6 @@
     <?php } ?>
 
     <script>
- 
         if ((configuracao && configuracao.permit_notificacoes_push == 1) && OneSignal != undefined) {
             OneSignal.push(function() {
                 OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };

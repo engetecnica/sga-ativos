@@ -19,7 +19,7 @@ class Configuracao_model extends MY_Model {
 					->where('id_configuracao', $id_configuracao)
 					->get('configuracao')->row();
 
-		if ($configuracao->permit_notificacoes == 1) {
+		if ($configuracao && $configuracao->permit_notificacoes == 1) {
 			$configuracao->permit_notificacoes = true;
 			if (!empty($configuracao->origem_email) && !empty($configuracao->sendgrid_apikey)) $configuracao->permit_notificacoes_email = true;
 
@@ -32,9 +32,14 @@ class Configuracao_model extends MY_Model {
 			if (!in_array(false, $one_signal)) $configuracao->permit_notificacoes_push = true;
 		}
 		else {
-			$configuracao->permit_notificacoes = false;
-			$configuracao->permit_notificacoes_email = false;
-			$configuracao->permit_notificacoes_push = false;
+			$configuracao = (object) [
+				"permit_notificacoes" => false,
+				"permit_notificacoes_email" => false,
+				"permit_notificacoes_push" => false,
+				"permit_notificacoes" => false,
+				"km_alerta" => 10000,
+				"operacao_alerta" => 10000,
+			];
 		}
 
 		return $configuracao;
