@@ -1681,6 +1681,19 @@
     console.log(error);
   }
 
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/assets/js/service-worker.js')
+    .then(function(registration) {
+      if (registration.installing) console.log('ServiceWorker installing...')
+    })
+    .catch(function(error) {
+      console.error('Service worker registration failed:', error);
+    });
+  } else {
+    console.error('Service workers are not supported.');
+  }
+
 })(jQuery);
 
 
