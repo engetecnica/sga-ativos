@@ -218,8 +218,8 @@
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/operacao/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
                                                     <div class="dropdown-divider"></div>
                                                 <?php } ?>
-                                                <!-- <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/abastecimento/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
-                                                <div class="dropdown-divider"></div> -->
+                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/abastecimento/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
+                                                <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-id-card"></i> IPVA</a>

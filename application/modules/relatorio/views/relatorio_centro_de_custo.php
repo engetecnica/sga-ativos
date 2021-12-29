@@ -115,38 +115,35 @@
     <p>Nenhuma manutenção de equipamento registrada no peíodo</p>
   <?php } ?>
 
-  <!-- <h2>Veiculos Abastecimentos</h2>
-  <?php //if(count($relatorio->veiculos_abastecimentos) > 0) { ?>
+   <h2>Veiculos Abastecimentos</h2>
+  <?php if(count($relatorio->veiculos_abastecimentos) > 0) { ?>
   <table class="tabela">
       <thead>
           <tr>
             <th>ID Abastecimento</th>
-            <th>ID Veículo</th>
-            <th>Placa</th>
-            <th>Km Inicial</th>
-            <th>Km Final</th>
-            <th>Quant. em Litros</th>
+            <th width="7%">ID Veículo</th>
+            <th>Placa/ID Interno</th>
+            <th>Km Atual</th>
+            <th>Combustível</th>
+            <th>Unidades (L/M&sup3;)</th>
+            <th>Custo</th>
             <th>Data</th>
-            <th>Custo por Litro</th>
-            <th>Custo Total</th>
           </tr>
       </thead>
       <tbody>
         <?php foreach($relatorio->veiculos_abastecimentos as $i => $abastecimento) { ?>
           <tr>
-            <td><?php echo $abastecimento->id_ativo_veiculo_quilometragem; ?></td>
-            <td><?php echo $abastecimento->id_ativo_veiculo; ?></td>
-            <td><?php echo $abastecimento->veiculo_placa; ?></td>
-            <td><?php echo $abastecimento->veiculo_km_inicial;?></td>
-            <td><?php echo $abastecimento->veiculo_km_final;?></td>
-            <td><?php echo $abastecimento->veiculo_litros; ?></td>
-            <td><?php echo date('d/m/Y H:i:s', strtotime($abastecimento->data));?> </td>
-            <td><?php echo $this->formata_moeda($abastecimento->veiculo_custo); ?></td>
-            <td><?php echo $this->formata_moeda($abastecimento->veiculo_custo_total); ?></td>
+            <td><?php echo $abastecimento->id_ativo_veiculo_abastecimento; ?></td>
+            <td><?php echo isset($abastecimento->marca) ? "{$abastecimento->marca} - {$abastecimento->modelo}" : '-' ?></td>
+            <td><?php echo $abastecimento->veiculo_placa ?: $abastecimento->id_interno_maquina; ?></td>
+            <td><?php echo $abastecimento->veiculo_km; ?></td>
+            <td><?php echo ucfirst($abastecimento->combustivel); ?></td>
+            <td><?php echo $abastecimento->combustivel_unidade_total ." "; echo $abastecimento->combustivel_unidade_tipo == '0' ? 'L' : "M&sup3;"; ?></td>
+            <td><?php echo $this->formata_moeda($abastecimento->abastecimento_custo); ?></td>
+            <td><?php echo $this->formata_data($abastecimento->abastecimento_data); ?></td>
           </tr>
         <?php } ?>
         <tr>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -158,9 +155,9 @@
           </tr>
       </tbody>
   </table>
-  <?php // } else { ?>
+  <?php } else { ?>
     <p>Nenhum abastecimento de veículo registrado no peíodo</p>
-  <?php //} ?> -->
+  <?php } ?>
 
   <h2>Veiculos Manutenções</h2>
   <?php if(count($relatorio->veiculos_manutecoes) > 0) { ?>

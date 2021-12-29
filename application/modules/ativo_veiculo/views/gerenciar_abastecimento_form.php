@@ -23,7 +23,7 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="<?php echo base_url('ativo_veiculo/abastecimento_salvar'); ?>" method="post" enctype="multipart/form-data">
+                            <form id="abastecimento_form" action="<?php echo base_url('ativo_veiculo/abastecimento_salvar'); ?>" method="post" enctype="multipart/form-data">
                                 <?php if(isset($id_ativo_veiculo)){?>
                                     <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
@@ -38,6 +38,40 @@
                                     </strong>
                                 </p>
                                 <hr>
+
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="id_fornecedor" class=" form-control-label">Fornecedor</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <select required="required" class="form-control select2" id="id_fornecedor" name="id_fornecedor">
+                                            <option value="">Selecione um Fornecedor</option>
+                                            <?php foreach($fornecedores as $fornecedor){ ?>
+                                                <option <?php echo (isset($abastecimento) && isset($abastecimento->id_fornecedor)) && (int) $abastecimento->id_fornecedor === (int) $fornecedor->id_fornecedor ? 'selected="selected"' : '';?>
+                                                 value="<?php echo  $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col col-md-2">
+                                        <label for="combustivel" class=" form-control-label">Combustível</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <select required="required" class="form-control" id="combustivel" name="combustivel" v-model="combustivel">
+                                            <option :value="null">Selecione o Tipo do Combustível</option>
+                                            <?php foreach($combustiveis as $combustivel){ ?>
+                                            <option <?php echo (isset($abastecimento) && isset($abastecimento->combustivel)) && $abastecimento->combustivel == $combustivel->slug ? 'selected="selected"' : '';?>
+                                             value="<?php echo $combustivel->slug; ?>"><?php echo $combustivel->nome; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" id="combustivel_unidade_tipo" name="combustivel_unidade_tipo" v-model="combustivel_unidade_tipo">
+                        
+                                </div>
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem Atual</label>
@@ -48,32 +82,35 @@
                                         value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_km) ? $abastecimento->veiculo_km : $dados_veiculo->veiculo_km + 1; ?>">
                                     </div>
                                     
+            
                                     <div class="col col-md-2">
-                                        <label for="veiculo_litros" class=" form-control-label">Quant. em Litros</label>
+                                        <label for="combustivel_unidade_valor" class=" form-control-label">Custo Por Unidade</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="text" id="combustivel_unidade_valor" name="combustivel_unidade_valor" placeholder="0.00" class="form-control valor"  v-model="combustivel_unidade_valor"
+                                        value="<?php echo isset($abastecimento) && isset($abastecimento->combustivel_unidade_valor) ? $abastecimento->combustivel_unidade_valor : ''?>">
                                     </div>
 
-                                    <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_litros" name="veiculo_litros" placeholder="2,2L" class="form-control litros" 
-                                        value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_litros) ? (int) $abastecimento->veiculo_litros : ''?>">
-                                    </div>
                                 </div>
 
+
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_custo" class=" form-control-label">Custo</label>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" 
-                                        value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_custo) ? $abastecimento->veiculo_custo : ''?>">
-                                    </div>
 
                                     <div class="col col-md-2">
-                                        <label for="veiculo_km_data" class=" form-control-label">Data</label>
+                                        <label for="abastecimento_custo" class=" form-control-label">Custo Total</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="text" id="abastecimento_custo" name="abastecimento_custo" placeholder="0.00" class="form-control valor" 
+                                        value="<?php echo isset($abastecimento) && isset($abastecimento->abastecimento_custo) ? $abastecimento->abastecimento_custo : ''?>">
+                                    </div>
+                                
+                                    <div class="col col-md-2">
+                                        <label for="abastecimento_data" class=" form-control-label">Data</label>
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" 
-                                        value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_km_data) ? date('Y-m-d', strtotime($abastecimento->veiculo_km_data)) : date('Y-m-d', strtotime('now'))?>">
+                                        <input required="required" type="date" id="abastecimento_data" name="abastecimento_data" class="form-control" 
+                                        value="<?php echo isset($abastecimento) && isset($abastecimento->abastecimento_data) ? date('Y-m-d', strtotime($abastecimento->abastecimento_data)) : date('Y-m-d', strtotime('now'))?>">
                                     </div>
                                 </div>
                                 
@@ -119,3 +156,34 @@
 <?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
+
+<script>
+var abastecimento_form = new Vue({
+    el: "#abastecimento_form",
+    data(){
+        return {
+            combustiveis: JSON.parse(`<?php echo json_encode($combustiveis); ?>`)  || [],
+            combustivel: `<?php if (isset($abastecimento) && isset($abastecimento->combustivel)) echo $abastecimento->combustivel; ?>` || null,
+            combustivel_unidade_tipo: `<?php if (isset($abastecimento) && isset($abastecimento->combustivel_unidade_tipo)) echo $abastecimento->combustivel_unidade_tipo; ?>` || null,
+            combustivel_unidade_valor: `<?php if (isset($abastecimento) && isset($abastecimento->combustivel_unidade_valor)) echo $abastecimento->combustivel_unidade_valor; ?>` || null,
+        }
+    },
+    watch: {
+        combustivel(){
+            if (this.combustivel) {
+                let combustivel = this.combustiveis.find(c => c.slug == this.combustivel)
+                if (combustivel) {
+                    this.combustivel_unidade_valor = combustivel.valor_medio.replace('.',',')
+                    this.combustivel_unidade_tipo = combustivel.unidade
+                    setTimeout(() => {window.$('.valor').mask('000.000.000.000,00 R$', {reverse: true})}, 100)
+                    this.combustivel_unidade_valor += " R$"
+                }
+            }
+        }
+    },
+    mounted(){
+        console.log(this.$data)
+    }
+})
+</script>

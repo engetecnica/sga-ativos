@@ -207,21 +207,29 @@ class Relatorio_model_base extends MY_Model {
             // "XLSX (Excel)" => "xlsx",
           ]
         ],
-        // 'veiculos_abastecimentos' => [
-        //   'titulo' => 'Veículos Abastecimento',
-        //   'filtros'=> ['tipo_veiculo',  'veiculo_placa', 'id_interno_maquina', 'periodo'],
-        //   'tipo' => 'arquivo',
-        //   'arquivo_saida' => [
-        //     "PDF" => "pdf",
-        //     // "XLS (Excel)" => "xls",
-        //     // "XLSX (Excel)" => "xlsx",
-        //   ]
-        // ],
+        'veiculos_abastecimentos' => [
+          'titulo' => 'Veículos Abastecimento',
+          'filtros'=> ['tipo_veiculo',  'veiculo_placa', 'id_interno_maquina', 'periodo'],
+          'tipo' => 'arquivo',
+          'arquivo_saida' => [
+            "PDF" => "pdf",
+            // "XLS (Excel)" => "xls",
+            // "XLSX (Excel)" => "xlsx",
+          ]
+        ],
         'centro_de_custo' => [
           'titulo' => 'Centro de Custo',
           'filtros'=> ['id_obra','periodo'],
           'grafico' => [
-            'column' => ['Ferramentas', 'Equipamentos', 'Veiculos Abastecimentos', 'Veiculos Manutenções', 'Total'],
+            'column' => [
+                'Ferramentas', 
+                'Ferramentas Manuteções',
+                'Equipamentos', 
+                'Equipamentos Manuteções',
+                'Veiculos Abastecimentos', 
+                'Veiculos Manutenções', 
+                'Total'
+              ],
             'tipo' => 'column',
           ],
           'tipo' => ['grafico','arquivo'],

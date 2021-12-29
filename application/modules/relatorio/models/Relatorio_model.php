@@ -494,10 +494,13 @@ class Relatorio_model extends Relatorio_model_base {
 
   public function veiculos_abastecimentos($data=null){
     $veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($this->extract_data('veiculos_abastecimentos', $data), 'arquivo');
-
     return (object) [
         'abastecimentos' => $veiculos_abastecimentos->lista,
-        'total' => $veiculos_abastecimentos->total
+        'total' => $veiculos_abastecimentos->total,
+        'consumo_medio' => $veiculos_abastecimentos->consumo_medio,
+        'km_rodados' => $veiculos_abastecimentos->km_rodados,
+        'unidades' => $veiculos_abastecimentos->unidades,
+        'show_resultados_todos' => $veiculos_abastecimentos->show_resultados_todos,
     ];
   }
 
@@ -649,6 +652,56 @@ class Relatorio_model extends Relatorio_model_base {
     ];
   }
 
+  public function custos_ferramentas_manutecoes($data, $tipo=null){
+    $ferramentas_manutencao =  null;
+    $ferramentas_manutencao_total = null;
+    $inicio = $data['periodo']['inicio'];
+    $fim = $data['periodo']['fim'];
+
+    if ($tipo && $tipo == 'arquivo') {
+      //Ferramentas Manutenções
+      $ferramentas_manutencao = $this->db->from('ativo_externo_manutencao atm')
+                                        ->select('atm.*, atv.*, atm.valor as manutencao_valor, atv.valor as equipamento_valor')
+                                        ->join('ativo_externo atv', 'atv.id_ativo_externo = atm.id_ativo_externo');
+      if ($inicio && $fim) {
+        $ferramentas_manutencao
+            ->where("atm.data_retorno >= '$inicio'")
+            ->where("atm.data_retorno <= '$fim'");
+      }
+
+      $ferramentas_manutencao = $ferramentas_manutencao
+                                      ->group_by('atm.id_manutencao')
+                                      ->get()->result();
+   }
+
+    //Ferramentas Manutenções total
+    $this->db->reset_query();
+    $ferramentas_manutencao_total = $this->db
+          ->from('ativo_externo_manutencao atmc')
+          ->select("SUM(atmc.valor) as valor");
+
+    if ($inicio && $fim) {
+      $ferramentas_manutencao_total
+                  ->where("atmc.data_retorno >= '$inicio'")
+                  ->where("atmc.data_retorno <= '$fim'");
+    }
+
+    $ferramentas_manutencao_total = $ferramentas_manutencao_total->get()->row();
+
+    if ($tipo && $tipo == 'arquivo') {
+      return (object) [
+        'lista' =>  $ferramentas_manutencao,
+        'total' => $this->formata_moeda($ferramentas_manutencao_total->valor),
+      ];
+    }
+
+    return (object) [
+      'lista' =>  $ferramentas_manutencao,
+      'total' => $this->formata_moeda($ferramentas_manutencao_total->valor, true),
+    ];
+  }
+
+
   public function custos_veiculos_manutecoes($data, $tipo=null){
     $veiculos_manutencao =  null;
     $veiculos_manutencao_total = null;
@@ -707,37 +760,52 @@ class Relatorio_model extends Relatorio_model_base {
     $fim = $data['periodo']['fim'];
 
     //Veiculos abastecimentos
-    $veiculos_abastecimento = $this->db->from('ativo_veiculo_quilometragem km')
-                                        ->select('km.*, atv.*')
-                                        ->join('ativo_veiculo atv', 'atv.id_ativo_veiculo = km.id_ativo_veiculo');
+    $veiculos_abastecimento = $this->db->from("ativo_veiculo_abastecimento abt")
+        ->select('abt.*, atv.marca, atv.modelo, atv.veiculo_placa, atv.id_interno_maquina')
+				->select("fn.nome_fantasia as fornecedor")
+				->join("ativo_veiculo atv", "atv.id_ativo_veiculo=abt.id_ativo_veiculo")
+				->join("fornecedor fn", "fn.id_fornecedor=abt.id_fornecedor")
+				->order_by('abt.id_ativo_veiculo_abastecimento', 'asc')
+        ->group_by('abt.id_ativo_veiculo_abastecimento');
+  
+
+
     if ($inicio && $fim) {
       $veiculos_abastecimento
-          ->where("km.data >= '$inicio'")
-          ->where("km.data <= '$fim'");
+          ->where("abt.abastecimento_data >= '$inicio'")
+          ->where("abt.abastecimento_data <= '$fim'");
     }
 
-    if (isset($data['veiculo_placa'])) {
+    $show_resultados_todos = true;
+    if (isset($data['veiculo_placa']) && $data['veiculo_placa'] != null) {
       $veiculos_abastecimento->like("veiculo_placa", $data['veiculo_placa']);
+      $show_resultados_todos = false;
     }
 
-    if (isset($data['id_interno_maquina'])) {
+    if (isset($data['id_interno_maquina']) && $data['id_interno_maquina'] != null) {
       $veiculos_abastecimento->like("id_interno_maquina", $data['id_interno_maquina']);
+      $show_resultados_todos = false;
     }
 
     $veiculos_abastecimento = $veiculos_abastecimento->get()->result();
-  
-    $valor = 0;
-    if (count($veiculos_abastecimento) > 0){
-      foreach($veiculos_abastecimento as $ab => $abastecimento) {
-        $litros = (float) $abastecimento->veiculo_litros;
-        $custo = (float) $abastecimento->veiculo_custo;
-        $veiculos_abastecimento[$ab]->veiculo_custo_total = ($litros * $custo);
-        $valor += $veiculos_abastecimento[$ab]->veiculo_custo_total;
-      }
+
+    $valor = $unidades = $km_inicial = $km_final = 0;
+    foreach($veiculos_abastecimento as $abt => $abastecimento) {
+      $valor += $abastecimento->abastecimento_custo;
+      $unidades += $abastecimento->combustivel_unidade_total;
+      if ($abt === 0) $km_inicial = $abastecimento->veiculo_km;
+      if ($abt === (count($veiculos_abastecimento) - 1)) $km_final = $abastecimento->veiculo_km;
     }
+
+    $km_rodados = $km_final - $km_inicial;
+    
     return (object) [
       'lista' =>  $veiculos_abastecimento,
       'total' => $this->formata_moeda($valor, ($tipo != 'arquivo')),
+      'consumo_medio' => $km_rodados > 0 ? number_format(($unidades / $km_rodados), 2) : 0,
+      'km_rodados' => $km_rodados,
+      'unidades' => $unidades,
+      'show_resultados_todos' => $show_resultados_todos,
     ];
   }
 
@@ -745,9 +813,10 @@ class Relatorio_model extends Relatorio_model_base {
     $data = $this->extract_data('centro_de_custo', $data);
     $equipamentos =  $this->custos_equipamentos($data, $tipo);
     $equipamentos_manutecoes = $this->custos_equipamentos_manutecoes($data, $tipo);
+    $ferramentas_manutecoes = $this->custos_ferramentas_manutecoes($data, $tipo);
     $ferramentas =  $this->custos_ferramentas($data, $tipo);
     $veiculos_manutecoes = $this->custos_veiculos_manutecoes($data, $tipo);
-    //$veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($data, $tipo);
+    $veiculos_abastecimentos = $this->custos_veiculos_abastecimentos($data, $tipo);
 
     if ($tipo && $tipo == 'arquivo') {
       return (object) [
@@ -757,29 +826,34 @@ class Relatorio_model extends Relatorio_model_base {
         'equipamentos_total' => $equipamentos->total,
         'equipamentos_manutecoes' => $equipamentos_manutecoes->lista, 
         'equipamentos_manutecoes_total' => $equipamentos_manutecoes->total, 
-        // 'veiculos_abastecimentos' => $veiculos_abastecimentos->lista, 
-        // 'veiculos_abastecimentos_total' => $veiculos_abastecimentos->total, 
+        'ferramentas_manutecoes' => $ferramentas_manutecoes->lista, 
+        'ferramentas_manutecoes_total' => $ferramentas_manutecoes->total, 
+        'veiculos_abastecimentos' => $veiculos_abastecimentos->lista, 
+        'veiculos_abastecimentos_total' => $veiculos_abastecimentos->total, 
         'veiculos_manutecoes' => $veiculos_manutecoes->lista, 
         'veiculos_manutecoes_total' => $veiculos_manutecoes->total, 
         'total' => $this->formata_moeda(array_sum([
           $ferramentas->total,
-          $equipamentos->total
+          $equipamentos->total,
+          $veiculos_abastecimentos->total
         ]))
       ];
     }
 
     $relatorio = [
         'ferramentas' =>  $ferramentas->total,
+        'ferramentas_manutecoes' => $ferramentas_manutecoes->total,
         'equipamentos' =>  $equipamentos->total,
         'equipamentos_manutecoes' => $equipamentos_manutecoes->total,
-        //'veiculos_abastecimentos' => $veiculos_abastecimentos->total, 
+        'veiculos_abastecimentos' => $veiculos_abastecimentos->total, 
         'veiculos_manutecoes' => $veiculos_manutecoes->total, 
         'total' => $this->formata_moeda(array_sum([
           $ferramentas->total,
+          $ferramentas_manutecoes->total,
           $equipamentos->total,
           $equipamentos_manutecoes->total,
           $veiculos_manutecoes->total,
-          //$veiculos_abastecimentos->total
+          $veiculos_abastecimentos->total
         ]), true)
     ];
     return (object) $relatorio;       

@@ -8,6 +8,7 @@ class Ativo_veiculo_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('configuracao/configuracao_model');
 	}
 
 	public function salvar_formulario($data=null){
@@ -127,9 +128,12 @@ class Ativo_veiculo_model extends MY_Model {
 		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_abastecimento.id_ativo_veiculo AND tipo = 'abastecimento' 
 			AND id_modulo_subitem = ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento ORDER BY id_anexo DESC LIMIT 1";
 
-		$this->db->select('ativo_veiculo_abastecimento.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
+		$this->db->select('ativo_veiculo_abastecimento.*, ativo_veiculo.veiculo, ativo_veiculo.marca')
+				->select('ativo_veiculo.modelo, ativo_veiculo.veiculo_placa, ativo_veiculo.id_interno_maquina')
 				->select("($select_anexo) as comprovante")
+				->select("fn.nome_fantasia as fornecedor")
 				->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_abastecimento.id_ativo_veiculo")
+				->join("fornecedor fn", "fn.id_fornecedor=ativo_veiculo_abastecimento.id_fornecedor")
 				->where("ativo_veiculo_abastecimento.id_ativo_veiculo", $id_ativo_veiculo)
 				->order_by('ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento', 'desc');
 
@@ -176,7 +180,6 @@ class Ativo_veiculo_model extends MY_Model {
 				->get('ativo_veiculo_quilometragem')
 				->result();
 	}
-
 
 	public function get_km_extrato($id_ativo_veiculo, $returnObject = true){
 		$veiculo = $this->get_ativo_veiculo($id_ativo_veiculo);
@@ -286,10 +289,43 @@ class Ativo_veiculo_model extends MY_Model {
 										->result();
 	}	
 
-	public function get_fornecedor(){
+	public function get_fornecedores(){
 		$this->db->order_by("razao_social", "asc")->where("situacao = '0'");;
 		return $this->db->group_by('id_fornecedor')->get('fornecedor')->result();
 	}
+
+
+	public function get_combustiveis(){
+		$configuracao = $this->configuracao_model->get_configuracao(1);
+
+		return  [
+			(object) [
+				"nome" => "Etanol/Alcool",
+				"slug" => "etanol",
+				"unidade" => "litro",
+				"valor_medio" => $configuracao->valor_medio_etanol,
+			],
+			(object) [
+				"nome" => "Gasolina",
+				"slug" => "gasolina",
+				"unidade" => "litro",
+				"valor_medio" => $configuracao->valor_medio_gasolina,
+			],
+			(object) [
+				"nome" => "Diesel",
+				"slug" => "diesel",
+				"unidade" => "litro",
+				"valor_medio" => $configuracao->valor_medio_diesel,
+			],
+			(object) [
+				"nome" => "GNV",
+				"slug" => "gnv",
+				"unidade" => "metro_cubico",
+				"valor_medio" => $configuracao->valor_medio_gnv
+			]
+		];
+	}
+
 
 	public function get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo){
 		$this->db->where('id_ativo_veiculo', $id_ativo_veiculo);
@@ -300,7 +336,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_delete($id_ativo_veiculo){
-		return !in_array(true,[
+		return !in_array(true, [
 			$this->db
 				->where('id_ativo_veiculo', $id_ativo_veiculo)
 				->limit(5)
@@ -326,7 +362,12 @@ class Ativo_veiculo_model extends MY_Model {
 				->where('id_ativo_veiculo', $id_ativo_veiculo)
 				->limit(5)
 				->get("ativo_veiculo_operacao")
-				->num_rows() >= 1
+				->num_rows() >= 1,
+			$this->db
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->limit(5)
+				->get("ativo_veiculo_abastecimento")
+				->num_rows() >= 1,
 		]);
 	}
 

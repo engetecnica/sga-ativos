@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                                 
-                                <!-- <div class="row form-group">
+                                <div class="row form-group">
                                     <div class="col col-lg-3">
                                         <label for="valor_medio_diesel" class=" form-control-label">Valor médio Diesel</label>
                                     </div>
@@ -139,7 +139,7 @@
                                     </div>
                                 </div>    
                                 
-                                <small><b class="text-danger">*</b> Valor médio por litro, execeto GNV, para esse o valor representa o custo médio por metro cúbico usado como base de cálculos relacionados na aplicação.</small> -->
+                                <small><b class="text-danger">*</b> Valor médio por litro, execeto GNV, para esse o valor representa o custo médio por metro cúbico usado como base de cálculos relacionados na aplicação.</small>
 
                                 <hr>
                                 <div class="pull-left">

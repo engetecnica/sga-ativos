@@ -30,10 +30,9 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th width="7%">Veículo</th>
-                                    <th>Placa</th>
                                     <th>Km Atual</th>
-                                    <th>Litros</th>
+                                    <th>Combustível</th>
+                                    <th>Unidades (L/M&sup3;)</th>
                                     <th>Custo</th>
                                     <th>Data</th>
                                     <th>Gerenciar</th>
@@ -46,12 +45,11 @@
                                 ?>
                                 <tr>
                                     <td><?php echo $valor->id_ativo_veiculo_abastecimento; ?></td>
-                                    <td><?php echo $valor->veiculo; ?></td>
-                                    <td><?php echo $valor->veiculo_placa; ?></td>
                                     <td><?php echo $valor->veiculo_km; ?></td>
-                                    <td><?php echo $valor->veiculo_litros; ?></td>
-                                    <td>R$ <?php echo $this->formata_moeda($valor->veiculo_custo); ?></td>
-                                    <td><?php echo $this->formata_data($valor->data); ?></td>
+                                    <td><?php echo ucfirst($valor->combustivel); ?></td>
+                                    <td><?php echo $valor->combustivel_unidade_total ." "; echo $valor->combustivel_unidade_tipo == '0' ? 'L' : "M&sup3;"; ?></td>
+                                    <td><?php echo $this->formata_moeda($valor->abastecimento_custo); ?></td>
+                                    <td><?php echo $this->formata_data($valor->abastecimento_data); ?></td>
                                     <td> 
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupGerenciarAbastecimento" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

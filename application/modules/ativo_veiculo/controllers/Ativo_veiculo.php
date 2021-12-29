@@ -154,32 +154,22 @@ class Ativo_veiculo  extends MY_Controller
             break;
             case 'abastecimento':
                 if ($tipo == 'adicionar') {
+                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedores();
+                    $data['combustiveis'] = $this->ativo_veiculo_model->get_combustiveis();
                     $template = "_form";
-
                 } elseif ($tipo == 'editar') {
                     $data['abastecimento'] = $this->db->where('id_ativo_veiculo_abastecimento', $id_gerenciar_item)
                         ->where('id_ativo_veiculo', $id_ativo_veiculo)
                         ->get('ativo_veiculo_abastecimento')->row();
+                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedores();
+                    $data['combustiveis'] = $this->ativo_veiculo_model->get_combustiveis();
                     $template = "_form";
                 } else {
                     $template = "";
-                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($tipo);
+                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_abastecimento_lista($tipo);
                 }
             break;
-            case 'abastecimento':
-                if ($tipo == 'adicionar') {
-                    $template = "_form";
-
-                } elseif ($tipo == 'editar') {
-                    $data['abastecimento'] = $this->db->where('id_ativo_veiculo_abastecimento', $id_gerenciar_item)
-                        ->where('id_ativo_veiculo', $id_ativo_veiculo)
-                        ->get('ativo_veiculo_abastecimento')->row();
-                    $template = "_form";
-                } else {
-                    $template = "";
-                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_km_lista($tipo);
-                }
-            break;
+    
             case 'operacao':
                 if ($tipo == 'adicionar') {
                     $template = "_form";
@@ -200,10 +190,10 @@ class Ativo_veiculo  extends MY_Controller
                 if ($tipo == 'adicionar') {
                     $template = "_form";
                     $data['tipo_servico'] = $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos');
-                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedor();
+                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedores();
                 } elseif ($tipo == 'editar') {
                     $data['tipo_servico'] = $this->ativo_veiculo_model->get_tipo_servico(10, 'Serviços Mecânicos');
-                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedor();
+                    $data['fornecedores'] = $this->ativo_veiculo_model->get_fornecedores();
                     $data['manutencao'] = $this->db->where('id_ativo_veiculo_manutencao', $id_gerenciar_item)
                         ->where('id_ativo_veiculo', $id_ativo_veiculo)
                         ->get('ativo_veiculo_manutencao')->row();
@@ -278,6 +268,104 @@ class Ativo_veiculo  extends MY_Controller
         }
         echo redirect(base_url($url));
         return;
+    }
+
+    # Salvar Abastecimento
+    public function abastecimento_salvar($json = false)
+    {
+        $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
+        $data['id_ativo_veiculo_abastecimento'] = $this->input->post('id_ativo_veiculo_abastecimento');
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
+
+        if ($veiculo) {
+            $veiculo_km = (int) $this->input->post('veiculo_km');
+
+            if (!$data['id_ativo_veiculo_abastecimento']) {
+                $ultimo_km = $this->db->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
+                        ->order_by('data', 'desc')
+                        ->limit(1)
+                        ->get('ativo_veiculo_quilometragem')
+                        ->row();
+
+                if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
+                    $msg =  "KM atual deve ser maior que a KM inicial do veículo e última lançada!";
+                    if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                    $this->session->set_flashdata('msg_erro', $msg);
+                    return $this->redirect($veiculo, 'abastecimento', $data, $data['id_ativo_veiculo_abastecimento'] ? "editar" : "adicionar");
+                }
+            }
+            
+            $data['veiculo_km'] = $veiculo_km;
+            $data['combustivel'] = $this->input->post('combustivel'); 
+            $data['id_fornecedor'] = $this->input->post('id_fornecedor');   
+            $data['combustivel_unidade_tipo'] = $this->input->post('combustivel_unidade_tipo') == 'litro' ? '0' : '1';   
+            $data['combustivel_unidade_valor'] = $this->formata_moeda_float($this->input->post('combustivel_unidade_valor'));
+            $data['abastecimento_custo'] = $this->formata_moeda_float($this->input->post('abastecimento_custo'));
+            $data['abastecimento_data'] = $this->input->post('abastecimento_data') ?: date("Y-m-d");
+            $data['combustivel_unidade_total'] = number_format(($data['abastecimento_custo'] / $data['combustivel_unidade_valor']), 2);
+
+            if (!$data['id_ativo_veiculo_abastecimento']) {
+                $this->db->insert('ativo_veiculo_abastecimento', $data);
+                $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km]);
+                $msg = "Novo registro inserido com sucesso!";
+                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                $this->session->set_flashdata('msg_success', $msg);
+            } else {
+                $this->db->where('id_ativo_veiculo_abastecimento', $data['id_ativo_veiculo_abastecimento'])
+                    ->update('ativo_veiculo_abastecimento', $data);
+                $msg = "Registro atualizado com sucesso!";
+                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                $this->session->set_flashdata('msg_success', $msg);
+            }
+
+            $last_id = $data['id_ativo_veiculo_abastecimento'] ? $data['id_ativo_veiculo_abastecimento'] : $this->db->insert_id() ;
+            echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/editar/{$data['id_ativo_veiculo']}/{$last_id}"));
+            return;
+        }
+
+        $msg = "Veiculo não encontrado!";
+        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+        $this->session->set_flashdata('msg_erro', $msg);
+        echo redirect(base_url("ativo_veiculo"));
+    }
+
+
+    public function abastecimento_deletar($id_ativo_veiculo, $id_ativo_veiculo_abastecimento, $json = false){
+        $abastecimento = $this->db
+            ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
+            ->where("id_ativo_veiculo_abastecimento = {$id_ativo_veiculo_abastecimento}")
+            ->get('ativo_veiculo_abastecimento')->num_rows() == 1;
+
+        if (!$abastecimento) {
+            $msg = "Lançamento de Abastecimento não encontrado!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        // if ($this->user->nivel != 1) {
+        //     $msg = "Usuário sem permissão!";
+        //     if ($json) return $this->json(['success' => false, 'message' => $msg]);
+        //     $this->session->set_flashdata('msg_erro', $msg);
+        //     echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
+        //     return false;
+        // }
+
+        if (!$this->ativo_veiculo_model->permit_delete_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento)) {
+            $msg = "Lançamento Quilometragem não pode ser excluído!";
+            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
+            return false;
+        }
+
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'abastecimento', $id_ativo_veiculo_abastecimento);
+        $this->db->where("id_ativo_veiculo_abastecimento = {$id_ativo_veiculo_abastecimento}")->delete('ativo_veiculo_abastecimento');
+
+        if ($json) return $this->json(['success' => true]);
+        echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
+        return true;
     }
 
     # Salvar KM
@@ -358,6 +446,7 @@ class Ativo_veiculo  extends MY_Controller
             return false;
         }
 
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'quilometragem', $id_ativo_veiculo_quilometragem);
         $this->db->where("id_ativo_veiculo_quilometragem = {$id_ativo_veiculo_quilometragem}")->delete('ativo_veiculo_quilometragem');
 
         if ($json) return $this->json(['success' => true]);
@@ -482,6 +571,7 @@ class Ativo_veiculo  extends MY_Controller
             return false;
         }
 
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'operacao', $id_ativo_veiculo_operacao);
         $this->db->where("id_ativo_veiculo_operacao = {$id_ativo_veiculo_operacao}")->delete('ativo_veiculo_operacao');
 
         if ($json) return $this->json(['success' => true]);
@@ -525,6 +615,7 @@ class Ativo_veiculo  extends MY_Controller
                 }
                 
                 $this->db->insert('ativo_veiculo_manutencao', $data);
+                $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $data['veiculo_km_atual']]);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
                 $this->db->where('id_ativo_veiculo_manutencao', $data['id_ativo_veiculo_manutencao'])
@@ -587,6 +678,7 @@ class Ativo_veiculo  extends MY_Controller
             return false;
         }
 
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'ordem_de_servico', $id_ativo_veiculo_manutencao);
         $this->db->where("id_ativo_veiculo_manutencao = {$id_ativo_veiculo_manutencao}")->delete('ativo_veiculo_manutencao');
         echo redirect(base_url("ativo_veiculo/gerenciar/manutencao/{$id_ativo_veiculo}"));
         return true;
@@ -653,6 +745,7 @@ class Ativo_veiculo  extends MY_Controller
             return false;
         }
 
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'ipva', $id_ativo_veiculo_ipva);
         $this->db->where("id_ativo_veiculo_ipva = {$id_ativo_veiculo_ipva}")->delete('ativo_veiculo_ipva');
         echo redirect(base_url("ativo_veiculo/gerenciar/ipva/{$id_ativo_veiculo}"));
         return true;
@@ -712,6 +805,7 @@ class Ativo_veiculo  extends MY_Controller
             return false;
         }
 
+        $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'seguro', $id_ativo_veiculo_seguro);
         $this->db->where("id_ativo_veiculo_seguro = {$id_ativo_veiculo_seguro}")->delete('ativo_veiculo_seguro');
         echo redirect(base_url("ativo_veiculo/gerenciar/seguro/{$id_ativo_veiculo}"));
         return true;

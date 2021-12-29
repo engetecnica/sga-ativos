@@ -317,6 +317,28 @@ class MY_Controller extends MX_Controller {
         }
         return false;
     }
+
+    public function deletar_anexos(
+        $id_modulo, 
+        int $id_modulo_item, 
+        string $tipo = null, 
+        int $id_modulo_subitem = null,
+        int $id_anexo = null
+    ) : int {  
+        $modulo = null;
+        if (is_int($id_modulo)) $modulo = $this->db->where('id_modulo', $id_modulo)->get('modulo')->row();
+        else $modulo = $this->db->where('rota', $id_modulo)->get('modulo')->row();
+            
+        if ($modulo) {
+            $query = $this->db;
+            if ($id_modulo_item) $query->where("id_modulo_item = $id_modulo_item");
+            if ($id_modulo_subitem) $query->where("id_modulo_subitem = $id_modulo_subitem");
+            if ($tipo) $query->where("tipo = '{$tipo}'");
+            if ($id_anexo) $query->where("id_anexo = $id_anexo");
+            return $query->delete('anexo');
+        }
+        return false;
+    }
 }
  
 /* End of file MY_Controller.php */
