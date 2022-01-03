@@ -25,13 +25,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 
-
 function url(){
     try {
         $name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-        $port = isset($_SERVER['SERVER_PORT']) ? ($_SERVER['SERVER_PORT'] != 80 || $_SERVER['SERVER_PORT'] != 443 ? ":".$_SERVER['SERVER_PORT'] : '') : '';
+        $port = isset($_SERVER['SERVER_PORT']) ? ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443 ? ":{$_SERVER['SERVER_PORT']}" : '') : '';
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http';
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' || 
+                    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? 
+                    'https' : 'http';
         return sprintf(
             "%s://%s%s",
             $protocol,
@@ -39,11 +40,13 @@ function url(){
             $port,
             $uri
         );
+        
     } catch (\Exception $e){
         log_message('error', 'Deve definir $config[base_url] application/config/config.php');
         return null;
     }
 }
+
 
 //$config['base_url'] = 'https://www.codigosdigitais.com.br/engetecnica';
 $config['base_url'] = url();

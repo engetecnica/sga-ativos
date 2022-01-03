@@ -11,12 +11,6 @@ async function  updateCache(request, response){
   return res
 }
 
-// self.addEventListener('notificationclose', function(e) {
-//   var notification = e.notification;
-//   var primaryKey = notification.data.primaryKey;
-//   console.log('Closed notification: ' + primaryKey);
-// })
-
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(cacheName).then(cache => {
     return cache.addAll(cacheFiles).then(() => self.skipWaiting())
