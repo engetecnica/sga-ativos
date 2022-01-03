@@ -50,9 +50,4 @@ class Ativo_configuracao_model extends MY_Model {
 					->where('id_ativo_configuracao', $id_ativo_configuracao)
 					->get('ativo_configuracao')->row();
 	}
-
-	public function permit_delete_configuracao($id_ativo_configuracao){
-		$configuracao = $this->get_ativo_configuracao($id_ativo_configuracao);
-		return $configuracao && $configuracao->permit_delete == '1';
-	}
 }

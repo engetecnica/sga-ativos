@@ -159,7 +159,7 @@
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="KM" class="form-control" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->veiculo_km) ? $detalhes->veiculo_km : '' ?>"
-                                        <?php if (isset($km_inicial) && (int) $km_inicial > 0) echo "max=\"{$km_inicial}\" min=\"{$km_inicial}\"";?> >
+                                        <?php if (isset($km_inicial) && (int) $km_inicial > 0) echo "max=\"{$km_inicial}\"";?> >
                                     </div>
 
                                     <div class="col-12 col-md-3">

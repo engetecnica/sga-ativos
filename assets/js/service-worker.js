@@ -1,4 +1,4 @@
-const cacheName = "v1-dev"
+const cacheName = "v1"
 const cacheFiles = [
   '/assets/'
 ]

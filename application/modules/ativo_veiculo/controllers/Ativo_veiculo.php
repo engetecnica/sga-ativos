@@ -279,21 +279,20 @@ class Ativo_veiculo  extends MY_Controller
 
         if ($veiculo) {
             $veiculo_km = (int) $this->input->post('veiculo_km');
-
-            if (!$data['id_ativo_veiculo_abastecimento']) {
-                $ultimo_km = $this->db->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
+            $ultimo_km = $this->db->where("id_ativo_veiculo = {$data['id_ativo_veiculo']}")
                         ->order_by('data', 'desc')
                         ->limit(1)
                         ->get('ativo_veiculo_quilometragem')
                         ->row();
 
-                if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
-                    $msg =  "KM atual deve ser maior que a KM inicial do veículo e última lançada!";
-                    if ($json) return $this->json(['message' => $msg, 'success' => false]);
-                    $this->session->set_flashdata('msg_erro', $msg);
-                    return $this->redirect($veiculo, 'abastecimento', $data, $data['id_ativo_veiculo_abastecimento'] ? "editar" : "adicionar");
-                }
+            if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
+                $msg =  "KM atual deve ser maior que a KM inicial do veículo e última lançada!";
+                if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                $this->session->set_flashdata('msg_erro', $msg);
+                return $this->redirect($veiculo, 'abastecimento', $data, $data['id_ativo_veiculo_abastecimento'] ? "editar" : "adicionar");
             }
+
+
             
             $data['veiculo_km'] = $veiculo_km;
             $data['combustivel'] = $this->input->post('combustivel'); 
@@ -306,7 +305,9 @@ class Ativo_veiculo  extends MY_Controller
 
             if (!$data['id_ativo_veiculo_abastecimento']) {
                 $this->db->insert('ativo_veiculo_abastecimento', $data);
-                $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km]);
+                if ($ultimo_km && $veiculo_km > $ultimo_km->veiculo_km) {
+                    $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km]);
+                }
                 $msg = "Novo registro inserido com sucesso!";
                 if ($json) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
@@ -317,6 +318,7 @@ class Ativo_veiculo  extends MY_Controller
                 if ($json) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             }
+
 
             $last_id = $data['id_ativo_veiculo_abastecimento'] ? $data['id_ativo_veiculo_abastecimento'] : $this->db->insert_id() ;
             echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/editar/{$data['id_ativo_veiculo']}/{$last_id}"));

@@ -21,6 +21,7 @@ class Migration_Create_Ativo_Veiculo extends CI_Migration {
 			->add_field('codigo_fipe varchar(50) NULL DEFAULT NULL')
 			->add_field('fipe_mes_referencia varchar(100) NULL DEFAULT NULL')
 			->add_field('veiculo_placa varchar(20) NULL DEFAULT NULL')
+			->add_field('id_interno_maquina varchar(20) NULL DEFAULT NULL')
 			->add_field('veiculo_renavam varchar(255) NULL DEFAULT NULL')
 			->add_field('veiculo_km varchar(50) NULL DEFAULT NULL')
 			->add_field('veiculo_km_data date NULL DEFAULT NULL')

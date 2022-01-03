@@ -16,7 +16,6 @@ class Migration_Seed_Modulo extends CI_Migration {
 				(5,1,'Fornecedores','fornecedor','fa fa-handshake-o'),
 				(6,1,'Obras','obra','fa fa-university'),
 				(7,0,'Ativos','#','fa fa-cube'),
-				(8,7,'Configurações','ativo_configuracao','fas fa-cog'),
 				(9,7,'Veículos','ativo_veiculo','fas fa-truck'),
 				(10,7,'Equipamentos','ativo_interno','fa fa-television'),
 				(11,12,'Externos','ativo_externo','fas fa-wrench'),
@@ -26,7 +25,10 @@ class Migration_Seed_Modulo extends CI_Migration {
 				(15,0,'Relatórios','relatorio','fa fa-line-chart'),
 				(16,16,'Gerar','relatorio','fa fa-filter'),
 				(17,0,'Anexos','anexo','fa fa-files-o'),
-				(18,18,'Listar','anexo','fa fa-file-archive-o');"
+				(18,18,'Listar','anexo','fa fa-file-archive-o')
+				(19,0,'Configurações','#','fas fa-cog'),
+				(20,19,'Geral','configuracao','fa fa-cogs'),
+				(21,19,'Ativos','ativo_configuracao','fa fa-sliders'),;"
 			);
 		}
 	}

@@ -191,7 +191,9 @@ class Migration_Seed_Default_Values extends CI_Migration {
 		if ($this->db->table_exists('ativo_veiculo') && 
 			$this->db->where("id_ativo_veiculo BETWEEN 1 AND 3")->get('ativo_veiculo')->num_rows() == 0) {
 			$this->db->query(
-			"INSERT INTO `ativo_veiculo` VALUES 
+			"INSERT INTO `ativo_veiculo`
+			(id_ativo_veiculo, tipo_veiculo, id_marca, id_modelo, ano, veiculo, valor_fipe, codigo_fipe, fipe_mes_referencia, veiculo_placa, veiculo_km, veiculo_km_data, valor_funcionario, valor_adicional, data, situacao) 
+			VALUES 
 			(1,'moto',101,'3102','2008-1','YBR 125 ED',4745.00,'827045-7','setembro de 2021 ','PFM-2984','','267897','0000-00-00',12.50,1.50,'','2021-09-17 15:53:58','0'),
 			(2, 'carro', '59', '5009', '2010-1', 'Saveiro 1.6 Mi Total Flex 8V CE', '33814.00', '005298-1', 'outubro de 2021 ', 'PFM-3E89', '', '267896', '0000-00-00', '12.50', '1.50', '', '2021-10-03 22:37:50', '0'),
 			(3, 'caminhao', '109', '3382', '1989-3', 'L-1113 2p (diesel)', '42737.00', '509037-7', 'outubro de 2021 ', 'PFM-2O86', '', '295876', '0000-00-00', '20.50', '2.50', '', '2021-10-03 22:39:00', '0');"

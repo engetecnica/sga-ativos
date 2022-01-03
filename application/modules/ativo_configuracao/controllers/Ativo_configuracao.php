@@ -27,6 +27,12 @@ class Ativo_configuracao  extends MY_Controller {
 
     function editar($id_ativo_configuracao=null){
         $data['detalhes'] = $this->ativo_configuracao_model->get_ativo_configuracao($id_ativo_configuracao);
+        if(!$data['detalhes']->permit_edit || !$data['detalhes']->permit_delete) {
+            $this->session->set_flashdata('msg_erro', "Item não pode ser editado ou excluido!");
+            echo redirect(base_url("ativo_configuracao"));
+            return;
+        }
+
         $data['lista_categoria'] = $this->ativo_configuracao_model->get_categoria_lista(0);
         $this->get_template('index_form', $data);
     }
@@ -34,8 +40,10 @@ class Ativo_configuracao  extends MY_Controller {
     function salvar(){
         $data['id_ativo_configuracao'] = !is_null($this->input->post('id_ativo_configuracao')) ? $this->input->post('id_ativo_configuracao') : '';
         $data['id_ativo_configuracao_vinculo'] = $this->input->post('id_ativo_configuracao_vinculo');
-        $data['titulo'] = $this->input->post('titulo');
+        $data['titulo'] = ucwords($this->input->post('titulo'));
         $data['situacao'] = $this->input->post('situacao');
+        $data['slug'] = strtolower($this->input->post('slug'));
+        $data['permit_edit'] = $data['permit_delete'] = 1;
 
         $configuracao = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao']);
         $vinculo = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao_vinculo']);
@@ -56,10 +64,7 @@ class Ativo_configuracao  extends MY_Controller {
             }
         }
 
-        $data['titulo'] = ucwords($data['titulo']);
-        if($data['id_ativo_configuracao']=='') $data['permit_delete'] = 1;
         $this->ativo_configuracao_model->salvar_formulario($data);
-
         if($data['id_ativo_configuracao']==''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
