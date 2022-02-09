@@ -137,7 +137,6 @@ class Ativo_interno_model extends MY_Model {
 			->get('ativo_interno_manutencao')->num_rows() == 0;
 	}
 
-
 	public function permit_edit_manutencao($id_ativo_interno, $id_manutencao){
 		$manutencao = $this->db
 			->where('id_ativo_interno', $id_ativo_interno)
@@ -153,5 +152,20 @@ class Ativo_interno_model extends MY_Model {
 			->where('id_manutencao', $id_manutencao)
 			->get('ativo_interno_manutencao')->row();
 		return $this->permit_edit_manutencao($id_ativo_interno, $id_manutencao) && ($manutencao && $manutencao->situacao == 0);
+	}
+
+	public function permit_create($data){
+		$ativos = $this->db->where('serie', $data['serie']);
+		if($data['id_ativo_interno']) {
+			$ativos->where("id_ativo_interno != {$data['id_ativo_interno']}");
+		}
+		return $ativos->get('ativo_interno')->num_rows() == 0;
+	}
+
+	public function permit_update($data){
+		$ativos = $this->db
+			->where("serie = {$data['serie']}")
+			->where("id_ativo_interno != {$data['id_ativo_interno']}");
+		return $ativos->get('ativo_interno')->num_rows() == 0;
 	}
 }

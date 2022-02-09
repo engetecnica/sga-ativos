@@ -29,6 +29,8 @@
                                     <th>Requisão ID</th>
                                     <th>Data</th>
                                     <th>Tipo</th>
+                                    <th>É uma requisição complementar?</th>
+                                    <th>Complementa</th>
                                     <th>Status</th>
                                     <th>Origem</th>
                                     <th>Destino</th>
@@ -49,6 +51,18 @@
                                     <td><?php echo date("d/m/Y H:i:s", strtotime($valor->data_inclusao)); ?></td>
                                     <td>
                                         <span class="badge badge-<?php echo $valor->tipo == 1 ? 'primary': 'secondary';?>"><?php echo $valor->tipo == 1 ? 'Requisição': 'Devolução';?></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-<?php echo $valor->id_requisicao_mae === null ? 'danger': 'success' ;?>"><?php echo $valor->id_requisicao_mae === null ? 'Não': 'Sim';?></span>
+                                    </td>
+                                    <td>
+                                        <?php if($valor->id_requisicao_mae != null) { ?>
+                                            <a href="<?php echo base_url("ferramental_requisicao/detalhes/{$valor->id_requisicao_mae}");?>">
+                                                <?php echo $valor->id_requisicao_mae; ?>
+                                            </a>
+                                        <?php } else {?>
+                                            -
+                                        <?php }?>
                                     </td>
                                     <td>
                                         <?php $status = $this->status($valor->status); ?>

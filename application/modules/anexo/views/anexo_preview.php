@@ -10,7 +10,7 @@
         <?php
             if (file_exists($file) && explode('/', mime_content_type($file))[0] == "image") { 
         ?>
-            <img src="<?php echo base_url("assets/uploads/{$anexo}");?>" />
+            <img src="<?php echo base_url("assets/uploads/{$anexo}");?>" loading="lazy" />
         <?php }  elseif(file_exists($file) && mime_content_type($file) == "application/pdf") { ?>
             <embed
                 src="<?php echo base_url("assets/uploads/{$anexo}");?>"
@@ -19,6 +19,7 @@
                 scrolling="auto"
                 height="100%"
                 width="110%"
+                loading="lazy" 
             ></embed>
         <?php } else { ?>
             <i class="fa fa-file" aria-hidden="true"></i>

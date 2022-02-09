@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <?php $id = isset($ativo) ? "#".$ativo->id_ativo_interno : ''; ?>
+                        <?php $id = isset($ativo) && isset($ativo->id_ativo_interno) ? "#".$ativo->id_ativo_interno : ''; ?>
                         <a href="<?php echo base_url("ativo_interno$id"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
@@ -90,16 +90,17 @@
                                     <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="text" id="valor" name="valor" placeholder="0.00" class="form-control valor" 
-                                        value="<?php if(isset($ativo) && isset($ativo->valor)){ echo number_format($ativo->valor, 2, ',', '.'); } ?>">
+                                        value="<?php if(isset($ativo) && isset($ativo->valor)){ echo $ativo->valor; } ?>">
                                     </div>
-                                    <div class="col col-md-2">
+                                    <!-- <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input <?php echo (isset($ativo) && isset($ativo->situacao)) && ($ativo->situacao > 1) ? 'readonly' : '';  ?> 
                                         required="required"  type="number" id="quantidade" name="quantidade" class="form-control" 
                                         value="<?php if(isset($ativo) && isset($ativo->quantidade)){ echo $ativo->quantidade; } else { echo "1"; } ?>">
-                                    </div>                                    
+                                    </div> -->
+                                    <input type="hidden" required="required"  id="quantidade" name="quantidade" value="1" />                                  
                                 </div>
 
                                 <div class="row form-group">
@@ -131,7 +132,7 @@
                                 
                                 <hr>
                                 <div class="pull-left">
-                                    <?php if(((isset($ativo) && isset($ativo->situacao)) && $ativo->situacao <= 1 ) || !isset($ativo)){ ?>
+                                    <?php if(((isset($ativo) && isset($ativo->situacao)) && $ativo->situacao <= 1 ) || !isset($ativo) || isset($ativo) && !isset($ativo->id_ativo_interno)){ ?>
                                     <button class="btn btn-primary">                                                    
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
@@ -204,7 +205,7 @@
                 </div>
             </div>
 
-            <?php if (isset($anexos)) { ?>
+            <?php if ((isset($ativo) && isset($ativo->id_ativo_interno)) && isset($anexos)) { ?>
             <div id="anexos" class="row">
                 <div class="col-12">
                     <?php $this->load->view('anexo/index', ['show_header' => false, 'permit_delete' => true]); ?>
@@ -222,6 +223,11 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
+
+<?php 
+    if ((isset($ativo) && isset($ativo->id_ativo_interno)) && isset($anexos)) {
+        $this->load->view('anexo/index_form_modal', ["show_header" => false]); 
+    }
+?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

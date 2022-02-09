@@ -23,6 +23,8 @@
                                     <th width="7%">Id</th>
                                     <th>Código da Obra</th>
                                     <th>Empresa</th>
+                                    <th>Razão Social</th>
+                                    <th>CNPJ</th>
                                     <th>Responsável</th>
                                     <th>E-mail</th>
                                     <th>Celular</th>
@@ -41,6 +43,8 @@
                                     </td>
                                     <td><?php echo $valor->codigo_obra; ?></td>
                                     <td><?php echo $valor->empresa; ?></td>
+                                    <td><?php echo $valor->obra_razaosocial ?: '-'; ?></td>
+                                    <td><?php echo $valor->obra_cnpj ?: '-'; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>
                                     <td><?php echo $valor->responsavel_celular; ?></td>

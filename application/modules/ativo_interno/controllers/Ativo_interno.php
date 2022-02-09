@@ -20,7 +20,7 @@ class Ativo_interno  extends MY_Controller {
         $this->get_template('index', $data);
     }
 
-    function adicionar(){
+    function adicionar($data = []){
         $data['obras'] = $this->obra_model->get_obras();
     	$this->get_template('index_form', $data);
     }
@@ -58,11 +58,23 @@ class Ativo_interno  extends MY_Controller {
                 $data_insert[$i]['quantidade'] = 1;
                 $data_insert[$i]['situacao'] = 0;
             }
-            $this->db->insert_batch("ativo_interno", $data_insert);
-            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+
+            if ($this->ativo_interno_model->permit_create($data)) {
+                $this->db->insert_batch("ativo_interno", $data_insert);
+                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+            } else {
+                $data['ativo'] = (object) $data;
+                $this->session->set_flashdata('msg_erro', "Um ativo com os mesmos dados já existe!");
+                return $this->adicionar($data);
+            }
         } else {
-            $this->ativo_interno_model->salvar_formulario($data);
-            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
+            if($this->ativo_interno_model->permit_update($data)) {
+                $this->ativo_interno_model->salvar_formulario($data);
+                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!"); 
+            } else {
+                $this->session->set_flashdata('msg_erro', "Um ativo com os mesmos dados já existe!");
+                return $this->editar($data['id_ativo_interno']);
+            }          
         }
 
         echo redirect(base_url("ativo_interno"));
