@@ -66,8 +66,8 @@ class usuario  extends MY_Controller {
         $data['usuario'] = $this->input->post('usuario');
         $data['nome'] = $this->input->post('nome');
         $data['email'] = $this->input->post('email');
-        if($this->input->post('nivel') == 1) $data['permit_notification_email'] = $this->input->post('permit_notification_email');
-        $data['permit_notification_push'] = $this->input->post('permit_notification_push');
+        if($this->input->post('nivel') == 1) $data['permit_notification_email'] = $this->input->post('permit_notification_email') ?: '1';
+        $data['permit_notification_push'] = $this->input->post('permit_notification_push') ?: '0';
      
         if ($usuario && $this->user->id_usuario != $usuario->id_usuario || !$usuario && $this->user->nivel == 1) {
             $data['situacao'] = $this->input->post('situacao');

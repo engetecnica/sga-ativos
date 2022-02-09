@@ -7,7 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
+    <meta name="co-author" content="Messias Dias <messiasdias.ti@gmail.com>">
     <meta name="keywords" content="au theme template">
+    <meta name="theme-color" content="#fd9e0f"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Engetecnica">
+    <meta name="apple-mobile-web-app-title" content="Engetecnica">
+    <meta name="msapplication-starturl" content="/">
+    <link rel="icon" type="image/x-icon" href="/assets/images/icon/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/icon/apple-touch-icon.png">
+    <link rel="manifest" href="/assets/webmanifest.json">
 
     <!-- Title Page-->
     <title>Engetecnica | <?php echo date("Y"); ?></title>
