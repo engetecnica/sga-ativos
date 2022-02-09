@@ -1,19 +1,43 @@
 const cacheName = "v1"
-const cacheFiles = [
-  '/assets/'
+
+const localCacheFiles = [
+  "/assets/",
 ]
 
-async function  updateCache(request, response){
-  let res =  await response.then(res => res)
-  if (cacheFiles.map(path => request.url.endsWith(path)).some(p => p)) {
-    caches.open(cacheName).then(async (cache) => {cache.put(request.url, response)})
+const remoteCacheFiles = [
+  "https://cdn.onesignal.com/sdks/OneSignalSDK.js",
+  "https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js",
+  "https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css",
+  "https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js",
+  "https://cdn.jsdelivr.net/npm/sweetalert2@10"
+]
+
+const denyCacheFiles = []
+
+function isCacheFileDenied(url) {
+  return denyCacheFiles.map(path => url == path || url.includes(path)).some(v => v)
+}
+
+function isCacheFileAllow(url) {
+  return  [
+    localCacheFiles.map(path => url == path || url.includes(path)).some(v => v) && !isCacheFileDenied(url),
+    remoteCacheFiles.map(path => url == path || url.includes(path)).some(v => v) && !isCacheFileDenied(url),
+  ].some(v => v)
+}
+
+async function updateCache(request, response){
+  if (isCacheFileAllow(request.url) && request.method.toLowerCase() != 'post') {
+    caches.open(cacheName).then(cache => cache.put(request, response))
   }
-  return res
 }
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(cacheName).then(cache => {
-    return cache.addAll(cacheFiles).then(() => self.skipWaiting())
+    return cache.addAll(localCacheFiles).then(() => {
+      localCacheFiles.forEach(path => { if(isCacheFileDenied(path)) cache.delete(path)})
+      self.skipWaiting()
+    })
   }))
 })
 
@@ -23,16 +47,13 @@ self.addEventListener('activate', event => {
   }))
 })
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', async (event )=> {
   event.respondWith(
-    caches.match(event.request)
-    .then((response) => {
-      if (response) {return response}
-      self.updateCache(event.request, fetch(event.request))
-      return response
-    }).catch(error => {
-      console.log("Serviceworker response error: ", error)
-      return error
+    caches.match(event.request).then(async (response) => {
+      return response || fetch(event.request).then((res) => {
+        self.updateCache(event.request, res.clone())
+        return res
+      })
     })
   )
 })
