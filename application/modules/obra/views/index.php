@@ -41,7 +41,11 @@
                                             <?php echo $valor->id_obra; ?>
                                         </a>
                                     </td>
-                                    <td><?php echo $valor->codigo_obra; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                            <?php echo $valor->codigo_obra; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->empresa; ?></td>
                                     <td><?php echo $valor->obra_razaosocial ?: '-'; ?></td>
                                     <td><?php echo $valor->obra_cnpj ?: '-'; ?></td>

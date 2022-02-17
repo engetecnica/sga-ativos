@@ -617,7 +617,7 @@ class Ativo_veiculo  extends MY_Controller
                 }
                 
                 $this->db->insert('ativo_veiculo_manutencao', $data);
-                $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $data['veiculo_km_atual']]);
+                $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['data_entrada'], "veiculo_km" => $data['veiculo_km_atual']]);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
                 $this->db->where('id_ativo_veiculo_manutencao', $data['id_ativo_veiculo_manutencao'])

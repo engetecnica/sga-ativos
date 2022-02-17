@@ -99,10 +99,10 @@ class Notificacoes_model extends MY_model {
       }
 
       $sendgrid = new SendGridClass($this->configuracao->sendgrid_apikey);
-
+      
       try {
-          $response = $sendgrid->send($sgmail);
-          return $response->statusCode() == 200 || $response->statusCode() == 202;
+        $response = $sendgrid->send($sgmail);
+        return $response->statusCode() == 200 || $response->statusCode() == 202;
       } catch (Exception $e) {
         return false;
       }

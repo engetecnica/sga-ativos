@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" 
-                                            value="<?php echo (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
+                                            value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
                                     </div> 
 
 
@@ -95,8 +95,8 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0000000" class="form-control" 
-                                        min="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? (int) $dados_veiculo->veiculo_km + 1 : 0; ?>"
-                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : ''; ?>">
+                                        min="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? (int) $dados_veiculo->veiculo_km + 1 : null; ?>"
+                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : null; ?>">
                                     </div>
                                     
                                     <div class="col col-md-3">

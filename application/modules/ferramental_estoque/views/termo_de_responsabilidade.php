@@ -85,16 +85,10 @@
             <td></td>
             <td></td>
           </tr>
-        <?php $total_items++; } ?>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Total de Itens</td>
-            <td><?php echo $total_items; ?></td>
-            <td>Valor Total</td>
-            <td><?php echo $this->formata_moeda(array_sum(array_map(function($ativo) {return $ativo->valor;}, $ativos)));?> </td>
-          </tr>
+        <?php 
+          $total_items++; } 
+          $valor_total = $this->formata_moeda(array_sum(array_map(function($ativo) {return $ativo->valor;}, $ativos)));
+        ?>
       </tbody>
   </table>
 
@@ -119,6 +113,6 @@
 
 <footer>
       <img src="<?php echo $footer; ?>"><br>
-      <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small><br>
-      <small>Retirada <?php echo "#{$retirada->id_retirada}";?> em <?php echo $data_hora; ?></small> <small>, Gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></small>
+      <!-- <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small><br>
+      <small>Retirada <?php echo "#{$retirada->id_retirada}";?> em <?php echo $data_hora; ?></small> <small>, Gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></small> -->
 </footer>

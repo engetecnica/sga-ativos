@@ -60,11 +60,7 @@
                                             <?php echo isset($valor->nome) ? $valor->nome : '-'; ?>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href="<?php echo base_url('usuario'); ?>/editar/<?php echo $valor->id_usuario; ?>">
-                                            <?php echo $valor->usuario; ?>
-                                            </a>
-                                        </td>
+                                        <td><?php echo $valor->usuario; ?></td>
                                         <td><?php echo isset($valor->nome_fantasia) ? $valor->nome_fantasia: (isset($valor->razao_socia) ? $valor->razao_social : ''); ?></td>
                                         <td><?php echo $valor->codigo_obra ?: '-'; ?></td>
                                         <td>

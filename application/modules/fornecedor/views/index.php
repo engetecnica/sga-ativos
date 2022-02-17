@@ -22,6 +22,7 @@
                                 <tr>
                                     <th width="7%">Id</th>
                                     <th>Razão Social</th>
+                                    <th>CNPJ</th>
                                     <th>Responsável</th>
                                     <th>E-mail</th>
                                     <th>Celular</th>
@@ -37,7 +38,12 @@
                                             <?php echo $valor->id_fornecedor; ?>
                                         </a>
                                     </td>
-                                    <td><?php echo $valor->razao_social; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>">
+                                            <?php echo $valor->razao_social; ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo $valor->cnpj; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>
                                     <td><?php echo $valor->responsavel_email; ?></td>
                                     <td><?php echo $valor->responsavel_celular; ?></td>

@@ -38,7 +38,11 @@
                                             <?php echo $valor->matricula; ?>
                                         </a>
                                     </td>
-                                    <td><?php echo $valor->nome; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>">
+                                            <?php echo $valor->nome; ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $valor->email; ?></td>
                                     <td><?php echo $valor->celular; ?></td>
                                     <td><?php echo $valor->empresa_social; ?></td>

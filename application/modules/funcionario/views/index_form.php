@@ -81,7 +81,7 @@
                                         <label for="matricula" class=" form-control-label">Matrícula</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="matricula" name="matricula" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->matricula)){ echo $detalhes->nome; } ?>" required="required">
+                                        <input type="text" id="matricula" name="matricula" placeholder="" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->matricula)){ echo $detalhes->matricula; } ?>" required="required">
                                     </div>
                                 </div>
 

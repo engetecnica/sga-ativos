@@ -261,11 +261,13 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
+            "group_by" => "id_ativo_veiculo_manutencao",
             "coluna" => "data_vencimento",
           ],
           [
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
+            "group_by" => "id_ativo_veiculo_manutencao",
             "coluna" => "veiculo_km_proxima_revisao",
             "coluna_vencimento" => "data_vencimento",
             "alerta" => $configuracao->km_alerta,
@@ -274,6 +276,7 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
+            "group_by" => "id_ativo_veiculo_manutencao",
             "coluna" => "veiculo_hora_proxima_revisao",
             "coluna_vencimento" => "data_vencimento",
             "alerta" => $configuracao->operacao_alerta,
@@ -282,11 +285,13 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "ipva",
             "tabela" => "ativo_veiculo_ipva",
+            "group_by" => "id_ativo_veiculo_ipva",
             "coluna" => "ipva_data_vencimento"
           ],
           [
             "nome" => "seguro",
             "tabela" => "ativo_veiculo_seguro",
+            "group_by" => "id_ativo_veiculo_seguro",
             "coluna" => "carencia_fim",
           ],
         ],
@@ -294,6 +299,7 @@ class Relatorio_model_base extends MY_Model {
           [
             "nome" => "calibracao",
             "tabela" => "ativo_externo_certificado_de_calibracao",
+            "group_by" => "id_certificado",
             "coluna" => "data_vencimento",
             "coluna_formato" => "date"
           ],

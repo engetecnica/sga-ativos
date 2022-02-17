@@ -103,6 +103,10 @@ h1  b {
 .tabela td {
   text-align: center;
 }
+.tabela tbody td {
+  font-size: 12px;
+  padding: 3px;
+}
 
 .assinaturas{
   margin-top: 200px;
