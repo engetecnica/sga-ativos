@@ -43,7 +43,10 @@ class Ativo_configuracao  extends MY_Controller {
         $data['titulo'] = ucwords($this->input->post('titulo'));
         $data['situacao'] = $this->input->post('situacao');
         $data['slug'] = strtolower($this->input->post('slug'));
-        $data['permit_edit'] = $data['permit_delete'] = 1;
+
+        if($data['id_ativo_configuracao'] == ''){
+            $data['permit_edit'] = $data['permit_delete'] = "1";
+        }
 
         $configuracao = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao']);
         $vinculo = $this->ativo_configuracao_model->get_ativo_configuracao($data['id_ativo_configuracao_vinculo']);
@@ -65,7 +68,7 @@ class Ativo_configuracao  extends MY_Controller {
         }
 
         $this->ativo_configuracao_model->salvar_formulario($data);
-        if($data['id_ativo_configuracao']==''){
+        if($data['id_ativo_configuracao'] == ''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            

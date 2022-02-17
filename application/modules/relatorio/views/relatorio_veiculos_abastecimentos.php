@@ -1,11 +1,5 @@
-<page>
-<style media="all"><?php echo $css;?></style>
-<header>
-    <img src="<?php echo $header;?>">
-</header>
-
-  <h1>Veículos Abastecimentos</h1>
-  <p>Relatório de abastecimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
+<h1>Veículos Abastecimentos</h1>
+<p>Relatório de abastecimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
 
 
 <?php if (count($relatorio->abastecimentos) > 0) {?>
@@ -56,12 +50,6 @@
           </tr>
       </tbody>
   </table>
-  <?php } else { ?>
-    <p>Nenhum abastecimento de veículo registrado no peíodo</p>
-  <?php } ?>
-
-<footer>
-  <img src="<?php echo $footer; ?>"><br>
-  <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small>
-</footer>
-</page>
+<?php } else { ?>
+  <p>Nenhum abastecimento de veículo registrado no peíodo</p>
+<?php } ?>

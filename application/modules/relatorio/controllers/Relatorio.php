@@ -32,18 +32,20 @@ class Relatorio extends MY_Controller {
     }
 
     public function get_relatorio_pdf($relatorio_nome, $relatorio_data){
-      $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
       $data = [
-          'css' =>  $css, 
+          'css' =>  file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null), 
           'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
           'header' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_header.png"),
           'footer' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_footer.png"),
           'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
           'relatorio' => $relatorio_data
       ];
-
+      
       $filename = "relatorio_{$relatorio_nome}_" . date('YmdHis', strtotime('now')).".pdf";
-      $html = $this->load->view("/../views/relatorio_{$relatorio_nome}", $data, true);
+      $html = $this->load->view("/../views/relatorio_top", $data, true);
+      $html .= $this->load->view("/../views/relatorio_{$relatorio_nome}", $data, true);
+      $html .= $this->load->view("/../views/relatorio_footer", $data, true);
+
       $upload_path = "assets/uploads/relatorio";
       $path = __DIR__."/../../../../{$upload_path}";
   

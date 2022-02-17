@@ -20,9 +20,9 @@ function isCacheFileDenied(url) {
 }
 
 function isCacheFileAllow(url) {
-  return  [
-    localCacheFiles.map(path => url == path || url.includes(path)).some(v => v) && !isCacheFileDenied(url),
-    remoteCacheFiles.map(path => url == path || url.includes(path)).some(v => v) && !isCacheFileDenied(url),
+  return isCacheFileDenied(url) ? false : [
+    localCacheFiles.map(path => url == path || url.includes(path)).some(v => v),
+    remoteCacheFiles.map(path => url == path || url.includes(path)).some(v => v),
   ].some(v => v)
 }
 

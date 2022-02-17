@@ -155,7 +155,6 @@
 </section>
 
 <footer>
-  <img src="<?php echo $footer; ?>"><br>
-  <small><b>ENGETÉCNICA ENGENHARIA E CONSTRUÇÃO LTDA</b>, Rua João Bettega, n.1160, Portão, Curitiba-PR | Fone: (41) 4040-4676</small>
+  <img src="<?php echo $footer; ?>">
 </footer>
 </page>
