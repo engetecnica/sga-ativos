@@ -571,21 +571,28 @@ $config['one_signal_apiurl'] = isset($_ENV["ONESIGNAL_APIURL"]) ? $_ENV["ONESIGN
  * App Email Notifications
 */
 //From
-$config['notifications_email'] = isset($_ENV["APP_NOTIFICATION_FROM_EMAIL"]) ? $_ENV["APP_NOTIFICATION_FROM_EMAIL"] : null;
-$config['notifications_address'] = [];
+$config['smtp']['host']  = isset($_ENV["SMTP_HOST"]) ? $_ENV["SMTP_HOST"] : "smtp.gmail.com";
+$config['smtp']['port']  = isset($_ENV["SMTP_PORT"]) ? $_ENV["SMTP_PORT"] : 587;
+$config['smtp']['auth']  = isset($_ENV["SMTP_AUTH"]) ? $_ENV["SMTP_AUTH"] : true;
+$config['smtp']['user']  = isset($_ENV["SMTP_USER"]) ? $_ENV["SMTP_USER"] : "";
+$config['smtp']['pass']  = isset($_ENV["SMTP_PASS"]) ? $_ENV["SMTP_PASS"] : "";
+$config['smtp']['reply_to']  = isset($_ENV["SMTP_REPLY"]) ? $_ENV["SMTP_REPLY"] : $config['smtp']['user'];
+$config['smtp'] = (object) $config['smtp'];
+
+$config['notifications_email_to'] = [];
 
 //To
 if (isset($_ENV["APP_NOTIFICATION_TO_NAME"]) && isset($_ENV["APP_NOTIFICATION_TO_EMAIL"])) {
     $name = $_ENV["APP_NOTIFICATION_TO_NAME"];
     $email = $_ENV["APP_NOTIFICATION_TO_EMAIL"];
-    $config['notifications_address'][$name] = $email;
+    $config['notifications_email_to'][$name] = $email;
 }
 
 foreach (range(1, 10) as $id) {
     if (isset($_ENV["APP_NOTIFICATION_TO_NAME{$id}"]) && isset($_ENV["APP_NOTIFICATION_TO_EMAIL{$id}"])) {
         $name = $_ENV["APP_NOTIFICATION_TO_NAME{$id}"];
         $email = $_ENV["APP_NOTIFICATION_TO_EMAIL{$id}"];
-        $config['notifications_address'][$name] = $email;
+        $config['notifications_email_to'][$name] = $email;
     }
 }
 

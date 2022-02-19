@@ -46,19 +46,36 @@ class App extends MY_Controller {
     }
   
     public function test_email(){
-      $return = $this->erro_enviroment;
+      $success = $this->erro_enviroment;
       if (getenv('CI_ENV') == 'development') {
+
+        $styles = $this->notificacoes_model->getEmailStyles();
         $top = $this->load->view('relatorio/email_top', [
-          'ilustration' => "welcome", 
+          "ilustration" => false,
           "assunto" => "Test email", 
           "styles" => $this->notificacoes_model->getEmailStyles()
         ], true);
-        $email = "<h1> Teste email</h1> <p>Essa é uma mensagem de teste, caso esteja lendo isso, significa que tudo está funcionando como o esperado.</p>";
+
+        $email = "
+          <p style=\"{$styles['p']}\">
+            Essa é uma mensagem de teste, caso esteja lendo isso, significa que tudo está funcionando como o esperado.
+          </p>
+        ";
         $footer = $this->load->view('relatorio/email_footer', null, true);
-        $html = $top.$email.$footer;
-        $return = $this->notificacoes_model->enviar_email("Test Email", $html, $this->config->item("notifications_address"));
+
+        $success = $this->notificacoes_model->enviar_email(
+          "Test Email", 
+          "{$top}{$email}{$footer}", 
+          $this->config->item("notifications_email_to"),
+          [
+            "ilustration" => "images/ilustrations/welcome.png",
+          ],
+          [
+           "anexo_test" => "images/ilustrations/welcome.png",
+          ]
+        );
       }
-      $this->json(['success' => $return]);
+      $this->json(['success' => $success]);
     }
   
     public function test_push(){
@@ -72,6 +89,7 @@ class App extends MY_Controller {
           ],
           "url" => "/"
         ]);
+        $return->success = $return->status == 200;
       }
       $this->json($return);
     }

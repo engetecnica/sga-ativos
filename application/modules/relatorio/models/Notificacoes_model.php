@@ -1,9 +1,8 @@
 <?php 
 require_once(__DIR__."/Relatorio_model_base.php");
 use \GuzzleHttp\Client;
-use \SendGrid\Mail\Mail;
-use \SendGrid as SendGridClass;
-
+use \PHPMailer\PHPMailer\PHPMailer;
+use \PHPMailer\PHPMailer\Exception as PHPMailerException;
 
 class Notificacoes_model extends MY_model {
 
@@ -70,7 +69,7 @@ class Notificacoes_model extends MY_model {
             "body" => json_decode($response->getBody()->getContents())
         ];
       }
-      catch (Exception $e) {
+      catch (\Exception $e) {
         return (object) [
           "status" => $e->getCode(),
           "body" => ['errors' => [$e->getMessage()]]
@@ -84,28 +83,50 @@ class Notificacoes_model extends MY_model {
     ];
   }
 
-  public function enviar_email($assunto, $mensagem, $destinos = []){
-    if ($this->configuracao && $this->configuracao->permit_notificacoes_email && count($destinos) > 0) {
-      $sgmail = new Mail(); 
-      $sgmail->setSubject($assunto);
-      $sgmail->setFrom($this->configuracao->origem_email, $this->configuracao->app_descricao ?: "Engetecnica App");
-      $sgmail->addContent("text/html", $mensagem);
-      
-      $email_count = 0;
+  public function enviar_email($assunto, $mensagem, $destinos = [], $embeddedImages = [], $anexos = []){
+    $assets_path = APPPATH."../assets/";
+    $smtp = $this->config->item("smtp");
+    $mail = new PHPMailer(true);
+
+    try {
+      $mail->isSMTP();
+      $mail->CharSet = "UTF-8";
+      $mail->Host       = $smtp->host;
+      $mail->SMTPAuth   = $smtp->auth;
+      $mail->Username   = $smtp->user;
+      $mail->Password   = $smtp->pass;
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+      $mail->Port       = $smtp->port; 
+      $mail->setFrom($smtp->user, $this->configuracao->app_descricao ?: "Engetecnica");
+
       foreach ($destinos as $nome => $email){
-        if ($email == null && $email_count == 0) return false;
-        $sgmail->addTo($email, $nome);
-        $email_count++;
+        if ($email != null) $mail->addAddress($email, $nome);
       }
 
-      $sendgrid = new SendGridClass($this->configuracao->sendgrid_apikey);
-      
-      try {
-        $response = $sendgrid->send($sgmail);
-        return $response->statusCode() == 200 || $response->statusCode() == 202;
-      } catch (Exception $e) {
-        return false;
+      $layoutImages = [
+        "header" => "images/docs/termo_header.png",
+        "footer" => "images/docs/termo_footer.png",
+      ];
+
+      $embeddedImages = array_merge($layoutImages, is_array($embeddedImages) ? $embeddedImages : []);
+      foreach ($embeddedImages as $nome => $path) {
+        $mail->addEmbeddedImage("{$assets_path}/$path", $nome);
       }
+  
+      foreach ($anexos as $nome => $path) {
+        $filepath = "{$assets_path}/$path";
+        if(is_string($nome)) $mail->addAttachment($filepath, $nome);
+        else $mail->addAttachment($filepath);
+      }
+
+      $mail->isHTML($mensagem != strip_tags($mensagem));
+      $mail->Subject = $assunto;
+      $mail->Body = $mail->msgHTML($mensagem, $assets_path);
+      $mail->AltBody = strip_tags($mensagem);
+
+      return $mail->send();;
+    } catch (PHPMailerException $e) {
+      echo "Message could not be sent. Mailer Error: {$e->getMessage()}";
     }
     return false;
   }

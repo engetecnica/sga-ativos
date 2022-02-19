@@ -1071,6 +1071,15 @@ class Relatorio_model extends Relatorio_model_base {
       return true;
   }
 
+  public function getSendAdrress() : array
+  {
+    $send_address = $this->config->item("notifications_email_to") != null ? $this->config->item("notifications_email_to") : [];
+    array_map(function($user) use (&$send_address) {
+      $send_address = array_merge($send_address, ["$user->nome" => $user->email]);
+    }, $this->db->where("nivel = '1' and permit_notification_email = '1' and email_confirmado_em IS NOT NULL")->get('usuario')->result());
+    return $send_address;
+  }
+
   public function informe_vencimentos($days = 0, $id_obra = null){
     $date = date('Y-m-d', strtotime("+{$days} days"));
     $now = date('Y-m-d H:i:s');
@@ -1161,11 +1170,11 @@ class Relatorio_model extends Relatorio_model_base {
         }
       }
     }
-    
+
     return (object) $results;
   }
 
-  public function enviar_informe_vencimentos($dias_restantes = 30, $showhtml = false){
+  public function enviar_informe_vencimentos($dias_restantes = 30, $debug = false){
     $relatorio_data = $this->informe_vencimentos($dias_restantes);
 
     if (count((array) $relatorio_data) > 0) {
@@ -1177,17 +1186,18 @@ class Relatorio_model extends Relatorio_model_base {
       ];
       $html = $this->load->view("relatorio/relatorio_informe_vencimentos", $data, true);
 
-      if ($showhtml) {
+      if ($debug) {
         echo $html;
         return true;
       }
 
-      $send_address = $this->config->item("notifications_address") != null ? $this->config->item("notifications_address") : [];
-      array_map(function($user) use (&$send_address) {
-        $send_address = array_merge($send_address, ["$user->nome" => $user->email]);
-      }, $this->db->where("nivel = '1' and permit_notification_email = '1' and email_confirmado_em IS NOT NULL")->get('usuario')->result());
-
-      return count($send_address) > 0 ? $this->notificacoes_model->enviar_email("Informe de Vencimentos", $html, $send_address) : false;
+      $send_address = $this->getSendAdrress();
+      return count($send_address) > 0 ? $this->notificacoes_model->enviar_email(
+        "Informe de Vencimentos", 
+        $html, 
+        $send_address,
+        ["ilustration" => "images/ilustrations/schedule_meeting.png"]
+      ) : false;
     }
     return true;
   }
@@ -1212,7 +1222,7 @@ class Relatorio_model extends Relatorio_model_base {
             ->get('ativo_externo_retirada atv')->result();
   }
 
-  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "now", $showhtml = false){
+  public function enviar_informe_retiradas_pendentes($data_hora_vencimento = "now", $debug = false){
     $data_hora_vencimento = date("Y-m-d 23:59:59", strtotime($data_hora_vencimento));
     $relatorio_data = $this->informe_retiradas_pendentes($data_hora_vencimento);
     if (count($relatorio_data) > 0) {
@@ -1224,13 +1234,20 @@ class Relatorio_model extends Relatorio_model_base {
       ];
 
       $html = $this->load->view("relatorio/relatorio_informe_retiradas_pendentes", $data, true);
-      if ($showhtml) {
+      if ($debug) {
         echo $html;
         return true;
       }
 
       $date = date("d/m/Y", strtotime($data_hora_vencimento));
-      return $this->notificacoes_model->enviar_email("Retiradas Pêndentes de Devolução | $date", $html, $this->config->item("notifications_address"));
+      $send_address = $this->getSendAdrress();
+
+      return count($send_address) > 0 ? $this->notificacoes_model->enviar_email(
+        "Retiradas Pêndentes de Devolução | {$date}", 
+        $html, 
+        $send_address,
+        ["ilustration" => "images/ilustrations/schedule_meeting.png"]
+      ) : false;
     }
     return true;
   }

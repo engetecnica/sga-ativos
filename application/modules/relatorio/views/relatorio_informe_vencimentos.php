@@ -1,15 +1,14 @@
-<?php $this->load->view('email_top', ['ilustration' => ['schedule_meeting'], "assunto" => "Informe de Vencimentos", "dias" => $dias]); ?>
-
-<strong style="<?php echo $styles['strong'];?>">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias ou de acordo com Quilometragem e/ou Tempo de Operação (Para Manutenções de veículos)</strong><br>
-
+<?php $this->load->view('email_top', ['ilustration' => true, "assunto" => "Informe de Vencimentos", "dias" => $dias]); ?>
 
 <?php 
    if (count((array) $relatorio) > 0){
     foreach($relatorio as $rel) {
 ?>
     <?php if ($rel->modulo == 'ativo_veiculo') { ?>   
-    <?php if ($rel->tipo == 'manutencao') { ?>  
-    <h3 style="<?php echo $styles['title'];?>">Manutenções de Veículos</h3>
+    <?php if ($rel->tipo == 'manutencao') { ?> 
+        <p style="<?php echo $styles['p'];?>">A Vencer em <?php echo isset($dias) ? $dias : 30; ?> dias ou de acordo com Quilometragem e/ou Tempo de Operação (Para Manutenções de veículos)</p>
+        <h3 style="<?php echo $styles['title'];?>">Manutenções de Veículos</h3>
+    
     <table style="<?php echo $styles['table'];?>">
         <thead style="<?php echo $styles['thead'];?>">
             <tr style="<?php echo $styles['tr'];?>">
@@ -27,12 +26,12 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($rel->data as $i => $manutencao) { ?>
-            <tr style="<?php echo $styles['tr'];?>">
+            <?php foreach($rel->data as $i => $manutencao) {?>
+            <tr style="<?php echo $styles['tr']; echo $i % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->id_ativo_veiculo; ?></td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->veiculo_placa; ?></td>
-                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->veiculo; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->veiculo_placa ?: $manutencao->id_interno_maquina; ?></td>
+                <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->marca ." <br> ".$manutencao->modelo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->fornecedor; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $manutencao->servico; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $this->formata_moeda($manutencao->veiculo_custo);?> </td>
@@ -44,7 +43,7 @@
             <?php } ?>
         </tbody>
     </table>
-    <br><small>* Quilometragem e/ou tempo de operação restante até a proxima revisão. <small><br><br>
+    <br><small style="<?php echo $styles['small'];?>">* Quilometragem e/ou tempo de operação restante até a proxima revisão. <small><br><br>
     <?php } ?>
 
 
@@ -65,7 +64,7 @@
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $ipva) { ?>
-            <tr style="<?php echo $styles['tr']; echo $i + 1 % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
+            <tr style="<?php echo $styles['tr']; echo $i % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->id_ativo_veiculo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ipva->veiculo; ?></td>
@@ -98,7 +97,7 @@
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $seguro) { ?>
-            <tr style="<?php echo $styles['tr']; echo $i + 1 % 2 == 0 ? $styles['tr']  : $styles['tr2']; ?>">
+            <tr style="<?php echo $styles['tr']; echo $i % 2 == 0 ? $styles['tr']  : $styles['tr2']; ?>">
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->id_ativo_veiculo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $seguro->veiculo; ?></td>
@@ -129,7 +128,7 @@
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $ativo) { $i++; ?>
-            <tr style="<?php echo $styles['tr']; echo ($i % 2 )== 0 ? $styles['tr']  : $styles['tr2'];?>">
+            <tr style="<?php echo $styles['tr']; echo $i % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->id_ativo_externo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->codigo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->nome; ?></td>
@@ -159,7 +158,7 @@
         </thead>
         <tbody>
             <?php foreach($rel->data as $i => $ativo) { $i++; ?>
-            <tr style="<?php echo $styles['tr']; echo ($i % 2 )== 0 ? $styles['tr']  : $styles['tr2'];?>">
+            <tr style="<?php echo $styles['tr']; echo $i % 2 == 0 ? $styles['tr']  : $styles['tr2'];?>">
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->id_ativo_externo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->codigo; ?></td>
                 <td style="<?php echo $styles['tr_td_th'];?>" ><?php echo $ativo->nome; ?></td>
@@ -174,11 +173,7 @@
    <?php } ?>
 
   <?php } } else {  ?>
-    <strong style="<?php echo $styles['strong'];?>" >Nenhum item encontrado para o período.</strong>
+    <p style="<?php echo $styles['p'];?>" >Nenhum item encontrado para o período.</p>
   <?php } ?>
-
-<br>
-<p style="<?php echo $styles['p'];?>">Relatório Informe de Vencimentos, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?></p>
-<br> </br>
 
 <?php $this->load->view('email_footer'); ?>

@@ -179,12 +179,17 @@ class usuario_model extends MY_Model {
 			[
 				'usuario' => $usuario, 
 				"codigo" => $codigo, 
-				"validade" => strtotime($validade),
+				"validade" => date("d/m/Y H:i:s", strtotime($validade)),
 				'styles' => $this->notificacoes_model->getEmailStyles(),
 			], 
 			true
 		);
-		return $this->notificacoes_model->enviar_email("Confirmar Email", $html, ["{$usuario->nome}" => $usuario->email]);
+		return $this->notificacoes_model->enviar_email(
+			$template == "email_confirmacao" ? "Confirmar Email" : "Boas Vindas", 
+			$html, 
+			["{$usuario->nome}" => $usuario->email],  
+			["ilustration" => $template == "email_confirmacao" ? "images/ilustrations/order_confirmed.png": "images/ilustrations/welcoorder_confirmedme.png"]
+		);
 	}
 
 	public function enviar_email_recuperacao($usuario, $codigo, $validade = "+60 minutes"){
@@ -193,11 +198,16 @@ class usuario_model extends MY_Model {
 				[
 					'usuario' => $usuario, 
 					"codigo" => $codigo, 
-					"validade" =>  strtotime($validade),
+					"validade" =>  date("d/m/Y H:i:s", strtotime($validade)),
 					'styles' => $this->notificacoes_model->getEmailStyles(),
 				], 
 				true
 		);
-		return $this->notificacoes_model->enviar_email("Redefinição de Senha", $html, ["{$usuario->nome}" => $usuario->email]);
+		return $this->notificacoes_model->enviar_email(
+			"Redefinição de Senha", 
+			$html, 
+			["{$usuario->nome}" => $usuario->email],
+			["ilustration" => "images/ilustrations/forgot_password.png"]
+		);
 	}
 }

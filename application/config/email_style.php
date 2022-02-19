@@ -3,44 +3,100 @@ $colors = [
     "default" => "#fd9e0f",
     "black" => "#000",
     "black2" => "#002",
-    "black3" => "#003",
+    "black3" => "#333",
     "black_shadow" => "rgba(0,0,0, .1)",
     "white" => "#FFF",
-    "white2" => "#FFE",
+    "white2" => "#EEE",
 ];
 
 return [
     //top
-    "body"=> "padding: 0px; margin:0; font-family: sans-serif; font-size: 18px;",
-    "body > div" => "padding: 40px; background: #eee; text-align: center;",
-    "body > div > h1" => "color: {$colors['default']}; font-size: 35px; margin-bottom: 0;",
-    "body > div > h2" => "color: {$colors['black3']}; font-size: 25px; margin-top: 0;",
-    "body > div > img" => "width: 40vh;",
+    "layout-img-top" => "
+        margin-left: 0;
+        min-width: 80%; 
+        margin-top: 0 !important;
+        margin-bottom: 40px;
+    ",
+    "layout-img-footer" => "width: 100%;  margin-top: 40px;",
+    "ilustration" => "
+        width: 30%;
+        margin: 0px auto; 
+    ",
+    "body" => "
+        padding: 0px !important; 
+        margin: 0 !important; 
+        font-family: \"Poppins\", sans-serif !important; 
+        font-size: 18px;
+    ",
+    "body > div" => "background: #FFF; text-align: center;",
+    "h1" => "color: {$colors['default']}; font-size: 22px; margin-bottom: 20px;",
+    "h2" => "color: {$colors['black3']}; font-size: 20px; margin-top: 0;",
+    "p" => "color: {$colors['black3']}; margin: 0; font-size: 13px;",
+    "body > div > img" => "width: 10vh;",
 
     //content
-    "content" => "padding: 40px; color: #002;",
-    "strong" => "font-size: 1.3rem;",
+    "content" => "padding: 0px; color: #002;",
+    "strong" => "
+        color: {$colors['black3']};
+        font-size: 16px; 
+        margin-bottom: 20px;
+    ",
     "strong > b" => "color: {$colors['default']};",
-    "p" => "font-size: 1rem;",
+    "small" => "font-size: 10px;",
     "p > b" => "color: {$colors['default']};",
     "btn" => "
         background: {$colors['default']}; 
         color: {$colors['white']}; 
-        font-weight: 400; font-size: 15px; 
+        font-weight: 400; 
+        font-size: 12px; 
         padding: 10px 15px;
         text-decoration:none; 
         border-radius: 5px;
         margin: 10px; 
         cursor: pointer;
     ",
-    "table" => "border: none; box-shadow: 1px 1px 10px {$colors['black_shadow']}; border-radius: 8px; margin: 0 auto;",
-    "thead" => "background-color: {$colors['black3']}; color: {$colors['white']}; font-size: 16px; text-align: center; font-weight: bold;",
-    "tr_td_th" => "padding: 10px;",
-    "first_th" => "border-radius: 5px 0 0 0;",
-    "last_th" => "border-radius: 0 5px 0 0;",
-    "tr" => "font-size: 12px; text-align: center; padding: 10px;",
-    "tr2" => "background: {$colors['white2']};",
-    "title" => "color: {$colors['black2']}; text-align: center;",
+    "table" => "
+        box-shadow: 1px 1px 10px {$colors['black_shadow']}; 
+        border-radius: 8px; margin: 0 auto;
+        border-collapse: collapse;
+        max-width: 80%;
+        padding: 10px;
+    ",
+    "thead" => "
+        background-color: {$colors['default']}; 
+        color: {$colors['black3']}; 
+        font-size: 12px; text-align: center; 
+        font-weight: bold;
+        padding: 2px; 
+        background: #333;
+        font-size: 16px;
+        color: #fff;
+        vertical-align: middle;
+        font-weight: 400;
+        text-transform: capitalize;
+    ",
+    "tr_td_th" => "
+        padding: 10px 4px; 
+        font-size: 9.8px !important;
+        vertical-align: middle;
+        font-weight: 300;
+        text-transform: capitalize;
+        line-height: 1;
+        white-space: nowrap;
+    ",
+    "first_th" => "border-radius: 2px 0 0 0;",
+    "last_th" => "border-radius: 0 2px 0 0;",
+    "tr" => "font-size: 12px; text-align: center; padding: 10px; font-size: 12px;",
+    "tr2" => "background: {$colors['white2']}; font-size: 12px;",
+    "title" => "
+        color: {$colors['black2']}; 
+        font-size: 16px 
+        padding: 0;
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    ",
 
     //footer
     "footer" => "padding: 40px; color: #002; font-size: 12px;",
