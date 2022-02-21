@@ -249,7 +249,7 @@ class Ativo_externo  extends MY_Controller {
                 }
 
                 if($mode == 'update'){
-                    $items[$i]['situacao'] = $this->input->post('situacao');
+                    $items[$i]['situacao'] = $this->input->post('situacao')[$i];
                 }
 
                 $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
