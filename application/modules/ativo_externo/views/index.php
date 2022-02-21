@@ -29,7 +29,75 @@
                     <h2 class="title-1 m-b-25">Ativos Externo</h2>
                 </div>
             </div>
-            
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive table--no-card m-b-40">
+                        <h3 class="title-1 m-b-25">Grupos</h3>
+                        <table class="table table-borderless table-striped table-earning" id="lista2">
+                            <thead>
+                                <tr>
+                                    <th>GID</th>
+                                    <th>Grupo</th>
+                                    <th>Total</th>
+                                    <th>Em Estoque</th>
+                                    <th>Tipo</th>
+                                    <th>Gerenciar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($grupos as $valor){ ?>
+                                <tr id="<?php echo "grupo-".$valor->id_ativo_externo; ?>">
+                                    <td><?php echo $valor->id_ativo_externo_grupo; ?></td>
+                                    <td><?php echo $valor->nome; ?></td>
+                                    <td><?php echo $valor->total; ?></td>
+                                    <td><?php echo $valor->estoque; ?></td>
+                                    <td>
+                                        <?php if($valor->tipo == 1) { ?>
+                                            <button class="badge badge-primary">Kit</button>
+                                          <?php } else { ?>
+                                            <button class="badge badge-secondary">Unidade</button>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button id="ativo_externo_group" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gerenciar
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="ativo_externo_group">
+                                                <a class="dropdown-item " href="<?php echo base_url('ativo_externo/adicionar'); ?>/<?php echo $valor->id_ativo_externo_grupo; ?>">
+                                                    <i class="fa fa-plus"></i> Adicionar
+                                                </a>
+
+                                                <?php if ($valor->estoque > $valor->foradeoperacao) {?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item " href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>">
+                                                    <i class="fa fa-edit"></i> Editar</a>
+                                                <?php } ?>
+
+                                                <?php if ($valor->estoque == $valor->total && $this->ativo_externo_model->permit_delete_grupo($valor->id_ativo_externo_grupo)) {?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
+                                                    data-tabela="ativo_externo" class="dropdown-item  deletar_registro"><i class="fa fa-trash"></i>&nbsp; Excluir Grupo</a>
+                                                <?php } ?>
+
+                                                <?php if ($this->ativo_externo_model->permit_descarte_grupo($valor->id_ativo_externo_grupo, $user->id_obra) && 
+                                                    !$this->ativo_externo_model->verifica_descarte_grupo($valor->id_ativo_externo_grupo, $user->id_obra)) {?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
+                                                    redirect="true" data-tabela="ativo_externo" class="dropdown-item  confirmar_registro"><i class="fa fa-ban"></i>&nbsp;  Descartar Grupo</a>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                               <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
@@ -154,73 +222,6 @@
                                                     >
                                                         <i class="fa fa-trash"></i> Excluir
                                                     </a>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-responsive table--no-card m-b-40">
-                        <h3 class="title-1 m-b-25">Grupos</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista2">
-                            <thead>
-                                <tr>
-                                    <th>GID</th>
-                                    <th>Grupo</th>
-                                    <th>Total</th>
-                                    <th>Em Estoque</th>
-                                    <th>Tipo</th>
-                                    <th>Gerenciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($grupos as $valor){ ?>
-                                <tr id="<?php echo "grupo-".$valor->id_ativo_externo; ?>">
-                                    <td><?php echo $valor->id_ativo_externo_grupo; ?></td>
-                                    <td><?php echo $valor->nome; ?></td>
-                                    <td><?php echo $valor->total; ?></td>
-                                    <td><?php echo $valor->estoque; ?></td>
-                                    <td>
-                                        <?php if($valor->tipo == 1) { ?>
-                                            <button class="badge badge-primary">Kit</button>
-                                          <?php } else { ?>
-                                            <button class="badge badge-secondary">Unidade</button>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button id="ativo_externo_group" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="ativo_externo_group">
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_externo/adicionar'); ?>/<?php echo $valor->id_ativo_externo_grupo; ?>">
-                                                    <i class="fa fa-plus"></i> Adicionar
-                                                </a>
-
-                                                <?php if ($valor->estoque > $valor->foradeoperacao) {?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item " href="<?php echo base_url('ativo_externo'); ?>/editar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>">
-                                                    <i class="fa fa-edit"></i> Editar</a>
-                                                <?php } ?>
-
-                                                <?php if ($valor->estoque == $valor->total && $this->ativo_externo_model->permit_delete_grupo($valor->id_ativo_externo_grupo)) {?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/deletar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
-                                                    data-tabela="ativo_externo" class="dropdown-item  deletar_registro">Excluir Grupo</a>
-                                                <?php } ?>
-
-                                                <?php if (($valor->estoque < $valor->total) && ($valor->estoque == $valor->foradeoperacao)) {?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_externo'); ?>/descartar_grupo/<?php echo $valor->id_ativo_externo_grupo; ?>" data-registro="<?php echo $valor->id_ativo_externo_grupo;?>" 
-                                                    redirect="true" data-tabela="ativo_externo" class="dropdown-item  confirmar_registro">Descartar Grupo</a>
                                                 <?php } ?>
                                             </div>
                                         </div>

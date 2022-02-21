@@ -66,7 +66,11 @@ class Index extends MY_Controller {
         }
 
         $user = $this->db->where('id_usuario', $this->user->id_usuario)->get('usuario')->row();
-        return $this->json(["success" => $user && $success, 'id_obra_gerencia' => $user->id_obra_gerencia]);
+        $this->user = $this->buscar_dados_logado($user);
+
+        $redirect_url = $this->input->post("redirect_url");
+        if ($redirect_url) echo redirect($redirect_url);
+        else return $this->json(["success" => $user && $success, 'id_obra_gerencia' => $user->id_obra_gerencia]);
     }
 
     # Manipular novos registros através do CSV

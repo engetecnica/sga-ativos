@@ -1,12 +1,18 @@
 <!-- Seleciona Obra a Gerenciar-->
 <div id="selecionar_obra" class="row selecionar_obra">
     <small class="col-12">Gerenciar Obra</small>
-    <select class="select2 form-control" onchange="selecionar_obra.select2Obra()" v-model="id_obra" id="selecionar_id_obra">
-        <option v-if="!user.id_obra_gerencia && user.id_obra" :value="user.id_obra">{{ formataDescricao(obras.find(ob => ob.id_obra == user.id_obra)) }}</option>
-        <option v-if="!user.id_obra" :value="null">Selecione uma Obra</option>
-        <option v-for="obra in filterObras" :value="obra.id_obra">{{ formataDescricao(obra) }}</option>
-    </select>
-    <button :disabled="!enableButton" class="btn btn-primary" @click.prevent="seleciona_obra()">OK</button>
+    <form class="col-12 selecionar_obra_form" method="POST" action="/index/selecionar_obra" class="selecionar_obra_form">
+        <select 
+            class="select2 form-control" onchange="selecionar_obra.select2Obra()" 
+            v-model="id_obra" id="selecionar_id_obra" id="id_obra_gerencia" name="id_obra_gerencia"
+        >
+            <option v-if="!user.id_obra_gerencia && user.id_obra" :value="user.id_obra">{{ formataDescricao(obras.find(ob => ob.id_obra == user.id_obra)) }}</option>
+            <option v-if="!user.id_obra" :value="null">Selecione uma Obra</option>
+            <option v-for="obra in filterObras" :value="obra.id_obra">{{ formataDescricao(obra) }}</option>
+        </select>
+        <input type="hidden" name="redirect_url" id="redirect_url" v-model="redirect_url">
+        <button :disabled="!enableButton" type="submit" class="btn btn-primary">OK</button>
+    </form>
 </div>
 
 <script>
@@ -27,6 +33,7 @@
                 id_obra: user.id_obra_gerencia ? parseInt(user.id_obra_gerencia) : user.id_obra,
                 obras: obras,
                 selection: null, 
+                redirect_url: window.location.href,
             }
         },
         computed: {
@@ -47,9 +54,10 @@
                     url: `${base_url}index/selecionar_obra`,
                     data: {
                         id_obra_gerencia: this.id_obra,
+                        redirect_url: window.location.href
                     }
                 })
-                .done(function(response) {
+                .done((response) => {
                     if(!response.success) {
                         Swal.fire({
                             title: 'Ocorreu um erro',
@@ -59,7 +67,7 @@
                         })
                     }
                     this.id_obra = parseInt(response.id_obra_gerencia)
-                    window.location.href = window.location.href
+                    //window.location.href = window.location.href
                 })
             },
             select2Obra(){

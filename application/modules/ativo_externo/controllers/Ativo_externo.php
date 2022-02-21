@@ -9,6 +9,8 @@
  */
 class Ativo_externo  extends MY_Controller {
 
+    public $codigo_prefixo = "ENG";
+
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_externo_model');
@@ -219,42 +221,43 @@ class Ativo_externo  extends MY_Controller {
 
 
     function salvar(){
-        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
-        $data['mode'] = $this->input->post('mode');
-        $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
+        $mode = $this->input->post('mode');
         $id_obra = $this->input->post('id_obra');
-        $prefixo = "ENG";
-    
-        if (!$id_obra) {
-            $id_obra = $this->user->id_obra;
-        }
+        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
+        $id_grupo = $this->input->post('id_ativo_externo_grupo') ? $this->input->post('id_ativo_externo_grupo') : $this->ativo_externo_model->get_proximo_grupo();
+       
+        if (!$id_obra) $id_obra =  $this->user->nivel == 1 && $this->user->id_obra_gerencia ? $this->user->id_obra_gerencia : $this->user->id_obra;
 
         $ativos = $this->ativo_externo_model->get_ativos(null, null);
-        $ativos_quantidade_total = count($ativos);
-
 
         if ($quantidade > 0) {
             $items = [];
-            
-            $ativos_contagem = $ativos_quantidade_total + 1; // Próximo objeto
+            $ativos_contagem = count($ativos) + 1;
 
             for($i=0; $i < $quantidade; $i++) {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
                     $items[$i]['id_ativo_externo'] = $this->input->post('id_ativo_externo')[$i];
-                    
                     if ($this->ativo_externo_model->permit_edit_situacao($items[$i]['id_ativo_externo'])) {
                         $items[$i]['situacao'] = $this->input->post('situacao')[$i];
                     }
                 }
 
-                 $items[$i]['id_ativo_externo_grupo']         = $id_grupo;
-                 $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
-                 $items[$i]['tipo']                           = $this->input->post('tipo');
-                 $items[$i]['id_obra']                        = $id_obra;
-                 $items[$i]['nome']                           = ucwords($this->input->post('nome'));
-                 $items[$i]['observacao']                     = $this->input->post('observacao');
-                 $items[$i]['necessita_calibracao']           = $this->input->post('necessita_calibracao');
-                 $items[$i]['codigo']                         = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $prefixo.$ativos_contagem;
+                if($mode == 'insert'){
+                    $items[$i]['id_ativo_externo_grupo'] = $id_grupo;
+                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$ativos_contagem;
+                    $items[$i]['situacao'] = 12;
+                }
+
+                if($mode == 'update'){
+                    $items[$i]['situacao'] = $this->input->post('situacao');
+                }
+
+                $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
+                $items[$i]['tipo']                           = $this->input->post('tipo');
+                $items[$i]['id_obra']                        = $id_obra;
+                $items[$i]['nome']                           = ucwords($this->input->post('nome'));
+                $items[$i]['observacao']                     = $this->input->post('observacao');
+                $items[$i]['necessita_calibracao']           = $this->input->post('necessita_calibracao');
 
                 $valor = str_replace("R$ ", "", $this->input->post('valor'));
                 $valor = str_replace(".", "", $valor);
@@ -264,129 +267,73 @@ class Ativo_externo  extends MY_Controller {
                 $ativos_contagem++;
             }
 
-            $data['form_url'] = base_url("ativo_externo/gravar_items");
-            $data['item'] = (object) array_merge($data, [
-                'nome' => $items[0]['nome'],
-                'id_ativo_externo_grupo' => $items[0]['id_ativo_externo_grupo'],
-                'id_ativo_externo_categoria' => $items[0]['id_ativo_externo_categoria'],
-                'tipo' => $items[0]['tipo'],
-                'valor' => $items[0]['valor'],
-                'id_obra' => $id_obra,
-                'observacao' => $items[0]['observacao'],
-                'necessita_calibracao' => $items[0]['necessita_calibracao'],
-                'situacao' => isset($items[0]['situacao']) ? $items[0]['situacao'] : null,
-                'ativos' => $items
-            ]);
-
-            $this->get_template('index_form_item', $data);
-            return;
-        }
-
-        #$this->session->set_flashdata('msg_success', "Nenhum registro modificado!");
-        #echo redirect(base_url("ativo_externo"));
-    }
-
-   
-    function gravar_items($mode = null) {
-        $dados = array();
-        $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert';
-
-        foreach($_POST['codigo'] as $k => $item){
-            $ativo = null;
-            if(isset($_POST['id_ativo_externo'])) {              
-                $ativo = $this->ativo_externo_model->get_ativo($_POST['id_ativo_externo'][$k]);
-            }
-
-            if($this->input->post('codigo')){
-                if ($ativo) {
-                    $dados[$k]['id_ativo_externo'] = $ativo->id_ativo_externo;
-                    if(($mode == 'update' && $this->input->post('id_obra')) && ($ativo->situacao == 12 || !$ativo->id_obra)) {
-                        $dados[$k]['id_obra'] = $this->input->post('id_obra');
-                    }
-                }
-
-                $dados[$k]['codigo']                        = $this->input->post('codigo')[$k];
-                $dados[$k]['nome']                          = $this->input->post('item')[$k];
-                $dados[$k]['valor']                         = $this->input->post('valor');
-                $dados[$k]['observacao']                    = $this->input->post('observacao');
-                $dados[$k]['necessita_calibracao']          = $this->input->post('necessita_calibracao');
-                $dados[$k]['tipo'] = $this->input->post('tipo');
-                $dados[$k]['id_ativo_externo_categoria']    = $this->input->post('id_ativo_externo_categoria');
-
-                if (($ativo && $mode == 'update') && $this->input->post('situacao') !== null) {
-                    $dados[$k]['situacao'] = $this->input->post('situacao');
-                    $dados[$k]['data_descarte'] = ($dados[$k]['situacao'] == 10 && $ativo->data_descarte == null)  ? date('Y-m-d H:i:s') : null;
-                }
+            if($mode == 'update'){
+                $this->db->update_batch("ativo_externo", $items, 'id_ativo_externo');
+                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+                echo redirect(base_url("ativo_externo"));
+                return;
+            }   
+    
+            if($mode == 'insert'){
+                $this->db->insert_batch("ativo_externo", $items);
+    
+                $this->notificacoes_model->enviar_push(
+                    "Novas Ferramentas", 
+                    "{$quantidade} Novas Ferramentas '{$items[0]['nome']}' adicionadas ao estoque da obra '{$this->user->obra->codigo_obra}'", 
+                    [
+                        "filters" => [
+                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
+                        ],
+                    ]
+                );
                 
-                if($mode == 'insert') {
-                    $dados[$k]['situacao'] = 12; // Estoque
-                    $dados[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo');
-                    $dados[$k]['id_obra'] = $this->input->post('id_obra');
-                }
+                $s = count($items) > 1 ? "s" : "";
+                $this->session->set_flashdata('msg_success', "Novo{$s} registro{$s} inserido{$s} com sucesso!");
+                echo redirect(base_url("ativo_externo"));
+                return;
             }
+            $this->session->set_flashdata('msg_warning', "Nenhum registro modificado!");
         }
         
-        if( $mode == 'update'){
-            $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo');
-            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
-            echo redirect(base_url("ativo_externo"));
-            return;
-        }   
-
-        if( $mode == 'insert'){
-            $this->db->insert_batch("ativo_externo", $dados);
-
-            $this->notificacoes_model->enviar_push(
-                "Novas Ferramentas", 
-                "Novas Ferramentas Adicionadas ao Sistema.", 
-                [
-                    "filters" => [
-                        ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
-                    ],
-                ]
-            );
-
-            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
-            echo redirect(base_url("ativo_externo"));
-            return;
-        }
-        $this->session->set_flashdata('msg_warning', "Nenhum registro modificado!");
         echo redirect(base_url("ativo_externo"));
     }
 
 
     function salvar_grupo(){
-        $items = $data = [];
-        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
+        $items = [];
         $mode = $this->input->post('mode');
         $id_grupo = $this->input->post('id_ativo_externo_grupo');
         $grupo = $this->ativo_externo_model->get_grupo($id_grupo);
+        $quantidade = $this->input->post('quantidade') ? (int) $this->input->post('quantidade') : 1;
 
         if ($grupo) {     
             if (($mode == 'insert_grupo')) {
+                $ativos = $this->ativo_externo_model->get_ativos(null, null);
+                $ativos_contagem = count($ativos) + 1;
+
                 for($i=0; $i < $quantidade; $i++) {
                     $items[$i]['id_ativo_externo_grupo'] = $id_grupo;
-                    $items[$i]['id_ativo_externo_categoria']     = $this->input->post('id_ativo_externo_categoria');
+                    $items[$i]['id_ativo_externo_categoria']     = $grupo->id_ativo_externo_categoria;
                     $items[$i]['tipo']                           = $this->input->post('tipo');
-                    $items[$i]['id_obra']                        = $this->input->post('id_obra');
-                    $items[$i]['nome']                           = $this->input->post('nome');
+                    $items[$i]['id_obra']                        = $this->user->id_obra;
+                    $items[$i]['nome']                           = $grupo->nome;
                     $items[$i]['observacao']                     = $grupo->observacao;
+                    $items[$i]['situacao']                       = 12;
                     $items[$i]['necessita_calibracao']           = $grupo->necessita_calibracao;
-                    $items[$i]['codigo']                         = $this->input->post('codigo');
+                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$ativos_contagem;
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));
                     $valor = str_replace(".", "", $valor);
                     $valor = str_replace(",", ".", $valor); 
                     $items[$i]['valor'] = $valor;
+                    $ativos_contagem++;
                 }
             }
 
             if (($mode == 'update_grupo')) {
                 foreach($grupo->ativos as $i => $ativo) {
                     $items[$i]['id_ativo_externo'] = $ativo->id_ativo_externo;
-                    $items[$i]['codigo'] = $ativo->codigo;
-                    $items[$i]['id_obra'] = $this->input->post('id_obra');
-
+                    
                     if ($this->input->post('nome')) {
                        $items[$i]['nome'] = $this->input->post('nome');
                     }
@@ -395,107 +342,43 @@ class Ativo_externo  extends MY_Controller {
                        $items[$i]['observacao'] = $this->input->post('observacao');
                     }
 
-                    if ($this->input->post('necessita_calibracao')) {
+                    if ($this->input->post('necessita_calibracao') !== null) {
                         $items[$i]['necessita_calibracao'] = $this->input->post('necessita_calibracao');
-                     }
-                    
-                    if ($this->input->post('valor')) {
-                        $valor = str_replace("R$ ", "", $this->input->post('valor'));
-                        $valor = str_replace(".", "", $valor);
-                        $valor = str_replace(",", ".", $valor);
-                        $items[$i]['valor'] = $valor;
                     }
               }
             }
             
-            $data['item'] = (object) array_merge($data, [
-                'nome' => $grupo->nome,
-                'id_ativo_externo_grupo' => $grupo->id_ativo_externo_grupo,
-                'id_ativo_externo_categoria' => $grupo->id_ativo_externo_categoria,
-                'tipo' => $grupo->tipo,
-                'valor' => $items[0]['valor'],
-                'id_obra' => $grupo->id_obra,
-                'observacao' => $grupo->observacao,
-                'necessita_calibracao' => $grupo->necessita_calibracao,
-                'ativos' => $items
-            ]);
-            $data['form_url'] = base_url("ativo_externo/gravar_items_grupo");
-            $data['mode'] = $mode;
-            $this->get_template('index_form_item', $data);
-            return;
+            if($mode == 'insert_grupo') {
+                foreach($items as $k => $value){
+                    if (isset($value['id_ativo_externo'])) {
+                        unset($items[$k]);
+                    }
+                }
+            }
+
+            $s = count($items) > 1 ? "s" : "";
+            if( $mode == 'update_grupo' && $this->db->update_batch("ativo_externo", $items, 'id_ativo_externo')) {
+                $this->session->set_flashdata('msg_success', "Registro{$s} atualizado{$s} com sucesso!");
+            }   
+    
+            if( $mode == 'insert_grupo' && $this->db->insert_batch("ativo_externo", $items)) {
+                $this->notificacoes_model->enviar_push(
+                    "Novas Ferramentas", 
+                    "{$quantidade} Novas Ferramentas adicionadas ao grupo '{$grupo->nome}', no estoque da obra '{$this->user->obra->codigo_obra}'", 
+                    [
+                        "filters" => [
+                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
+                        ],
+                    ]
+                );
+
+                $this->session->set_flashdata('msg_success', "Novo{$s} registro{$s} inserido{$s} com sucesso!");
+            }
+            echo redirect(base_url("ativo_externo#lista2"));
         }
 
         $this->session->set_flashdata('msg_erro', "Grupo não encontrado!");
         echo redirect(base_url("ativo_externo"));
-    }
-
-
-    function gravar_items_grupo($mode = null){
-        $dados = array();
-        if(!$mode) {
-            $mode = $this->input->post('mode') ? $this->input->post('mode') : 'insert_grupo';
-        }
-        
-        foreach($_POST['codigo'] as $k => $item){
-            $ativo = null;
-            if(isset($_POST['id_ativo_externo'][$k])) {              
-                $ativo = $this->ativo_externo_model->get_ativo($_POST['id_ativo_externo'][$k]);
-                $dados[$k]['id_ativo_externo'] = $ativo->id_ativo_externo; 
-            }
-
-            if($_POST['codigo']){
-                $dados[$k]['codigo']                        = $_POST['codigo'][$k];
-                $dados[$k]['nome']                          = $_POST['item'][$k];
-                $dados[$k]['valor']                         = $_POST['valor'];
-
-                if (is_array($this->input->post('observacao'))) {
-                    $dados[$k]['observacao'] = $this->input->post('observacao')[$k];
-                } else {
-                    $dados[$k]['observacao'] = $this->input->post('observacao');
-                }
-
-                if (is_array($this->input->post('necessita_calibracao'))) {
-                    $dados[$k]['necessita_calibracao'] = $this->input->post('necessita_calibracao')[$k];
-                } else {
-                    $dados[$k]['necessita_calibracao'] = $this->input->post('necessita_calibracao');
-                }
-
-                if($mode == 'insert_grupo') {
-                    $dados[$k]['situacao'] = 12; // Estoque
-                    $dados[$k]['tipo'] = $this->input->post('tipo');
-                    $dados[$k]['id_obra'] = $this->input->post('id_obra');
-                    $dados[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo'); 
-                }
-            }
-        }
-    
-        if($mode == 'insert_grupo') {
-            foreach($dados as $k => $value){
-                if (isset($value['id_ativo_externo'])) {
-                    unset($dados[$k]);
-                }
-            }
-        }
-        
-        if( $mode == 'update_grupo' && $this->db->update_batch("ativo_externo", $dados, 'id_ativo_externo'))
-        {
-            $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
-        }   
-
-        if( $mode == 'insert_grupo' && $this->db->insert_batch("ativo_externo", $dados))
-        {
-            $this->notificacoes_model->enviar_push(
-                "Novas Grupo de Ferramentas", 
-                "Novas Grupo de Ferramentas Adicionadas ao Sistema.", 
-                [
-                    "filters" => [
-                        ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => '2'],
-                    ],
-                ]
-            );
-            $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
-        }
-        echo redirect(base_url("ativo_externo#lista2"));
     }
 
     function descartar($id_ativo_externo){

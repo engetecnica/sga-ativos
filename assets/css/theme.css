@@ -15139,42 +15139,89 @@ div::-webkit-scrollbar-thumb:hover,
 .selecionar_obra{
     padding: 10px;
     transition: ease-in-out all .3s;
+    display: flex;
+    justify-content: center;
 }
+
+.selecionar_obra .row{
+    padding: 0;
+    margin: 0;
+}
+
+.selecionar_obra > small {
+    margin: 0 10px 0 12px;
+    padding: 0;
+}
+
+
+.selecionar_obra_form{
+    transition: ease-in-out all .3s;
+    display: flex;
+    margin-bottom: 10px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.selecionar_obra_form > select {
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.selecionar_obra_form > button {
+    margin-left: 20px ;
+    width: 20%;
+}
+
 
 @media (max-width: 991px) {
     .selecionar_obra{
-        /*border: solid 1px red;
-        padding: 20px;
-        width: calc(100% - 20px); */
+        margin: 0 auto;
+        padding: 0;
     } 
-}
 
-.selecionar_obra  > button {
-    margin-left: 10px ;
-}
-
-@media (max-width: 762px) {
-    .selecionar_obra  > button {
-        margin-left: 5px;
+    .selecionar_obra_form {
+        width: 50%;
     }
 }
 
-.selecionar_obra  > small {
-    padding: 0;
+@media (max-width: 762px) {
+    .selecionar_obra_form > button {
+        margin-left: 5px;
+    }
+
+    .select2-selection__rendered {
+        max-width: 360px;
+    }
+}
+
+ .selecionar_obra_form  > small {
+    padding: 0 !important;
     margin-bottom: 5px;
 }
 
-.selecionar_obra  > .select2 {
-    min-width: 80% !important;
-    max-width: 80% !important;
+.selecionar_obra_form > .select2 {
+    min-width: 80%;
+    max-width: 360px;
 }
 
-.selecionar_obra  .selection > .select2-selection {
+.selecionar_obra_form  .selection > .select2-selection  {
     border-radius: 3px !important; 
 }
 
-.select2-selection__arrow {
+.selecionar_obra_form  .select2-selection__arrow {
     top: calc(50% - 13px) !important;
+}
+
+.selecionar_obra_form  .select2-selection__rendered {
+    min-width: 80%;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .small-m-t{

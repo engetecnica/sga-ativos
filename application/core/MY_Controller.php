@@ -28,9 +28,11 @@ class MY_Controller extends MX_Controller {
         if (version_compare(CI_VERSION, '2.1.0', '<')) {
             $this->load->library('security');
         }
-        $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
-        $this->load->model('anexo/anexo_model');
+
         $this->load->model('obra/obra_model');
+        $this->user = $this->buscar_dados_logado($this->session->userdata('logado'));
+
+        $this->load->model('anexo/anexo_model');
         $this->load->model('relatorio/notificacoes_model');
         $this->load->model("configuracao/configuracao_model");
         
@@ -109,6 +111,8 @@ class MY_Controller extends MX_Controller {
                 } catch(\Exception $e){}
             }
         }
+
+        $user->obra = $this->obra_model->get_obra($user->id_obra);
         return $user;
     }
 

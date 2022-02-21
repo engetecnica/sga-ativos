@@ -40,6 +40,7 @@
                                 action="<?php echo $form_url; ?>"
                                 method="post" 
                                 enctype="multipart/form-data"
+                                class="confirm-submit"
                              >
                                 <input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>">
                                 
@@ -55,6 +56,7 @@
                                     <?php }} ?>
                                 
                               
+                                    <?php if (in_array($mode, ['insert', 'update'])){ ?>
                                     <div class="row form-group">
                                         <div class="col col-md-2">
                                             <label for="tipo" class=" form-control-label">Tipo</label>
@@ -68,6 +70,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="tipo" id="tipo" value="<?php echo $detalhes->tipo; ?>">
+                                    <?php } ?>
 
                                
                                 <?php if (in_array($mode, ['insert', 'update'])){ ?>
@@ -142,7 +147,7 @@
 
                                 <?php if (in_array($mode, ['insert', 'update' , 'insert_grupo', 'update_grupo'])){ ?>
                                 
-                                    <?php if (in_array($mode, ['insert', 'update', 'insert_grupo', 'update_grupo'])){ ?>
+                                    <?php if (in_array($mode, ['insert', 'update', 'insert_grupo'])){ ?>
                                     <div class="col col-md-2">
                                         <label for="valor" class=" form-control-label">Valor Unitário</label>
                                     </div>
@@ -179,7 +184,7 @@
                                     <?php } ?>   
                                 <?php } ?>
 
-                                <?php if (in_array($mode, ['insert', 'update', 'ínsert_grupo'])){ ?>
+                                <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
                                     <div class="row form-group">
                                         <div class="col col-md-2">
                                             <label for="observacao" class=" form-control-label">Descrição</label>
@@ -192,6 +197,7 @@
 
                                 
                                 <div class="row form-group">
+                                    <?php if (in_array($mode, ['insert', 'update', 'update_grupo'])){ ?>
                                     <div class="col-12 col-md-4">
                                         <label for="necessita_calibracao" class=" form-control-label">Necessecitam de calibração ou aferiação</label>
                                     </div>
@@ -201,6 +207,9 @@
                                             <option <?php echo isset($detalhes->necessita_calibracao) && $detalhes->necessita_calibracao == '1' ? "selected='selected'" : ''; ?> value="1">Sim</option>
                                         </select>
                                     </div>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="necessita_calibracao" id="necessita_calibracao" value="<?php echo $detalhes->necessita_calibracao; ?>" />
+                                    <?php } ?>
 
                                     <?php if (in_array($mode, ['update']) && $this->ativo_externo_model->permit_edit_situacao($detalhes->id_ativo_externo)){ ?>
                                         <div class="col col-md-2">

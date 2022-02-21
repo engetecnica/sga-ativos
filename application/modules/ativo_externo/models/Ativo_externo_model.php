@@ -263,6 +263,38 @@ class Ativo_externo_model extends MY_Model {
 				->num_rows() === 0;
 	}
 
+	public function permit_descarte_grupo($id_ativo_externo_grupo, $id_obra){
+		$em_operacao = $this->db
+				->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+				->where('situacao IN (8,10,12)')
+				->where('id_obra', $id_obra)
+				->get("ativo_externo")
+				->num_rows();
+				
+		$total = $this->db
+				->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+				->where('id_obra', $id_obra)
+				->get("ativo_externo")
+				->num_rows();
+		return $em_operacao === $total;
+	}
+
+	public function verifica_descarte_grupo($id_ativo_externo_grupo, $id_obra){
+		$fora_de_operacao = $this->db
+				->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+				->where('situacao = 10')
+				->where('id_obra', $id_obra)
+				->get("ativo_externo")
+				->num_rows();
+				
+		$total = $this->db
+				->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
+				->where('id_obra', $id_obra)
+				->get("ativo_externo")
+				->num_rows();
+		return $fora_de_operacao === $total;
+	}
+
 	public function get_manutencao($id_ativo_externo, $id_manutencao){
 		return $this->db
 		->where('id_manutencao', $id_manutencao)
