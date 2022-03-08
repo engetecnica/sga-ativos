@@ -28,12 +28,12 @@
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($dados_veiculo) && isset($dados_veiculo->valor_fipe)){?>
-                                    <input type="hidden" name="valor_fipe" id="valor_fipe" value="<?php echo $dados_veiculo->valor_fipe; ?>">
+                                <?php if(isset($veiculo) && isset($veiculo->valor_fipe)){?>
+                                    <input type="hidden" name="valor_fipe" id="valor_fipe" value="<?php echo $veiculo->valor_fipe; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($dados_veiculo) && isset($dados_veiculo->fipe_mes_referencia)){?>
-                                    <input type="hidden" name="fipe_mes_referencia" id="fipe_mes_referencia" value="<?php echo $dados_veiculo->fipe_mes_referencia; ?>">
+                                <?php if(isset($veiculo) && isset($veiculo->fipe_mes_referencia)){?>
+                                    <input type="hidden" name="fipe_mes_referencia" id="fipe_mes_referencia" value="<?php echo $veiculo->fipe_mes_referencia; ?>">
                                 <?php } ?>
 
                                 <?php if(isset($depreciacao) && isset($depreciacao->id_ativo_veiculo_depreciacao)){?>
@@ -43,7 +43,7 @@
                                 <?php 
                                     $total_depreciacao = 0;
                                     $debito_depreciacao = 0;
-                                    $saldo_depreciacao = (float) $dados_veiculo->valor_fipe; 
+                                    $saldo_depreciacao = (float) $veiculo->valor_fipe; 
                                     foreach($lista as $valor) {
                                         $debito_depreciacao = (float) $valor->veiculo_valor_depreciacao;
                                         $total_depreciacao += (float) $debito_depreciacao;
@@ -61,12 +61,12 @@
                                         <th>Data</th>
                                     </tr>
                                     <tr>
-                                        <td><?php echo $dados_veiculo->tipo_veiculo; ?></td>
-                                        <td><?php echo $dados_veiculo->veiculo ." / ".$dados_veiculo->codigo_fipe; ?></td>
-                                        <td><?php echo $dados_veiculo->ano; ?></td>
-                                        <td><?php echo ucfirst($dados_veiculo->fipe_mes_referencia); ?></td>
-                                        <td><?php echo $this->formata_moeda($dados_veiculo->valor_fipe); ?></td>
-                                        <td><?php echo $this->formata_data($dados_veiculo->data); ?></td>
+                                        <td><?php echo $veiculo->tipo_veiculo; ?></td>
+                                        <td><?php echo $veiculo->veiculo ." / ".$veiculo->codigo_fipe; ?></td>
+                                        <td><?php echo $veiculo->ano; ?></td>
+                                        <td><?php echo ucfirst($veiculo->fipe_mes_referencia); ?></td>
+                                        <td><?php echo $this->formata_moeda($veiculo->valor_fipe); ?></td>
+                                        <td><?php echo $this->formata_data($veiculo->data); ?></td>
                                     </tr>
                                     <?php foreach($lista as $value){ ?>
                                     <tr>
@@ -96,12 +96,12 @@
                                         <label for="tipo_veiculo" class=" form-control-label">Tipo</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input  class="form-control" readonly value="<?php echo $dados_veiculo->tipo_veiculo; ?>"  id="tipo_veiculo" name="tipo_veiculo">
+                                        <input  class="form-control" readonly value="<?php echo $veiculo->tipo_veiculo; ?>"  id="tipo_veiculo" name="tipo_veiculo">
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <input type="text" class="form-control" readonly value="<?php echo $dados_veiculo->fabricante->marca; ?>">
-                                        <input type="hidden" class="form-control" readonly value="<?php echo $dados_veiculo->id_marca; ?>"  id="id_marca" name="id_marca">
+                                        <input type="text" class="form-control" readonly value="<?php echo $veiculo->fabricante->marca; ?>">
+                                        <input type="hidden" class="form-control" readonly value="<?php echo $veiculo->id_marca; ?>"  id="id_marca" name="id_marca">
                                     </div>
                                 </div> -->
 
@@ -111,12 +111,12 @@
                                     </div>                                    
                                     
                                     <div class="col-12 col-md-3">
-                                        <input class="form-control" readonly value="<?php echo $dados_veiculo->ano; ?>"  id="ano" name="ano">
-                                        <input type="hidden" class="form-control" readonly value="<?php echo $dados_veiculo->id_modelo; ?>"  id="id_modelo" name="id_modelo">
+                                        <input class="form-control" readonly value="<?php echo $veiculo->ano; ?>"  id="ano" name="ano">
+                                        <input type="hidden" class="form-control" readonly value="<?php echo $veiculo->id_modelo; ?>"  id="id_modelo" name="id_modelo">
                                     </div>
 
                                     <div class="col-12 col-md-7">
-                                        <input class="form-control" readonly value="<?php echo $dados_veiculo->veiculo; ?>"  id="veiculo" name="veiculo">
+                                        <input class="form-control" readonly value="<?php echo $veiculo->veiculo; ?>"  id="veiculo" name="veiculo">
                                     </div>                                    
 
                                 </div> -->
@@ -134,7 +134,9 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="0 KM" class="form-control" 
-                                            min="<?php echo $dados_veiculo->veiculo_km; ?>"  value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_km) ?  $depreciacao->veiculo_km : ''; ?>">
+                                            min="<?php echo isset($veiculo) && isset($veiculo->veiculo_km_atual) ?  ($veiculo->veiculo_km_atual + 1) : ($veiculo->veiculo_km ? $veiculo->veiculo_km : 1); ?>"  
+                                            value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_km) ?  $depreciacao->veiculo_km : ($veiculo->veiculo_km_atual ? $veiculo->veiculo_km_atual + 1 : ''); ?>"
+                                        >
                                     </div>
 
                                 </div>

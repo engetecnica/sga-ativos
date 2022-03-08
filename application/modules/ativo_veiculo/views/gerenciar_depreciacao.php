@@ -47,12 +47,12 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><?php echo $dados_veiculo->veiculo; ?></td>
-                                    <td><?php echo $dados_veiculo->veiculo_placa; ?></td>
-                                    <td><?php echo $dados_veiculo->codigo_fipe; ?></td>
-                                    <td><?php echo $dados_veiculo->ano; ?></td>
-                                    <td><?php echo $this->formata_data($dados_veiculo->data); ?></td>
-                                    <td style="color:blue;"><?php echo $this->formata_moeda($dados_veiculo->valor_fipe); ?></td>
+                                    <td><?php echo $veiculo->veiculo; ?></td>
+                                    <td><?php echo $veiculo->veiculo_placa; ?></td>
+                                    <td><?php echo $veiculo->codigo_fipe; ?></td>
+                                    <td><?php echo $veiculo->ano; ?></td>
+                                    <td><?php echo $this->formata_data($veiculo->data); ?></td>
+                                    <td style="color:blue;"><?php echo $this->formata_moeda($veiculo->valor_fipe); ?></td>
                                     <td style="color:red;"><?php echo $this->formata_moeda($total); ?></td>
                                 </tr>
                             </tbody>
@@ -86,7 +86,7 @@
                             <tbody>
                                 <?php 
                                     $total_depreciacao = 0;
-                                    $saldo_depreciacao = (float) $dados_veiculo->valor_fipe; 
+                                    $saldo_depreciacao = (float) $veiculo->valor_fipe; 
                                     foreach($lista as $valor) {
                                         $debito_depreciacao = (float) $valor->veiculo_valor_depreciacao;
                                         $total_depreciacao += (float) $debito_depreciacao;
