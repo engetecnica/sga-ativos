@@ -24,9 +24,9 @@
                                     <th>Placa / ID Interna</th>
                                     <th>Veículo</th>
                                     <th>Tipo</th>
+                                    <th>Situação</th>
                                     <th>Tabela Fipe</th>
                                     <th>Referência</th>
-                                    <th>Situação</th>
                                     <th class="text-right">Gerenciar</th>
                                 </tr>
                             </thead>
@@ -37,12 +37,12 @@
                                     <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
                                     <td><?php echo isset($valor->marca) ? "{$valor->marca} - {$valor->modelo}" : ''; ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>
-                                    <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
-                                    <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
                                     <td>
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
+                                    <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
+                                    <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupDrop1" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

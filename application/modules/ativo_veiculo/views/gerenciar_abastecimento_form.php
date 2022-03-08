@@ -182,8 +182,5 @@ var abastecimento_form = new Vue({
             }
         }
     },
-    mounted(){
-        console.log(this.$data)
-    }
 })
 </script>

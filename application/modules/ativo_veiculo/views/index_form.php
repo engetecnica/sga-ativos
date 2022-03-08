@@ -101,7 +101,7 @@
                                         <label for="valor_fipe" class=" form-control-label">Valor Fipe</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input :required="!show_custom_fields" type="text" id="valor_fipe" name="valor_fipe" placeholder="0,00" class="valor form-control" 
+                                        <input :required="!show_custom_fields" type="text" id="valor_fipe" name="valor_fipe" placeholder="0,00 R$" class="valor form-control" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->valor_fipe) ? $detalhes->valor_fipe : '' ?>" :readonly="!show_custom_fields">
                                     </div>
 
@@ -117,24 +117,24 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div v-if="!show_custom_fields" class="col col-md-2">
+                                    <div v-if="!show_custom_fields" class="col col-md-3">
                                         <label for="veiculo_placa" class=" form-control-label">Placa</label>
                                     </div>
                                     <div v-if="!show_custom_fields" class="col-12 col-md-3">
                                         <input  
-                                            type="text" id="veiculo_placa" name="veiculo_placa" placeholder="PLA-0C00" @blur=""
+                                            type="text" id="veiculo_placa" name="veiculo_placa" placeholder="AAA-0A00" @blur=""
                                             class="form-control veiculo_placa"  :class="{'invalid-input': edit_custom_fields_msg != null}" v-model="veiculo_placa"
                                             value="<?php echo isset($detalhes) && isset($detalhes->veiculo_placa) ? $detalhes->veiculo_placa : '' ?>" 
                                         >
                                         <div class="invalid-text">{{edit_custom_fields_msg}}</div>
                                     </div>
 
-                                    <div v-if="show_custom_fields" class="col col-md-2">
+                                    <div v-if="show_custom_fields" class="col col-md-3">
                                         <label for="id_interno_maquina" class=" form-control-label">ID Interna Máquina</label>
                                     </div>
                                     <div v-if="show_custom_fields" class="col-12 col-md-3">
                                         <input  
-                                            type="text" id="id_interno_maquina" name="id_interno_maquina" placeholder="Identificação Interna" @blur.lazy="buscarVeiculo('id_interno_maquina', id_interno_maquina)"
+                                            type="text" id="id_interno_maquina" name="id_interno_maquina" placeholder="AAA-AAA-0000" @blur.lazy="buscarVeiculo('id_interno_maquina', id_interno_maquina)"
                                             class="form-control id_interno_maquina"  :class="{'invalid-input': edit_custom_fields_msg != null}" v-model="id_interno_maquina"
                                             value="<?php echo isset($detalhes) && isset($detalhes->id_interno_maquina) ? $detalhes->id_interno_maquina : '' ?>" 
                                         >
@@ -145,42 +145,62 @@
                                         <input type="text" id="veiculo_renavam" name="veiculo_renavam" placeholder="Renavam" class="form-control" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->veiculo_renavam) ? $detalhes->veiculo_renavam : '' ?>">
                                     </div>
-
-                                    <div class="col-12 col-md-4">
-                                        <input type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" 
-                                        value="<?php echo isset($detalhes) && isset($detalhes->veiculo_observacoes) ? $detalhes->veiculo_observacoes : '' ?>">
-                                    </div>
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_km" class=" form-control-label">Quilometragem</label>
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_km" class=" form-control-label">Quilometragem Inicial</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="KM" class="form-control" 
-                                        value="<?php echo isset($detalhes) && isset($detalhes->veiculo_km) ? $detalhes->veiculo_km : '' ?>"
-                                        <?php if (isset($km_inicial) && (int) $km_inicial > 0) echo "max=\"{$km_inicial}\"";?> >
+                                        <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="267896" class="form-control" 
+                                        value="<?php echo isset($detalhes) && isset($detalhes->veiculo_km) ? $detalhes->veiculo_km : 0 ?>"
+                                        <?php if (isset($detalhes->veiculo_km) && (int) $detalhes->veiculo_km > 0) echo "max=\"{$detalhes->veiculo_km}\"";?> 
+                                        <?php echo !$permit_edit ? 'disabled' : ''?>
+                                    >
                                     </div>
 
+                                    <div v-if="show_custom_fields" class="col col-md-3">
+                                        <label for="veiculo_horimetro" class=" form-control-label">Horimetro Inicial</label>
+                                    </div>
+                                    <div v-if="show_custom_fields" class="col-12 col-md-3">
+                                        <input required="required" type="number" id="veiculo_horimetro" name="veiculo_horimetro" placeholder="10890" class="form-control" 
+                                        value="<?php echo isset($detalhes) && isset($detalhes->veiculo_horimetro) ? $detalhes->veiculo_horimetro : 0 ?>"
+                                        <?php if (isset($veiculo->veiculo_horimetro) && (int) $veiculo->veiculo_horimetro > 0) echo "max=\"{$veiculo->veiculo_horimetro}\"";?>
+                                        <?php echo !$permit_edit ? 'disabled' : ''?> 
+                                    >
+                                    </div>
+
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="valor_funcionario" class=" form-control-label">Valor Funcionário</label>
+                                    </div>
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="text" id="valor_funcionario" name="valor_funcionario" placeholder="Valor Funcionário" class="form-control valor" 
+                                        <input required="required" type="text" id="valor_funcionario" name="valor_funcionario" placeholder="0,00 R$" class="form-control valor" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->valor_funcionario) ? $detalhes->valor_funcionario : '' ?>">
                                     </div>
-
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" type="text" id="valor_adicional" name="valor_adicional" placeholder="Valor Adicional" class="form-control valor" 
+                                    <div class="col col-md-3">
+                                        <label for="valor_adicional" class=" form-control-label">Valor Adicional</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input required="required" type="text" id="valor_adicional" name="valor_adicional" placeholder="0,00 R$" class="form-control valor" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->valor_adicional) ? $detalhes->valor_adicional : '' ?>">
                                     </div>                                    
                                 </div>
 
-
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="situacao" class=" form-control-label">Data de Inclusão</label>
+                                        <label for="veiculo_observacoes" class=" form-control-label">Observação</label>
+                                    </div>  
+                                    <div class="col-12 col-md-6">
+                                        <textarea id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observação" class="form-control" ><?php echo isset($detalhes) && isset($detalhes->veiculo_observacoes) ? $detalhes->veiculo_observacoes : '' ?></textarea>
                                     </div>
-                                    <div class="col-12 col-md-3">
-                                        <input required="required" type="date" id="veiculo_km_data" name="veiculo_km_data" class="form-control" 
-                                        value="<?php echo isset($detalhes) && isset($detalhes->data) ? date("Y-m-d", strtotime($detalhes->data)) : date("Y-m-d"); ?>">
+                                </div>
+                                
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="situacao" class=" form-control-label">Situação</label>
                                     </div>
 
                                     <div class="col-12 col-md-2">
@@ -258,7 +278,7 @@
     </div>
 </div>
 
-<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
+<?php  if(isset($anexos)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
 
@@ -287,6 +307,7 @@
             tipo_veiculo() {
                 if (this.tipo_veiculo == 'maquina') this.show_custom_fields = true
                 else this.show_custom_fields = false
+                window.reloadMasks()
             },
             id_interno_maquina(){
                 if(this.id_interno_maquina) {
@@ -304,15 +325,23 @@
         methods: {
             async buscarVeiculo(coluna, valor){
                 var regex_placa = '[A-Z]{3}[0-9][0-9A-Z][0-9]{2}'
-                if ((coluna == "veiculo_placa" && valor.replace('-', '').match(regex_placa)) || (coluna && valor.length > 0) ) {
+                var regex_id_interno_maquina = '[A-Z]{3}-[A-Z]{3}-[0-9]{4}'
+                if (
+                    (coluna == "veiculo_placa" && valor.replace('-', '').match(regex_placa)) || 
+                    (coluna == "id_interno_maquina" && valor.match(regex_id_interno_maquina)) || 
+                    (coluna && valor.length > 0) 
+                ) {
                     let veiculo_dados = await axios
                     .get(`${window.base_url}/ativo_veiculo/buscar_veiculo/${coluna}/${valor.trim()}`)
                     .then(function(response) { return (response.status == 200) ? response.data : null})
                     
                     this.edit_custom_fields_msg = null
-                    if ((veiculo_dados && (this.id_ativo_veiculo != null && this.id_ativo_veiculo != veiculo_dados.id_ativo_veiculo)) || 
-                        veiculo_dados && this.id_ativo_veiculo == null)
+                    if (
+                        (veiculo_dados && (this.id_ativo_veiculo != null && this.id_ativo_veiculo != veiculo_dados.id_ativo_veiculo)) || 
+                        veiculo_dados && this.id_ativo_veiculo == null
+                    ) {
                         this.edit_custom_fields_msg = "Dado já existe para outro veículo!"
+                    }
                 }
              },
         },

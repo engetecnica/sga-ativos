@@ -277,7 +277,7 @@ class Relatorio_model_base extends MY_Model {
             "nome" => "manutencao",
             "tabela" => "ativo_veiculo_manutencao",
             "group_by" => "id_ativo_veiculo_manutencao",
-            "coluna" => "veiculo_hora_proxima_revisao",
+            "coluna" => "veiculo_horimetro_proxima_revisao",
             "coluna_vencimento" => "data_vencimento",
             "alerta" => $configuracao->operacao_alerta,
             "id_configuracao_revisao" => "14"

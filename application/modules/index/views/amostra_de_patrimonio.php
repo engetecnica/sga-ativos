@@ -82,7 +82,10 @@
                                     <th scope="col" width="30%">Placa / ID Interna</th>
                                     <th scope="col" width="30%">Tipo</th>
                                     <th scope="col" width="30%">Marca/Modelo</th>
-                                    <th scope="col" width="30%">Kilometragem</th>
+                                    <th scope="col" width="30%">Kilometragem Inicial</th>
+                                    <th scope="col" width="30%">Kilometragem Atual</th>
+                                    <th scope="col" width="30%">Horimetro Inicial</th>
+                                    <th scope="col" width="30%">Horimetro Atual</th>
                                     <th scope="col" width="30%">Situação</th>
                                 </tr>
                             </thead>
@@ -94,6 +97,9 @@
                                     <td><?php echo ucfirst($veiculo->tipo_veiculo);?> </td>
                                     <td><?php echo isset($veiculo->marca) ? "{$veiculo->marca} - {$veiculo->modelo}" : '-';?> </td>
                                     <td><?php echo $veiculo->veiculo_km; ?></td>
+                                    <td><?php echo $veiculo->veiculo_km_atual; ?></td>
+                                    <td><?php echo $veiculo->veiculo_horimetro; ?></td>
+                                    <td><?php echo $veiculo->veiculo_horimetro_atual; ?></td>
                                     <td>
                                     <?php $situacao = $this->get_situacao($veiculo->situacao);?>
                                     <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>

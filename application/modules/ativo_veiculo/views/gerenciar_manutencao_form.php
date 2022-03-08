@@ -28,7 +28,7 @@
                         
                             <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>
@@ -72,21 +72,21 @@
 
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_km_atual" class=" form-control-label">Quilometragem</label>
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_km_atual" class=" form-control-label">Quilometragem Atual</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="KM Atual" class="form-control" 
-                                            value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $dados_veiculo->veiculo_km; ?>" min="<?php echo (int) $dados_veiculo->veiculo_km; ?>">
+                                    <div class="col-12 col-md-3">
+                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0000000" class="form-control" 
+                                            value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $veiculo->veiculo_km_atual; ?>" min="<?php echo (int) $veiculo->veiculo_km_atual; ?>">
                                     </div> 
 
-
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_custo" class=" form-control-label">Custo</label>
+                                    <div class="col col-md-3">
+                                        <label for="veiculo_horimetro_atual" class=" form-control-label">Horimetro Atual</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
-                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0000000" class="form-control" 
+                                            value="<?php echo isset($manutencao->veiculo_horimetro_atual) ? (int) $manutencao->veiculo_horimetro_atual : (int) $veiculo->veiculo_horimetro_atual; ?>" min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>">
+                                    </div> 
                                 </div>
                                 
                                 <div class="row form-group">
@@ -95,33 +95,33 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0000000" class="form-control" 
-                                        min="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? (int) $dados_veiculo->veiculo_km + 1 : null; ?>"
+                                        min="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? (int) $veiculo->veiculo_km + 1 : null; ?>"
                                         value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : null; ?>">
                                     </div>
                                     
                                     <div class="col col-md-3">
-                                        <label for="veiculo_hora_proxima_revisao" class=" form-control-label">Horas Próxima Revisão</label>
+                                        <label for="veiculo_horimetro_proxima_revisao" class=" form-control-label">Horimetro Próxima Revisão</label>
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="veiculo_hora_proxima_revisao" name="veiculo_hora_proxima_revisao" placeholder="2000 Horas" class="form-control horas" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_hora_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_hora_proxima_revisao) : ''?>">
+                                        <input type="number" id="veiculo_horimetro_proxima_revisao" name="veiculo_horimetro_proxima_revisao" placeholder="0000000" class="form-control" 
+                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_horimetro_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_horimetro_proxima_revisao) : ''?>">
                                     </div>
                                 </div>
                              
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" 
                                         value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : date('Y-m-d');?>">
                                     </div>
 
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="data_vencimento" class=" form-control-label">Data Vencimento</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-3">
                                         <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" 
                                         value="<?php echo isset($manutencao) && isset($manutencao->data_vencimento) ? date('Y-m-d', strtotime($manutencao->data_vencimento)) : ''?>">
                                     </div>
@@ -132,10 +132,19 @@
                                     <div class="col col-md-2">
                                         <label for="descricao" class=" form-control-label">Descrição</label>
                                     </div>
-                                    <div class="col-12 col-md-9">
+                                    <div class="col-12 col-md-6">
                                         <textarea rows="5" class="form-control" id="descricao" name="descricao"></textarea>
                                     </div>
                                 </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="veiculo_custo" class=" form-control-label">Custo</label>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
+                                    </div>
+                                </div>  
                                 
                                 <hr>
                                 <div class="pull-left">
@@ -176,6 +185,6 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
+<?php if (isset($anexos) && isset($manutencao)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

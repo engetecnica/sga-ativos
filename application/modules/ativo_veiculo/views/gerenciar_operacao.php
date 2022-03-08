@@ -31,10 +31,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th width="7%">Veículo</th>
-                                    <th>Placa</th>
-                                    <th>Tempo de Operação</th>
-                                    <th>Período Início</th>
-                                    <th>Período Fim</th>
+                                    <th>Placa/ID Interno Máquina</th>
+                                    <th>Horimetro</th>
                                     <th>Data de Inclusão</th>
                                     <th>Gerenciar</th>
                                 </tr>
@@ -46,11 +44,9 @@
                                 <tr>
                                     <td><?php echo $valor->id_ativo_veiculo_operacao; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
-                                    <td><?php echo $valor->veiculo_placa; ?></td>
-                                    <td><?php echo $valor->operacao_tempo . " Horas";  ?></td>
-                                    <td><?php echo $this->formata_data_hora($valor->operacao_periodo_inicio); ?></td>
-                                    <td><?php echo $this->formata_data_hora($valor->operacao_periodo_fim); ?></td>
-                                    <td><?php echo $this->formata_data_hora($valor->data_inclusao); ?></td>
+                                    <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
+                                    <td><?php echo $valor->veiculo_horimetro . " Horas";  ?></td>
+                                    <td><?php echo $this->formata_data_hora($valor->data); ?></td>
                                     <?php if ($permit_edit) {?>
                                     <td> 
                                         <div class="btn-group" role="group">

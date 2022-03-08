@@ -19,7 +19,7 @@
                     <h2 class="title-1 m-b-25">Gerenciar Tempo de Operação do Veículo</h2>
                     <div class="card">
                         <div class="card-header">
-                            <?php echo isset($operacao) && isset($operacao->id_ativo_veiculo_operacao) ? "Editar Registro de Operação do Veículo" : "Novo Registro de Operação do Veículo" ?>
+                            <?php echo isset($operacao) && isset($operacao->id_ativo_veiculo_operacao) ? "Editar Registro de Operação do Veículo" : "Novo Registro de Operação do Veículo"?>
                         </div>
                         <div class="card-body">
 
@@ -34,53 +34,29 @@
 
                                 <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="operacao_tempo" class=" form-control-label">Tempo de Operação</label>
+                                        <label for="veiculo_horimetro" class=" form-control-label">Horimetro Atual</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="text" id="operacao_tempo" name="operacao_tempo" placeholder="000" class="form-control horas" 
-                                        min="1"
-                                        value="<?php echo isset($operacao) && isset($operacao->operacao_tempo) ? $operacao->operacao_tempo : 0; ?>">
+                                        <input required="required" type="number" id="veiculo_horimetro" name="veiculo_horimetro" placeholder="00000" class="form-control" 
+                                        min="<?php echo $veiculo->veiculo_horimetro_atual; ?>"
+                                        value="<?php echo $veiculo->veiculo_horimetro_atual; ?>">
                                     </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="operacao_periodo_fim" class=" form-control-label">Período Início</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="date" id="operacao_periodo_inicio" name="operacao_periodo_inicio" placeholder="00/00/000" class="form-control" 
-                                        value="<?php echo isset($operacao) && isset($operacao->operacao_periodo_inicio) ? date('Y-m-d', strtotime($operacao->operacao_periodo_inicio)) : ''; ?>">
-                                    </div>
-
-                                    <div class="col-12 col-md-1">
-                                        <input type="text" id="operacao_periodo_inicio_hora" name="operacao_periodo_inicio_hora" placeholder="00:00:00" class="form-control hora" 
-                                        value="<?php echo isset($operacao) && isset($operacao->operacao_periodo_inicio) ? date('H:i:s', strtotime($operacao->operacao_periodo_inicio)) : ''; ?>">
-                                    </div>
-
 
                                     <div class="col col-md-2">
-                                        <label for="operacao_periodo_fim" class=" form-control-label">Período Fim</label>
+                                        <label for="data" class=" form-control-label">Data</label>
                                     </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="date" id="operacao_periodo_fim" name="operacao_periodo_fim" placeholder="00/00/000" class="form-control" 
-                                        value="<?php echo isset($operacao) && isset($operacao->operacao_periodo_fim) ? date('Y-m-d', strtotime($operacao->operacao_periodo_fim)) : ''; ?>">
+                                    <div class="col-12 col-md-4">
+                                        <input type="datetime-local" id="data" name="data" class="form-control" 
+                                        value="<?php echo isset($operacao) ? date("Y-m-d\TH:i:s", strtotime($operacao->data)) : date("Y-m-d\TH:i:s", strtotime('now')); ?>">
                                     </div>
-
-                                    <div class="col-12 col-md-1">
-                                        <input type="text" id="operacao_periodo_fim_hora" name="operacao_periodo_fim_hora" placeholder="00:00:00" class="form-control hora" 
-                                        value="<?php echo isset($operacao) && isset($operacao->operacao_periodo_fim) ? date('H:i:s', strtotime($operacao->operacao_periodo_fim)) : ''; ?>">
-                                    </div>
-                                    
                                 </div>
-                                
-                                <small>Tempo de Operação ou Período devem ser obrigatoriamente definido, um ou ambos. 
-                                    Se somente o período for definido, será calculado de acordo com o tempo entre início e fim.</small>
+                              
                                 <hr>
                                 <div class="pull-left">
                                     <button class="btn btn-primary">                                                    
@@ -120,6 +96,6 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
+<?php  if(isset($anexos) && isset($operacao)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

@@ -181,10 +181,18 @@
             $('.telefone').mask('(00) 0000-0000');
             $('.celular').mask('(00) 9 0000-0000');
 
+            let placa = function(placa, e, field, options) {$(field)[0].value = placa.toUpperCase().trim()}
             $('.veiculo_placa').mask('SSS-0A00',  {
-                onKeyPress: function(placa, e, field, options) {
-                    $(field)[0].value = placa.toUpperCase();
-                }
+                onKeyPress: placa,
+                onBlur: placa,
+                onInput: placa,
+            });
+
+            let id_interno = function(placa, e, field, options) { $(field)[0].value = placa.toUpperCase().slice(0, 12).trim()}
+            $('.id_interno_maquina').mask('AAA-AAA-####',  {
+                onKeyPress: id_interno,
+                onBlur: id_interno,
+                onInput: id_interno,
             });
 
             $(".hora").mask("Hh:NZ:NZ", {
@@ -223,6 +231,10 @@
                     $(field)[0].value = ""
                 }
             });
+        }
+
+        function reloadMasks(){
+                setTimeout(() => {loadMasks()}, 100)
         }
 
         loadMasks()

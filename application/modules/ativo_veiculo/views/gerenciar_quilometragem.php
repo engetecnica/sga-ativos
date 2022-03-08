@@ -31,7 +31,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th width="7%">Veículo</th>
-                                    <th>Placa</th>
+                                    <th>Placa/Id Interno Máquina</th>
                                     <th>Km Atual</th>
                                     <th>Data</th>
                                     <th>Gerenciar</th>
@@ -45,7 +45,7 @@
                                 <tr>
                                     <td><?php echo $valor->id_ativo_veiculo_quilometragem; ?></td>
                                     <td><?php echo $valor->veiculo; ?></td>
-                                    <td><?php echo $valor->veiculo_placa; ?></td>
+                                    <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
                                     <td><?php echo $valor->veiculo_km; ?></td>
                                     <td><?php echo $this->formata_data($valor->data); ?></td>
                                     <td> 

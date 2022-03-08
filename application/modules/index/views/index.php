@@ -104,11 +104,11 @@
                     </div>
                 </div> -->
                 <?php 
-                    $this->load->view("dados_operacionais_veiculos"); 
+                    $this->load->view("dados_operacionais_veiculos");
+                    $this->load->view('informe_de_vencimentos', ['informe_vencimentos' => $informe_vencimentos]);
                     $this->load->view("requisicoes_pendentes");  
                     $this->load->view("retiradas_pendentes");
                     $this->load->view("ativos_manutencoes");
-                    $this->load->view('informe_de_vencimentos', ['informe_vencimentos' => $informe_vencimentos]);
                 ?>
             </div>
         </div>

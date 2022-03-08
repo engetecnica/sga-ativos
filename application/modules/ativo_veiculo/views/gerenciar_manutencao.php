@@ -31,16 +31,17 @@
                                 <tr>
                                     <th width="7%">ID Manutenção</th>
                                     <th width="7%">Veículo</th>
-                                    <th>Placa</th>
+                                    <th>Placa / ID Interno Máquina</th>
                                     <th>Fornecedor</th>
                                     <th>Serviço</th>
-                                    <th>KM Atual</th>
+                                    <th>KM Atual na Execução</th>
                                     <th>KM Próxima Revisão</th>
-                                    <th>Horas Próxima Revisão</th>
-                                    <th>Custo</th>
+                                    <th>Horimetro Atual na Execução</th>
+                                    <th>Horimetro Próxima Revisão</th>
                                     <th>Data Entrada</th>
                                     <th>Data Saída</th>
                                     <th>Data Vencimento</th>
+                                    <th>Custo</th>
                                     <th>Gerenciar</th>
                                 </tr>
                             </thead>
@@ -51,16 +52,17 @@
                                 <tr>
                                     <td><?php echo $valor->id_ativo_veiculo_manutencao;?></td>
                                     <td><?php echo $valor->veiculo;?></td>
-                                    <td><?php echo $valor->veiculo_placa; ?></td>
+                                    <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
                                     <td><?php echo $valor->fornecedor; ?></td>
                                     <td><?php echo $valor->servico; ?></td>
                                     <td><?php echo $valor->veiculo_km_atual; ?></td>
                                     <td><?php echo $valor->veiculo_km_proxima_revisao; ?></td>
-                                    <td><?php echo $valor->veiculo_hora_proxima_revisao; ?></td>
-                                    <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
+                                    <td><?php echo $valor->veiculo_horimetro_atual; ?></td>
+                                    <td><?php echo $valor->veiculo_horimetro_proxima_revisao; ?></td>
                                     <td><?php echo $this->formata_data($valor->data_entrada) ; ?></td>
                                     <td><?php echo isset($valor->data_saida) ? $this->formata_data($valor->data_saida) : '-' ; ?></td>
                                     <td><?php echo isset($valor->data_vencimento) ? $this->formata_data($valor->data_vencimento) : '-' ; ?></td>
+                                    <td>R$ <?php echo number_format($valor->veiculo_custo, 2, ',', '.'); ?></td>
                                     <td> 
                                         <?php if (!isset($valor->data_saida) || $user->nivel == 1) { ?>
                                         <div class="btn-group" role="group">

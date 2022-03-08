@@ -887,7 +887,9 @@ class Relatorio_model extends Relatorio_model_base {
     $data = $this->extract_data('patrimonio_disponivel', $data);
 
     if ($tipo && $tipo == 'arquivo') {
-      $relatorio = $this->db ->from('ativo_veiculo atv');
+      $kms_atual_select = "(select veiculo_km from ativo_veiculo_quilometragem where id_ativo_veiculo = atv.id_ativo_veiculo order by id_ativo_veiculo_quilometragem desc limit 1)";
+      $horimetro_atual_select = "(select veiculo_horimetro from ativo_veiculo_operacao where id_ativo_veiculo = atv.id_ativo_veiculo order by id_ativo_veiculo_operacao desc limit 1)";
+      $relatorio = $this->db ->from('ativo_veiculo atv')->select("atv.*, $kms_atual_select as veiculo_km_atual, $horimetro_atual_select as veiculo_horimetro_atual");
       if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] !== 'todos') {
         $relatorio->where("tipo_veiculo = {$data['tipo_veiculo']}");
       }
@@ -1107,26 +1109,32 @@ class Relatorio_model extends Relatorio_model_base {
             ->join("fornecedor frn", "frn.id_fornecedor={$vencimento['tabela']}.id_fornecedor", 'left')
             ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$vencimento['tabela']}.id_ativo_configuracao", 'left');
 
-          if (in_array($vencimento['coluna'], ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao']) && isset($vencimento['id_configuracao_revisao'])) {
+          $veiculo_manutencao_colunas = ['veiculo_km_proxima_revisao', 'veiculo_horimetro_proxima_revisao'];
+
+          if (in_array($vencimento['coluna'], $veiculo_manutencao_colunas) && isset($vencimento['id_configuracao_revisao'])) {
             switch ($vencimento['coluna']) {
               case "veiculo_hora_proxima_revisao":
-                $horas_credito_select = "(select sum(veiculo_hora_proxima_revisao) from ativo_veiculo_manutencao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_hora_proxima_revisao IS NOT NULL AND veiculo_hora_proxima_revisao > 0))";
-                $horas_debito_select = "(select sum(operacao_tempo) from ativo_veiculo_operacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo)";
+                $hrs_credito_select = "(select veiculo_horimetro_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_horimetro_proxima_revisao IS NOT NULL AND veiculo_horimetro_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+                $kms_debito_select = "(select veiculo_horimetro from ativo_veiculo_operacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_ativo_veiculo_operacao desc limit 1)";
                 
                 $relatorio
-                  ->select("$horas_debito_select as horas_debito, ($horas_credito_select) as horas_credito, ($horas_credito_select - $horas_debito_select) as horas_saldo")
+                  ->select("$kms_debito_select as horimetro_debito, $hrs_credito_select as horimetro_credito, ($hrs_credito_select - $kms_debito_select) as horimetro_saldo")
                   ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
                   ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
-                  ->where("($horas_credito_select - $horas_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.veiculo_hora_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_hora_proxima_revisao > 0)")
-                  ->or_where("({$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}')");
+                  ->where("($hrs_credito_select - $kms_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.veiculo_horimetro_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_horimetro_proxima_revisao > 0))")
+                  ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
               break;
+              
               
               case "veiculo_km_proxima_revisao":
                 $kms_credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
                 $kms_debito_select = "(select veiculo_km from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_ativo_veiculo_quilometragem desc limit 1)";
                 
                 $relatorio
-                  ->select("$kms_debito_select as km_debito, $kms_credito_select as km_credito, ($kms_credito_select - $kms_debito_select) as km_saldo")
+                  ->select("
+                    $kms_debito_select as km_debito, $kms_credito_select as km_credito, ($kms_credito_select - $kms_debito_select) as km_saldo,
+                    $kms_debito_select as veiculo_km_atual
+                  ")
                   ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
                   ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
                   ->where("($kms_credito_select - $kms_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.veiculo_km_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_km_proxima_revisao > 0))")
@@ -1143,8 +1151,7 @@ class Relatorio_model extends Relatorio_model_base {
                     ->select("({$vencimento['tabela']}.data_vencimento > '{$now}') as vigencia");
         }
 
-        $deny_by_coluna = ['veiculo_km_proxima_revisao', 'veiculo_hora_proxima_revisao'];
-        if (!in_array($vencimento['coluna'], $deny_by_coluna) || $modulo != 'ativo_externo' ) {
+        if (!in_array($vencimento['coluna'], $veiculo_manutencao_colunas) || $modulo != 'ativo_externo' ) {
           if ($days > 0) {
             $relatorio->where("{$vencimento['coluna']} BETWEEN '{$now}' AND '{$date}'");
           } else {
@@ -1165,12 +1172,11 @@ class Relatorio_model extends Relatorio_model_base {
               'tipo' => $vencimento['nome']
             ];
           }
-
+          
           $results[$vencimento['nome']]->data = array_merge($results[$vencimento['nome']]->data, $relatorio_data);
         }
       }
     }
-
     return (object) $results;
   }
 
