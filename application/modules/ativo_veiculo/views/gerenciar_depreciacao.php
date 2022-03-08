@@ -37,7 +37,7 @@
                             <thead>
                                 <tr>
                                     <th width="15%">Veículo</th>
-                                    <th width="15%">Placa</th>
+                                    <th width="15%">Placa/ ID Interno (Máquina)</th>
                                     <th width="15%">Cód Fipe</th>
                                     <th>Ano</th>
                                     <th>Inclusão</th>
