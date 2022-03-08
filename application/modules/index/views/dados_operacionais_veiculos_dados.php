@@ -23,15 +23,13 @@
                     <th class="text-info">Crédito</th>
                     <th class="text-danger">Débito</th>
                     <th class="text-success">Saldo em {{veiculo_extrato.tipo}}</th>
-                    <th class="text-secondary" v-if="veiculo_extrato.tipo == 'KM'"> {{veiculo_extrato.tipo}} Atual</th>
+                    <th class="text-secondary"> {{veiculo_extrato.tipo == 'KM' ? veiculo_extrato.tipo : 'Horimetro' }} Atual</th>
                 </tr>
                 <tr>
                     <td>{{ veiculo_extrato.credito ? veiculo_extrato.credito : 0 }} {{veiculo_extrato.tipo}}</td>
                     <td>{{ veiculo_extrato.debito ? veiculo_extrato.debito : 0 }} {{veiculo_extrato.tipo}}</td>
                     <td>{{ veiculo_extrato.saldo ? veiculo_extrato.saldo : 0 }} {{veiculo_extrato.tipo}}</td>
-                    <td v-if="veiculo_extrato.tipo == 'KM'">
-                        {{ veiculo_extrato.veiculo_km_atual }} {{veiculo_extrato.tipo}}
-                    </td>
+                    <td>{{ veiculo_extrato.tipo == 'KM' ? (veiculo_extrato.veiculo_km_atual || 0) : (veiculo_extrato.veiculo_horimetro_atual || 0)}} {{veiculo_extrato.tipo}}</td>
                 </tr>
             </table>
         </div>

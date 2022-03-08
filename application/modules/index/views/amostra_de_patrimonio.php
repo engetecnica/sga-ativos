@@ -1,8 +1,8 @@
 <div class="col-12">
     <div class="top-campaign">
         <div class="col-md-12">
-            <h3 class="title-3">Amostra de Patrimônio </h3>
-            <p class="m-b-35">Ferramentas na Obra, Equipamentos na Obra, todos os veículos re Retiradas</p>
+            <h3 class="title-3">Amostra de Patrimônio</h3>
+            <p class="m-b-35">Ferramentas na Obra, Equipamentos na Obra, todos os veículos e Retiradas</p>
             <?php foreach($patrimonio->obras as $obra) { ?>
                 
                 <div class="table-responsive m-b-40">
