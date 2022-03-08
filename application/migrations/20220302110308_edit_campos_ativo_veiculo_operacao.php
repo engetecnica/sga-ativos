@@ -10,7 +10,7 @@ class Migration_Edit_Campos_Ativo_Veiculo_Operacao extends CI_Migration {
 			$this->db->query("
 				alter table {$this->table} 
 				rename column operacao_tempo to veiculo_horimetro,
-				rename column data_inclusao to data,
+				rename column data_inclusao to `data`,
 				drop column operacao_periodo_inicio,
 				drop column operacao_periodo_fim;
 			");
@@ -23,7 +23,7 @@ class Migration_Edit_Campos_Ativo_Veiculo_Operacao extends CI_Migration {
 			$this->db->query("
 				alter table {$this->table} 
 				rename column veiculo_horimetro to operacao_tempo,
-				rename column  data to data_inclusao,
+				rename column `data` to data_inclusao,
 				add column operacao_periodo_inicio timestamp NULL DEFAULT NULL after operacao_tempo,
 				add column operacao_periodo_fim timestamp NULL DEFAULT NULL after operacao_periodo_inicio;
 			");
