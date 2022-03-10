@@ -1110,7 +1110,7 @@ class Relatorio_model extends Relatorio_model_base {
           $id_modulo = "id_{$modulo}";
           $relatorio
           ->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
-          ->select("{$modulo}.*")
+          ->select("{$modulo}.veiculo_placa, {$modulo}.id_interno_maquina, {$modulo}.marca, {$modulo}.modelo")
           ->select('frn.razao_social as fornecedor')
           ->select('ativo_configuracao.id_ativo_configuracao, ativo_configuracao.titulo as servico')
           ->join("fornecedor frn", "frn.id_fornecedor={$vencimento['tabela']}.id_fornecedor", 'left')
@@ -1130,7 +1130,8 @@ class Relatorio_model extends Relatorio_model_base {
             $debito_select = "(select {$column} from {$table} where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_{$table} desc limit 1)";
                 
             $relatorio
-            ->select("$debito_select as horimetro_debito, $credito_select as horimetro_credito, ($credito_select - $debito_select) as horimetro_saldo")
+            ->select("$debito_select as {$column}_debito, $credito_select as {$column}_credito, ($credito_select - $debito_select) as {$column}_saldo")
+            ->select("{$column}_atual as manutencao_{$column}_atual, $debito_select as {$column}_atual")
             ->where("($credito_select - $debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.{$column}_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.{$column}_proxima_revisao > 0))")
             ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
           }

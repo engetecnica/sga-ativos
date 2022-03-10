@@ -197,6 +197,19 @@ trait MY_Trait {
         return null;
       }
 
+      public function formata_posfix($valor = null, $posfix = ""){
+        return isset($valor) ? "{$valor} {$posfix}" : "-";
+      }
+
+      public function formata_prefix($valor = null, $prefix = ""){
+        return isset($valor) ? " {$prefix} {$valor}" : "-";
+      }
+
+      public function formata_array(array $valor = [], $separador = " "){
+        return isset($valor) ? implode($separador, $valor) : "-";
+      }
+
+
       public function sem_acesso(){
         $this->session->set_flashdata('msg_erro', "Você não possui acesso a este módulo.");
         echo redirect(base_url());

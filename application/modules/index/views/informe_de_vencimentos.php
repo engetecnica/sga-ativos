@@ -63,14 +63,14 @@
                         <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                         <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
                         <td><?php echo $manutencao->veiculo_placa ?: $manutencao->id_interno_maquina; ?></td>
-                        <td><?php echo $manutencao->marca ." | ".$manutencao->modelo;  ?></td>
+                        <td><?php echo $this->formata_array([$manutencao->marca, $manutencao->modelo], " | ");  ?></td>
                         <td><?php echo $manutencao->fornecedor; ?></td>
                         <td><?php echo $manutencao->servico; ?></td>
                         <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
                         <td><?php echo $this->formata_data($manutencao->data_entrada);?> </td>
                         <td><?php echo $this->formata_data($manutencao->data_vencimento); ?> </td>
-                        <td><?php echo $manutencao->veiculo_km_proxima_revisao > 0 ? ($manutencao->veiculo_km_proxima_revisao - $manutencao->veiculo_km_atual). " KM" : "-"; ?> </td>
-                        <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao > 0 ? ($manutencao->veiculo_horimetro_proxima_revisao - $manutencao->veiculo_horimetro_atual). " Horas" : "-"; ?> </td>
+                        <td><?php echo isset($manutencao->veiculo_km_saldo) ? $this->formata_posfix($manutencao->veiculo_km_saldo, 'KM') : "-";?> </td>
+                        <td><?php echo isset($manutencao->veiculo_horimetro_saldo) ? $this->formata_posfix($manutencao->veiculo_horimetro_saldo, 'Horas') : "-"; ?> </td>
                         <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
                     </tr>
                     <?php } ?>
@@ -103,7 +103,7 @@
                     <tr>
                         <td><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
                         <td><?php echo $ipva->id_ativo_veiculo; ?></td>
-                        <td><?php echo $ipva->marca ." | ".$ipva->modelo; ?></td>
+                        <td><?php echo $this->formata_array([$ipva->marca, $ipva->modelo], " | "); ?></td>
                         <td><?php echo $ipva->veiculo_placa ?: $ipva->id_interno_maquina;; ?></td>
                         <td><?php echo $ipva->ipva_ano; ?></td>
                         <td><?php echo $this->formata_moeda($ipva->ipva_custo); ?></td>
@@ -131,7 +131,7 @@
                         <th>Placa / ID Interno (Máquina)</th>
                         <th>Custo</th>
                         <th>Carência Inicio</th>
-                        <th>Carência vencimendo</th>
+                        <th>Carência Vencimendo</th>
                         <th>Detalhes</th>
                     </tr>
                 </thead>
@@ -140,7 +140,7 @@
                     <tr>
                         <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
                         <td><?php echo $seguro->id_ativo_veiculo; ?></td>
-                        <td><?php echo $seguro->marca ." | ".$seguro->modelo; ?></td>
+                        <td><?php echo $this->formata_array([$seguro->marca, $seguro->modelo], " | "); ?></td>
                         <td><?php echo $seguro->veiculo_placa ?: $seguro->id_interno_maquina;; ?></td>
                         <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
                         <td><?php echo $this->formata_data($seguro->carencia_inicio);?> </td>
@@ -164,6 +164,7 @@
                 <thead>
                     <tr>
                         <th>ID Certificado</th>
+                        <th width="20%">Código</th>
                         <th width="20%">Ativo</th>
                         <th>Data de Inclusão</th>
                         <th>Data de Vencimento</th>
@@ -176,7 +177,8 @@
                     <?php foreach($informe_vencimentos['relatorio']->calibracao->data as $certificado) {?>
                     <tr>
                         <td><?php echo $certificado->id_certificado; ?></td>
-                        <td><?php echo "{$certificado->ativo_codigo} - {$certificado->ativo_nome}"; ?></td>
+                        <td><?php echo $certificado->ativo_codigo; ?></td>
+                        <td><?php echo $certificado->ativo_nome; ?></td>
                         <td><?php echo $this->formata_data($certificado->data_inclusao);?> </td>
                         <td><?php echo $this->formata_data($certificado->data_vencimento);?> </td>
                         <td>
