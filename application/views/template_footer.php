@@ -181,18 +181,18 @@
             $('.telefone').mask('(00) 0000-0000');
             $('.celular').mask('(00) 9 0000-0000');
 
-            let placa = function(placa, e, field, options) {$(field)[0].value = placa.toUpperCase().trim()}
+            let placaCallback = function(placa, e, field, options) {$(field)[0].value = placa.toUpperCase().trim()}
             $('.veiculo_placa').mask('SSS-0A00',  {
-                onKeyPress: placa,
-                onBlur: placa,
-                onInput: placa,
+                onKeyPress: placaCallback,
+                onBlur: placaCallback,
+                onInput: placaCallback,
             });
 
-            let id_interno = function(placa, e, field, options) { $(field)[0].value = placa.toUpperCase().slice(0, 12).trim()}
+            let idInternoCallback = function(id_interno, e, field, options) { $(field)[0].value = id_interno.toUpperCase().slice(0, 12).trim()}
             $('.id_interno_maquina').mask('AAA-AAA-####',  {
-                onKeyPress: id_interno,
-                onBlur: id_interno,
-                onInput: id_interno,
+                onKeyPress: idInternoCallback,
+                onBlur: idInternoCallback,
+                onInput: idInternoCallback,
             });
 
             $(".hora").mask("Hh:NZ:NZ", {

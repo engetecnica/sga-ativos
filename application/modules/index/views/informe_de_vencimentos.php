@@ -63,17 +63,15 @@
                         <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                         <td><?php echo $manutencao->id_ativo_veiculo; ?></td>
                         <td><?php echo $manutencao->veiculo_placa ?: $manutencao->id_interno_maquina; ?></td>
-                        <td><?php echo $manutencao->veiculo; ?></td>
+                        <td><?php echo $manutencao->marca ." | ".$manutencao->modelo;  ?></td>
                         <td><?php echo $manutencao->fornecedor; ?></td>
                         <td><?php echo $manutencao->servico; ?></td>
                         <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
                         <td><?php echo $this->formata_data($manutencao->data_entrada);?> </td>
                         <td><?php echo $this->formata_data($manutencao->data_vencimento); ?> </td>
                         <td><?php echo $manutencao->veiculo_km_proxima_revisao > 0 ? ($manutencao->veiculo_km_proxima_revisao - $manutencao->veiculo_km_atual). " KM" : "-"; ?> </td>
-                        <td><?php echo isset($manutencao->horas_credito) && isset($manutencao->horas_debito) ? ($manutencao->horas_credito - $manutencao->horas_debito) . " Horas" : "-"; ?> </td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a>
-                        </td>
+                        <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao > 0 ? ($manutencao->veiculo_horimetro_proxima_revisao - $manutencao->veiculo_horimetro_atual). " Horas" : "-"; ?> </td>
+                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -92,7 +90,7 @@
                         <th>IPVA ID</th>
                         <th>Veículo ID</th>
                         <th width="50%">Marca/Modelo</th>
-                        <th>Placa</th>
+                        <th>Placa / ID Interno (Máquina)</th>
                         <th>Ano Referência</th>
                         <th>Custo</th>
                         <th>Data Pagamento</th>
@@ -105,8 +103,8 @@
                     <tr>
                         <td><?php echo $ipva->id_ativo_veiculo_ipva; ?></td>
                         <td><?php echo $ipva->id_ativo_veiculo; ?></td>
-                        <td><?php echo $ipva->veiculo; ?></td>
-                        <td><?php echo $ipva->veiculo_placa; ?></td>
+                        <td><?php echo $ipva->marca ." | ".$ipva->modelo; ?></td>
+                        <td><?php echo $ipva->veiculo_placa ?: $ipva->id_interno_maquina;; ?></td>
                         <td><?php echo $ipva->ipva_ano; ?></td>
                         <td><?php echo $this->formata_moeda($ipva->ipva_custo); ?></td>
                         <td><?php echo $this->formata_data($ipva->ipva_data_pagamento);?> </td>
@@ -130,11 +128,10 @@
                         <th>Seguro ID</th>
                         <th>Veículo ID</th>
                         <th width="50%">Marca/Modelo</th>
-                        <th>Placa</th>
-                        <th>Mês Referência FIPE</th>
+                        <th>Placa / ID Interno (Máquina)</th>
                         <th>Custo</th>
                         <th>Carência Inicio</th>
-                        <th>Carência Final</th>
+                        <th>Carência vencimendo</th>
                         <th>Detalhes</th>
                     </tr>
                 </thead>
@@ -143,9 +140,8 @@
                     <tr>
                         <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
                         <td><?php echo $seguro->id_ativo_veiculo; ?></td>
-                        <td><?php echo $seguro->veiculo; ?></td>
-                        <td><?php echo $seguro->veiculo_placa; ?></td>
-                        <td><?php echo ucfirst($seguro->fipe_mes_referencia); ?></td>
+                        <td><?php echo $seguro->marca ." | ".$seguro->modelo; ?></td>
+                        <td><?php echo $seguro->veiculo_placa ?: $seguro->id_interno_maquina;; ?></td>
                         <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
                         <td><?php echo $this->formata_data($seguro->carencia_inicio);?> </td>
                         <td><?php echo $this->formata_data($seguro->carencia_fim);?> </td>

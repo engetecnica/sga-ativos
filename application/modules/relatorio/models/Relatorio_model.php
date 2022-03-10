@@ -1082,14 +1082,16 @@ class Relatorio_model extends Relatorio_model_base {
     return $send_address;
   }
 
-  public function informe_vencimentos($days = 0, $id_obra = null){
+  public function informe_vencimentos($days = 0, $id_obra = null) {
     $date = date('Y-m-d', strtotime("+{$days} days"));
     $now = date('Y-m-d H:i:s');
     $results = [];
+    $veiculos_modulos_ids = [];
+    $ativo_externo_modulos_ids = [];
     $id_modulo = "";
 
-    foreach($this->relatorio_model->vencimentos as $modulo => $vencimentos){
-      foreach($vencimentos as $vencimento){
+    foreach($this->relatorio_model->vencimentos as $modulo => $vencimentos) {
+      foreach($vencimentos as $vencimento) {
         $relatorio = $this->db->select("{$vencimento['tabela']}.*");
         
         if (isset($vencimento['coluna_formato']) && $vencimento['coluna_formato'] == 'date') $now = date("Y-m-d", strtotime($now));
@@ -1097,58 +1099,49 @@ class Relatorio_model extends Relatorio_model_base {
         if ($id_obra && $vencimento['tabela'] == 'ativo_interno') {
           $relatorio->where("{$vencimento['tabela']}.id_obra = '{$id_obra}'");
         }
+        
+        if ($modulo == 'ativo_veiculo' && $vencimento['nome'] != 'manutencao') {
+          $relatorio
+          ->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
+          ->select("{$modulo}.*");
+        }
 
         if ($modulo == 'ativo_veiculo' && $vencimento['nome'] == 'manutencao') {
           $id_modulo = "id_{$modulo}";
-          $relatorio->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
-                    ->select("$modulo.*");
-
           $relatorio
-            ->select('frn.razao_social as fornecedor')
-            ->select('ativo_configuracao.id_ativo_configuracao, ativo_configuracao.titulo as servico')
-            ->join("fornecedor frn", "frn.id_fornecedor={$vencimento['tabela']}.id_fornecedor", 'left')
-            ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$vencimento['tabela']}.id_ativo_configuracao", 'left');
+          ->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
+          ->select("{$modulo}.*")
+          ->select('frn.razao_social as fornecedor')
+          ->select('ativo_configuracao.id_ativo_configuracao, ativo_configuracao.titulo as servico')
+          ->join("fornecedor frn", "frn.id_fornecedor={$vencimento['tabela']}.id_fornecedor", 'left')
+          ->join('ativo_configuracao', "ativo_configuracao.id_ativo_configuracao={$vencimento['tabela']}.id_ativo_configuracao", 'left');
 
           $veiculo_manutencao_colunas = ['veiculo_km_proxima_revisao', 'veiculo_horimetro_proxima_revisao'];
 
           if (in_array($vencimento['coluna'], $veiculo_manutencao_colunas) && isset($vencimento['id_configuracao_revisao'])) {
-            switch ($vencimento['coluna']) {
-              case "veiculo_hora_proxima_revisao":
-                $hrs_credito_select = "(select veiculo_horimetro_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_horimetro_proxima_revisao IS NOT NULL AND veiculo_horimetro_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
-                $kms_debito_select = "(select veiculo_horimetro from ativo_veiculo_operacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_ativo_veiculo_operacao desc limit 1)";
-                
-                $relatorio
-                  ->select("$kms_debito_select as horimetro_debito, $hrs_credito_select as horimetro_credito, ($hrs_credito_select - $kms_debito_select) as horimetro_saldo")
-                  ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
-                  ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
-                  ->where("($hrs_credito_select - $kms_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.veiculo_horimetro_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_horimetro_proxima_revisao > 0))")
-                  ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
-              break;
-              
-              
-              case "veiculo_km_proxima_revisao":
-                $kms_credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
-                $kms_debito_select = "(select veiculo_km from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_ativo_veiculo_quilometragem desc limit 1)";
-                
-                $relatorio
-                  ->select("
-                    $kms_debito_select as km_debito, $kms_credito_select as km_credito, ($kms_credito_select - $kms_debito_select) as km_saldo,
-                    $kms_debito_select as veiculo_km_atual
-                  ")
-                  ->order_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao", 'desc')
-                  ->group_by("{$vencimento['tabela']}.id_ativo_veiculo_manutencao")
-                  ->where("($kms_credito_select - $kms_debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.veiculo_km_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.veiculo_km_proxima_revisao > 0))")
-                  ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
-              break;
+            $column = "veiculo_km";
+            $table = "ativo_veiculo_quilometragem";
+            if ($vencimento['coluna'] === "veiculo_horimetro_proxima_revisao") {
+              $table = "ativo_veiculo_operacao";
+              $column = "veiculo_horimetro";
             }
+
+            $credito_select = "(select {$column}_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo AND ({$column}_proxima_revisao IS NOT NULL AND {$column}_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+            $debito_select = "(select {$column} from {$table} where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by id_{$table} desc limit 1)";
+                
+            $relatorio
+            ->select("$debito_select as horimetro_debito, $credito_select as horimetro_credito, ($credito_select - $debito_select) as horimetro_saldo")
+            ->where("($credito_select - $debito_select) <= {$vencimento['alerta']} AND ({$vencimento['tabela']}.id_ativo_configuracao = {$vencimento['id_configuracao_revisao']} AND ({$vencimento['tabela']}.{$column}_proxima_revisao IS NOT NULL AND {$vencimento['tabela']}.{$column}_proxima_revisao > 0))")
+            ->or_where("{$vencimento['tabela']}.{$vencimento['coluna_vencimento']} IS NOT NULL AND {$vencimento['tabela']}.{$vencimento['coluna_vencimento']} BETWEEN '{$now}' AND '{$date}'");
           }
         }
 
         if ($modulo == 'ativo_externo' && $vencimento['tabela'] == "ativo_externo_certificado_de_calibracao") {
           $id_modulo = "id_{$modulo}";
-          $relatorio->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
-                    ->select("$modulo.nome as ativo_nome, $modulo.codigo as ativo_codigo, $modulo.data_inclusao as ativo_data_inclusao")
-                    ->select("({$vencimento['tabela']}.data_vencimento > '{$now}') as vigencia");
+          $relatorio
+          ->join($modulo, "$modulo.$id_modulo = {$vencimento['tabela']}.{$id_modulo}")
+          ->select("$modulo.nome as ativo_nome, $modulo.codigo as ativo_codigo, $modulo.data_inclusao as ativo_data_inclusao")
+          ->select("({$vencimento['tabela']}.data_vencimento > '{$now}') as vigencia");
         }
 
         if (!in_array($vencimento['coluna'], $veiculo_manutencao_colunas) || $modulo != 'ativo_externo' ) {
@@ -1157,14 +1150,14 @@ class Relatorio_model extends Relatorio_model_base {
           } else {
             $relatorio->where("{$vencimento['coluna']} = '{$date}'");
           }
-
-          $relatorio
-            ->order_by("{$vencimento['tabela']}.{$vencimento['group_by']}", 'desc')
-            ->group_by("{$vencimento['tabela']}.{$vencimento['group_by']}");
         }
 
-        $relatorio_data = $relatorio->get($vencimento['tabela'])->result();
-        if (count($relatorio_data) >= 1) {
+        $relatorio_data =  $relatorio
+            ->order_by("{$vencimento['tabela']}.{$vencimento['group_by']}", 'desc')
+            ->group_by("{$vencimento['tabela']}.{$vencimento['group_by']}")
+            ->get($vencimento['tabela'])->result();
+
+        if (count($relatorio_data) > 0) {
           if (!isset($results[$vencimento['nome']])) {
             $results[$vencimento['nome']] = (object) [
               'data' => [],
@@ -1172,11 +1165,32 @@ class Relatorio_model extends Relatorio_model_base {
               'tipo' => $vencimento['nome']
             ];
           }
-          
-          $results[$vencimento['nome']]->data = array_merge($results[$vencimento['nome']]->data, $relatorio_data);
+
+          if ($modulo == 'ativo_veiculo') {
+            if(!isset($veiculos_modulos_ids[$modulo])) $veiculos_modulos_ids[$modulo] = [];
+            if(!isset($veiculos_modulos_ids[$modulo][$vencimento['nome']])) $veiculos_modulos_ids[$modulo][$vencimento['nome']] = [];
+
+            foreach($relatorio_data as $data){
+              $id = "{$id_modulo}_{$vencimento['nome']}";
+              if(!in_array($data->$id, $veiculos_modulos_ids[$modulo][$vencimento['nome']])) {
+                $veiculos_modulos_ids[$modulo][$vencimento['nome']][] = $data->$id;
+                $results[$vencimento['nome']]->data[] = $data;
+              }
+            }
+          } else {
+            if(!isset($ativo_externo_modulos_ids[$modulo])) $ativo_externo_modulos_ids[$modulo] = [];
+
+            foreach($relatorio_data as $data){
+              if(!in_array($data->$id_modulo, $ativo_externo_modulos_ids[$modulo])) {
+                $ativo_externo_modulos_ids[$modulo][] = $data->$id_modulo;
+                $results[$vencimento['nome']]->data[] = $data;
+              }
+            }
+          }
         }
       }
     }
+    
     return (object) $results;
   }
 

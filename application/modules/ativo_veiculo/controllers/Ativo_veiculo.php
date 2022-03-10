@@ -72,7 +72,7 @@ class Ativo_veiculo  extends MY_Controller
         $data['id_interno_maquina'] = $this->input->post('id_interno_maquina');
         $data['valor_funcionario'] = $this->formata_moeda_float($this->input->post('valor_funcionario') ?: 0);
         $data['valor_adicional'] =  $this->formata_moeda_float($this->input->post('valor_adicional') ?: 0);
-        $data['valor_fipe'] = $this->formata_moeda_float($this->input->post('valor_fipe') ?: 0);
+        $data['fipe_valor'] = $this->formata_moeda_float($this->input->post('fipe_valor') ?: 0);
         $data['fipe_mes_referencia'] = $this->input->post('fipe_mes_referencia');
         $data['codigo_fipe'] = $this->input->post('codigo_fipe');
         
@@ -806,10 +806,10 @@ class Ativo_veiculo  extends MY_Controller
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
         if ($veiculo) {
-            $valor_fipe = str_replace("R$", "", $this->input->post('valor_fipe'));
-            $valor_fipe = str_replace(".", "", $valor_fipe);
-            $valor_fipe = str_replace(",", ".", $valor_fipe);
-            $data['veiculo_valor_fipe'] = trim($valor_fipe);
+            $fipe_valor = str_replace("R$", "", $this->input->post('fipe_valor'));
+            $fipe_valor = str_replace(".", "", $fipe_valor);
+            $fipe_valor = str_replace(",", ".", $fipe_valor);
+            $data['veiculo_fipe_valor'] = trim($fipe_valor);
 
             $valor_depreciacao = str_replace("R$", "", $this->input->post('veiculo_valor_depreciacao'));
             $valor_depreciacao = str_replace(".", "", $valor_depreciacao);

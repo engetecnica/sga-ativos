@@ -28,8 +28,8 @@
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($veiculo) && isset($veiculo->valor_fipe)){?>
-                                    <input type="hidden" name="valor_fipe" id="valor_fipe" value="<?php echo $veiculo->valor_fipe; ?>">
+                                <?php if(isset($veiculo) && isset($veiculo->fipe_valor)){?>
+                                    <input type="hidden" name="fipe_valor" id="fipe_valor" value="<?php echo $veiculo->fipe_valor; ?>">
                                 <?php } ?>
 
                                 <?php if(isset($veiculo) && isset($veiculo->fipe_mes_referencia)){?>
@@ -43,7 +43,7 @@
                                 <?php 
                                     $total_depreciacao = 0;
                                     $debito_depreciacao = 0;
-                                    $saldo_depreciacao = (float) $veiculo->valor_fipe; 
+                                    $saldo_depreciacao = (float) $veiculo->fipe_valor; 
                                     foreach($lista as $valor) {
                                         $debito_depreciacao = (float) $valor->veiculo_valor_depreciacao;
                                         $total_depreciacao += (float) $debito_depreciacao;
@@ -65,7 +65,7 @@
                                         <td><?php echo $veiculo->veiculo ." / ".$veiculo->codigo_fipe; ?></td>
                                         <td><?php echo $veiculo->ano; ?></td>
                                         <td><?php echo ucfirst($veiculo->fipe_mes_referencia); ?></td>
-                                        <td><?php echo $this->formata_moeda($veiculo->valor_fipe); ?></td>
+                                        <td><?php echo $this->formata_moeda($veiculo->fipe_valor); ?></td>
                                         <td><?php echo $this->formata_data($veiculo->data); ?></td>
                                     </tr>
                                     <?php foreach($lista as $value){ ?>
@@ -74,7 +74,7 @@
                                         <td>-</td>
                                         <td>-</td>
                                         <td><?php echo ucfirst($value->fipe_mes_referencia); ?></td>
-                                        <td><?php echo $this->formata_moeda($value->veiculo_valor_fipe); ?></td>
+                                        <td><?php echo $this->formata_moeda($value->fipe_valor); ?></td>
                                         <td><?php echo $this->formata_data($value->veiculo_data); ?></td>
                                     </tr>
                                     <?php } ?> 
