@@ -601,6 +601,19 @@ $config['sendgrid_apikey'] = $_ENV["SENDGRID_APIKEY"] ?: null;
 
 try {
     $config['meses_ano'] = require(__DIR__."/meses_ano.php");
+   
+    require(APPPATH."/config/veiculos.php");
+    $config['veiculos_modelos'] = getMaquinasModelos();
+    $config['veiculos_marcas'] = getMaquinasMarcas();
+    $config['veiculos_tipos'] =  getTipos();
+    $config['veiculos_tipos_pt'] = getTipos(true);
+	$config['veiculos_tipos_vetor']  = array_keys(getTipos(true));
+
 } catch (\Exception $e){
     $config['meses_ano'] = [];
+    $config['veiculos_modelos'] = [];
+    $config['veiculos_marcas'] = [];
+    $config['veiculos_tipos'] = [];
+    $config['veiculos_tipos_pt'] = [];
+	$config['veiculos_tipos_vetor'] =  [];
 }

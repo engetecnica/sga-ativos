@@ -17,16 +17,15 @@ trait Ativo_veiculo_trait {
 
     protected $file_json_file_path = APPPATH."../assets/uploads/fipe/fipe.json";
     //protected $file_json_file_path = "/tmp/fipe.json"; 
-    protected $veiculo_tipos_vetor;
 
     # Testando tipos de veiculos pela FIPE
     function fipe_get_marcas($tipo = null, $returnArray = false)
     {
+        $marcas = [];   
+
         if (!$tipo) $tipo = $this->input->post('tipo_veiculo');
 
-        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
-            $marcas = [];   
-
+        if (in_array($tipo, $this->tipos_vetor) || $tipo != "maquina") {
             if ($this->existsInLocalFipe($tipo, 'marcas')) {
                 $marcas = $this->readLocalFipe()[$tipo]['marcas'];
             } else {
@@ -41,12 +40,14 @@ trait Ativo_veiculo_trait {
 
                     case 'caminhao':
                         $marcas = FipeCaminhoes::getMarcas();
-                        break;
+                    break;
                 }
                 $this->saveLocalFipe(["{$tipo}" => ["marcas" => is_array($marcas) ? $marcas : []]]);
             } 
 
-        } else {
+        }
+
+        if (in_array($tipo, ['maquina', 'machine'])) {
             $marcas = $this->get_maquinas_custom_marcas();
         }
 
@@ -57,12 +58,12 @@ trait Ativo_veiculo_trait {
     # Modelos - Tabela FIPE
     public function fipe_get_modelos($tipo = null, $marca = null, $returnArray = false)
     {
+        $modelos = [];
+
         if (!$tipo) $tipo = $this->input->post('tipo_veiculo');
         if (!$marca) $marca = $this->input->post('id_marca');
 
-        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
-            $modelos = [];
-
+        if (in_array($tipo, $this->tipos_vetor)) {
             if ($this->existsInLocalFipe($tipo, 'marcas', $marca, 'modelos')) {
                 $modelos = $this->readLocalFipe()[$tipo]['marcas'][$marca]['modelos'];
             } else {
@@ -81,7 +82,9 @@ trait Ativo_veiculo_trait {
                 }
                 $this->saveLocalFipe(["{$tipo}" => ['marcas' => ["{$marca}" => ["modelos" => $modelos]]]]);
             }
-        } else {
+        } 
+
+        if (in_array($tipo, ['maquina', 'machine'])) {
             $modelos = $this->get_maquinas_custom_modelos();
         }
 
@@ -93,33 +96,33 @@ trait Ativo_veiculo_trait {
     # Anos - Tabela FIPE
     public function fipe_get_anos($returnArray = false)
     {
+        $anos = [];
         $tipo = $this->input->post('tipo_veiculo');
         $marca = $this->input->post('id_marca');
         $modelo = $this->input->post('id_modelo');
 
-        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
-            $anos = [];
-
+        if (in_array($tipo, $this->tipos_vetor)) {
             if ($this->existsInLocalFipe($tipo, 'marcas', $marca, $modelo, 'anos')) {
                 $anos = $this->readLocalFipe()[$tipo]['marcas'][$marca][$modelo]['anos'];
             } else {
                 switch ($tipo) {
                     case 'carro':
                         $anos = FipeCarros::getAnos($marca, $modelo);
-                        break;
+                    break;
 
                     case 'moto':
                         $anos = FipeMotos::getAnos($marca, $modelo);
-                        break;
+                    break;
 
                     case 'caminhao':
                         $anos = FipeCaminhoes::getAnos($marca, $modelo);
-                        break;
+                    break;
                 }
                 $this->saveLocalFipe(["{$tipo}" => ['marcas' => ["{$marca}" => ["{$modelo}" => ["anos" => $anos]]]]]);
             }
-
-        } else {
+        } 
+        
+        if (in_array($tipo, ['maquina', 'machine'])) {
             $anos = $this->get_maquinas_custom_modelos()['anos'];
         }
 
@@ -130,34 +133,37 @@ trait Ativo_veiculo_trait {
     # Anos - Tabela FIPE
     public function fipe_get_veiculos($returnArray = false)
     {
+        $veiculos = [];
+        
         $tipo = $this->input->post('tipo_veiculo');
         $marca = $this->input->post('id_marca');
         $modelo = $this->input->post('id_modelo');
         $ano = $this->input->post('ano');
-        $veiculos = [];
 
-        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
+        if (in_array($tipo, $this->tipos_vetor)) {
             if ($this->existsInLocalFipe($tipo, $marca, $modelo, $ano ,'veiculos')) {
                 $veiculos = $this->readLocalFipe()[$tipo]['marcas'][$marca][$modelo][$ano]['veiculos'];
             } else {
                 switch ($tipo) {
                     case 'carro':
                         $veiculos = FipeCarros::getVeiculo($marca, $modelo, $ano);
-                        break;
+                    break;
 
                     case 'moto':
                         $veiculos = FipeMotos::getVeiculo($marca, $modelo, $ano);
-                        break;
+                    break;
 
                     case 'caminhao':
                         $veiculos = FipeCaminhoes::getVeiculo($marca, $modelo, $ano);
-                        break;
+                    break;
                 }
                 $this->saveLocalFipe(["{$tipo}" => ['marcas' =>  ["{$marca}" => ["{$modelo}" => ["{$ano}" => [
                     "veiculos" => $veiculos,
                 ]]]]]]);
             }
-        } else {
+        }
+        
+        if (in_array($tipo, ['maquina', 'machine'])) {
             $veiculos = $this->get_maquinas_custom_veiculos($marca, $modelo, $ano);    
         }
 
@@ -219,7 +225,7 @@ trait Ativo_veiculo_trait {
     public function fipe_veiculo($tipo, $id_marca, $id_modelo)
     {
         $marca = (object) ['marca' => '-', 'modelo' => '-'];
-        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
+        if (in_array($tipo, $this->tipos_vetor)) {
             $marca = null;
             $marcas = $this->fipe_get_marcas($tipo, true); 
             if (is_array($marcas)) {
@@ -254,27 +260,14 @@ trait Ativo_veiculo_trait {
 
 
     public function get_maquinas_custom_modelos(){
-        $modelos = null;
-        try {
-            require(APPPATH."/config/veiculos.php");
-            $modelos = getMaquinasModelos();
-        } catch (\Exception $e){
-            $modelos = [];
-        }
-
         return [ 
-            "modelos" => $modelos,
+            "modelos" => $this->config->item('veiculos_modelos'),
             "anos" => array_map(function($ano){return ["nome" => $ano, "codigo" => $ano];}, range(1987, (int) date('Y') + 1)),
         ];
     }
 
     public function get_maquinas_custom_marcas(){
-        try {
-            require(APPPATH."/config/veiculos.php");
-            return getMaquinasMarcas();
-        } catch (\Exception $e){
-            return [];
-        }
+        return $this->config->item('veiculos_marcas');
     }
 
     public function get_maquinas_custom_veiculos($marca, $modelo, $ano){

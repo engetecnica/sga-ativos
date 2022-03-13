@@ -10,8 +10,8 @@ require_once __DIR__ ."/Ativo_veiculo_trait.php";
  */
 class Ativo_veiculo  extends MY_Controller
 {
-
     use Ativo_veiculo_trait;
+
     protected $ultimo_erro_upload_arquivo, $tipos, $tipos_vetor, $tipos_pt;
 
     function __construct()
@@ -105,24 +105,35 @@ class Ativo_veiculo  extends MY_Controller
             $data['veiculo_horimetro_data'] = date('Y-m-d H:i:s');
         }
 
-        $fipe = $this->fipe_get_veiculo($this->tipos[$data['tipo_veiculo']], $data['codigo_fipe'], $data['ano']);
 
-		if ($fipe->success) {
-            $fipe = $fipe->data;
+        if(!in_array($data['tipo_veiculo'], ['maquina', 'machine'])) {
+            $fipe = $this->fipe_get_veiculo($this->tipos[$data['tipo_veiculo']], $data['codigo_fipe'], $data['ano']);
+
+            if ($fipe->success) {
+                $fipe = $fipe->data;
+                $data['marca'] = $fipe->marca;
+                $data['modelo'] = $fipe->modelo;
+                $data['combustivel'] = $fipe->combustivel;
+                $data['fipe_mes_referencia'] = $this->formata_mes_referecia(
+                    $fipe->fipe_mes_referencia,
+                    $fipe->fipe_ano_referencia
+                );
+
+                if((!$veiculo && (float) $data['valor_fipe'] === 0) || (float) $veiculo->valor_fipe === 0) {
+                    $data['valor_fipe'] = $fipe->fipe_valor;
+                }   
+            }
+        }
+
+        if(in_array($data['tipo_veiculo'], ['maquina', 'machine'])) {
+            $fipe = $this->fipe_veiculo($data['tipo_veiculo'], $data['id_marca'], $data['id_modelo']);
             $data['marca'] = $fipe->marca;
             $data['modelo'] = $fipe->modelo;
-            $data['combustivel'] = $fipe->combustivel;
-            $data['fipe_mes_referencia'] = $this->formata_mes_referecia(
-                $fipe->fipe_mes_referencia,
-                $fipe->fipe_ano_referencia
-            );
-
-            if((!$veiculo && (float) $data['valor_fipe'] === 0) || (float) $veiculo->valor_fipe === 0) {
-                $data['valor_fipe'] = $fipe->fipe_valor;
-            }
-		}
-
+            $data['combustivel'] = "Diesel";
+        }
+        
         $last_id = $this->ativo_veiculo_model->salvar_formulario($data);
+
         if ($data['id_ativo_veiculo'] == '' || !$data['id_ativo_veiculo']) {
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {

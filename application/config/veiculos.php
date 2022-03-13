@@ -24,9 +24,9 @@ function getMaquinasMarcas(){
         ["nome" => "Massey Ferguson", "codigo" => 4],
         ["nome" => "New Holland", "codigo" => 5],
         ["nome" => "Valtra", "codigo" => 6],
-        ["nome" => "Bobcat", "codigo" => 11],
-        ["nome" => "JCB", "codigo" => 12],
-        ["nome" => "Outra", "codigo" => 13],
+        ["nome" => "Bobcat", "codigo" => 7],
+        ["nome" => "JCB", "codigo" => 8],
+        ["nome" => "Outra", "codigo" => 9],
     ];
 }
 

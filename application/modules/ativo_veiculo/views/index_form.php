@@ -350,6 +350,6 @@
             this.tipo_veiculo = '<?php echo isset($detalhes) && isset($detalhes->tipo_veiculo) ? $detalhes->tipo_veiculo : '';?>' || ''
             this.veiculo_placa = '<?php echo isset($detalhes) && isset($detalhes->veiculo_placa) ? $detalhes->veiculo_placa : '';?>' || ''
             this.id_interno_maquina = '<?php echo isset($detalhes) && isset($detalhes->id_interno_maquina) ? $detalhes->id_interno_maquina : '';?>' || ''
-        }
+        },
     })
 </script>

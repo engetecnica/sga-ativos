@@ -11,17 +11,9 @@ class Ativo_veiculo_model extends MY_Model {
 	{
 		parent::__construct();
 		$this->load->model('configuracao/configuracao_model');
-
-		try {
-            require(APPPATH."/config/veiculos.php");
-			$this->tipos = getTipos();
-			$this->tipos_pt = getTipos(true);
-			$this->tipos_vetor  = array_keys(getTipos(true));
-        } catch (\Exception $e){
-			$this->tipos = [];
-			$this->tipos_pt = [];
-			$this->tipos_vetor  = [];
-        }
+		$this->tipos =  $this->config->item('veiculos_tipos');
+		$this->tipos_pt =  $this->config->item('veiculos_tipos_pt');
+		$this->tipos_vetor  = $this->config->item('veiculos_tipos_vetor');
 	}
 
 	public function salvar_formulario($data=null){
