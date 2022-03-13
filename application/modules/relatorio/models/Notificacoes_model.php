@@ -1,5 +1,5 @@
 <?php 
-require_once(__DIR__."/Relatorio_model_base.php");
+// require_once(__DIR__."/Relatorio_model_base.php");
 use \GuzzleHttp\Client;
 use \PHPMailer\PHPMailer\PHPMailer;
 use \PHPMailer\PHPMailer\Exception as PHPMailerException;

@@ -34,7 +34,7 @@
 
                                 <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>

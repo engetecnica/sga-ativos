@@ -1,5 +1,30 @@
 <?php
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\Utils;
+use GuzzleHttp\Psr7\Request as HttpClientRequest;
+use GuzzleHttp\Psr7\Response as HttpClientResponse;
+
 trait MY_Trait {
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
+
+    /**
+     * @var HttpClient
+     */
+    protected $httpClientObject;
+
+     /**
+     * @var HttpClientRequest
+     */
+    protected $httpClientRequest;
+
+    protected $meses_ano = [];
+
     public function get_situacao($status=null, $case2 = 'Descartado', $case2_class = 'info'){
         $texto = "Ativo";
         $class = "success";
@@ -209,6 +234,31 @@ trait MY_Trait {
         return isset($valor) ? implode($separador, $valor) : "-";
       }
 
+      public function formata_mes_referecia($mes = 1, $ano = null){
+        $referencia = null;
+        $meses_ano = $this->config->item('meses_ano');
+        array_filter($meses_ano, function($m) use ($mes, &$referencia) {
+          if ($m['id'] === (int) $mes) $referencia = $m;
+        });
+        return isset($referencia['nome']) ? "{$referencia['nome']} de {$ano}" : $mes;
+      }
+
+      public function get_mes_referecia($mes_referencia){
+        $referencia = explode("de", $mes_referencia);
+        $meses_ano = $this->config->item('meses_ano');
+        if(count($referencia) === 2) {
+          $mes = trim(strtolower($referencia[0]));
+          $ano = trim(strtolower($referencia[1]));  
+          if($meses_ano[$mes]) {
+            return (object) [
+              "mes" => $meses_ano[$mes]['nome'],
+              "id" =>$meses_ano[$mes]['id'],
+              "ano" => $ano
+            ];
+          }
+        }
+        return null;
+      }
 
       public function sem_acesso(){
         $this->session->set_flashdata('msg_erro', "Você não possui acesso a este módulo.");
@@ -234,5 +284,23 @@ trait MY_Trait {
             echo "</pre>";
         }
         exit;
+      }
+
+      public function createHttpClient($base_uri = ""){
+        $this->httpClientObject = new HttpClient(["base_uri" => $base_uri]);
+      }
+
+      public function httpClient(string $url, string $method = "GET", array $body = null, $headers = []) : HttpClientResponse
+      {
+          if(!$this->httpClientObject) $this->createHttpClient();
+
+          $headers = array_merge(["Content-type" => "application/json"], $headers);
+          $request = new HttpClientRequest($method, $url, $headers, $body ? json_encode($body) : "");
+          $response = $this->httpClientObject->sendAsync($request);
+  
+          if($response instanceof Promise) {
+            return Utils::unwrap([$url => $response])[$url];
+          }
+          return $response;
       }
 }

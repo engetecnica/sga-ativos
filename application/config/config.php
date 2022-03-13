@@ -598,3 +598,9 @@ foreach (range(1, 10) as $id) {
 
 //SendGrid
 $config['sendgrid_apikey'] = $_ENV["SENDGRID_APIKEY"] ?: null;
+
+try {
+    $config['meses_ano'] = require(__DIR__."/meses_ano.php");
+} catch (\Exception $e){
+    $config['meses_ano'] = [];
+}

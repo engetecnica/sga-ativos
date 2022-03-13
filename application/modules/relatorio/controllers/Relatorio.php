@@ -45,7 +45,7 @@ class Relatorio extends MY_Controller {
       $html = $this->load->view("/../views/relatorio_top", $data, true);
       $html .= $this->load->view("/../views/relatorio_{$relatorio_nome}", $data, true);
       $html .= $this->load->view("/../views/relatorio_footer", $data, true);
-
+   
       $upload_path = "assets/uploads/relatorio";
       $path = __DIR__."/../../../../{$upload_path}";
   

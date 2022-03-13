@@ -34,7 +34,7 @@
 
                                 <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>
@@ -78,8 +78,8 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="000" class="form-control" 
-                                        min="<?php echo $dados_veiculo->veiculo_km + 1; ?>"
-                                        value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_km) ? $abastecimento->veiculo_km : $dados_veiculo->veiculo_km + 1; ?>">
+                                        min="<?php echo $veiculo->veiculo_km + 1; ?>"
+                                        value="<?php echo isset($abastecimento) && isset($abastecimento->veiculo_km) ? $abastecimento->veiculo_km : $veiculo->veiculo_km + 1; ?>">
                                     </div>
                                     
             

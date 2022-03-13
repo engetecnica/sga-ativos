@@ -17,14 +17,14 @@ trait Ativo_veiculo_trait {
 
     protected $file_json_file_path = APPPATH."../assets/uploads/fipe/fipe.json";
     //protected $file_json_file_path = "/tmp/fipe.json"; 
-    protected $veiculo_tipos = ['carro','caminhao','moto'];
+    protected $veiculo_tipos_vetor;
 
     # Testando tipos de veiculos pela FIPE
     function fipe_get_marcas($tipo = null, $returnArray = false)
     {
         if (!$tipo) $tipo = $this->input->post('tipo_veiculo');
 
-        if (in_array($tipo, $this->veiculo_tipos)) {
+        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
             $marcas = [];   
 
             if ($this->existsInLocalFipe($tipo, 'marcas')) {
@@ -60,7 +60,7 @@ trait Ativo_veiculo_trait {
         if (!$tipo) $tipo = $this->input->post('tipo_veiculo');
         if (!$marca) $marca = $this->input->post('id_marca');
 
-        if (in_array($tipo, $this->veiculo_tipos)) {
+        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
             $modelos = [];
 
             if ($this->existsInLocalFipe($tipo, 'marcas', $marca, 'modelos')) {
@@ -97,7 +97,7 @@ trait Ativo_veiculo_trait {
         $marca = $this->input->post('id_marca');
         $modelo = $this->input->post('id_modelo');
 
-        if (in_array($tipo, $this->veiculo_tipos)) {
+        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
             $anos = [];
 
             if ($this->existsInLocalFipe($tipo, 'marcas', $marca, $modelo, 'anos')) {
@@ -136,7 +136,7 @@ trait Ativo_veiculo_trait {
         $ano = $this->input->post('ano');
         $veiculos = [];
 
-        if (in_array($tipo, $this->veiculo_tipos)) {
+        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
             if ($this->existsInLocalFipe($tipo, $marca, $modelo, $ano ,'veiculos')) {
                 $veiculos = $this->readLocalFipe()[$tipo]['marcas'][$marca][$modelo][$ano]['veiculos'];
             } else {
@@ -165,11 +165,61 @@ trait Ativo_veiculo_trait {
         echo json_encode($veiculos);
     }
 
+    public function fipe_get_veiculo($tipo, $codigo, $ano) {
+        $data = $message = $response = null; $success = false;
+        if($codigo) {
+            $response = $this->httpClient("https://parallelum.com.br/fipe/api/v2/{$tipo}/{$codigo}/years/{$ano}");
+        }
+
+        $data = [
+            'id_veiculo_tipo' => null,
+            'codigo' => null,
+            'fipe_valor' => 0,
+            'fipe_mes_referencia' => null,
+            'fipe_ano_referencia' => null,
+            'marca' => null,
+            'modelo' => null,
+            'combustivel' => null,
+            'combustivel_sigla'=> null,
+            'ano' => null,
+        ];
+
+        if($response && $response->getStatusCode() === 200) {
+            $fipe = json_decode($response->getBody()->getContents());
+            $referencia = $this->ativo_veiculo_model->get_mes_referecia($fipe->referenceMonth);
+            
+            $data = (object) [
+                'id_veiculo_tipo' => null,
+                'codigo' => $fipe->codeFipe,
+                'fipe_valor' => $this->formata_moeda_float($fipe->price),
+                'fipe_mes_referencia' => $referencia->id,
+                'fipe_ano_referencia' =>  $referencia->ano,
+                'marca' => $fipe->brand,
+                'modelo' => $fipe->model,
+                'combustivel' => $fipe->fuel,
+                'combustivel_sigla'=> $fipe->fuelAcronym,
+                'ano' => $fipe->modelYear,
+            ];
+
+            $success = true;
+            $message = "Novo registro inserido com sucesso!";
+        }
+    
+        if(!$success) $message = "Ocorreu um erro ao buscar dados FIPE do veículo!";
+
+        return (object) ([
+            "success" => $success, 
+            "data" => $data, 
+            "message" => $message
+        ]);
+    }
+    
+
     # Modelos - Tabela FIPE
     public function fipe_veiculo($tipo, $id_marca, $id_modelo)
     {
         $marca = (object) ['marca' => '-', 'modelo' => '-'];
-        if (in_array($tipo, $this->veiculo_tipos)) {
+        if (in_array($tipo, $this->veiculo_tipos_vetor)) {
             $marca = null;
             $marcas = $this->fipe_get_marcas($tipo, true); 
             if (is_array($marcas)) {
@@ -184,7 +234,12 @@ trait Ativo_veiculo_trait {
             $modelos = $this->fipe_get_modelos($tipo, $id_marca, true);
             if (is_array($modelos)) {
                 foreach ($modelos['modelos'] as $modelo) {
-                    if (!is_bool($modelo) && $modelo['codigo'] == $id_modelo) $marca = (object) ['marca' => $marca, 'modelo' => $modelo['nome']];
+                    if (!is_bool($modelo) && $modelo['codigo'] == $id_modelo) {
+                        $marca = (object) [
+                            'marca' => $marca, 
+                            'modelo' => $modelo['nome']
+                        ];
+                    }
                 }
             }
         } else {
@@ -193,39 +248,33 @@ trait Ativo_veiculo_trait {
                 'modelo' => array_values(array_filter($this->get_maquinas_custom_modelos()['modelos'],function($mdl) use ($id_modelo) {return $mdl['codigo'] == $id_modelo;}))[0]['nome'],
             ];
         }
+        
         return $marca;
     }
 
 
     public function get_maquinas_custom_modelos(){
+        $modelos = null;
+        try {
+            require(APPPATH."/config/veiculos.php");
+            $modelos = getMaquinasModelos();
+        } catch (\Exception $e){
+            $modelos = [];
+        }
+
         return [ 
-            "modelos" => [
-                [ "nome" => "Escavadeira", "codigo" => 1],
-                [ "nome" => "Retroescavadeira", "codigo" => 2],
-                [ "nome" => "Pá Carregadeira", "codigo" => 3],
-                [ "nome" => "Empilhadeira", "codigo" => 4],
-                [ "nome" => "Rolo Compactador Liso", "codigo" => 5],
-                [ "nome" => "Rolo Compactador Liso (Pé de Caneiro)", "codigo" => 6],
-                [ "nome" => "Rolo Pnemático", "codigo" => 7],
-                [ "nome" => "Mini Escavadeira ", "codigo" => 8],
-                [ "nome" => "Mini Carregadeira", "codigo" => 9],
-                [ "nome" => "Trator Esteira", "codigo" => 10],
-                [ "nome" => "Outro", "codigo" => 100000000000],
-            ],
+            "modelos" => $modelos,
             "anos" => array_map(function($ano){return ["nome" => $ano, "codigo" => $ano];}, range(1987, (int) date('Y') + 1)),
         ];
     }
 
     public function get_maquinas_custom_marcas(){
-        return [
-            ["nome" => "Case", "codigo" => 1],
-            ["nome" => "CAT | Caterpillar", "codigo" => 2],
-            ["nome" => "Jhon Deere", "codigo" => 3],
-            ["nome" => "Massey Ferguson", "codigo" => 4],
-            ["nome" => "New Holland", "codigo" => 5],
-            ["nome" => "Valtra", "codigo" => 6],
-            ["nome" => "Outra", "codigo" => 100000000000]
-        ];
+        try {
+            require(APPPATH."/config/veiculos.php");
+            return getMaquinasMarcas();
+        } catch (\Exception $e){
+            return [];
+        }
     }
 
     public function get_maquinas_custom_veiculos($marca, $modelo, $ano){

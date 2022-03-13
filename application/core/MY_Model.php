@@ -1,6 +1,27 @@
 <?php
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\Utils;
+use GuzzleHttp\Psr7\Request as HttpClientRequest;
+use GuzzleHttp\Psr7\Response as HttpClientResponse;
 
 class MY_model extends CI_Model {
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
+
+    /**
+     * @var HttpClient
+     */
+    protected $httpClientObject;
+
+     /**
+     * @var HttpClientRequest
+     */
+    protected $httpClientRequest;
 
     protected $user;
 
@@ -73,5 +94,22 @@ class MY_model extends CI_Model {
             echo "</pre>";
         }
         exit;
+    }
+
+    public function createHttpClient($base_uri = ""){
+        $this->httpClientObject = new HttpClient(["base_uri" => $base_uri]);
+    }
+
+    public function httpClient(string $url, string $method = "GET", array $body = null, $headers = []) : HttpClientResponse
+    {
+        if(!$this->httpClientObject) $this->createHttpClient();
+        $headers = array_merge(["Content-type" => "application/json"], $headers);
+        $request = new HttpClientRequest($method, $url, $headers, $body ? json_encode($body) : "");
+        $response = $this->httpClientObject->sendAsync($request);
+
+        if($response instanceof Promise) {
+          return Utils::unwrap([$url => $response])[$url];
+        }
+        return $response;
     }
 }

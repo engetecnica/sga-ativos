@@ -16,7 +16,7 @@
             <?php
 
             echo "<pre>";
-            print_r($dados_veiculo);
+            print_r($veiculo);
             echo "</pre>";
 
             ?>

@@ -12,7 +12,7 @@ class Ativo_veiculo  extends MY_Controller
 {
 
     use Ativo_veiculo_trait;
-    protected $ultimo_erro_upload_arquivo;
+    protected $ultimo_erro_upload_arquivo, $tipos, $tipos_vetor, $tipos_pt;
 
     function __construct()
     {
@@ -25,6 +25,10 @@ class Ativo_veiculo  extends MY_Controller
             echo redirect(base_url('login'));
         }
         # Fecha Login 
+
+        $this->tipos =  $this->ativo_veiculo_model->tipos;
+        $this->tipos_vetor =  $this->ativo_veiculo_model->tipos_vetor;
+        $this->tipos_pt =  $this->ativo_veiculo_model->tipos_pt;
     }
 
     function index()
@@ -57,6 +61,12 @@ class Ativo_veiculo  extends MY_Controller
 
     function salvar()
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($this->input->post('id_ativo_veiculo'));
 
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
@@ -72,7 +82,7 @@ class Ativo_veiculo  extends MY_Controller
         $data['id_interno_maquina'] = $this->input->post('id_interno_maquina');
         $data['valor_funcionario'] = $this->formata_moeda_float($this->input->post('valor_funcionario') ?: 0);
         $data['valor_adicional'] =  $this->formata_moeda_float($this->input->post('valor_adicional') ?: 0);
-        $data['fipe_valor'] = $this->formata_moeda_float($this->input->post('fipe_valor') ?: 0);
+        $data['valor_fipe'] = $this->formata_moeda_float($this->input->post('valor_fipe') ?: 0);
         $data['fipe_mes_referencia'] = $this->input->post('fipe_mes_referencia');
         $data['codigo_fipe'] = $this->input->post('codigo_fipe');
         
@@ -95,13 +105,23 @@ class Ativo_veiculo  extends MY_Controller
             $data['veiculo_horimetro_data'] = date('Y-m-d H:i:s');
         }
 
-        $fabricante = $this->fipe_get_veiculos(true);
-		if (isset($fabricante)) {
-            $data['marca'] = $fabricante['Marca'];
-            $data['modelo'] = $fabricante['Modelo'];
-            $data['combustivel'] = $fabricante['Combustivel'];
+        $fipe = $this->fipe_get_veiculo($this->tipos[$data['tipo_veiculo']], $data['codigo_fipe'], $data['ano']);
+
+		if ($fipe->success) {
+            $fipe = $fipe->data;
+            $data['marca'] = $fipe->marca;
+            $data['modelo'] = $fipe->modelo;
+            $data['combustivel'] = $fipe->combustivel;
+            $data['fipe_mes_referencia'] = $this->formata_mes_referecia(
+                $fipe->fipe_mes_referencia,
+                $fipe->fipe_ano_referencia
+            );
+
+            if((!$veiculo && (float) $data['valor_fipe'] === 0) || (float) $veiculo->valor_fipe === 0) {
+                $data['valor_fipe'] = $fipe->fipe_valor;
+            }
 		}
-        
+
         $last_id = $this->ativo_veiculo_model->salvar_formulario($data);
         if ($data['id_ativo_veiculo'] == '' || !$data['id_ativo_veiculo']) {
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
@@ -204,7 +224,7 @@ class Ativo_veiculo  extends MY_Controller
                     $template = "_form";
                 } else {
                     $template = "";
-                    $data['lista'] = $this->ativo_veiculo_modquilometragemel->get_ativo_veiculo_ipva_lista($tipo);
+                    $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_ipva_lista($tipo);
                 }
             break;
 
@@ -224,6 +244,8 @@ class Ativo_veiculo  extends MY_Controller
 
             case 'depreciacao':
                 $data['lista'] = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo);
+                $data['meses_ano'] = $this->meses_ano;
+
                 if ($tipo == 'adicionar') {
                     $template = "_form";
                 } elseif ($tipo == 'editar') {
@@ -261,8 +283,16 @@ class Ativo_veiculo  extends MY_Controller
     }
 
     # Salvar Abastecimento
-    public function abastecimento_salvar($json = false)
+    public function abastecimento_salvar($returnJson = false)
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+        
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $data['id_ativo_veiculo_abastecimento'] = $this->input->post('id_ativo_veiculo_abastecimento');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
@@ -277,7 +307,7 @@ class Ativo_veiculo  extends MY_Controller
 
             if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
                 $msg =  "KM atual deve ser maior que a KM inicial do veículo e última lançada!";
-                if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
                 $this->session->set_flashdata('msg_erro', $msg);
                 return $this->redirect($veiculo, 'abastecimento', $data, $data['id_ativo_veiculo_abastecimento'] ? "editar" : "adicionar");
             }
@@ -297,13 +327,13 @@ class Ativo_veiculo  extends MY_Controller
                     $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km]);
                 }
                 $msg = "Novo registro inserido com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             } else {
                 $this->db->where('id_ativo_veiculo_abastecimento', $data['id_ativo_veiculo_abastecimento'])
                     ->update('ativo_veiculo_abastecimento', $data);
                 $msg = "Registro atualizado com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             }
 
@@ -314,13 +344,22 @@ class Ativo_veiculo  extends MY_Controller
         }
 
         $msg = "Veiculo não encontrado!";
-        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+        if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
         $this->session->set_flashdata('msg_erro', $msg);
         echo redirect(base_url("ativo_veiculo"));
     }
 
 
-    public function abastecimento_deletar($id_ativo_veiculo, $id_ativo_veiculo_abastecimento, $json = false){
+    public function abastecimento_deletar($id_ativo_veiculo, $id_ativo_veiculo_abastecimento, $returnJson = false)
+    {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $abastecimento = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_abastecimento = {$id_ativo_veiculo_abastecimento}")
@@ -328,23 +367,15 @@ class Ativo_veiculo  extends MY_Controller
 
         if (!$abastecimento) {
             $msg = "Lançamento de Abastecimento não encontrado!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
             return false;
         }
 
-        // if ($this->user->nivel != 1) {
-        //     $msg = "Usuário sem permissão!";
-        //     if ($json) return $this->json(['success' => false, 'message' => $msg]);
-        //     $this->session->set_flashdata('msg_erro', $msg);
-        //     echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
-        //     return false;
-        // }
-
         if (!$this->ativo_veiculo_model->permit_delete_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento)) {
             $msg = "Lançamento Quilometragem não pode ser excluído!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
             return false;
@@ -353,14 +384,22 @@ class Ativo_veiculo  extends MY_Controller
         $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'abastecimento', $id_ativo_veiculo_abastecimento);
         $this->db->where("id_ativo_veiculo_abastecimento = {$id_ativo_veiculo_abastecimento}")->delete('ativo_veiculo_abastecimento');
 
-        if ($json) return $this->json(['success' => true]);
+        if ($returnJson) return $this->json(['success' => true]);
         echo redirect(base_url("ativo_veiculo/gerenciar/abastecimento/{$id_ativo_veiculo}"));
         return true;
     }
 
     # Salvar KM
-    public function quilometragem_salvar($json = false)
+    public function quilometragem_salvar($returnJson = false)
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $data['id_ativo_veiculo_quilometragem'] = $this->input->post('id_ativo_veiculo_quilometragem');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
@@ -374,7 +413,7 @@ class Ativo_veiculo  extends MY_Controller
             $veiculo_km = (int) $this->input->post('veiculo_km');
             if ($ultimo_km && $veiculo_km < $ultimo_km->veiculo_km) {
                 $msg =  "KM atual deve ser maior que a quilometragem inicial do veículo e anterior lançada!";
-                if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
                 $this->session->set_flashdata('msg_erro', $msg);
                 return $this->redirect($veiculo, 'quilometragem', $data);
             }
@@ -385,13 +424,13 @@ class Ativo_veiculo  extends MY_Controller
             if (!$data['id_ativo_veiculo_quilometragem']) {
                 $this->db->insert('ativo_veiculo_quilometragem', $data);
                 $msg = "Novo registro inserido com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             } else {
                 $this->db->where('id_ativo_veiculo_quilometragem', $data['id_ativo_veiculo_quilometragem'])
                     ->update('ativo_veiculo_quilometragem', $data);
                 $msg = "Registro atualizado com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             }
 
@@ -401,12 +440,21 @@ class Ativo_veiculo  extends MY_Controller
         }
 
         $msg = "Veiculo não encontrado!";
-        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+        if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
         $this->session->set_flashdata('msg_erro', $msg);
         echo redirect(base_url("ativo_veiculo"));
     }
 
-    public function quilometragem_deletar($id_ativo_veiculo, $id_ativo_veiculo_quilometragem, $json = false){
+    public function quilometragem_deletar($id_ativo_veiculo, $id_ativo_veiculo_quilometragem, $returnJson = false)
+    {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $quilometragem = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_quilometragem = {$id_ativo_veiculo_quilometragem}")
@@ -414,23 +462,15 @@ class Ativo_veiculo  extends MY_Controller
 
         if (!$quilometragem) {
             $msg = "Lançamento de Quilometragem não encontrado!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
             return false;
         }
 
-        // if ($this->user->nivel != 1) {
-        //     $msg = "Usuário sem permissão!";
-        //     if ($json) return $this->json(['success' => false, 'message' => $msg]);
-        //     $this->session->set_flashdata('msg_erro', $msg);
-        //     echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
-        //     return false;
-        // }
-
         if (!$this->ativo_veiculo_model->permit_delete_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem)) {
             $msg = "Lançamento Quilometragem não pode ser excluído!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
             return false;
@@ -439,19 +479,28 @@ class Ativo_veiculo  extends MY_Controller
         $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'quilometragem', $id_ativo_veiculo_quilometragem);
         $this->db->where("id_ativo_veiculo_quilometragem = {$id_ativo_veiculo_quilometragem}")->delete('ativo_veiculo_quilometragem');
 
-        if ($json) return $this->json(['success' => true]);
+        if ($returnJson) return $this->json(['success' => true]);
         echo redirect(base_url("ativo_veiculo/gerenciar/quilometragem/{$id_ativo_veiculo}"));
         return true;
     }
 
 
-    public function count_operacao_horas($inicio, $fim){
+    public function count_operacao_horas($inicio, $fim)
+    {
         return ((strtotime($fim) - strtotime($inicio)) / 60) / 60;
     }
 
     # Salvar Tempo de Operação para maquinas - Horimetro
-    public function operacao_salvar($json = false)
+    public function operacao_salvar($returnJson = false)
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $data['id_ativo_veiculo_operacao'] = $this->input->post('id_ativo_veiculo_operacao');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
@@ -461,7 +510,7 @@ class Ativo_veiculo  extends MY_Controller
 
             if ($veiculo->veiculo_horimetro_atual && $veiculo_horimetro < $veiculo->veiculo_horimetro_atual) {
                 $msg =  "O valor atual deve ser maior que o valor do horimetro inicial do veículo e anterior lançada!";
-                if ($json) return $this->json(['message' => $msg, 'success' => false]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
                 $this->session->set_flashdata('msg_erro', $msg);
                 return $this->redirect($veiculo, 'operacao', $data);
             }
@@ -472,13 +521,13 @@ class Ativo_veiculo  extends MY_Controller
             if (!$data['id_ativo_veiculo_operacao']) {
                 $this->db->insert('ativo_veiculo_operacao', $data);
                 $msg = "Novo registro inserido com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             } else {
                 $this->db->where('id_ativo_veiculo_operacao', $data['id_ativo_veiculo_operacao'])
                     ->update('ativo_veiculo_operacao', $data);
                 $msg = "Registro atualizado com sucesso!";
-                if ($json) return $this->json(['message' => $msg, 'success' => true]);
+                if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             }
 
@@ -488,12 +537,21 @@ class Ativo_veiculo  extends MY_Controller
         }
 
         $msg = "Veiculo não encontrado!";
-        if ($json) return $this->json(['message' => $msg, 'success' => false]);
+        if ($returnJson) return $this->json(['message' => $msg, 'success' => false]);
         $this->session->set_flashdata('msg_erro', $msg);
         echo redirect(base_url("ativo_veiculo"));
     }
 
-    public function operacao_deletar($id_ativo_veiculo, $id_ativo_veiculo_operacao, $json = false){
+    public function operacao_deletar($id_ativo_veiculo, $id_ativo_veiculo_operacao, $returnJson = false)
+    {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $msg = "Usuário sem permissão!";
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
+            $this->session->set_flashdata('msg_erro', $msg);
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $operacao = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_operacao = {$id_ativo_veiculo_operacao}")
@@ -501,7 +559,7 @@ class Ativo_veiculo  extends MY_Controller
 
         if (!$operacao) {
             $msg = "Operação não encontrada!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
 
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
@@ -510,7 +568,7 @@ class Ativo_veiculo  extends MY_Controller
 
         if (!$this->ativo_veiculo_model->permit_delete_operacao($id_ativo_veiculo, $id_ativo_veiculo_operacao)) {
             $msg = "Lançamento Operação não pode ser excluído!";
-            if ($json) return $this->json(['success' => false, 'message' => $msg]);
+            if ($returnJson) return $this->json(['success' => false, 'message' => $msg]);
 
             $this->session->set_flashdata('msg_erro', $msg);
             echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
@@ -520,12 +578,13 @@ class Ativo_veiculo  extends MY_Controller
         $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'operacao', $id_ativo_veiculo_operacao);
         $this->db->where("id_ativo_veiculo_operacao = {$id_ativo_veiculo_operacao}")->delete('ativo_veiculo_operacao');
 
-        if ($json) return $this->json(['success' => true]);
+        if ($returnJson) return $this->json(['success' => true]);
         echo redirect(base_url("ativo_veiculo/gerenciar/operacao/{$id_ativo_veiculo}"));
         return true;
     }
 
-    private function insert_km_and_operacao($veiculo, $km_atual = 0, $horimetro_atual = 0){
+    private function insert_km_and_operacao($veiculo, $km_atual = 0, $horimetro_atual = 0)
+    {
         if ($veiculo) {
             if ($km_atual > 0 && $km_atual > $veiculo->veiculo_km_atual){
                 $this->db->insert('ativo_veiculo_quilometragem', [
@@ -549,6 +608,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function manutencao_salvar()
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = (int) $this->input->post('id_ativo_veiculo');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
@@ -623,6 +688,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function manutencao_saida($id_ativo_veiculo, $id_ativo_veiculo_manutencao)
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
         $manutencao = $this->db->where('id_ativo_veiculo_manutencao', $id_ativo_veiculo_manutencao)
             ->where('id_ativo_veiculo', $id_ativo_veiculo)
@@ -650,6 +721,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function manutencao_deletar($id_ativo_veiculo, $id_ativo_veiculo_manutencao)
     {
+        if (!in_array($this->user->nivel, [1, 2])) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $manutencao = $this->db
                 ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
                 ->where("id_ativo_veiculo_manutencao = {$id_ativo_veiculo_manutencao}")
@@ -675,6 +752,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function ipva_salvar()
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
@@ -711,6 +794,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function ipva_deletar($id_ativo_veiculo, $id_ativo_veiculo_ipva)
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("ativo_veiculo/gerenciar/ipva/{$id_ativo_veiculo}"));
+            return false;
+        }
+
         $ipva = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_ipva = {$id_ativo_veiculo_ipva}")
@@ -743,6 +832,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function seguro_salvar()
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
@@ -771,6 +866,12 @@ class Ativo_veiculo  extends MY_Controller
 
     public function seguro_deletar($id_ativo_veiculo, $id_ativo_veiculo_seguro)
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $seguro = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_seguro = {$id_ativo_veiculo_seguro}")
@@ -802,42 +903,125 @@ class Ativo_veiculo  extends MY_Controller
 
     function depreciacao_salvar()
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $data['id_ativo_veiculo'] = !is_null($this->input->post('id_ativo_veiculo')) ? $this->input->post('id_ativo_veiculo') : '';
+        $data['id_ativo_veiculo_depreciacao'] = $this->input->post('id_ativo_veiculo_depreciacao');
+
+        $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
+        $depreciacao = $this->ativo_veiculo_model->get_ativo_veiculo_depreciacao($data['id_ativo_veiculo'], $data['id_ativo_veiculo_depreciacao']);
+
+        if (
+            (!$data['id_ativo_veiculo_depreciacao'] && $veiculo) || 
+            ($data['id_ativo_veiculo_depreciacao'] && ($veiculo && $depreciacao))
+        ) {
+            $referencia = $this->get_mes_referecia( $this->formata_mes_referecia(
+                $this->input->post('fipe_mes_referencia'), 
+                $this->input->post('fipe_ano_referencia'), 
+            ));
+
+            if(!$referencia || $referencia->ano > (int) date("Y")) {
+                $this->session->set_flashdata('msg_erro', "Dados de referência inválidos ou futuro não permitido!");
+                echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$data['id_ativo_veiculo']}"));
+                return;
+            }
+
+            if(
+                ($this->ativo_veiculo_model->permit_update_depreciacao($data['id_ativo_veiculo'], $referencia->id, $referencia->ano) && 
+                !$data['id_ativo_veiculo_depreciacao']) ||
+                $depreciacao 
+            ) {
+                $data['fipe_mes_referencia'] = $referencia->id;
+                $data['fipe_ano_referencia'] = $referencia->ano;
+                $data['fipe_valor'] = $this->formata_moeda_float($this->input->post('fipe_valor'));
+
+                if ($data['id_ativo_veiculo_depreciacao'] == '' || !$data['id_ativo_veiculo_depreciacao']) {
+                    $this->db->insert('ativo_veiculo_depreciacao', $data);
+                    $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
+                } else {
+                    $this->db->where('id_ativo_veiculo_depreciacao', $data['id_ativo_veiculo_depreciacao'])
+                        ->update('ativo_veiculo_depreciacao', $data);
+                    $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+                }
+                echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$data['id_ativo_veiculo']}"));
+                return;
+            }
+
+            $this->session->set_flashdata('msg_erro', "Já existe um registro para o mês referência!");
+            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$data['id_ativo_veiculo']}"));
+            return;
+        }
+        $this->session->set_flashdata('msg_erro', "Veiculo ou registro de depreciação não encontrado!");
+        echo redirect(base_url("ativo_veiculo"));
+    }
+
+    public function fipe_get_veiculo_from_model($veiculo) {
+        return $this->fipe_get_veiculo($this->tipos[$veiculo->tipo_veiculo], $veiculo->codigo_fipe, $veiculo->ano);
+    }
+
+    function depreciacao_atualizar($id_ativo_veiculo = null, $returnJson = false, $automation = false)
+    {
+        if ($this->user->nivel != 1 || ($this->user->nivel != 1 && !$automation)) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
+        $data['id_ativo_veiculo'] = 
+        !is_null($this->input->post('id_ativo_veiculo')) ? 
+        $this->input->post('id_ativo_veiculo') : 
+        $id_ativo_veiculo;
+
+        $message = "Veiculo não encontrado!";
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($data['id_ativo_veiculo']);
 
         if ($veiculo) {
-            $fipe_valor = str_replace("R$", "", $this->input->post('fipe_valor'));
-            $fipe_valor = str_replace(".", "", $fipe_valor);
-            $fipe_valor = str_replace(",", ".", $fipe_valor);
-            $data['veiculo_fipe_valor'] = trim($fipe_valor);
+            $message = null;
+            if($this->ativo_veiculo_model->permit_update_depreciacao($id_ativo_veiculo)) {
+                $fipe = $this->fipe_get_veiculo_from_model($veiculo);
+                if ($fipe->success) {
+                    $data = [
+                        'id_ativo_veiculo' => $id_ativo_veiculo,
+                        'fipe_valor' => $fipe->data->fipe_valor,
+                        'fipe_mes_referencia' =>  $fipe->data->fipe_mes_referencia,
+                        'fipe_ano_referencia' =>  $fipe->data->fipe_ano_referencia,
+                    ];
+                    $this->db->insert('ativo_veiculo_depreciacao',  $data);
+                }
 
-            $valor_depreciacao = str_replace("R$", "", $this->input->post('veiculo_valor_depreciacao'));
-            $valor_depreciacao = str_replace(".", "", $valor_depreciacao);
-            $valor_depreciacao = str_replace(",", ".", $valor_depreciacao);
-            $data['veiculo_valor_depreciacao'] = trim($valor_depreciacao);
+                $message = $fipe->message;
 
-            $data['fipe_mes_referencia'] = $this->input->post('fipe_mes_referencia');
-            $data['veiculo_km'] = $this->input->post('veiculo_km');
-            $data['veiculo_observacoes'] = $this->input->post('veiculo_observacoes');
-            $data['id_ativo_veiculo_depreciacao'] = $this->input->post('id_ativo_veiculo_depreciacao');
-
-            if ($data['id_ativo_veiculo_depreciacao'] == '' || !$data['id_ativo_veiculo_depreciacao']) {
-                $this->db->insert('ativo_veiculo_depreciacao', $data);
-                $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
-            } else {
-                $this->db->where('id_ativo_veiculo_depreciacao', $data['id_ativo_veiculo_depreciacao'])
-                    ->update('ativo_veiculo_depreciacao', $data);
-                $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+                if ($returnJson) return $this->json(['success' => $fipe->success , 'message' => $message]);
+                $this->session->set_flashdata($fipe->success ?'msg_success' : 'msg_erro', $message);
+                echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
+                return;
             }
-            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/" . $this->input->post('id_ativo_veiculo')));
+
+            $message =  "Já existe um registro para o mês atual!";
+            if ($returnJson) return $this->json(['success' => true, 'message' => $message]);
+            $this->session->set_flashdata('msg_erro', $message);
+            echo redirect(base_url("ativo_veiculo/gerenciar/depreciacao/{$id_ativo_veiculo}"));
             return;
         }
-        $this->session->set_flashdata('msg_erro', "Veiculo não encontrado!");
+
+        if ($returnJson) return $this->json(['success' => false, 'message' => $message]);
+        $this->session->set_flashdata('msg_erro', $message);
         echo redirect(base_url("ativo_veiculo"));
+        return;
     }
 
     public function depreciacao_deletar($id_ativo_veiculo, $id_ativo_veiculo_depreciacao)
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         $depreciacao = $this->db
             ->where("id_ativo_veiculo = {$id_ativo_veiculo}")
             ->where("id_ativo_veiculo_depreciacao = {$id_ativo_veiculo_depreciacao}")
@@ -881,6 +1065,12 @@ class Ativo_veiculo  extends MY_Controller
 
     function deletar($id_ativo_veiculo)
     {
+        if ($this->user->nivel != 1) {
+            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
+            echo redirect(base_url("/"));
+            return false;
+        }
+
         if ($this->ativo_veiculo_model->permit_delete($id_ativo_veiculo) && $this->user->nivel == 1) {
             return $this->db->where('id_ativo_veiculo', $id_ativo_veiculo)->delete('ativo_veiculo');
         }
@@ -925,7 +1115,6 @@ class Ativo_veiculo  extends MY_Controller
 
     function lancar_operacao($tipo, $id_ativo_veiculo){
         $_POST['id_ativo_veiculo'] = $id_ativo_veiculo;
-
         switch($tipo){
             case "km":
             case "quilometragem":

@@ -35,7 +35,7 @@
 
                                 <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $dados_veiculo->veiculo; ?> <?php echo $dados_veiculo->veiculo_placa ?: $dados_veiculo->id_interno_maquina; ?>
+                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>
@@ -54,7 +54,7 @@
 
                                             <?php 
                                                 for($ano = date("Y") + 1; $ano >= date("Y") - 10; $ano--){ 
-                                                if ($this->ativo_veiculo_model->permit_add_ipva($dados_veiculo->id_ativo_veiculo, $ano)) {
+                                                if ($this->ativo_veiculo_model->permit_add_ipva($veiculo->id_ativo_veiculo, $ano)) {
                                             ?>
                                                 <option <?php echo isset($ipva) && isset($ipva->ipva_ano) && $ipva->ipva_ano == $ano  ? 'selected="selected"' : '';?> value="<?php echo $ano; ?>"><?php echo $ano; ?></option>
                                             <?php }} ?>

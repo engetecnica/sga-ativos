@@ -19,6 +19,7 @@ class MY_Controller extends MX_Controller {
  
     protected $user, $logado;
 
+    use MY_Trait;
 
     function __construct($auth_user_required = true) {
         parent::__construct();
@@ -48,9 +49,9 @@ class MY_Controller extends MX_Controller {
                 $this->logado = false;
             }
         }
-    }
 
-    use MY_Trait;
+        $this->meses_ano = $this->config->item('meses_ano');
+    }
 
     public function is_auth(){
         return $this->logado;

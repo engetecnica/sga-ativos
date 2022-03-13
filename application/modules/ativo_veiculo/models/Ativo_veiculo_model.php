@@ -5,10 +5,23 @@ class Ativo_veiculo_model extends MY_Model {
 
 	use Ativo_veiculo_trait;
 
+	public $tipos, $tipos_pt, $tipos_vetor;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('configuracao/configuracao_model');
+
+		try {
+            require(APPPATH."/config/veiculos.php");
+			$this->tipos = getTipos();
+			$this->tipos_pt = getTipos(true);
+			$this->tipos_vetor  = array_keys(getTipos(true));
+        } catch (\Exception $e){
+			$this->tipos = [];
+			$this->tipos_pt = [];
+			$this->tipos_vetor  = [];
+        }
 	}
 
 	public function salvar_formulario($data=null){
@@ -28,10 +41,18 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function ativos(){
+		$select_km_atual = "(select veiculo_km from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+		$select_km_atual_data = "(select `data` from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+		$select_horimetro_atual = "(select veiculo_horimetro from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+		$select_horimetro_atual_data = "(select `data` from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+		$select_fipe_valor_atual = "(select fipe_valor from ativo_veiculo_depreciacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+
 		return $this->db->from('ativo_veiculo')
-					->select('')
-					->order_by('data', 'desc')
-					->group_by('id_ativo_veiculo');
+				->select("*, ativo_veiculo.valor_fipe as valor_aquisicao, $select_fipe_valor_atual as valor_atual")
+				->select("$select_km_atual as veiculo_km_atual, $select_km_atual_data as veiculo_km_atual_data")
+				->select("$select_horimetro_atual as veiculo_horimetro_atual, $select_horimetro_atual_data as veiculo_horimetro_atual_data")
+				->order_by('data', 'desc')
+				->group_by('id_ativo_veiculo');
 	}
 
 	public function search_ativos($search){
@@ -40,6 +61,7 @@ class Ativo_veiculo_model extends MY_Model {
 			->order_by('id_ativo_veiculo', 'desc')
 			->like('veiculo', $search)
 			->or_like('veiculo_placa', $search)
+			->or_like('id_interno_maquina', $search)
 			->or_like('codigo_fipe', $search)
 			->or_like('id_ativo_veiculo', $search)
 			->or_like('data', $search)
@@ -54,39 +76,16 @@ class Ativo_veiculo_model extends MY_Model {
 
 	public function set_outros_dados_veiculo(stdClass $veiculo = null){
 		if ($veiculo) {
-			if ($veiculo->tipo_veiculo == "maquina" && !$veiculo->id_interno_maquina) 
+			if ($veiculo->tipo_veiculo == "maquina" && !$veiculo->id_interno_maquina)
 				$veiculo->id_interno_maquina = $this->get_id_maquina($veiculo->id_ativo_veiculo);
-
-			$ultimo_km = $this->db
-							->where("id_ativo_veiculo = {$veiculo->id_ativo_veiculo}")
-							->order_by('data', 'desc')->limit(1)
-							->get('ativo_veiculo_quilometragem')->row();
-
-			$ultimo_horimetro = $this->db
-					->where("id_ativo_veiculo = {$veiculo->id_ativo_veiculo}")
-					->order_by('data', 'desc')->limit(1)
-					->get('ativo_veiculo_operacao')->row();
-
-			$veiculo->veiculo_horimetro_atual_data = null;
-			$veiculo->veiculo_km_atual = 0; 
-			$veiculo->veiculo_horimetro_atual_data = null;
-			$veiculo->veiculo_horimetro_atual = 0;
-
-			if ($ultimo_km) {
-				$veiculo->veiculo_km_atual = (int) $ultimo_km->veiculo_km; 
-				$veiculo->veiculo_km_atual_data = $ultimo_km->data;
-			}
-
-			if ($ultimo_horimetro) {
-				$veiculo->veiculo_horimetro_atual = (int) $ultimo_horimetro->veiculo_horimetro; 
-				$veiculo->veiculo_horimetro_atual_data = $ultimo_horimetro->data;
-			}
 		}
 		return $veiculo;
 	}
 
-	public function get_lista($page = 1, $limit = 100){
-		$lista = $this->ativos()->limit(((int) $page * (int) $limit), (int) $page - 1)->get()->result();
+	public function get_lista($page = null, $limit = null){
+		$veiculos = $this->ativos();
+		if ($page && $limit) $veiculos->limit(((int) $page * (int) $limit), (int) $page - 1);
+		$lista = $veiculos->get()->result();
 		return array_map(function($veiculo) {return $this->set_outros_dados_veiculo($veiculo);}, $lista);
 	}
 
@@ -313,43 +312,132 @@ class Ativo_veiculo_model extends MY_Model {
 
 	public function get_combustiveis(){
 		$configuracao = $this->configuracao_model->get_configuracao(1);
+		try {
+			require(APPPATH."/config/combustiveis.php");
+			return get_combustiveis($configuracao);
+		} catch (\Exception $e){
+			return [];
+		}
+	}
 
-		return  [
-			(object) [
-				"nome" => "Etanol/Alcool",
-				"slug" => "etanol",
-				"unidade" => "litro",
-				"valor_medio" => $configuracao->valor_medio_etanol,
-			],
-			(object) [
-				"nome" => "Gasolina",
-				"slug" => "gasolina",
-				"unidade" => "litro",
-				"valor_medio" => $configuracao->valor_medio_gasolina,
-			],
-			(object) [
-				"nome" => "Diesel",
-				"slug" => "diesel",
-				"unidade" => "litro",
-				"valor_medio" => $configuracao->valor_medio_diesel,
-			],
-			(object) [
-				"nome" => "GNV",
-				"slug" => "gnv",
-				"unidade" => "metro_cubico",
-				"valor_medio" => $configuracao->valor_medio_gnv
-			]
-		];
+	public function get_ativo_veiculo_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao){
+		$depreciacao = $this->db
+			->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_depreciacao.id_ativo_veiculo")
+			->where('ativo_veiculo_depreciacao.id_ativo_veiculo', $id_ativo_veiculo)
+			->where('id_ativo_veiculo_depreciacao', $id_ativo_veiculo_depreciacao)
+			->select('ativo_veiculo.id_ativo_veiculo, ativo_veiculo.valor_fipe as valor_aquisicao')
+			->select('ativo_veiculo_depreciacao.*')
+			->order_by("fipe_ano_referencia", "desc")
+			->order_by("fipe_mes_referencia", "desc")
+			->get('ativo_veiculo_depreciacao')
+			->row();
+
+		if($depreciacao) {
+			$depreciacao->total = 0;
+			$depreciacao->direcao = "up";
+
+			$valores = $this->ativo_veiculo_model->calc_ativo_veiculo_depreciacao_values([$depreciacao], 0);
+			if($valores->direcao === "up") $depreciacao->total -= $valores->valor;
+			else  $depreciacao->total += $valores->valor;
+
+			if($depreciacao->total < 0) $depreciacao->total_direcao = "down";
+		}
+		
+		return $depreciacao;
 	}
 
 
 	public function get_ativo_veiculo_depreciacao_lista($id_ativo_veiculo){
-		$this->db->where('id_ativo_veiculo', $id_ativo_veiculo);
-		return $this->db->group_by('id_ativo_veiculo_depreciacao')
-							->select('*')
-							->get('ativo_veiculo_depreciacao')
-							->result();
+		$lista = (object) [];
+		$lista->data = $this->db
+			->join("ativo_veiculo", "ativo_veiculo.id_ativo_veiculo=ativo_veiculo_depreciacao.id_ativo_veiculo")
+			->where('ativo_veiculo_depreciacao.id_ativo_veiculo', $id_ativo_veiculo)
+			->select('ativo_veiculo.id_ativo_veiculo, ativo_veiculo.valor_fipe as valor_aquisicao')
+			->select('ativo_veiculo_depreciacao.*')
+			->group_by('id_ativo_veiculo_depreciacao')
+			->order_by("fipe_ano_referencia", "desc")
+			->order_by("fipe_mes_referencia", "desc")
+			->get('ativo_veiculo_depreciacao')
+			->result();
+
+		if($lista->data) return $this->format_depreciacao_lista($lista, $id_ativo_veiculo);
+		return $lista;
 	}
+
+	public function format_depreciacao_lista(object $lista, $id_ativo_veiculo = null){
+		$lista->total = 0;
+		$lista->total_direcao = "up";
+
+		if($lista->data) {
+			foreach($lista->data as $l => $valor){
+				$valores = $this->calc_ativo_veiculo_depreciacao_values($lista->data, $l);
+
+				if($valores->direcao === "up") $lista->total += $valores->valor;
+				else $lista->total -= $valores->valor;
+
+
+                $lista->data[$l]->direcao = $valores->direcao;
+                $lista->data[$l]->depreciacao_valor = $valores->valor;
+                $lista->data[$l]->depreciacao_porcentagem = $valores->porcentagem;
+				
+				if($id_ativo_veiculo) $lista->data[$l]->permit_edit = $this->permit_edit_depreciacao($id_ativo_veiculo, $valor->id_ativo_veiculo_depreciacao);
+				if($id_ativo_veiculo) $lista->data[$l]->permit_delete = $this->permit_delete_depreciacao($id_ativo_veiculo, $valor->id_ativo_veiculo_depreciacao);
+			}
+
+			if($lista->total < 0) $lista->total_direcao = "down";
+		}
+		return $lista;
+	}
+
+	public function calc_ativo_veiculo_depreciacao_values(array $lista, int $index = 0){
+        $anterior = 0;
+        $direcao = "up";
+
+		if (isset($lista[$index - 1])) $anterior = (float) $lista[$index - 1]->fipe_valor;
+		else $anterior = (float) $lista[$index]->valor_aquisicao;
+
+		$maior = (float) $lista[$index]->fipe_valor;
+		$menor = (float) $anterior;
+
+		if($anterior >= $lista[$index]->fipe_valor) {
+			$direcao = "down";
+			$menor = (float) $lista[$index]->fipe_valor;
+			$maior = (float) $anterior;
+		}
+
+		$valor = (float) ($maior - $menor);
+		return (object) [
+			"valor" => $valor,
+			"porcentagem" =>  number_format((($valor * 100) / $maior), 2),
+			"direcao" => $direcao
+		];
+	}
+
+	public function formata_mes_referecia($mes = 1, $ano = null){
+    	$referencia = null;
+    	$meses_ano = $this->config->item('meses_ano');
+    	array_filter($meses_ano, function($m) use ($mes, &$referencia) {
+    	  if ($m['id'] === (int) $mes) $referencia = $m;
+    	});
+    	return isset($referencia['nome']) ? "{$referencia['nome']} de {$ano}" : $mes;
+    }
+
+    public function get_mes_referecia($mes_referencia){
+		$referencia = explode("de", $mes_referencia);
+		$meses_ano = $this->config->item('meses_ano');
+		if(count($referencia) === 2) {
+			$mes = trim(strtolower($referencia[0]));
+			$ano = trim(strtolower($referencia[1]));  
+			if($meses_ano[$mes]) {
+			return (object) [
+				"mes" => $meses_ano[$mes]['nome'],
+				"id" =>$meses_ano[$mes]['id'],
+				"ano" => $ano
+			];
+			}
+		}
+		return null;
+    }
 
 	public function permit_delete($id_ativo_veiculo){
 		return !$id_ativo_veiculo || !in_array(true, [
@@ -508,19 +596,44 @@ class Ativo_veiculo_model extends MY_Model {
 				->num_rows() === 0;
 	}
 
+	public function permit_add_depreciacao($id_ativo_veiculo){
+		$veiculo = $this->get_ativo_veiculo($id_ativo_veiculo);
+		return ($veiculo && !$veiculo->codigo_fipe);
+	}
+
 	public function permit_edit_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao){
 		$depreciacao = $this->db
-					->where('id_ativo_veiculo', $id_ativo_veiculo)
-					->where('id_ativo_veiculo_depreciacao', $id_ativo_veiculo_depreciacao)
-					->get("ativo_veiculo_depreciacao")
-					->row();
-		return $depreciacao || $this->permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao);
+				->where('id_ativo_veiculo', $id_ativo_veiculo)
+				->where('id_ativo_veiculo_depreciacao', $id_ativo_veiculo_depreciacao)
+				->order_by("fipe_ano_referencia", "desc")
+				->order_by("fipe_mes_referencia", "desc")
+				->get("ativo_veiculo_depreciacao")
+				->row();
+		return ($this->permit_add_depreciacao($id_ativo_veiculo) && $depreciacao) && 
+		$this->permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao);
+	}
+
+	
+	public function permit_update_depreciacao($id_ativo_veiculo, int $mes_atual = null, int $ano_atual = null) {
+		if($this->get_ativo_veiculo($id_ativo_veiculo)) {
+			$mes = $mes_atual ?: (int) date("m"); $ano = $ano_atual ?: (int) date("Y");
+			return $this->db
+			->where("id_ativo_veiculo = {$id_ativo_veiculo}")
+			->where("fipe_mes_referencia = {$mes} and fipe_ano_referencia = {$ano}")
+			->get("ativo_veiculo_depreciacao")
+			->num_rows() === 0;
+		}
+		return false;
 	}
 
 	public function permit_delete_depreciacao($id_ativo_veiculo, $id_ativo_veiculo_depreciacao){
+		$now = date("Y-m-d H:i:s");
 		return $this->db
 				->where('id_ativo_veiculo', $id_ativo_veiculo)
 				->where("id_ativo_veiculo_depreciacao > '{$id_ativo_veiculo_depreciacao}'")
+				->where("data < '{$now}'")
+				->order_by("fipe_ano_referencia", "desc")
+				->order_by("fipe_mes_referencia", "desc")
 				->get("ativo_veiculo_depreciacao")
 				->num_rows() === 0;
 	}

@@ -28,128 +28,55 @@
                                 <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($veiculo) && isset($veiculo->fipe_valor)){?>
-                                    <input type="hidden" name="fipe_valor" id="fipe_valor" value="<?php echo $veiculo->fipe_valor; ?>">
+                                <?php if(isset($depreciacao) && isset($depreciacao->fipe_valor)){?>
+                                    <input type="hidden" name="fipe_valor" id="fipe_valor" value="<?php echo $depreciacao->fipe_valor; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($veiculo) && isset($veiculo->fipe_mes_referencia)){?>
-                                    <input type="hidden" name="fipe_mes_referencia" id="fipe_mes_referencia" value="<?php echo $veiculo->fipe_mes_referencia; ?>">
+                                <?php if(isset($depreciacao) && isset($depreciacao->fipe_mes_referencia)){?>
+                                    <input type="hidden" name="fipe_mes_referencia" id="fipe_mes_referencia" value="<?php echo $depreciacao->fipe_mes_referencia; ?>">
+                                <?php } ?>
+
+                                <?php if(isset($depreciacao) && isset($depreciacao->fipe_ano_referencia)){?>
+                                    <input type="hidden" name="fipe_ano_referencia" id="fipe_ano_referencia" value="<?php echo $depreciacao->fipe_ano_referencia; ?>">
                                 <?php } ?>
 
                                 <?php if(isset($depreciacao) && isset($depreciacao->id_ativo_veiculo_depreciacao)){?>
                                     <input type="hidden" name="id_ativo_veiculo_depreciacao" id="id_ativo_veiculo_depreciacao" value="<?php echo $depreciacao->id_ativo_veiculo_depreciacao; ?>">
                                 <?php } ?>
 
-                                <?php 
-                                    $total_depreciacao = 0;
-                                    $debito_depreciacao = 0;
-                                    $saldo_depreciacao = (float) $veiculo->fipe_valor; 
-                                    foreach($lista as $valor) {
-                                        $debito_depreciacao = (float) $valor->veiculo_valor_depreciacao;
-                                        $total_depreciacao += (float) $debito_depreciacao;
-                                        $saldo_depreciacao -= (float) $debito_depreciacao;
-                                    }
-                                ?>
-
-                                <table class="table table-responsive-md table-striped table-bordered table-sm">
-                                    <tr>
-                                        <th>Tipo</th>
-                                        <th>Modelo/Código FIPE</th>
-                                        <th>Ano</th>
-                                        <th>Referência</th>
-                                        <th>Valor</th>
-                                        <th>Data</th>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $veiculo->tipo_veiculo; ?></td>
-                                        <td><?php echo $veiculo->veiculo ." / ".$veiculo->codigo_fipe; ?></td>
-                                        <td><?php echo $veiculo->ano; ?></td>
-                                        <td><?php echo ucfirst($veiculo->fipe_mes_referencia); ?></td>
-                                        <td><?php echo $this->formata_moeda($veiculo->fipe_valor); ?></td>
-                                        <td><?php echo $this->formata_data($veiculo->data); ?></td>
-                                    </tr>
-                                    <?php foreach($lista as $value){ ?>
-                                    <tr>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td><?php echo ucfirst($value->fipe_mes_referencia); ?></td>
-                                        <td><?php echo $this->formata_moeda($value->fipe_valor); ?></td>
-                                        <td><?php echo $this->formata_data($value->veiculo_data); ?></td>
-                                    </tr>
-                                    <?php } ?> 
-                                    <?php if(isset($saldo_depreciacao)) { ?>
-                                        <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <th>Total Depreciado</th>
-                                        <td style="color: red;"><?php echo $this->formata_moeda($total_depreciacao); ?></td>
-                                        <th>Saldo Restante</th>
-                                        <td style="color: green;"><?php echo $this->formata_moeda($saldo_depreciacao); ?></td>
-                                    </tr>
-                                    <?php } ?>
-                                </table>
-                                <hr>
-<!-- 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="tipo_veiculo" class=" form-control-label">Tipo</label>
+                                        <label for="fipe_valor" class=" form-control-label">Valor de Atual do Bem</label>
                                     </div>
-                                    <div class="col-12 col-md-3">
-                                        <input  class="form-control" readonly value="<?php echo $veiculo->tipo_veiculo; ?>"  id="tipo_veiculo" name="tipo_veiculo">
-                                    </div>
-
-                                    <div class="col-12 col-md-7">
-                                        <input type="text" class="form-control" readonly value="<?php echo $veiculo->fabricante->marca; ?>">
-                                        <input type="hidden" class="form-control" readonly value="<?php echo $veiculo->id_marca; ?>"  id="id_marca" name="id_marca">
-                                    </div>
-                                </div> -->
-
-                                <!-- <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="tipo_veiculo" class=" form-control-label">Ano/Modelo</label>
-                                    </div>                                    
-                                    
-                                    <div class="col-12 col-md-3">
-                                        <input class="form-control" readonly value="<?php echo $veiculo->ano; ?>"  id="ano" name="ano">
-                                        <input type="hidden" class="form-control" readonly value="<?php echo $veiculo->id_modelo; ?>"  id="id_modelo" name="id_modelo">
+                                    <div class="col-12 col-md-2">
+                                        <input required="required" class="form-control valor" placeholder="0,00 R$" value="<?php echo isset($depreciacao) && isset($depreciacao->fipe_valor) ?  $depreciacao->fipe_valor : ''; ?>"  id="fipe_valor" name="fipe_valor">
                                     </div>
 
-                                    <div class="col-12 col-md-7">
-                                        <input class="form-control" readonly value="<?php echo $veiculo->veiculo; ?>"  id="veiculo" name="veiculo">
-                                    </div>                                    
-
-                                </div> -->
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_valor_depreciacao" class=" form-control-label">Valor de Depreciação</label>
+                                    <div class="col-12 col-md-1">
+                                        <label for="fipe_mes_referencia" class=" form-control-label">Referência</label>
                                     </div>
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" class="form-control valor" placeholder="0,00 R$" value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_valor_depreciacao) ?  $depreciacao->veiculo_valor_depreciacao : ''; ?>"  id="veiculo_valor_depreciacao" name="veiculo_valor_depreciacao">
+                                    <div class="col-12 col-md-2">
+                                        <select 
+                                            required="required" type="number" id="fipe_mes_referencia" name="fipe_mes_referencia" class="form-control"  
+                                            value="1"
+                                        >
+                                            <option value="">Selecione Um Mês</option>
+                                            <?php 
+                                                foreach($meses_ano as $mes) {
+                                                $selected = 
+                                                (isset($depreciacao) && isset($depreciacao->fipe_mes_referencia)) && 
+                                                $depreciacao->fipe_mes_referencia == $mes['id'];
+                                            ?>
+                                                <option <?php if($selected) echo "selected"; ?> value="<?php echo $mes['id']; ?>"><?php echo $mes['nome']; ?></option>
+                                            <?php }?>
+                                        </select>
                                     </div>
-
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_km" class=" form-control-label">Quilometragem</label>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <input required="required" type="number" id="veiculo_km" name="veiculo_km" placeholder="0 KM" class="form-control" 
-                                            min="<?php echo isset($veiculo) && isset($veiculo->veiculo_km_atual) ?  ($veiculo->veiculo_km_atual + 1) : ($veiculo->veiculo_km ? $veiculo->veiculo_km : 1); ?>"  
-                                            value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_km) ?  $depreciacao->veiculo_km : ($veiculo->veiculo_km_atual ? $veiculo->veiculo_km_atual + 1 : ''); ?>"
+                                    <div class="col-12 col-md-2">
+                                        <input required="required" type="number" id="fipe_ano_referencia" name="fipe_ano_referencia" placeholder="2022" class="form-control" 
+                                        min="<?php echo (int) date('Y') - 5; ?>" max="<?php echo (int) date('Y'); ?>" 
+                                        value="<?php echo isset($depreciacao) && isset($depreciacao->fipe_mes_referencia) ? $depreciacao->fipe_ano_referencia : 2022; ?>"
                                         >
                                     </div>
-
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="veiculo_valor_depreciacao" class=" form-control-label">Observações</label>
-                                    </div>
-
-                                    <div class="col-12 col-md-7">
-                                        <textarea type="text" id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observações" class="form-control" 
-                                        value="<?php echo isset($depreciacao) && isset($depreciacao->veiculo_observacoes) ?  $depreciacao->veiculo_observacoes : ''; ?>"></textarea>
-                                    </div>                                   
                                 </div>
                                
                                 <hr>

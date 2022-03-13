@@ -29,6 +29,7 @@ class App extends MY_Controller {
             'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
             'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(),
             'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes(),
+            'veiculos_depreciacao' => $this->relatorio_model->atualiza_veiculos_depreciacao(1),
           ];
         break;
 
@@ -38,6 +39,7 @@ class App extends MY_Controller {
             'limpar_uploads' => $this->relatorio_model->limpar_uploads(),
             'informe_retiradas_pendentes' => $this->relatorio_model->enviar_informe_retiradas_pendentes("now", true),
             'informe_vencimentos' => $this->relatorio_model->enviar_informe_vencimentos(30, true),
+            'veiculos_depreciacao' => $this->relatorio_model->atualiza_veiculos_depreciacao((int) date("d") , true),
           ];
         break;
       }

@@ -755,7 +755,7 @@ class Ferramental_requisicao  extends MY_Controller {
 
             $filename = "requisicao_romaneio_" . date('YmdHis', strtotime('now')).".pdf";
             $html = $this->load->view("requisicao_romaneio", $data, true);
-            //echo $html; exit;
+         
             $upload_path = "assets/uploads/anexo";
             $path = __DIR__."/../../../../{$upload_path}";
             $file = "{$path}/{$filename}";
@@ -791,6 +791,3 @@ class Ferramental_requisicao  extends MY_Controller {
         echo redirect($this->getRef());
     }
 }
-
-/* End of file ferramental_requisicao.php */
-/* Location: ./application/modules/ferramental_requisicao/controllers/ferramental_requisicao.php */

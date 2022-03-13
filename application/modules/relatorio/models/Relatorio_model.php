@@ -1,25 +1,58 @@
 <?php 
-require_once(__DIR__."/Relatorio_model_base.php");
-class Relatorio_model extends Relatorio_model_base {
-
-  protected $uploads = [];
+class Relatorio_model  extends MY_Model {
+  public $relatorio, $periodos, $situacao_lista, $relatorios, $tipos_veiculos, $vencimentos, $uploads;
 
   public function __construct() {
       parent::__construct();
-      $this->load->model("ativo_veiculo/ativo_veiculo_model");
+
+      $this->relatorio = $this->db;
+      $this->load->model('obra/obra_model');
+      $this->load->model('funcionario/funcionario_model');
+      $this->load->model('ativo_interno/ativo_interno_model');
+      $this->load->model('ativo_externo/ativo_externo_model'); 
+      $this->load->model('ativo_veiculo/ativo_veiculo_model');
+      $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
+      $this->load->model('configuracao/configuracao_model');
       $this->load->model("anexo/anexo_model");
       $this->load->model("notificacoes_model");
 
-      $this->uploads = [
-        'avatar' => 'usuario', 
-        'comprovante_fiscal' => 'ativo_veiculo_quilometragem', 
-        'contrato_seguro' => 'ativo_veiculo_seguro',
-        'ordem_de_servico' => 'ativo_veiculo_manutencao',
-        'comprovante_ipva' => 'ativo_veiculo_ipva',
-        'anexo' => 'anexo', 
-        'certificado_de_calibracao' => 'ativo_externo', 
-        'ferramental_estoque' => 'ativo_externo_retirada',
+      try {
+        $this->status_lista = $this->status_lista();
+        $this->tipos_veiculos = $this->ativo_veiculo_model->tipos;
+        
+        //Require config
+        require(APPPATH."/config/relatorio_tipos.php");
+        require(APPPATH."/config/relatorio_vencimentos.php");
+
+        $this->relatorios = getReleatoriosTipos($this->obra_model->get_obras());
+        $this->vencimentos = getVencimentos($this->configuracao_model->get_configuracao(1));
+        $this->periodos = require(APPPATH."/config/relatorio_periodos.php");
+        $this->uploads =  require(APPPATH."/config/relatorio_uploads.php");
+      } catch (\Exception $e){
+        $this->status_lista = [];
+        $this->tipos_veiculos = [];
+        $this->periodos  = [];
+        $this->relatorios = [];
+        $this->vencimentos = [];
+        $this->uploads = [];
+      }
+  }
+
+  public function status_lista() {
+    $lista = $this->session->status_lista;
+    if (!$lista) {
+      $lista = $this->ferramental_requisicao_model->get_requisicao_status();
+      $this->session->status_lista = json_encode($lista);
+    }
+
+    return array_map(function($item) {
+      return (object) [
+        'texto' => $item->texto,
+        'class' => $item->classe,
+        'slug' => $item->slug,
+        'id_status' => $item->id_requisicao_status
       ];
+    }, is_string($lista) ? json_decode($lista) : $lista);
   }
 
   private function extract_data($tipo, $data){
@@ -430,15 +463,30 @@ class Relatorio_model extends Relatorio_model_base {
   public function veiculos_depreciacao($data=null){
     $data = $this->extract_data('veiculos_depreciacao', $data);
     $relatorio = $this->db
+        ->select('vdp.*')
         ->from('ativo_veiculo_depreciacao vdp')
-        ->join('ativo_veiculo atv', 'vdp.id_ativo_veiculo = atv.id_ativo_veiculo');
-    
+        ->join('ativo_veiculo atv', 'vdp.id_ativo_veiculo = atv.id_ativo_veiculo')
+        ->select('atv.id_ativo_veiculo,  atv.valor_fipe as valor_aquisicao, 
+          atv.modelo, atv.marca,, atv.veiculo_placa, atv.id_interno_maquina, atv.tipo_veiculo'
+        )
+        ->group_by('id_ativo_veiculo_depreciacao')
+        ->order_by("vdp.id_ativo_veiculo", "desc")
+        ->order_by("fipe_ano_referencia", "desc")
+        ->order_by("fipe_mes_referencia", "desc");
+  
+
     $inicio = $data['periodo']['inicio'];
     $fim = $data['periodo']['fim'];
-
     if ($inicio && $fim) {
       $relatorio->where("vdp.veiculo_data >= '$inicio'")
                  ->where("vdp.veiculo_data <= '$fim'");
+    }
+
+    if (
+      (isset($data['tipo_veiculo']) && !empty($data['tipo_veiculo'])) && 
+      !in_array($data['tipo_veiculo'], ['all', 'todos'])
+    ) {
+      $relatorio->where("atv.tipo_veiculo = '{$data['tipo_veiculo']}'");
     }
 
     if (isset($data['veiculo_placa']) && !empty($data['veiculo_placa'])) {
@@ -449,26 +497,70 @@ class Relatorio_model extends Relatorio_model_base {
       $relatorio->where("atv.id_interno_maquina = '{$data['id_interno_maquina']}'");
     }
 
-    return $relatorio->get()->result();
+    $lista = (object) [];
+    $lista->data = $relatorio->get()->result();
+
+    if($lista->data) return $this->ativo_veiculo_model->format_depreciacao_lista($lista);
+
+    return $lista;
   }
 
 
   public function veiculos_quilometragem($data=null){
     $data = $this->extract_data('veiculos_quilometragem', $data);
-    $kms_credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = atv.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+    $credito_select = "(select veiculo_km_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = atv.id_ativo_veiculo AND (veiculo_km_proxima_revisao IS NOT NULL AND veiculo_km_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
 
     $relatorio = $this->db
         ->from('ativo_veiculo_quilometragem km')
         ->join('ativo_veiculo atv', 'km.id_ativo_veiculo = atv.id_ativo_veiculo','right')
         ->select('km.veiculo_km as km_atual, atv.veiculo_km as km_inicial, (km.veiculo_km  - atv.veiculo_km) as km_rodado')
         ->select("atv.id_ativo_veiculo, atv.veiculo_placa, atv.veiculo, atv.veiculo_placa, atv.id_interno_maquina, atv.tipo_veiculo, atv.situacao, atv.data, atv.id_marca, atv.id_modelo")
-        ->select("(({$kms_credito_select} - km.veiculo_km) + atv.veiculo_km)  as km_ultima_revisao, {$kms_credito_select} as km_proxima_revisao");
+        ->select("(({$credito_select} - km.veiculo_km) + atv.veiculo_km)  as km_ultima_revisao, {$credito_select} as km_proxima_revisao");
     
     $inicio = $data['periodo']['inicio'];
     $fim = $data['periodo']['fim'];
     if ($inicio && $fim) {
       $relatorio->where("km.data >= '$inicio'")
                  ->where("km.data <= '$fim'");
+    }
+
+    if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] != 'todos') {
+      $relatorio->where("atv.tipo_veiculo = '{$data['tipo_veiculo']}'");
+    }
+
+    if (isset($data['veiculo_placa']) && !empty($data['veiculo_placa'])) {
+      $relatorio->where("atv.veiculo_placa = '{$data['veiculo_placa']}'");
+    }
+
+    if (isset($data['id_interno_maquina']) && !empty($data['id_interno_maquina'])) {
+      $relatorio->where("atv.id_interno_maquina = '{$data['id_interno_maquina']}'");
+    }
+ 
+    $veiculos = $relatorio->group_by('atv.id_ativo_veiculo')->get()->result();
+    if(count($veiculos) > 0) {
+      foreach($veiculos as $k => $veiculo){
+        if ($veiculo->tipo_veiculo == 'maquina') $veiculos[$k] = $this->ativo_veiculo_model->set_outros_dados_veiculo($veiculo);
+      }
+    }
+    return $veiculos;
+  }
+
+  public function veiculos_operacao($data=null){
+    $data = $this->extract_data('veiculos_operacao', $data);
+    $credito_select = "(select veiculo_horimetro_proxima_revisao from ativo_veiculo_manutencao where (id_ativo_veiculo = atv.id_ativo_veiculo AND (veiculo_horimetro_proxima_revisao IS NOT NULL AND veiculo_horimetro_proxima_revisao > 0)) order by id_ativo_veiculo_manutencao desc limit 1)";
+
+    $relatorio = $this->db
+        ->from('ativo_veiculo_operacao horimetro')
+        ->join('ativo_veiculo atv', 'horimetro.id_ativo_veiculo = atv.id_ativo_veiculo','right')
+        ->select('horimetro.veiculo_horimetro as horimetro_atual, atv.veiculo_horimetro as horimetro_inicial, (horimetro.veiculo_horimetro  - atv.veiculo_horimetro) as horimetro_rodado')
+        ->select("atv.id_ativo_veiculo, atv.veiculo_placa, atv.veiculo, atv.veiculo_placa, atv.id_interno_maquina, atv.tipo_veiculo, atv.situacao, atv.data, atv.id_marca, atv.id_modelo")
+        ->select("(({$credito_select} - horimetro.veiculo_horimetro) + atv.veiculo_horimetro)  as horimetro_ultima_revisao, {$credito_select} as horimetro_proxima_revisao");
+    
+    $inicio = $data['periodo']['inicio'];
+    $fim = $data['periodo']['fim'];
+    if ($inicio && $fim) {
+      $relatorio->where("horimetro.data >= '$inicio'")
+                 ->where("horimetro.data <= '$fim'");
     }
 
     if (isset($data['tipo_veiculo']) && $data['tipo_veiculo'] != 'todos') {
@@ -1271,5 +1363,41 @@ class Relatorio_model extends Relatorio_model_base {
       ) : false;
     }
     return true;
+  }
+
+  public function atualiza_veiculos_depreciacao($day = 1, $debug = false){
+    $success = []; $messages = [];
+     
+    if ((int) date("d") === $day) {
+      $veiculos = $this->ativo_veiculo_model->get_lista();
+      foreach($veiculos as $veiculo) {
+        if(
+          $this->ativo_veiculo_model->permit_update_depreciacao($veiculo->id_ativo_veiculo) && 
+          !in_array($this->tipos_veiculos[$veiculo->tipo_veiculo], ['machine']) &&
+          ($veiculo->codigo_fipe && $veiculo->ano)
+        ) {
+          $fipe = $this->ativo_veiculo_model->fipe_get_veiculo($this->tipos_veiculos[$veiculo->tipo_veiculo], $veiculo->codigo_fipe, $veiculo->ano);
+          if ($fipe && $fipe->success) {
+              $data = [
+                  'id_ativo_veiculo' => $veiculo->id_ativo_veiculo,
+                  'fipe_valor' => $fipe->data->fipe_valor,
+                  'fipe_mes_referencia' =>  $fipe->data->fipe_mes_referencia,
+                  'fipe_ano_referencia' =>  $fipe->data->fipe_ano_referencia,
+              ];
+
+              if($debug === false) $this->db->insert('ativo_veiculo_depreciacao', $data);
+              else {
+                echo "<br><pre>";
+                print_r([$data]);
+                echo "</pre>";
+              }
+          }
+
+          $success[$veiculo->id_ativo_veiculo] = $fipe->success;
+          $messages[$veiculo->id_ativo_veiculo] = $fipe->message;
+        }
+      }
+    }
+    return (object) ['success' => !in_array(false, $success) , 'messages' => $messages];
   }
 }
