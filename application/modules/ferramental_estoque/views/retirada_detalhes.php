@@ -145,16 +145,16 @@
 
                                 <?php if(!empty($retirada->items)){ ?>
                                 <h3 class="title-1 m-t-40">Itens</h3>
-                                <table style="min-height: 180px;" class="table table--no-card table-responsive-lg table-borderless table-striped table-earning" id="lista">
+                                <table style="min-height: 180px;" class="table table--no-card table-responsive-md table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
                                             <th width="10%" scope="col">Item Id</th>
-                                            <th width="50%" scope="col">Item</th>
-                                            <th width="" scope="col">Quantidade</th>
-                                            <th width="" scope="col">Data da Entrega</th>
-                                            <th width="" scope="col">Data da Devolucao</th>
-                                            <th width="" scope="col">Situação</th>
-                                            <th width="" scope="col">Gerenciar</th>
+                                            <th width="60%" scope="col">Item</th>
+                                            <th width="2.5%" scope="col">Quantidade</th>
+                                            <th width="10%" scope="col">Data da Entrega</th>
+                                            <th width="10%" scope="col">Data da Devolucao</th>
+                                            <th width="2.5%"scope="col">Situação</th>
+                                            <th width="5%" scope="col">Gerenciar</th>
                                         </tr>
                                     </thead>
                                     <tbody>

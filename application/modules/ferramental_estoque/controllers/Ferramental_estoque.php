@@ -66,13 +66,8 @@ class Ferramental_estoque  extends MY_Controller {
     }
 
     function adicionar(){
-        $this->get_template('index_form', [
-            'funcionarios' => json_encode($this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0) ?: []),
-            'grupos' => json_encode($this->ativo_externo_model->get_grupos($this->user->id_obra) ?: []),
-            'id_obra' => $this->user->id_obra,
-        ]);
+        $this->get_template('index_form');
     }
-
 
     function editar($id_retirada){
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
@@ -84,7 +79,7 @@ class Ferramental_estoque  extends MY_Controller {
             }
 
             $this->get_template('index_form', [
-                'retirada' => $retirada,
+                'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null,
                 'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
                 'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
                 'id_obra' => $this->user->id_obra,
@@ -95,6 +90,14 @@ class Ferramental_estoque  extends MY_Controller {
         echo redirect(base_url("ferramental_estoque"));
     }
 
+    function dados_retirada($id_retirada = null) {
+        $this->json([
+            'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null,
+            'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
+            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
+            'id_obra' => $this->user->id_obra,
+        ]);
+    }
 
     function lista_ativos_grupos_json(){
        $this->json($this->ativo_externo_model->get_grupos($this->user->id_obra, true));
@@ -155,8 +158,7 @@ class Ferramental_estoque  extends MY_Controller {
             $retirada['id_funcionario'] = $this->input->post('id_funcionario');
             $retirada['status'] = 1; # Pendente
             $retirada['observacoes'] = $this->input->post('observacoes');
-            $devolucao_prevista = $this->input->post('devolucao_prevista_data') . " " . $this->input->post('devolucao_prevista_hora');
-            $retirada['devolucao_prevista'] = date("Y-m-d H:i:s", strtotime($devolucao_prevista));
+            $retirada['devolucao_prevista'] = $this->input->post('devolucao_prevista');
 
             $mode = 'update';
             if (!$id_retirada) {
@@ -172,7 +174,7 @@ class Ferramental_estoque  extends MY_Controller {
                     echo redirect(base_url("ferramental_estoque/adicionar"));
                     return;
                 }
-                echo redirect(base_url("ferramental_estoque/adicionar/{$id_retirada}"));
+                echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
                 return;
             }
 

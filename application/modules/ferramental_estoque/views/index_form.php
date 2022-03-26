@@ -134,7 +134,7 @@
                                                 class="form-control quantidade"
                                                 v-model="grupos_selecionados[sg].quantidade"
                                                 :value="grupos_selecionados[sg].quantidade"
-                                                min="1" :max="sgrupo.estoque"
+                                                min="1" :max="sgrupo.estoque + grupos_selecionados[sg].quantidade"
                                             >
                                         </div>
 
@@ -153,12 +153,9 @@
                                     <div class="col-12 col-md-3">
                                         <label>Devolução Pevista</label>
                                     </div>                                   
-                                    <div class="col-12 col-md-3">
-                                        <input require="required" type="date" class="form-control" name="devolucao_prevista_data" id="devolucao_prevista_data" :value="devolucao_prevista_data" v-model="devolucao_prevista_data">
-                                    </div> 
-                                    <div class="col-12 col-md-2">
-                                        <input require="required" type="text" class="form-control hora" name="devolucao_prevista_hora" id="devolucao_prevista_hora" :value="devolucao_prevista_hora" v-model="devolucao_prevista_hora" placeholder="00:00:00">
-                                    </div>                                             
+                                    <div class="col-12 col-md-5">
+                                        <input require="required" type="datetime-local" class="form-control" name="devolucao_prevista" id="devolucao_prevista" v-model="devolucao_prevista">
+                                    </div>
                                 </div>
 
                                 <div class="row form-group">
@@ -205,10 +202,6 @@
 
 <script>
     var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : ''; ?>`
-    var grupos = JSON.parse(`<?php echo isset($grupos) ? $grupos : json_encode([]); ?>`)
-    var funcionarios = JSON.parse(`<?php echo isset($funcionarios) ? $funcionarios : json_encode([]); ?>`)
-    var id_obra =  parseInt("<?php echo isset($id_obra) ? $id_obra : $user->id_obra; ?>")
-
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         computed: {
@@ -216,7 +209,11 @@
                 return this.grupos.filter((gp) => {return !this.in_grupos_selecionados(gp.id_ativo_externo_grupo)});  
             },
             permite_form() {
-                return (this.devolucao_prevista_data && this.devolucao_prevista_hora) && (this.id_funcionario && this.grupos_selecionados.length > 0);
+                return ![
+                    !!this.devolucao_prevista,
+                    new Date(this.devolucao_prevista).getTime() > (new Date()).getTime(),
+                    this.id_funcionario && this.grupos_selecionados.length > 0
+                ].includes(false)
             }
         },
         data() {
@@ -230,8 +227,7 @@
                 retiradas: [],
                 solicitar_autorizacao: false,
                 user: window.user,
-                devolucao_prevista_data: null,
-                devolucao_prevista_hora: null,
+                devolucao_prevista: null,
             }
         },
         methods: {
@@ -327,42 +323,41 @@
                     estoque.id_funcionario = id_funcionario 
                 });
             },
+            getDadosRetirada(){
+                let url = `${base_url}ferramental_estoque/dados_retirada`
+                if (this.retirada) url += `/${this.retirada.id_retirada}`
+                window.$.ajax({
+                    method: "GET",
+                    url: url
+                })
+                .done(function(data) {
+                    estoque.grupos = data.grupos
+                    estoque.funcionarios = data.funcionarios
+                    estoque.id_obra = data.id_obra
+                })
+            },
             
         },
-        mounted(){
-            this.grupos = window.grupos
-            this.funcionarios = window.funcionarios
-            this.id_obra = window.id_obra
-
-            if(!!retirada) {
+        async mounted(){
+            if(!!window.retirada) {
                 this.retirada = JSON.parse(window.retirada)
                 this.id_funcionario = this.retirada.id_funcionario
                 this.id_obra = this.retirada.id_obra
-                if (this.retirada.devolucao_prevista) { 
-                    let explode = this.retirada.devolucao_prevista.split(" ")
-                    this.devolucao_prevista_data = explode[0]
-                    this.devolucao_prevista_hora = explode[1]
-                }
+                this.devolucao_prevista = this.retirada.devolucao_prevista.replace(" ","T")
 
+                await  this.getDadosRetirada()
                 this.grupos_selecionados = this.retirada.items.map((item) => {
                     return {
                         id_retirada_item: item.id_retirada_item,
-                        estoque: (this.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo)).estoque || 0,
+                        estoque: (this.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo))?.estoque || 0,
                         id_ativo_externo_grupo: item.id_ativo_externo_grupo,
                         nome: item.nome,
                         quantidade: item.quantidade 
                     }
                 })
+                return
             }
-        },
-        watch: {
-            devolucao_prevista_hora(){
-                setTimeout( () => {
-                    if (this.devolucao_prevista_hora === "") {
-                        this.devolucao_prevista_hora = null
-                    }
-                }, 10)
-            }
+            await this.getDadosRetirada()
         }
     })
 </script>
