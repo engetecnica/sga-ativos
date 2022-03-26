@@ -244,7 +244,7 @@
                     url: base_url + "ferramental_estoque/lista_ativos_grupos_json",
                 })
                 .done(function(grupos) {
-                    estoque.grupos = JSON.parse(grupos)
+                    estoque.grupos = JSON.parse(window.grupos)
                 });
             },
             seleciona_funcionario(id_funcionario = null, solilicitar = true){
@@ -330,12 +330,12 @@
             
         },
         mounted(){
-            this.grupos = JSON.parse(grupos)
-            this.funcionarios = JSON.parse(funcionarios)
-            this.id_obra = id_obra
+            this.grupos = JSON.parse(window.grupos)
+            this.funcionarios = JSON.parse(window.funcionarios)
+            this.id_obra = parseInt(window.id_obra)
 
             if(!!retirada) {
-                this.retirada = JSON.parse(retirada)
+                this.retirada = JSON.parse(window.retirada)
                 this.id_funcionario = this.retirada.id_funcionario
                 this.id_obra = this.retirada.id_obra
                 if (this.retirada.devolucao_prevista) { 
