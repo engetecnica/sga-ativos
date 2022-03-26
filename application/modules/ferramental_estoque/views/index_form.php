@@ -133,7 +133,7 @@
                                                 class="form-control quantidade"
                                                 v-model="grupos_selecionados[sg].quantidade"
                                                 :value="grupos_selecionados[sg].quantidade"
-                                                min="1" :max="sgrupo.estoque + grupos_selecionados[sg].quantidade"
+                                                min="1" :max="sgrupo.estoque"
                                             >
                                         </div>
 
@@ -200,7 +200,7 @@
 </div>
 
 <script>
-    var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : ''; ?>`
+    var id_retirada = "<?php echo isset($id_retirada) ? $id_retirada : null; ?>"
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         computed: {
@@ -322,9 +322,9 @@
                     estoque.id_funcionario = id_funcionario 
                 });
             },
-            getDadosRetirada(){
+            getDadosRetirada(id_retirada = null){
                 let url = `${base_url}ferramental_estoque/dados_retirada`
-                if (this.retirada) url += `/${this.retirada.id_retirada}`
+                if (id_retirada) url += `/${id_retirada}`
                 window.$.ajax({
                     method: "GET",
                     url: url
@@ -333,30 +333,30 @@
                     estoque.grupos = data.grupos
                     estoque.funcionarios = data.funcionarios
                     estoque.id_obra = data.id_obra
+
+                    if(data.retirada) {
+                        estoque.retirada = data.retirada
+                        estoque.id_funcionario = estoque.retirada.id_funcionario
+                        estoque.id_obra = estoque.retirada.id_obra
+                        estoque.devolucao_prevista = estoque.retirada.devolucao_prevista.replace(" ","T")
+
+                        estoque.grupos_selecionados = estoque.retirada.items.map((item) => {
+                            return {
+                                id_retirada_item: item.id_retirada_item,
+                                estoque: (estoque.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo))?.estoque || 0,
+                                id_ativo_externo_grupo: item.id_ativo_externo_grupo,
+                                nome: item.nome,
+                                quantidade: item.quantidade 
+                            }
+                        })
+                        return
+                    }
                 })
             },
             
         },
         async mounted(){
-            if(!!window.retirada) {
-                this.retirada = JSON.parse(window.retirada)
-                this.id_funcionario = this.retirada.id_funcionario
-                this.id_obra = this.retirada.id_obra
-                this.devolucao_prevista = this.retirada.devolucao_prevista.replace(" ","T")
-
-                await  this.getDadosRetirada()
-                this.grupos_selecionados = this.retirada.items.map((item) => {
-                    return {
-                        id_retirada_item: item.id_retirada_item,
-                        estoque: (this.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo))?.estoque || 0,
-                        id_ativo_externo_grupo: item.id_ativo_externo_grupo,
-                        nome: item.nome,
-                        quantidade: item.quantidade 
-                    }
-                })
-                return
-            }
-            await this.getDadosRetirada()
+            await this.getDadosRetirada(window.id_retirada)
         }
     })
 </script>

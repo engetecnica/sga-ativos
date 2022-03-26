@@ -78,12 +78,7 @@ class Ferramental_estoque  extends MY_Controller {
                 return;
             }
 
-            $this->get_template('index_form', [
-                'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null,
-                'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
-                'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
-                'id_obra' => $this->user->id_obra,
-            ]);
+            $this->get_template('index_form', ['id_retirada' => $id_retirada]);
             return;
         }
         $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
