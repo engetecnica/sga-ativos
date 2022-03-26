@@ -67,8 +67,8 @@ class Ferramental_estoque  extends MY_Controller {
 
     function adicionar(){
         $this->get_template('index_form', [
-            'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
-            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra),
+            'funcionarios' => json_encode($this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0) ?: []),
+            'grupos' => json_encode($this->ativo_externo_model->get_grupos($this->user->id_obra) ?: []),
             'id_obra' => $this->user->id_obra,
         ]);
     }

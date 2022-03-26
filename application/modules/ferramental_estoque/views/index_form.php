@@ -205,8 +205,8 @@
 
 <script>
     var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : ''; ?>`
-    var grupos = JSON.parse(`<?php echo isset($grupos) ? json_encode($grupos) : json_encode([]); ?>`)
-    var funcionarios = JSON.parse(`<?php echo isset($funcionarios) ? json_encode($funcionarios) : json_encode([]); ?>`)
+    var grupos = JSON.parse(`<?php echo isset($grupos) ? $grupos : json_encode([]); ?>`)
+    var funcionarios = JSON.parse(`<?php echo isset($funcionarios) ? $funcionarios : json_encode([]); ?>`)
     var id_obra =  parseInt("<?php echo isset($id_obra) ? $id_obra : $user->id_obra; ?>")
 
     var estoque = new Vue({
