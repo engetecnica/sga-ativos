@@ -330,9 +330,9 @@
             
         },
         mounted(){
-            if(grupos) this.grupos = JSON.parse(grupos)
-            if(funcionarios) this.funcionarios = JSON.parse(funcionarios)
-            if(id_obra) this.id_obra = id_obra
+            this.grupos = JSON.parse(grupos)
+            this.funcionarios = JSON.parse(funcionarios)
+            this.id_obra = id_obra
 
             if(!!retirada) {
                 this.retirada = JSON.parse(retirada)
