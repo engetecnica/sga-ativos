@@ -205,8 +205,8 @@
 
 <script>
     var retirada = `<?php echo isset($retirada)  ? json_encode($retirada) : ''; ?>`
-    var grupos = JSON.parse(`<?php echo isset($grupos) ? json_encode($grupos) : json_encode([]); ?>`)
-    var funcionarios = JSON.parse(`<?php echo isset($funcionarios) ? json_encode($funcionarios) : json_encode([]); ?>`)
+    var grupos = `<?php echo isset($grupos) ? json_encode($grupos) : json_encode([]); ?>`
+    var funcionarios = `<?php echo isset($funcionarios) ? json_encode($funcionarios) : json_encode([]); ?>`
     var id_obra = "<?php echo isset($id_obra) ? $id_obra : $user->id_obra; ?>"
 
     var estoque = new Vue({
@@ -221,11 +221,11 @@
         },
         data() {
             return {
-                grupos: grupos,
+                grupos: [],
                 grupos_selecionados: [],
-                funcionarios: funcionarios,
+                funcionarios: [],
                 retirada: null,
-                id_obra: id_obra,
+                id_obra: null,
                 id_funcionario: null,
                 retiradas: [],
                 solicitar_autorizacao: false,
@@ -330,7 +330,11 @@
             
         },
         mounted(){
-            if(retirada) {
+            if(grupos) this.grupos = JSON.parse(grupos)
+            if(funcionarios) this.funcionarios = JSON.parse(funcionarios)
+            if(id_obra) this.id_obra = id_obra
+
+            if(!!retirada) {
                 this.retirada = JSON.parse(retirada)
                 this.id_funcionario = this.retirada.id_funcionario
                 this.id_obra = this.retirada.id_obra
