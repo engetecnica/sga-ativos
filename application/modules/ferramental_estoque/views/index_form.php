@@ -217,11 +217,11 @@
         },
         data() {
             return {
-                grupos: JSON.parse(`<?php echo json_encode($grupos); ?>`),
+                grupos: JSON.parse(`<?php echo isset($grupos) ? json_encode($grupos) : "[]"; ?>`),
                 grupos_selecionados: [],
-                funcionarios: JSON.parse(`<?php echo json_encode($funcionarios); ?>`),
+                funcionarios: JSON.parse(`<?php echo isset($funcionarios) ? json_encode($funcionarios) : "[]"; ?>`),
                 retirada: null,
-                id_obra: "<?php echo $id_obra; ?>",
+                id_obra: "<?php echo isset($id_obra) ? $id_obra : $user->id_obra; ?>" || null,
                 id_funcionario: null,
                 retiradas: [],
                 solicitar_autorizacao: false,
