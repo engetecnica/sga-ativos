@@ -57,7 +57,7 @@
 
                                 <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
                                 <!-- Itens da Retirada -->
-                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista2">
+                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista1">
                                     <thead>
                                         <tr>
                                             <th scope="col" width="80%">Nome</th>
@@ -75,7 +75,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-
                                         <tr v-if="grupos_filted.length == 0" >
                                             <td>Nemhum grupo diponível</td>
                                             <td>0</td>
