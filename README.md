@@ -25,30 +25,36 @@ CI_ENV="development"
 APP_NAME="Engetecnica App"
 APP_UPLOAD_MAX_SIZE=50
 APP_TIMEZONE="America/Sao_Paulo"
-
+APP_MONETARY="pt_BR"
 
 #Email Notifications
-APP_NOTIFICATION_FROM_EMAIL="app@mail.com"
-APP_NOTIFICATION_TO_NAME="Administrador"
-APP_NOTIFICATION_TO_EMAIL="adm@mail.com"
-APP_NOTIFICATION_TO_NAME2="Administrador 2"
-APP_NOTIFICATION_TO_EMAIL2="adm2@mail.com"
-#APP_NOTIFICATION_TO_NAMELX ...
-#APP_NOTIFICATION_TO_EMAILX ...
+APP_NOTIFICATION_FROM_EMAIL="from@example.com"
+APP_NOTIFICATION_TO_NAME="Engetecnica Admin"
+APP_NOTIFICATION_TO_EMAIL="adm@example.com"
+#APP_NOTIFICATION_TO_NAME2="Engetecnica Admin 2"
+#APP_NOTIFICATION_TO_EMAIL2="adm2@example.com"
+
+SMTP_USER="user@example.com"
+SMTP_PASS="userpasshere"
+SMTP_HOST="mail.example.com"
+SMTP_PORT="465"
+SMTP_AUTH="true"
+#SMTP_REPLY="user@example.com"
 
 #OneSignal
-ONESIGNAL_APPID="825688da-a801-4c3e-9d05-789uythgrcxv"
-ONESIGNAL_APIKEY="YjhiZGU5ZjItMThhNy19Z2I3LTk2ZjctMmFmNzY2Mzg5MDIz"
+ONESIGNAL_APPID="825688da-a801-4c3e-9d05-8d643c5af4e7"
+ONESIGNAL_APIKEY="YjhiZGU5ZjItMThhNy00M2I3LTk2ZjctMmFmNzY2Mzg5MDIz"
 ONESIGNAL_APIURL="https://onesignal.com"
+ONESIGNAL_SAFARI_WEB_ID="web.onesignal.auto.44e66786-7e94-4ade-8822-3a1650cda83f"
 
-#SendGrid
-SENDGRID_APIKEY="SG.KT_MWSDd3SjCINrr6mYYrIg.Z_R0RCXgIUhGjE-qANTvp5MlenN-ObhtVL6HjRMQ8k4"
 
 #Database
 #DB_URL=""
+#DB_DATABASE_PREFIX=""
+#DB_MG_VERSION=""
 DB_DRIVER="mysqli"
 DB_PORT=33061
-DB_HOST="localhost"
+DB_HOST="172.17.0.1"
 DB_USER="root"
 DB_PASS="root"
 DB_DATABASE="engetecnica"
@@ -152,14 +158,8 @@ class Migration_Seed_Usuario_Default extends CI_Migration {
 
 <br>
 
-## OneSignal API
+## Configurar OneSignal API (Para notificações push)
 Crie uma conta e siga as instruções para criar um App ID e uma API key [One Signal](https://app.onesignal.com/apps/825688da-a801-4c3e-9d05-8d643c5af4e7/settings/keys_and_ids).
-
-<br>
-
-## SendGrid API
-
-Crie uma conta e siga as instruções para criar uma API key [SendGrid](https://app.sendgrid.com/settings/api_keys).
 
 <br>
 
@@ -231,6 +231,49 @@ git@github.com:<account_name>/<repo_name>.git
 # or
 ssh://git@github.com/<account_name>/<repo_name>.git
 ```
+
+
+## Inicia modificação e Upload pro Github
+
+Na master:
+```bash
+git pull --rebase origin master
+git checkout -b nome_da_nova_branch_das_modificacoes
+```
+
+Dentro de nome_da_nova_branch_das_modificacoes para enviar pro git hub;
+Se quiser ver o que modificou:
+```bash
+git status
+```
+
+Adiciona todos os arquivos modificados:
+```bash
+git add .
+```
+
+Cria pacote (commit):
+```bash
+git commit -m "Descricao do commit sem caracteres especiais ou cedilha"
+```
+
+Para realmente enviar pro Github:
+git push origin nome_da_nova_branch_das_modificacoes
+
+E se modificou alguma arquivo depois de enviar pra nova branch (muito cuidado):
+```bash
+git add .
+git commit --amend
+#CTRL + X ou Salva o arquivo
+git push origin nome_da_nova_branch_das_modificacoes -f
+```
+
+Após feito isso, criar um novo pull request no Github, se não houver um, com as modificacoes da branch chamada nome_da_nova_branch_das_modificacoes (esse nome pode ser o que preferir desde que não tenha espaços ou caracteres especiais, regra do git mesmo).
+
+Nos vídeos abaixo fazemos o pull request e o merge (juntar os códigos):
+
+* [Upload pro git hub](https://www.loom.com/share/3dc536b6893f450bbfbe12cfb005fdf7) 
+* [Deploy na hospedagem](https://www.loom.com/share/c185dff1a7684c709db557fb46d72006)
 
 ## Ilustrações
 As images utilizadas são de uso gratuitos de acordo com a lincença [`unDraw`](https://undraw.co/license)
