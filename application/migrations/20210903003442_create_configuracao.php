@@ -18,7 +18,6 @@ class Migration_Create_Configuracao extends CI_Migration {
 			->add_field('one_signal_appid varchar(255) NULL DEFAULT NULL')
 			->add_field('one_signal_apikey varchar(255) NULL DEFAULT NULL')
 			->add_field('one_signal_safari_web_id varchar(255) NULL DEFAULT NULL')
-			->add_field('sendgrid_apikey varchar(255) NULL DEFAULT NULL')
 			->add_field('valor_medio_gasolina varchar(255) NULL DEFAULT NULL')
 			->add_field('valor_medio_disel varchar(255) NULL DEFAULT NULL')
 			->add_field('valor_medio_etanol varchar(255) NULL DEFAULT NULL')

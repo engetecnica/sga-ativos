@@ -78,18 +78,6 @@
                                     </div>
                                 </div>
 
-
-                                <h6 class="m-b-20 m-t-40"><a target="_blank" href="https://sendgrid.com/">SendGrid</a> - Gerenciador de Emails</h6>
-                                <div class="row form-group">
-                                    <div class="col col-lg-1">
-                                        <label for="sendgrid_apikey" class=" form-control-label">API Key</label>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
-                                        <input type="text" id="sendgrid_apikey" name="sendgrid_apikey" placeholder="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" class="form-control" value="<?php if(isset($configuracao) && isset($configuracao->sendgrid_apikey)){ echo $configuracao->sendgrid_apikey; } ?>">
-                                    </div>
-                                </div>
-                                
-    
                                 <h5 class="m-t-60 m-b-20">Veículos e Alertas</h5>
                                 <div class="row form-group">
                                     <div class="col col-lg-3">

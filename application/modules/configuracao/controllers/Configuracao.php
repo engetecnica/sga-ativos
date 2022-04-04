@@ -34,7 +34,6 @@ class Configuracao  extends MY_Controller {
             'one_signal_appid' => $this->input->post('one_signal_appid'),
             'one_signal_apikey' => $this->input->post('one_signal_apikey'),
             'one_signal_safari_web_id' => $this->input->post('one_signal_safari_web_id'),
-            'sendgrid_apikey' => $this->input->post('sendgrid_apikey'),
             'valor_medio_diesel' => $this->formata_moeda_float($this->input->post('valor_medio_diesel') ?: 0),
             'valor_medio_gasolina' => $this->formata_moeda_float($this->input->post('valor_medio_gasolina') ?: 0),
             'valor_medio_etanol' => $this->formata_moeda_float($this->input->post('valor_medio_etanol') ?: 0),

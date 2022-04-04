@@ -21,7 +21,7 @@ class Configuracao_model extends MY_Model {
 		if ($configuracao) {
 			if ($configuracao->permit_notificacoes == 1) {
 				$configuracao->permit_notificacoes = true;
-				if (!empty($configuracao->origem_email) && !empty($configuracao->sendgrid_apikey)) $configuracao->permit_notificacoes_email = true;
+				if (!empty($configuracao->origem_email)) $configuracao->permit_notificacoes_email = true;
 
 				$one_signal = [
 					!empty($configuracao->one_signal_apiurl),
