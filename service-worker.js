@@ -32,14 +32,17 @@ async function updateCache(request, response){
   }
 }
 
-self.addEventListener('install', event => {
+function installAndUpdate(event){
+  let localFiles = localCacheFiles.filter(path => path.includes('.'))
   event.waitUntil(caches.open(cacheName).then(cache => {
-    return cache.addAll(localCacheFiles).then(() => {
+    return cache.addAll(localFiles).then(() => {
       localCacheFiles.forEach(path => { if(isCacheFileDenied(path)) cache.delete(path)})
       self.skipWaiting()
     })
   }))
-})
+}
+
+self.addEventListener('install', event => installAndUpdate(event))
 
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(cacheNames => {
@@ -57,3 +60,11 @@ self.addEventListener('fetch', async (event )=> {
     })
   )
 })
+
+
+// Additions to your service worker code:
+self.addEventListener('message', (event) => {
+  if (event.data === 'update') {
+    installAndUpdate(event)
+  }
+});

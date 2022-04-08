@@ -1267,16 +1267,25 @@ class Relatorio_model  extends MY_Model {
               $id = "{$id_modulo}_{$vencimento['nome']}";
               if(!in_array($data->$id, $veiculos_modulos_ids[$modulo][$vencimento['nome']])) {
                 $veiculos_modulos_ids[$modulo][$vencimento['nome']][] = $data->$id;
-                $results[$vencimento['nome']]->data[] = $data;
+                $results[$vencimento['nome']]->data[$data->$id] = $data;
+              }
+              else {
+                if ($data->$id === $results[$vencimento['nome']]->data[$data->$id]->$id) {
+                  $diff_array = array_diff_assoc(
+                    (array) $data, 
+                    (array) $results[$vencimento['nome']]->data[$data->$id]
+                  );
+                  $results[$vencimento['nome']]->data[$data->$id] = (object) array_merge((array) $data, $diff_array);
+                }
               }
             }
           } else {
             if(!isset($ativo_externo_modulos_ids[$modulo])) $ativo_externo_modulos_ids[$modulo] = [];
-
+            
             foreach($relatorio_data as $data){
               if(!in_array($data->$id_modulo, $ativo_externo_modulos_ids[$modulo])) {
                 $ativo_externo_modulos_ids[$modulo][] = $data->$id_modulo;
-                $results[$vencimento['nome']]->data[] = $data;
+                $results[$vencimento['nome']]->data[$data->$id_modulo] = $data;
               }
             }
           }

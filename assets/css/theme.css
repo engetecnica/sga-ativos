@@ -15079,11 +15079,13 @@ label {
     z-index: 2000 !important;
 }
 
-div::-webkit-scrollbar,
-html::-webkit-scrollbar,
-.menu-sidebar::-webkit-scrollbar {
-    width: 5px;
-    max-height: 5px !important;
+@media (max-width: 991px) {
+    div::-webkit-scrollbar,
+    html::-webkit-scrollbar,
+    .menu-sidebar::-webkit-scrollbar {
+        width: 5px;
+        max-height: 5px !important;
+    }
 }
 
 html::-webkit-scrollbar-track,
