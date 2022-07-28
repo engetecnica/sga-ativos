@@ -48,13 +48,24 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 
-	public function get_ativos($id_obra=null, $situacao=null){
+	public function get_ativos($id_obra=null, $situacao=null, $filter=null){
+
+
+		if($filter){
+			$item = $filter['item'];
+			$calibracao = ($filter['calibracao']=='sem-filtro') ? null : (($filter['calibracao']=='sim') ? '1' : '0');
+		}
+
 		$ativos = $this->ativos(false)
 				->group_by('atv.id_ativo_externo')
 				->order_by('atv.codigo');
 		
 		if ($id_obra) {
 			$ativos->where("atv.id_obra = {$id_obra}");
+		}
+
+		if(isset($calibracao)){
+			$ativos->where('atv.necessita_calibracao', $calibracao);
 		}
 
 		if ($situacao) {
@@ -65,7 +76,9 @@ class Ativo_externo_model extends MY_Model {
 			}
 		}
 
-		return $ativos->get()->result();
+		$consulta = $ativos->get()->result();
+
+		return $consulta;
 	}
 
 	public function get_ativo($id_ativo_externo, $situacao=null){
@@ -81,6 +94,10 @@ class Ativo_externo_model extends MY_Model {
 		}
 
 		return $ativo->group_by('atv.id_ativo_externo')->get()->row();
+	}
+	
+	public function get_ativo_ultimo(){
+	    return $this->db->select('codigo')->order_by('id_ativo_externo','DESC')->limit(1)->get('ativo_externo')->row();
 	}
 
 	public function get_grupos($id_obra = null){

@@ -53,6 +53,10 @@ class Index extends MY_Controller {
         ];
         
         $data['patrimonio'] = $this->relatorio_model->patrimonio_disponivel($data_patrimonio, 'arquivo');
+
+        $data['maquina_manutencao_hora'] = $this->relatorio_model->maquina_manutencao_hora();
+        $data['revisao_por_km'] = $this->relatorio_model->revisao_por_km();
+
         $this->get_template('index', $data);
     }
 

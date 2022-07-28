@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
-                        <a href="<?php echo base_url('ativo_veiculo/adicionar'); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                        <?php if($this->permitido($permissoes, 9, 'adicionar')){ ?>
+                            <a href="<?php echo base_url('ativo_veiculo/adicionar'); ?>">
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                            <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -21,6 +22,7 @@
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
+                                    <th>Obra</th>
                                     <th>Placa / ID Interna</th>
                                     <th>Veículo</th>
                                     <th>Tipo</th>
@@ -31,9 +33,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($lista as $valor){ ?>
+                                <?php 
+                                
+                                foreach($lista as $valor){ 
+                                ?>
                                 <tr>
-                                    <td><a href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><?php echo $valor->id_ativo_veiculo; ?></a></td>
+                                    <td>
+                                    <?php if($this->permitido($permissoes, 9, 'editar')){ ?>    
+                                        <a href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>">
+                                            <?php echo $valor->id_ativo_veiculo; ?>
+                                        </a>
+                                    <?php } else { ?>
+                                        <?php echo $valor->id_ativo_veiculo; ?>
+                                    <?php } ?>
+                                    </td>
+                                    <td style="text-align:left;">
+                                        <button class="badge badge-<?php echo ($valor->obra) ? 'success' : 'info' ?> historico-veiculo" type="button" data-id_ativo_veiculo="<?php echo $valor->id_ativo_veiculo; ?>">
+                                            <?php if($valor->obra){ ?>
+                                                <?php echo $valor->obra; ?>
+                                            <?php } else { ?>
+                                                Desconhecido
+                                            <?php } ?>
+                                        </button>    
+                                    </td>
                                     <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
                                     <td><?php echo isset($valor->marca) ? "{$valor->marca} - {$valor->modelo}" : ''; ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>
@@ -44,37 +66,44 @@
                                     <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
                                     <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-edit"></i> Editar</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-road"></i>&nbsp; Quilometragem</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/abastecimento/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
-                                                <?php if ($valor->tipo_veiculo == "maquina") {?>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/operacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
-                                                <?php } ?>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-id-card"></i> IPVA</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-lock"></i> Seguro</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-sort-amount-asc"></i> Depreciação</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/editar/{$valor->id_ativo_veiculo}#anexos"); ?>"><i class="fa fa-files-o"></i> Anexos</a>
-                                                <?php if ($this->ativo_veiculo_model->permit_delete($valor->id_ativo_veiculo)) {?>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" 
-                                                data-tabela="ativo_veiculo" class="dropdown-item  deletar_registro"><i class="fas fa-trash"></i>  Excluir</a>
-                                                <?php } ?>
+                                        <?php if($this->permitido($permissoes, 9, 'editar') || $this->permitido($permissoes, 9, 'excluir')){ ?>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Gerenciar
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <?php if($this->permitido($permissoes, 9, 'editar')){ ?>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-edit"></i> Editar</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-road"></i>&nbsp; Quilometragem</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/abastecimento/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
+                                                        <?php if ($valor->tipo_veiculo == "maquina") {?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/operacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
+                                                        <?php } ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-id-card"></i> IPVA</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-lock"></i> Seguro</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-sort-amount-asc"></i> Depreciação</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/editar/{$valor->id_ativo_veiculo}#anexos"); ?>"><i class="fa fa-files-o"></i> Anexos</a>
+                                                    <?php } ?>
+
+                                                    <?php if($this->permitido($permissoes, 9, 'excluir')){ ?>
+                                                        <?php if ($this->ativo_veiculo_model->permit_delete($valor->id_ativo_veiculo)) {?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" 
+                                                        data-tabela="ativo_veiculo" class="dropdown-item  deletar_registro"><i class="fas fa-trash"></i>  Excluir</a>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } else {  echo "-"; } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

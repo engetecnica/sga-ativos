@@ -71,7 +71,9 @@ class usuario_model extends MY_Model {
 	public function usuario(){
 		$usuario = $this->db
 			->from('usuario')
-			->select('usuario.*')
+			->select(
+				'usuario.*'
+			)
 			->select('ob.codigo_obra, ob.id_obra')
 			->select('ep.razao_social as empresa_razao, ep.razao_social, ep.nome_fantasia as empresa, ep.nome_fantasia') 
 			->select('un.nivel as nivel_nome, un.id_usuario_nivel as nivel')

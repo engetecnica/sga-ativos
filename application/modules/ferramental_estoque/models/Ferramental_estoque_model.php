@@ -115,4 +115,13 @@ class ferramental_estoque_model extends MY_Model {
 				->get()
 				->result();
 	}
+
+
+	public function get_item_renovar($id_retirada_item){
+		$consulta = $this->db->where('id_retirada_item', $id_retirada_item)->get('ativo_externo_retirada_item')->row();
+		$consulta->ativo = $this->db->where('id_retirada_item', $id_retirada_item)->get('ativo_externo_retirada_ativo')->row();
+		return $consulta;
+	}
+
+
 }

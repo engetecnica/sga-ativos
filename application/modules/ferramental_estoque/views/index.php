@@ -4,10 +4,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="overview-wrap"> <a href="<?php echo base_url('ferramental_estoque/adicionar'); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Nova Retirada</button></a>
-                    </div>
+                    <?php if($this->permitido($permissoes, 13, 'adicionar')){ ?>
+                        <div class="overview-wrap"> <a href="<?php echo base_url('ferramental_estoque/adicionar'); ?>">
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                            <i class="zmdi zmdi-plus"></i>Nova Retirada</button></a>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -32,9 +34,13 @@
                                 <?php foreach($retiradas as $valor){ ?>
                                 <tr>
                                     <td id="<?php echo $valor->id_retirada; ?>">
-                                        <a class="" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">    
+                                        <?php if($this->permitido($permissoes, 13, 'editar')){ ?>
+                                            <a class="" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">    
+                                                <?php echo $valor->id_retirada; ?>
+                                            </a>
+                                        <?php } else { ?>
                                             <?php echo $valor->id_retirada; ?>
-                                        </a>
+                                        <?php } ?>
                                     </td>
                                     <td><?php echo $valor->obra; ?></td>
                                     <td><?php echo $valor->funcionario; ?></td>
@@ -45,39 +51,56 @@
                                         <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
                                     </td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
-                                                <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">
-                                                    <i class="fas fa-list"></i> Detalhes
-                                                </a>
+                                        <?php if($this->permitido($permissoes, 13, 'editar') || $this->permitido($permissoes, 13, 'excluir')){ ?>
+                                            <div class="btn-group" role="group">
+                                                <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Gerenciar
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
+                                                    <?php if($this->permitido($permissoes, 13, 'visualizar')){ ?>
+                                                        <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">
+                                                            <i class="fas fa-list"></i> Detalhes
+                                                        </a>
+                                                        
+                                                        <?php if(isset($valor->termo_de_responsabilidade)) { ?>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/{$valor->termo_de_responsabilidade}"); ?>">
+                                                            <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
+                                                        </a>
+                                                        <?php } ?>
+                                                    <?php } ?>
 
-                                                <?php if(isset($valor->termo_de_responsabilidade)) { ?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/{$valor->termo_de_responsabilidade}"); ?>">
-                                                        <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
-                                                    </a>
-                                                <?php } ?>
+                                                    <?php if($valor->status == 1) {?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/editar/{$valor->id_retirada}"); ?>">
+                                                            <i class="fas fa-edit"></i> Editar  
+                                                        </a>
+                                                        <?php if($this->permitido($permissoes, 13, 'excluir')){ ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a 
+                                                            class="dropdown-item btn confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
+                                                            href="javascript:void(0)" data-registro="<?php echo $valor->id_retirada;?>"
+                                                            data-acao="Remover Retirada"  data-redirect="true"
+                                                            data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$valor->id_retirada}");?>"
+                                                        >                                                   
+                                                            <i class="fas fa-trash"></i> Excluir                                               
+                                                        </a>
+                                                        <?php } ?>
+                                                    <?php } ?>
 
-                                                <?php if($valor->status == 1) {?>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/editar/{$valor->id_retirada}"); ?>">
-                                                        <i class="fas fa-edit"></i> Editar  
-                                                    </a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a 
-                                                        class="dropdown-item btn confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
-                                                        href="javascript:void(0)" data-registro="<?php echo $valor->id_retirada;?>"
-                                                        data-acao="Remover Retirada"  data-redirect="true"
-                                                        data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$valor->id_retirada}");?>"
-                                                    >                                                   
-                                                        <i class="fas fa-trash"></i> Excluir                                               
-                                                    </a>
-                                                <?php } ?>
+                                                    <?php if($this->permitido($permissoes, 13, 'editar')){ ?>
+                                                        <?php if($valor->status == 9) {?>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/renovar_retirada/{$valor->id_retirada}"); ?>">
+                                                                <i class="fas fa-clone 4x"></i> Renovar Retirada 
+                                                            </a>                                                        
+                                                        <?php } ?>                                                
+                                                    <?php } ?>                                                
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } else { ?>
+                                            -
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

@@ -47,9 +47,7 @@ function url(){
     }
 }
 
-
-//$config['base_url'] = 'https://www.codigosdigitais.com.br/engetecnica';
-$config['base_url'] = url();
+$config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +59,7 @@ $config['base_url'] = url();
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = '/';
 
 /*
 |--------------------------------------------------------------------------
@@ -613,4 +611,12 @@ try {
     $config['veiculos_tipos'] = [];
     $config['veiculos_tipos_pt'] = [];
 	$config['veiculos_tipos_vetor'] =  [];
+}
+
+
+try {
+    require(APPPATH."/config/insumos.php");
+    $config['insumos_tipo_medicao'] = getTiposInsumos();
+} catch(\Exception $e){
+    $config['insumos_tipo_medicao'] = [];
 }

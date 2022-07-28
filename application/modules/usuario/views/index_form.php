@@ -29,14 +29,22 @@
 
                             <form action="<?php echo base_url('usuario/salvar'); ?>" method="post" enctype="multipart/form-data" autocomplete="off">
 
-                                <?php if(isset($detalhes) && isset($detalhes->id_usuario)){?>
+                                <?php 
+                                    $permissoes = null;
+                
+                                    if(isset($detalhes) && isset($detalhes->id_usuario)){
+
+                                        $permissoes = json_decode($detalhes->permissoes) ?? [];
+
+                                      
+                                ?>
                                     <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $detalhes->id_usuario; ?>">
                                 <?php } ?>
                                 
                                 <?php if (!$is_self) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="nivel" class=" form-control-label">Nível</label>
+                                        <label for="nivel" class=" form-control-label">Tipo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                 
@@ -80,6 +88,124 @@
                                         </select>
                                     </div>
                                 </div> 
+
+                                <div class="row form-group m-b-40">
+                                    <div class="col col-md-2">
+                                        <label for="id_permissao" class=" form-control-label">Permissões</label>
+                                    </div>
+
+                                    <div class="col-12 col-md-10">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th width="5%">Rota</th>
+                                                <th>Módulo</th>
+                                                <th width="30%">Permissão</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach($modulos->modulo as $mod){ ?>
+
+                                                <tr style="background-color: #EDEDED">
+                                                    <td>
+                                                        <?php echo $mod->rota; ?>
+                                                    </td>
+                                                    <td><?php echo $mod->titulo; ?></td>
+                                                    <td>
+                                                        <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" onclick="marcarDesmarcarTodos('modulo_<?=$mod->id_modulo;?>')"> Todos</p>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                    if($mod->rota=='relatorio'){
+                                                ?>
+                                                    <?php 
+                                                        foreach($relatorios as $key=>$r){ 
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+
+                                                        </td>
+                                                        <td><?php echo $r['titulo']; ?></td>
+                                                        <td>
+
+                                                            <?php
+                                                            $visualizar = "off";
+                                                            if(isset($permissoes)){ 
+                                                                foreach($permissoes as $modulo => $permissao){
+                                                                    if($modulo=="relatorio_".$key){
+                                                                        if(isset($permissao->visualizar) && $permissao->visualizar=='on'){
+                                                                            $visualizar = "on";
+                                                                        }                                                                    
+                                                                    }
+                                                                }     
+                                                            }                                                       
+                                                            ?>
+                                                        
+                                                            <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" name="permissoes[relatorio_<?php echo $key; ?>][visualizar]" <?php if($visualizar =="on"){ echo "checked"; } ?>> Visualizar</p>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                                <?php foreach($mod->submodulo as $sub){ ?>
+                                                <tr>
+                                                    <td><?php echo $sub->rota; ?></td>
+                                                    <td><?php echo $sub->titulo; ?></td>
+                                                    <td>
+
+
+                                                        <?php
+                                                            
+                                                            $visualizar = "off";
+                                                            $adicionar = "off";
+                                                            $editar  = "off";
+                                                            $excluir  = "off";
+                                                            
+
+                                                            if(isset($permissoes)){
+                                                                foreach($permissoes as $modulo => $permissao){
+
+                                                                    
+
+                                                                    if($modulo==$sub->id_modulo){
+
+                                                                        if(isset($permissao->visualizar) && $permissao->visualizar=='on'){
+                                                                            $visualizar = "on";
+                                                                        }
+
+                                                                        if(isset($permissao->adicionar) && $permissao->adicionar=='on'){
+                                                                            $adicionar = "on";
+                                                                        }
+                                                                        
+                                                                        if(isset($permissao->editar) && $permissao->editar=='on'){
+                                                                            $editar = "on";
+                                                                        }
+                                                                        
+                                                                        if(isset($permissao->excluir) && $permissao->excluir=='on'){
+                                                                            $excluir= "on";
+                                                                        }     
+
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            
+                                                            ?>
+                                                
+                                                
+                                                        <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" name="permissoes[<?php echo $sub->id_modulo; ?>][visualizar]" <?php if($visualizar =="on"){ echo "checked"; } ?>> Visualizar</p>
+                                                        <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" name="permissoes[<?php echo $sub->id_modulo; ?>][adicionar]" <?php if($adicionar =="on"){ echo "checked"; } ?>> Adicionar</p>
+                                                        <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" name="permissoes[<?php echo $sub->id_modulo; ?>][editar]" <?php if($editar =="on"){ echo "checked"; } ?>> Editar</p>
+                                                        <p><input type="checkbox" class="modulo_<?php echo $mod->id_modulo; ?>" name="permissoes[<?php echo $sub->id_modulo; ?>][excluir]" <?php if($excluir =="on"){ echo "checked"; } ?>> Excluir</p>
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>  
+                                
 
                                 <div class="row form-group m-b-40">
                                     <div class="col col-md-2">
@@ -174,7 +300,7 @@
                                     </div>
                                 <?php }?>
                                 
-                                <?php if ($form_type == "adicionar" || ($form_type == 'editar' && $is_self)) {?>
+                                <?php if ($form_type == "adicionar" || ($form_type == 'editar')) {?>
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label  for="senha" class=" form-control-label">Senha</label>

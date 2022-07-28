@@ -29,6 +29,8 @@ class Ativo_veiculo  extends MY_Controller
         $this->tipos =  $this->ativo_veiculo_model->tipos;
         $this->tipos_vetor =  $this->ativo_veiculo_model->tipos_vetor;
         $this->tipos_pt =  $this->ativo_veiculo_model->tipos_pt;
+
+        $this->get_modulo_permission();
     }
 
     function index()
@@ -38,12 +40,18 @@ class Ativo_veiculo  extends MY_Controller
 
     function adicionar()
     {
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 9, 'adicionar'));
+
         $data = ["permit_edit" => true];
         $this->get_template('index_form', ["permit_edit" => true]);
     }
 
     function editar($id_ativo_veiculo)
     {
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 9, 'editar'));
+
+
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
         if ($veiculo) {
             $permit_edit = $this->ativo_veiculo_model->permit_delete($id_ativo_veiculo);
@@ -61,16 +69,15 @@ class Ativo_veiculo  extends MY_Controller
 
     function salvar()
     {
-        if ($this->user->nivel != 1) {
-            $this->session->set_flashdata('msg_erro', "Usuário sem permissão!");
-            echo redirect(base_url("/"));
-            return false;
-        }
-
         $veiculo = $this->ativo_veiculo_model->get_ativo_veiculo($this->input->post('id_ativo_veiculo'));
+
+        $this->validar_periodo($this->input->post('periodo_inicial'), $this->input->post('periodo_final'), ($this->input->post('id_ativo_veiculo')) ?? null);
 
         $data['id_ativo_veiculo'] = $this->input->post('id_ativo_veiculo');
         $data['tipo_veiculo'] = $this->input->post('tipo_veiculo');
+        $data['id_obra'] = $this->input->post('id_obra');
+        $data['periodo_inicial'] = $this->input->post('periodo_inicial');
+        $data['periodo_final'] = $this->input->post('periodo_final');
         $data['id_marca'] = $this->input->post('id_marca');
         $data['id_modelo'] = $this->input->post('id_modelo');
         $data['ano'] = $this->input->post('ano');
@@ -133,6 +140,22 @@ class Ativo_veiculo  extends MY_Controller
         }
         
         $last_id = $this->ativo_veiculo_model->salvar_formulario($data);
+
+
+        /* Veículos na Obra - Histórico */
+        if(
+            $this->input->post('id_obra') != 
+            $this->input->post('id_veiculo_obra_atual') or
+
+            $this->input->post('periodo_inicial') != $this->input->post('periodo_inicial_atual') or
+            $this->input->post('periodo_final') != $this->input->post('periodo_final_atual')
+        ){ 
+            $veiculo_obra['id_obra']            = $this->input->post('id_obra');
+            $veiculo_obra['id_veiculo']         = (isset($last_id) ? $last_id : $this->input->post('id_ativo_veiculo'));
+            $veiculo_obra['periodo_inicial']    = $this->input->post('periodo_inicial');
+            $veiculo_obra['periodo_final']      = $this->input->post('periodo_final');
+            $this->db->insert('ativo_veiculo_obra', $veiculo_obra);
+        }
 
         if ($data['id_ativo_veiculo'] == '' || !$data['id_ativo_veiculo']) {
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
@@ -1153,6 +1176,34 @@ class Ativo_veiculo  extends MY_Controller
             break;
         }
         return $this->json(null, 400);
+    }
+
+    function historico($id_ativo_veiculo){
+        $data['historico_veiculo'] = $this->ativo_veiculo_model->get_historico_veiculo($id_ativo_veiculo);
+        $this->load->vars($data);
+        $this->load->view("historico_veiculo");
+    }
+
+    function validar_periodo($data_inicial = null, $data_final = null, $id_ativo_veiculo = null){
+
+        if($data_inicial == null || $data_final == null || $data_final <= $data_inicial){
+            $this->session->set_flashdata('msg_erro', "O período selecionado é inválido!");
+
+            if(isset($id_ativo_veiculo)){
+                echo redirect(base_url("ativo_veiculo/editar/".$id_ativo_veiculo));
+            } else { 
+                echo redirect(base_url("ativo_veiculo/"));
+            }
+        }
+    }
+
+    public function excluir_historico($id_veiculo_obra)
+    {
+        if($this->ativo_veiculo_model->excluir_historico($id_veiculo_obra)){
+            echo "ok";
+        } else {
+            echo "error";
+        }
     }
 }
 

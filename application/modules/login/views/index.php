@@ -3,7 +3,7 @@
 <div class="login-content">
     <div class="login-logo">
         <a href="#">
-            <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png" alt="DEF Express">
+            <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png?version=<?=date("dmYHis");?>" alt="Sistema de Gestão de Ativos">
         </a>
     </div>                           
     <div class="login-form">

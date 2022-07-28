@@ -1,3 +1,4 @@
+
 <?php
 
 (defined('BASEPATH')) OR exit('No direct script access allowed');
@@ -17,10 +18,37 @@ class Ativo_externo  extends MY_Controller {
         $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
         $this->load->model('anexo/anexo_model');
         $this->load->model('ativo_veiculo/ativo_veiculo_model'); 
+        $this->load->model('obra_model');
+
+        $this->get_modulo_permission();
     }
 
     function index($subitem=null) {
-        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->id_obra);
+
+        /* Get filters URL */
+        $filter = $this->input->get('filter_items');
+
+        if($filter){
+
+            $filter = explode("/", $filter);
+
+            if(is_array($filter)){
+                $filter = array(
+                    'item' => $filter[1],
+                    'calibracao' => $filter[3]
+                );
+            } else {
+                $filter = array(
+                    'item' => "null",
+                    'calibracao' => 'sem-filtro'
+                );
+            }
+
+        }
+
+        $data['calibracao'] = (isset($filter['calibracao'])) ? $filter['calibracao'] : null;
+        $data['obras'] = $this->obra_model->get_obras();
+        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->id_obra, "", $filter);
         $data['grupos'] = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
     	$subitem = ($subitem==null ? 'index' : $subitem);
@@ -28,6 +56,9 @@ class Ativo_externo  extends MY_Controller {
     }
 
     function adicionar($id_ativo_externo_grupo=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 11, 'adicionar'));
+
         $data['mode'] = "insert";
         $data['form_url'] = base_url("ativo_externo/salvar");
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
@@ -52,6 +83,9 @@ class Ativo_externo  extends MY_Controller {
     }
 
     function editar($id_ativo_externo=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 11, 'editar'));
+
         $data = array_merge($this->anexo_model->getData('ativo_externo', $id_ativo_externo), [
             "back_url" => "ativo_externo/editar/{$id_ativo_externo}",
             'mode' => "update",
@@ -228,11 +262,12 @@ class Ativo_externo  extends MY_Controller {
        
         if (!$id_obra) $id_obra =  $this->user->nivel == 1 && $this->user->id_obra_gerencia ? $this->user->id_obra_gerencia : $this->user->id_obra;
 
-        $ativos = $this->ativo_externo_model->get_ativos(null, null);
+        $codigo_ativo = str_replace("ENG", "", $this->ativo_externo_model->get_ativo_ultimo()->codigo) +1;
+
+        
 
         if ($quantidade > 0) {
             $items = [];
-            $ativos_contagem = count($ativos) + 1;
 
             for($i=0; $i < $quantidade; $i++) {
                 if (isset($this->input->post('id_ativo_externo')[$i])) {
@@ -244,7 +279,7 @@ class Ativo_externo  extends MY_Controller {
 
                 if($mode == 'insert'){
                     $items[$i]['id_ativo_externo_grupo'] = $id_grupo;
-                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$ativos_contagem;
+                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$codigo_ativo;
                     $items[$i]['situacao'] = 12;
                 }
 
@@ -264,7 +299,7 @@ class Ativo_externo  extends MY_Controller {
                 $valor = str_replace(",", ".", $valor); 
                 $items[$i]['valor'] = $valor;
 
-                $ativos_contagem++;
+                $codigo_ativo++;
             }
 
             if($mode == 'update'){
@@ -275,6 +310,7 @@ class Ativo_externo  extends MY_Controller {
             }   
     
             if($mode == 'insert'){
+  
                 $this->db->insert_batch("ativo_externo", $items);
     
                 $this->notificacoes_model->enviar_push(
@@ -308,8 +344,8 @@ class Ativo_externo  extends MY_Controller {
 
         if ($grupo) {     
             if (($mode == 'insert_grupo')) {
-                $ativos = $this->ativo_externo_model->get_ativos(null, null);
-                $ativos_contagem = count($ativos) + 1;
+
+                $codigo_ativo = str_replace("ENG", "", $this->ativo_externo_model->get_ativo_ultimo()->codigo) +1;
 
                 for($i=0; $i < $quantidade; $i++) {
                     $items[$i]['id_ativo_externo_grupo'] = $id_grupo;
@@ -320,14 +356,15 @@ class Ativo_externo  extends MY_Controller {
                     $items[$i]['observacao']                     = $grupo->observacao;
                     $items[$i]['situacao']                       = 12;
                     $items[$i]['necessita_calibracao']           = $grupo->necessita_calibracao;
-                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$ativos_contagem;
+                    $items[$i]['codigo'] = ($this->input->post('codigo')) ? strtoupper($this->input->post('codigo')) : $this->codigo_prefixo.$codigo_ativo;
 
                     $valor = str_replace("R$ ", "", $this->input->post('valor'));
                     $valor = str_replace(".", "", $valor);
                     $valor = str_replace(",", ".", $valor); 
                     $items[$i]['valor'] = $valor;
-                    $ativos_contagem++;
+                    $codigo_ativo++;
                 }
+               
             }
 
             if (($mode == 'update_grupo')) {
@@ -355,6 +392,7 @@ class Ativo_externo  extends MY_Controller {
                     }
                 }
             }
+
 
             $s = count($items) > 1 ? "s" : "";
             if( $mode == 'update_grupo' && $this->db->update_batch("ativo_externo", $items, 'id_ativo_externo')) {

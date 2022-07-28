@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
+                    <?php if($this->permitido($permissoes, 3, 'adicionar')){ ?>
                         <a href="<?php echo base_url('funcionario/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                    <?php } ?>
                     </div>
                 </div>
             </div>
@@ -34,14 +35,22 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->matricula; ?>">
                                     <td>
+                                        <?php if($this->permitido($permissoes, 3, 'editar')){ ?>
                                         <a href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>">
                                             <?php echo $valor->matricula; ?>
                                         </a>
+                                        <?php } else { ?>
+                                            <?php echo $valor->matricula; ?>
+                                        <?php } ?>
                                     </td>
                                     <td>
+                                        <?php if($this->permitido($permissoes, 3, 'editar')){ ?>
                                         <a href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>">
                                             <?php echo $valor->nome; ?>
                                         </a>
+                                        <?php } else { ?>
+                                            <?php echo $valor->nome; ?>
+                                        <?php } ?>
                                     </td>
                                     <td><?php echo $valor->email; ?></td>
                                     <td><?php echo $valor->celular; ?></td>
@@ -52,6 +61,7 @@
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td class="text-right">
+                                        <?php if($this->permitido($permissoes, 3, 'editar') || $this->permitido($permissoes, 3, 'excluir')){ ?>
                                         <div class="btn-group">
                                             <button 
                                                 class="btn btn-secondary btn-sm dropdown-toggle" 
@@ -63,11 +73,18 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item " href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>"><i class="fas fa-edit"></i> Editar</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item  deletar_registro" href="javascript:void(0)" data-href="<?php echo base_url('funcionario'); ?>/deletar/<?php echo $valor->id_funcionario; ?>" data-registro="<?php echo $valor->id_funcionario;?>" data-tabela="funcionario"><i class="fas fa-trash"></i> Excluir</a>
+                                                <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
+                                                    <a class="dropdown-item " href="<?php echo base_url('funcionario'); ?>/editar/<?php echo $valor->id_funcionario; ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                    <?php } ?>
+                                                    
+                                                <?php if($this->permitido($permissoes, 6, 'excluir')){ ?>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item  deletar_registro" href="javascript:void(0)" data-href="<?php echo base_url('funcionario'); ?>/deletar/<?php echo $valor->id_funcionario; ?>" data-registro="<?php echo $valor->id_funcionario;?>" data-tabela="funcionario"><i class="fas fa-trash"></i> Excluir</a>
+                                                <?php } ?>
+
                                             </div>
                                         </div>
+                                        <?php } else { echo "-"; } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

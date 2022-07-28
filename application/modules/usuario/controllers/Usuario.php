@@ -12,7 +12,8 @@ class usuario  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('usuario_model');
-        $this->load->model('obra/obra_model');       
+        $this->load->model('obra/obra_model');
+        $this->load->model('relatorio/relatorio_model');       
     }
 
     function index($subitem=null) {
@@ -31,6 +32,8 @@ class usuario  extends MY_Controller {
             echo redirect(base_url(""));
             return;
         }
+
+        $data['relatorios'] = $this->relatorio_model->relatorios;        
 
         $data['form_type'] = "adicionar";
         $data['is_self'] = false;
@@ -54,13 +57,16 @@ class usuario  extends MY_Controller {
             $data['detalhes']->empresas = $this->get_empresas();
             $data['detalhes']->obras = $this->obra_model->get_obras();
             $data['detalhes']->niveis = $this->get_niveis();
+            $data['relatorios'] = $this->relatorio_model->relatorios;  
         }
         $data['upload_max_filesize'] = ini_get('upload_max_filesize');
         $this->get_template('index_form', $data);
     }
 
     function salvar(){
+
         $data['id_usuario'] = $this->input->post('id_usuario');
+        $data['permissoes'] = json_encode($this->input->post('permissoes'));
         $usuario = $this->usuario_model->get_usuario($data['id_usuario']);
     
         $data['usuario'] = $this->input->post('usuario');
@@ -80,6 +86,7 @@ class usuario  extends MY_Controller {
         $confirmar_senha = strlen($this->input->post('confirmar_senha')) > 0 ? $this->input->post('confirmar_senha') : null;
         $data['senha'] = $this->usuario_model->verificaSenha($senha, $confirmar_senha);
 
+
         if (($senha && $confirmar_senha) && $data['senha'] == null) {
             $this->session->set_flashdata('msg_erro', "As senhas fornecidas não conferem!");
 
@@ -90,7 +97,7 @@ class usuario  extends MY_Controller {
             }
             return;
         } 
-
+        
         if ($data['id_usuario'] == null && $data['senha'] == null) {
             $this->session->set_flashdata('msg_erro', "Deve fornecer uma senha e confirmar!");
             echo redirect(base_url("usuario/adicionar"));

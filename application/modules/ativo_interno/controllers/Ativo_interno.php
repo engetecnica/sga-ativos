@@ -12,7 +12,9 @@ class Ativo_interno  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_interno_model');
-        $this->load->model('obra/obra_model');    
+        $this->load->model('obra/obra_model');  
+        
+        $this->get_modulo_permission();
     }
 
     function index() {
@@ -21,11 +23,17 @@ class Ativo_interno  extends MY_Controller {
     }
 
     function adicionar($data = []){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
+
         $data['obras'] = $this->obra_model->get_obras();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_ativo_interno=null){
+    
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'editar'));
+
         $data = array_merge($this->anexo_model->getData('ativo_interno', $id_ativo_interno), [
             "back_url" => "ativo_interno/editar/{$id_ativo_interno}",
             'obras' => $this->obra_model->get_obras(),

@@ -4,6 +4,7 @@ require_once __DIR__ . "/../controllers/Ativo_veiculo_trait.php";
 class Ativo_veiculo_model extends MY_Model {
 
 	use Ativo_veiculo_trait;
+	use MY_Trait;
 
 	public $tipos, $tipos_pt, $tipos_vetor;
 
@@ -18,16 +19,27 @@ class Ativo_veiculo_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 		if($data['id_ativo_veiculo']==''){
+
 			$this->db->insert('ativo_veiculo', $data);
 			$data['id_ativo_veiculo'] = $this->db->insert_id();
+
+			/* Salvar LOG */
+			$this->salvar_log(7, $data['id_ativo_veiculo'], 'adicionar', $data);
+
 		} else {
 			$this->db->where('id_ativo_veiculo', $data['id_ativo_veiculo'])->update('ativo_veiculo', $data);
+
+			/* Salvar LOG */
+			$this->salvar_log(7, $data['id_ativo_veiculo'], 'editar', $data);			
 		}
 
 		if ($data['id_interno_maquina'] == '' && $data['tipo_veiculo'] == 'maquina') {
 			$this->db
 				->where('id_ativo_veiculo', $data['id_ativo_veiculo'])
 				->update('ativo_veiculo', ["id_interno_maquina" => $this->get_id_maquina($data['id_ativo_veiculo'])]);
+
+				/* Salvar LOG */
+				$this->salvar_log(7, $data['id_ativo_veiculo'], 'editar', $data);	
 		}
 		return $data['id_ativo_veiculo'];
 	}
@@ -38,11 +50,13 @@ class Ativo_veiculo_model extends MY_Model {
 		$select_horimetro_atual = "(select veiculo_horimetro from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
 		$select_horimetro_atual_data = "(select `data` from ativo_veiculo_quilometragem where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
 		$select_fipe_valor_atual = "(select fipe_valor from ativo_veiculo_depreciacao where id_ativo_veiculo = ativo_veiculo.id_ativo_veiculo order by `data` limit 1)";
+		$select_obra = "(select codigo_obra from obra where id_obra = ativo_veiculo.id_obra limit 1)";
 
 		return $this->db->from('ativo_veiculo')
 				->select("*, ativo_veiculo.valor_fipe as valor_aquisicao, $select_fipe_valor_atual as valor_atual")
 				->select("$select_km_atual as veiculo_km_atual, $select_km_atual_data as veiculo_km_atual_data")
 				->select("$select_horimetro_atual as veiculo_horimetro_atual, $select_horimetro_atual_data as veiculo_horimetro_atual_data")
+				->select("$select_obra as obra")
 				->order_by('data', 'desc')
 				->group_by('id_ativo_veiculo');
 	}
@@ -86,7 +100,7 @@ class Ativo_veiculo_model extends MY_Model {
     }
 
 	public function ativo_veiculo_manutencao(){
-			$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = mnt.id_ativo_veiculo AND tipo = 'ordem_de_servico' 
+			$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = mnt.id_ativo_veiculo AND tipo = 'ordem_de_servico' 
 			AND id_modulo_subitem = mnt.id_ativo_veiculo_manutencao ORDER BY id_anexo DESC LIMIT 1";
 
 			return 	$this->db
@@ -133,7 +147,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function get_ativo_veiculo_abastecimento_lista($id_ativo_veiculo, array $limit = null){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_abastecimento.id_ativo_veiculo AND tipo = 'abastecimento' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = ativo_veiculo_abastecimento.id_ativo_veiculo AND tipo = 'abastecimento' 
 			AND id_modulo_subitem = ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento ORDER BY id_anexo DESC LIMIT 1";
 
 		$this->db->select('ativo_veiculo_abastecimento.*, ativo_veiculo.veiculo, ativo_veiculo.marca')
@@ -159,7 +173,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function get_ativo_veiculo_km_lista($id_ativo_veiculo, $limit = null){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
 			AND id_modulo_subitem = ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem ORDER BY id_anexo DESC LIMIT 1";
 
 		$lista =$this->db->select('
@@ -194,7 +208,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function get_ativo_veiculo_operacao_lista($id_ativo_veiculo, $limit = null){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_operacao.id_ativo_veiculo AND tipo = 'operacao' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = ativo_veiculo_operacao.id_ativo_veiculo AND tipo = 'operacao' 
 			AND id_modulo_subitem = ativo_veiculo_operacao.id_ativo_veiculo_operacao ORDER BY id_anexo DESC LIMIT 1";
 
 		$this->db->select('
@@ -258,7 +272,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function get_ativo_veiculo_ipva_lista($id_ativo_veiculo){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_ipva.id_ativo_veiculo AND tipo = 'ipva' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND  id_modulo_item = ativo_veiculo_ipva.id_ativo_veiculo AND tipo = 'ipva' 
 			AND id_modulo_subitem = ativo_veiculo_ipva.id_ativo_veiculo_ipva ORDER BY id_anexo DESC LIMIT 1";
 
 		return 	$this->db
@@ -273,7 +287,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 	
 	public function get_ativo_veiculo_seguro_lista($id_ativo_veiculo){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = ativo_veiculo_seguro.id_ativo_veiculo AND tipo = 'seguro' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = ativo_veiculo_seguro.id_ativo_veiculo AND tipo = 'seguro' 
 			AND id_modulo_subitem = ativo_veiculo_seguro.id_ativo_veiculo_seguro ORDER BY id_anexo DESC LIMIT 1";
 
 		return $this->db->select('ativo_veiculo_seguro.*, ativo_veiculo.veiculo, ativo_veiculo.veiculo_placa')
@@ -468,7 +482,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_quilometragem($id_ativo_veiculo, $id_ativo_veiculo_quilometragem){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = {$id_ativo_veiculo} AND tipo = 'quilometragem' 
 			AND id_modulo_subitem = ativo_veiculo_quilometragem.id_ativo_veiculo_quilometragem ORDER BY id_anexo DESC LIMIT 1";
 
 		$quilometragem = $this->db
@@ -492,7 +506,7 @@ class Ativo_veiculo_model extends MY_Model {
 
 
 	public function permit_edit_abastecimento($id_ativo_veiculo, $id_ativo_veiculo_abastecimento){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'abastecimento' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = {$id_ativo_veiculo} AND tipo = 'abastecimento' 
 			AND id_modulo_subitem = ativo_veiculo_abastecimento.id_ativo_veiculo_abastecimento ORDER BY id_anexo DESC LIMIT 1";
 
 		$abastecimento = $this->db
@@ -545,7 +559,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_ipva($id_ativo_veiculo, $id_ativo_veiculo_ipva){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'ipva' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = {$id_ativo_veiculo} AND tipo = 'ipva' 
 			AND id_modulo_subitem = ativo_veiculo_ipva.id_ativo_veiculo_ipva ORDER BY id_anexo DESC LIMIT 1";
 
 		$ipva = $this->db
@@ -566,7 +580,7 @@ class Ativo_veiculo_model extends MY_Model {
 	}
 
 	public function permit_edit_seguro($id_ativo_veiculo, $id_ativo_veiculo_seguro){
-		$select_anexo = "SELECT anexo FROM anexo WHERE id_modulo_item = {$id_ativo_veiculo} AND tipo = 'seguro' 
+		$select_anexo = "SELECT anexo FROM anexo WHERE id_anexo_pai != NULL AND id_modulo_item = {$id_ativo_veiculo} AND tipo = 'seguro' 
 			AND id_modulo_subitem = ativo_veiculo_seguro.id_ativo_veiculo_seguro ORDER BY id_anexo DESC LIMIT 1";
 			
 		$seguro = $this->db
@@ -633,5 +647,21 @@ class Ativo_veiculo_model extends MY_Model {
 	public function get_id_maquina($id_ativo_veiculo) : string
 	{
 		return strtoupper("ENG-MAQ-".str_pad($id_ativo_veiculo, 4, '0', STR_PAD_LEFT));
+	}
+
+	public function get_historico_veiculo($id_ativo_veiculo){
+		return $this->db
+				->select('a.*, b.veiculo, b.marca, b.modelo, c.codigo_obra')
+				->join('ativo_veiculo b', 'b.id_ativo_veiculo=a.id_veiculo')
+				->join('obra c', 'c.id_obra=a.id_obra')
+				->where('a.id_veiculo', $id_ativo_veiculo)
+				->where('a.deleted_at', null)
+				->order_by('a.created_at', 'DESC')
+				->get('ativo_veiculo_obra a')
+				->result();
+	}
+
+	public function excluir_historico($id_veiculo_obra){
+		return $this->db->where('id_veiculo_obra', $id_veiculo_obra)->update('ativo_veiculo_obra', array('deleted_at' => date("Y-m-d H:i:s")));
 	}
 }

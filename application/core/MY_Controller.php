@@ -72,6 +72,15 @@ class MY_Controller extends MX_Controller {
         $data['obras'] = $this->obra_model->get_obras();
         $data['app_config'] = $this->configuracao_model->get_configuracao();
         $data['app_env'] = $_ENV['CI_ENV'];
+
+        // aqui eu preciso trazer a função
+        $data['modulos_permitidos'] = $this->modulos_permitidos();
+
+        $data['permissoes'] = [];
+        if(null!== $this->uri->segment(1)){
+            $data['permissoes'] = $this->get_modulo_permission();
+        }
+
         
         if($data['app_config']) unset($data['app_config']->sendgrid_apikey, $data['app_config']->one_signal_apikey, $data['app_config']->one_signal_apiurl);
 

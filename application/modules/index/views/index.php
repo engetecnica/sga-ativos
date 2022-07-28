@@ -7,12 +7,20 @@
                         Bem vindo
                         <span style="color: orange;"><b><?php echo ucwords(explode(' ', $this->session->userdata('logado')->nome)[0] ?: $this->session->userdata('logado')->usuario); ?>!</b></span>
                     </h1>
+
+                    <?php if(isset($this->session->userdata('logado')->obra)){ ?>
+                    <h4><?php echo $this->session->userdata('logado')->obra->codigo_obra; ?></h4>
+                    <?php } ?>
+
+                    <hr>
                     <p>Hoje é dia <?php setlocale(LC_ALL, 'pt_BR'); echo date("d/m/Y"); ?> - <?php echo $_SERVER['REMOTE_ADDR']; ?></p>
                     <hr class="line-seprate" />
                 </div>
             </div>
         </div>
     </section>
+
+
 
     <section class="statistic statistic2">
         <div class="container">

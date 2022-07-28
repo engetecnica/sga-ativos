@@ -742,6 +742,7 @@ class Ferramental_requisicao  extends MY_Controller {
 
     public function gerar_romaneio($id_requisicao, $redirect = true) {
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
+
         if ($requisicao && $requisicao->status == 3) {
             $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
             $data = [
@@ -755,7 +756,8 @@ class Ferramental_requisicao  extends MY_Controller {
 
             $filename = "requisicao_romaneio_" . date('YmdHis', strtotime('now')).".pdf";
             $html = $this->load->view("requisicao_romaneio", $data, true);
-         
+
+
             $upload_path = "assets/uploads/anexo";
             $path = __DIR__."/../../../../{$upload_path}";
             $file = "{$path}/{$filename}";
@@ -790,4 +792,11 @@ class Ferramental_requisicao  extends MY_Controller {
         if(!$redirect) return false;
         echo redirect($this->getRef());
     }
+
+
+
+    
+    
+
+
 }

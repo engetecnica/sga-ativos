@@ -60,6 +60,7 @@
                             <th>ID</th>
                             <th>Modulo</th>
                             <?php } ?>
+                            <th>Histórico</th>
                             <th>Titulo</th>
                             <th>Descrição</th>
                             <th>Tipo</th>
@@ -77,6 +78,13 @@
                                 <td><?php echo $anexo->id_anexo; ?></td>
                                 <td><?php echo $anexo->modulo_titulo; ?></td>
                             <?php } ?>
+                            <td>
+                                <?php if(count($anexo->historico) > 0) { ?>
+                                <a href="<?php echo base_url('anexo/historico/'.$anexo->id_anexo); ?>"><button class="badge badge-success" type="button">Mostrar Todos</button></a>
+                                <?php } else { ?>
+                                <button class="badge badge-info" type="button">Desconhecido</button>
+                                <?php } ?>
+                            </td>
                             <td><?php echo $anexo->titulo; ?></td>
                             <td><?php echo $anexo->descricao; ?></td>
                             <td><?php echo $this->anexo_model->get_anexo_tipo($anexo->tipo)['nome'];?></td>
@@ -133,3 +141,26 @@
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
 <?php } ?>
+
+
+
+    <!-- Modal Template Histórico de Veículo --> 
+    <div id="historico-anexos" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Histórico de Anexo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body historico-anexos-lista">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(".historico-anexos").on('click', function(){
+        $("#historico-anexos").modal("show");
+    })
+</script>

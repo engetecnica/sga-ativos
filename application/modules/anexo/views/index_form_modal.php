@@ -135,4 +135,3 @@ function editAnexo(options = {id: null, titulo: null, descricao: null, tipo: nul
     $('#anexo').attr('required', options.id == null)
 }
 </script>
-

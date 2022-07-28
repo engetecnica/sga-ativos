@@ -12,6 +12,9 @@ class Obra  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('obra_model');
+
+        $this->get_modulo_permission();
+
     }
 
     function index() {
@@ -20,12 +23,18 @@ class Obra  extends MY_Controller {
     }
 
     function adicionar(){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'adicionar'));
+
         $data['empresas'] = $this->obra_model->get_empresas();
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_obra=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'editar'));
+
         $data['empresas'] = $this->obra_model->get_empresas();
         $data['detalhes'] = $this->obra_model->get_obra($id_obra);
         $data['estados'] = $this->get_estados();
@@ -84,6 +93,7 @@ class Obra  extends MY_Controller {
     }
 
     function deletar($id){
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'excluir'));
         return $this->db->where('id_obra', $id)->delete('obra');
     }
 

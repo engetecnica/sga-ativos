@@ -97,7 +97,7 @@
                                         <?php } ?>
 
 
-                                        <?php if ($valor->status == 3 && $valor->romaneio) { ?>
+                                        <?php if ($valor->status == 4) { ?>
                                             <div class="dropdown-divider" ></div>
 
                                             <a 

@@ -8,4 +8,5 @@ return [
     'anexo' => 'anexo', 
     'certificado_de_calibracao' => 'ativo_externo', 
     'ferramental_estoque' => 'ativo_externo_retirada',
+    'logs' => 'logs',
 ];

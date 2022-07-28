@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
+                    <?php if($this->permitido($permissoes, 4, 'adicionar')){ ?>
                         <a href="<?php echo base_url('empresa/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                    <?php } ?>
                     </div>
                 </div>
             </div>
@@ -34,14 +35,22 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->id_empresa; ?>">
                                     <td>
+                                        <?php if($this->permitido($permissoes, 4, 'editar')){ ?>
                                         <a href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>">
                                             <?php echo $valor->id_empresa; ?>
                                         </a>
+                                        <?php } else { ?>
+                                            <?php echo $valor->id_empresa; ?>
+                                        <?php } ?>
                                     </td>   
                                     <td>
+                                        <?php if($this->permitido($permissoes, 4, 'editar')){ ?>
                                         <a href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>">
                                             <?php echo $valor->razao_social; ?>
                                         </a>
+                                        <?php } else { ?>
+                                            <?php echo $valor->razao_social; ?>
+                                        <?php } ?>
                                     </td>
                                     <td><?php echo $valor->cnpj; ?></td>
                                     <td><?php echo $valor->responsavel; ?></td>
@@ -52,6 +61,7 @@
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td class="text-right">
+                                        <?php if($this->permitido($permissoes, 4, 'editar') || $this->permitido($permissoes, 4, 'excluir')){ ?>
                                         <div class="btn-group">
                                             <button 
                                                 class="btn btn-secondary btn-sm dropdown-toggle" 
@@ -63,12 +73,16 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu">
+                                                <?php if($this->permitido($permissoes, 4, 'editar')){ ?>
                                                 <a 
                                                     class="dropdown-item " 
                                                     href="<?php echo base_url('empresa'); ?>/editar/<?php echo $valor->id_empresa; ?>"
                                                 >
                                                     <i class="fas fa-edit"></i> Editar
                                                 </a>
+                                                <?php } ?>
+
+                                                <?php if($this->permitido($permissoes, 4, 'excluir')){ ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a 
                                                     class="dropdown-item  deletar_registro" 
@@ -79,8 +93,10 @@
                                                 >
                                                     <i class="fas fa-trash"></i> Excluir
                                                 </a>
+                                                <?php } ?>
                                             </div>
                                         </div>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

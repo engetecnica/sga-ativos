@@ -35,7 +35,8 @@
             </div>
         </div>
 
-        <div class="row">
+
+       <div class="row">
         <div class="col-12 m-t-40">
         <?php if (count((array) $informe_vencimentos['relatorio']) > 0) { ?>  
             <?php if (in_array('manutencao', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->manutencao->data) > 0) { ?>  
@@ -81,6 +82,70 @@
                 <strong class="title-5 m-t-30">Manutenções</strong> 
                 <p class="m-b-30">Nenhum item encontrado para o período.</p>
             <?php } ?>
+
+
+            <?php if($revisao_por_km){ ?>
+
+            <strong class="title-5 m-t-30">Manutenções de Veículos por KM</strong> 
+            <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
+                <thead>
+                    <tr>
+                        <th>Veículo ID</th>
+                        <th width="50%">Marca/Modelo</th>
+                        <th>KM Atual</th>
+                        <th>KM Prox. Revisão</th>
+                        <th>Saldo *</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($revisao_por_km as $i => $manutencao) { ?>
+                    <tr>
+                        <td><?php echo $manutencao['id_ativo_veiculo']; ?></td>
+                        <td><?php echo $this->formata_array([$manutencao['marca'], $manutencao['modelo']], " | ");  ?></td>
+                        <td><?php echo isset($manutencao['quilometragem_atual']) ? $this->formata_posfix($manutencao['quilometragem_atual'], 'KM') : "-";?> </td>
+                        <td><?php echo isset($manutencao['veiculo_km_proxima_revisao']) ? $this->formata_posfix($manutencao['veiculo_km_proxima_revisao'], 'KM') : "-";?> </td>
+                        <td><?php echo isset($manutencao['saldo_quilometragem']) ? $this->formata_posfix($manutencao['saldo_quilometragem'], 'KM') : "-";?> </td>
+                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            <p class="m-b-30 m-t-10 text-right">* Quilometragem restante até a proxima revisão. </p><br>
+            <?php } ?>
+            
+
+            <strong class="title-5 m-t-30">Manutenções de Máquinas</strong> 
+
+            <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10" style="width:100%!important;">
+                <thead>
+                    <tr>
+                        <th>Manutenção ID</th>
+                        <th>ID Interna Máquina</th>
+                        <th>Veículo</th>
+                        <th>Marca/Modelo</th>
+                        <th>Próxima Revisão</th>
+                        <th>Tempo de Operação Prox. Revisão</th>
+                        <th>Custo</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($maquina_manutencao_hora as $manutencao) { ?>
+                    <tr>
+                        <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
+                        <td><?php echo $manutencao->id_interno_maquina; ?></td>
+                        <td><?php echo $manutencao->veiculo; ?></td>
+                        <td><?php echo $manutencao->marca . "/" . $manutencao->modelo; ?></td>
+                        <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao; ?></td>
+                        <td><?php echo ($manutencao->veiculo_horimetro_proxima_revisao - $manutencao->veiculo_horimetro); ?></td>
+                        <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
+                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+                      
 
             <strong class="title-5 m-t-30">IPVA</strong>
             <?php if (in_array('ipva', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->ipva->data) > 0) { ?>  
@@ -205,6 +270,16 @@
         <?php } ?>
         </div>
         </div>
+
+
+
+
+
+
+
+
+
+        
     </div>
 </div>
 

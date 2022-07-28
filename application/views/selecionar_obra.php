@@ -1,7 +1,7 @@
 <!-- Seleciona Obra a Gerenciar-->
 <div id="selecionar_obra" class="row selecionar_obra">
     <small class="col-12">Gerenciar Obra</small>
-    <form class="col-12 selecionar_obra_form" method="POST" action="/index/selecionar_obra" class="selecionar_obra_form">
+    <form class="col-12 selecionar_obra_form" method="POST" action="<?php echo base_url('index'); ?>/selecionar_obra" class="selecionar_obra_form">
         <select 
             class="select2 form-control" onchange="selecionar_obra.select2Obra()" 
             v-model="id_obra" id="selecionar_id_obra" id="id_obra_gerencia" name="id_obra_gerencia"

@@ -74,7 +74,7 @@ class MY_model extends CI_Model {
             ->row();
     }
 
-    public function formata_moeda($valor = 0, $num_format = false){
+    public function formata_moeda_model($valor = 0, $num_format = false){
         if($num_format){
             return  number_format($valor, 2, '.', '');
         }

@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
-                        <a href="<?php echo base_url('obra/adicionar'); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                        <?php if($this->permitido($permissoes, 6, 'adicionar')){ ?>
+                            <a href="<?php echo base_url('obra/adicionar'); ?>">
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                            <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -37,14 +38,22 @@
                                 <?php foreach($lista as $valor){ ?>
                                 <tr id="<?php echo $valor->id_obra; ?>">
                                     <td>
-                                        <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                        <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
+                                            <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                                <?php echo $valor->id_obra; ?>
+                                            </a>
+                                        <?php } else { ?>
                                             <?php echo $valor->id_obra; ?>
-                                        </a>
+                                        <?php } ?>                                        
                                     </td>
                                     <td>
-                                        <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                        <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
+                                            <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
+                                                <?php echo $valor->codigo_obra; ?>
+                                            </a>
+                                        <?php } else { ?>
                                             <?php echo $valor->codigo_obra; ?>
-                                        </a>
+                                        <?php } ?>
                                     </td>
                                     <td><?php echo $valor->empresa; ?></td>
                                     <td><?php echo $valor->obra_razaosocial ?: '-'; ?></td>
@@ -58,6 +67,7 @@
                                     </td>
                                     <td><?php echo $this->get_obra_base($valor->obra_base); ?></td>
                                     <td class="text-right">
+                                        <?php if($this->permitido($permissoes, 6, 'editar') || $this->permitido($permissoes, 6, 'excluir')){ ?>
                                         <div class="btn-group">
                                             <button 
                                                 class="btn btn-secondary btn-sm dropdown-toggle" 
@@ -69,20 +79,26 @@
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item " href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
+                                                    <a class="dropdown-item " href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i> Editar</a>
+                                                <?php } ?>
+
                                                 <?php if (!$valor->obra_base) { ?>
-                                                <div class="dropdown-divider"></div>
-                                                <a 
-                                                    class="dropdown-item  deletar_registro" 
-                                                    href="javascript:void(0)" 
-                                                    data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" 
-                                                    data-registro="<?php echo $valor->id_obra;?>" 
-                                                    data-tabela="obra"
-                                                >
-                                                <i class="fas fa-trash"></i> Excluir</a>
+                                                    <?php if($this->permitido($permissoes, 6, 'excluir')){ ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a 
+                                                            class="dropdown-item  deletar_registro" 
+                                                            href="javascript:void(0)" 
+                                                            data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" 
+                                                            data-registro="<?php echo $valor->id_obra;?>" 
+                                                            data-tabela="obra"
+                                                        >
+                                                        <i class="fas fa-trash"></i> Excluir</a>
+                                                    <?php } ?>
                                                 <?php } ?>
                                             </div>
                                         </div>
+                                        <?php } else {  echo "-"; } ?>
                                     </td>
                                 </tr>
                                <?php } ?>

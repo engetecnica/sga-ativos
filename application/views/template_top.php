@@ -47,7 +47,7 @@
     <link href="<?php echo base_url('assets'); ?>/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="<?php echo base_url('assets'); ?>/css/theme.css" rel="stylesheet" media="all">
+    <link href="<?php echo base_url('assets'); ?>/css/theme.css?v=<?php echo date("Ymdhis"); ?>" rel="stylesheet" media="all">
 
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
@@ -73,6 +73,9 @@
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 
     <script> 
+    <?php
+        $user->permissoes = null;
+    ?>
         var base_url = "<?php echo base_url('/'); ?>"
         var url = "<?php echo $url; ?>";
         var uri = "<?php echo $uri; ?>";
@@ -91,13 +94,14 @@
         <aside class="menu-sidebar" id="menu-sidebar">
             <div class="logo">
                 <a href="/">
-                    <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png" alt="" />
+                    <img src="<?php echo base_url('assets'); ?>/images/icon/logo.png?version=<?=date("dmYHis");?>" alt="" />
                 </a>
 
                 <button onClick="$('#menu-sidebar').hide('fast')" type="button" class="btn-close-mobile-menu2">
                     <i class="fa fa-close" aria-hidden="true"></i>
                 </button>
             </div>
+
 
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
@@ -106,20 +110,35 @@
                             <a href="<?php echo base_url(); ?>">
                                 <i class="fas fa-chart-bar"></i>Entrada</a>
                         </li>
-            
-                        <?php foreach($modulos->modulo as $mod){ ?>
+                       
+                        <?php foreach($modulos_permitidos as $k=>$mod){ ?>
+
+                            <?php
+                            if(is_numeric($k)){
+                                if(count($mod->submodulos) > 0){ 
+                            ?>
                             
                         <li class="has-sub <?php echo $uri == $mod->rota ? "active" : "";?>">
                             <a class="<?php echo $mod->rota == "#" || empty($mod->rota) ? "js-arrow" : "";?>" href="<?php echo base_url($mod->rota); ?>">
                                 <i class="<?php echo $mod->icone; ?>"></i><?php echo $mod->titulo; ?>
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <?php foreach($mod->submodulo as $sub){ ?>
+                                <?php foreach($mod->submodulos as $sub){ ?>
                                 <li class="<?php echo $uri === $sub->rota || (substr($uri, 0, strlen($sub->rota)) == $sub->rota && $uri != "usuario/editar/{$user->id_usuario}") ? "active" : "";?>"><a href="<?php echo base_url($sub->rota); ?>"><i class="<?php echo $sub->icone; ?>"></i><?php echo $sub->titulo; ?></a></li>
                                 <?php } ?>
                             </ul>
                         </li> 
                         <?php } ?> 
+                        <?php } else { ?>
+                            <li class="<?php echo $uri == "relatorio" ? "active" : "";?>">
+                            <a href="<?php echo base_url("relatorio"); ?>">
+                                <i class="fa fa-line-chart"></i>Relatórios</a>
+                        </li>
+                        <?php } ?>
+                        <?php } ?> 
+                            
+                            
+                        
                         <li class="<?php echo $uri == "usuario/editar/{$user->id_usuario}" ? "active" : "";?>">
                             <a href="<?php echo base_url("usuario/editar/{$user->id_usuario}");; ?>">
                                 <i class="fa fa-user-circle"></i>Meus Dados</a>

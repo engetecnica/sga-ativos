@@ -12,6 +12,8 @@ class Empresa  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('empresa_model');     
+
+        $this->get_modulo_permission();
     }
 
     function index($subitem=null) {
@@ -23,11 +25,17 @@ class Empresa  extends MY_Controller {
     }
 
     function adicionar(){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 4, 'adicionar'));
+
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_empresa=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 4, 'editar'));
+
         $data['detalhes'] = $this->empresa_model->get_empresa($id_empresa);
         $data['estados'] = $this->get_estados();
         $this->get_template('index_form', $data);
@@ -66,6 +74,11 @@ class Empresa  extends MY_Controller {
     }
 
     function deletar($id=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 4, 'excluir'));
+
+
+
         $this->db->where('id_empresa', $id);
         return $this->db->delete('empresa');
     }

@@ -15,10 +15,20 @@
             <div class="row">
                 <div class="col-lg-12">
                         <h2 class="title-1 m-b-25">Detalhes da Retirada</h2>
+                        
                         <div class="card">
                           
                             <div class="card-body">
                                 <p class="m-b-10"><strong>DADOS DA RETIRADA</strong></p>
+
+                                <?php if($retirada->id_retirada_pai > 0){ ?>
+                                    <a href="<?php echo base_url('ferramental_estoque/detalhes/'.$retirada->id_retirada_pai); ?>">
+                                        <button class="btn btn-info text-center">
+                                            Renovação da Retirada: ID - <?php echo $retirada->id_retirada_pai; ?>
+                                        </button>
+                                    </a>
+                                <hr>
+                                <?php } ?>
                                 <table class="table table-responsive-md table-striped table-bordered">
                                     <tr>
                                         <th>ID</th>

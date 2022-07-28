@@ -24,8 +24,48 @@
                             <form id="ativo_veiculo_form" action="<?php echo base_url('ativo_veiculo/salvar'); ?>" method="post" enctype="multipart/form-data">
 
                                 <?php if(isset($detalhes) && isset($detalhes->id_ativo_veiculo)){?>
-                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $detalhes->id_ativo_veiculo; ?>" v-model="id_ativo_veiculo" >
+                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $detalhes->id_ativo_veiculo; ?>" v-model="id_ativo_veiculo" >
+                                    <input type="hidden" name="id_veiculo_obra_atual" id="id_veiculo_obra_atual" value="<?php echo $detalhes->id_obra; ?>" >
+                                    <input type="hidden" name="periodo_inicial_atual" id="periodo_inicial_atual" value="<?php echo $detalhes->periodo_inicial; ?>" >
+                                    <input type="hidden" name="periodo_final_atual" id="periodo_final_atual" value="<?php echo $detalhes->periodo_final; ?>" >
                                 <?php } ?>
+
+
+
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="tipo_veiculo" class=" form-control-label">Obra</label>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <select class="form-control selectpicker select-obra" id="id_obra" name="id_obra">
+                                            <option>Obra - Nenhuma obra selecionada</option>
+                                            <?php foreach($obras as $obra){ ?>
+                                            <option value="<?php echo $obra->id_obra; ?>"  <?php echo (isset($detalhes) && isset($detalhes->id_obra)) && $detalhes->id_obra == $obra->id_obra ? 'selected="selected"' : '' ?> ><?php echo $obra->codigo_obra; ?> - <?php echo $obra->obra_razaosocial; ?></option>
+                                            <?php } ?>
+                                        </select>  
+                                        
+                                        
+                                    </div>
+                                    <!--
+                                    <?php if(isset($detalhes)): ?>
+                                    <div class="col-12 col-md-2">
+                                        <button class="btn btn-sm btn-primary historico-veiculo" type="button" data-id_ativo_veiculo="<?php echo $detalhes->id_ativo_veiculo; ?>"><i class="fas fa-list"></i> histórico do veículo</button>
+                                    </div>  
+                                    <?php endif; ?>-->
+                                    
+                                </div>  
+                                
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="periodo" class=" form-control-label">Período do Veículo Alocado</label>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input type="date" class="form-control" name="periodo_inicial" id="periodo_inicial" required value="<?php echo isset($detalhes) && isset($detalhes->periodo_inicial) ? $detalhes->periodo_inicial : '' ?>">
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <input type="date" class="form-control" name="periodo_final" id="periodo_final" required value="<?php echo isset($detalhes) && isset($detalhes->periodo_final) ? $detalhes->periodo_final : '' ?>">
+                                    </div>
+                                </div>
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
@@ -129,7 +169,7 @@
                                         <div class="invalid-text">{{edit_custom_fields_msg}}</div>
                                     </div>
 
-                                    <div v-if="show_custom_fields" class="col col-md-3">
+                                    <div v-if="show_custom_fields" class="col col-md-2">
                                         <label for="id_interno_maquina" class=" form-control-label">ID Interna Máquina</label>
                                     </div>
                                     <div v-if="show_custom_fields" class="col-12 col-md-3">
@@ -148,7 +188,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem Inicial</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -159,7 +199,7 @@
                                     >
                                     </div>
 
-                                    <div v-if="show_custom_fields" class="col col-md-3">
+                                    <div v-if="show_custom_fields" class="col col-md-2">
                                         <label for="veiculo_horimetro" class=" form-control-label">Horimetro Inicial</label>
                                     </div>
                                     <div v-if="show_custom_fields" class="col-12 col-md-3">
@@ -173,14 +213,14 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="valor_funcionario" class=" form-control-label">Valor Funcionário</label>
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="text" id="valor_funcionario" name="valor_funcionario" placeholder="0,00 R$" class="form-control valor" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->valor_funcionario) ? $detalhes->valor_funcionario : '' ?>">
                                     </div>
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="valor_adicional" class=" form-control-label">Valor Adicional</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -278,9 +318,12 @@
     </div>
 </div>
 
+
+
 <?php  if(isset($anexos)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
 
 <script>
     var ativo_veiculo_form = new Vue({
@@ -353,3 +396,4 @@
         },
     })
 </script>
+

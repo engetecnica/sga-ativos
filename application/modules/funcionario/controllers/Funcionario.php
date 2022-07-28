@@ -12,7 +12,9 @@ class funcionario  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('funcionario_model');
-        $this->load->model('obra/obra_model');                
+        $this->load->model('obra/obra_model');     
+        
+        $this->get_modulo_permission();
     }
 
     function index($subitem=null) {
@@ -22,6 +24,9 @@ class funcionario  extends MY_Controller {
     }
 
     function adicionar($data = null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 3, 'adicionar'));
+
         $data['empresas'] = $this->get_empresas();
         $data['obras'] = $this->obra_model->get_obras();
         $data['estados'] = $this->get_estados(); 
@@ -30,6 +35,10 @@ class funcionario  extends MY_Controller {
     }
 
     function editar($id_funcionario=null){
+
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 3, 'editar'));
+
+
         $data['detalhes'] = $this->funcionario_model->get_funcionario($id_funcionario);
         $data['empresas'] = $this->get_empresas();
         $data['obras'] = $this->obra_model->get_obras();

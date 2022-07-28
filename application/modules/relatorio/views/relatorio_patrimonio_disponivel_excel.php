@@ -1,6 +1,10 @@
 <?php
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use \PhpOffice\PhpSpreadsheet\Style\Fill;
 use \PhpOffice\PhpSpreadsheet\Style\Alignment;
+
+
+
 
 $ferramentas_total = 0;
 $ferramentas_valor_total = 0;
@@ -13,7 +17,33 @@ $veiculos_valor_total = 0;
     Worksheets Deinitions
 */
 
-$sheet_ferramentas = clone $sheet->setTitle('Ferramentas');
+//$sheet_ferramentas = clone $sheet->setTitle('Ferramentas');
+$ferramentas1 = new Spreadsheet();
+$sheet_ferramentas = $ferramentas1->getActiveSheet();
+$sheet_ferramentas->setTitle('Veículos Depreciação');
+
+
+$ferramentas = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+$ferramentas->setName('Paid');
+$ferramentas->setDescription('Paid');
+$ferramentas->setPath('assets/images/icon/logo.png'); // put your path and image here
+$ferramentas->setCoordinates('A1');
+$ferramentas->setOffsetX(10);
+$ferramentas->setOffsetY(10);
+$ferramentas->setWorksheet($sheet_ferramentas);
+
+
+$sheet_ferramentas
+    ->getRowDimension('1')
+    ->setRowHeight(70, 'pt');
+
+
+
+
+
+
+
+
 $sheet_equipamentos = clone $sheet->setTitle('Equipamentos');
 $sheet_veiculos = clone $sheet->setTitle('Veículos');
 $sheet_patrimonio = clone $sheet->setTitle('Patrimônio Total');
@@ -21,48 +51,56 @@ $sheet_patrimonio = clone $sheet->setTitle('Patrimônio Total');
 /* 
     Table hearder Deinitions
 */
-$sheet_ferramentas->setCellValue('A1', 'ID');
-$sheet_ferramentas->setCellValue('B1', 'ID Grupo');
-$sheet_ferramentas->setCellValue('C1', 'Código');
-$sheet_ferramentas->setCellValue('D1', 'Nome');
-$sheet_ferramentas->setCellValue('E1', 'Obra');
-$sheet_ferramentas->setCellValue('F1', 'Registro');
-$sheet_ferramentas->setCellValue('G1', 'Descarte');
-$sheet_ferramentas->setCellValue('H1', 'Situação');
+$sheet_ferramentas->setCellValue('A2', 'ID');
+$sheet_ferramentas->setCellValue('B2', 'ID Grupo');
+$sheet_ferramentas->setCellValue('C2', 'Código');
+$sheet_ferramentas->setCellValue('D2', 'Nome');
+$sheet_ferramentas->setCellValue('E2', 'Obra');
+$sheet_ferramentas->setCellValue('F2', 'Registro');
+$sheet_ferramentas->setCellValue('G2', 'Descarte');
+$sheet_ferramentas->setCellValue('H2', 'Situação');
 
-$sheet_equipamentos->setCellValue('A1', 'ID');
-$sheet_equipamentos->setCellValue('B1', 'Nome');
-$sheet_equipamentos->setCellValue('C1', 'Marca');
-$sheet_equipamentos->setCellValue('D1', 'Obra');
-$sheet_equipamentos->setCellValue('E1', 'Registro');
-$sheet_equipamentos->setCellValue('F1', 'Descarte');
-$sheet_equipamentos->setCellValue('G1', 'Situação');
+$sheet_equipamentos->setCellValue('A2', 'ID');
+$sheet_equipamentos->setCellValue('B2', 'Nome');
+$sheet_equipamentos->setCellValue('C2', 'Marca');
+$sheet_equipamentos->setCellValue('D2', 'Obra');
+$sheet_equipamentos->setCellValue('E2', 'Registro');
+$sheet_equipamentos->setCellValue('F2', 'Descarte');
+$sheet_equipamentos->setCellValue('G2', 'Situação');
 
-$sheet_veiculos->setCellValue('A1', 'ID');
-$sheet_veiculos->setCellValue('B1', 'Placa');
-$sheet_veiculos->setCellValue('C1', 'Tipo');
-$sheet_veiculos->setCellValue('D1', 'Marca/Modelo');
-$sheet_veiculos->setCellValue('E1', 'Kilometragem');
-$sheet_veiculos->setCellValue('F1', 'Situação');
+$sheet_veiculos->setCellValue('A2', 'ID');
+$sheet_veiculos->setCellValue('B2', 'Placa');
+$sheet_veiculos->setCellValue('C2', 'Tipo');
+$sheet_veiculos->setCellValue('D2', 'Marca/Modelo');
+$sheet_veiculos->setCellValue('E2', 'Kilometragem');
+$sheet_veiculos->setCellValue('F2', 'Situação');
+
+
+
+
+
+
+
+
 
 if ($data->show_valor_total) {
-    $sheet_patrimonio->setCellValue('A1', 'Ferramentas Quantidade');
-    $sheet_patrimonio->setCellValue('B1', 'Ferramentas Valor');
-    $sheet_patrimonio->setCellValue('C1', 'Equipamentos Quantidade');
-    $sheet_patrimonio->setCellValue('D1', 'Equipamentos Valor');
-    $sheet_patrimonio->setCellValue('E1', 'Veículos Quantidade');
-    $sheet_patrimonio->setCellValue('F1', 'Veículos Valor');
-    $sheet_patrimonio->setCellValue('G1', 'Valor Total do Patrimônio');
+    $sheet_patrimonio->setCellValue('A2', 'Ferramentas Quantidade');
+    $sheet_patrimonio->setCellValue('B2', 'Ferramentas Valor');
+    $sheet_patrimonio->setCellValue('C2', 'Equipamentos Quantidade');
+    $sheet_patrimonio->setCellValue('D2', 'Equipamentos Valor');
+    $sheet_patrimonio->setCellValue('E2', 'Veículos Quantidade');
+    $sheet_patrimonio->setCellValue('F2', 'Veículos Valor');
+    $sheet_patrimonio->setCellValue('G2', 'Valor Total do Patrimônio');
 } else {
-    $sheet_patrimonio->setCellValue('A1', 'Ferramentas Quantidade');
-    $sheet_patrimonio->setCellValue('B1', 'Equipamentos Quantidade');
-    $sheet_patrimonio->setCellValue('C1', 'Veículos Quantidade');
+    $sheet_patrimonio->setCellValue('A2', 'Ferramentas Quantidade');
+    $sheet_patrimonio->setCellValue('B2', 'Equipamentos Quantidade');
+    $sheet_patrimonio->setCellValue('C2', 'Veículos Quantidade');
 }
 
 if ($data->show_valor_total) {
-    $sheet_ferramentas->setCellValue('I1', 'Valor');
-    $sheet_equipamentos->setCellValue('G1', 'Valor');
-    $sheet_veiculos->setCellValue('G1', 'Valor FIPE');
+    $sheet_ferramentas->setCellValue('I2', 'Valor');
+    $sheet_equipamentos->setCellValue('G2', 'Valor');
+    $sheet_veiculos->setCellValue('G2', 'Valor FIPE');
 }
 
 /* 
@@ -163,21 +201,21 @@ if ($data->show_valor_total) {
 }
 
 if ($data->show_valor_total) {
-    $sheet_patrimonio->setCellValue('A2', $ferramentas_total);
-    $sheet_patrimonio->setCellValue('B2', $this->formata_moeda($ferramentas_valor_total));
-    $sheet_patrimonio->setCellValue('C2', $equipamentos_total);
-    $sheet_patrimonio->setCellValue('D2', $this->formata_moeda($equipamentos_valor_total));
-    $sheet_patrimonio->setCellValue('E2', $veiculos_total);
-    $sheet_patrimonio->setCellValue('F2', $this->formata_moeda($veiculos_valor_total));
-    $sheet_patrimonio->setCellValue('G2', $this->formata_moeda(array_sum([
+    $sheet_patrimonio->setCellValue('A3', $ferramentas_total);
+    $sheet_patrimonio->setCellValue('B3', $this->formata_moeda($ferramentas_valor_total));
+    $sheet_patrimonio->setCellValue('C3', $equipamentos_total);
+    $sheet_patrimonio->setCellValue('D3', $this->formata_moeda($equipamentos_valor_total));
+    $sheet_patrimonio->setCellValue('E3', $veiculos_total);
+    $sheet_patrimonio->setCellValue('F3', $this->formata_moeda($veiculos_valor_total));
+    $sheet_patrimonio->setCellValue('G3', $this->formata_moeda(array_sum([
         $ferramentas_valor_total, 
         $equipamentos_valor_total, 
         $veiculos_valor_total
     ])));
 } else {
-    $sheet_patrimonio->setCellValue('A2', $ferramentas_total);
-    $sheet_patrimonio->setCellValue('B2', $equipamentos_total);
-    $sheet_patrimonio->setCellValue('C2', $veiculos_total);
+    $sheet_patrimonio->setCellValue('A3', $ferramentas_total);
+    $sheet_patrimonio->setCellValue('B3', $equipamentos_total);
+    $sheet_patrimonio->setCellValue('C3', $veiculos_total);
 }
 
 
@@ -192,7 +230,7 @@ $row_height = 30;
 $row_unity = "pt";
 
 //Format header ferramentas
-$sheet_ferramentas_range = "A1:". ($data->show_valor_total ? "I1" : "H1");
+$sheet_ferramentas_range = "A2:". ($data->show_valor_total ? "I2" : "H2");
 $sheet_ferramentas_range2 = $data->show_valor_total ? "F$f:I$f" : "G$f:H$f";
 $spreadsheet->addSheet($sheet_ferramentas, 0);
 $sheet_ferramentas->getStyle($sheet_ferramentas_range)
@@ -236,7 +274,7 @@ foreach (range('A', 'I') as $col) {
 
 
 //Format header equipamentos
-$sheet_equipamentos_range = "A1:". ($data->show_valor_total ? "H1" : "G1");
+$sheet_equipamentos_range = "A2:". ($data->show_valor_total ? "H2" : "G2");
 $sheet_equipamentos_range2 = $data->show_valor_total ? "E$e:H$e" : "F$e:G$e";
 $spreadsheet->addSheet($sheet_equipamentos, 1);
 $sheet_equipamentos->getStyle($sheet_equipamentos_range)
@@ -280,7 +318,7 @@ foreach (range('A', 'H') as $col) {
 
 
 //Format header veículos
-$sheet_veiculos_range = "A1:". ($data->show_valor_total ? "G1" : "F1");
+$sheet_veiculos_range = "A2:". ($data->show_valor_total ? "G2" : "F2");
 $sheet_veiculos_range2 = $data->show_valor_total ? "D$v:G$v" : "E$v:F$v";
 $spreadsheet->addSheet($sheet_veiculos, 3);
 $sheet_veiculos->getStyle($sheet_veiculos_range)
@@ -325,23 +363,23 @@ foreach (range('A', 'G') as $col) {
 
 //Format header Patimonio
 $spreadsheet->addSheet($sheet_patrimonio, 4);
-$sheet_patrimonio->getStyle('A1:G1')
+$sheet_patrimonio->getStyle('A2:G2')
 ->getFont()
 ->getColor()
 ->setARGB($font_color);
 
-$sheet_patrimonio->getStyle('A1:G1')
+$sheet_patrimonio->getStyle('A2:G2')
 ->getFill()
 ->setFillType(Fill::FILL_SOLID)
 ->getStartColor()
 ->setARGB($bg_color);
 
-$sheet_patrimonio->getStyle('A1:G1')
+$sheet_patrimonio->getStyle('A2:G2')
     ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-$sheet_patrimonio->getStyle('A1:G1')
+$sheet_patrimonio->getStyle('A2:G2')
     ->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-$sheet_patrimonio->getRowDimension('1')->setRowHeight($row_height, $row_unity);
+$sheet_patrimonio->getRowDimension('2')->setRowHeight($row_height, $row_unity);
 $sheet_patrimonio->getRowDimension($f)->setRowHeight($row_height, $row_unity);
 
 foreach (range('A', 'G') as $col) {
