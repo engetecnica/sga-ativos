@@ -41,8 +41,7 @@ class Migrate extends MY_Controller{
           }  
         }
         
-        echo "\n\033[1;32mBanco de dados migrado com Sucesso!\033[0m\n";
-        $this->show();
+        if ($this->show(true) > 0) echo "\n\033[1;32mBanco de dados migrado com Sucesso!\033[0m\n";
         return;
       }
       
@@ -96,20 +95,36 @@ class Migrate extends MY_Controller{
 
 
 
-    public function show(){
+    public function show($afterVersion = false){ 
+      echo "\n\033[1;34mMigrations\033[0m\n";
+
       if(!isset($this->migration)) {
         $this->load->library("migration");
       }
+      
       $migrations = $this->migration->find_migrations();
-      echo "\n\033[1;34mMigrations\033[0m\n";
       $total = 0;
+
       foreach ($migrations as $key => $file) {
-        $file = explode('migrations', $file)[1];
-        $name = ucwords(trim(str_replace(["/{$key}", ".php", "_"], ["", "", " "], $file)));
-        echo "\n$key : $name\n";
-        $total++;
+        $version = (int) $this->db->from('migrations')->get()->result()[0]->version ?? null;
+
+        if(
+          ($afterVersion && $key > $version) ||
+          (!$afterVersion && $key < $version) ||
+          !$version
+        ) {
+          $file = explode('migrations', $file)[1];
+          $name = ucwords(trim(str_replace(["/{$key}", ".php", "_"], ["", "", " "], $file)));
+          echo "\n$key : $name\n";
+          $total++;
+        }
       }
+
+      if ($total === 0) {
+        echo "\n\033[1;31mNenhum arquivo a ser executado!\n\033[0m";
+      }
+
       echo "\nTotal: {$total}\n";
-      return;
+      return $total;
     }
 }

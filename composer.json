@@ -36,8 +36,11 @@
         "docker:web": [
             "docker exec -it engetecnica_web /bin/bash"
         ],
-        "setup": [
+        "heroku:setup": [
             "heroku run \"bash setup/setup.sh\""
+        ],
+        "migrate": [
+            "php index.php migrate"
         ]
     }
 }
