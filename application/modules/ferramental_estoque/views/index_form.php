@@ -28,29 +28,27 @@
                             <form id="form-retirada" action="<?php echo base_url('ferramental_estoque/salvar'); ?>" method="post" enctype="multipart/form-data">
                                
                                 <h3 class="title-2 m-b-20 m-t-25">Funcionário Solicitante</h3>
+                                <v-select 
+                                    class="select form-control col-12 col-md-6 m-b-20"
+                                    :value="funcionario_seleted_value"
+                                    :options="funcionarios_filted"
+                                    @input="seleciona_funcionario($event ? $event.value : null)"
+                                ></v-select>
+
                                 <!-- Detalhes da Retirada -->
-                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista">
+                                <table v-if="funcionario_seleted" class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-40" id="lista">
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="85%">Nome</th>
-                                            <th scope="col" width="35%">CPF</th>
-                                            <th scope="col" width="35%">RG</th>
-                                            <th scope="col" width="20%">Selecionar</th>
+                                            <th scope="col" width="0%">Nome</th>
+                                            <th scope="col" width="0%">CPF</th>
+                                            <th scope="col" width="0%">RG</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="funcionario in funcionarios" :key="funcionario.id_funcionario" >
-                                            <td>{{funcionario.nome}}</td>
-                                            <td>{{funcionario.cpf}}</td>
-                                            <td>{{funcionario.rg}}</td>
-                                            <td>
-                                                <a v-if="id_funcionario == funcionario.id_funcionario" class="btn btn-sm btn-primary" @click="seleciona_funcionario()" >
-                                                   <i class="fas fa-check text-light"></i>
-                                                </a>
-                                                <a v-else class="btn btn-sm btn-secondary" @click="seleciona_funcionario(funcionario.id_funcionario)" >
-                                                   <i class="fas fa-check text-light"></i>
-                                                </a>
-                                            </td>
+                                        <tr>
+                                            <td>{{funcionario_seleted.nome}}</td>
+                                            <td>{{funcionario_seleted.cpf}}</td>
+                                            <td>{{funcionario_seleted.rg}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -148,6 +146,20 @@
 
                                 <br><br>
 
+                                <!-- <div class="row form-group">
+                                    <div class="col-12 col-md-3">
+                                        <label>Funcionário Solicitante</label>
+                                    </div>                                   
+                                    <div class="col-12 col-md-5">
+                                        <v-select 
+                                            class="select form-control"
+                                            :value="funcionario_seleted_value"
+                                            :options="funcionarios_filted"
+                                            @input="seleciona_funcionario($event ? $event.value : null)"
+                                        ></v-select>
+                                    </div>
+                                </div> -->
+
                                 <div class="row form-group">
                                     <div class="col-12 col-md-3">
                                         <label>Devolução Pevista</label>
@@ -204,6 +216,16 @@
     var estoque = new Vue({
         el: "#ferramental_estoque_form",
         computed: {
+            funcionarios_filted(){
+                return this.funcionarios.map(f => { return {label: `${f.matricula} | ${f.nome}`, value: f.id_funcionario}})
+            },
+            funcionario_seleted(){
+                return this.funcionarios.find(f => f.id_funcionario == this.id_funcionario) || null
+            },
+            funcionario_seleted_value(){
+                const funcionario = this.funcionario_seleted
+                return funcionario ? `${funcionario.matricula} | ${funcionario.nome}` : 'Selecione um Funcionário'
+            },
             grupos_filted(){
                 return this.grupos.filter((gp) => {return !this.in_grupos_selecionados(gp.id_ativo_externo_grupo)});  
             },
@@ -226,7 +248,7 @@
                 retiradas: [],
                 solicitar_autorizacao: false,
                 user: window.user,
-                devolucao_prevista: null,
+                devolucao_prevista: null
             }
         },
         methods: {
@@ -244,10 +266,11 @@
             },
             seleciona_funcionario(id_funcionario = null, solilicitar = true){
                 if(id_funcionario && (id_funcionario != this.id_funcionario)) {
+                    this.id_funcionario = id_funcionario
                     return this.lista_retiradas(id_funcionario, solilicitar)
                 }
-                this.id_funcionario = null
-                this.solicitar_autorizacao  = false
+                this.id_funcionario = id_funcionario
+                this.solicitar_autorizacao = false
                 this.retiradas = []
             },
             add_item(item = null){
@@ -286,11 +309,14 @@
                     }
                 })
                 .done(function(lista) {
-                    let retiradas = JSON.parse(lista)
-                    let isConfirmed = false
-                    let msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
+                    const retiradas = Object.values(JSON.parse(lista) || [])
+                    .filter(r => (new Date(r.devolucao_prevista)).getTime() < (new Date()).getTime())
 
-                    if ((retiradas.length > 0) && solilicitar) {
+                    const isConfirmed = false
+                    const msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
+    
+                    if ((retiradas.length > 0 && solilicitar) && !this.swal_is_open) {
+                        this.swal_is_open = true
                         Swal.fire({
                             title: 'Funcionário Bloqueado!',
                             text: `Existe retirada pendênte no sistema para o funcionário selecionado. ${msg}`,
@@ -301,25 +327,20 @@
                             showCancelButton: true
                         })
                         .then(function(confirm) {
+                            estoque.retiradas = retiradas
+                            this.swal_is_open = false
+
                             if (confirm.isConfirmed) {
                                 estoque.solicitar_autorizacao = true
-                                estoque.retiradas = retiradas
-                                estoque.id_funcionario = id_funcionario 
                                 estoque.permite_form = true
                                 return 
                             }
-                            estoque.seleciona_funcionario(null)
+
+                            estoque.id_funcionario = null
+                            estoque.solicitar_autorizacao = false
+                            estoque.permite_form = false
                         })
-                        return
                     }
-
-                    estoque.solicitar_autorizacao = false
-                    if (!solilicitar) {
-                        estoque.solicitar_autorizacao = true
-                    }
-
-                    estoque.retiradas = retiradas
-                    estoque.id_funcionario = id_funcionario 
                 });
             },
             getDadosRetirada(id_retirada = null){

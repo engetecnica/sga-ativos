@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <p class="m-b-10"><strong>DADOS DA RETIRADA</strong></p>
 
-                                <?php if($retirada->id_retirada_pai > 0){ ?>
+                                <?php if(isset($retirada->id_retirada_pai) && $retirada->id_retirada_pai > 0){ ?>
                                     <a href="<?php echo base_url('ferramental_estoque/detalhes/'.$retirada->id_retirada_pai); ?>">
                                         <button class="btn btn-info text-center">
                                             Renovação da Retirada: ID - <?php echo $retirada->id_retirada_pai; ?>

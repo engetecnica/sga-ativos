@@ -53,11 +53,15 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
 
     <!-- Vue.js -->
+    <script src="<?php echo base_url("assets/js/vue-select@3.0.0.js"); ?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url("assets/css/vue-select.css"); ?>">
     <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
     <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
+
     <!-- VUE plugins -->
     <script>
         Vue.use(VueMask.VueMaskPlugin);
+        Vue.component('v-select', VueSelect.VueSelect);
     </script>
 
     <!-- axios -->
