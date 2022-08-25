@@ -17,21 +17,39 @@ class Ferramental_estoque  extends MY_Controller {
             $this->load->model('ativo_externo/ativo_externo_model');
             $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
             $this->load->model('funcionario/funcionario_model');   
-
-            $this->get_modulo_permission();
         }
     }
 
     function index() {
-        $data['retiradas'] = $this->ferramental_estoque_model->get_lista_retiradas($this->user->id_obra);
-        $this->get_template('index', $data);
+        $this->get_template('index');
+    }
+
+    function paginate(){
+        $this->json(
+            $this->ferramental_estoque_model->paginate(
+                $this->ferramental_estoque_model->query_retirada($this->user->id_obra),
+                [
+                    "after" => function($rows){
+                        $permissoes = $this->permissoes;
+                        foreach ($rows as $r => $row) {
+                            $data = ['row' => $row, 'rows' => $rows, 'permissoes' => $permissoes];
+                            $rows[$r]->data_inclusao = date("d/m/Y H:i:s", strtotime($row->data_inclusao));
+                            $rows[$r]->devolucao_prevista = date("d/m/Y H:i:s", strtotime($row->devolucao_prevista));
+                            $rows[$r]->id_retirada_html = $this->load->view("../views/index_datatables_id_retirada", $data, true);
+                            $rows[$r]->status_html = $this->load->view("../views/index_datatables_status", $data, true);
+                            $rows[$r]->actions = $this->load->view("../views/index_datatables_actions", $data, true);
+                        }
+                        return $rows;
+                    }
+                ]
+            )
+        );
     }
 
     function detalhes($id_retirada) {
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 13, 'visualizar'));
 
-        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
+        $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada, $this->user->id_obra);
         $data = array_merge($this->anexo_model->getData('ferramental_estoque', $id_retirada, 'termo_de_responsabilidade'), [
             "back_url" => "ferramental_estoque/detalhes/{$id_retirada}",
             'retirada' => $retirada,
@@ -98,11 +116,23 @@ class Ferramental_estoque  extends MY_Controller {
 
     function dados_retirada($id_retirada = null) {
         $this->json([
+            'id_obra' => $this->user->id_obra,
             'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null,
             'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
             'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
-            'id_obra' => $this->user->id_obra,
         ]);
+    }
+
+    function buscar($items = null) {
+        $data = [];
+        if ($items == 'funcionarios') {
+            $data = $this->funcionario_model->search_funcionarios($this->user->id_empresa, $this->user->id_obra);
+        }
+
+        if ($items == 'grupos') {
+            $data = $this->ativo_externo_model->search_grupos($this->user->id_obra);
+        }
+        $this->json($data);
     }
 
     function lista_ativos_grupos_json(){
@@ -198,7 +228,7 @@ class Ferramental_estoque  extends MY_Controller {
                     $items[$k]['status'] = $retirada['status'];
                 }
             }
-
+            
             if ($mode == 'update') {
                 $items_update = $items_insert = array();
                 foreach($items as $i => $item) {

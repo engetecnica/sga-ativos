@@ -17,7 +17,7 @@ use \Mpdf\Mpdf;
 
 class MY_Controller extends MX_Controller {
  
-    protected $user, $logado;
+    protected $user, $logado, $permissoes;
 
     use MY_Trait;
 
@@ -39,6 +39,8 @@ class MY_Controller extends MX_Controller {
         
         if ($this->user) {
             $this->logado = true;
+            $this->meses_ano = $this->config->item('meses_ano');
+            $this->permissoes = $this->get_modulo_permission();
         }
 
         if($auth_user_required && !$this->user){
@@ -49,8 +51,6 @@ class MY_Controller extends MX_Controller {
                 $this->logado = false;
             }
         }
-
-        $this->meses_ano = $this->config->item('meses_ano');
     }
 
     public function is_auth(){
@@ -78,11 +78,16 @@ class MY_Controller extends MX_Controller {
 
         $data['permissoes'] = [];
         if(null!== $this->uri->segment(1)){
-            $data['permissoes'] = $this->get_modulo_permission();
+            $data['permissoes'] = $this->permissoes;
         }
 
-        
-        if($data['app_config']) unset($data['app_config']->sendgrid_apikey, $data['app_config']->one_signal_apikey, $data['app_config']->one_signal_apiurl);
+        if($data['app_config']) {
+            unset(
+                $data['app_config']->sendgrid_apikey, 
+                $data['app_config']->one_signal_apikey, 
+                $data['app_config']->one_signal_apiurl
+            );
+        }
 
         $this->load->view("../views/template_top", $data);
         $this->load->view($template, $data);

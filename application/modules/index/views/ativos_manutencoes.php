@@ -164,8 +164,8 @@
         }
     })
 
-    var ativo_interno_manutencoes = JSON.parse(`<?php echo json_encode($ativo_interno_manutencoes);?>`) || null
-    var ativo_externo_manutencoes = JSON.parse(`<?php echo json_encode($ativo_externo_manutencoes);?>`) || null
+    var ativo_interno_manutencoes = JSON.parse(`<?php echo json_encode($ativo_interno_manutencoes);?>`) || []
+    var ativo_externo_manutencoes = JSON.parse(`<?php echo json_encode($ativo_externo_manutencoes);?>`) || []
 
     function verObs(id_manutencao, tipo){
         event.preventDefault()

@@ -1,7 +1,7 @@
 {
-    "name":"Engetecnica Controle APP",
-    "short_name":"Engetecnica",
-    "description": "Aplicação de controle Obras: Equipamentos internos, Ferramentas, e Veículos de Engetecnica Engenharia.",
+    "name":"Engeativos - SGA",
+    "short_name":"Engeativos",
+    "description": "Sistema de Gerenciamento de Ativos",
     "theme_color":"#fd9e0f",
     "background_color":"#f8f9fa",
     "display":"standalone",
@@ -31,7 +31,7 @@
     "related_applications": [
       {
         "platform": "web",
-        "url": "https://engetecnica.xyz"
+        "url": "https://sga-e.eng.br"
       }
     ]
 }

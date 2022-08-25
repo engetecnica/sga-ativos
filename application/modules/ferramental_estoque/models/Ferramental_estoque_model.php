@@ -20,38 +20,40 @@ class ferramental_estoque_model extends MY_Model {
 			->update('ativo_externo_retirada', $data);
 	}
 
-	private function query_retirada($id_obra = null, $id_funcionario = null, $status = null){
+	public function query_retirada($id_obra = null, $id_funcionario = null, $status = null){
 		$retiradas = $this->db
-						->select('retirada.*, ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
-						->select('fn.cpf as funcionario_cpf, fn.rg as funcionario_rg, fn.celular as funcionario_celular, fn.nome as funcionario')
+						->select('retirada.*')
 						->select("(SELECT anexo FROM anexo WHERE tipo = 'termo_de_responsabilidade' AND id_modulo_item = retirada.id_retirada ORDER BY id_anexo desc LIMIT 1) as termo_de_responsabilidade")
 						->from('ativo_externo_retirada retirada');
 
-			if ($id_obra) {
-				$retiradas->where("retirada.id_obra = {$id_obra}");
-			}
+		if ($id_obra) {
+			$retiradas->where("retirada.id_obra = {$id_obra}");
+		}
 
-			if ($id_funcionario) {
-				$retiradas->where("retirada.id_funcionario = {$id_funcionario}");
-			}
+		if ($id_funcionario) {
+			$retiradas->where("retirada.id_funcionario = {$id_funcionario}");
+		}
 			
-			if ($status) {
-				if (is_array($status)) {
-					$retiradas->where("retirada.status IN (".implode(',', $status).")");
-				} else {
-					$retiradas->where("retirada.status = {$status}");
-				}
-			}	
+		if ($status) {
+			if (is_array($status)) {
+				$retiradas->where("retirada.status IN (".implode(',', $status).")");
+			} else {
+				$retiradas->where("retirada.status = {$status}");
+			}
+		}
 
-		return $retiradas
-				->join('obra ob', 'retirada.id_obra = ob.id_obra', 'left')
-				->join('funcionario fn', 'retirada.id_funcionario = fn.id_funcionario', 'left')
-				->group_by('retirada.id_retirada')
-				->order_by('retirada.id_retirada', 'desc');
+		$this->join_status($retiradas, 'retirada.status');	
+		$this->join_funcionario($retiradas, 'retirada.id_funcionario');
+		$this->join_obra($retiradas, 'retirada.id_obra');
+
+		return $retiradas->group_by('retirada.id_retirada');
 	}
 	
 	public function get_lista_retiradas($id_obra = null, $id_funcionario = null, $status = null){
-		return $this->query_retirada($id_obra, $id_funcionario, $status)->get()->result();
+		return $this
+			->query_retirada($id_obra, $id_funcionario, $status)
+			->order_by('retirada.id_retirada', 'desc')
+			->get()->result();
 	}
 
 
@@ -61,11 +63,16 @@ class ferramental_estoque_model extends MY_Model {
 				->like('retirada.id_retirada', $search)
 				->or_like('fn.nome', $search)
 				->or_like('ob.codigo_obra', $search)
+				->order_by('retirada.id_retirada', 'desc')
 				->get()->result();
 	}
 
 	public function get_retirada($id_retirada, $id_obra = null, $id_funcionario = null){
-		$retirada = $this->query_retirada($id_obra, $id_funcionario)->where("retirada.id_retirada = {$id_retirada}")->get()->row();
+		$retirada = $this->query_retirada($id_obra, $id_funcionario)
+					->where("retirada.id_retirada = {$id_retirada}")
+					->order_by('retirada.id_retirada', 'desc')
+					->get()->row();
+					
 		if ($retirada) {
 			if ($retirada->termo_de_responsabilidade && stripos($retirada->termo_de_responsabilidade, 'anexo/') === false) $retirada->termo_de_responsabilidade = "termo_de_responsabilidade/{$retirada->termo_de_responsabilidade}";
 			$retirada->items = $this->get_retirada_items($id_retirada);
@@ -85,6 +92,7 @@ class ferramental_estoque_model extends MY_Model {
 			if ($items) {
 				foreach($items as $i => $item){
 					$items[$i]->ativos = $this->get_retirada_ativos($item->id_retirada_item);
+					$items[$i]->estoque = $this->ativo_externo_model->get_grupo($item->id_ativo_externo_grupo)->estoque ?? 0;
 				}
 			}
 			return $items;
@@ -101,6 +109,7 @@ class ferramental_estoque_model extends MY_Model {
 
 			if ($item) {
 				$item->ativos = $this->get_retirada_ativos($id_retirada_item);
+				$item->estoque = $this->ativo_externo_model->get_grupo($item->id_ativo_externo_grupo)->estoque ?? 0;
 			}
 			return $item;
 	}

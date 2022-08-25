@@ -4379,9 +4379,9 @@ section {
     max-width: 300px !important;
 }
 
-.table--no-card table {
+/* .table--no-card table {
     min-height: 250px !important;
-}
+} */
 
 .table-earning thead th {
     background: #333;

@@ -18,93 +18,10 @@
                 <h2 class="title-1 m-b-20">Estoque de Ferramentas</h2>
                     <div class="table table--no-card table-responsive table--no- m-b-40">
                         <h3 class="title-1 m-b-25">Retiradas</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista">
-                            <thead>
-                                <tr>
-                                    <th>Retirada ID</th>
-                                    <th>Obra</th>
-                                    <th>Funcionário</th>
-                                    <th>Data</th>
-                                    <th>Devolução Prevista</th>
-                                    <th>Status</th>
-                                    <th>Gerenciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($retiradas as $valor){ ?>
-                                <tr>
-                                    <td id="<?php echo $valor->id_retirada; ?>">
-                                        <?php if($this->permitido($permissoes, 13, 'editar')){ ?>
-                                            <a class="" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">    
-                                                <?php echo $valor->id_retirada; ?>
-                                            </a>
-                                        <?php } else { ?>
-                                            <?php echo $valor->id_retirada; ?>
-                                        <?php } ?>
-                                    </td>
-                                    <td><?php echo $valor->obra; ?></td>
-                                    <td><?php echo $valor->funcionario; ?></td>
-                                    <td><?php echo date("d/m/Y H:i", strtotime($valor->data_inclusao)); ?></td>
-                                    <td><?php echo isset($item->devolucao_prevista) ? date("d/m/Y H:i", strtotime($item->devolucao_prevista)) : '-'; ?></td>
-                                    <td>
-                                        <?php $status = $this->status($valor->status); ?>
-                                        <span class="badge badge-<?php echo $status['class'];?>"><?php echo $status['texto'];?></span>
-                                    </td>
-                                    <td>
-                                        <?php if($this->permitido($permissoes, 13, 'editar') || $this->permitido($permissoes, 13, 'excluir')){ ?>
-                                            <div class="btn-group" role="group">
-                                                <button id="ferramental_requisicao_detalhes" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Gerenciar
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="ferramental_requisicao_detalhes">
-                                                    <?php if($this->permitido($permissoes, 13, 'visualizar')){ ?>
-                                                        <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/detalhes/{$valor->id_retirada}"); ?>">
-                                                            <i class="fas fa-list"></i> Detalhes
-                                                        </a>
-                                                        
-                                                        <?php if(isset($valor->termo_de_responsabilidade)) { ?>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item btn" target="_blank" href="<?php echo base_url("assets/uploads/{$valor->termo_de_responsabilidade}"); ?>">
-                                                            <i class="fa fa-print"></i>&nbsp;Ver Termo de Resp.
-                                                        </a>
-                                                        <?php } ?>
-                                                    <?php } ?>
-
-                                                    <?php if($valor->status == 1) {?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/editar/{$valor->id_retirada}"); ?>">
-                                                            <i class="fas fa-edit"></i> Editar  
-                                                        </a>
-                                                        <?php if($this->permitido($permissoes, 13, 'excluir')){ ?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a 
-                                                            class="dropdown-item btn confirmar_registro"  data-tabela="<?php echo base_url("ferramental_estoque");?>" 
-                                                            href="javascript:void(0)" data-registro="<?php echo $valor->id_retirada;?>"
-                                                            data-acao="Remover Retirada"  data-redirect="true"
-                                                            data-href="<?php echo base_url("ferramental_estoque/remove_retirada/{$valor->id_retirada}");?>"
-                                                        >                                                   
-                                                            <i class="fas fa-trash"></i> Excluir                                               
-                                                        </a>
-                                                        <?php } ?>
-                                                    <?php } ?>
-
-                                                    <?php if($this->permitido($permissoes, 13, 'editar')){ ?>
-                                                        <?php if($valor->status == 9) {?>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/renovar_retirada/{$valor->id_retirada}"); ?>">
-                                                                <i class="fas fa-clone 4x"></i> Renovar Retirada 
-                                                            </a>                                                        
-                                                        <?php } ?>                                                
-                                                    <?php } ?>                                                
-                                                </div>
-                                            </div>
-                                        <?php } else { ?>
-                                            -
-                                        <?php } ?>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
+                        <table 
+                            class="table dataTable table-borderless table-striped table-earning" 
+                            id="ferramental_estoque_index"
+                        > 
                         </table>
                     </div>
                 </div>
@@ -122,3 +39,78 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
+<script>
+    const data_table_columns = [
+        {
+            title: 'Retirada ID',
+            data: 'id_retirada',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.id_retirada_html
+            }
+        },
+        { 
+            title: 'Obra' ,
+            name: 'ob.codigo_obra',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.obra
+            }
+        },
+        { 
+            title: 'Funcionário',
+            name: 'fn.nome',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.funcionario
+            }
+        },
+        { 
+            title: 'Data',
+            data: 'retirada.data_inclusao',
+            sortable: true,
+            searchable: true,
+            render(value, type, row, settings){
+                return row.data_inclusao
+            }
+        },
+        { 
+            title: 'Devolução Prevista',
+            data: 'devolucao_prevista',
+            sortable: true,
+            searchable: true,
+            render(value, type, row, settings){
+                return row.devolucao_prevista
+            }
+        },
+        { 
+            title: 'Status',
+            name: 'st.slug',
+            sortable: true,
+            searchable: true,
+            render(value, type, row, settings){
+                return row.status_html
+            }
+        },
+        { 
+            title: 'Gerenciar' ,
+            render(value, type, row, settings){
+                return row.actions
+            },
+        },
+    ]
+
+    const options = {
+        columns: data_table_columns,
+        url: `${base_url}ferramental_estoque/paginate`,
+        order: [0, 'desc']
+    }
+
+    $(document).ready(() => {
+        loadDataTable('ferramental_estoque_index', options)
+    })
+</script>

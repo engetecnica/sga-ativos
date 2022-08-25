@@ -107,7 +107,14 @@ class Ativo_interno_model extends MY_Model {
 			->get()->result();
 
 		if ($obs) {
-			foreach($manutencoes as $k => $manutencao) $manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+			foreach($manutencoes as $k => $manutencao) {
+				$manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+				foreach ($manutencoes[$k]->observacoes as $o => $obs) {
+					if ($manutencoes[$k]->observacoes[$o]->permissoes) {
+						$manutencoes[$k]->observacoes[$o]->permissoes = json_decode($obs->permissoes); 
+					}
+				}
+			}
 		}
 		return $manutencoes;
 	}

@@ -112,4 +112,136 @@ class MY_model extends CI_Model {
         }
         return $response;
     }
+
+    private function pagination_search(
+        \CI_DB_mysqli_driver &$query,
+         array $columns = [], 
+         string $search = null, 
+         string $table = ''
+    ) : ?\CI_DB_mysqli_driver {
+        if($columns) {
+            $likes = 0;
+            foreach ($columns as  $col) {
+                if($col && $col['searchable'] && $search) {
+                    $data = strtoupper($col['data']) != $col['data'] ? $col['data'] : ($col['name']?? null);
+                    if ($data){
+                        $search_value = $search;
+                        if (strpos($data, 'data_') !== false) {
+                            $search_value = date('Y-m-d', strtotime(str_replace('/', '-', $search)));
+                        }
+
+                        if ($likes == 0) $query->like("{$table}{$data}", $search_value);
+                        else $query->or_like("{$table}{$data}", $search_value);
+                        $likes++;
+                    }
+				}
+            }
+		}
+        return $query;
+    }
+
+    private function pagination_order(
+        \CI_DB_mysqli_driver &$query,
+        array $columns = [], 
+        array $orders = [], 
+        string $table = ''
+    ) : ?\CI_DB_mysqli_driver {
+        if($orders) {
+            foreach ($orders as $order) {
+                if(isset($columns[$order['column']]) && $columns[$order['column']]['orderable']) {
+                    $data = $columns[$order['column']]['data'] ?? $columns[$order['column']]['name'] ?? null;          
+                    $query->order_by("{$table}{$data}", $order['dir']);
+                }
+            }
+        }
+        return $query;
+    }
+
+    private function pagination_actions_template(array &$result = [], array $options = []) : array
+    {
+        $template = isset($options['actions_template']) ? "../{$options['actions_template']}" : null;
+        if($template) {
+            foreach($result as $r => $row) {
+                $data = array_merge(
+                    ["rows" => $result, "row" => $row, "index" => $r],  
+                    $options['actions_template_data'] ?? []
+                );
+                $result[$r]->actions = $this->load->view($template, $data, true);
+            }
+        }
+        return $result;
+    }
+
+    public function paginate(
+        \CI_DB_mysqli_driver $query, 
+        array $options = [
+            "table" => '',
+            "actions_template" => null,
+            "actions_template_data" => [],
+            "before" => null,
+            "after" => null,
+        ]
+    ) : object {
+        $order_col = [['column' => 0, 'dir' => 'desc']];
+        $start = $this->input->get('start', $this->input->post('start')) ?? 0;
+        $length = $this->input->get('length', $this->input->post('length')) ?? 10;
+        $search = $this->input->get('search', $this->input->post('search')) ?? null;
+        $orders = $this->input->get('order', $this->input->post('order')) ?? $order_col;
+		$columns = $this->input->get('columns', $this->input->post('columns')) ?? [];
+        $table = isset($options['table']) ? "{$options['table']}." : '';
+
+        $this->pagination_search($query, $columns, $search, $table);
+        $this->pagination_order($query, $columns, $orders, $table);
+
+        $totalQuery = clone $query;
+        $query->limit($length, $start);
+
+        $before =  $options['before'] ?? null;
+        if ($before instanceof \Closure) {
+            $before_query = $before($query);
+            if($before_query instanceof \CI_DB_mysqli_driver) $query = clone $before_query;
+        }
+
+        $totalPageQuery = clone $query;
+        $totalPage = $totalPageQuery->get()->num_rows();
+        $result = $query->get()->result() ?? [];
+        $total = $totalQuery->get()->num_rows();
+
+        $after = $options['after'] ?? null;
+        if ($after instanceof \Closure) {
+            $after_result = $after($result);
+            if(is_array($after_result)) $result = $after_result; 
+        }
+
+        $this->pagination_actions_template($result, $options);
+
+        return (object) [
+            "total" => $total,
+            "total_page" => $totalPage,
+            "start" => $start,
+            "length" => $length,
+            "data" => $result
+        ] ;
+    }
+
+    public function join_status(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+            ->select('st.slug as status_slug, st.texto as status_texto, st.classe as status_classe')
+            ->join('ativo_externo_requisicao_status st', "{$col} = st.id_requisicao_status", $join_type);
+    }
+
+    public function join_funcionario(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+        ->select('fn.cpf as funcionario_cpf, fn.rg as funcionario_rg, fn.celular as funcionario_celular, fn.nome as funcionario')
+        ->join('funcionario fn', "{$col} = fn.id_funcionario", $join_type);
+    }
+
+    public function join_obra(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+        ->select('ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
+        ->join('obra ob', "{$col} = ob.id_obra", $join_type);
+    }
 }

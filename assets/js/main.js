@@ -1683,13 +1683,13 @@
 
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
-    .then(function(registration) {
-      if (registration.installing) console.log('ServiceWorker installing...')
-    })
-    .catch(function(error) {
-      console.error('Service worker registration failed:', error);
-    });
+    // navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+    // .then(function(registration) {
+    //   if (registration.installing) console.log('ServiceWorker installing...')
+    // })
+    // .catch(function(error) {
+    //   console.error('Service worker registration failed:', error);
+    // });
   } else {
     console.error('Service workers are not supported.');
   }
@@ -1716,3 +1716,8 @@ function remove_acentos(str) {
   }
   return novastr;
 }       
+
+function refresh_page(segment = null){
+  window.location.href = window.location.href
+  if (segment) window.location.href = window.location.href + `#${segment}`
+}

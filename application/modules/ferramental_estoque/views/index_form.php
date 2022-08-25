@@ -28,153 +28,128 @@
                             <form id="form-retirada" action="<?php echo base_url('ferramental_estoque/salvar'); ?>" method="post" enctype="multipart/form-data">
                                
                                 <h3 class="title-2 m-b-20 m-t-25">Funcionário Solicitante</h3>
-                                <v-select 
-                                    class="select form-control col-12 col-md-6 m-b-20"
-                                    :value="funcionario_seleted_value"
-                                    :options="funcionarios_filted"
-                                    @input="seleciona_funcionario($event ? $event.value : null)"
-                                ></v-select>
-
-                                <!-- Detalhes da Retirada -->
-                                <table v-if="funcionario_seleted" class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-40" id="lista">
+                                <!-- Detalhes da Retirada-->
+                                <table  class="table dataTable table-responsive-md table--no-card table-borderles table-striped table-earning  m-b-40" >
                                     <thead>
                                         <tr class="active">
-                                            <th scope="col" width="0%">Nome</th>
-                                            <th scope="col" width="0%">CPF</th>
-                                            <th scope="col" width="0%">RG</th>
+                                            <th scope="col" width="60%">Matrícula | Nome</th>
+                                            <th scope="col" width="10%">CPF</th>
+                                            <th scope="col" width="10%">RG</th>
+                                            <th scope="col" width="20%">Bloqueado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{funcionario_seleted.nome}}</td>
-                                            <td>{{funcionario_seleted.cpf}}</td>
-                                            <td>{{funcionario_seleted.rg}}</td>
+                                            <td>
+                                                <v-select 
+                                                    class="select form-control col-12"
+                                                    :value="funcionario_seleted_value"
+                                                    :options="funcionarios_filted"
+                                                    :no-options="'Buscar funcionário via Nome ou Matrícula'"
+                                                    @input="selecionaFuncionario($event ? $event.value : null)"
+                                                    @search="buscarFuncionario($event ? $event : null)"
+                                                >
+                                                    <template v-slot:no-options="{ search, searching }">
+                                                        <template v-if="searching">
+                                                            Nenhum resultado encontrado para <em>{{ search }}</em>.
+                                                        </template>
+                                                        <em v-else style="opacity: 0.5">Buscar Funcionário via Nome, Matrícula, RG ou CPF</em>
+                                                    </template>
+                                                </v-select>
+                                            </td>
+                                            <td>{{funcionario_seleted ? funcionario_seleted.cpf : '-'}}</td>
+                                            <td>{{funcionario_seleted ? funcionario_seleted.rg : '-'}}</td>
+                                            <td>{{funcionario_seleted && !funcionario_seleted.permit_retirada ? 'Sim' : 'Não'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
-                                <!-- Itens da Retirada -->
-                                <table class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" id="lista1">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" width="80%">Nome</th>
-                                            <th scope="col" width="10%">Qtd. em Estoque</th>
-                                            <th scope="col" width="10%">Selecionar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="grupo in grupos_filted" :key="grupo.id_ativo_externo_grupo" >
-                                            <td>{{grupo.nome}}</td>
-                                            <td>{{grupo.estoque}}</td>
-                                            <td>
-                                                <a v-if="grupo.estoque > 0" class="btn btn-sm btn-primary" @click="add_item(grupo)" >
-                                                   <i class="fas fa-plus text-light"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="grupos_filted.length == 0" >
-                                            <td>Nemhum grupo diponível</td>
-                                            <td>0</td>
-                                            <td>
-                                                <a class="btn btn-sm btn-secondary" disabled="disabled">
-                                                   <i class="fas fa-plus text-light"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                <!-- Buscar itens da Retirada -->
+                                <table 
+                                    class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" 
+                                    :id="data_table_id"
+                                >
                                 </table>
                             
-                                <?php if(isset($retirada) && isset($retirada->id_retirada)){?>
-                                <input type="hidden" name="id_retirada" id="id_retirada" value="<?php echo $retirada->id_retirada; ?>">
-                                <?php } ?> 
+                                <input v-if="retirada" type="hidden" name="id_retirada" id="id_retirada" :value="retirada.id_retirada">
                                 <input type="hidden" id="id_obra" name="id_obra" :value="id_obra" />
                                 <input type="hidden" id="id_funcionario" name="id_funcionario" :value="id_funcionario" />
                                 <input type="hidden" id="solicitar_autorizacao" name="solicitar_autorizacao" :value="solicitar_autorizacao">
                              
-
-                                <div class="row">
-                                    <div class="col-md-4"><label for="">Item</label></div>
-                                    <div class="col-md-2"><label for="">Quantidade</label></div>
-                                    <div class="col-md-2"><label for=""></label></div>
-                                </div>
-                                <div class="listagem">
-
-                                    <p v-if="grupos_selecionados.length == 0" class="text-center">Nenhum iten na lista </p>
-
-                                    <div 
-                                        v-for="(sgrupo, sg) in grupos_selecionados" :key="sg" 
-                                        class="row item-lista" style="margin-bottom: 10px;"
-                                    >
-                                        <input 
-                                            v-if="grupos_selecionados[sg].id_retirada_item"
-                                            name="id_retirada_item[]" id="id_retirada_item[]"  type="hidden"
-                                            :value="grupos_selecionados[sg].id_retirada_item"
-                                        >
-                                        <input 
-                                            name="id_ativo_externo_grupo[]" id="id_ativo_externo_grupo[]"  type="hidden"
-                                            :value="grupos_selecionados[sg].id_ativo_externo_grupo"
-                                        >
-
-                                        <div class="col-md-4">
-                                            <div class="exchange1">
-                                                <input
-                                                    type="text" readonly
-                                                    class="form-control"
-                                                    :value="sgrupo.nome"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
+                                <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" :id="data_table_id">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="60%">Nome</th>
+                                            <th scope="col" width="20%">Quantidade</th>
+                                            <th scope="col" width="20%">Remover</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(sgrupo, sg) in grupos_selecionados" :key="sg" >
                                             <input 
-                                                name="quantidade[]" type="number" placeholder="0" 
-                                                class="form-control quantidade"
-                                                v-model="grupos_selecionados[sg].quantidade"
-                                                :value="grupos_selecionados[sg].quantidade"
-                                                min="1" :max="sgrupo.estoque"
+                                                type="hidden"
+                                                v-if="grupos_selecionados[sg].id_retirada_item"
+                                                name="id_retirada_item[]" id="id_retirada_item[]"  
+                                                :value="grupos_selecionados[sg].id_retirada_item"
                                             >
-                                        </div>
+                                            <input 
+                                                type="hidden"
+                                                name="id_ativo_externo_grupo[]" id="id_ativo_externo_grupo[]"  
+                                                :value="grupos_selecionados[sg].id_ativo_externo_grupo"
+                                            >
 
-                                        <div class="col-md-2" nowrap>
-                                            <p>
-                                                <button @click="remove_item(sg, sgrupo)" type="button" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
-                                            </p>
-                                        </div>
-                                    </div>
+                                            <td scope="col" width="60%">
+                                                <div class="exchange1">
+                                                    <!-- <input
+                                                        type="text" readonly
+                                                        class="form-control"
+                                                        :value="sgrupo.nome"
+                                                    /> -->
+                                                    {{sgrupo.nome}}
+                                                </div>
+                                            </td>
+                                            <td scope="col" width="10%">
+                                                <input 
+                                                    name="quantidade[]" type="number" placeholder="0" 
+                                                    class="form-control quantidade"
+                                                    v-model="grupos_selecionados[sg].quantidade"
+                                                    :value="grupos_selecionados[sg].quantidade"
+                                                    min="1" :max="grupos_selecionados[sg].estoque"
+                                                >
+                                            </td>
+                                            <td scope="col" width="10%">
+                                                <button 
+                                                    @click="removeItem(grupos_selecionados[sg].id_ativo_externo_grupo)" 
+                                                    type="button" 
+                                                    class="btn btn-sm btn-danger"
+                                                >
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                                </div>
-
-                                <br><br>
-
-                                <!-- <div class="row form-group">
-                                    <div class="col-12 col-md-3">
-                                        <label>Funcionário Solicitante</label>
-                                    </div>                                   
-                                    <div class="col-12 col-md-5">
-                                        <v-select 
-                                            class="select form-control"
-                                            :value="funcionario_seleted_value"
-                                            :options="funcionarios_filted"
-                                            @input="seleciona_funcionario($event ? $event.value : null)"
-                                        ></v-select>
-                                    </div>
-                                </div> -->
-
-                                <div class="row form-group">
+                                <div class="row form-group m-t-40">
                                     <div class="col-12 col-md-3">
                                         <label>Devolução Pevista</label>
                                     </div>                                   
-                                    <div class="col-12 col-md-5">
+                                    <div class="col-12 col-md-3">
                                         <input require="required" type="datetime-local" class="form-control" name="devolucao_prevista" id="devolucao_prevista" v-model="devolucao_prevista">
                                     </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-12 col-md-3">
-                                        <label>Observações</label>
+                   
+                                    <div class="col-12 col-md-2">
+                                        <label>Observação</label>
                                     </div>                                    
-                                    <div class="col-12 col-md-5">
-                                        <textarea type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
+                                    <div class="col-12 col-md-4">
+                                        <textarea 
+                                            v-model="observacoes" 
+                                            class="form-control"
+                                            name="observacoes" 
+                                            id="observacoes" 
+                                            placeholder="Alguma observação?"
+                                        >
                                         </textarea>
                                     </div>                                    
                                 </div>
@@ -217,17 +192,19 @@
         el: "#ferramental_estoque_form",
         computed: {
             funcionarios_filted(){
-                return this.funcionarios.map(f => { return {label: `${f.matricula} | ${f.nome}`, value: f.id_funcionario}})
+                return this.funcionarios?.map(f => { 
+                    return {label: `${f.matricula} | ${f.nome}`, value: f.id_funcionario}
+                })
             },
             funcionario_seleted(){
-                return this.funcionarios.find(f => f.id_funcionario == this.id_funcionario) || null
+                return this.funcionarios?.find(f => f.id_funcionario == this.id_funcionario) || null
             },
             funcionario_seleted_value(){
                 const funcionario = this.funcionario_seleted
                 return funcionario ? `${funcionario.matricula} | ${funcionario.nome}` : 'Selecione um Funcionário'
             },
             grupos_filted(){
-                return this.grupos.filter((gp) => {return !this.in_grupos_selecionados(gp.id_ativo_externo_grupo)});  
+                return this.grupos.filter((gp) => {return !this.inGruposSelecionados(gp.id_ativo_externo_grupo)});  
             },
             permite_form() {
                 return ![
@@ -245,65 +222,112 @@
                 retirada: null,
                 id_obra: null,
                 id_funcionario: null,
+                observacoes: null,
                 retiradas: [],
                 solicitar_autorizacao: false,
                 user: window.user,
-                devolucao_prevista: null
+                devolucao_prevista: null,
+                data_table: null,
+                data_table_id: "ferramental_estoque",
+                data_table_columns: [
+                    { 
+                        title: 'Nome' ,
+                        data: 'nome',
+                        sortable: true,
+                        searchable: true,
+                        render: function(value, type, row, settings){
+                            return value
+                        }
+                    },
+                    { 
+                        title: 'Qtd. em Estoque',
+                        data: 'id_ativo_externo_grupo',
+                        sortable: false,
+                        searchable: false,
+                        render(value, type, row, settings){
+                            return row.estoque
+                        }
+                    },
+                    { 
+                        title: 'Adicionar',
+                        sortable: false,
+                        searchable: false,
+                        render(value, type, row, settings){ 
+                            return row.actions
+                        },
+                    },
+                ],
             }
         },
         methods: {
-            in_grupos_selecionados(id_grupo){
+            inGruposSelecionados(id_grupo){
                 return this.grupos_selecionados.find((gp) => {return gp.id_ativo_externo_grupo == id_grupo});
             },
-            lista_grupos(){
-                window.$.ajax({
-                    method: "GET",
-                    url: base_url + "ferramental_estoque/lista_ativos_grupos_json",
-                })
-                .done(function(grupos) {
-                    estoque.grupos = JSON.parse(window.grupos)
-                });
+            filterGrupos(grupos){
+                // return grupos
+                // .map(g => !this.inGruposSelecionados(g.id_ativo_externo_grupo) ? g : null)
+                // .filter(v => v)
+                return grupos
             },
-            seleciona_funcionario(id_funcionario = null, solilicitar = true){
-                if(id_funcionario && (id_funcionario != this.id_funcionario)) {
+            selecionaFuncionario(id_funcionario = null, solilicitar = true){
+                if(id_funcionario && this.id_funcionario != id_funcionario) {
                     this.id_funcionario = id_funcionario
-                    return this.lista_retiradas(id_funcionario, solilicitar)
+                    return this.listaRetiradasFuncionario(id_funcionario, solilicitar)
                 }
                 this.id_funcionario = id_funcionario
                 this.solicitar_autorizacao = false
                 this.retiradas = []
             },
-            add_item(item = null){
-                if(!item){
-                    this.grupos_selecionados.push({
-                        id_ativo_externo_grupo: null,
-                        nome: 'Buscar Item Test',
-                        quantidade: 1,
-                        estoque: 0
+            buscarFuncionario(search = null){
+                if(search) {
+                    window.$.ajax({
+                        method: "GET",
+                        url: `${base_url}ferramental_estoque/buscar/funcionarios`,
+                        data: {
+                            search: search,
+                            page: 1,
+                            per_page: 1000,
+                        },
+                        async: true
                     })
-                    return
+                    .done(function(response) {
+                        estoque.funcionarios = response.data
+                        estoque.funcionarios.forEach(f => estoque.listaRetiradasFuncionario(f.id_funcionario, false))
+                    });
                 }
-                this.grupos_selecionados.push({...item, quantidade: 1})
             },
-            remove_item(index, item){
-                if (this.retirada && this.retirada.items.length > 0) {
+            addItem(item){
+                if (typeof item !== 'object') item = this.grupos.find(i => i.id_ativo_externo_grupo == item)
+                const beforeIndex = this.grupos_selecionados.findIndex(i => {
+                    return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
+                })
+                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: item?.quantidade || 1})
+                if(item && beforeIndex >= 0)this.grupos_selecionados[beforeIndex].quantidade++
+            },
+            removeItem(item) {
+                if (typeof item !== 'object') item = this.grupos_selecionados.find(i => i.id_ativo_externo_grupo == item)
+                const index = this.grupos_selecionados.findIndex(i => {
+                    return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
+                })
+
+                if (this.retirada && item?.id_retirada_item &&  this.grupos_selecionados.length > 1) {
                     window.$.ajax({
                         method: "POST",
                         url: base_url + `ferramental_estoque/remove_item/${item.id_retirada_item}`
                     })
-                    .done(function(status) {
-                        if(status == 'true') {
-                            estoque.grupos_selecionados.splice(index, 1)
-                        }
+                    .done((status) => {
+                        if(status == 'true') estoque.grupos_selecionados.splice(index, 1)
+                        estoque.data_table?.reload()
                     })
                     return
                 }
-                estoque.grupos_selecionados.splice(index, 1)
+
+                if (!this.retirada || !item.id_retirada_item) this.grupos_selecionados.splice(index, 1)
             },
-            lista_retiradas(id_funcionario, solilicitar = true){
+            listaRetiradasFuncionario(id_funcionario, solilicitar = true){
                 window.$.ajax({
                     method: "GET",
-                    url: base_url + `ferramental_estoque/lista_retiradas/${estoque.id_obra}/${id_funcionario}`,
+                    url: `${base_url}ferramental_estoque/lista_retiradas/${estoque.id_obra}/${id_funcionario}`,
                     data: {
                         status: [1, 2, 4, 14] //in status
                     }
@@ -311,6 +335,29 @@
                 .done(function(lista) {
                     const retiradas = Object.values(JSON.parse(lista) || [])
                     .filter(r => (new Date(r.devolucao_prevista)).getTime() < (new Date()).getTime())
+
+                    if (estoque.funcionarios.length) {
+                        const index_funcionario = estoque?.funcionarios.findIndex(f => f.id_funcionario == id_funcionario) 
+
+                        if(index_funcionario >= 0) {
+                            const span = retiradas.length == 0  ? '' : ` - Bloqueado Para Retirada` 
+                            estoque.funcionarios[index_funcionario] = Object.assign(
+                                estoque.funcionarios[index_funcionario],
+                                {
+                                    nome: estoque.funcionarios[index_funcionario].nome += span,
+                                    permit_retirada: retiradas.length === 0,
+                                    retiradas: retiradas,
+                                }
+                            )
+                        }
+
+                    }
+
+                    if (retiradas.length > 0 && solilicitar === false) {
+                        this.swal_is_open = false
+                        estoque.solicitar_autorizacao = false
+                        return
+                    }
 
                     const isConfirmed = false
                     const msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
@@ -326,10 +373,8 @@
                             cancelButtonText: 'Não',
                             showCancelButton: true
                         })
-                        .then(function(confirm) {
-                            estoque.retiradas = retiradas
+                        .then((confirm) => {
                             this.swal_is_open = false
-
                             if (confirm.isConfirmed) {
                                 estoque.solicitar_autorizacao = true
                                 estoque.permite_form = true
@@ -345,39 +390,49 @@
             },
             getDadosRetirada(id_retirada = null){
                 let url = `${base_url}ferramental_estoque/dados_retirada`
-                if (id_retirada) url += `/${id_retirada}`
+                if (id_retirada) url = `${url}/${id_retirada}`
+
                 window.$.ajax({
                     method: "GET",
-                    url: url
+                    url: url,
+                    async: true
                 })
-                .done(function(data) {
-                    estoque.grupos = data.grupos
-                    estoque.funcionarios = data.funcionarios
+                .done((data) => {
                     estoque.id_obra = data.id_obra
-
                     if(data.retirada) {
                         estoque.retirada = data.retirada
                         estoque.id_funcionario = estoque.retirada.id_funcionario
                         estoque.id_obra = estoque.retirada.id_obra
+                        estoque.observacoes = estoque.retirada.observacoes
                         estoque.devolucao_prevista = estoque.retirada.devolucao_prevista.replace(" ","T")
-
-                        estoque.grupos_selecionados = estoque.retirada.items.map((item) => {
-                            return {
-                                id_retirada_item: item.id_retirada_item,
-                                estoque: (estoque.grupos.find((gp) => gp.id_ativo_externo_grupo == item.id_ativo_externo_grupo))?.estoque || 0,
-                                id_ativo_externo_grupo: item.id_ativo_externo_grupo,
-                                nome: item.nome,
-                                quantidade: item.quantidade 
-                            }
-                        })
+                        estoque.buscarFuncionario(estoque.id_funcionario)
+                        estoque.selecionaFuncionario(estoque.id_funcionario)
+                        data.retirada.items.forEach((item) => estoque.addItem(item))
                         return
                     }
                 })
             },
-            
+            loadDataTable(){
+                this.data_table?.destroy()
+
+                options = {
+                    columns: this.data_table_columns,
+                    url: `${base_url}ferramental_estoque/buscar/grupos`,
+                    ajaxOnSuccess: (response) => {
+                        this.grupos = response.data
+                    }
+                }
+
+                try {
+                    this.data_table = window.loadDataTable(this.data_table_id, options)
+                } catch (e) {
+                    setTimeout(() => this.loadDataTable(), 500) 
+                }
+            }
         },
         async mounted(){
             await this.getDadosRetirada(window.id_retirada)
+            this.loadDataTable()
         }
     })
 </script>

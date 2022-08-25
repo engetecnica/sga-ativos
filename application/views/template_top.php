@@ -12,18 +12,15 @@
     <meta name="theme-color" content="#fd9e0f"/>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Engetecnica">
-    <meta name="apple-mobile-web-app-title" content="Engetecnica">
+    <meta name="application-name" content="<?php echo $_ENV['APP_NAME']; ?>">
+    <meta name="apple-mobile-web-app-title" content="<?php echo $_ENV['APP_NAME']; ?>">
     <meta name="msapplication-starturl" content="/">
     <link rel="icon" type="image/x-icon" href="/assets/images/icon/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/images/icon/apple-touch-icon.png">
     <link rel="manifest" href="/assets/webmanifest.json">
 
     <!-- Title Page-->
-    <title>Engetecnica | <?php echo date("Y"); ?></title>
-        
-    <!-- Jquery JS-->
-    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.2.1.min.js"></script>
+    <title><?php echo $_ENV['APP_NAME']; ?> | <?php echo date("Y"); ?></title>
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url('assets'); ?>/css/font-face.css" rel="stylesheet" media="all">
@@ -49,20 +46,12 @@
     <!-- Main CSS-->
     <link href="<?php echo base_url('assets'); ?>/css/theme.css?v=<?php echo date("Ymdhis"); ?>" rel="stylesheet" media="all">
 
+
+    <!-- Jquery JS-->
+    <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.6.0.min.js"></script>
+
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
-
-    <!-- Vue.js -->
-    <script src="<?php echo base_url("assets/js/vue-select@3.0.0.js"); ?>"></script>
-    <link rel="stylesheet" href="<?php echo base_url("assets/css/vue-select.css"); ?>">
-    <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
-    <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
-
-    <!-- VUE plugins -->
-    <script>
-        Vue.use(VueMask.VueMaskPlugin);
-        Vue.component('v-select', VueSelect.VueSelect);
-    </script>
 
     <!-- axios -->
     <script src="<?php echo base_url("assets/js/axios.min.js"); ?>"></script>
@@ -87,6 +76,19 @@
         var user = JSON.parse(`<?php echo json_encode($user); ?>`) || null;
         var app_env = '<?php echo $app_env; ?>' || "development";
         var configuracao = JSON.parse(`<?php echo json_encode($app_config); ?>`) || null
+    </script>
+
+    
+    <!-- Vue.js -->
+    <script src="<?php echo base_url("assets/js/vue-select@3.0.0.js"); ?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url("assets/css/vue-select.css"); ?>">
+    <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
+
+    <!-- VUE plugins -->
+    <script>
+        Vue.use(VueMask.VueMaskPlugin);
+        Vue.component('v-select', VueSelect.VueSelect);
     </script>
 </head>
 

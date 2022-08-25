@@ -2,6 +2,8 @@
 
 class Ativo_externo_model extends MY_Model {
 
+	protected $ativo_externo_count_where = [];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -49,8 +51,6 @@ class Ativo_externo_model extends MY_Model {
 
 
 	public function get_ativos($id_obra=null, $situacao=null, $filter=null){
-
-
 		if($filter){
 			$item = $filter['item'];
 			$calibracao = ($filter['calibracao']=='sem-filtro') ? null : (($filter['calibracao']=='sim') ? '1' : '0');
@@ -100,8 +100,37 @@ class Ativo_externo_model extends MY_Model {
 	    return $this->db->select('codigo')->order_by('id_ativo_externo','DESC')->limit(1)->get('ativo_externo')->row();
 	}
 
+
+	private function count_estoque_query(
+		string $id_col,
+		\CI_DB_mysqli_driver &$query, 
+		int $id_obra = null
+	) : ?\CI_DB_mysqli_driver {
+		$wheres = [
+			"total" => '1',
+			"estoque" => 'situacao = 12',
+			"liberado" => 'situacao = 2',
+			"recebido" => 'situacao = 4',
+			"emoperacao" => 'situacao = 5',
+			"transito" => 'situacao = 6',
+			"transferido" => 'situacao = 7',
+			"comdefeito" => 'situacao = 8',
+			"foradeoperacao" => 'situacao = 10',
+			"ativos" => 'data_descarte IS NULL',
+			"inativos" => 'data_descarte IS NOT NULL',
+		];
+
+		foreach($wheres as $key => $where) {
+			if ($id_obra) $where .= " and id_obra = {$id_obra}";
+			$where .= " and id_ativo_externo_grupo = {$id_col}";
+			$query->select("(select COUNT(id_ativo_externo) from ativo_externo where {$where}) as {$key}");
+		}
+		return $query;
+	}
+
 	public function get_grupos($id_obra = null){
 		$grupos = $this->ativos();
+		$this->count_estoque_query('atv.id_ativo_externo_grupo', $grupos, $id_obra);
 
 		if ($id_obra){
 			$grupos->where("atv.id_obra = {$id_obra}");
@@ -114,38 +143,45 @@ class Ativo_externo_model extends MY_Model {
 		->result();
 
 		foreach($grupos as $g => $grupo) {
-			$grupos[$g]->total = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo);
-			$grupos[$g]->estoque = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 12);
-			$grupos[$g]->liberado = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 2);
-			$grupos[$g]->recebido = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 4);
-			$grupos[$g]->emoperacao = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 5);
-			$grupos[$g]->transito = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 6);
-			$grupos[$g]->transferido = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 7);
-			$grupos[$g]->comdefeito = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 8);
-			$grupos[$g]->foradeoperacao = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 10);
 			$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
 		}
 		return $grupos;
+	}
+
+	public function search_grupos($id_obra = null, $search = null){
+		$grupos = $this->ativos()->group_by('atv.id_ativo_externo_grupo');
+		$this->count_estoque_query('atv.id_ativo_externo_grupo', $grupos, $id_obra);
+
+		if ($id_obra) $grupos->where("atv.id_obra = {$id_obra}");
+
+		return $this->paginate(
+			$grupos,
+			[
+				//'table' => 'atv',
+				"actions_template" => "../ferramental_estoque/views/index_form_datatables_actions",
+				"after" => function($grupos) use($id_obra) {
+					foreach($grupos as $g => $grupo) {
+						if ($grupo->id_ativo_externo_grupo) {
+							$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
+						}
+					}
+					return $grupos;
+				}
+			]
+		);
 	}
 
 	public function get_grupo($id_ativo_externo_grupo, $id_obra=null, $count=false){
 		$grupo_query =	$this->ativos()
 						->where('id_ativo_externo_grupo', $id_ativo_externo_grupo)
 						->order_by('nome', 'asc')
-						->group_by('atv.id_ativo_externo_grupo')->get();
+						->group_by('atv.id_ativo_externo_grupo');
+
+		$grupo_query = $this->count_estoque_query('atv.id_ativo_externo_grupo', $grupo_query, $id_obra)->get();
 
 		if (!$count) {
-			$grupo = 	$grupo_query->row();
+			$grupo = $grupo_query->row();
 			if($grupo) {
-				$grupo->total = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo);
-				$grupo->estoque = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 12);
-				$grupo->liberado = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 2);
-				$grupo->recebido = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 4);
-				$grupo->emoperacao = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 5);
-				$grupo->transito = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 6);
-				$grupo->transferido = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 7);
-				$grupo->comdefeito = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 8);
-				$grupo->foradeoperacao = $this->count_estoque($id_obra, $grupo->id_ativo_externo_grupo, 10);
 				$grupo->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
 			}
 			return 	$grupo;
@@ -174,28 +210,6 @@ class Ativo_externo_model extends MY_Model {
 		return $estoque->order_by('atv.id_ativo_externo', 'ASC')
 						->group_by('atv.id_ativo_externo')
 						->get()->result();
-	}
-
-
-	public function count_estoque($id_obra = null, $id_ativo_externo_grupo = null, $situacao = null){
-			$estoque = $this->ativos();
-			
-			if ($id_obra) {
-				$estoque->where("atv.id_obra = {$id_obra}");
-			}
-
-			if ($id_ativo_externo_grupo) {
-				$estoque->where("atv.id_ativo_externo_grupo = {$id_ativo_externo_grupo}");
-			}
-
-			if($situacao) {
-				if (is_array($situacao)) {
-					$estoque->where("atv.situacao IN ('".implode(',', $situacao)."')");
-				} else {
-					$estoque->where("atv.situacao = {$situacao}");
-				}
-			}
-			return $estoque->group_by('atv.id_ativo_externo')->get()->num_rows();
 	}
 
 	public function get_kit_items($id_ativo_externo_kit){
@@ -351,7 +365,14 @@ class Ativo_externo_model extends MY_Model {
 			->get()->result();
 
 		if ($obs) {
-			foreach($manutencoes as $k => $manutencao) $manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+			foreach($manutencoes as $k => $manutencao) {
+				$manutencoes[$k]->observacoes = $this->get_lista_manutencao_obs($manutencao->id_manutencao);
+				foreach ($manutencoes[$k]->observacoes as $o => $obs) {
+					if ($manutencoes[$k]->observacoes[$o]->permissoes) {
+						$manutencoes[$k]->observacoes[$o]->permissoes = json_decode($obs->permissoes); 
+					}
+				}
+			}
 		}
 		return $manutencoes;
 	}

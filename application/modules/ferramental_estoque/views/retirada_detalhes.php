@@ -19,7 +19,7 @@
                         <div class="card">
                           
                             <div class="card-body">
-                                <p class="m-b-10"><strong>DADOS DA RETIRADA</strong></p>
+                                <h4 class="title-2 m-b-10">Dados da retirada</h4>
 
                                 <?php if(isset($retirada->id_retirada_pai) && $retirada->id_retirada_pai > 0){ ?>
                                     <a href="<?php echo base_url('ferramental_estoque/detalhes/'.$retirada->id_retirada_pai); ?>">
@@ -154,7 +154,7 @@
                                 <hr>
 
                                 <?php if(!empty($retirada->items)){ ?>
-                                <h3 class="title-1 m-t-40">Itens</h3>
+                                <h4 class="title-2 m-b-10">Itens da Retirada</h4>
                                 <table style="min-height: 180px;" class="table table--no-card table-responsive-md table-borderless table-striped table-earning" id="lista">
                                     <thead>
                                         <tr class="active">
@@ -220,6 +220,11 @@
                                     </tbody>
                                 </table>
                                 <?php } ?>
+
+                               <div class="col">
+                                    <h4 class="title-2 m-b-10">Observações</h4>
+                                    <p class="m-t-20"><?php echo $retirada->observacoes ?? ''; ?></p>
+                               </div>
                             </div>
                         </div>
                

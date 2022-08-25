@@ -61,7 +61,6 @@ self.addEventListener('fetch', async (event )=> {
   )
 })
 
-
 // Additions to your service worker code:
 self.addEventListener('message', (event) => {
   if (event.data === 'update') {
