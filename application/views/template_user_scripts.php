@@ -285,6 +285,7 @@
         window.location = '<?php echo base_url('ativo_externo'); ?>'+url
     })
 
+    /*
     $(window).ready(function() {
         if (app_env === 'production') {
             if ('serviceWorker' in navigator) {
@@ -300,6 +301,7 @@
             }
         }
     })
+    */
 </script>
 
 <?php } ?>
