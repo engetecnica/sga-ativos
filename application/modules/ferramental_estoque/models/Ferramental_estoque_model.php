@@ -20,12 +20,12 @@ class ferramental_estoque_model extends MY_Model {
 			->update('ativo_externo_retirada', $data);
 	}
 
-	public function query_retirada($id_obra = null, $id_funcionario = null, $status = null){
+	public function query($id_obra = null, $id_funcionario = null, $status = null){
 		$retiradas = $this->db
 						->select('retirada.*')
 						->select("(SELECT anexo FROM anexo WHERE tipo = 'termo_de_responsabilidade' AND id_modulo_item = retirada.id_retirada ORDER BY id_anexo desc LIMIT 1) as termo_de_responsabilidade")
 						->from('ativo_externo_retirada retirada');
-
+						
 		if ($id_obra) {
 			$retiradas->where("retirada.id_obra = {$id_obra}");
 		}
@@ -42,7 +42,7 @@ class ferramental_estoque_model extends MY_Model {
 			}
 		}
 
-		$this->join_status($retiradas, 'retirada.status');	
+		$this->join_requisicao_status($retiradas, 'retirada.status');	
 		$this->join_funcionario($retiradas, 'retirada.id_funcionario');
 		$this->join_obra($retiradas, 'retirada.id_obra');
 
@@ -51,14 +51,14 @@ class ferramental_estoque_model extends MY_Model {
 	
 	public function get_lista_retiradas($id_obra = null, $id_funcionario = null, $status = null){
 		return $this
-			->query_retirada($id_obra, $id_funcionario, $status)
+			->query($id_obra, $id_funcionario, $status)
 			->order_by('retirada.id_retirada', 'desc')
 			->get()->result();
 	}
 
 
 	public function search_retiradas($search){
-		return $this->query_retirada()
+		return $this->query()
 				->order_by('retirada.id_retirada', 'desc')
 				->like('retirada.id_retirada', $search)
 				->or_like('fn.nome', $search)
@@ -68,7 +68,7 @@ class ferramental_estoque_model extends MY_Model {
 	}
 
 	public function get_retirada($id_retirada, $id_obra = null, $id_funcionario = null){
-		$retirada = $this->query_retirada($id_obra, $id_funcionario)
+		$retirada = $this->query($id_obra, $id_funcionario)
 					->where("retirada.id_retirada = {$id_retirada}")
 					->order_by('retirada.id_retirada', 'desc')
 					->get()->row();

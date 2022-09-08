@@ -26,7 +26,7 @@ class ferramental_requisicao_model extends MY_Model {
 		$this->db->insert('ativo_externo_requisicao', $data);
 		return $this->db->insert_id();
 	}
-
+	//@todo remove
 	private function requisicoes(){
 		$romaneio = "SELECT anexo FROM anexo WHERE id_modulo_item = requisicao.id_requisicao AND tipo = 'romaneio' ORDER BY id_anexo DESC LIMIT 1";
 		return $this->db->select("requisicao.*,
@@ -47,35 +47,83 @@ class ferramental_requisicao_model extends MY_Model {
 			->join('usuario adm', "adm.id_usuario = requisicao.id_despachante", 'left');
 	}
 
+	public function query($id_obra = null, $id_usuario = null){
+		$romaneio = "SELECT anexo FROM anexo WHERE id_modulo_item = requisicao.id_requisicao AND tipo = 'romaneio' ORDER BY id_anexo DESC LIMIT 1";
+		$query = $this->db->select("
+			requisicao.*,
+			origem.codigo_obra as origem, origem.endereco as origem_endereco, 
+			origem.endereco_numero as origem_endereco_numero, origem.responsavel as origem_responsavel,
+			origem.responsavel_celular as origem_responsavel_celular, origem.responsavel_email as origem_responsavel_email,
+			destino.codigo_obra as destino, destino.endereco as destino_endereco, 
+			destino.endereco_numero as destino_endereco_numero, destino.responsavel as destino_responsavel,
+			destino.responsavel_celular as destino_responsavel_celular, destino.responsavel_email as destino_responsavel_email,    
+			solicitante.usuario as solicitante, despachante.usuario as despachante,
+			solicitante.nome as solicitante_nome, despachante.nome as despachante_nome,
+			($romaneio) as romaneio
+		")
+		->from('ativo_externo_requisicao requisicao')
+		->join('obra origem', 'origem.id_obra=requisicao.id_origem', 'left')
+		->join('obra destino', 'destino.id_obra=requisicao.id_destino', 'left')
+		->join('usuario solicitante', "solicitante.id_usuario = requisicao.id_solicitante", 'left')
+		->join('usuario despachante', "despachante.id_usuario = requisicao.id_despachante", 'left');
+
+		if ($id_obra) {
+			$query->group_start();
+			if (is_array($id_obra)) {
+				$query
+				->where("requisicao.id_origem IN (".implode(',', $id_obra).")")
+				->or_where("requisicao.id_destino IN (".implode(',', $id_obra).")");
+			} else {
+				$query
+				->where("requisicao.id_origem = {$id_obra}")
+				->or_where("requisicao.id_destino = {$id_obra}");
+			}
+			$query->group_end();
+		}
+
+		if ($id_usuario) {
+			$query->group_start();
+			if (is_array($id_usuario)) {
+				$query
+				->where("requisicao.id_solicitante IN (".implode(',', $id_usuario).")")
+				->or_where("requisicao.id_despachante IN (".implode(',', $id_usuario).")");
+			} else {
+				$query
+				->where("requisicao.id_solicitante = {$id_usuario}")
+				->or_where("requisicao.id_despachante = {$id_usuario}")
+				->or_where("requisicao.id_despachante IS NULL");
+			}
+			$query->group_end();
+		}
+
+		$this->join_status($query, 'requisicao.status');
+		return $query->group_by('requisicao.id_requisicao');
+	}
+
 	# Listagem
 	public function get_lista_requisicao($status = null, $offset = 0, $limite = null, $id_obra = null)
 	{
-		$requisicoes = $this->requisicoes();
-		if ($this->user->nivel == 2) {
-			$id_obra = $this->user->id_obra;
-		}
+		$id_obra = null;
+        $id_usuario = null;
+        if ($this->user->nivel == 2) {
+            $id_obra = $this->user->id_obra;
+            $id_usuario = $this->user->id_usuario;
+        }
 
-		$obra_sql = "";
-		if ($id_obra) {
-			$obra_sql = "(requisicao.id_origem = {$id_obra} OR requisicao.id_destino = {$id_obra}) AND";
-		}
+		$query = $this->query($id_obra, $id_usuario);
 
 		if ($status) {
 			if (is_array($status)) {
-				$requisicoes->where("{$obra_sql} requisicao.status IN (".implode(',', $status).")");
+				$query->where("requisicao.status IN (".implode(',', $status).")");
 			} else {
-				$requisicoes->where("{$obra_sql} requisicao.status = {$status}");
+				$query->where("requisicao.status = {$status}");
 			}
 		}
 
-		$requisicoes
-		->group_by('requisicao.id_requisicao')
-		->order_by('requisicao.id_requisicao', 'desc');
+		$query->order_by('requisicao.id_requisicao', 'desc');
 
-			if ($limite) {
-				$requisicoes->limit($limite, $offset);
-			}
-			return $requisicoes->get()->result();
+		if ($limite) $query->limit($limite, $offset);
+		return $query->get()->result();
 	}
 
 	public function lista_requisicao_count($status = null, $id_obra = null){
@@ -101,7 +149,7 @@ class ferramental_requisicao_model extends MY_Model {
 		if (!$id_requisicao) {
 			return null;
 		}
-		return $this->requisicoes()
+		return $this->query()
 			->where("requisicao.id_requisicao = {$id_requisicao}")
 			->group_by('requisicao.id_requisicao')
 			->get()->row();

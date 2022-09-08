@@ -14,16 +14,65 @@ class Ferramental_requisicao  extends MY_Controller {
         $this->load->model('ferramental_requisicao_model');
         $this->load->model('ativo_externo/ativo_externo_model');
         $this->load->model('obra/obra_model');
-        $this->load->model('usuario/usuario_model');        
+        $this->load->model('usuario/usuario_model'); 
+        $this->model = $this->ferramental_requisicao_model;       
     }
 
-    # Listagem de Itens
-    function index() {
-        $this->get_template('index', [
-            'lista' => $this->ferramental_requisicao_model->get_lista_requisicao(),
-            'status_lista' => $this->ferramental_requisicao_model->get_requisicao_status(),
-            'user' => $this->user
-        ]);
+    function index($subitem = null) {
+        if ($subitem === 'paginate')  {
+            $id_obra = null;
+            $id_usuario = null;
+            if ($this->user->nivel == 2) {
+                $id_obra = $this->user->id_obra;
+                $id_usuario = $this->user->id_usuario;
+            }
+            return $this->paginate_json([
+                "query" => $this->model->query($id_obra, $id_usuario),
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_requisicao,
+                                'link' => base_url("ferramental_requisicao/detalhes/{$row->id_requisicao}"), 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "tipo_html",
+                        "view" => "index/tipo"   
+                    ],
+                    [
+                        "name" => "complementar_html",
+                        "view" => "index/complementar"   
+                    ],
+                    [
+                        "name" => "complementa_html",
+                        "view" => "index/complementa"   
+                    ],
+                    [
+                        "name" => "status_html",
+                        "view" => "index/status"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index/actions"
+                    ]
+                ]
+            ]);
+        }
+
+        $this->get_template('index');
+    }
+
+    protected function paginate_after(object &$row)
+    {
+        $row->solicitante = ucwords($row->solicitante);
+        $row->despachante = ucwords($row->despachante);
+        $row->origem = ucwords($row->origem);
+        $row->destino = ucwords($row->destino);
+        $row->data_inclusao = $this->formata_data_hora($row->data_inclusao);
     }
 
     # Criar uma nova Requisição

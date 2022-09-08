@@ -17,70 +17,10 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Fornecedores</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning" id="lista">
-                            <thead>
-                                <tr>
-                                    <th width="7%">Id</th>
-                                    <th>Razão Social</th>
-                                    <th>CNPJ</th>
-                                    <th>Responsável</th>
-                                    <th>E-mail</th>
-                                    <th>Celular</th>
-                                    <th>Situação</th>
-                                    <th class="text-right">Gerenciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($lista as $valor){ ?>
-                                <tr id="<?php echo $valor->id_fornecedor; ?>">
-                                    <td>
-                                        <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>">
-                                            <?php echo $valor->id_fornecedor; ?>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>">
-                                            <?php echo $valor->razao_social; ?>
-                                        </a>
-                                    </td>
-                                    <td><?php echo $valor->cnpj; ?></td>
-                                    <td><?php echo $valor->responsavel; ?></td>
-                                    <td><?php echo $valor->responsavel_email; ?></td>
-                                    <td><?php echo $valor->responsavel_celular; ?></td>
-                                    <td>
-                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
-                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <button 
-                                                class="btn btn-secondary btn-sm dropdown-toggle" 
-                                                type="button"
-                                                data-toggle="dropdown" 
-                                                aria-haspopup="true" 
-                                                aria-expanded="false"
-                                            >
-                                                Gerenciar
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item " href="<?php echo base_url('fornecedor'); ?>/editar/<?php echo $valor->id_fornecedor; ?>"><i class="fas fa-edit"></i> Editar</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item  deletar_registro" href="javascript:void(0)" data-href="<?php echo base_url('fornecedor'); ?>/deletar/<?php echo $valor->id_fornecedor; ?>" data-registro="<?php echo $valor->id_fornecedor;?>" data-tabela="fornecedor"><i class="fas fa-trash"></i> Excluir</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
+                        <table 
+                            class="table table-borderless table-striped table-earning" 
+                            id="fornecedor_index"
+                        ></table>
                     </div>
                 </div>
             </div>
@@ -89,3 +29,86 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+<script>
+    const data_table_columns = [
+        {
+            title: 'ID',
+            name: 'id_fornecedor',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.id_link
+            }
+        },
+        { 
+            title: 'Razão Social' ,
+            name: 'razao_social',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.razao_social_link
+            }
+        },
+        { 
+            title: 'CNPJ' ,
+            name: 'cnpj',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.cnpj
+            }
+        },
+        { 
+            title: 'Responsável' ,
+            name: 'responsavel',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel
+            }
+        },
+        { 
+            title: 'Email' ,
+            name: 'responsavel_email',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel_email
+            }
+        },
+        { 
+            title: 'Celular' ,
+            name: 'responsavel_celular',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel_celular
+            }
+        },
+        { 
+            title: 'Situação',
+            sortable: true,
+            searchable: true,
+            name: 'situacao',
+            render: function(value, type, row, settings){
+                return row.situacao_html
+            }
+        },
+        { 
+            title: 'Gerenciar' ,
+            render(value, type, row, settings){
+                return row.actions
+            },
+        },
+    ]
+
+    const options = {
+        columns: data_table_columns,
+        url: `fornecedor`,
+        method: 'post',
+        order: [1, 'desc'],
+    }
+
+    $(window).ready(() => loadDataTable('fornecedor_index', options))
+    $(window).resize(() => loadDataTable('fornecedor_index', options))
+</script>

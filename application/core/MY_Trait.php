@@ -27,11 +27,6 @@ trait MY_Trait
 
 	protected $meses_ano = [];
 
-
-	
-
-
-
 	public function get_situacao($status = null, $case2 = 'Descartado', $case2_class = 'info')
 	{
 		$texto = "Ativo";
@@ -318,6 +313,13 @@ trait MY_Trait
 		exit;
 	}
 
+	public function formata_moeda_model($valor = 0, $num_format = false){
+        if($num_format){
+            return  number_format($valor, 2, '.', '');
+        }
+        return "R$ ". number_format($valor, 2, ',', '.');
+    }
+
 	public function createHttpClient($base_uri = "")
 	{
 		$this->httpClientObject = new HttpClient(["base_uri" => $base_uri]);
@@ -356,12 +358,11 @@ trait MY_Trait
 	{
 		$permissao = $this->get_user_permission();
 		$modulo_atual = $this->uri->segment(1);
-
 		$modulos_permitidos = [];
 		$relatorios_permitidos = [];
 		$acoes_permitidas = [];
 
-		foreach ($permissao as $model => $action) {
+		foreach (($permissao ?? []) as $model => $action) {
 			if (is_numeric($model)) {
 				$modulos_permitidos[$model] = $this->db->where('id_modulo', $model)->get('modulo')->row('rota');
 
@@ -409,7 +410,6 @@ trait MY_Trait
 
 	public function modulos_permitidos()
 	{
-
 		$modulos = $this->db
 			->where('id_vinculo', 0)
 			->get('modulo')
@@ -417,9 +417,9 @@ trait MY_Trait
 
 		$permissao = $this->get_user_permission();
 		$modulos_permitidos = ['modulos' => []];
-		$relatorios_permitidos = array();
+		$relatorios_permitidos = array(); 
 
-		foreach ($permissao as $model => $action) {
+		foreach (($permissao ?? []) as $model => $action) {
 			if (is_numeric($model)) {
 				$modulos_permitidos['modulos'][$model] = $this->db->where('id_modulo', $model)->get('modulo')->row('rota');
 			} else {

@@ -14,10 +14,11 @@ if (!defined('BASEPATH'))
  */
 
 use \Mpdf\Mpdf;
+use Mpdf\Tag\Table;
 
 class MY_Controller extends MX_Controller {
  
-    protected $user, $logado, $permissoes;
+    protected $user, $logado, $permissoes, $model;
 
     use MY_Trait;
 
@@ -357,6 +358,280 @@ class MY_Controller extends MX_Controller {
             return $query->delete('anexo');
         }
         return false;
+    }
+
+    private function paginate_options(array $options = []): array 
+    {
+        return array_merge([
+            "query" => null,
+            "query_args" => [],
+            "actions_template" => null,
+            "actions_template_data" => [],
+            "templates" => [],
+            "before" => null,
+            "after" => null,
+            "table" => null,
+            "start" => 0,
+            "length" => 10,
+            "search" => null,
+            "columns" => [],
+            "filters" => [],
+            "order" => ['column' => 0, 'dir' => 'desc']
+        ], $options);
+    }
+
+    protected function paginate_before(\CI_DB_mysqli_driver &$query)
+    {
+    }
+
+    private function paginate_before_run(\CI_DB_mysqli_driver &$query, array $options = [])
+    {
+        $using_custom_before = false;
+        $before = ($options['before'] ?? null);
+
+        if (
+            $before instanceof \Closure && 
+            ($before_query = $before($query)) instanceof \CI_DB_mysqli_driver
+        ) {
+            $query = clone $before_query;
+            $using_custom_before = true;
+        }
+
+        if (
+            !$using_custom_before &&
+            $this->model instanceof \CI_Model && 
+            method_exists(get_called_class(), 'paginate_before')
+        ) {
+            $this->paginate_before($query);
+        }
+    }
+
+    protected function paginate_after(object &$row)
+    {
+    }
+
+    private function paginate_after_run(array &$result = [], array $options = [])
+    {
+        foreach ($result as $r => $row) {
+            $using_custom_after = false;
+            $after = ($options['after'] ?? null);
+            $options['row_index'] = $r;
+
+            if (
+                $after instanceof \Closure && 
+                is_object($after_row = $after($row, $result, $options))
+            ) {
+                $row = $after_row; 
+                $using_custom_after = true;
+            }
+
+            if (
+                !$using_custom_after &&
+                $this->model instanceof \CI_Model && 
+                method_exists(get_called_class(), 'paginate_after')
+            ) {
+                $this->paginate_after($row, $result, $options);
+            }
+
+            $result[$r] = $row;
+        }
+    }
+
+    private function paginate_query(array $options = []) {
+        $query = $this->db;
+
+        if (
+            isset($options['query']) && 
+            $options['query'] instanceof \CI_DB_mysqli_driver
+        ) {
+            return $query = $options['query'];
+        } 
+        
+        if (
+            !isset($options['query']) && 
+            (isset($this->model) && method_exists($this->model, 'query'))
+        ) {
+            $args = $options['query_args'] ?? [];
+            return $query = $this->model->query(...$args ?? $args);
+        }
+        
+        return $query;
+    }
+
+    private function paginate_search(
+        \CI_DB_mysqli_driver &$query,
+        array $columns = [], 
+        string $search = null, 
+        string $table = ''
+    )  {
+        if($columns) {
+            $likes = 0;
+            $count_searchable = array_sum(array_map(function($col){return $col['searchable'] ? 1 : 0;}, $columns));
+            $count_searchabled = 0;
+            foreach ($columns as  $c => $col) {
+                if($count_searchabled == 0 && $search)  $query->group_start();
+                if($col && $col['searchable'] && $search) {
+                    $count_searchabled++;
+                    $datas = [];
+                    if(isset($col['data']) && strtoupper($col['data']) != $col['data']) {
+                        $datas = array_merge($datas, [$col['data']]);
+                    }
+
+                    if(isset($col['name']) && strtoupper($col['name']) != $col['name']) {
+                        $datas = array_merge($datas, [$col['name']]);
+                    }
+
+                    foreach ($datas as $data) {
+                        $search_value = $search;
+                        if (strpos($data, 'data_') !== false || strpos($data, '_data') !== false) {
+                            $search_value = date('Y-m-d', strtotime(str_replace('/', '-', $search)));
+                        }
+                        if ($likes == 0) $query->or_like("{$table}{$data}", $search_value);
+                        else $query->or_like("{$table}{$data}", $search_value);
+                        $likes++;
+                    }
+				}
+                if($count_searchable == $count_searchabled && $search) $query->group_end();
+            }
+		}
+    }
+
+    private function paginate_order(
+        \CI_DB_mysqli_driver &$query,
+        array $columns = [], 
+        array $orders = [], 
+        string $table = ''
+    ) {
+        if($orders) {
+            foreach ($orders as $order) {  
+                if(isset($columns[$order['column']]) && $columns[$order['column']]['orderable']) {
+                    $datas = [];
+                    if(isset($columns[$order['column']]['data'])) {
+                        $datas = array_merge($datas, [$columns[$order['column']]['data']]);
+                    }
+
+                    if(isset($columns[$order['column']]['name'])) {
+                        $datas = array_merge($datas, [$columns[$order['column']]['name']]);
+                    }
+
+                    foreach ($datas as $data) {
+                        if (strtoupper($data) !== $data) {
+                            $query->order_by("{$table}{$data}", $order['dir']);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function paginate_filter(
+        \CI_DB_mysqli_driver &$query,
+        array $filters = [], 
+        string $table = ''
+    ) {
+        if(count($filters) > 0) {
+            foreach ($filters as $filter) {
+                if(
+                    isset($filter['column']) &&
+                    isset($filter['value']) &&
+                    $filter['value'] !== '*' &&
+                    $filter['value'] !== []
+                ) {
+                    if(is_array($filter['value'])) $query->where_in("{$table}{$filter['column']}", $filter['value']);
+                    else $query->where("{$table}{$filter['column']}", $filter['value']);
+                }
+            }
+        }
+    }
+
+    private function paginate_templates(array &$result = [], array $options = []) : array
+    {
+        $actions_template = isset($options['actions_template']) ? "" : null;
+        if(!$actions_template) $actions_template = isset($options['templates']) ? $options['templates'] : [];
+        $templates = [];
+
+        if ($actions_template) {
+            if (is_array($actions_template)) {
+                $templates = $actions_template;
+            } else {
+                $templates = [[
+                    'view' => $actions_template,
+                    'name' => 'actions',
+                    'data' => $options['actions_template_data'] ?? [],
+                ]];
+            }
+        }
+    
+        foreach($result as $r => $row) {
+            $data = [
+                "permissoes" => $this->permissoes, 
+                "user"=> $this->user,
+                "rows" => $result, 
+                "row" => $row, 
+                "index" => $r
+            ];
+
+            foreach ($templates as $template) {
+                if (isset($template['data']) && $template['data'] instanceof \Closure) {
+                    $template['data'] = $template['data']($row, $result, $template, $options);
+                }
+
+                if (isset($template['data']) && is_array($template['data'])) {
+                    $data = array_merge($data, $template['data']);
+                }
+
+                if (isset($template['data']) && !is_array($template['data'])) {
+                    $data = array_merge($data, ['data' => $template['data']]);
+                }
+
+                if (isset($template['view']) && isset($template['name'])) {
+                    $name = $template['name'];
+                    $result[$r]->$name  = $this->load->view("../views/{$template['view']}", $data, true);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    protected function paginate(array $options = []) : object {
+        $options = $this->paginate_options($options);
+        $start = $this->input->get('start') ?? $this->input->post('start') ?? $options['start'];
+        $length = $this->input->get('length') ?? $this->input->post('length') ?? $options['length'];
+        $search = $this->input->get('search') ?? $this->input->post('search') ?? $options['search'];
+        $orders = $this->input->get('order') ?? $this->input->post('order') ?? $options['order'];
+		$columns = $this->input->get('columns') ?? $this->input->post('columns') ?? $options['columns'];
+        $filters = $this->input->get('filters') ?? $this->input->post('filters') ?? $options['filters'];
+        $table = isset($options['table']) ? "{$options['table']}." : '';
+
+        $query = $this->paginate_query($options);
+        $this->paginate_search($query, $columns, $search, $table);
+        $this->paginate_order($query, $columns, $orders, $table);
+        $this->paginate_filter($query, $filters, $table);
+
+        $totalQuery = clone $query;
+        $query->limit($length, $start);
+        $this->paginate_before_run($query, $options);
+
+        $totalPageQuery = clone $query;
+        $totalPage = $totalPageQuery->get()->num_rows();
+        $result = $query->get()->result() ?? [];
+        $total = $totalQuery->get()->num_rows();
+
+        $this->paginate_after_run($result, $options);
+        $this->paginate_templates($result, $options);
+
+        return (object) [
+            "total" => (int) $total,
+            "total_page" => (int) $totalPage,
+            "start" => (int) $start,
+            "length" => (int) $length,
+            "data" => (array) $result
+        ] ;
+    }
+
+    protected function paginate_json(array $options = []) : \CI_Output {
+        return $this->json($this->paginate($options));
     }
 }
  

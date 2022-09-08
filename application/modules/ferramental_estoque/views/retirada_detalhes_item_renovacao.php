@@ -12,12 +12,6 @@
                 </div>
             </div>
 
-            <?php
-
-                //$this->dd($retirada);
-
-            ?>
-
             <div class="row">
                 <div class="col-lg-12">
                     <form action="<?php echo base_url('ferramental_estoque/salvar_renovacao'); ?>" method="post" enctype="multipart/form-data"> 
@@ -96,7 +90,6 @@
                                         <th>Renovar</th>
                                       </tr>
                                       <?php foreach($item->ativos as $ativo){ ?>
-                                        <?php  //$this->dd($ativo); ?>
                                       <tr>
                                         <td></td>
                                         <td><?php echo $ativo->nome; ?></td>
@@ -135,14 +128,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
                 </div>
             </div>
         </div>

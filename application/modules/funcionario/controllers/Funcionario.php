@@ -13,14 +13,46 @@ class funcionario  extends MY_Controller {
         parent::__construct();
         $this->load->model('funcionario_model');
         $this->load->model('obra/obra_model');     
-        
-        $this->get_modulo_permission();
+        $this->model = $this->funcionario_model;
     }
 
-    function index($subitem=null) {
-        $data['lista'] = $this->funcionario_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+    function index() {
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_funcionario,
+                                'link' => base_url('funcionario')."/editar/{$row->id_funcionario}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "nome_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->nome,
+                                'link' => base_url('funcionario')."/editar/{$row->id_funcionario}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index_datatable/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index_datatable/actions"
+                    ]
+                ]
+            ]);
+        }
+
+        $this->get_template('index');
     }
 
     function adicionar($data = null){

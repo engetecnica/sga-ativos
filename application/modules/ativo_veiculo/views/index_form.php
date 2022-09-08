@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
                         <a href="<?php echo base_url('ativo_veiculo'); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                                <i class="zmdi zmdi-arrow-left"></i>todos
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -24,16 +25,14 @@
                             <form id="ativo_veiculo_form" action="<?php echo base_url('ativo_veiculo/salvar'); ?>" method="post" enctype="multipart/form-data">
 
                                 <?php if(isset($detalhes) && isset($detalhes->id_ativo_veiculo)){?>
-                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $detalhes->id_ativo_veiculo; ?>" v-model="id_ativo_veiculo" >
-                                    <input type="hidden" name="id_veiculo_obra_atual" id="id_veiculo_obra_atual" value="<?php echo $detalhes->id_obra; ?>" >
-                                    <input type="hidden" name="periodo_inicial_atual" id="periodo_inicial_atual" value="<?php echo $detalhes->periodo_inicial; ?>" >
-                                    <input type="hidden" name="periodo_final_atual" id="periodo_final_atual" value="<?php echo $detalhes->periodo_final; ?>" >
+                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $detalhes->id_ativo_veiculo ?? null; ?>" v-model="id_ativo_veiculo" >
+                                    <input type="hidden" name="id_veiculo_obra_atual" id="id_veiculo_obra_atual" value="<?php echo $detalhes->id_obra ?? null; ?>" >
+                                    <input type="hidden" name="periodo_inicial_atual" id="periodo_inicial_atual" value="<?php echo $detalhes->periodo_inicial ?? null; ?>" >
+                                    <input type="hidden" name="periodo_final_atual" id="periodo_final_atual" value="<?php echo $detalhes->periodo_final ?? null; ?>" >
                                 <?php } ?>
 
-
-
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="tipo_veiculo" class=" form-control-label">Obra</label>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -42,28 +41,19 @@
                                             <?php foreach($obras as $obra){ ?>
                                             <option value="<?php echo $obra->id_obra; ?>"  <?php echo (isset($detalhes) && isset($detalhes->id_obra)) && $detalhes->id_obra == $obra->id_obra ? 'selected="selected"' : '' ?> ><?php echo $obra->codigo_obra; ?> - <?php echo $obra->obra_razaosocial; ?></option>
                                             <?php } ?>
-                                        </select>  
-                                        
-                                        
+                                        </select>
                                     </div>
-                                    <!--
-                                    <?php if(isset($detalhes)): ?>
-                                    <div class="col-12 col-md-2">
-                                        <button class="btn btn-sm btn-primary historico-veiculo" type="button" data-id_ativo_veiculo="<?php echo $detalhes->id_ativo_veiculo; ?>"><i class="fas fa-list"></i> histórico do veículo</button>
-                                    </div>  
-                                    <?php endif; ?>-->
-                                    
                                 </div>  
                                 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="periodo" class=" form-control-label">Período do Veículo Alocado</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="date" class="form-control" name="periodo_inicial" id="periodo_inicial" required value="<?php echo isset($detalhes) && isset($detalhes->periodo_inicial) ? $detalhes->periodo_inicial : '' ?>">
+                                        <input type="date" class="form-control" name="periodo_inicial" id="periodo_inicial"  value="<?php echo isset($detalhes) && isset($detalhes->periodo_inicial) ? $detalhes->periodo_inicial : '' ?>">
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="date" class="form-control" name="periodo_final" id="periodo_final" required value="<?php echo isset($detalhes) && isset($detalhes->periodo_final) ? $detalhes->periodo_final : '' ?>">
+                                        <input type="date" class="form-control" name="periodo_final" id="periodo_final"  value="<?php echo isset($detalhes) && isset($detalhes->periodo_final) ? $detalhes->periodo_final : '' ?>">
                                     </div>
                                 </div>
 
@@ -157,7 +147,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div v-if="!show_custom_fields" class="col col-md-3">
+                                    <div v-if="!show_custom_fields" class="col col-md-2">
                                         <label for="veiculo_placa" class=" form-control-label">Placa</label>
                                     </div>
                                     <div v-if="!show_custom_fields" class="col-12 col-md-3">
@@ -188,7 +178,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem Inicial</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -199,7 +189,7 @@
                                     >
                                     </div>
 
-                                    <div v-if="show_custom_fields" class="col col-md-2">
+                                    <div v-if="show_custom_fields" class="col col-md-3">
                                         <label for="veiculo_horimetro" class=" form-control-label">Horimetro Inicial</label>
                                     </div>
                                     <div v-if="show_custom_fields" class="col-12 col-md-3">
@@ -213,7 +203,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="valor_funcionario" class=" form-control-label">Valor Funcionário</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -267,28 +257,15 @@
 
                                 <?php if (isset($detalhes) && isset($detalhes->id_ativo_veiculo)) { ?>
                                 <div class="pull-right">
-                                        <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-info btn-md dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Gerenciar Veículo
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/quilometragem/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-car"></i>&nbsp; Quilometragem</a>
-                                                <div class="dropdown-divider"></div>
-                                                <?php if ($detalhes->tipo_veiculo == "maquina") {?>
-                                                    <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/operacao/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
-                                                    <div class="dropdown-divider"></div>
-                                                <?php } ?>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/abastecimento/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/manutencao/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/ipva/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-id-card"></i> IPVA</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/seguro/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-lock"></i> Seguro</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/gerenciar/depreciacao/{$detalhes->id_ativo_veiculo}"); ?>"><i class="fa fa-sort-amount-asc"></i> Depreciação</a>
-                                            </div>
-                                        </div>
+                                        <?php 
+                                            echo $this->load->view('index/actions', [
+                                                "btn_text" => "Gerenciar Veículo",
+                                                "permissoes" => $permissoes,
+                                                "row" => $detalhes,
+                                                "show_edit" => false,
+                                                "show_delete" => false,
+                                            ]); 
+                                        ?>
                                 </div>
                                 <?php } ?>
                             </form>
@@ -306,24 +283,13 @@
 
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
-
-
-<?php  if(isset($anexos)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
 
+<?php  if(isset($anexos)) $this->load->view('anexo/index_form_modal', ["show_header" => false]); ?>
 
 <script>
     var ativo_veiculo_form = new Vue({

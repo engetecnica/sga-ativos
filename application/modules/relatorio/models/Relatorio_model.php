@@ -20,7 +20,7 @@ class Relatorio_model  extends MY_Model
 
 		try {
 			$this->status_lista = $this->status_lista();
-			$this->tipos_veiculos = $this->ativo_veiculo_model->tipos;
+			$this->tipos_veiculos = $this->ativo_veiculo_model->tipos_pt;
 
 			//Require config
 			require(APPPATH . "/config/relatorio_tipos.php");
@@ -40,7 +40,7 @@ class Relatorio_model  extends MY_Model
 		}
 	}
 
-	public function status_lista()
+	public function status_lista($type = null)
 	{
 		$lista = $this->session->status_lista;
 		if (!$lista) {
@@ -1090,20 +1090,20 @@ class Relatorio_model  extends MY_Model
 
 	public function count_ativos_externos($periodo_inicio = null, $periodo_fim = null)
 	{
-		$ativos = $this->filter_by_periodo($this->ativo_externo_model->ativos(), 'data_inclusao', $periodo_inicio, $periodo_fim);
-		return $ativos->where("data_descarte IS NULL")->get()->num_rows();
+		$ativos = $this->filter_by_periodo($this->ativo_externo_model->query(), 'atv.data_inclusao', $periodo_inicio, $periodo_fim);
+		return $ativos->where("atv.data_descarte IS NULL")->get()->num_rows();
 	}
 
 	public function count_ativos_internos($periodo_inicio = null, $periodo_fim = null)
 	{
-		$ativos = $this->filter_by_periodo($this->ativo_interno_model->ativos(), 'data_inclusao', $periodo_inicio, $periodo_fim);
+		$ativos = $this->filter_by_periodo($this->ativo_interno_model->query(), 'data_inclusao', $periodo_inicio, $periodo_fim);
 		return $ativos->where("data_descarte IS NULL")->get()->num_rows();
 	}
 
 	public function count_ativos_veiculos($periodo_inicio = null, $periodo_fim = null)
 	{
-		$veiculos = $this->filter_by_periodo($this->ativo_veiculo_model->ativos(), 'data', $periodo_inicio, $periodo_fim);
-		return $veiculos->where("situacao = '0'")->get()->num_rows();
+		$veiculos = $this->filter_by_periodo($this->ativo_veiculo_model->query(), 'data', $periodo_inicio, $periodo_fim);
+		return $veiculos->where("ativo_veiculo.situacao = '0'")->get()->num_rows();
 	}
 
 	public function count_colaboradores($periodo_inicio = null, $periodo_fim = null)
@@ -1516,8 +1516,6 @@ class Relatorio_model  extends MY_Model
 	/* Logs */
 	public function logs($id_modulo = null, $id_usuario = null, $acao = null)
 	{
-		echo "aqui";
-		$this->dd($id_modulo,$id_usuario, $acao );
 		// aqui seria o SQL, como tem uma base ali em cima, é tranquilo pra elaborar
 		// o problema seria para trazer estes dados até aqui
 	} 

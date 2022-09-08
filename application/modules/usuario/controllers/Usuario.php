@@ -13,18 +13,74 @@ class usuario  extends MY_Controller {
         parent::__construct();
         $this->load->model('usuario_model');
         $this->load->model('obra/obra_model');
-        $this->load->model('relatorio/relatorio_model');       
+        $this->load->model('relatorio/relatorio_model');   
+        $this->model = $this->usuario_model;  
     }
 
-    function index($subitem=null) {
-        if ($this->user->nivel != 1) {
-            echo redirect(base_url(""));
-            return;
+    function index() {
+        if ($this->input->method() === 'post') {
+            return $this->paginate_json(
+                [
+                    "templates" => [
+                        [
+                            "name" => "id_link",
+                            "view" => "index_datatable/link",
+                            "data" => function($row, $data) {
+                                return  array_merge($data, [
+                                    'text' => $row->id_usuario,
+                                    'link' => base_url('usuario')."/editar/{$row->id_usuario}", 
+                                ]);
+                            }
+                        ],
+                        [
+                            "name" => "nome_link",
+                            "view" => "index_datatable/link",
+                            "data" => function($row, $data) {
+                                return  array_merge($data, [
+                                    'text' => $row->nome,
+                                    'link' => base_url('usuario')."/editar/{$row->id_usuario}", 
+                                ]);
+                            }
+                        ],
+                        [
+                            "name" => "nivel_html",
+                            "view" => "index_datatable/nivel"
+                        ],
+                        [
+                            "name" => "situacao_html",
+                            "view" => "index_datatable/situacao"
+                        ], 
+                        [
+                            "name" => "email_confirmado_em_html",
+                            "view" => "index_datatable/confirm_email"
+                        ],
+                        [
+                            "name" => "permit_notification_email_html",
+                            "view" => "index_datatable/notfications_email"
+                        ],
+                        [
+                            "name" => "permit_notification_push_html",
+                            "view" => "index_datatable/notfications_push"
+                        ],
+                        [
+                            "name" => "avatar",
+                            "view" => "index_datatable/avatar"   
+                        ],
+                        [                       
+                            "name" => "actions",
+                            "view" => "index_datatable/actions"
+                        ]
+                    ]
+                ]
+            );
         }
 
-        $data['lista'] = $this->usuario_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        $this->get_template('index');
+    }
+
+    protected function paginate_after(object &$row)
+    {
+        $row->data_criacao = date("d/m/Y H:i:s", strtotime($row->data_criacao));
     }
 
     function adicionar(){
@@ -187,12 +243,13 @@ class usuario  extends MY_Controller {
         return $this->json(['success' => $this->usuario_model->solicitar_confirmacao_email($id_usuario)]);
     }
 
-    function permit_notification_email($id_usuario, $permit = 2){
+    function permit_notification_email($id_usuario){
         $success = false;
-        if ($this->user->nivel === 1 || $this->user->id_usuario == $id_usuario) {
+        if ($this->user->nivel == 1 || $this->user->id_usuario == $id_usuario) {
             $usuario = $this->usuario_model->get_usuario($id_usuario);
+            $permit = $usuario->permit_notification_email == 1 ? '0' : '1';
             if($usuario) {
-                $this->db->where("id_usuario", $id_usuario)->update("usuario", ["permit_notification_email" => $permit == 2 ? '0' : '1']);
+                $this->db->where("id_usuario", $id_usuario)->update("usuario", ["permit_notification_email" => $permit]);
                 $success = true;
             }
         }

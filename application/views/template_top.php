@@ -46,7 +46,6 @@
     <!-- Main CSS-->
     <link href="<?php echo base_url('assets'); ?>/css/theme.css?v=<?php echo date("Ymdhis"); ?>" rel="stylesheet" media="all">
 
-
     <!-- Jquery JS-->
     <script src="<?php echo base_url('assets'); ?>/vendor/jquery-3.6.0.min.js"></script>
 
@@ -65,6 +64,18 @@
     <!-- One Signal -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 
+    <!-- Vue.js -->
+    <script src="<?php echo base_url("assets/js/vue-select@3.0.0.js"); ?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url("assets/css/vue-select.css"); ?>">
+    <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
+    <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
+
+    <!-- VUE plugins -->
+    <script>
+        Vue.use(VueMask.VueMaskPlugin);
+        Vue.component('v-select', VueSelect.VueSelect);
+    </script>
+
     <script> 
     <?php
         $user->permissoes = null;
@@ -76,19 +87,6 @@
         var user = JSON.parse(`<?php echo json_encode($user); ?>`) || null;
         var app_env = '<?php echo $app_env; ?>' || "development";
         var configuracao = JSON.parse(`<?php echo json_encode($app_config); ?>`) || null
-    </script>
-
-    
-    <!-- Vue.js -->
-    <script src="<?php echo base_url("assets/js/vue-select@3.0.0.js"); ?>"></script>
-    <link rel="stylesheet" href="<?php echo base_url("assets/css/vue-select.css"); ?>">
-    <script src="<?php echo base_url("assets/js/vue.js"); ?>"></script>
-    <script src="<?php echo base_url("assets/js/v-mask.min.js"); ?>"></script>
-
-    <!-- VUE plugins -->
-    <script>
-        Vue.use(VueMask.VueMaskPlugin);
-        Vue.component('v-select', VueSelect.VueSelect);
     </script>
 </head>
 

@@ -25,6 +25,8 @@ class MY_model extends CI_Model {
 
     protected $user;
 
+    use MY_Trait;
+
     public function __construct()
     {
         parent::__construct();
@@ -49,7 +51,7 @@ class MY_model extends CI_Model {
             ->select('usuario.*')
             ->select("empresa.razao_social, empresa.nome_fantasia, empresa.cnpj")
             ->where("usuario.id_usuario = {$logado->id_usuario}")
-            ->join('empresa', "empresa.id_empresa = {$logado->id_empresa}")
+            ->join('empresa', "empresa.id_empresa = usuario.id_empresa")
             ->get('usuario')
             ->row();
         
@@ -58,6 +60,7 @@ class MY_model extends CI_Model {
                 unset($user->senha);
                 return $user;
             }
+
             unset($logado->senha);
             return $logado;
         }
@@ -74,157 +77,7 @@ class MY_model extends CI_Model {
             ->row();
     }
 
-    public function formata_moeda_model($valor = 0, $num_format = false){
-        if($num_format){
-            return  number_format($valor, 2, '.', '');
-        }
-        return "R$ ". number_format($valor, 2, ',', '.');
-    }
-
-    public function formata_moeda_float(string $valor){
-        $formatado = str_replace("R$ ", "", $valor);
-        $formatado = str_replace(".", "", $formatado);
-        return (float) str_replace(",", ".", $formatado);
-    }
-
-    public function dd(...$data){
-        foreach($data as $dt) {
-            echo "<pre>";
-            echo print_r($dt, true);
-            echo "</pre>";
-        }
-        exit;
-    }
-
-    public function createHttpClient($base_uri = ""){
-        $this->httpClientObject = new HttpClient(["base_uri" => $base_uri]);
-    }
-
-    public function httpClient(string $url, string $method = "GET", array $body = null, $headers = []) : HttpClientResponse
-    {
-        if(!$this->httpClientObject) $this->createHttpClient();
-        $headers = array_merge(["Content-type" => "application/json"], $headers);
-        $request = new HttpClientRequest($method, $url, $headers, $body ? json_encode($body) : "");
-        $response = $this->httpClientObject->sendAsync($request);
-
-        if($response instanceof Promise) {
-          return Utils::unwrap([$url => $response])[$url];
-        }
-        return $response;
-    }
-
-    private function pagination_search(
-        \CI_DB_mysqli_driver &$query,
-         array $columns = [], 
-         string $search = null, 
-         string $table = ''
-    ) : ?\CI_DB_mysqli_driver {
-        if($columns) {
-            $likes = 0;
-            foreach ($columns as  $col) {
-                if($col && $col['searchable'] && $search) {
-                    $data = strtoupper($col['data']) != $col['data'] ? $col['data'] : ($col['name']?? null);
-                    if ($data){
-                        $search_value = $search;
-                        if (strpos($data, 'data_') !== false) {
-                            $search_value = date('Y-m-d', strtotime(str_replace('/', '-', $search)));
-                        }
-
-                        if ($likes == 0) $query->like("{$table}{$data}", $search_value);
-                        else $query->or_like("{$table}{$data}", $search_value);
-                        $likes++;
-                    }
-				}
-            }
-		}
-        return $query;
-    }
-
-    private function pagination_order(
-        \CI_DB_mysqli_driver &$query,
-        array $columns = [], 
-        array $orders = [], 
-        string $table = ''
-    ) : ?\CI_DB_mysqli_driver {
-        if($orders) {
-            foreach ($orders as $order) {
-                if(isset($columns[$order['column']]) && $columns[$order['column']]['orderable']) {
-                    $data = $columns[$order['column']]['data'] ?? $columns[$order['column']]['name'] ?? null;          
-                    $query->order_by("{$table}{$data}", $order['dir']);
-                }
-            }
-        }
-        return $query;
-    }
-
-    private function pagination_actions_template(array &$result = [], array $options = []) : array
-    {
-        $template = isset($options['actions_template']) ? "../{$options['actions_template']}" : null;
-        if($template) {
-            foreach($result as $r => $row) {
-                $data = array_merge(
-                    ["rows" => $result, "row" => $row, "index" => $r],  
-                    $options['actions_template_data'] ?? []
-                );
-                $result[$r]->actions = $this->load->view($template, $data, true);
-            }
-        }
-        return $result;
-    }
-
-    public function paginate(
-        \CI_DB_mysqli_driver $query, 
-        array $options = [
-            "table" => '',
-            "actions_template" => null,
-            "actions_template_data" => [],
-            "before" => null,
-            "after" => null,
-        ]
-    ) : object {
-        $order_col = [['column' => 0, 'dir' => 'desc']];
-        $start = $this->input->get('start', $this->input->post('start')) ?? 0;
-        $length = $this->input->get('length', $this->input->post('length')) ?? 10;
-        $search = $this->input->get('search', $this->input->post('search')) ?? null;
-        $orders = $this->input->get('order', $this->input->post('order')) ?? $order_col;
-		$columns = $this->input->get('columns', $this->input->post('columns')) ?? [];
-        $table = isset($options['table']) ? "{$options['table']}." : '';
-
-        $this->pagination_search($query, $columns, $search, $table);
-        $this->pagination_order($query, $columns, $orders, $table);
-
-        $totalQuery = clone $query;
-        $query->limit($length, $start);
-
-        $before =  $options['before'] ?? null;
-        if ($before instanceof \Closure) {
-            $before_query = $before($query);
-            if($before_query instanceof \CI_DB_mysqli_driver) $query = clone $before_query;
-        }
-
-        $totalPageQuery = clone $query;
-        $totalPage = $totalPageQuery->get()->num_rows();
-        $result = $query->get()->result() ?? [];
-        $total = $totalQuery->get()->num_rows();
-
-        $after = $options['after'] ?? null;
-        if ($after instanceof \Closure) {
-            $after_result = $after($result);
-            if(is_array($after_result)) $result = $after_result; 
-        }
-
-        $this->pagination_actions_template($result, $options);
-
-        return (object) [
-            "total" => $total,
-            "total_page" => $totalPage,
-            "start" => $start,
-            "length" => $length,
-            "data" => $result
-        ] ;
-    }
-
-    public function join_status(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    public function join_requisicao_status(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
     {
         return $query
             ->select('st.slug as status_slug, st.texto as status_texto, st.classe as status_classe')
@@ -241,7 +94,81 @@ class MY_model extends CI_Model {
     public function join_obra(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
     {
         return $query
-        ->select('ob.id_obra, ob.responsavel, ob.responsavel_celular, ob.codigo_obra as obra')
+        ->select('
+            ob.id_obra, ob.responsavel, ob.responsavel_celular, 
+            ob.codigo_obra as obra, ob.codigo_obra codigo_obra, 
+            ob.endereco as obra_endereco'
+        )
         ->join('obra ob', "{$col} = ob.id_obra", $join_type);
+    }
+
+    public function join_empresa(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+			->select('ep.razao_social as empresa_razao, ep.razao_social, ep.nome_fantasia as empresa') 
+			->join("empresa ep", "{$col} = ep.id_empresa", $join_type);
+    }
+
+    public function join_fornecedor(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+			->select('fnc.razao_social as fornecedor_razao, fnc.razao_social, fnc.nome_fantasia as fornecedor') 
+			->join("fornecedor fnc", "{$col} = fnc.id_fornecedor", $join_type);
+    }
+
+    public function join_usuario_nivel(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+			->select('un.nivel as nivel_nome, un.id_usuario_nivel as nivel')
+			->join("usuario_nivel un", "{$col} = un.id_usuario_nivel", $join_type);
+    }
+
+    public function join_veiculo(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        $alias = 'veiculo';
+        $where_limit = "where id_ativo_veiculo = veiculo.id_ativo_veiculo";
+		$order_quilometragem = "order by `id_ativo_veiculo_quilometragem` desc limit 1";
+		$order_operacao =  "order by `id_ativo_veiculo_operacao` desc limit 1";
+		$order_depreciacao =  "order by `id_ativo_veiculo_depreciacao` desc limit 1";
+		$select_km_atual = "(select `veiculo_km` from ativo_veiculo_quilometragem {$where_limit} {$order_quilometragem})";
+		$select_km_atual_data = "(select `data` from ativo_veiculo_quilometragem {$where_limit} {$order_quilometragem})";
+		$select_horimetro_atual = "(select `veiculo_horimetro` from ativo_veiculo_operacao {$where_limit} {$order_operacao})";
+		$select_horimetro_atual_data = "(select `data` from ativo_veiculo_operacao {$where_limit} {$order_operacao})";
+		$select_fipe_valor_atual = "(select `fipe_valor` from ativo_veiculo_depreciacao {$where_limit} {$order_depreciacao})";
+		$select_fipe_valor_atual_data = "(select `data` from ativo_veiculo_depreciacao {$where_limit} {$order_depreciacao})";
+        $table_alias = $alias ? "{$alias}." : '';
+        
+		$query = $this->db
+		->select("
+			$select_fipe_valor_atual as veiculo_valor_atual,
+			$select_fipe_valor_atual_data as veiculo_valor_atual_data
+		")
+		->select("
+			$select_km_atual as veiculo_km_atual, 
+			$select_km_atual_data as veiculo_km_atual_data
+		")
+		->select("
+			$select_horimetro_atual as veiculo_horimetro_atual,
+		 	$select_horimetro_atual_data as veiculo_horimetro_atual_data
+		")
+		->select("concat({$table_alias}marca,' - ',{$table_alias}modelo) as veiculo_descricao")
+		->select("
+			(
+				CASE
+					WHEN {$table_alias}veiculo_placa IS NOT NULL THEN {$table_alias}veiculo_placa
+					ELSE {$table_alias}id_interno_maquina
+				END
+			) as veiculo_identificacao
+		")
+        ->join("ativo_veiculo {$alias}", "{$col} = {$table_alias}id_ativo_veiculo", $join_type);
+
+        return $query;
+    }
+
+    public function join_status(\CI_DB_mysqli_driver &$query, string $col, string $join_type = 'left') : \CI_DB_mysqli_driver
+    {
+        return $query
+			->select('status.slug as status_slug, status.texto as status_texto, status.classe as status_classe')
+			->join("ativo_externo_requisicao_status status", "{$col} = status.id_requisicao_status", $join_type);
     }
 }

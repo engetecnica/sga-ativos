@@ -127,14 +127,6 @@
                 </div>
             </div>
             <?php } ?>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -257,14 +249,6 @@ var ativo_externo_form = new Vue({
                       <i class="zmdi zmdi-plus"></i>&nbsp;Adicionar
                     </button>
                   </a>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
                 </div>
             </div>
         </div>

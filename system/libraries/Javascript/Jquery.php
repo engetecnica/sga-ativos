@@ -966,7 +966,7 @@ class CI_Jquery extends CI_Javascript {
 		}
 
 		// Inline references
-		$script = '$(document).ready(function() {'."\n"
+		$script = '$(window).ready(function() {'."\n"
 			.implode('', $this->jquery_code_for_compile)
 			.'});';
 

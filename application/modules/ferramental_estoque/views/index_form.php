@@ -174,14 +174,6 @@
 
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -417,7 +409,7 @@
 
                 options = {
                     columns: this.data_table_columns,
-                    url: `${base_url}ferramental_estoque/buscar/grupos`,
+                    url: `ferramental_estoque/buscar/grupos`,
                     ajaxOnSuccess: (response) => {
                         this.grupos = response.data
                     }

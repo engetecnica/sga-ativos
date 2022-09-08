@@ -26,14 +26,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -44,7 +36,7 @@
     const data_table_columns = [
         {
             title: 'Retirada ID',
-            data: 'id_retirada',
+            name: 'id_retirada',
             sortable: true,
             searchable: true,
             render: function(value, type, row, settings){
@@ -71,7 +63,7 @@
         },
         { 
             title: 'Data',
-            data: 'retirada.data_inclusao',
+            data: 'data_inclusao',
             sortable: true,
             searchable: true,
             render(value, type, row, settings){
@@ -106,11 +98,11 @@
 
     const options = {
         columns: data_table_columns,
-        url: `${base_url}ferramental_estoque/paginate`,
+        url: `ferramental_estoque`,
+        method: 'post',
         order: [0, 'desc']
     }
 
-    $(document).ready(() => {
-        loadDataTable('ferramental_estoque_index', options)
-    })
+    $(window).ready(() => loadDataTable('ferramental_estoque_index', options))
+    $(window).resize(() => loadDataTable('ferramental_estoque_index', options))
 </script>

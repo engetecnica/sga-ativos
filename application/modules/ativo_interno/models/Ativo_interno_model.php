@@ -13,16 +13,17 @@ class Ativo_interno_model extends MY_Model {
 		}
 	}
 
-	public function ativos(){
-		return $this->db
+	public function query(){
+		$query = $this->db
 			->from('ativo_interno')
-			->order_by('nome', 'asc')
 			->group_by('id_ativo_interno')
-			->select('ativo_interno.*');;
+			->select('ativo_interno.*');
+		$this->join_obra($query, 'ativo_interno.id_obra');
+		return $query;
 	}
 
 	public function search_ativos($search){
-		return $this->ativos()
+		return $this->query()
 			->group_by('id_ativo_interno')
 			->order_by('nome')
 			->like('nome', $search)
@@ -33,9 +34,7 @@ class Ativo_interno_model extends MY_Model {
 	}
 
 	public function get_lista($id_obra = null, $situacao = null){
-		$lista = $this->ativos()
-							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
-							->select('codigo_obra as obra');
+		$lista = $this->query();
 
 		if ($id_obra != null){
 			$lista->where("ativo_interno.id_obra = $id_obra");
@@ -52,10 +51,7 @@ class Ativo_interno_model extends MY_Model {
 	}
 
 	public function get_ativo($id_ativo_interno=null, $situacao=null){
-		$ativo = $this->ativos()
-							->where('id_ativo_interno', $id_ativo_interno)
-							->join('obra', 'obra.id_obra = ativo_interno.id_obra', 'left')
-							->select('codigo_obra as obra');
+		$ativo = $this->query()->where('id_ativo_interno', $id_ativo_interno);
 
 		if ($situacao) {
 			if (is_array($situacao)) {
@@ -64,6 +60,7 @@ class Ativo_interno_model extends MY_Model {
 				$ativo->where("situacao = $situacao");
 			}
 		}
+
 		return $ativo->get()->row();
 	}
 
@@ -83,8 +80,14 @@ class Ativo_interno_model extends MY_Model {
 		->order_by('manutencao.id_manutencao', 'desc')
 		->from('ativo_interno_manutencao manutencao');
 
-		if ($id_ativo_interno) $manutencoes->where("manutencao.id_ativo_interno = {$id_ativo_interno}");
-		if ($this->user->nivel == 2 && $this->user->id_obra) $manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
+		if ($id_ativo_interno) {
+			$manutencoes->where("manutencao.id_ativo_interno = {$id_ativo_interno}");
+		}
+
+		if ($this->user->nivel == 2 && $this->user->id_obra) {
+			$manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
+		}
+		
 		if ($situacao) {
 			if (is_array($situacao)) {
 

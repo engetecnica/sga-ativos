@@ -28,7 +28,7 @@ class Relatorio extends MY_Controller
 	function index()
 	{
 		$data['relatorios'] = $this->relatorio_model->relatorios;
-		$data['relatorios_permitidos'] = $this->get_modulo_permission();
+		$data['relatorios_permitidos'] = $this->permissoes;
 		$data['periodos'] = $this->relatorio_model->periodos;
 		$data['tipos_veiculos'] = $this->relatorio_model->tipos_veiculos;
 		$data['empresas'] = $this->empresa_model->get_empresas();

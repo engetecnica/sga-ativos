@@ -28,8 +28,8 @@ class Index extends MY_Controller {
             $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 3, 6, 11, 14], $this->user->id_obra);
         }
 
-        $data['clientes'] = count($this->empresa_model->get_empresas());
-        $data['colaboradores'] = count($this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra));
+        $data['clientes'] = $this->empresa_model->count();
+        $data['colaboradores'] = $this->funcionario_model->count($this->user->id_empresa, $this->user->id_obra);
         $data['veiculos_manutencao'] = $this->ativo_veiculo_model->count_ativo_veiculo_em_manutencao();
         $data['ativo_interno_manutencoes'] = $this->ativo_interno_model->get_lista_manutencao(null, ["", 0, 2], true);
         $data['ativo_externo_manutencoes'] = $this->ativo_externo_model->get_lista_manutencao(null, ["", 0, 2], true);

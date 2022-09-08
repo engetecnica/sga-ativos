@@ -20,8 +20,6 @@
         </div>
     </section>
 
-
-
     <section class="statistic statistic2">
         <div class="container">
             <div class="row">
@@ -145,18 +143,6 @@
         <div class="container">
             <div class="row">
             <?php $this->load->view("amostra_de_patrimonio"); ?>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-t-60 p-b-20">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

@@ -3,6 +3,9 @@ const config_lista = {
     serverSide: false,
     processing: false,
     loading: true,
+    retrieve: true,
+    destroy: true,
+    stateSave: true,
     "buttons": [
         'excel', 'pdf'
     ],
@@ -49,23 +52,33 @@ const ajaxDataTable = function (data, callback, settings = {}, options = {}){
     
     $.ajax({
         method: options?.method || 'GET',
-        url: options?.url || '',
+        url: `${base_url}${options?.url || ''}`,
         async: options?.async || false, 
         data: {
             search: settings?.oAjaxData?.search?.value || null,
             start: settings?.oAjaxData?.start || 0,
             length: settings?.oAjaxData?.length || 10,
             order: settings?.oAjaxData?.order || [{column: options?.order[0], dir: options?.order[1]}] || [{column: 0, dir: "asc"}],
-            columns: settings?.oAjaxData?.columns || null
+            columns: settings?.oAjaxData?.columns || null,
+            filters: options?.filters || []
         },
         success: function(response) {
-            if(options.ajaxOnSuccess && typeof options.ajaxOnSuccess == 'function') {
-                options.ajaxOnSuccess(response)
+            try {
+                response = JSON.parse(response)
+            } catch (e) {
+                response = response
             }
+
             callback({
                 data: response?.data || [],
                 ...getDataTablePaginationOptions(response)
             })
+            
+            if(options.ajaxOnSuccess && typeof options.ajaxOnSuccess == 'function') {
+                options.ajaxOnSuccess(response)
+            }
+
+            mainCustomReady()
         }
     })
 }
@@ -95,7 +108,7 @@ function getDataTableDefaultOptions(options = {}){
 
 function loadDataTable(data_table_id, options = {}){
     options.data_table_id = data_table_id
-    return $(`#${data_table_id}`)?.DataTable(getDataTableDefaultOptions(options))
+    return $(`table#${data_table_id}`)?.DataTable(getDataTableDefaultOptions(options))
 }
 
 $(document).ready(function() {

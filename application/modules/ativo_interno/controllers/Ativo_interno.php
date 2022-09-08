@@ -12,28 +12,65 @@ class Ativo_interno  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_interno_model');
-        $this->load->model('obra/obra_model');  
-        
-        $this->get_modulo_permission();
+        $this->load->model('obra/obra_model');
+        $this->model = $this->ativo_interno_model;
     }
 
     function index() {
-        $data['lista'] = $this->ativo_interno_model->get_lista();
-        $this->get_template('index', $data);
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "serie_link",
+                        "view" => "index/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->serie,
+                                'link' => base_url('ativo_interno')."/editar/{$row->id_ativo_interno}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "nome_link",
+                        "view" => "index/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->nome,
+                                'link' => base_url('ativo_interno')."/editar/{$row->id_ativo_interno}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index/actions"
+                    ]
+                ]
+            ]);
+        }
+
+        $this->get_template('index');
+    }
+
+    protected function paginate_after(object &$row)
+    {
+        $row->data_inclusao = date('d/m/Y H:i:s', strtotime($row->data_inclusao));
+        $row->data_descarte = date('d/m/Y H:i:s', strtotime($row->data_descarte));
+        $row->valor = number_format($row->valor, 2, ',', '.');
+        $row->marca = isset($row->marca) ? $row->marca : '-';
     }
 
     function adicionar($data = []){
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
-
         $data['obras'] = $this->obra_model->get_obras();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_ativo_interno=null){
-    
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'editar'));
-
         $data = array_merge($this->anexo_model->getData('ativo_interno', $id_ativo_interno), [
             "back_url" => "ativo_interno/editar/{$id_ativo_interno}",
             'obras' => $this->obra_model->get_obras(),
@@ -44,14 +81,12 @@ class Ativo_interno  extends MY_Controller {
 
     function salvar(){
         $data['id_ativo_interno'] = !is_null($this->input->post('id_ativo_interno')) ? $this->input->post('id_ativo_interno') : '';
-        $data['nome'] = $this->input->post('nome');
-        $data['marca'] = $this->input->post('marca');
-
         $valor = str_replace("R$ ", "", $this->input->post('valor'));
         $valor = str_replace(".", "", $valor);
         $valor = str_replace(",", ".", $valor); 
-
         $data['valor'] = $valor;
+        $data['nome'] = $this->input->post('nome');
+        $data['marca'] = $this->input->post('marca');
         $data['serie'] = $this->input->post('serie');
         $data['quantidade'] = $this->input->post('quantidade');
         $data['observacao'] = $this->input->post('observacao');

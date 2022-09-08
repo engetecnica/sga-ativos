@@ -1,8 +1,7 @@
+<!-- main-custom.js -->
+<script src="<?php echo base_url('assets'); ?>/js/main-custom.js"></script>
 
 <?php if ($this->session->userdata('logado') == true) { ?>
-
-<!-- main-logado.js -->
-<script src="<?php echo base_url('assets'); ?>/js/main-logado.js"></script>
 
 <script>
     <?php if ($this->session->flashdata('msg_success') == true) { ?>
@@ -286,37 +285,20 @@
         window.location = '<?php echo base_url('ativo_externo'); ?>'+url
     })
 
-    $(document).ready(function() {
-        var confirm_submit = null;
-
-        $('.confirm-submit').submit((event) => {
-            if (confirm_submit == null) {
-                event.preventDefault();
-                let acao = $(event.target).attr('data-acao') || 'Confirmar';
-                let icon = $(event.target).attr('data-icon') || 'warning';
-                let title = $(event.target).attr('data-title') || 'Você tem certeza?';
-                let text = $(event.target).attr('data-text') || "Esta operação não poderá ser revertida.";
-
-                show_comfirm_msg({
-                    title: title,
-                    text: text,
-                    icon: icon,
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    canceButtonText: 'Cancelar',
-                    confirmButtonText: 'Sim, ' + acao + '!'
-                }, (result) => {
-                    if (result.isConfirmed) {
-                        confirm_submit = result.isConfirmed
-                        $(event.target).submit();
-                    }
-                }).catch(() => {
-                    confirm_submit = null
+    $(window).ready(function() {
+        if (app_env === 'production') {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+                .then(function(registration) {
+                  if (registration.installing) console.log('ServiceWorker installing...')
                 })
+                .catch(function(error) {
+                  console.error('Service worker registration failed:', error)
+                })
+            } else {
+                console.error('Service workers are not supported.')
             }
-        })
-
+        }
     })
 </script>
 

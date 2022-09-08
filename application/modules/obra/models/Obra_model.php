@@ -3,16 +3,24 @@
 class Obra_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
+		if (isset($data['obra_base']) && $data['obra_base'] == 1) {
+			$base = $this->db->where("obra_base", 1)->get('obra')->row();
+			if($base) $this->db->where("id_obra", $base->id_obra)->update('obra', ['obra_base' => 0]);
+		}
 
-		if($data['id_obra']==''){
+		if($data['id_obra']=='') {
 			$this->db->insert('obra', $data);
 			return "salvar_ok";
 		} else {
-			$this->db->where('id_obra', $data['id_obra']);
-			$this->db->update('obra', $data);
+			$this->db->where('id_obra', $data['id_obra'])->update('obra', $data);
 			return "salvar_ok";
 		}
+	}
 
+	public function query(){
+		$obras = $this->db->from('obra')->select('obra.*, ep.razao_social as empresa, ep.nome_fantasia');
+		$this->join_empresa($obras, 'obra.id_empresa');
+		return $obras->group_by('obra.id_obra');
 	}
 
 	public function get_obras(){

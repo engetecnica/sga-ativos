@@ -18,110 +18,112 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Veículos</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning" id="lista" style="min-height: 450px !important;">
-                            <thead>
-                                <tr>
-                                    <th width="7%">Id</th>
-                                    <th>Obra</th>
-                                    <th>Placa / ID Interna</th>
-                                    <th>Veículo</th>
-                                    <th>Tipo</th>
-                                    <th>Situação</th>
-                                    <th>Tabela Fipe</th>
-                                    <th>Referência</th>
-                                    <th class="text-right">Gerenciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                
-                                foreach($lista as $valor){ 
-                                ?>
-                                <tr>
-                                    <td>
-                                    <?php if($this->permitido($permissoes, 9, 'editar')){ ?>    
-                                        <a href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>">
-                                            <?php echo $valor->id_ativo_veiculo; ?>
-                                        </a>
-                                    <?php } else { ?>
-                                        <?php echo $valor->id_ativo_veiculo; ?>
-                                    <?php } ?>
-                                    </td>
-                                    <td style="text-align:left;">
-                                        <button class="badge badge-<?php echo ($valor->obra) ? 'success' : 'info' ?> historico-veiculo" type="button" data-id_ativo_veiculo="<?php echo $valor->id_ativo_veiculo; ?>">
-                                            <?php if($valor->obra){ ?>
-                                                <?php echo $valor->obra; ?>
-                                            <?php } else { ?>
-                                                Desconhecido
-                                            <?php } ?>
-                                        </button>    
-                                    </td>
-                                    <td><?php echo $valor->veiculo_placa ?: $valor->id_interno_maquina; ?></td>
-                                    <td><?php echo isset($valor->marca) ? "{$valor->marca} - {$valor->modelo}" : ''; ?></td>
-                                    <td style="text-transform: uppercase;"><?php echo $valor->tipo_veiculo; ?></td>
-                                    <td>
-                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
-                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
-                                    </td>
-                                    <td>R$ <?php echo number_format($valor->valor_fipe, 2, ",", "."); ?></td>
-                                    <td style="text-transform: uppercase;"><?php echo $valor->fipe_mes_referencia; ?></td>
-                                    <td>
-                                        <?php if($this->permitido($permissoes, 9, 'editar') || $this->permitido($permissoes, 9, 'excluir')){ ?>
-                                            <div class="btn-group" role="group">
-                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Gerenciar
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    <?php if($this->permitido($permissoes, 9, 'editar')){ ?>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/editar/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-edit"></i> Editar</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/quilometragem/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-road"></i>&nbsp; Quilometragem</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/abastecimento/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-gas-pump"></i>&nbsp; Abastecimento</a>
-                                                        <?php if ($valor->tipo_veiculo == "maquina") {?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/operacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-industry"></i>&nbsp; Operação</a>
-                                                        <?php } ?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/manutencao/'.$valor->id_ativo_veiculo); ?>"><i class="fas fa-wrench"></i> Manutenção</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/ipva/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-id-card"></i> IPVA</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/seguro/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-lock"></i> Seguro</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url('ativo_veiculo/gerenciar/depreciacao/'.$valor->id_ativo_veiculo); ?>"><i class="fa fa-sort-amount-asc"></i> Depreciação</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item " href="<?php echo base_url("ativo_veiculo/editar/{$valor->id_ativo_veiculo}#anexos"); ?>"><i class="fa fa-files-o"></i> Anexos</a>
-                                                    <?php } ?>
-
-                                                    <?php if($this->permitido($permissoes, 9, 'excluir')){ ?>
-                                                        <?php if ($this->ativo_veiculo_model->permit_delete($valor->id_ativo_veiculo)) {?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a href="javascript:void(0)" data-href="<?php echo base_url('ativo_veiculo'); ?>/deletar/<?php echo $valor->id_ativo_veiculo; ?>" data-registro="<?php echo $valor->id_ativo_veiculo;?>" 
-                                                        data-tabela="ativo_veiculo" class="dropdown-item  deletar_registro"><i class="fas fa-trash"></i>  Excluir</a>
-                                                        <?php } ?>
-                                                    <?php } ?>
-                                                </div>
-                                            </div>
-                                        <?php } else {  echo "-"; } ?>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
+                        <table 
+                            class="table table-borderless table-striped table-earning" 
+                            id="ativo_veiculo_index" 
+                            style="min-height: 450px !important;"
+                        ></table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+<script>
+    const data_table_columns = [
+        {
+            title: 'ID',
+            name: 'id_ativo_veiculo',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.id_link
+            }
+        },
+        { 
+            title: 'Obra' ,
+            name: 'ob.codigo_obra',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.obra_html
+            }
+        },
+        { 
+            title: 'Placa / ID Interna' ,
+            name: 'veiculo_placa',
+            data: 'id_interno_maquina',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.veiculo_identificacao_link
+            }
+        },
+        { 
+            title: 'Veículo' ,
+            name: 'modelo',
+            data: 'marca',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.veiculo_descricao
+            }
+        },
+        { 
+            title: 'Tipo' ,
+            name: 'tipo_veiculo',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.tipo_veiculo
+            }
+        },
+        { 
+            title: 'Situação',
+            sortable: true,
+            searchable: true,
+            name: 'ativo_veiculo.situacao',
+            render: function(value, type, row, settings){
+                console.log(row.situacao_html)
+                return row.situacao_html
+            }
+        },
+        { 
+            title: 'Tabela Fipe' ,
+            name: 'valor_fipe',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.valor_fipe_html
+            }
+        },
+        { 
+            title: 'Referência' ,
+            name: 'fipe_mes_referencia',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.fipe_mes_referencia
+            }
+        },
+        { 
+            title: 'Gerenciar' ,
+            render(value, type, row, settings){
+                return row.actions
+            },
+        },
+    ]
+
+    const options = {
+        columns: data_table_columns,
+        url: `ativo_veiculo`,
+        method: 'post',
+        order: [2, 'asc'],
+    }
+
+    $(window).ready(() => loadDataTable('ativo_veiculo_index', options))
+    $(window).resize(() => loadDataTable('ativo_veiculo_index', options))
+</script>

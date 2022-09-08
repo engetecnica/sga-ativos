@@ -11,38 +11,63 @@ class Empresa  extends MY_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('empresa_model');     
-
-        $this->get_modulo_permission();
+        $this->load->model('empresa_model');   
+        $this->model = $this->empresa_model;  
     }
 
-    function index($subitem=null) {
+    function index() {
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_empresa,
+                                'link' => base_url('empresa')."/editar/{$row->id_empresa}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "razao_social_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->razao_social,
+                                'link' => base_url('empresa')."/editar/{$row->id_empresa}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index_datatable/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index_datatable/actions"
+                    ]
+                ]
+            ]);
+        }
 
-        $data['lista'] = $this->empresa_model->get_empresas();
-
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        $this->get_template('index');
     }
 
     function adicionar(){
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 4, 'adicionar'));
-
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_empresa=null){
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 4, 'editar'));
-
         $data['detalhes'] = $this->empresa_model->get_empresa($id_empresa);
         $data['estados'] = $this->get_estados();
         $this->get_template('index_form', $data);
     }
 
     function salvar(){
-
         $data['id_empresa'] = !is_null($this->input->post('id_empresa')) ? $this->input->post('id_empresa') : '';
         $data['razao_social'] = $this->input->post('razao_social');
         $data['nome_fantasia'] = $this->input->post('nome_fantasia');
@@ -63,14 +88,13 @@ class Empresa  extends MY_Controller {
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
 
-        $tratamento = $this->empresa_model->salvar_formulario($data);
+        $this->empresa_model->salvar_formulario($data);
         if($data['id_empresa']==''){
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } else {
             $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");            
         }
         echo redirect(base_url("empresa"));
-
     }
 
     function deletar($id=null){

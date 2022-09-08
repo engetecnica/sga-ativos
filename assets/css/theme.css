@@ -89,6 +89,7 @@ p {
 .table-responsive {
     padding-right: 1px;
     background-color: #FFFFFF;
+    z-index: 1 !important;
 }
 
 
@@ -4626,6 +4627,12 @@ section {
 @media (min-width: 1200px) {
     .table-responsive-data2 {
         overflow: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-responsive-md {
+        min-height: 350px;
     }
 }
 
@@ -15076,7 +15083,7 @@ label {
 }
 
 .dropdown-menu.show{
-    z-index: 2000 !important;
+    z-index: 5000 !important;
 }
 
 @media (max-width: 991px) {

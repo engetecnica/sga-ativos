@@ -21,6 +21,39 @@ class Ativo_externo_model extends MY_Model {
 
 	}
 
+	public function query($out_kit = true) : \CI_DB_mysqli_driver {
+		$this->db->reset_query();
+		$query = $this->db
+			->from('ativo_externo atv')
+			->select('atv.*')
+			->select('kit.*')
+			->select('kitem.codigo as kit_codigo');
+			
+		if ($out_kit) {
+			$query->where("kit.id_ativo_externo_kit IS NULL");
+		}
+
+		$query
+			->join("ativo_externo_kit kit", "kit.id_ativo_externo_item = atv.id_ativo_externo", "left")
+			->join("ativo_externo kitem", "kitem.id_ativo_externo = kit.id_ativo_externo_kit", "left");
+
+		$this->join_obra($query, 'atv.id_obra');
+		$this->join_status($query, 'atv.situacao');
+
+		return $query;
+	}
+
+	public function grupos_query($id_obra = null) {
+		$query = $this->query()->group_by('atv.id_ativo_externo_grupo');
+		$this->count_estoque_query($query, 'atv.id_ativo_externo_grupo', $id_obra);
+
+		if ($id_obra) $query->where("atv.id_obra = {$id_obra}");
+		$query->select('atv.nome as nome');
+
+		return $query;
+	}
+
+	//@todo remove
 	public function ativos($out_kit = true){
 		$this->db->reset_query();
 		$ativos = $this->db->select('atv.*')
@@ -102,8 +135,8 @@ class Ativo_externo_model extends MY_Model {
 
 
 	private function count_estoque_query(
-		string $id_col,
 		\CI_DB_mysqli_driver &$query, 
+		string $id_col,
 		int $id_obra = null
 	) : ?\CI_DB_mysqli_driver {
 		$wheres = [
@@ -130,7 +163,7 @@ class Ativo_externo_model extends MY_Model {
 
 	public function get_grupos($id_obra = null){
 		$grupos = $this->ativos();
-		$this->count_estoque_query('atv.id_ativo_externo_grupo', $grupos, $id_obra);
+		$this->count_estoque_query($grupos, 'atv.id_ativo_externo_grupo', $id_obra);
 
 		if ($id_obra){
 			$grupos->where("atv.id_obra = {$id_obra}");
@@ -149,26 +182,18 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 	public function search_grupos($id_obra = null, $search = null){
-		$grupos = $this->ativos()->group_by('atv.id_ativo_externo_grupo');
-		$this->count_estoque_query('atv.id_ativo_externo_grupo', $grupos, $id_obra);
-
-		if ($id_obra) $grupos->where("atv.id_obra = {$id_obra}");
-
-		return $this->paginate(
-			$grupos,
-			[
-				//'table' => 'atv',
-				"actions_template" => "../ferramental_estoque/views/index_form_datatables_actions",
-				"after" => function($grupos) use($id_obra) {
-					foreach($grupos as $g => $grupo) {
-						if ($grupo->id_ativo_externo_grupo) {
-							$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
-						}
-					}
-					return $grupos;
+		return [
+			'search' => $search,
+			'start' => 0,
+			'length' => 1000,
+			'query' => $this->grupos_query($id_obra),
+			"after" => function(&$row) use($id_obra) {
+				if ($row->id_ativo_externo_grupo) {
+					$row->ativos = $this->get_estoque($id_obra, $row->id_ativo_externo_grupo);
 				}
-			]
-		);
+				return $row;
+			}
+		];
 	}
 
 	public function get_grupo($id_ativo_externo_grupo, $id_obra=null, $count=false){
@@ -177,7 +202,7 @@ class Ativo_externo_model extends MY_Model {
 						->order_by('nome', 'asc')
 						->group_by('atv.id_ativo_externo_grupo');
 
-		$grupo_query = $this->count_estoque_query('atv.id_ativo_externo_grupo', $grupo_query, $id_obra)->get();
+		$grupo_query = $this->count_estoque_query($grupo_query, 'atv.id_ativo_externo_grupo', $id_obra)->get();
 
 		if (!$count) {
 			$grupo = $grupo_query->row();

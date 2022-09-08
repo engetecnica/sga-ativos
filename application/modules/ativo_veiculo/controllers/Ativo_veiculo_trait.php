@@ -172,9 +172,22 @@ trait Ativo_veiculo_trait {
     }
 
     public function fipe_get_veiculo($tipo, $codigo, $ano) {
-        $data = $message = $response = null; $success = false;
+        $success = false;
+        $data = $message = $response = null; 
+
+        if($tipo == 'machine') {
+            $tipo = 'trucks';
+        }
+
         if($codigo) {
-            $response = $this->httpClient("https://parallelum.com.br/fipe/api/v2/{$tipo}/{$codigo}/years/{$ano}");
+            try {
+                $response = $this->httpClient("https://parallelum.com.br/fipe/api/v2/{$tipo}/{$codigo}/years/{$ano}");
+            } catch (\Exception $e) {
+                if(strpos('unsupported vehicle type', $e->getMessage()) >= 0) {
+                    $response = null;
+                    $message = "Tipo de veículo não suportado, código FIPE ou Ano de fabricação não encontrado!";
+                }
+            }
         }
 
         $data = [
@@ -211,7 +224,7 @@ trait Ativo_veiculo_trait {
             $message = "Novo registro inserido com sucesso!";
         }
     
-        if(!$success) $message = "Ocorreu um erro ao buscar dados FIPE do veículo!";
+        if(!$success && !$message) $message = "Ocorreu um erro ao buscar dados FIPE do veículo!";
 
         return (object) ([
             "success" => $success, 

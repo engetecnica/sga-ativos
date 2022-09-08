@@ -1,4 +1,3 @@
-
 <?php
 
 (defined('BASEPATH')) OR exit('No direct script access allowed');
@@ -8,7 +7,7 @@
  *
  * @author https://www.roytuts.com
  */
-class Ativo_externo  extends MY_Controller {
+class Ativo_externo extends MY_Controller {
 
     public $codigo_prefixo = "ENG";
 
@@ -19,19 +18,20 @@ class Ativo_externo  extends MY_Controller {
         $this->load->model('anexo/anexo_model');
         $this->load->model('ativo_veiculo/ativo_veiculo_model'); 
         $this->load->model('obra_model');
-
-        $this->get_modulo_permission();
     }
 
-    function index($subitem=null) {
+    function index($subitem = null) {
+        if ($subitem === 'ativos') return $this->index_paginate();
+        if ($subitem === 'grupos') return $this->grupos_paginate();
+        $this->get_template('index', $this->index_data());
+    }
 
+    private function index_data() {
         /* Get filters URL */
         $filter = $this->input->get('filter_items');
 
         if($filter){
-
             $filter = explode("/", $filter);
-
             if(is_array($filter)){
                 $filter = array(
                     'item' => $filter[1],
@@ -43,20 +43,108 @@ class Ativo_externo  extends MY_Controller {
                     'calibracao' => 'sem-filtro'
                 );
             }
-
         }
 
-        $data['calibracao'] = (isset($filter['calibracao'])) ? $filter['calibracao'] : null;
-        $data['obras'] = $this->obra_model->get_obras();
-        $data['lista'] = $this->ativo_externo_model->get_ativos($this->user->id_obra, "", $filter);
-        $data['grupos'] = $this->ativo_externo_model->get_grupos($this->user->id_obra);
-        $data['status_lista'] = $this->ferramental_requisicao_model->get_requisicao_status();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        return [
+            'calibracao' => (isset($filter['calibracao'])) ? $filter['calibracao'] : null,
+            'obras' => $this->obra_model->get_obras(),
+            'lista' => $this->ativo_externo_model->get_ativos($this->user->id_obra, "", $filter), //@todo remove
+            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra),  //@todo remove
+            'status_lista' => $this->ferramental_requisicao_model->get_requisicao_status(),
+        ];
     }
 
-    function adicionar($id_ativo_externo_grupo=null){
+    protected function index_paginate(){     
+        return $this->paginate_json([
+            "query" => $this->ativo_externo_model->query(false),
+            "templates" => [
+                [
+                    "name" => "codigo_link",
+                    "view" => "index/link",
+                    "data" => function($row, $data) {
+                        return  array_merge($data, [
+                            'text' => $row->codigo,
+                            'link' => base_url("ativo_externo/editar/{$row->id_ativo_externo}"), 
+                        ]);
+                    }
+                ],
+                [
+                    "name" => "nome_link",
+                    "view" => "index/link",
+                    "data" => function($row, $data) {
+                        return  array_merge($data, [
+                            'text' => $row->nome,
+                            'link' => base_url("ativo_externo/editar/{$row->id_ativo_externo}"), 
+                        ]);
+                    }
+                ],
+                [
+                    "name" => "tipo_html",
+                    "view" => "index/tipo",
+                ],
+                [
+                    "name" => "kit_html",
+                    "view" => "index/kit",
+                ],
+                [
+                    "name" => "calibracao_html",
+                    "view" => "index/calibracao",
+                ],
+                [
+                    "name" => "situacao_html",
+                    "view" => "index/situacao"   
+                ],
+                [                       
+                    "name" => "actions",
+                    "view" => "index/actions"
+                ]
+            ],
+            "after" => function(object &$row) {
+                $row->data_inclusao = $this->formata_data_hora($row->data_inclusao);;
+                $row->data_descarte = $row->data_descarte ? $this->formata_data_hora($row->data_descarte) : null;
+                $row->valor = $this->formata_moeda_model($row->valor);
+                return $row;
+            }
+        ]);
+    }
 
+    function grupos_paginate() {
+        return $this->paginate_json([
+            "query" => $this->ativo_externo_model->grupos_query($this->user->id_obra),
+            "templates" => [
+                [
+                    "name" => "gid_link",
+                    "view" => "grupos/link",
+                    "data" => function($row, $data) {
+                        return  array_merge($data, [
+                            'text' => $row->id_ativo_externo_grupo,
+                            'link' => base_url("ativo_externo/editar_grupo/{$row->id_ativo_externo_grupo}"), 
+                        ]);
+                    }
+                ],
+                [
+                    "name" => "nome_link",
+                    "view" => "grupos/link",
+                    "data" => function($row, $data) {
+                        return  array_merge($data, [
+                            'text' => $row->nome,
+                            'link' => base_url("ativo_externo/editar_grupo/{$row->id_ativo_externo_grupo}"), 
+                        ]);
+                    }
+                ],
+                [
+                    "name" => "tipo_html",
+                    "view" => "grupos/tipo",
+                ],
+                [                       
+                    "name" => "actions",
+                    "view" => "grupos/actions"
+                ]
+            ],
+        ]);
+    }
+
+    function adicionar($id_ativo_externo_grupo=null) {
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 11, 'adicionar'));
 
         $data['mode'] = "insert";
@@ -100,7 +188,6 @@ class Ativo_externo  extends MY_Controller {
         $this->get_template('index_form', $data);
     }
 
-
     function certificado_de_calibracao($id_ativo_externo, $id_certificado = null){
         $template = "index_certificado_de_calibracao";
         $data = array_merge($this->anexo_model->getData('ativo_externo', $id_ativo_externo, 'certificado_de_calibracao'), [
@@ -113,7 +200,6 @@ class Ativo_externo  extends MY_Controller {
         if ($id_certificado && $id_certificado != 'adicionar') $data['certificado'] = $this->ativo_externo_model->get_certificado_de_calibracao($id_ativo_externo, $id_certificado);
     	$this->get_template($template, $data);
     }
-
 
     function certificado_de_calibracao_salvar($id_ativo_externo){
         $ativo = $this->ativo_externo_model->get_ativo($id_ativo_externo);
@@ -198,7 +284,6 @@ class Ativo_externo  extends MY_Controller {
         return;
     }
 
-
     function editar_grupo($id_ativo_externo_grupo){
         $data['estados'] = $this->get_estados();
         $data['obra'] = $this->ativo_externo_model->get_obra();
@@ -223,7 +308,7 @@ class Ativo_externo  extends MY_Controller {
             $this->get_template('index_form', $data);
             return;
         }
-        echo redirect(base_url("ativo_externo#lista2")); 
+        echo redirect(base_url("ativo_externo")); 
     }
 
     function editar_items($id_ativo_externo_kit){
@@ -250,9 +335,8 @@ class Ativo_externo  extends MY_Controller {
         $this->db->where('id_ativo_externo_kit', $id_ativo_externo_kit)
                 ->where('id_ativo_externo_item', $id_ativo_externo_item)
                 ->delete('ativo_externo_kit');
-        echo redirect(base_url("ativo_externo/editar_items/{$id_ativo_externo_kit}")); 
+        echo redirect(base_url("ativo_externo/editar_items/{$id_ativo_externo_kit}"));
     }
-
 
     function salvar(){
         $mode = $this->input->post('mode');
@@ -334,7 +418,6 @@ class Ativo_externo  extends MY_Controller {
         echo redirect(base_url("ativo_externo"));
     }
 
-
     function salvar_grupo(){
         $items = [];
         $mode = $this->input->post('mode');
@@ -412,11 +495,11 @@ class Ativo_externo  extends MY_Controller {
 
                 $this->session->set_flashdata('msg_success', "Novo{$s} registro{$s} inserido{$s} com sucesso!");
             }
-            echo redirect(base_url("ativo_externo#lista2"));
+            redirect(base_url("ativo_externo"));
         }
 
         $this->session->set_flashdata('msg_erro', "Grupo não encontrado!");
-        echo redirect(base_url("ativo_externo"));
+        redirect(base_url("ativo_externo"));
     }
 
     function descartar($id_ativo_externo){

@@ -11,7 +11,7 @@ class usuario_model extends MY_Model {
 		$this->db->where('usuario', $data['usuario']);
 		$usuario = $this->db->get('usuario')->row();
 
-		if($data['id_usuario'] === null){
+		if(!isset($data['id_usuario']) || $data['id_usuario'] === null){
 			$data['data_criacao'] = date('Y-m-d H:i:s', strtotime('now'));
 			if ($usuario) {
 				return "salvar_error";
@@ -23,25 +23,25 @@ class usuario_model extends MY_Model {
 				$this->usuario_model->solicitar_confirmacao_email($this->db->insert_id(), "email_bem_vindo");
 			}
 			return "salvar_ok";
-		} else {
-			$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
-			if ($this->user->id_usuario != $data['id_usuario'] && $this->user->nivel == 2) {
-				return "salvar_error";
-			}
-			
-			if (isset($data['email']) && (strtolower($usuario->email) != strtolower($data['email']))) {
-				$data['email_confirmado_em'] = null;
-				$data['codigo_recuperacao'] = null;
-			}
+		} 
 
-			$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
-			$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
-
-			if ($usuario->email && (!$usuario->email_confirmado_em && !$usuario->codigo_recuperacao)) {
-				$this->usuario_model->solicitar_confirmacao_email($usuario->id_usuario, "email_confirmacao");
-			}
-			return "salvar_ok";
+		$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
+		if ($this->user->id_usuario != $data['id_usuario'] && $this->user->nivel == 2) {
+			return "salvar_error";
 		}
+		
+		if (isset($data['email']) && (strtolower($usuario->email) != strtolower($data['email']))) {
+			$data['email_confirmado_em'] = null;
+			$data['codigo_recuperacao'] = null;
+		}
+
+		$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
+		$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
+		if ($usuario->email && (!$usuario->email_confirmado_em && !$usuario->codigo_recuperacao)) {
+			$this->usuario_model->solicitar_confirmacao_email($usuario->id_usuario, "email_confirmacao");
+		}
+		return "salvar_ok";
+		
 	}
 
 	public function verificaSenha($senha, $confirmar_senha) {
@@ -60,33 +60,30 @@ class usuario_model extends MY_Model {
         return null;
     }
 
+	public function query() : \CI_DB_mysqli_driver
+	{
+		$usuario = $this->db
+			->from('usuario')
+			->select('usuario.*')
+			->group_by('usuario.id_usuario');
+
+		$this->join_empresa($usuario, 'usuario.id_empresa');
+		$this->join_obra($usuario, 'usuario.id_obra');
+		$this->join_usuario_nivel($usuario, 'usuario.nivel');
+
+		return $usuario;
+	}
+
 	public function gerar_codigo(){
 		$codigo = rand(100001, 999999);
-		while($this->usuario()->where('codigo_recuperacao', $codigo)->get()->num_rows() > 0){
+		while($this->query()->where('codigo_recuperacao', $codigo)->get()->num_rows() > 0){
 			$codigo = rand(100001, 999999);
 		}
 		return $codigo;
 	}
 
-	public function usuario(){
-		$usuario = $this->db
-			->from('usuario')
-			->select(
-				'usuario.*'
-			)
-			->select('ob.codigo_obra, ob.id_obra')
-			->select('ep.razao_social as empresa_razao, ep.razao_social, ep.nome_fantasia as empresa, ep.nome_fantasia') 
-			->select('un.nivel as nivel_nome, un.id_usuario_nivel as nivel')
-			->join("empresa ep", "ep.id_empresa=usuario.id_empresa", "left")
-			->join("obra ob", "ob.id_obra=usuario.id_obra", "left")
-			->join("usuario_nivel un", "un.id_usuario_nivel=usuario.nivel", "left")
-			->group_by('usuario.id_usuario')
-			->order_by('usuario.usuario', 'ASC');
-		return $usuario;
-	}
-
 	public function get_lista($id_empresa = null, $id_obra = null, $situacao = null){
-		$lista = $this->usuario();
+		$lista = $this->query();
 
 		if ($id_empresa) {
 			$$lista->where("usuario.id_empresa = {$id_empresa}");
@@ -110,7 +107,7 @@ class usuario_model extends MY_Model {
 							}
 
 	public function get_usuario($id=null, $includes_pass = false){
-		$usuario = $this->usuario()
+		$usuario = $this->query()
 					->where('id_usuario', $id)
 					->get()->row();
 		if ($includes_pass == false) {
@@ -120,7 +117,7 @@ class usuario_model extends MY_Model {
 	}
 
 	public function get_usuario_email($email, $includes_pass = false){
-		$usuario = $this->usuario()->where("email = '{$email}'")->get()->row();
+		$usuario = $this->query()->where("email = '{$email}'")->get()->row();
 		if ($includes_pass == false) {
 			unset($usuario->senha);
 		}
@@ -129,7 +126,7 @@ class usuario_model extends MY_Model {
 
 	public function get_usuario_codigo($codigo_recuperacao, $includes_pass = false){
 		$now = date('Y-m-d H:i:s');
-		$usuario = $this->usuario()
+		$usuario = $this->query()
 			->where('codigo_recuperacao', $codigo_recuperacao)
 			->where("codigo_recuperacao_validade >= '$now'")
 			->get()->row();
@@ -141,7 +138,7 @@ class usuario_model extends MY_Model {
 	}
 
 	public function exists_email($email, $id = null){
-		$usuario = $this->usuario()->where("email = '{$email}'");
+		$usuario = $this->query()->where("email = '{$email}'");
 		if ($id) {
 			$usuario->where("id_usuario != $id");
 		} 
@@ -149,7 +146,7 @@ class usuario_model extends MY_Model {
 	}
 
 	public function exists_usuario($usuario, $id = null){
-		$usuario = $this->usuario()->where('usuario', $usuario);
+		$usuario = $this->query()->where('usuario', $usuario);
 		if ($id) {
 			$usuario->where("id_usuario != $id");
 		} 

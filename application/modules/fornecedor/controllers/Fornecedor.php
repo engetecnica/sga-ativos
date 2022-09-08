@@ -12,14 +12,46 @@ class fornecedor  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('fornecedor_model');   
+        $this->model = $this->fornecedor_model;
     }
 
-    function index($subitem=null) {
+    function index() {
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_fornecedor,
+                                'link' => base_url('fornecedor')."/editar/{$row->id_fornecedor}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "razao_social_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->razao_social,
+                                'link' => base_url('fornecedor')."/editar/{$row->id_fornecedor}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index_datatable/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index_datatable/actions"
+                    ]
+                ]
+            ]);
+        }
 
-        $data['lista'] = $this->fornecedor_model->get_lista();
-
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+        $this->get_template('index');
     }
 
     function adicionar(){

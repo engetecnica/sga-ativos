@@ -16,35 +16,43 @@ class Ferramental_estoque  extends MY_Controller {
             $this->load->model('empresa/empresa_model'); 
             $this->load->model('ativo_externo/ativo_externo_model');
             $this->load->model('ferramental_requisicao/ferramental_requisicao_model');
-            $this->load->model('funcionario/funcionario_model');   
+            $this->load->model('funcionario/funcionario_model');
+            $this->model = $this->ferramental_estoque_model; 
         }
     }
 
     function index() {
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "query_args" => [$this->user->id_obra],
+                "templates" => [
+                    [
+                        "name" => "id_retirada_html",
+                        "view" => "index/id_retirada",
+                    ],
+                    [
+                        "name" => "status_html",
+                        "view" => "index/status"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index/actions"
+                    ]
+                ],
+                "after" => function(object &$row) {
+                    $row->data_inclusao = date("d/m/Y H:i:s", strtotime($row->data_inclusao));
+                    $row->devolucao_prevista = date("d/m/Y H:i:s", strtotime($row->devolucao_prevista));
+                }
+            ]);
+        }
         $this->get_template('index');
     }
 
-    function paginate(){
-        $this->json(
-            $this->ferramental_estoque_model->paginate(
-                $this->ferramental_estoque_model->query_retirada($this->user->id_obra),
-                [
-                    "after" => function($rows){
-                        $permissoes = $this->permissoes;
-                        foreach ($rows as $r => $row) {
-                            $data = ['row' => $row, 'rows' => $rows, 'permissoes' => $permissoes];
-                            $rows[$r]->data_inclusao = date("d/m/Y H:i:s", strtotime($row->data_inclusao));
-                            $rows[$r]->devolucao_prevista = date("d/m/Y H:i:s", strtotime($row->devolucao_prevista));
-                            $rows[$r]->id_retirada_html = $this->load->view("../views/index_datatables_id_retirada", $data, true);
-                            $rows[$r]->status_html = $this->load->view("../views/index_datatables_status", $data, true);
-                            $rows[$r]->actions = $this->load->view("../views/index_datatables_actions", $data, true);
-                        }
-                        return $rows;
-                    }
-                ]
-            )
-        );
-    }
+    protected function paginate_after(object &$row)
+    {
+        // $row->data_inclusao = date("d/m/Y H:i:s", strtotime($row->data_inclusao));
+        // $row->devolucao_prevista = date("d/m/Y H:i:s", strtotime($row->devolucao_prevista));
+    } 
 
     function detalhes($id_retirada) {
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 13, 'visualizar'));
@@ -117,9 +125,7 @@ class Ferramental_estoque  extends MY_Controller {
     function dados_retirada($id_retirada = null) {
         $this->json([
             'id_obra' => $this->user->id_obra,
-            'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null,
-            'funcionarios' => $this->funcionario_model->get_lista($this->user->id_empresa, $this->user->id_obra, 0),
-            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, true),
+            'retirada' => $id_retirada ? $this->ferramental_estoque_model->get_retirada($id_retirada) : null
         ]);
     }
 
@@ -131,8 +137,15 @@ class Ferramental_estoque  extends MY_Controller {
 
         if ($items == 'grupos') {
             $data = $this->ativo_externo_model->search_grupos($this->user->id_obra);
+            $data['templates'] = [
+                [
+                    "name" => "actions",
+                    "view" => "index_form/actions"
+                ]
+            ];  
         }
-        $this->json($data);
+
+        $this->paginate_json((array) $data);
     }
 
     function lista_ativos_grupos_json(){
@@ -597,10 +610,6 @@ class Ferramental_estoque  extends MY_Controller {
 
     public function renovar_retirada($id_retirada)
     {
-  
-
-
-        
         $retirada['retirada'] = $this->ferramental_estoque_model->get_retirada($id_retirada);
 
         if ($retirada['retirada']) {
@@ -611,9 +620,7 @@ class Ferramental_estoque  extends MY_Controller {
         
 
         if($retirada) {
-
-            $this->dd($retirada);
-
+            //
         } else {
             $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
             echo redirect(base_url("ferramental_estoque"));

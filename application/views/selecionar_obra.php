@@ -16,7 +16,7 @@
 </div>
 
 <script>
-    var user = JSON.parse('<?php echo json_encode($user); ?>') || null;
+    var user = JSON.parse(`<?php echo json_encode($user); ?>`) || null;
     var obras = JSON.parse(`<?php 
         if ($user->nivel == 1) {
             echo json_encode($obras);

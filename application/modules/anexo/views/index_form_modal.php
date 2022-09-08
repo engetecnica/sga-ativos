@@ -85,7 +85,7 @@
     </div>
 </div>
 
-<script>
+<script>    
 var anexo_form = new Vue({
     el: "#anexo_form",
     data() {

@@ -12,29 +12,63 @@ class Obra  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('obra_model');
-
-        $this->get_modulo_permission();
-
+        $this->model = $this->obra_model;
+        $this->base = $this->get_obra_base();
     }
 
     function index() {
-        $data['lista'] = $this->obra_model->get_obras();
-        $this->get_template('index', $data);
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_obra,
+                                'link' => base_url('obra')."/editar/{$row->id_obra}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "codigo_obra_link",
+                        "view" => "index_datatable/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->codigo_obra,
+                                'link' => base_url('obra')."/editar/{$row->id_obra}", 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index_datatable/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index_datatable/actions"
+                    ]
+                ]
+            ]);
+        }
+
+        $this->get_template('index');
+    }
+
+    protected function paginate_after(object &$row)
+    {
+        $row->obra_base_html = $row->obra_base == 1 ? 'SIM' : 'NÃO';
     }
 
     function adicionar(){
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'adicionar'));
-
         $data['empresas'] = $this->obra_model->get_empresas();
         $data['estados'] = $this->get_estados();
     	$this->get_template('index_form', $data);
     }
 
     function editar($id_obra=null){
-
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'editar'));
-
         $data['empresas'] = $this->obra_model->get_empresas();
         $data['detalhes'] = $this->obra_model->get_obra($id_obra);
         $data['estados'] = $this->get_estados();
@@ -61,18 +95,15 @@ class Obra  extends MY_Controller {
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
         $data['obra_base'] = $this->input->post('obra_base');
-       
-        if ((int)$data['obra_base'] === 1){
-            $this->obra_model->set_obra_base($data['id_obra']);
-        }
 
-        $obra = null; $obra_exists = $this->obra_model->obra_exists($data['codigo_obra']);
+        $obra = null; 
+        $codigo_obra_exists = $this->obra_model->obra_exists($data['codigo_obra']);
         if ($data['id_obra'] != '') {
             $obra = $this->obra_model->get_obra($data['id_obra']);
         }
 
-        if (($obra == null && $obra_exists) || 
-            $obra != null && ((strtolower($obra->codigo_obra) != strtolower($data['codigo_obra'])) && $obra_exists) ) {
+        if (($obra == null && $codigo_obra_exists) || 
+            $obra != null && ((strtolower($obra->codigo_obra) != strtolower($data['codigo_obra'])) && $codigo_obra_exists) ) {
             $this->session->set_flashdata('msg_erro', "Já existe uma obra com o código informado!");
             
             if ($obra == null) {
@@ -96,8 +127,6 @@ class Obra  extends MY_Controller {
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 6, 'excluir'));
         return $this->db->where('id_obra', $id)->delete('obra');
     }
-
 }
-
 /* End of file Site.php */
 /* Location: ./application/modules/site/controllers/site.php */

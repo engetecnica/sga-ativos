@@ -18,100 +18,10 @@
                 <div class="col-lg-12">
                     <h2 class="title-1 m-b-25">Obras</h2>
                     <div class="table-responsive table--no-card m-b-40">
-                        <table class="table table-borderless table-striped table-earning" id="lista">
-                            <thead>
-                                <tr>
-                                    <th width="7%">Id</th>
-                                    <th>Código da Obra</th>
-                                    <th>Empresa</th>
-                                    <th>Razão Social</th>
-                                    <th>CNPJ</th>
-                                    <th>Responsável</th>
-                                    <th>E-mail</th>
-                                    <th>Celular</th>
-                                    <th>Situação</th>
-                                    <th>Obra Base</th>
-                                    <th class="text-right">Gerenciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($lista as $valor){ ?>
-                                <tr id="<?php echo $valor->id_obra; ?>">
-                                    <td>
-                                        <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
-                                            <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
-                                                <?php echo $valor->id_obra; ?>
-                                            </a>
-                                        <?php } else { ?>
-                                            <?php echo $valor->id_obra; ?>
-                                        <?php } ?>                                        
-                                    </td>
-                                    <td>
-                                        <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
-                                            <a href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>">
-                                                <?php echo $valor->codigo_obra; ?>
-                                            </a>
-                                        <?php } else { ?>
-                                            <?php echo $valor->codigo_obra; ?>
-                                        <?php } ?>
-                                    </td>
-                                    <td><?php echo $valor->empresa; ?></td>
-                                    <td><?php echo $valor->obra_razaosocial ?: '-'; ?></td>
-                                    <td><?php echo $valor->obra_cnpj ?: '-'; ?></td>
-                                    <td><?php echo $valor->responsavel; ?></td>
-                                    <td><?php echo $valor->responsavel_email; ?></td>
-                                    <td><?php echo $valor->responsavel_celular; ?></td>
-                                    <td>
-                                      <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
-                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
-                                    </td>
-                                    <td><?php echo $this->get_obra_base($valor->obra_base); ?></td>
-                                    <td class="text-right">
-                                        <?php if($this->permitido($permissoes, 6, 'editar') || $this->permitido($permissoes, 6, 'excluir')){ ?>
-                                        <div class="btn-group">
-                                            <button 
-                                                class="btn btn-secondary btn-sm dropdown-toggle" 
-                                                type="button"
-                                                data-toggle="dropdown" 
-                                                aria-haspopup="true" 
-                                                aria-expanded="false"
-                                            >
-                                                Gerenciar
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <?php if($this->permitido($permissoes, 6, 'editar')){ ?>
-                                                    <a class="dropdown-item " href="<?php echo base_url('obra'); ?>/editar/<?php echo $valor->id_obra; ?>"><i class="fas fa-edit"></i> Editar</a>
-                                                <?php } ?>
-
-                                                <?php if (!$valor->obra_base) { ?>
-                                                    <?php if($this->permitido($permissoes, 6, 'excluir')){ ?>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a 
-                                                            class="dropdown-item  deletar_registro" 
-                                                            href="javascript:void(0)" 
-                                                            data-href="<?php echo base_url('obra'); ?>/deletar/<?php echo $valor->id_obra; ?>" 
-                                                            data-registro="<?php echo $valor->id_obra;?>" 
-                                                            data-tabela="obra"
-                                                        >
-                                                        <i class="fas fa-trash"></i> Excluir</a>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                        <?php } else {  echo "-"; } ?>
-                                    </td>
-                                </tr>
-                               <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
+                        <table 
+                            class="table table-borderless table-striped table-earning" 
+                            id="lista"
+                        ></table>
                     </div>
                 </div>
             </div>
@@ -120,3 +30,113 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+<script>
+    const data_table_columns = [
+        {
+            title: 'ID',
+            name: 'id_obra',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.id_link
+            }
+        },
+        { 
+            title: 'Código Da Obra' ,
+            name: 'codigo_obra',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.codigo_obra_link
+            }
+        },
+        { 
+            title: 'Empresa' ,
+            name: 'ep.razao_social',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.empresa
+            }
+        },
+        { 
+            title: 'Razão Social' ,
+            name: 'obra_razaosocial',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.obra_razaosocial
+            }
+        },
+        { 
+            title: 'CNPJ' ,
+            name: 'obra_cnpj',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.obra_cnpj
+            }
+        },
+        { 
+            title: 'Responsável' ,
+            name: 'obra.responsavel',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel
+            }
+        },
+        { 
+            title: 'Email' ,
+            name: 'obra.responsavel_email',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel_email
+            }
+        },
+        { 
+            title: 'Celular' ,
+            name: 'obra.responsavel_celular',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.responsavel_celular
+            }
+        },
+        { 
+            title: 'Obra Base' ,
+            name: 'obra_base',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.obra_base_html
+            }
+        },
+        { 
+            title: 'Situação',
+            sortable: true,
+            searchable: true,
+            name: 'obra.situacao',
+            render: function(value, type, row, settings){
+                return row.situacao_html
+            }
+        },
+        { 
+            title: 'Gerenciar' ,
+            render(value, type, row, settings){
+                return row.actions
+            },
+        },
+    ]
+
+    const options = {
+        columns: data_table_columns,
+        url: `obra`,
+        method: 'post',
+        order: [1, 'desc'],
+    }
+
+    $(window).ready(() => loadDataTable('obra_index', options))
+    $(window).resize(() => loadDataTable('obra_index', options))
+</script>
