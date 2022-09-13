@@ -504,7 +504,7 @@ class MY_Controller extends MX_Controller {
     ) {
         if($orders) {
             foreach ($orders as $order) {  
-                if(isset($columns[$order['column']]) && $columns[$order['column']]['orderable']) {
+                if(isset($order['column']) && isset($columns[$order['column']]) && $columns[$order['column']]['orderable']) {
                     $datas = [];
                     if(isset($columns[$order['column']]['data'])) {
                         $datas = array_merge($datas, [$columns[$order['column']]['data']]);

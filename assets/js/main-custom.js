@@ -312,7 +312,6 @@ const mainCustomReady = function () {
         }
     })
 
-
     $(window).on('hashchange load', function (e) {
         setTimeout(() => {
             adjustAnchor(e);

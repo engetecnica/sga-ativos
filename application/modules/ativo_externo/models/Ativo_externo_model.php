@@ -83,10 +83,13 @@ class Ativo_externo_model extends MY_Model {
 	}
 
 
-	public function get_ativos($id_obra=null, $situacao=null, $filter=null){
-		if($filter){
-			$item = $filter['item'];
-			$calibracao = ($filter['calibracao']=='sem-filtro') ? null : (($filter['calibracao']=='sim') ? '1' : '0');
+	public function get_ativos($id_obra=null, $situacao=null, $filters=null){
+		$calibracao = null;
+		$item = null;
+
+		if($filters){
+			$item = $filters['item'];
+			$calibracao = ($filters['calibracao'] == 'sem-filtro') ? null : $filters['calibracao'];
 		}
 
 		$ativos = $this->ativos(false)
@@ -161,12 +164,24 @@ class Ativo_externo_model extends MY_Model {
 		return $query;
 	}
 
-	public function get_grupos($id_obra = null){
+	public function get_grupos($id_obra = null, $filters = null){
+		$calibracao = null;
+		$item = null;
+
+		if($filters){
+			$item = $filters['item'];
+			$calibracao = ($filters['calibracao'] == 'sem-filtro') ? null : $filters['calibracao'];
+		}
+		
 		$grupos = $this->ativos();
 		$this->count_estoque_query($grupos, 'atv.id_ativo_externo_grupo', $id_obra);
 
 		if ($id_obra){
 			$grupos->where("atv.id_obra = {$id_obra}");
+		}
+
+		if(isset($calibracao)){
+			$grupos->where('atv.necessita_calibracao', $calibracao);
 		}
 
 		$grupos = $grupos

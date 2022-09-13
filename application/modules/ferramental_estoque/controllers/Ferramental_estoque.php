@@ -145,7 +145,8 @@ class Ferramental_estoque  extends MY_Controller {
             ];  
         }
 
-        $this->paginate_json((array) $data);
+        //$this->dd($data);
+        $this->paginate_json($data);
     }
 
     function lista_ativos_grupos_json(){

@@ -21,35 +21,22 @@ class Ativo_externo extends MY_Controller {
     }
 
     function index($subitem = null) {
-        if ($subitem === 'ativos') return $this->index_paginate();
-        if ($subitem === 'grupos') return $this->grupos_paginate();
+        // ativo externo datatables
+        // if ($subitem === 'ativos') return $this->index_paginate();
+        // if ($subitem === 'grupos') return $this->grupos_paginate();
         $this->get_template('index', $this->index_data());
     }
 
     private function index_data() {
-        /* Get filters URL */
-        $filter = $this->input->get('filter_items');
-
-        if($filter){
-            $filter = explode("/", $filter);
-            if(is_array($filter)){
-                $filter = array(
-                    'item' => $filter[1],
-                    'calibracao' => $filter[3]
-                );
-            } else {
-                $filter = array(
-                    'item' => "null",
-                    'calibracao' => 'sem-filtro'
-                );
-            }
-        }
-
+        $filters = [
+            'item' => $this->input->get('filter_item') ?? 'sem-filtro',
+            'calibracao' => $this->input->get('filter_necessita_calibracao') ?? 'sem-filtro',
+        ];
         return [
-            'calibracao' => (isset($filter['calibracao'])) ? $filter['calibracao'] : null,
+            'calibracao' => (isset($filters['calibracao'])) ? $filters['calibracao'] : 'sem-filtro',
             'obras' => $this->obra_model->get_obras(),
-            'lista' => $this->ativo_externo_model->get_ativos($this->user->id_obra, "", $filter), //@todo remove
-            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra),  //@todo remove
+            'lista' => $this->ativo_externo_model->get_ativos($this->user->id_obra, null, $filters), //@todo remove to ativo externo datatables
+            'grupos' => $this->ativo_externo_model->get_grupos($this->user->id_obra, $filters),  //@todo remove to ativo externo datatables
             'status_lista' => $this->ferramental_requisicao_model->get_requisicao_status(),
         ];
     }

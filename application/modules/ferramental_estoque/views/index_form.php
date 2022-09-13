@@ -67,7 +67,7 @@
                                 <h3 class="title-2 m-b-20 m-t-25">Itens da Retirada</h3>
                                 <!-- Buscar itens da Retirada -->
                                 <table 
-                                    class="table table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" 
+                                    class="table table-responsive-md table--no-card table-borderless table-striped table-earning m-b-25" 
                                     :id="data_table_id"
                                 >
                                 </table>
@@ -77,7 +77,7 @@
                                 <input type="hidden" id="id_funcionario" name="id_funcionario" :value="id_funcionario" />
                                 <input type="hidden" id="solicitar_autorizacao" name="solicitar_autorizacao" :value="solicitar_autorizacao">
                              
-                                <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" :id="data_table_id">
+                                <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" >
                                     <thead>
                                         <tr>
                                             <th scope="col" width="60%">Nome</th>
@@ -402,6 +402,7 @@
                         data.retirada.items.forEach((item) => estoque.addItem(item))
                         return
                     }
+                    estoque.selecionaFuncionario()
                 })
             },
             loadDataTable(){
