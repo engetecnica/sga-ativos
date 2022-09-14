@@ -48,12 +48,6 @@ class Ferramental_estoque  extends MY_Controller {
         $this->get_template('index');
     }
 
-    protected function paginate_after(object &$row)
-    {
-        // $row->data_inclusao = date("d/m/Y H:i:s", strtotime($row->data_inclusao));
-        // $row->devolucao_prevista = date("d/m/Y H:i:s", strtotime($row->devolucao_prevista));
-    } 
-
     function detalhes($id_retirada) {
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 13, 'visualizar'));
 
@@ -131,8 +125,9 @@ class Ferramental_estoque  extends MY_Controller {
 
     function buscar($items = null) {
         $data = [];
+        $id_obra = $this->user->nivel == 2 ? $this->user->id_obra : null;
         if ($items == 'funcionarios') {
-            $data = $this->funcionario_model->search_funcionarios($this->user->id_empresa, $this->user->id_obra);
+            $data = $this->funcionario_model->search_funcionarios($this->user->id_empresa, $id_obra);
         }
 
         if ($items == 'grupos') {
@@ -142,10 +137,9 @@ class Ferramental_estoque  extends MY_Controller {
                     "name" => "actions",
                     "view" => "index_form/actions"
                 ]
-            ];  
+            ];
+            $data['table'] = 'atv';  
         }
-
-        //$this->dd($data);
         $this->paginate_json($data);
     }
 

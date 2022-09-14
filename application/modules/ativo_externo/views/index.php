@@ -40,7 +40,7 @@
                 <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
                         <h3 class="title-1 m-b-25">Grupos</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista2">
+                        <table class="table table-borderless table-striped table-earning" id="ativo_externo_grupos_index">
                             <thead>
                                 <tr>
                                     <th>GID</th>
@@ -108,7 +108,7 @@
                 <div class="col-lg-12">
                     <div class="table-responsive table--no-card m-b-40">
                         <h3 class="title-1 m-b-25">Itens</h3>
-                        <table class="table table-borderless table-striped table-earning" id="lista">
+                        <table class="table table-borderless table-striped table-earning" id="ativo_externo_ativos_index">
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -258,5 +258,19 @@
             const form = $(e.target.parentNode.parentNode.parentElement)
             form.submit()
         })
+    })
+
+    const options = {
+        serverSide: false,
+        searchable: true,
+    }
+
+    $(window).ready(() => {
+        loadDataTable('ativo_externo_grupos_index', options)
+        loadDataTable('ativo_externo_ativos_index', options)
+    })
+    $(window).resize(() => {
+        loadDataTable('ativo_externo_grupos_index', options)
+        loadDataTable('ativo_externo_ativos_index', options)
     })
 </script>

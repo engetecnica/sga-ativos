@@ -136,30 +136,30 @@ class Ativo_externo_model extends MY_Model {
 	    return $this->db->select('codigo')->order_by('id_ativo_externo','DESC')->limit(1)->get('ativo_externo')->row();
 	}
 
-
 	private function count_estoque_query(
 		\CI_DB_mysqli_driver &$query, 
 		string $id_col,
 		int $id_obra = null
 	) : ?\CI_DB_mysqli_driver {
 		$wheres = [
-			"total" => '1',
+			"total" => 'data_inclusao IS NOT NULL',
 			"estoque" => 'situacao = 12',
-			"liberado" => 'situacao = 2',
-			"recebido" => 'situacao = 4',
-			"emoperacao" => 'situacao = 5',
-			"transito" => 'situacao = 6',
-			"transferido" => 'situacao = 7',
-			"comdefeito" => 'situacao = 8',
+			// "liberado" => 'situacao = 2',
+			// "recebido" => 'situacao = 4',
+			// "emoperacao" => 'situacao = 5',
+			// "transito" => 'situacao = 6',
+			// "transferido" => 'situacao = 7',
+			// "comdefeito" => 'situacao = 8',
 			"foradeoperacao" => 'situacao = 10',
-			"ativos" => 'data_descarte IS NULL',
-			"inativos" => 'data_descarte IS NOT NULL',
+			// "ativos" => 'data_descarte IS NULL',
+			// "inativos" => 'data_descarte IS NOT NULL',
 		];
 
 		foreach($wheres as $key => $where) {
+			if ($where) $where = "where {$where}";
 			if ($id_obra) $where .= " and id_obra = {$id_obra}";
 			$where .= " and id_ativo_externo_grupo = {$id_col}";
-			$query->select("(select COUNT(id_ativo_externo) from ativo_externo where {$where}) as {$key}");
+			$query->select("(select COUNT(id_ativo_externo) from ativo_externo {$where}) as {$key}");
 		}
 		return $query;
 	}

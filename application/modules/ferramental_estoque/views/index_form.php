@@ -41,13 +41,13 @@
                                     <tbody>
                                         <tr>
                                             <td>
+                                                <!--@search="buscarFuncionario($event ? $event : null)"-->
                                                 <v-select 
                                                     class="select form-control col-12"
                                                     :value="funcionario_seleted_value"
                                                     :options="funcionarios_filted"
                                                     :no-options="'Buscar funcionário via Nome ou Matrícula'"
                                                     @input="selecionaFuncionario($event ? $event.value : null)"
-                                                    @search="buscarFuncionario($event ? $event : null)"
                                                 >
                                                     <template v-slot:no-options="{ search, searching }">
                                                         <template v-if="searching">
@@ -59,7 +59,7 @@
                                             </td>
                                             <td>{{funcionario_seleted ? funcionario_seleted.cpf : '-'}}</td>
                                             <td>{{funcionario_seleted ? funcionario_seleted.rg : '-'}}</td>
-                                            <td>{{funcionario_seleted && !funcionario_seleted.permit_retirada ? 'Sim' : 'Não'}}</td>
+                                            <td>{{funcionario_seleted && !permit_retirada ? 'Sim' : 'Não'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -210,6 +210,7 @@
             return {
                 grupos: [],
                 grupos_selecionados: [],
+                permit_retirada: true,
                 funcionarios: [],
                 retirada: null,
                 id_obra: null,
@@ -263,30 +264,26 @@
             },
             selecionaFuncionario(id_funcionario = null, solilicitar = true){
                 if(id_funcionario && this.id_funcionario != id_funcionario) {
-                    this.id_funcionario = id_funcionario
-                    return this.listaRetiradasFuncionario(id_funcionario, solilicitar)
+                    this.listaRetiradasFuncionario(id_funcionario, true)
                 }
-                this.id_funcionario = id_funcionario
+
                 this.solicitar_autorizacao = false
                 this.retiradas = []
             },
             buscarFuncionario(search = null){
-                if(search) {
-                    window.$.ajax({
-                        method: "GET",
-                        url: `${base_url}ferramental_estoque/buscar/funcionarios`,
-                        data: {
-                            search: search,
-                            page: 1,
-                            per_page: 1000,
-                        },
-                        async: true
-                    })
-                    .done(function(response) {
-                        estoque.funcionarios = response.data
-                        estoque.funcionarios.forEach(f => estoque.listaRetiradasFuncionario(f.id_funcionario, false))
-                    });
-                }
+                window.$.ajax({
+                    method: "GET",
+                    url: `${base_url}ferramental_estoque/buscar/funcionarios`,
+                    data: {
+                        search: search,
+                        start: 0,
+                        length: 1000,
+                    },
+                    async: true
+                })
+                .done(function(response) {
+                    estoque.funcionarios = response.data
+                });
             },
             addItem(item){
                 if (typeof item !== 'object') item = this.grupos.find(i => i.id_ativo_externo_grupo == item)
@@ -317,68 +314,75 @@
                 if (!this.retirada || !item.id_retirada_item) this.grupos_selecionados.splice(index, 1)
             },
             listaRetiradasFuncionario(id_funcionario, solilicitar = true){
-                window.$.ajax({
-                    method: "GET",
-                    url: `${base_url}ferramental_estoque/lista_retiradas/${estoque.id_obra}/${id_funcionario}`,
-                    data: {
-                        status: [1, 2, 4, 14] //in status
-                    }
-                })
-                .done(function(lista) {
-                    const retiradas = Object.values(JSON.parse(lista) || [])
-                    .filter(r => (new Date(r.devolucao_prevista)).getTime() < (new Date()).getTime())
-
-                    if (estoque.funcionarios.length) {
-                        const index_funcionario = estoque?.funcionarios.findIndex(f => f.id_funcionario == id_funcionario) 
-
-                        if(index_funcionario >= 0) {
-                            const span = retiradas.length == 0  ? '' : ` - Bloqueado Para Retirada` 
-                            estoque.funcionarios[index_funcionario] = Object.assign(
-                                estoque.funcionarios[index_funcionario],
-                                {
-                                    nome: estoque.funcionarios[index_funcionario].nome += span,
-                                    permit_retirada: retiradas.length === 0,
-                                    retiradas: retiradas,
-                                }
-                            )
+                if(solilicitar) {
+                    return window.$.ajax({
+                        method: "GET",
+                        url: `${base_url}ferramental_estoque/lista_retiradas/${estoque.id_obra}/${id_funcionario}`,
+                        data: {
+                            status: [1, 2, 4, 14] //in status
                         }
+                    })
+                    .done(function(lista) {
+                        const retiradas = Object.values(JSON.parse(lista) || [])
+                        .filter(r => (new Date(r.devolucao_prevista)).getTime() < (new Date()).getTime())
 
-                    }
+                        if (estoque.funcionarios.length) {
+                            const index_funcionario = estoque?.funcionarios.findIndex(f => f.id_funcionario == id_funcionario) 
 
-                    if (retiradas.length > 0 && solilicitar === false) {
-                        this.swal_is_open = false
-                        estoque.solicitar_autorizacao = false
-                        return
-                    }
-
-                    const isConfirmed = false
-                    const msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
-    
-                    if ((retiradas.length > 0 && solilicitar) && !this.swal_is_open) {
-                        this.swal_is_open = true
-                        Swal.fire({
-                            title: 'Funcionário Bloqueado!',
-                            text: `Existe retirada pendênte no sistema para o funcionário selecionado. ${msg}`,
-                            icon: 'warning',
-                            confirmButtonText: 'Sim, Continuar!',
-                            showConfirmButton: true,
-                            cancelButtonText: 'Não',
-                            showCancelButton: true
-                        })
-                        .then((confirm) => {
-                            this.swal_is_open = false
-                            if (confirm.isConfirmed) {
-                                estoque.solicitar_autorizacao = true
-                                estoque.permite_form = true
-                                return 
+                            if(index_funcionario >= 0) {
+                                const span = retiradas.length == 0  ? '' : ` - Bloqueado Para Retirada` 
+                                estoque.funcionarios[index_funcionario] = Object.assign(
+                                    estoque.funcionarios[index_funcionario],
+                                    {
+                                        nome: estoque.funcionarios[index_funcionario].nome += span,
+                                        permit_retirada: retiradas.length === 0,
+                                        retiradas: retiradas,
+                                    }
+                                )
                             }
 
-                            estoque.id_funcionario = null
+                        }
+
+                        if (retiradas.length > 0 && solilicitar === false) {
+                            this.swal_is_open = false
                             estoque.solicitar_autorizacao = false
-                            estoque.permite_form = false
-                        })
-                    }
-                });
+                            return
+                        }
+
+                        const isConfirmed = false
+                        const msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
+        
+                        if ((retiradas.length > 0 && solilicitar) && !this.swal_is_open) {
+                            this.swal_is_open = true
+                            this.permit_retirada = false
+                            return Swal.fire({
+                                title: 'Funcionário Bloqueado!',
+                                text: `Existe retirada pendênte no sistema para o funcionário selecionado. ${msg}`,
+                                icon: 'warning',
+                                confirmButtonText: 'Sim, Continuar!',
+                                showConfirmButton: true,
+                                cancelButtonText: 'Não',
+                                showCancelButton: true
+                            })
+                            .then((confirm) => {
+                                this.swal_is_open = false
+                                if (confirm.isConfirmed) {
+                                    estoque.id_funcionario = id_funcionario
+                                    estoque.solicitar_autorizacao = true
+                                    estoque.permite_form = true
+                                    return 
+                                }
+
+                                estoque.id_funcionario = null
+                                estoque.solicitar_autorizacao = false
+                                estoque.permite_form = false
+                            })
+                        }
+                        this.permit_retirada = true
+                    });
+                }
+
+                this.id_funcionario = id_funcionario
             },
             getDadosRetirada(id_retirada = null){
                 let url = `${base_url}ferramental_estoque/dados_retirada`
@@ -402,7 +406,7 @@
                         data.retirada.items.forEach((item) => estoque.addItem(item))
                         return
                     }
-                    estoque.selecionaFuncionario()
+                    estoque.buscarFuncionario()
                 })
             },
             loadDataTable(){

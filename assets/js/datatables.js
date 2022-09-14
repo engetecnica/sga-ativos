@@ -97,6 +97,9 @@ function getDataTableDefaultOptions(options = {}){
        options
     )
 
+    options.columnDefs[0].searchable = options?.searchable
+    options.columnDefs[0].sortable = options?.sortable
+
     if (options.url) {
         options.serverSide = true
         options.ajax = (data, callback, settings) => ajaxDataTable(data, callback, settings, options)
@@ -105,10 +108,14 @@ function getDataTableDefaultOptions(options = {}){
     return options
 }
 
-
 function loadDataTable(data_table_id, options = {}){
     options.data_table_id = data_table_id
     return $(`table#${data_table_id}`)?.DataTable(getDataTableDefaultOptions(options))
+}
+
+function loadDataTableDefault(data_table_id, options = {}){
+    options.data_table_id = data_table_id
+    return $(`table#${data_table_id}`)?.DataTable(options)
 }
 
 $(document).ready(function() {

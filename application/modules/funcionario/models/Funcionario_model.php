@@ -68,8 +68,8 @@ class funcionario_model extends MY_Model {
 	public function search_funcionarios($id_empresa = null, $id_obra = null, $search = null)
 	{
 		$funcionarios = $this->query($id_empresa, $id_obra);
-		
-		if($search = $this->input->get('search', null)) {
+
+		if($search = $this->input->get('search') ?? $search) {
 			$funcionarios->like("fn.id_funcionario", $search)
 				->or_like("fn.nome", $search)
 				->or_like("fn.rg", $search)
