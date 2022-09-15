@@ -18,7 +18,7 @@ class Ativo_configuracao_model extends MY_Model {
 												->from('ativo_configuracao ac');
 		if($situacao) {
 			if (is_array($situacao)) {
-				$lista->where("ac.situacao IN ('".implode(',', $situacao)."')");
+				$lista->where("ac.situacao IN ('".implode(',', $situacao)."')");
 			} else {
 				$lista->where("ac.situacao = {$situacao}");
 			}
@@ -28,6 +28,7 @@ class Ativo_configuracao_model extends MY_Model {
 							->result();
 	}
 
+	//@to-do remove
 	public function get_lista($situacao=null){
 		$lista = $this->db
 				->select('ativo_configuracao.*, ac.titulo as id_ativo_configuracao_vinculo')
@@ -35,7 +36,7 @@ class Ativo_configuracao_model extends MY_Model {
 				
 		if($situacao) {
 			if (is_array($situacao)) {
-				$lista->where("ac.situacao IN ('".implode(',', $situacao)."')");
+				$lista->where("ac.situacao IN ('".implode(',', $situacao)."')");
 			} else {
 				$lista->where("ac.situacao = {$situacao}");
 			}
@@ -43,6 +44,23 @@ class Ativo_configuracao_model extends MY_Model {
 				
 		return $lista->order_by('ativo_configuracao.id_ativo_configuracao', 'desc')
 								->get('ativo_configuracao')->result();
+	}
+
+	public function query($situacao=null){
+		$this->db->reset_query();
+		$query = $this->db
+				->from('ativo_configuracao as configuracao')
+				->select('configuracao.*, ac.titulo as id_ativo_configuracao_vinculo')
+				->join("ativo_configuracao as ac", 'ac.id_ativo_configuracao = configuracao.id_ativo_configuracao_vinculo', "left");
+				
+		if($situacao) {
+			if (is_array($situacao)) {
+				$query->where("ac.situacao IN ('".implode(',', $situacao)."')");
+			} else {
+				$query->where("ac.situacao = {$situacao}");
+			}
+		}	
+		return $query;
 	}
 
 	public function get_ativo_configuracao($id_ativo_configuracao){

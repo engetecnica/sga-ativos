@@ -1,0 +1,1 @@
+<?php echo ($row->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $row->id_ativo_configuracao_vinculo; ?>

@@ -12,12 +12,50 @@ class Ativo_configuracao  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_configuracao_model');
+        $this->model = $this->ativo_configuracao_model;
     }
 
-    function index($subitem=null) {
-        $data['lista'] = $this->ativo_configuracao_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
-        $this->get_template($subitem, $data);
+    function index() {
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "templates" => [
+                    [
+                        "name" => "id_link",
+                        "view" => "index/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->id_ativo_configuracao,
+                                'link' => base_url("ativo_configuracao/editar/{$row->id_ativo_configuracao}"), 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "titulo_link",
+                        "view" => "index/link",
+                        "data" => function($row, $data) {
+                            return  array_merge($data, [
+                                'text' => $row->titulo,
+                                'link' => base_url("ativo_configuracao/editar/{$row->id_ativo_configuracao}"), 
+                            ]);
+                        }
+                    ],
+                    [
+                        "name" => "categoria_html",
+                        "view" => "index/categoria"   
+                    ],
+                    [
+                        "name" => "situacao_html",
+                        "view" => "index/situacao"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index/actions"
+                    ]
+                ]
+            ]);
+        }
+
+        $this->get_template('index');
     }
 
     function adicionar(){
