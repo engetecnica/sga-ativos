@@ -353,6 +353,7 @@
                         const msg = estoque.user.nivel == 1 ? "Deseja continuar e autorizar retirada?" : "Deseja continuar aguardando confirmação de um Administrador?"
         
                         if ((retiradas.length > 0 && solilicitar) && !this.swal_is_open) {
+                            console.log('tem retirada')
                             this.swal_is_open = true
                             this.permit_retirada = false
                             return Swal.fire({
@@ -377,8 +378,11 @@
                                 estoque.solicitar_autorizacao = false
                                 estoque.permite_form = false
                             })
+                            return
                         }
-                        this.permit_retirada = true
+                        
+                        estoque.id_funcionario = id_funcionario
+                        estoque.permit_retirada = true
                     });
                 }
 
