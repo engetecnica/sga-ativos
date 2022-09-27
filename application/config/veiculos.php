@@ -11,6 +11,8 @@ function getMaquinasModelos(){
         [ "nome" => "Rolo Pnemático", "codigo" => 7],
         [ "nome" => "Mini Escavadeira ", "codigo" => 8],
         [ "nome" => "Mini Carregadeira", "codigo" => 9],
+        [ "nome" => "Munck", "codigo" => 12],
+        [ "nome" => "Perfuratriz", "codigo" => 13],
         [ "nome" => "Trator Esteira", "codigo" => 10],
         [ "nome" => "Outro", "codigo" => 11],
     ];
@@ -27,6 +29,8 @@ function getMaquinasMarcas(){
         ["nome" => "Bobcat", "codigo" => 7],
         ["nome" => "JCB", "codigo" => 8],
         ["nome" => "Outra", "codigo" => 9],
+        ["nome" => "TKA", "codigo" => 10],
+        ["nome" => "Argus", "codigo" => 11],
     ];
 }
 
