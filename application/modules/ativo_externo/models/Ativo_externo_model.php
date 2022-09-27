@@ -144,15 +144,15 @@ class Ativo_externo_model extends MY_Model {
 		$wheres = [
 			"total" => 'data_inclusao IS NOT NULL',
 			"estoque" => 'situacao = 12',
-			// "liberado" => 'situacao = 2',
-			// "recebido" => 'situacao = 4',
-			// "emoperacao" => 'situacao = 5',
-			// "transito" => 'situacao = 6',
-			// "transferido" => 'situacao = 7',
-			// "comdefeito" => 'situacao = 8',
+			"liberado" => 'situacao = 2',
+			"recebido" => 'situacao = 4',
+			"emoperacao" => 'situacao = 5',
+			"transito" => 'situacao = 6',
+			"transferido" => 'situacao = 7',
+			"comdefeito" => 'situacao = 8',
 			"foradeoperacao" => 'situacao = 10',
-			// "ativos" => 'data_descarte IS NULL',
-			// "inativos" => 'data_descarte IS NOT NULL',
+			"ativos" => 'data_descarte IS NULL',
+			"inativos" => 'data_descarte IS NOT NULL',
 		];
 
 		foreach($wheres as $key => $where) {
