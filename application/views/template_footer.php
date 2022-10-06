@@ -1,7 +1,7 @@
     <footer class="row">
         <div class="col-md-12">
             <div class="copyright">
-                <p>Copyright2 © <?php echo date("Y"); ?>. All rights reserved.</p>
+                <p>Copyright © <?php echo date("Y"); ?>. All rights reserved.</p>
             </div>
         </div>
     </footer>

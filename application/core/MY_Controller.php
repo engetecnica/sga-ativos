@@ -72,7 +72,7 @@ class MY_Controller extends MX_Controller {
         $data['modulos'] = $this->get_modulos($this->user->nivel);
         $data['obras'] = $this->obra_model->get_obras();
         $data['app_config'] = $this->configuracao_model->get_configuracao();
-        $data['app_env'] = $_ENV['CI_ENV'];
+        $data['app_env'] = ($_ENV['CI_ENV']) ?? '';
 
         // aqui eu preciso trazer a função
         $data['modulos_permitidos'] = $this->modulos_permitidos();
@@ -307,7 +307,7 @@ class MY_Controller extends MX_Controller {
             //outros
             //Ex: "id_configuracao" => $id_configuracao,
         ],
-        $id_modulo, 
+        int $id_modulo, 
         int $id_modulo_item, 
         string $tipo = null, 
         int $id_modulo_subitem = null

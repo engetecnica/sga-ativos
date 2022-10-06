@@ -1,7 +1,15 @@
 <!-- main-custom.js -->
 <script src="<?php echo base_url('assets'); ?>/js/main-custom.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>;
 
 <?php if ($this->session->userdata('logado') == true) { ?>
+
+<script>
+  $('#veiculo_observacoes').tinymce({
+    height: 500,
+    plugins: "powerpaste emoticons hr image link lists charmap table",
+/* other settings... */ });
+</script>
 
 <script>
     <?php if ($this->session->flashdata('msg_success') == true) { ?>

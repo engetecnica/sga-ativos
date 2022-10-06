@@ -1,7 +1,7 @@
 {
     "minimum-stability" : "stable",
     "require": {
-        "php": "^7.2.0",
+        "php": "^7.3|^8.0",
         "deividfortuna/fipe": "2.4.1",
         "mpdf/mpdf": "^8.0",
         "ext-gd": "*",

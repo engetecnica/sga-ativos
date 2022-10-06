@@ -47,6 +47,9 @@
 <!-- END PAGE CONTAINER-->
 <script>
     const veiculo = JSON.parse(`<?php echo json_encode($veiculo); ?>`)
+
+    console.log(veiculo)
+    
     const data_table_columns = [
         {
             title: 'ID',
