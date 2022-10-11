@@ -1,6 +1,7 @@
 <!-- main-custom.js -->
 <script src="<?php echo base_url('assets'); ?>/js/main-custom.js"></script>
-<script src="https://cdn.tiny.cloud/1/hkq7y97zk2i8cowh0mu8x2zm2v2sapzl4i9otqk6w6pbiopd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="//cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
+<script src="//cdn.tiny.cloud/1/hkq7y97zk2i8cowh0mu8x2zm2v2sapzl4i9otqk6w6pbiopd/tinymce/6/plugins.min.js"></script>
 
 <?php if ($this->session->userdata('logado') == true) { ?>
 
