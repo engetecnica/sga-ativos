@@ -1,8 +1,6 @@
 ![logo](assets/images/icon/logo.png)
 
 # Engetecnica App
-# Ambiente Homologa
-
 
 <br>
 
