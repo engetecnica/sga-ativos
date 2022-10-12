@@ -26,7 +26,7 @@ function loadMasks() {
     $('.cnpj').mask('00.000.000/0001-00');
     $('.telefone').mask('(00) 0000-0000');
     $('.celular').mask('(00) 9 0000-0000');
-    $('.valor').mask('000.000.000.000,00 R$', {reverse: true});
+    $('.valor').mask('000.000.000.000,00 R$', { reverse: true });
 
     let placaCallback = function (placa, e, field, options) { $(field)[0].value = placa.toUpperCase().trim() }
     $('.veiculo_placa').mask('SSS-0A00', {
@@ -121,28 +121,28 @@ function show_msg(title, text, type = 'success') {
 function remove_acentos(str) {
     let com_acento = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿŕ";
     let sem_acento = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYRsBaaaaaaaceeeeiiiionoooooouuuuybyr";
-    novastr="";
-    for(i=0; i<str.length; i++) {
-        troca=false;
-        for (a=0; a<com_acento.length; a++) {
-            if (str.substr(i,1)==com_acento.substr(a,1)) {
-                novastr+=sem_acento.substr(a,1);
-                troca=true;
+    novastr = "";
+    for (i = 0; i < str.length; i++) {
+        troca = false;
+        for (a = 0; a < com_acento.length; a++) {
+            if (str.substr(i, 1) == com_acento.substr(a, 1)) {
+                novastr += sem_acento.substr(a, 1);
+                troca = true;
                 break;
             }
         }
-        if (troca==false) {
-            novastr+=str.substr(i,1);
+        if (troca == false) {
+            novastr += str.substr(i, 1);
         }
     }
     return novastr;
-  }       
-  
-function refresh_page(segment = null){
+}
+
+function refresh_page(segment = null) {
     window.location.href = window.location.href
     if (segment) window.location.href = window.location.href + `#${segment}`
 }
-  
+
 
 const mainCustomReady = function () {
     $(".confirmar_registro").click(function (event) {
@@ -264,15 +264,18 @@ const mainCustomReady = function () {
         }
     });
 
-    /* Set init functions */
-    $('.select-search').select2();
+
 
     /* Itens da Requisição múltipla */
     $(".listagem").append($("#item_lista").html());
 
+    /* Set init functions */
+    $('.select-search').select2();
+
     $(document).on("click", ".add_line", function () {
         $(".listagem").append($("#item_lista").html());
         $(".listagem .item-lista").last().addClass('id_ativo_externo_grupo');
+        $('.select-search').select2();
     })
     $(document).on("click", ".remove_line", function () {
         if ($(".remove_line").length >= 1) {

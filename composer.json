@@ -1,5 +1,10 @@
 {
     "minimum-stability" : "stable",
+    "config": {
+        "platform": {
+            "php": "7.4.21"
+         }
+   },    
     "require": {
         "php": "^7.3|^8.0",
         "deividfortuna/fipe": "2.4.1",

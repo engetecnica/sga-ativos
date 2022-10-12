@@ -43,8 +43,12 @@
                                             id="id_destino"
                                             required="required"
                                         >
-                                            <option value="<?php echo $user->id_obra; ?>"> <?php echo "Minha Obra Atual"; ?></option>
-                                            <?php foreach ($obras as $obra) {
+                                        
+                                        <!-- # Obra Atual - não é possível transferir um item para a mesma obra de origem/destino -->
+                                        <!-- <option value="<?php echo $user->id_obra; ?>"> <?php echo "Minha Obra Atual"; ?></option> -->
+
+                                        <option value=""> <?php echo "Selecione a obra Destino"; ?></option>
+                                        <?php foreach ($obras as $obra) {
                                                     if ($obra->id_obra != $user->id_obra) {
                                                 ?>
                                                 <option 
@@ -62,8 +66,8 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-4"><label for="">Item</label></div>
-                                    <div class="col-md-2"><label for="">Quantidade</label></div>
+                                    <div class="col-md-9"><label for="">Item</label></div>
+                                    <div class="col-md-1"><label for="">Quantidade</label></div>
                                     <div class="col-md-2"><label for=""></label></div>
                                 </div>
                                 <div class="listagem">
@@ -73,7 +77,7 @@
                                 <hr>
 
                                 <div class="row form-group">                                   
-                                    <div class="col-12 col-md-7">
+                                    <div class="col-12 col-md-12">
                                         <input type="text" class="form-control" name="observacoes" id="observacoes" placeholder="Alguma observação?">
                                     </div>                                    
                                 </div>
@@ -104,18 +108,21 @@
 
 <template id="item_lista">
     <div class="row item-lista" style="margin-bottom: 10px;">
-        <div class="col-md-4 m-t-10">
+        <div class="col-md-9 m-t-10">
             <div class="exchange1">
                 <select required="required" name="id_ativo_externo_grupo[]" class="form-control select-search">
-                    <option value="">Buscar Item</option>
-                    <?php foreach ($grupos as $grupo) { ?>
-                        <option value="<?php echo $grupo->id_ativo_externo_grupo; ?>"><?php echo $grupo->nome;  ?></option>
-                    <?php } ?>
+                    <option value="">Selecione / Pesquise um item da lista</option>
+                    <?php 
+                        foreach ($grupos as $grupo) { 
+                            if($grupo->estoque >0){ 
+                    ?>
+                        <option value="<?php echo $grupo->id_ativo_externo_grupo; ?>"><?php echo $grupo->nome;  ?> 	&rarr; ESTOQUE: <?php echo $grupo->estoque; ?></option>
+                    <?php } } ?>
                 </select>
             </div>
         </div>
 
-        <div class="col-md-2 m-t-10">
+        <div class="col-md-1 m-t-10">
             <input required="required" name="quantidade[]" type="number" placeholder="0" class="form-control quantidade" value="1" min="1" max="100">
         </div>
         <div class="col-md-2" nowrap>

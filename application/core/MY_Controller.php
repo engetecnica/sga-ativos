@@ -307,11 +307,12 @@ class MY_Controller extends MX_Controller {
             //outros
             //Ex: "id_configuracao" => $id_configuracao,
         ],
-        int $id_modulo, 
-        int $id_modulo_item, 
-        string $tipo = null, 
-        int $id_modulo_subitem = null
+        $id_modulo, 
+        $id_modulo_item, 
+        $tipo = null, 
+        $id_modulo_subitem = null
     ) : int {  
+
         $modulo = null;
         if(isset($config['anexo'])) {
             if (is_int($id_modulo)) $modulo = $this->db->where('id_modulo', $id_modulo)->get('modulo')->row();
