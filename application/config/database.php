@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default'; 
+$active_group = 'localhost'; 
 $query_builder = TRUE;
 
 $db['default'] = array(
@@ -80,6 +80,30 @@ $db['default'] = array(
 	'password' => isset($_ENV['DB_PASS']) ? $_ENV['DB_PASS'] : '',
 	'database' => isset($_ENV['DB_DATABASE']) ? $_ENV['DB_DATABASE'] : 'engetecnica2',
     'port' => isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : 3306, 
+	'dbdriver' => isset($_ENV['DB_DRIVER']) ? $_ENV['DB_DRIVER'] : 'mysqli',
+	'dbprefix' => isset($_ENV['DB_PREFIX']) ? $_ENV['DB_PREFIX'] : '',
+	'pconnect' => FALSE,
+	'db_debug' => ENVIRONMENT !== 'production',
+	'cache_on' => TRUE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'autoinit' => TRUE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['localhost'] = array(
+	'dsn' => null,
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'engetecnica2',
+    'port' => 3306, 
 	'dbdriver' => isset($_ENV['DB_DRIVER']) ? $_ENV['DB_DRIVER'] : 'mysqli',
 	'dbprefix' => isset($_ENV['DB_PREFIX']) ? $_ENV['DB_PREFIX'] : '',
 	'pconnect' => FALSE,

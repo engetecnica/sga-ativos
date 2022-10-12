@@ -47,8 +47,9 @@ function url(){
     }
 }
 
-$config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
-//$config['base_url'] = '';
+/* localhost */
+//$config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------

@@ -5,6 +5,8 @@ assets/uploads/*/*
 !assets/uploads/*/.gitkeep
 !assets/uploads/.gitkeep
 vendor/
+application/config/config.php
+application/config/database.php
 *.DS_Store
 local_bd.sql
 *dump_*

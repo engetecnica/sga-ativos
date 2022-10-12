@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0000000" class="form-control" 
-                                           
+                                            min="<?php echo (int) $veiculo->veiculo_km_atual; ?>"
                                             value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $veiculo->veiculo_km_atual; ?>">
                                     </div> 
 
@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0000000" class="form-control" 
-                                            
+                                            min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>"
                                             value="<?php echo isset($manutencao->veiculo_horimetro_atual) ? (int) $manutencao->veiculo_horimetro_atual : (int) $veiculo->veiculo_horimetro_atual; ?>">
                                     </div> 
                                 </div>

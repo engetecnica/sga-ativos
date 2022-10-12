@@ -79,11 +79,11 @@ class Ferramental_requisicao  extends MY_Controller {
     function adicionar() {
         $grupos = [];
         if ($this->user->nivel == 1) {
-            $grupos = $this->ativo_externo_model->get_grupos();
+            $grupos = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         }
         
         if ($this->user->nivel == 2) {
-            $grupos = $this->ativo_externo_model->get_grupos();
+            $grupos = $this->ativo_externo_model->get_grupos($this->user->id_obra);
         }
     
         $this->get_template('index_form',[
@@ -159,6 +159,15 @@ class Ferramental_requisicao  extends MY_Controller {
     }
 
     function detalhes($id_requisicao=null) {
+
+        /* Requisição não encontrada, sem ID ou indefinida */
+        if(!$id_requisicao || $id_requisicao=='undefined'){
+            $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+            echo redirect(base_url('ferramental_requisicao'));
+            return; 
+        }
+
+
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);
         if(!$requisicao){
             $this->session->set_flashdata('msg_erro', "Requisição não localizada.");

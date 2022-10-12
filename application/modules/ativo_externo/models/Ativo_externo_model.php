@@ -193,6 +193,7 @@ class Ativo_externo_model extends MY_Model {
 		foreach($grupos as $g => $grupo) {
 			$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
 		}
+
 		return $grupos;
 	}
 
