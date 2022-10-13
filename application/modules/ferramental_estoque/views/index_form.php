@@ -369,7 +369,7 @@
                                 this.swal_is_open = false
                                 if (confirm.isConfirmed) {
                                     estoque.id_funcionario = id_funcionario
-                                    estoque.solicitar_autorizacao = true
+                                    estoque.solicitar_autorizacao = false /* antes true */
                                     estoque.permite_form = true
                                     return 
                                 }
