@@ -49,7 +49,7 @@
 
                                         <option value=""> <?php echo "Selecione a obra Destino"; ?></option>
                                         <?php foreach ($obras as $obra) {
-                                                    if ($obra->id_obra != $user->id_obra) {
+                                                    //if ($obra->id_obra != $user->id_obra) {
                                                 ?>
                                                 <option 
                                                     <?php echo isset($detalhes->id_obra) && $obra->id_obra == $detalhes->id_obra ? 'selected' : ''?>
@@ -57,7 +57,7 @@
                                                 >
                                                     <?php echo "{$obra->id_obra} - {$obra->codigo_obra}"; ?>
                                                 </option>
-                                            <?php }} ?>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>  
