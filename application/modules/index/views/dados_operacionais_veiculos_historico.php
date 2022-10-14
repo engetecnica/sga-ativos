@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div v-if="window.user.nivel == 1" class="col-12 text-right">
-                    <a  class="btn btn-secondary" :href="`${window.base_url}ativo_veiculo/gerenciar/operacao/${veiculo_dados.id_ativo_veiculo}`">
+                    <a  class="btn btn-secondary" :href="`${window.base_url}ativo_veiculo/operacao/${veiculo_dados.id_ativo_veiculo}`">
                         <i class="fa fa-list"></i>&nbsp; Ver Todos
                     </a>
                 </div>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div v-if="window.user.nivel == 1" class="col-12 text-right">
-                    <a  class="btn btn-secondary" :href="`${window.base_url}ativo_veiculo/gerenciar/quilometragem/${veiculo_dados.id_ativo_veiculo}`">
+                    <a  class="btn btn-secondary" :href="`${window.base_url}ativo_veiculo/quilometragem/${veiculo_dados.id_ativo_veiculo}`">
                         <i class="fa fa-list"></i> Ver Todos
                     </a>
                 </div>

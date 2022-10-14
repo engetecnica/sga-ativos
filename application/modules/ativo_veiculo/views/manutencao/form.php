@@ -75,11 +75,11 @@
 
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem Atual</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0000000" class="form-control" 
+                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0" class="form-control" 
                                             min="<?php echo (int) $veiculo->veiculo_km_atual; ?>"
                                             value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $veiculo->veiculo_km_atual; ?>">
                                     </div> 
@@ -88,18 +88,25 @@
                                         <label for="veiculo_horimetro_atual" class=" form-control-label">Horimetro Atual</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0000000" class="form-control" 
+                                        <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0" class="form-control" 
                                             min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>"
-                                            value="<?php echo isset($manutencao->veiculo_horimetro_atual) ? (int) $manutencao->veiculo_horimetro_atual : (int) $veiculo->veiculo_horimetro; ?>">
+                                            value="<?php echo isset($veiculo->veiculo_horimetro_atual) ? (int) $veiculo->veiculo_horimetro_atual : (int) $manutencao->veiculo_horimetro_atual; ?>">
                                     </div> 
                                 </div>
+
+                                <?php
+                                    // echo "<pre>";
+                                    // print_r($veiculo);
+                                    // print_r($manutencao);
+                                    // echo "</pre>";
+                                ?>
                                 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="veiculo_km_proxima_revisao" class=" form-control-label">Quilometragem Próxima Revisão</label>
+                                    <div class="col col-md-2">
+                                        <label for="veiculo_km_proxima_revisao" class=" form-control-label">Quilometragem Próx.</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0000000" class="form-control"
+                                        <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0" class="form-control"
                                         value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : $veiculo->veiculo_km_atual; ?>">
                                     </div>
 
@@ -108,13 +115,13 @@
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_horimetro_proxima_revisao" name="veiculo_horimetro_proxima_revisao" placeholder="0000000" class="form-control" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_horimetro_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_horimetro_proxima_revisao) : $veiculo->veiculo_horimetro_atual; ?>">
+                                        <input type="number" id="veiculo_horimetro_proxima_revisao" name="veiculo_horimetro_proxima_revisao" placeholder="0" class="form-control" 
+                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_horimetro_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_horimetro_proxima_revisao) : 0; ?>">
                                     </div>
                                 </div>
                              
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -136,8 +143,8 @@
                                     <div class="col col-md-2">
                                         <label for="descricao" class=" form-control-label">Descrição</label>
                                     </div>
-                                    <div class="col-12 col-md-6">
-                                        <textarea rows="5" class="form-control" id="descricao" name="descricao"></textarea>
+                                    <div class="col-12 col-md-10">
+                                        <textarea rows="5" class="form-control tinymce" id="descricao" name="descricao"></textarea>
                                     </div>
                                 </div>
 

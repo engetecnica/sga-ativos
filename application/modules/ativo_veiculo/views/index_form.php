@@ -32,7 +32,7 @@
                                 <?php } ?>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="tipo_veiculo" class=" form-control-label">Obra</label>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -46,7 +46,7 @@
                                 </div>  
                                 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="periodo" class=" form-control-label">Período do Veículo Alocado</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -178,7 +178,7 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="veiculo_km" class=" form-control-label">Quilometragem Inicial</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -203,14 +203,14 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-md-2">
                                         <label for="valor_funcionario" class=" form-control-label">Valor Funcionário</label>
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <input required="required" type="text" id="valor_funcionario" name="valor_funcionario" placeholder="0,00 R$" class="form-control valor" 
                                         value="<?php echo isset($detalhes) && isset($detalhes->valor_funcionario) ? $detalhes->valor_funcionario : '' ?>">
                                     </div>
-                                    <div class="col col-md-2">
+                                    <div class="col col-md-3">
                                         <label for="valor_adicional" class=" form-control-label">Valor Adicional</label>
                                     </div>
                                     <div class="col-12 col-md-3">
@@ -221,9 +221,9 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="veiculo_observacoes" class=" form-control-label">Observação</label>
+                                        <label for="veiculo_observacoes" class=" form-control-label">Observações</label>
                                     </div>  
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-10">
                                         <textarea id="veiculo_observacoes" name="veiculo_observacoes" placeholder="Observação" class="form-control" ><?php echo isset($detalhes) && isset($detalhes->veiculo_observacoes) ? $detalhes->veiculo_observacoes : '' ?></textarea>
                                     </div>
                                 </div>
