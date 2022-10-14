@@ -9,6 +9,8 @@ trait Ativo_veiculo_manutencao {
 
         if($id_ativo_veiculo) {
             $data['veiculo'] = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
+
+          //  $this->dd($data);
         }
 
         if($this->input->method() == 'post' && $id_ativo_veiculo) {

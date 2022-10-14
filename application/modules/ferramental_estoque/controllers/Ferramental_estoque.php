@@ -288,7 +288,14 @@ class Ferramental_estoque  extends MY_Controller {
         if($retirada && $this->input->method() == 'post') {
             $ativos = $ativos_externos = $items = array();
             $retiradas = $this->ferramental_estoque_model->get_lista_retiradas($retirada->id_obra, $retirada->id_funcionario, [2, 4, 14]);
+
+            /* Não é necessário aguardar autorização */
+            $aguardar_autorizacao = 0;
+
+            /*
             $aguardar_autorizacao = (count($retiradas) > 0) && ($this->user->nivel == 2);
+            */
+
             $retirada->status = $aguardar_autorizacao ? 14 : 2;
 
             foreach($retirada->items as $k => $item) {

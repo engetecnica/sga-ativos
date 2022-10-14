@@ -90,7 +90,7 @@
                                     <div class="col-12 col-md-3">
                                         <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0000000" class="form-control" 
                                             min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>"
-                                            value="<?php echo isset($manutencao->veiculo_horimetro_atual) ? (int) $manutencao->veiculo_horimetro_atual : (int) $veiculo->veiculo_horimetro_atual; ?>">
+                                            value="<?php echo isset($manutencao->veiculo_horimetro_atual) ? (int) $manutencao->veiculo_horimetro_atual : (int) $veiculo->veiculo_horimetro; ?>">
                                     </div> 
                                 </div>
                                 
@@ -102,7 +102,7 @@
                                         <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0000000" class="form-control"
                                         value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : $veiculo->veiculo_km_atual; ?>">
                                     </div>
-                                    
+
                                     <div class="col col-md-3">
                                         <label for="veiculo_horimetro_proxima_revisao" class=" form-control-label">Horimetro Próxima Revisão</label>
                                     </div>
@@ -149,6 +149,11 @@
                                         <input min="0.01" required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
                                     </div>
                                 </div>  
+
+
+                                <?php
+                                       // $this->dd($veiculo);
+                                    ?>                                
                                 
                                 <hr>
                                 <div class="pull-left">
