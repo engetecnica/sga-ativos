@@ -61,6 +61,8 @@ trait Ativo_veiculo_manutencao_model {
             ->join('ativo_configuracao config', 'config.id_ativo_configuracao=manutencao.id_ativo_configuracao');
 
 
+
+
 		if (is_array($id_ativo_veiculo)) {
 			$query->where("manutencao.id_ativo_veiculo IN ('".implode(',', $id_ativo_veiculo)."')");
 		} else {
@@ -74,14 +76,45 @@ trait Ativo_veiculo_manutencao_model {
 		$this->join_veiculo($query, 'manutencao.id_ativo_veiculo');
         $this->join_fornecedor($query, 'manutencao.id_fornecedor');
 		
-		return $query
+		$query
 			->order_by('manutencao.id_ativo_veiculo_manutencao', 'desc')
 			->group_by('manutencao.id_ativo_veiculo_manutencao');
+
+            return $query;
+
+        echo $this->db->last_query();
 	}
 
     public function count_ativo_veiculo_em_manutencao(){
         return $this->manutencao_query()
                 ->group_by('manutencao.id_ativo_veiculo')
                 ->get()->num_rows();
+    }
+
+
+    /* Listagem de Manutenção */
+    public function get_ativo_manutencao_lista($id_ativo_veiculo = null)
+    {
+
+        if($id_ativo_veiculo==null) return "";
+
+        return $this->db
+            ->select("
+                c1.*, 
+                c2.razao_social as id_fornecedor,
+                c3.titulo as id_ativo_configuracao,
+                c4.id_ativo_veiculo,
+                c5.anexo as comprovante
+            ")
+            ->where('c1.id_ativo_veiculo', $id_ativo_veiculo)
+            ->join("fornecedor AS c2", "c2.id_fornecedor=c1.id_fornecedor")
+            ->join("ativo_configuracao AS c3", "c3.id_ativo_configuracao=c1.id_ativo_configuracao")
+            ->join("ativo_veiculo AS c4", "c4.id_ativo_veiculo=c1.id_ativo_veiculo")
+            ->join("anexo AS c5", "c5.id_modulo_item=c1.id_ativo_veiculo", "left")
+            ->where("c5.id_modulo_subitem", "c1.id_ativo_veiculo_manutencao")
+            ->group_by('c1.id_ativo_veiculo_manutencao')
+            ->order_by('c1.id_ativo_veiculo_manutencao', 'DESC')
+            ->get('ativo_veiculo_manutencao AS c1')
+            ->result();
     }
 }

@@ -4,14 +4,13 @@ require_once APPPATH . "../vendor/autoload.php";
 
 trait Ativo_veiculo_manutencao {
     function manutencao($id_ativo_veiculo = null, $id_ativo_veiculo_manutencao = null) {
+
         $data = ["id_ativo_veiculo" => $id_ativo_veiculo];
         $this->merger_anexo_data('manutencao', $data, $id_ativo_veiculo, $id_ativo_veiculo_manutencao);
 
         if($id_ativo_veiculo) {
             $data['veiculo'] = $this->ativo_veiculo_model->get_ativo_veiculo($id_ativo_veiculo);
-            $data['manutencao'] = $this->ativo_veiculo_model
-            ->manutencao_query($id_ativo_veiculo, null)
-            ->get()->row();
+            $data['manutencao_lista'] = $this->ativo_veiculo_model->get_ativo_manutencao_lista($id_ativo_veiculo);
         }
 
         if($this->input->method() == 'post' && $id_ativo_veiculo) {
@@ -54,7 +53,7 @@ trait Ativo_veiculo_manutencao {
     private function manutencao_paginate(array $data = []){
         $id_ativo_veiculo = $data['id_ativo_veiculo'] ?? null;
 
-        return $this->paginate_json([
+        $b = $this->paginate_json([
             "query" => $this->ativo_veiculo_model->manutencao_query($id_ativo_veiculo),
             "templatesData" => $data,
             "after" => function(&$row) {
@@ -80,6 +79,9 @@ trait Ativo_veiculo_manutencao {
                 ]
             ]
         ]);
+
+            return $b;
+        //$this->dd(json_decode($b->final_output));
     }
 
     public function manutencao_salvar()

@@ -60,7 +60,7 @@
                                         <td><?php echo $this->formata_data($manutencao->data_vencimento); ?> </td>
                                         <td><?php echo isset($manutencao->veiculo_km_saldo) ? $this->formata_posfix($manutencao->veiculo_km_saldo, 'KM') : "-"; ?> </td>
                                         <td><?php echo isset($manutencao->veiculo_horimetro_saldo) ? $this->formata_posfix($manutencao->veiculo_horimetro_saldo, 'Horas') : "-"; ?> </td>
-                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -94,7 +94,7 @@
                                         <td><?php echo isset($manutencao['quilometragem_atual']) ? $this->formata_posfix($manutencao['quilometragem_atual'], 'KM') : "-"; ?> </td>
                                         <td><?php echo isset($manutencao['veiculo_km_proxima_revisao']) ? $this->formata_posfix($manutencao['veiculo_km_proxima_revisao'], 'KM') : "-"; ?> </td>
                                         <td><?php echo isset($manutencao['saldo_quilometragem']) ? $this->formata_posfix($manutencao['saldo_quilometragem'], 'KM') : "-"; ?> </td>
-                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/editar/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -113,7 +113,7 @@
                                 <th>Veículo</th>
                                 <th>Marca/Modelo</th>
                                 <th>Próxima Revisão</th>
-                                <th>Tempo de Operação Prox. Revisão</th>
+                                <th>Saldo Horas</th>
                                 <th>Custo</th>
                                 <th>Detalhes</th>
                             </tr>
@@ -126,9 +126,9 @@
                                     <td><?php echo $manutencao->veiculo; ?></td>
                                     <td><?php echo $manutencao->marca . "/" . $manutencao->modelo; ?></td>
                                     <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao; ?></td>
-                                    <td><?php echo ($manutencao->veiculo_horimetro_proxima_revisao - $manutencao->veiculo_horimetro); ?></td>
+                                    <td><?php echo ($manutencao->saldo); ?></td>
                                     <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
-                                    <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/editar/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
+                                    <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -163,7 +163,7 @@
                                         <td><?php echo $this->formata_data($ipva->ipva_data_pagamento); ?> </td>
                                         <td><?php echo $this->formata_data($ipva->ipva_data_vencimento); ?> </td>
                                         <td>
-                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/ipva/editar/{$ipva->id_ativo_veiculo}/{$ipva->id_ativo_veiculo_ipva}") ?>">Mais Detalhes</a>
+                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/ipva/{$ipva->id_ativo_veiculo}/{$ipva->id_ativo_veiculo_ipva}") ?>">Mais Detalhes</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -199,7 +199,7 @@
                                         <td><?php echo $this->formata_data($seguro->carencia_inicio); ?> </td>
                                         <td><?php echo $this->formata_data($seguro->carencia_fim); ?> </td>
                                         <td>
-                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/editar/{$seguro->id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
+                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/{$seguro->id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
