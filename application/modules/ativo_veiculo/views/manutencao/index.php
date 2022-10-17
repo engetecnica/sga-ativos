@@ -34,7 +34,7 @@
                     <h2 class="title-1 m-b-25">Gerenciar Manutenções</h2>
                     <div class="table-responsive table--no-card m-b-40">
 
-                        <div class="table-responsive-md table--no-card">
+                        <div class="table-responsive-md table--no-card" style="margin-bottom: 100px;">
                             <table class="table table-borderless table-striped table-earning dataTable">
                                 <thead>
                                     <tr>
