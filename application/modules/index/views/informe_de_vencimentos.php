@@ -87,7 +87,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($revisao_por_km as $i => $manutencao) { ?>
+                                <?php 
+                                    foreach ($revisao_por_km as $i => $manutencao) { 
+                                        if($manutencao['quilometragem_atual'] > 0){
+                                ?>
                                     <tr>
                                         <td><?php echo $manutencao['id_ativo_veiculo']; ?></td>
                                         <td><?php echo $this->formata_array([$manutencao['marca'], $manutencao['modelo']], " | ");  ?></td>
@@ -96,6 +99,7 @@
                                         <td><?php echo isset($manutencao['saldo_quilometragem']) ? $this->formata_posfix($manutencao['saldo_quilometragem'], 'KM') : "-"; ?> </td>
                                         <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
                                     </tr>
+                                    <?php } ?>
                                 <?php } ?>
                             </tbody>
                         </table>
