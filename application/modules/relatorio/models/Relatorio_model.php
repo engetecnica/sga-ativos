@@ -1463,8 +1463,8 @@ class Relatorio_model  extends MY_Model
 		$proxima_revisao = $this->db
 			->select(
 				'id_ativo_veiculo, 
-        veiculo_km_proxima_revisao,
-        id_ativo_veiculo_manutencao'
+				veiculo_km_proxima_revisao,
+				id_ativo_veiculo_manutencao'
 			)
 			->select_max('veiculo_km_proxima_revisao')
 			->where('veiculo_horimetro_atual', '0')
@@ -1514,8 +1514,22 @@ class Relatorio_model  extends MY_Model
 	}
 
 	/* Logs */
-	public function logs($id_modulo = null, $id_usuario = null, $acao = null)
+	public function logs()
 	{
+
+
+		$relatorio = $this->db
+							->select('c1.*, c2.usuario as id_usuario, c3.titulo as id_modulo')
+							->join('usuario as c2', 'c2.id_usuario=c1.id_usuario')
+							->join('modulo as c3', 'c3.id_modulo=c1.id_modulo')
+							->get('logs as c1')
+							->result();
+
+		return $relatorio;
+
+
+
+		print_r($this->input->post());
 		// aqui seria o SQL, como tem uma base ali em cima, é tranquilo pra elaborar
 		// o problema seria para trazer estes dados até aqui
 	} 

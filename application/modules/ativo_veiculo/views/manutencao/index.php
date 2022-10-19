@@ -63,9 +63,9 @@
                                             <td><?php echo $lista->veiculo_km_proxima_revisao; ?></td>
                                             <td><?php echo $lista->veiculo_horimetro_atual; ?></td>
                                             <td><?php echo $lista->veiculo_horimetro_proxima_revisao; ?></td>
-                                            <td><?php echo $this->formata_data_hora($lista->data_entrada); ?></td>
-                                            <td><?php echo $this->formata_data_hora($lista->data_saida); ?></td>
-                                            <td><?php echo $this->formata_data_hora($lista->data_vencimento); ?></td>
+                                            <td><?php echo $this->formata_data($lista->data_entrada); ?></td>
+                                            <td><?php echo $this->formata_data($lista->data_saida); ?></td>
+                                            <td><?php echo $this->formata_data($lista->data_vencimento); ?></td>
                                             <td>
                                                 <?php if (!isset($lista->data_saida) || $user->nivel == 1) { ?>
                                                     <div class="btn-group" role="group">
