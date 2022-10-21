@@ -123,7 +123,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($maquina_manutencao_hora as $manutencao) { ?>
+                            <?php 
+                                foreach ($maquina_manutencao_hora as $manutencao) { 
+                                    if($manutencao->saldo <= $manutencao->operacao_alerta){
+                            ?>
                                 <tr>
                                     <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
                                     <td><?php echo $manutencao->id_interno_maquina; ?></td>
@@ -134,7 +137,10 @@
                                     <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
                                     <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
                                 </tr>
-                            <?php } ?>
+                            <?php
+                                    }
+                                } 
+                            ?>
                         </tbody>
                     </table>
 

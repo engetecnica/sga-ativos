@@ -1,3 +1,5 @@
+
+
 SELECT
     c1.id_ativo_veiculo,
     c1.id_interno_maquina,
@@ -13,11 +15,13 @@ SELECT
     c4.operacao_alerta
 FROM
     ativo_veiculo AS c1
-    INNER JOIN ativo_veiculo_manutencao AS c2 ON c2.id_ativo_veiculo = c1.id_ativo_veiculo    
+    JOIN ativo_veiculo_manutencao AS c2 ON c2.id_ativo_veiculo = c1.id_ativo_veiculo    
     INNER JOIN ativo_veiculo_operacao AS c3 ON c3.id_ativo_veiculo=c1.id_ativo_veiculo
     JOIN configuracao AS c4 ON c4.id_configuracao=1
 WHERE
     c1.tipo_veiculo = 'maquina'
-    AND (c2.veiculo_horimetro_proxima_revisao-c3.veiculo_horimetro) <= c4.operacao_alerta
-    AND (c2.veiculo_horimetro_proxima_revisao-c3.veiculo_horimetro) > 0
-GROUP BY c2.id_ativo_veiculo
+     AND (c2.veiculo_horimetro_proxima_revisao-c3.veiculo_horimetro) > 0
+GROUP BY c2.id_ativo_veiculo;
+
+ORDER BY c2.id_ativo_veiculo_manutencao DESC
+
