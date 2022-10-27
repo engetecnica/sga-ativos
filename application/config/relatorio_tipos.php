@@ -203,7 +203,7 @@ function getReleatoriosTipos(array $obras = [])
 
 		'logs' => [
 			'titulo' => 'Relatório de Logs',
-			'filtros' => ['id_obra', 'id_modulo', 'id_funcionario', 'acao', 'periodo'],
+			'filtros' => ['id_modulo', 'id_usuario', 'acao', 'periodo'],
 			'grafico' => [
 				'column' => ['Módulo', 'Usuário', 'Ação'],
 				'tipo' => 'column'

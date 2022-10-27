@@ -1517,6 +1517,30 @@ class Relatorio_model  extends MY_Model
 	public function logs()
 	{
 
+		//return false;
+		
+		
+		$query = $this->db->from('logs AS c1');
+		
+		if($this->input->post('id_obra'))
+		{
+			$query = $query->like('c1.id_obra', "id_obra:".$this->input->post('id_obra'), 'both');
+		}
+
+		if($this->input->post('id_funcionario'))
+		{
+			$query = $query->where('c1.id_usuario', $this->input->post('id_funcionario'));
+		}
+		
+		echo "<pre>";
+		$query = $query->get()->result();
+		
+		print_r($query);
+		
+		print_r($this->input->post());
+
+		return false;
+
 
 		$relatorio = $this->db
 							->select('c1.*, c2.usuario as id_usuario, c3.titulo as id_modulo')
@@ -1529,8 +1553,15 @@ class Relatorio_model  extends MY_Model
 
 
 
-		print_r($this->input->post());
+		
 		// aqui seria o SQL, como tem uma base ali em cima, é tranquilo pra elaborar
 		// o problema seria para trazer estes dados até aqui
-	} 
+	}
+	
+	
+	/* Informe de Vencimentos - Seguro */
+	public function informe_seguros()
+	{
+		return $this->db->get('v_ativo_veiculo_seguro')->result();
+	}
 }

@@ -22,6 +22,7 @@ class Relatorio extends MY_Controller
 		$this->load->model('obra/obra_model');
 		$this->load->model('anexo/anexo_model');
 		$this->load->model('funcionario/funcionario_model');
+		$this->load->model('usuario/usuario_model');
 		$this->load->model('notificacoes_model');
 	}
 
@@ -34,6 +35,7 @@ class Relatorio extends MY_Controller
 		$data['empresas'] = $this->empresa_model->get_empresas();
 		$data['obras'] = $this->obra_model->get_obras();
 		$data['funcionarios'] = $this->funcionario_model->get_lista();
+		$data['usuarios'] = $this->usuario_model->get_lista();
 		$data['modulos'] = $this->modulos_permitidos();
 		$this->get_template('relatorio_gerar', $data);
 	}

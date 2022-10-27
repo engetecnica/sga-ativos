@@ -16,7 +16,7 @@ SELECT
 FROM
     ativo_veiculo AS c1
     JOIN ativo_veiculo_manutencao AS c2 ON c2.id_ativo_veiculo = c1.id_ativo_veiculo    
-    INNER JOIN ativo_veiculo_operacao AS c3 ON c3.id_ativo_veiculo=c1.id_ativo_veiculo
+    JOIN ativo_veiculo_operacao AS c3 ON ((`c3`.`id_ativo_veiculo` = `c1`.`id_ativo_veiculo` and MAX(c3.veiculo_horimetro)))
     JOIN configuracao AS c4 ON c4.id_configuracao=1
 WHERE
     c1.tipo_veiculo = 'maquina'

@@ -57,6 +57,19 @@
                                 </template>
                             </div>
 
+                            <!-- Usuários -->
+                            <div v-if="relatorio && relatorio.filtros.includes('id_usuario')" class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="id_usuario" class=" form-control-label">Usuário</label>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <select v-model="form.id_usuario" class="form-control" id="id_usuario" name="id_usuario">
+                                        <option :value="null">Todos os Funcionários</option>
+                                        <option v-for="(usuario, key) in filter_usuarios" :value="funcionario.id_usuario" :key="key">{{usuario.nome}}</option>
+                                    </select>
+                                </div>
+                            </div>                            
+
 
                             <div v-if="relatorio && relatorio.filtros.includes('id_funcionario')" class="row form-group">
                                 <div class="col col-md-2">
@@ -250,6 +263,7 @@ foreach ($relatorios as $modulo => $relatorio) {
     var tipos_veiculos = JSON.parse(`<?php echo json_encode($tipos_veiculos); ?>`)
     var obras = JSON.parse(`<?php echo json_encode($obras); ?>`)
     var funcionarios = JSON.parse(`<?php echo json_encode($funcionarios); ?>`)
+    var usuarios = JSON.parse(`[]`)
     var modulos = JSON.parse(`<?php echo json_encode($modulos); ?>`)
     var status_lista = JSON.parse(`<?php echo json_encode($this->status_lista()); ?>`)
 
@@ -264,6 +278,7 @@ foreach ($relatorios as $modulo => $relatorio) {
                 obras: obras,
                 funcionarios: funcionarios,
                 status_lista: status_lista,
+                usuarios: usuarios.usuario || [],
                 modulos: modulos.modulo || [],
                 submodulos: [],
                 relatorio: null,
@@ -313,6 +328,11 @@ foreach ($relatorios as $modulo => $relatorio) {
                 return this.form.id_modulo ? this.modulos.filter((modulo) => {
                     return modulo.id_modulo == this.form.id_modulo
                 }) : this.modulos
+            },
+            filter_usuarios() {
+                return this.form.id_usuario ? this.usuarios.filter((usuario) => {
+                    return usuario.id_usuario == this.form.id_usuario
+                }) : this.usuarios
             }
         },
         watch: {

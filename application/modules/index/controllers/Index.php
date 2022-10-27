@@ -55,6 +55,7 @@ class Index extends MY_Controller {
 
         $data['maquina_manutencao_hora'] = $this->relatorio_model->maquina_manutencao_hora();
         $data['revisao_por_km'] = $this->relatorio_model->revisao_por_km();
+        $data['informe_seguro'] = $this->relatorio_model->informe_seguros();
 
         $this->get_template('index', $data);
     }

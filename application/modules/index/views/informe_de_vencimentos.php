@@ -184,7 +184,7 @@
                     <?php } ?>
 
                     <strong class="title-5 m-t-30">Seguro</strong>
-                    <?php if (in_array('seguro', array_keys((array) $informe_vencimentos['relatorio'])) && count($informe_vencimentos['relatorio']->seguro->data) > 0) { ?>
+                    <?php if ($informe_seguro) { ?>
                         <table class="table table-responsive table-borderless table-striped table-earning m-b-30 m-t-10">
                             <thead>
                                 <tr>
@@ -199,7 +199,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($informe_vencimentos['relatorio']->seguro->data as $i => $seguro) { ?>
+                                <?php foreach ($informe_seguro as $i => $seguro) { ?>
                                     <tr>
                                         <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
                                         <td><?php echo $seguro->id_ativo_veiculo; ?></td>
