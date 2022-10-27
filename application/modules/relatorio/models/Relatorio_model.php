@@ -1562,6 +1562,7 @@ class Relatorio_model  extends MY_Model
 	/* Informe de Vencimentos - Seguro */
 	public function informe_seguros()
 	{
-		return $this->db->get('v_ativo_veiculo_seguro')->result();
+		return [];
+	//	return $this->db->get('v_ativo_veiculo_seguro')->result();
 	}
 }
