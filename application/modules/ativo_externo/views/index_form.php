@@ -211,7 +211,8 @@
                                         <input type="hidden" name="necessita_calibracao" id="necessita_calibracao" value="<?php echo $detalhes->necessita_calibracao; ?>" />
                                     <?php } ?>
 
-                                    <?php if (in_array($mode, ['update']) && $this->ativo_externo_model->permit_edit_situacao($detalhes->id_ativo_externo)){ ?>
+                                    <?php // if (in_array($mode, ['update']) && $this->ativo_externo_model->permit_edit_situacao($detalhes->id_ativo_externo)){ ?>
+                                    <?php if (in_array($mode, ['update'])){ ?>
                                         <div class="col col-md-2">
                                             <label for="situacao" class=" form-control-label">Situação</label>
                                         </div>
