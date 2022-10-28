@@ -1562,7 +1562,15 @@ class Relatorio_model  extends MY_Model
 	/* Informe de Vencimentos - Seguro */
 	public function informe_seguros()
 	{
-		return [];
-	//	return $this->db->get('v_ativo_veiculo_seguro')->result();
+
+		$consulta = $this->db
+							->where('c1.carencia_fim BETWEEN NOW() - INTERVAL 30 DAY AND NOW()', "", false)
+							->group_by('c1.id_ativo_veiculo')
+								->join('ativo_veiculo as c2', 'c2.id_ativo_veiculo=c1.id_ativo_veiculo')
+							->get('ativo_veiculo_seguro AS c1')
+							->result();
+
+		return $consulta;
+
 	}
 }
