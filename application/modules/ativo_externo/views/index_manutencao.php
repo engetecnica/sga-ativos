@@ -6,9 +6,9 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <a href="<?php echo base_url("ativo_externo/editar/{$ativo->id_ativo_externo}"); ?>">
-                          <button class="au-btn au-btn-icon au-btn--blue">
-                            <i class="fa fa-arrow-left"></i>Voltar ao Ativo
-                          </button>
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                                <i class="fa fa-arrow-left"></i>Voltar ao Ativo
+                            </button>
                         </a>
                     </div>
                 </div>
@@ -36,39 +36,36 @@
                                     <td><?php echo $this->formata_data($valor->data_saida); ?></td>
                                     <td><?php echo $this->formata_data($valor->data_retorno); ?></td>
                                     <td>
-                                      <?php $situacao = $this->get_situacao_manutencao($valor->manutencao_situacao);?>
-                                      <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
+                                        <?php $situacao = $this->get_situacao_manutencao($valor->manutencao_situacao);?>
+                                        <span
+                                            class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
                                     <td><?php echo $this->formata_moeda($valor->manutencao_valor);?></td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <button 
-                                                class="btn btn-secondary btn-sm dropdown-toggle" 
-                                                type="button"
-                                                data-toggle="dropdown" 
-                                                aria-haspopup="true" 
-                                                aria-expanded="false"
-                                            >
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Gerenciar
                                             </button>
                                             <div class="dropdown-menu">
-                                              <a class="dropdown-item " href="<?php echo base_url("ativo_externo/manutencao_editar/{$ativo->id_ativo_externo}/{$valor->id_manutencao}"); ?>"><i class="fas fa-edit"></i> Editar</a>
-                                              <?php if ($this->ativo_externo_model->permit_delete_manutencao($ativo->id_ativo_externo, $valor->id_manutencao)) { ?>
+                                                <a class="dropdown-item "
+                                                    href="<?php echo base_url("ativo_externo/manutencao_editar/{$ativo->id_ativo_externo}/{$valor->id_manutencao}"); ?>"><i
+                                                        class="fas fa-edit"></i> Editar</a>
+                                                <?php if ($this->ativo_externo_model->permit_delete_manutencao($ativo->id_ativo_externo, $valor->id_manutencao)) { ?>
                                                 <div class="dropdown-divider"></div>
-                                                <a 
-                                                  href="javascript:void(0)" 
-                                                  data-href="<?php echo base_url("ativo_externo/manutencao_remover/{$valor->id_manutencao}"); ?>" 
-                                                  data-registro="<?php echo $ativo->id_ativo_externo;?>" 
-                                                  data-tabela="ativo_externo/manutencao/<?php echo $ativo->id_ativo_externo;?>" class="dropdown-item  deletar_registro"
-                                                >
-                                                  <i class="fas fa-trash"></i> Excluir
+                                                <a href="javascript:void(0)"
+                                                    data-href="<?php echo base_url("ativo_externo/manutencao_remover/{$valor->id_manutencao}"); ?>"
+                                                    data-registro="<?php echo $ativo->id_ativo_externo;?>"
+                                                    data-tabela="ativo_externo/manutencao/<?php echo $ativo->id_ativo_externo;?>"
+                                                    class="dropdown-item  deletar_registro">
+                                                    <i class="fas fa-trash"></i> Excluir
                                                 </a>
-                                              <?php } ?>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                               <?php } ?>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -78,11 +75,11 @@
             <?php if($this->ativo_externo_model->permit_create_manutencao($ativo->id_ativo_externo)) { ?>
             <div class="row">
                 <div class="col-12 col-md-12 text-center">
-                  <a href="<?php echo base_url("ativo_externo/manutencao_adicionar/{$ativo->id_ativo_externo}"); ?>">
-                    <button class="btn-custom">
-                      <i class="zmdi zmdi-plus"></i>&nbsp;Adicionar
-                    </button>
-                  </a>
+                    <a href="<?php echo base_url("ativo_externo/manutencao_adicionar/{$ativo->id_ativo_externo}"); ?>">
+                        <button class="btn-custom">
+                            <i class="zmdi zmdi-plus"></i>&nbsp;Adicionar
+                        </button>
+                    </a>
                 </div>
             </div>
             <?php } ?>

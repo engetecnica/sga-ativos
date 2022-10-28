@@ -1564,13 +1564,29 @@ class Relatorio_model  extends MY_Model
 	{
 
 		$consulta = $this->db
-							->where('c1.carencia_fim BETWEEN NOW() - INTERVAL 30 DAY AND NOW()', "", false)
-							->group_by('c1.id_ativo_veiculo')
-								->join('ativo_veiculo as c2', 'c2.id_ativo_veiculo=c1.id_ativo_veiculo')
-							->get('ativo_veiculo_seguro AS c1')
-							->result();
+								->select_max('id_ativo_veiculo_seguro')
+								->group_by('id_ativo_veiculo')
+								->get('ativo_veiculo_seguro')
+								->result();
 
+		foreach($consulta as &$subconsulta){
+
+			
+			$subconsulta->sub = $this->db
+									->where('c1.id_ativo_veiculo_seguro', $subconsulta->id_ativo_veiculo_seguro)
+									->join('ativo_veiculo as c2', 'c2.id_ativo_veiculo=c1.id_ativo_veiculo')
+									->where("c1.carencia_fim BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW() ")
+									->get('ativo_veiculo_seguro AS c1')
+									->row();
+			
+		}
+
+		//$this->dd($consulta);
 		return $consulta;
+		
+		
+		
+		
 
 	}
 }

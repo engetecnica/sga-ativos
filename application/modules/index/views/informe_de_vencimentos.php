@@ -199,19 +199,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($informe_seguro as $i => $seguro) { ?>
+                                <?php 
+                                    foreach ($informe_seguro as $i => $seguro) { 
+
+                                        if($seguro->sub){
+
+                                            
+                                        
+                                        ?>
                                     <tr>
-                                        <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
-                                        <td><?php echo $seguro->id_ativo_veiculo; ?></td>
-                                        <td><?php echo $this->formata_array([$seguro->marca, $seguro->modelo], " | "); ?></td>
-                                        <td><?php echo $seguro->veiculo_placa ?: $seguro->id_interno_maquina;; ?></td>
-                                        <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
-                                        <td><?php echo $this->formata_data($seguro->carencia_inicio); ?> </td>
-                                        <td><?php echo $this->formata_data($seguro->carencia_fim); ?> </td>
+                                        <td><?php echo $seguro->sub->id_ativo_veiculo_seguro; ?></td>
+                                        <td><?php echo $seguro->sub->id_ativo_veiculo; ?></td>
+                                        <td><?php echo $this->formata_array([$seguro->sub->marca, $seguro->sub->modelo], " | "); ?></td>
+                                        <td><?php echo $seguro->sub->veiculo_placa ?: $seguro->sub->id_interno_maquina; ?></td>
+                                        <td><?php echo $this->formata_moeda($seguro->sub->seguro_custo); ?></td>
+                                        <td><?php echo $this->formata_data($seguro->sub->carencia_inicio); ?> </td>
+                                        <td><?php echo $this->formata_data($seguro->sub->carencia_fim); ?> </td>
                                         <td>
-                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/{$seguro->id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
+                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/{$seguro->sub->id_ativo_veiculo}/{$seguro->sub->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                 <?php } ?>
                             </tbody>
                         </table>
