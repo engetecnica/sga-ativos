@@ -147,8 +147,10 @@
 </div>
 
 <?php 
-    $this->load->view('index_form_obs_modal'); 
-    $this->load->view('anexo/index_form_modal', ["show_header" => false]); 
+    if (isset($manutencao)): 
+        $this->load->view('index_form_obs_modal'); 
+        $this->load->view('anexo/index_form_modal', ["show_header" => false]); 
+    endif;
 ?>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->

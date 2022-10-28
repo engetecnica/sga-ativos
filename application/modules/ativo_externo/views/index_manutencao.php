@@ -54,7 +54,7 @@
                                                 <?php if ($this->ativo_externo_model->permit_delete_manutencao($ativo->id_ativo_externo, $valor->id_manutencao)) { ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a href="javascript:void(0)"
-                                                    data-href="<?php echo base_url("ativo_externo/manutencao_remover/{$valor->id_manutencao}"); ?>"
+                                                    data-href="<?php echo base_url("ativo_externo/manutencao_remover/{$valor->id_manutencao}/{$ativo->id_ativo_externo}"); ?>"
                                                     data-registro="<?php echo $ativo->id_ativo_externo;?>"
                                                     data-tabela="ativo_externo/manutencao/<?php echo $ativo->id_ativo_externo;?>"
                                                     class="dropdown-item  deletar_registro">

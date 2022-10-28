@@ -567,6 +567,7 @@ class Ativo_externo extends MY_Controller {
     }
 
     function manutencao_salvar(){
+
         $data['id_ativo_externo'] = !is_null($this->input->post('id_ativo_externo')) ? $this->input->post('id_ativo_externo') : '';
         $data['id_manutencao'] = $this->input->post('id_manutencao');
 
@@ -574,12 +575,21 @@ class Ativo_externo extends MY_Controller {
             $data['situacao'] = 0;
             $data['data_saida'] = $this->input->post('data_saida');
             $this->db->insert('ativo_externo_manutencao', $data);
+
+            /* Atualiza item para em Manutenção no Estoque */
+            $this->db->set('situacao', '10');
+            $this->db->where('id_ativo_externo', $data['id_ativo_externo']);
+            $this->db->update('ativo_externo');
+
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_externo/manutencao/{$data['id_ativo_externo']}"));
             return;
         } 
-        
+       
+
+
         if ($data['id_manutencao'] != null) {
+
             $data['situacao'] = $this->input->post('situacao') != null ? $this->input->post('situacao') : 0;
             $data['data_retorno'] = $this->input->post('data_retorno');
             $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -589,12 +599,28 @@ class Ativo_externo extends MY_Controller {
             $this->db->where('id_manutencao', $data['id_manutencao'])
                 ->where('id_manutencao', $data['id_manutencao'])
                 ->update('ativo_externo_manutencao', $data);
+
+
+            /* Atualiza item para em Manutenção no Estoque */
+            if($this->input->post('situacao')==1):
+                $this->db->set('situacao', '12');
+                $this->db->where('id_ativo_externo', $data['id_ativo_externo']);
+                $this->db->update('ativo_externo');
+            endif;
+
+
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_externo/manutencao/{$data['id_ativo_externo']}"));
     }
 
-    function manutencao_remover($id_manutencao){
+    function manutencao_remover($id_manutencao, $id_ativo_externo=null){
+        
+        $this->db->set('situacao', '12');
+        $this->db->where('id_ativo_externo', $id_ativo_externo);
+        $this->db->update('ativo_externo');
+
+
         return $this->db->where('id_manutencao', $id_manutencao)
                 ->delete('ativo_externo_manutencao');
     }
