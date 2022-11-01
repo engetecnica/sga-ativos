@@ -64,8 +64,8 @@
                                 </div>
                                 <div class="col-12 col-md-5">
                                     <select v-model="form.id_usuario" class="form-control" id="id_usuario" name="id_usuario">
-                                        <option :value="null">Todos os Funcionários</option>
-                                        <option v-for="(usuario, key) in filter_usuarios" :value="funcionario.id_usuario" :key="key">{{usuario.nome}}</option>
+                                        <option :value="null">Todos os Usuários</option>
+                                        <option v-for="(usuario, key) in filter_usuarios" :value="usuario.id_usuario" :key="key">{{usuario.nome}}</option>
                                     </select>
                                 </div>
                             </div>                            
@@ -263,9 +263,12 @@ foreach ($relatorios as $modulo => $relatorio) {
     var tipos_veiculos = JSON.parse(`<?php echo json_encode($tipos_veiculos); ?>`)
     var obras = JSON.parse(`<?php echo json_encode($obras); ?>`)
     var funcionarios = JSON.parse(`<?php echo json_encode($funcionarios); ?>`)
-    var usuarios = JSON.parse(`[]`)
+    var usuarios = JSON.parse(`<?php echo json_encode($usuarios); ?>`)
     var modulos = JSON.parse(`<?php echo json_encode($modulos); ?>`)
     var status_lista = JSON.parse(`<?php echo json_encode($this->status_lista()); ?>`)
+
+
+    console.log('usuarios: ', usuarios)
 
     var relatorio_gerar = new Vue({
         el: "#relatorio_gerar",
@@ -278,7 +281,7 @@ foreach ($relatorios as $modulo => $relatorio) {
                 obras: obras,
                 funcionarios: funcionarios,
                 status_lista: status_lista,
-                usuarios: usuarios.usuario || [],
+                usuarios: usuarios || [],
                 modulos: modulos.modulo || [],
                 submodulos: [],
                 relatorio: null,
@@ -330,8 +333,8 @@ foreach ($relatorios as $modulo => $relatorio) {
                 }) : this.modulos
             },
             filter_usuarios() {
-                return this.form.id_usuario ? this.usuarios.filter((usuario) => {
-                    return usuario.id_usuario == this.form.id_usuario
+                return this.form.id_usuario ? this.usuarios.filter((usuarios) => {
+                    return usuarios.id_usuario == this.form.id_usuario
                 }) : this.usuarios
             }
         },

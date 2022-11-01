@@ -35,7 +35,7 @@ class Relatorio extends MY_Controller
 		$data['empresas'] = $this->empresa_model->get_empresas();
 		$data['obras'] = $this->obra_model->get_obras();
 		$data['funcionarios'] = $this->funcionario_model->get_lista();
-		$data['usuarios'] = $this->usuario_model->get_lista();
+		$data['usuarios'] = $this->usuario_model->get_lista_simples();
 		$data['modulos'] = $this->modulos_permitidos();
 		$this->get_template('relatorio_gerar', $data);
 	}

@@ -209,4 +209,9 @@ class usuario_model extends MY_Model {
 			["ilustration" => "images/ilustrations/forgot_password.png"]
 		);
 	}
+
+	/* Campos Selecionados */
+	public function get_lista_simples(){
+		return $this->db->select('id_usuario, nome, usuario, email')->order_by('nome', 'ASC')->get('usuario')->result();
+	}
 }

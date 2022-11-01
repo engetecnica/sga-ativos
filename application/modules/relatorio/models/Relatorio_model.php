@@ -1522,14 +1522,19 @@ class Relatorio_model  extends MY_Model
 		
 		$query = $this->db->from('logs AS c1');
 		
-		if($this->input->post('id_obra'))
+		if($this->input->post('id_submodulo'))
 		{
-			$query = $query->like('c1.id_obra', "id_obra:".$this->input->post('id_obra'), 'both');
+			$query = $query->where('c1.id_modulo', $this->input->post('id_submodulo'));
 		}
 
-		if($this->input->post('id_funcionario'))
+		if($this->input->post('id_usuario'))
 		{
-			$query = $query->where('c1.id_usuario', $this->input->post('id_funcionario'));
+			$query = $query->where('c1.id_usuario', $this->input->post('id_usuario'));
+		}
+
+		if($this->input->post('acao'))
+		{
+			$query = $query->where('c1.acao', $this->input->post('acao'));
 		}
 		
 		echo "<pre>";
