@@ -1516,10 +1516,7 @@ class Relatorio_model  extends MY_Model
 	/* Logs */
 	public function logs()
 	{
-
-		//return false;
-		
-		
+	
 		$query = $this->db->from('logs AS c1');
 		
 		if($this->input->post('id_submodulo'))
@@ -1536,31 +1533,19 @@ class Relatorio_model  extends MY_Model
 		{
 			$query = $query->where('c1.acao', $this->input->post('acao'));
 		}
+
+		// By Periodo
+		$data = $this->extract_data('logs', $this->input->post());
+		$inicio = $data['periodo']['inicio'];
+		$fim = $data['periodo']['fim'];
 		
-		echo "<pre>";
-		$query = $query->get()->result();
-		
-		print_r($query);
-		
-		print_r($this->input->post());
+		if ($inicio && $fim) {
+			$query = $query->where("c1.created_at BETWEEN '{$inicio}' AND '{$fim}'");
+		}		
 
-		return false;
+		$query = $query->get()->result();		
+		return $query;
 
-
-		$relatorio = $this->db
-							->select('c1.*, c2.usuario as id_usuario, c3.titulo as id_modulo')
-							->join('usuario as c2', 'c2.id_usuario=c1.id_usuario')
-							->join('modulo as c3', 'c3.id_modulo=c1.id_modulo')
-							->get('logs as c1')
-							->result();
-
-		return $relatorio;
-
-
-
-		
-		// aqui seria o SQL, como tem uma base ali em cima, é tranquilo pra elaborar
-		// o problema seria para trazer estes dados até aqui
 	}
 	
 	

@@ -211,7 +211,6 @@ function getReleatoriosTipos(array $obras = [])
 			'tipo' => ['arquivo'],
 			'arquivo_saida' => [
 				"PDF" => "pdf",
-				"XLS (Excel)" => "xls",
 			]
 		],		
 	];

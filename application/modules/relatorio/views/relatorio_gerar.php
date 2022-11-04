@@ -333,8 +333,8 @@ foreach ($relatorios as $modulo => $relatorio) {
                 }) : this.modulos
             },
             filter_usuarios() {
-                return this.form.id_usuario ? this.usuarios.filter((usuarios) => {
-                    return usuarios.id_usuario == this.form.id_usuario
+                return this.form.id_usuario ? this.usuarios.filter((usuario) => {
+                    return id_usuario.id_usuario == this.form.id_usuario
                 }) : this.usuarios
             }
         },
@@ -372,6 +372,9 @@ foreach ($relatorios as $modulo => $relatorio) {
             },
             "form.id_obra"() {
                 this.form.id_funcionario = null
+            },
+            "form.id_usuario"(){
+                this.form.id_usuario = null
             },
             "form.periodo.tipo"() {
                 if (this.form.periodo.tipo && this.form.periodo.tipo != 'todo_periodo') {
