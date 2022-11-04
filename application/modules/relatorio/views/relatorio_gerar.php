@@ -281,7 +281,7 @@ foreach ($relatorios as $modulo => $relatorio) {
                 obras: obras,
                 funcionarios: funcionarios,
                 status_lista: status_lista,
-                usuarios: usuarios || [],
+                usuarios: usuarios,
                 modulos: modulos.modulo || [],
                 submodulos: [],
                 relatorio: null,
@@ -292,6 +292,7 @@ foreach ($relatorios as $modulo => $relatorio) {
                     id_funcionario: null,
                     id_modulo: null,
                     id_submodulo: null,
+                    id_usuario: null,
                     periodo: {
                         tipo: 'todo_periodo',
                         inicio: null,
@@ -334,7 +335,9 @@ foreach ($relatorios as $modulo => $relatorio) {
             },
             filter_usuarios() {
                 return this.form.id_usuario ? this.usuarios.filter((usuario) => {
+                    
                     return usuario.id_usuario == this.form.id_usuario
+                    
                 }) : this.usuarios
             }
         },
@@ -373,9 +376,7 @@ foreach ($relatorios as $modulo => $relatorio) {
             "form.id_obra"() {
                 this.form.id_funcionario = null
             },
-            "form.id_usuario"(){
-                this.form.id_usuario = null
-            },
+            
             "form.periodo.tipo"() {
                 if (this.form.periodo.tipo && this.form.periodo.tipo != 'todo_periodo') {
                     this.form.periodo.inicio = this.periodos[this.form.periodo.tipo].periodo_inicio
