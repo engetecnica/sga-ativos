@@ -1,4 +1,4 @@
-*log*
+log/*
 application/cache/*
 application/config/*
 assets/uploads/*/*
