@@ -8,7 +8,7 @@
   <p>Relatório de Obras, gerado em <?php echo date('d/m/Y H:i:s', strtotime('now')); ?>.</p>
 
   <table class="tabela">
-      <thead>
+      <thead id="">
           <tr>
             <th>ID</th>
             <th>Código/Nome</th>
