@@ -334,7 +334,7 @@ foreach ($relatorios as $modulo => $relatorio) {
             },
             filter_usuarios() {
                 return this.form.id_usuario ? this.usuarios.filter((usuario) => {
-                    return id_usuario.id_usuario == this.form.id_usuario
+                    return usuario.id_usuario == this.form.id_usuario
                 }) : this.usuarios
             }
         },
