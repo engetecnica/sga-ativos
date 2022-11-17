@@ -5,7 +5,7 @@
 /**
  * Description of ativo_externo
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class Ativo_externo extends MY_Controller {
 
@@ -188,6 +188,13 @@ class Ativo_externo extends MY_Controller {
     	$this->get_template($template, $data);
     }
 
+    /*
+        @title salvar certificado de calibração
+        @datetime oct 06 22, 08:43 am
+        @author André Baill
+        @modify logs
+    */
+
     function certificado_de_calibracao_salvar($id_ativo_externo){
         $ativo = $this->ativo_externo_model->get_ativo($id_ativo_externo);
        
@@ -204,7 +211,14 @@ class Ativo_externo extends MY_Controller {
             $certificado_de_calibracao = (isset($_FILES['certificado_de_calibracao']) ? $this->upload_arquivo('certificado_de_calibracao') : '');
             if (isset($_FILES['certificado_de_calibracao']) && 
                 (!$certificado_de_calibracao || ($certificado_de_calibracao == '' && $certificado['id_certificado']))) {
-                $this->session->set_flashdata('msg_erro', "O tamanho do certificado deve ser menor ou igual a ".ini_get('upload_max_filesize'));
+
+                $retorno = "O tamanho do certificado deve ser menor ou igual a ".ini_get('upload_max_filesize');
+                $this->session->set_flashdata('msg_erro', $retorno);
+
+                /* Salvar LOG */
+                $this->salvar_log(12, $id_ativo_externo, 'retorno', null, null, $retorno);
+
+
                 return redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
             }
 

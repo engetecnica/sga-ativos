@@ -65,7 +65,7 @@
                                 <div class="col-12 col-md-5">
                                     <select v-model="form.id_usuario" class="form-control" id="id_usuario" name="id_usuario">
                                         <option :value="null">Todos os Usuários</option>
-                                        <option v-for="(usuario, key) in filter_usuarios" :value="usuario.id_usuario" :key="key">{{usuario.nome}}</option>
+                                        <option v-for="(usuario, key) in filter_usuarios" :value="usuario.id_usuario" :key="key">{{usuario.nome}} ({{usuario.usuario}})</option>
                                     </select>
                                 </div>
                             </div>                            
@@ -147,7 +147,7 @@
 
                                     <template v-if="(relatorio && relatorio.filtros.includes('id_interno_maquina')) && form.tipo_veiculo == 'maquina'">
                                         <div class="col col-md-2">
-                                            <label for="id_interno_maquina" class=" form-control-label">ID Internada</label>
+                                            <label for="id_interno_maquina" class=" form-control-label">ID Interno</label>
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <input type="text" v-model="form.id_interno_maquina" placeholder="ENG-MAG-0000" class="form-control" id="id_interno_maquina" name="id_interno_maquina" />

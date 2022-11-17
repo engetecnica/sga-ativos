@@ -444,6 +444,26 @@ trait MY_Trait
 	*/	
 
 
+	function registrar_log($data = null, $retorno = null){
+
+		if($data==null) return [];
+
+
+		$retorno = $this->config->item('messages_fallback')[$retorno];
+
+
+		
+
+
+
+
+	//	$this->dd($data, $retorno);
+
+
+	}
+
+
+
 
 	/* 
 		@id_modulo
@@ -452,7 +472,7 @@ trait MY_Trait
 		@historico
 		@created_at
 	*/
-	public function salvar_log($id_modulo = null, $id_item = null, $acao = null, $data =null, $extra = null)
+	public function salvar_log($id_modulo = null, $id_item = null, $acao = null, $data =null, $extra = null, $retorno = null)
 	{
 
 		// Buscar nome do Módulo
@@ -464,7 +484,14 @@ trait MY_Trait
 		$resumo['id_modulo'] = $id_modulo;
 		$resumo['id_usuario'] = $this->user->id_usuario;
 		$resumo['acao'] = $acao;
-		$resumo['historico'] = "<b>{$usuario}</b> {$acao_texto} pertencente ao módulo de <b>{$modulo}</b> em ".date("d/m/Y H:i").". (".$extra.")";
+		$resumo['retorno'] = $retorno;
+		
+			if($acao=='retorno'){
+				$resumo['historico'] = "";
+			} else {
+				$resumo['historico'] = "<b>{$usuario}</b> {$acao_texto} pertencente ao módulo de <b>{$modulo}</b> em ".date("d/m/Y H:i").". (".$extra.")";
+			}
+		
 		$resumo['dados'] = json_encode($data);
 
 		// Insere registro de Log
@@ -490,6 +517,10 @@ trait MY_Trait
 
 			case "excluir":
 				$condicao = "excluiu o registro ID " . $id_item;
+				break;
+
+			case "retorno":
+				$condicao = "retornou um erro";
 				break;
 
 		endswitch;

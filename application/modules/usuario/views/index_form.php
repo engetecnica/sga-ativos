@@ -41,7 +41,7 @@
                                     <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $detalhes->id_usuario; ?>">
                                 <?php } ?>
                                 
-                                <?php if (!$is_self) {?>
+                                
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="nivel" class=" form-control-label">Tipo</label>
@@ -93,6 +93,8 @@
                                     <div class="col col-md-2">
                                         <label for="id_permissao" class=" form-control-label">Permissões</label>
                                     </div>
+
+                                   
 
                                     <div class="col-12 col-md-10">
                                         <table class="table table-bordered">
@@ -231,7 +233,7 @@
                                     </div>
                                 </div>
                                 
-                                <?php } else { ?>
+                                <?php if ($is_self) { ?>
                                     <input type="hidden" name="nivel" id="nivel" value="<?php echo $detalhes->nivel; ?>">
                                     <input type="hidden" name="id_empresa" id="id_empresa" value="<?php echo $detalhes->id_empresa; ?>">
                                     <input type="hidden" name="id_obra" id="id_obra" value="<?php echo $detalhes->id_obra; ?>">

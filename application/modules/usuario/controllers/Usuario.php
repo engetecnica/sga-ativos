@@ -5,7 +5,7 @@
 /**
  * Description of site
  *
- * @author Messias Dias | https://github.com/messiasdias
+ * @author André Baill | https://github.com/srandrebaill
  */
 class usuario  extends MY_Controller {
 
@@ -218,7 +218,7 @@ class usuario  extends MY_Controller {
         }
 
         if ($data['id_usuario'] != null && $this->user->id_usuario == $data['id_usuario']) {
-            echo redirect(base_url(""));
+            echo redirect(base_url("usuario"));
             return;
         }
         echo redirect(base_url("usuario"));

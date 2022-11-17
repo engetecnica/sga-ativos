@@ -144,7 +144,7 @@ class Ativo_veiculo_model extends MY_Model {
         return $this->set_outros_dados_veiculo($this->query()->where($coluna, $id_ativo_veiculo)->get()->row());
     }
 
-	public function get_extrato($tipo = 'km', $id_ativo_veiculo, $returnObject = true){
+	public function get_extrato($tipo = 'km', $id_ativo_veiculo = null, $returnObject = true){
 		$column = "veiculo_km";
 		$table = "ativo_veiculo_quilometragem";
 		if($tipo === 'operacao') {

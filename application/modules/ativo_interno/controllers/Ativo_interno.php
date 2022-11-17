@@ -5,7 +5,7 @@
 /**
  * Description of ativo_interno
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class Ativo_interno  extends MY_Controller {
 

@@ -622,3 +622,11 @@ try {
 } catch(\Exception $e){
     $config['insumos_tipo_medicao'] = [];
 }
+
+
+try {
+    require(APPPATH."/config/messages.php");
+    $config['messages_fallback'] = messages_fallback();
+} catch(\Exception $e){
+    $config['messages_fallback'] = [];
+}

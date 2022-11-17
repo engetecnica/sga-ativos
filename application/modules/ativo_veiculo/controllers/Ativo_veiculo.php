@@ -13,7 +13,7 @@ require_once __DIR__ ."/Ativo_veiculo_depreciacao.php";
 /**
  * Description of site
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class Ativo_veiculo  extends MY_Controller
 {

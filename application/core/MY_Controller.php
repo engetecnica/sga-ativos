@@ -10,7 +10,7 @@ if (!defined('BASEPATH'))
 /**
  * Description of my_controller
  *
- * @author https://roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 
 use \Mpdf\Mpdf;
@@ -149,13 +149,14 @@ class MY_Controller extends MX_Controller {
             $this->db
             ->where('modulo.id_vinculo !=', '0')
             ->where("usuario_modulo.id_usuario_nivel", $nivel)
-            ->where("modulo.id_vinculo", $Obj->id_modulo)
+            ->where("modulo.id_vinculo", ($Obj->id_modulo) ?? null)
             ->order_by("modulo.titulo", 'desc')
             ->join("modulo", "modulo.id_modulo=usuario_modulo.id_modulo")
             ->group_by("usuario_modulo.id_modulo");
 
             $Obj->submodulo = $this->db->get('usuario_modulo')->result();
         }
+        
         return $nivelObj;
     }    
 
@@ -307,8 +308,8 @@ class MY_Controller extends MX_Controller {
             //outros
             //Ex: "id_configuracao" => $id_configuracao,
         ],
-        $id_modulo, 
-        $id_modulo_item, 
+        $id_modulo = null, 
+        $id_modulo_item = null, 
         $tipo = null, 
         $id_modulo_subitem = null
     ) : int {  

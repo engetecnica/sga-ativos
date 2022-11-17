@@ -4,8 +4,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="overview-wrap"> <?php $id = isset($detalhes) && isset($detalhes->id_ativo_configuracao) ? "#configuracao-{$detalhes->id_ativo_configuracao}" : ''?>
-                        <a href="<?php echo base_url("ativo_configuracao{$id}"); ?>">
+                    <div class="overview-wrap"> <?php $id = isset($detalhes) && isset($detalhes->id_insumo_configuracao) ? "#configuracao-{$detalhes->id_insumo_configuracao}" : ''?>
+                        <a href="<?php echo base_url("insumo_configuracao{$id}"); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
@@ -18,14 +18,14 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <?php echo isset($detalhes) && isset($detalhes->id_ativo_configuracao) ? 'Editar Insumo' : 'Novo Insumo' ?>
+                            <?php echo isset($detalhes) && isset($detalhes->id_insumo_configuracao) ? 'Editar Configuração de Insumo' : 'Nova Configuração de Insumo' ?>
                         </div>
                         <div class="card-body">
 
-                            <form action="<?php echo base_url('insumo_categoria/salvar'); ?>" method="post" enctype="multipart/form-data">
+                            <form action="<?php echo base_url('insumo_configuracao/salvar'); ?>" method="post" enctype="multipart/form-data">
 
-                                <?php if(isset($detalhes) && isset($detalhes->id_ativo_configuracao)){?>
-                                <input type="hidden" name="id_ativo_configuracao" id="id_ativo_configuracao" value="<?php echo $detalhes->id_ativo_configuracao; ?>">
+                                <?php if(isset($detalhes) && isset($detalhes->id_insumo_configuracao)){?>
+                                <input type="hidden" name="id_insumo_configuracao" id="id_insumo_configuracao" value="<?php echo $detalhes->id_insumo_configuracao; ?>">
                                 <?php } ?>
 
                                 <div class="row form-group">
@@ -33,10 +33,10 @@
                                         <label for="razao_social" class=" form-control-label">Tipo do Insumo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select class="form-control" id="id_ativo_configuracao_vinculo" name="id_ativo_configuracao_vinculo">
+                                        <select class="form-control" id="id_insumo_configuracao_vinculo" name="id_insumo_configuracao_vinculo">
                                             <option value="0">Tipo Principal</option>
                                             <?php foreach($lista_categoria as $valor){ ?>
-                                            <option value="<?php echo $valor->id_ativo_configuracao; ?>" <?php if(isset($detalhes) && $detalhes->id_ativo_configuracao_vinculo==$valor->id_ativo_configuracao){ echo "selected=selected"; } ?>><?php echo $valor->titulo; ?></option>
+                                            <option value="<?php echo $valor->id_insumo_configuracao; ?>" <?php if(isset($detalhes) && $detalhes->id_insumo_configuracao_vinculo==$valor->id_insumo_configuracao){ echo "selected=selected"; } ?>><?php echo $valor->titulo; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -58,12 +58,12 @@
                                     </div>
 
                                     <div class="col col-md-2">
-                                        <label for="medicao" class=" form-control-label">Tipo de Medição</label>
+                                        <label for="medicao" class=" form-control-label">Unidade de Medida</label>
                                     </div>                                    
                                     <div class="col-12 col-md-2">
-                                        <select name="medicao" id="situacao" class="form-control">
+                                        <select name="medicao" id="medicao" class="form-control">
                                             <?php foreach($tipo_medicao as $tipo){ ?>
-                                            <option value="<?php echo $tipo['codigo']; ?>" <?php if(isset($detalhes) && isset($detalhes->situacao) && $detalhes->situacao==0){ echo "selected='selected'"; } ?>><?php echo $tipo['nome']; ?></option>
+                                            <option value="<?php echo $tipo['codigo']; ?>" <?php if(isset($detalhes) && isset($detalhes->medicao) && $detalhes->medicao==$tipo['codigo']){ echo "selected='selected'"; } ?>><?php echo $tipo['nome']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -87,7 +87,7 @@
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url("ativo_configuracao{$id}");?>">
+                                    <a href="<?php echo base_url("insumo_configuracao{$id}");?>">
                                     <button class="btn btn-secondary" type="button">                                   
                                         <i class="fa fa-ban "></i>&nbsp;
                                         <span id="cancelar-form">Cancelar</span>

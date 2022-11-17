@@ -5,7 +5,7 @@
 /**
  * Description of site
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class funcionario  extends MY_Controller {
 

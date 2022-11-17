@@ -298,7 +298,7 @@
                                             <th scope="col" width="10%">Id</th>
                                             <th scope="col" width="20%">Item</th>
                                             <th scope="col" width="20%">Estoque</th>
-                                            <th scope="col" width="20%">Qtde. Solcitada</th>
+                                            <th scope="col" width="20%">Qtde. Solicitada</th>
                                             <th scope="col" width="20%">Qtde. Liberada</th>
                                             <th scope="col" width="150">Liberar</th>
                                             <th scope="col">Situação</th>

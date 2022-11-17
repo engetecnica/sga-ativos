@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
-    <meta name="co-author" content="Messias Dias <messiasdias.ti@gmail.com>">
+    <meta name="co-author" content="André Baill <messiasdias.ti@gmail.com>">
     <meta name="keywords" content="au theme template">
     <meta name="theme-color" content="#fd9e0f"/>
     <meta name="mobile-web-app-capable" content="yes">

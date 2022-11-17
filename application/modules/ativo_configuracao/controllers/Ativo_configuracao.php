@@ -5,7 +5,7 @@
 /**
  * Description of site
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class Ativo_configuracao  extends MY_Controller {
 

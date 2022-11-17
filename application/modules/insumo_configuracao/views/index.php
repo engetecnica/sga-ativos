@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                        <a href="<?php echo base_url('insumo_categoria/adicionar'); ?>">
+                        <a href="<?php echo base_url('insumo_configuracao/adicionar'); ?>">
                         <button class="au-btn au-btn-icon au-btn--blue">
                         <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
                     </div>
@@ -20,32 +20,45 @@
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
-                                    <th>Código</th>
-                                    <th>Titulo</th>
-                                    <th>Categoria</th>
-                                    <th>Situação</th>
-                                    <th class="text-right">Gerenciar</th>
+                                    <th class="text-center">Código</th>
+                                    <th class="text-center">Categoria</th>
+                                    <th class="text-center">Titulo</th>
+                                    <th class="text-center">Unidade de Medida</th>
+                                    <th class="text-center">Situação</th>
+                                    <th class="text-center">Gerenciar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($lista as $valor){ ?>
-                                <tr id="<?php echo "configuracao-{$valor->id_ativo_configuracao}"?>">
-                                    <td>
+                                <tr id="<?php echo "configuracao-{$valor->id_insumo_configuracao}"?>">
+                                    <td class="text-center">
                                         <?php if ($valor->permit_edit || $valor->permit_delete) {?>
-                                            <a  href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>">
-                                                <?php echo $valor->id_ativo_configuracao; ?>
+                                            <a  href="<?php echo base_url('insumo_configuracao'); ?>/editar/<?php echo $valor->id_insumo_configuracao; ?>">
+                                                <?php echo $valor->id_insumo_configuracao; ?>
                                             </a>
-                                        <?php } else { echo $valor->id_ativo_configuracao;  } ?>
+                                        <?php } else { echo $valor->id_insumo_configuracao;  } ?>
                                     </td>
-                                    <td><?php echo $valor->id_ativo_configuracao; ?></td>
-                                    <td><?php echo $valor->titulo; ?></td>
-                                    <td><?php echo ($valor->id_ativo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_ativo_configuracao_vinculo; ?></td>
-                                    <td>
+                                    <td class="text-center"><?php echo $valor->id_insumo_configuracao; ?></td>
+                                    <td class="text-center"><?php echo ($valor->id_insumo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_insumo_configuracao_vinculo; ?></td>
+                                    <td class="text-center"><?php echo $valor->titulo; ?></td>
+                                    <td class="text-center"><span class="badge badge-primary">
+                                        <?php
+                                            foreach($this->tipo_medicao as $medicao)
+                                            {
+                                                if($valor->medicao == $medicao['codigo'])
+                                                {
+                                                    $medicao_titulo[$valor->medicao] = $medicao['nome'];
+                                                } 
+                                            }
+                                        ?>
+                                        <?php echo ($medicao_titulo[$valor->medicao]) ?? 'Nenhum';  ?>
+                                    </span></td>
+                                    <td class="text-center">
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>
                                     </td>
 
-                                    <td class="text-right">
+                                    <td class="text-center">
 
                                     <?php if ($valor->permit_edit || $valor->permit_delete) {?>
                                         <div class="btn-group">
@@ -62,7 +75,7 @@
                                                 <?php if ($valor->permit_edit == 1) {?>
                                                 <a 
                                                     class="dropdown-item " 
-                                                    href="<?php echo base_url('ativo_configuracao'); ?>/editar/<?php echo $valor->id_ativo_configuracao; ?>"
+                                                    href="<?php echo base_url('insumo_configuracao'); ?>/editar/<?php echo $valor->id_insumo_configuracao; ?>"
                                                 >
                                                     <i class="fas fa-edit"></i> Editar
                                                 </a>
@@ -72,9 +85,9 @@
                                                 <a 
                                                     class="dropdown-item  deletar_registro" 
                                                     href="javascript:void(0)" 
-                                                    data-href="<?php echo base_url('ativo_configuracao'); ?>/deletar/<?php echo $valor->id_ativo_configuracao; ?>" 
-                                                    data-registro="<?php echo $valor->id_ativo_configuracao;?>" 
-                                                    data-tabela="ativo_configuracao"
+                                                    data-href="<?php echo base_url('insumo_configuracao'); ?>/deletar/<?php echo $valor->id_insumo_configuracao; ?>" 
+                                                    data-registro="<?php echo $valor->id_insumo_configuracao;?>" 
+                                                    data-tabela="insumo_configuracao"
                                                 >
                                                     <i class="fas fa-trash"></i> Excluir
                                                 </a>

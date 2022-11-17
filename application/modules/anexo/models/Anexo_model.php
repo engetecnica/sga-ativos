@@ -117,12 +117,6 @@ class Anexo_model extends MY_Model
 			$data['id_anexo_pai'] = $this->input->post('id_anexo');
 			$this->db->insert('anexo', $data);
 			return $this->db->affected_rows() ? $this->db->insert_id() : null;
-			/*
-      $this->db
-        ->where('id_anexo', $data['id_anexo'])
-        ->update('anexo', $data);
-        return $this->db->affected_rows() ? $data['id_anexo'] : null;
-        */
 		}
 	}
 

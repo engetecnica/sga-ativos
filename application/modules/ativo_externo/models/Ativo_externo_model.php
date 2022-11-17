@@ -12,10 +12,18 @@ class Ativo_externo_model extends MY_Model {
 	public function salvar_formulario($data=null){
 		if($data['id_ativo_externo'] == ''){
 			$this->db->insert('ativo_externo', $data);
+
+			/* Salvar LOG */
+			$this->salvar_log(12, $data['id_anexo'], 'adicionar', $data, null);
+
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_ativo_externo', $data['id_ativo_externo']);
 			$this->db->update('ativo_externo', $data);
+
+			/* Salvar LOG */
+			$this->salvar_log(12, $data['id_ativo_externo'], 'editar', $data, null);
+
 			return "salvar_ok";
 		}
 

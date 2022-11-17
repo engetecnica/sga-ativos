@@ -5,7 +5,7 @@
 /**
  * Description of Index
  *
- * @author https://www.roytuts.com
+ * @author André Baill | https://www.github.com/srandrebaill
  */
 class Index extends MY_Controller {
 

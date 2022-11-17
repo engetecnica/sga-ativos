@@ -29,8 +29,9 @@ class Login_model extends MY_Model {
 		}
 
 		if($usuario){
+
 			if((int) $usuario->situacao == 1){
-				$this->session->set_flashdata('msg_erro', "Usuário inativo, favor contatar um administrado do Sistema!");
+				$this->session->set_flashdata('msg_erro', $this->config->item('messages_fallback')['login_inativo']);
 				echo redirect(base_url("login"));		
 			}
 
@@ -44,16 +45,23 @@ class Login_model extends MY_Model {
 						->where("id_usuario_nivel", $usuario->nivel)
 						->get('usuario_modulo')
 						->result();
-
+			
 			$this->session->set_userdata('modulos', json_encode($modulos));
 			$this->session->set_userdata('logado', $usuario);
+
+			$this->session->set_flashdata('msg_success', $this->config->item('messages_fallback')['login_sucesso']);
+			
+			$this->registrar_log($usuario, 'login_sucesso');
 			redirect(base_url($this->input->post('redirect_to')));
 			$this->session->unset_userdata('redirect_to');
+
+			
 		} else {
-			$this->session->set_flashdata('msg_erro', "Senha digitada está incorreta.");
+			$this->session->set_flashdata('msg_erro', $this->config->item('messages_fallback')['login_incorreto']);
 			echo redirect(base_url("login"));
 			return;				
 		}
+
 	}
 
 }
