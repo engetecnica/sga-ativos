@@ -140,7 +140,7 @@
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
                                                         :key="index">
                                                     <button style="display:inline-grid"
-                                                        @click="removeItem(grupos_selecionados[sg].id_ativo_externo_grupo)" 
+                                                        @click="removeItem(grupos_selecionados[sg].id_ativo_externo_grupo,cod)" 
                                                         type="button" 
                                                         class="btn btn-sm btn-danger"
                                                     >
@@ -316,33 +316,32 @@
             },
             addItem(item){
                 let array_patrimonio;
-                let item_patrimonio=[];
+                //let item_patrimonio=[];
                 if (typeof item !== 'object'){
                     item = this.grupos.find(i => i.id_ativo_externo_grupo == item);
 
                     array_patrimonio = $('.cadMultiple' + item.id_ativo_externo_grupo).val();
-                    $('.cadMultiple' + item.id_ativo_externo_grupo).val(null).trigger('change');
                     
+                }
+                if(array_patrimonio.length>0){
+                    $('.cadMultiple' + item.id_ativo_externo_grupo).val(null).trigger('change');
                     /*for(let k=0; k<item.ativos.length; k++){
                         item_patrimonio.push(item?.ativos[k].codigo);
                         console.log(item_patrimonio);
                     }*/
-                    
-                    
                     array_patrimonio.forEach((element, key) => {
-                        console.log(`.cadMultiple${item.id_ativo_externo_grupo} option[value='${element}']`)
                         $(`.cadMultiple${item.id_ativo_externo_grupo} option[value='${element}']`).remove()
-                        //item_patrimonio = item.find(i => ativos[item.ativos.length].codigo = element)
-                        //console.log(item_patrimonio);
                     });
-                }
 
-                const beforeIndex = this.grupos_selecionados.findIndex(i => {
-                    return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
-                })
-                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1, array_patrimonio})
-                if(item && beforeIndex >= 0){
-                    this.grupos_selecionados[beforeIndex].array_patrimonio.push(...array_patrimonio);
+                    const beforeIndex = this.grupos_selecionados.findIndex(i => {
+                        return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
+                    });
+
+                    if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1, array_patrimonio});
+
+                    if(item && beforeIndex >= 0){
+                        this.grupos_selecionados[beforeIndex].array_patrimonio.push(...array_patrimonio);
+                    }
                 }
 /*
                 if(item && beforeIndex < 0){
@@ -367,11 +366,21 @@
                 if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1})
                 if(item && beforeIndex >= 0)this.grupos_selecionados[beforeIndex].quantidade++*/
             },
-            removeItem(item) {
+            removeItem(item,codpat) {
+                let remove_patrimonio;
+                let index_patrimonio
                 if (typeof item !== 'object') item = this.grupos_selecionados.find(i => i.id_ativo_externo_grupo == item)
                 const index = this.grupos_selecionados.findIndex(i => {
                     return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
-                })
+                });
+                
+                
+                item.array_patrimonio.forEach((element,i)=>{
+                    if(element = cadpat){
+                        index_patrimonio = i;
+                    }
+                });
+                    
 
                 if (this.retirada && item?.id_retirada_item &&  this.grupos_selecionados.length > 1) {
                     window.$.ajax({
@@ -379,7 +388,14 @@
                         url: base_url + `ferramental_estoque/remove_item/${item.id_retirada_item}`
                     })
                     .done((status) => {
-                        if(status == 'true') estoque.grupos_selecionados.splice(index, 1)
+                        if(status == 'true' ){
+                            if(item.grupos_selecionados.array_patrimonio.lenght>0){ 
+                                this.grupos_selecionados[index].array_patrimonio.splice(index_patrimonio,1);
+                                
+                            }else{
+                                estoque.grupos_selecionados.splice(index, 1)
+                            }
+                        }
                         estoque.data_table?.reload()
                     })
                     return
