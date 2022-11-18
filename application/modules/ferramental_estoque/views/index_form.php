@@ -82,7 +82,7 @@
                                         <tr>
                                             <th scope="col" width="50%">Nome</th>
                                             <th scope="col" width="20%">Cod. Patrimônio</th>
-                                            <th scope="col" width="15%">Quantidade</th>
+                                            <!--<th scope="col" width="15%">Quantidade</th> -->
                                             <th scope="col" width="15%">Remover</th>
                                         </tr>
                                     </thead>
@@ -121,7 +121,7 @@
                                                     <option v-for="cod in sgrupo.array_patrimonio" selected :key="cod" :value="cod">{{cod}}</option>
                                                 </select>-->
                                             </td>
-                                            <td scope="col" width="15%">
+                                            <!--<td scope="col" width="15%" >
                                                 <div class="row mt-1" style="display:inline-grid">
                                                     <input 
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
@@ -134,7 +134,7 @@
                                                 >
                                                 </div>
                                                 
-                                            </td>
+                                            </td>-->
                                             <td scope="col" width="15%">
                                                 <div class="row col-form-label mt-1"
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
@@ -177,7 +177,7 @@
 
                                 <hr>
                                 <div class="pull-left">
-                                    <button  type="submit" form="form-retirada" class="btn btn-primary" :disabled="!permite_form">                                                    
+                                    <button  type="submit" form="form-retirada" class="btn btn-primary" :disabled="permite_form">                                                    
                                         <i class="fa fa-save "></i>&nbsp;
                                         <span id="submit-form">Salvar Requisição</span>
                                     </button>
@@ -316,22 +316,18 @@
             },
             addItem(item){
                 let array_patrimonio;
-                //let item_patrimonio=[];
+
                 if (typeof item !== 'object'){
                     item = this.grupos.find(i => i.id_ativo_externo_grupo == item);
-
-                    array_patrimonio = $('.cadMultiple' + item.id_ativo_externo_grupo).val();
-                    
+                    array_patrimonio = $('.cadMultiple' + item.id_ativo_externo_grupo).val();    
                 }
+
                 if(array_patrimonio.length>0){
                     $('.cadMultiple' + item.id_ativo_externo_grupo).val(null).trigger('change');
-                    /*for(let k=0; k<item.ativos.length; k++){
-                        item_patrimonio.push(item?.ativos[k].codigo);
-                        console.log(item_patrimonio);
-                    }*/
-                    array_patrimonio.forEach((element, key) => {
+    
+                    /*array_patrimonio.forEach((element, key) => {
                         $(`.cadMultiple${item.id_ativo_externo_grupo} option[value='${element}']`).remove()
-                    });
+                    });*/
 
                     const beforeIndex = this.grupos_selecionados.findIndex(i => {
                         return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
@@ -343,65 +339,40 @@
                         this.grupos_selecionados[beforeIndex].array_patrimonio.push(...array_patrimonio);
                     }
                 }
-/*
-                if(item && beforeIndex < 0){
-                    this.grupos_selecionados.push({...item, quantidade: 1, array_patrimonio})
-                }
-                if(item && beforeIndex >= 0){
-                    let selecionados = this.grupos_selecionados[beforeIndex].array_patrimonio;
-                    selecionados.push(array_patrimonio);
-                }
-                $(document).ready(function() {
-                    $('.js-example-basic-multiple').select2();
-                });
-                
-                array_patrimonio.forEach((element)=>{
-                    var newOption = new Option(element, element, true, true);
-                    console.log('#'+item?.id_ativo_externo_grupo);
-                    $('#'+item?.id_ativo_externo_grupo).append(newOption).trigger('change');
-                });
-                const beforeIndex = this.grupos_selecionados.findIndex(i => {
-                    return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
-                })
-                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1})
-                if(item && beforeIndex >= 0)this.grupos_selecionados[beforeIndex].quantidade++*/
             },
             removeItem(item,codpat) {
-                let remove_patrimonio;
-                let index_patrimonio
+                let remove_patrimonio =[];
+                let index_patrimonio;
+
                 if (typeof item !== 'object') item = this.grupos_selecionados.find(i => i.id_ativo_externo_grupo == item)
+
                 const index = this.grupos_selecionados.findIndex(i => {
                     return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
                 });
                 
-                
-                item.array_patrimonio.forEach((element,i)=>{
-                    if(element = cadpat){
-                        index_patrimonio = i;
+                /*Object.keys(item?.ativos).map(function (key) {
+                    if(codpat == item.ativos[key].codigo){
+                        index_patrimonio = key;
+                    }
+                });*/
+
+                Object.keys(item?.array_patrimonio).map(function (key) {
+                    remove_patrimonio.push(item.array_patrimonio[key]);
+                    if(codpat == item.array_patrimonio[key]){
+                        index_patrimonio = key;
                     }
                 });
-                    
 
-                if (this.retirada && item?.id_retirada_item &&  this.grupos_selecionados.length > 1) {
-                    window.$.ajax({
-                        method: "POST",
-                        url: base_url + `ferramental_estoque/remove_item/${item.id_retirada_item}`
-                    })
-                    .done((status) => {
-                        if(status == 'true' ){
-                            if(item.grupos_selecionados.array_patrimonio.lenght>0){ 
-                                this.grupos_selecionados[index].array_patrimonio.splice(index_patrimonio,1);
-                                
-                            }else{
-                                estoque.grupos_selecionados.splice(index, 1)
-                            }
-                        }
-                        estoque.data_table?.reload()
-                    })
-                    return
+                if(remove_patrimonio.length > 1){ 
+                    this.grupos_selecionados[index].array_patrimonio.splice(index_patrimonio,1);
+                }else{
+                    this.grupos_selecionados.splice(index, 1)
                 }
-
-                if (!this.retirada || !item.id_retirada_item) this.grupos_selecionados.splice(index, 1)
+                /*
+                var newOption = new Option(codpat, codpat, false, false);
+                $(`.cadMultiple${item.id_ativo_externo_grupo}`).append(newOption).trigger('change');]
+                */
+                
             },
             listaRetiradasFuncionario(id_funcionario, solilicitar = true){
                 if(solilicitar) {
