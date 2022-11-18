@@ -136,6 +136,10 @@ class Ferramental_estoque  extends MY_Controller {
                 [
                     "name" => "actions",
                     "view" => "index_form/actions"
+                ],
+                [
+                    "name" => "patrimonio",
+                    "view" => "index_form/patrimonio"
                 ]
             ];
             $data['table'] = 'atv';  

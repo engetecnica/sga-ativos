@@ -80,13 +80,14 @@
                                 <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" >
                                     <thead>
                                         <tr>
-                                            <th scope="col" width="60%">Nome</th>
-                                            <th scope="col" width="20%">Quantidade</th>
-                                            <th scope="col" width="20%">Remover</th>
+                                            <th scope="col" width="50%">Nome</th>
+                                            <th scope="col" width="20%">Cod. Patrimônio</th>
+                                            <th scope="col" width="15%">Quantidade</th>
+                                            <th scope="col" width="15%">Remover</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(sgrupo, sg) in grupos_selecionados" :key="sg" >
+                                        <tr v-for="(sgrupo, sg) in grupos_selecionados" :key="sg">
                                             <input 
                                                 type="hidden"
                                                 v-if="grupos_selecionados[sg].id_retirada_item"
@@ -99,33 +100,53 @@
                                                 :value="grupos_selecionados[sg].id_ativo_externo_grupo"
                                             >
 
-                                            <td scope="col" width="60%">
+                                            <td scope="col" width="50%">
                                                 <div class="exchange1">
                                                     <!-- <input
                                                         type="text" readonly
                                                         class="form-control"
                                                         :value="sgrupo.nome"
                                                     /> -->
-                                                    {{sgrupo.nome}}
+                                                    {{sgrupo.nome}} 
                                                 </div>
                                             </td>
-                                            <td scope="col" width="10%">
-                                                <input 
-                                                    name="quantidade[]" type="number" placeholder="0" 
-                                                    class="form-control quantidade"
-                                                    v-model="grupos_selecionados[sg].quantidade"
-                                                    :value="grupos_selecionados[sg].quantidade"
-                                                    min="1" :max="grupos_selecionados[sg].estoque"
-                                                >
+                                            <td scope="col" width="20%">
+                                                <div class="row justify-content-center text-align" style="display:grid">
+                                                    <label class ="col-form-label" 
+                                                    v-for="(cod,index) in sgrupo.array_patrimonio" 
+                                                    :key="index">{{cod}}</label>
+                                                </div>
+                                                <!--
+                                                <select v-bind:id="sgrupo.id_ativo_externo_grupo" class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                                                    <option v-for="cod in sgrupo.array_patrimonio" selected :key="cod" :value="cod">{{cod}}</option>
+                                                </select>-->
                                             </td>
-                                            <td scope="col" width="10%">
-                                                <button 
-                                                    @click="removeItem(grupos_selecionados[sg].id_ativo_externo_grupo)" 
-                                                    type="button" 
-                                                    class="btn btn-sm btn-danger"
+                                            <td scope="col" width="15%">
+                                                <div class="row mt-1" style="display:inline-grid">
+                                                    <input 
+                                                        v-for="(cod,index) in sgrupo.array_patrimonio" 
+                                                        :key="index"
+                                                        name="quantidade[]" type="number" placeholder="0" 
+                                                        class="form-control quantidade mb-2"
+                                                        v-model="grupos_selecionados[sg].quantidade"
+                                                        :value="grupos_selecionados[sg].quantidade"
+                                                        min="1" :max="grupos_selecionados[sg].estoque"
                                                 >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
+                                                </div>
+                                                
+                                            </td>
+                                            <td scope="col" width="15%">
+                                                <div class="row col-form-label mt-1"
+                                                        v-for="(cod,index) in sgrupo.array_patrimonio" 
+                                                        :key="index">
+                                                    <button style="display:inline-grid"
+                                                        @click="removeItem(grupos_selecionados[sg].id_ativo_externo_grupo)" 
+                                                        type="button" 
+                                                        class="btn btn-sm btn-danger"
+                                                    >
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -242,6 +263,14 @@
                         }
                     },
                     { 
+                        title: 'Cod. Patrimônio',
+                        sortable: false,
+                        searchable: false,
+                        render(value, type, row, settings){ 
+                            return row.patrimonio
+                        },
+                    },
+                    { 
                         title: 'Adicionar',
                         sortable: false,
                         searchable: false,
@@ -286,12 +315,57 @@
                 });
             },
             addItem(item){
-                if (typeof item !== 'object') item = this.grupos.find(i => i.id_ativo_externo_grupo == item)
+                let array_patrimonio;
+                let item_patrimonio=[];
+                if (typeof item !== 'object'){
+                    item = this.grupos.find(i => i.id_ativo_externo_grupo == item);
+
+                    array_patrimonio = $('.cadMultiple' + item.id_ativo_externo_grupo).val();
+                    $('.cadMultiple' + item.id_ativo_externo_grupo).val(null).trigger('change');
+                    
+                    /*for(let k=0; k<item.ativos.length; k++){
+                        item_patrimonio.push(item?.ativos[k].codigo);
+                        console.log(item_patrimonio);
+                    }*/
+                    
+                    
+                    array_patrimonio.forEach((element, key) => {
+                        console.log(`.cadMultiple${item.id_ativo_externo_grupo} option[value='${element}']`)
+                        $(`.cadMultiple${item.id_ativo_externo_grupo} option[value='${element}']`).remove()
+                        //item_patrimonio = item.find(i => ativos[item.ativos.length].codigo = element)
+                        //console.log(item_patrimonio);
+                    });
+                }
+
                 const beforeIndex = this.grupos_selecionados.findIndex(i => {
                     return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
                 })
-                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: item?.quantidade || 1})
-                if(item && beforeIndex >= 0)this.grupos_selecionados[beforeIndex].quantidade++
+                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1, array_patrimonio})
+                if(item && beforeIndex >= 0){
+                    this.grupos_selecionados[beforeIndex].array_patrimonio.push(...array_patrimonio);
+                }
+/*
+                if(item && beforeIndex < 0){
+                    this.grupos_selecionados.push({...item, quantidade: 1, array_patrimonio})
+                }
+                if(item && beforeIndex >= 0){
+                    let selecionados = this.grupos_selecionados[beforeIndex].array_patrimonio;
+                    selecionados.push(array_patrimonio);
+                }
+                $(document).ready(function() {
+                    $('.js-example-basic-multiple').select2();
+                });
+                
+                array_patrimonio.forEach((element)=>{
+                    var newOption = new Option(element, element, true, true);
+                    console.log('#'+item?.id_ativo_externo_grupo);
+                    $('#'+item?.id_ativo_externo_grupo).append(newOption).trigger('change');
+                });
+                const beforeIndex = this.grupos_selecionados.findIndex(i => {
+                    return i.id_ativo_externo_grupo == item?.id_ativo_externo_grupo ||  i.id_ativo_externo_grupo == item
+                })
+                if(item && beforeIndex < 0)this.grupos_selecionados.push({...item, quantidade: 1})
+                if(item && beforeIndex >= 0)this.grupos_selecionados[beforeIndex].quantidade++*/
             },
             removeItem(item) {
                 if (typeof item !== 'object') item = this.grupos_selecionados.find(i => i.id_ativo_externo_grupo == item)
