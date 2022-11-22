@@ -199,7 +199,12 @@ class Ferramental_estoque  extends MY_Controller {
 
     # Grava Retirada
     function salvar(){
-        if ($this->input->post('quantidade') && count($this->input->post('quantidade')) > 0) {
+
+        
+
+
+
+        if ($this->input->post('patrimonios') && count($this->input->post('patrimonios')) > 0) {
             # Dados
             $id_retirada = $this->input->post('id_retirada');
             $retirada['id_obra'] = $this->input->post('id_obra');
@@ -227,20 +232,25 @@ class Ferramental_estoque  extends MY_Controller {
             }
 
             $items = array();
-            foreach($this->input->post('quantidade') as $k=>$item){
-                if ((int) $this->input->post('quantidade')[$k] > 0) {
+            foreach($this->input->post('patrimonios') as $k=>$item){
+
+                $patrimonio[$k] = $this->ferramental_estoque_model->get_patrimonio_by_code($item);
+                if (isset($patrimonio[$k])) {
+
+                    //echo "aqui";
                     $items[$k] = array();
-                    if(isset($this->input->post('id_retirada_item')[$k])) {
-                        $items[$k]['id_retirada_item'] = $this->input->post('id_retirada_item')[$k]; 
+                    if(isset($patrimonio[$k]->id_retirada_item)) {
+                        $items[$k]['id_retirada_item'] = $patrimonio[$k]->id_retirada_item; 
                     }
 
                     $items[$k]['id_retirada'] = $id_retirada;
-                    $items[$k]['quantidade'] = (int) $this->input->post('quantidade')[$k];
-                    $items[$k]['id_ativo_externo_grupo'] = $this->input->post('id_ativo_externo_grupo')[$k];
+                    $items[$k]['quantidade'] = 1;
+                    $items[$k]['id_ativo_externo_grupo'] = $patrimonio[$k]->id_ativo_externo_grupo;
                     $items[$k]['status'] = $retirada['status'];
                 }
             }
-            
+
+        
             if ($mode == 'update') {
                 $items_update = $items_insert = array();
                 foreach($items as $i => $item) {

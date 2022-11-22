@@ -160,7 +160,7 @@
                                         <tr class="active">
                                             <th width="10%" scope="col">Item Id</th>
                                             <th width="60%" scope="col">Item</th>
-                                            <th width="2.5%" scope="col">Quantidade</th>
+                                            <th width="2.5%" scope="col">Código</th>
                                             <th width="10%" scope="col">Data da Entrega</th>
                                             <th width="10%" scope="col">Data da Devolucao</th>
                                             <th width="2.5%"scope="col">Situação</th>
@@ -180,7 +180,7 @@
                                                     <?php echo $item->nome; ?>
                                                 </a>
                                             </td>
-                                            <td><?php echo $item->quantidade; ?></td>
+                                            <td><?php echo $item->codigo; ?></td>
                                             <td><?php echo $this->formata_data_hora($item->data_retirada); ?></td>
                                             <td><?php echo $this->formata_data_hora($item->data_devolucao); ?></td>
                                             <td>

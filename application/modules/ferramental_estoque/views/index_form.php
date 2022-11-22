@@ -117,7 +117,7 @@
                                                     :key="index">{{cod}}</label>
                                                 </div>
                                                 <!--
-                                                <select v-bind:id="sgrupo.id_ativo_externo_grupo" class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                                                <select v-bind:id="sgrupo.id_ativo_externo_grupo" class="js-example-basic-multiple" name="patrimonios[]" multiple="multiple">
                                                     <option v-for="cod in sgrupo.array_patrimonio" selected :key="cod" :value="cod">{{cod}}</option>
                                                 </select>-->
                                             </td>
@@ -136,7 +136,7 @@
                                                 
                                             </td>-->
                                             <td scope="col" width="15%">
-                                                <div class="row col-form-label mt-1"
+                                                <!-- <div class="row col-form-label mt-1"
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
                                                         :key="index">
                                                     <button style="display:inline-grid"
@@ -146,7 +146,7 @@
                                                     >
                                                         <i class="fa fa-minus"></i>
                                                     </button>
-                                                </div>
+                                                </div> -->
                                             </td>
                                         </tr>
                                     </tbody>
@@ -270,14 +270,14 @@
                             return row.patrimonio
                         },
                     },
-                    { 
-                        title: 'Adicionar',
-                        sortable: false,
-                        searchable: false,
-                        render(value, type, row, settings){ 
-                            return row.actions
-                        },
-                    },
+                    // { 
+                    //     title: 'Adicionar',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     render(value, type, row, settings){ 
+                    //         return row.actions
+                    //     },
+                    // },
                 ],
             }
         },

@@ -81,7 +81,7 @@ class ferramental_estoque_model extends MY_Model {
 	}
 
 	public function get_retirada_items($id_retirada){
-		$items = $this->db->select('item.*, atv.id_ativo_externo_grupo, atv.nome')
+		$items = $this->db->select('item.*, atv.id_ativo_externo_grupo, atv.nome, atv.codigo')
 				->from('ativo_externo_retirada_item item')
 				->where("item.id_retirada = {$id_retirada}")
 				->join('ativo_externo atv', 'item.id_ativo_externo_grupo = atv.id_ativo_externo_grupo')
@@ -130,6 +130,11 @@ class ferramental_estoque_model extends MY_Model {
 		$consulta = $this->db->where('id_retirada_item', $id_retirada_item)->get('ativo_externo_retirada_item')->row();
 		$consulta->ativo = $this->db->where('id_retirada_item', $id_retirada_item)->get('ativo_externo_retirada_ativo')->row();
 		return $consulta;
+	}
+
+	public function get_patrimonio_by_code($patrimonio_code){
+		if($patrimonio_code==null) return [];
+		return $this->db->where('codigo', $patrimonio_code)->get('ativo_externo')->row();
 	}
 
 
