@@ -5,10 +5,18 @@ class Configuracao_model extends MY_Model {
 	public function salvar_formulario($data=null){
 		if($this->db->where('id_configuracao', 1)->get('configuracao')->num_rows() === 0){
 			$this->db->insert('configuracao', $data);
+
+			// Salvar LOG
+			$this->salvar_log(20, null, 'adicionar', $data);
+
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_configuracao', $data['id_configuracao'])
 								->update('configuracao', $data);
+
+			// Salvar LOG
+			$this->salvar_log(20, $data['id_configuracao'], 'editar', $data);	
+
 			return "salvar_ok";
 		}
 	}

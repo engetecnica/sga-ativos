@@ -12,12 +12,20 @@ class ferramental_estoque_model extends MY_Model {
 	public function salvar_formulario($data = []){
 		if (!isset($data['id_retirada'])) {
 			$this->db->insert('ativo_externo_retirada', $data);
+			
+			// Salvar LOG
+			$this->salvar_log(13, null, 'adicionar', $data);
+
 			return $this->db->insert_id();
+
 		}
 
 		$this->db
 			->where('id_retirada', $data['id_retirada'])
 			->update('ativo_externo_retirada', $data);
+
+			// Salvar LOG
+			$this->salvar_log(13, $data['id_retirada'], 'editar', $data);
 	}
 
 	public function query($id_obra = null, $id_funcionario = null, $status = null){

@@ -5,10 +5,18 @@ class Ativo_configuracao_model extends MY_Model {
 	public function salvar_formulario($data=null){
 		if($data['id_ativo_configuracao']==''){
 			$this->db->insert('ativo_configuracao', $data);
+
+			//Salvar LOG
+			$this->salvar_log(21, null, 'adicionar', $data);
+
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_ativo_configuracao', $data['id_ativo_configuracao'])
 								->update('ativo_configuracao', $data);
+
+			//Salvar LOG
+			$this->salvar_log(21, $data['id_ativo_configuracao'], 'editar', $data);
+
 			return "salvar_ok";
 		}
 	}
