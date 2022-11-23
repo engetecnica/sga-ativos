@@ -19,6 +19,9 @@ class usuario_model extends MY_Model {
 
 			$this->db->insert('usuario', $data);
 
+			// Salvar LOG
+			$this->salvar_log(2, null, 'adicionar', $data);                
+
 			if ($data['email'] != null) {
 				$this->usuario_model->solicitar_confirmacao_email($this->db->insert_id(), "email_bem_vindo");
 			}
@@ -36,6 +39,10 @@ class usuario_model extends MY_Model {
 		}
 
 		$this->db->where('id_usuario', $data['id_usuario'])->update('usuario', $data);
+
+		// Salvar LOG
+		$this->salvar_log(2, $data['id_usuario'], 'editar', $data, null, null);
+
 		$usuario = $this->db->where('id_usuario', $data['id_usuario'])->get('usuario')->row();
 		if ($usuario->email && (!$usuario->email_confirmado_em && !$usuario->codigo_recuperacao)) {
 			$this->usuario_model->solicitar_confirmacao_email($usuario->id_usuario, "email_confirmacao");

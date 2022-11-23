@@ -5,10 +5,18 @@ class fornecedor_model extends MY_Model {
 	public function salvar_formulario($data=null){
 		if($data['id_fornecedor']==''){
 			$this->db->insert('fornecedor', $data);
+
+			//Salvar LOG
+			$this->salvar_log(5, null, 'adicionar', $data);
+
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_fornecedor', $data['id_fornecedor']);
 			$this->db->update('fornecedor', $data);
+
+			//Salvar LOG
+			$this->salvar_log(5, $data['id_fornecedor'], 'editar', $data);
+
 			return "salvar_ok";
 		}
 	}

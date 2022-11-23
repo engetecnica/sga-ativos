@@ -21,9 +21,15 @@ class ferramental_requisicao_model extends MY_Model {
 		if (isset($data['id_requisicao'])) {
 			return $this->db->where('id_requisicao', $data['id_requisicao'])
 											->update('ativo_externo_requisicao', $data);
+		$this->salvar_log(14, $data['id_requisicao'], 'editar', $data, );
+
 		}
 
 		$this->db->insert('ativo_externo_requisicao', $data);
+
+		// Salvar LOG
+		$this->salvar_log(14, null, 'adicionar', $data);
+
 		return $this->db->insert_id();
 	}
 	//@todo remove

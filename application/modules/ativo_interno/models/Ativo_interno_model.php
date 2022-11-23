@@ -5,10 +5,18 @@ class Ativo_interno_model extends MY_Model {
 	public function salvar_formulario($data=null){
 		if($data['id_ativo_interno']==''){
 			$this->db->insert('ativo_interno', $data);
+
+			 // Salvar LOG
+			 $this->salvar_log(10, null, 'adicionar', $data);
+
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_ativo_interno', $data['id_ativo_interno']);
 			$this->db->update('ativo_interno', $data);
+
+            // Salvar LOG
+			$this->salvar_log(10, $data['id_ativo_interno'], 'editar', $data);
+
 			return "salvar_ok";
 		}
 	}

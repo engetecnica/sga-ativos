@@ -53,6 +53,7 @@ class Login_model extends MY_Model {
 			
 			$this->registrar_log($usuario, 'login_sucesso');
 
+			// Salvar LOG
 			$this->salvar_log_usuarios($usuario->id_usuario, $usuario->nome);
 
 			redirect(base_url($this->input->post('redirect_to')));
