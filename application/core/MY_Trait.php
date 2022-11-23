@@ -472,7 +472,7 @@ trait MY_Trait
 		@historico
 		@created_at
 	*/
-	public function salvar_log($id_modulo = null, $id_item = null, $acao = null, $data =null, $extra = null, $retorno = null)
+	public function salvar_log($id_modulo = null, $id_item = null, $acao = null, $data = null, $extra = null, $retorno = null)
 	{
 
 		// Buscar nome do Módulo
@@ -496,7 +496,7 @@ trait MY_Trait
 
 		// Insere registro de Log
 		return $this->db->insert('logs', $resumo);
-
+		return 'sucesso';
 	}
 
 	public function salvar_log_condicao($condicao, $id_item = null){
@@ -519,9 +519,19 @@ trait MY_Trait
 				$condicao = "excluiu o registro ID " . $id_item;
 				break;
 
+			case "descartar":
+				$condicao = "descartou o registro ID " . $id_item;
+				break;
+
+			case "desfazer":
+				  $condicao = "desfez o descarte do registro ID " . $id_item;
+				  break;
+
 			case "retorno":
 				$condicao = "retornou um erro";
 				break;
+
+			
 
 		endswitch;
 
@@ -534,7 +544,7 @@ trait MY_Trait
 		$resumo['id_item'] = null;
 		$resumo['id_modulo'] = 2; //modulo USUARIOS
 		$resumo['id_usuario'] = $usuario_id;
-		$resumo['acao'] = 'Acessou';
+		$resumo['acao'] = 'acessou';
 		$resumo['historico'] = "<b>{$usuario_nome} acessou o sistema dia ".date('d/m/Y H:i')."   </b>";
 		$resumo['retorno'] = null;
 		$resumo['dados'] = null;

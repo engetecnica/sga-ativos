@@ -133,6 +133,9 @@ class Ativo_interno  extends MY_Controller {
                                 'data_descarte' => date('Y-m-d H:i:s', strtotime('now'))
                             ]);
 
+            // Salvar LOG
+			$this->salvar_log(10, $id_ativo_interno, 'descartar', $this->ativo_interno_model->get_ativo($id_ativo_interno), null, null);                
+
             return $this->json([
                 'success' => $status
             ]);
@@ -150,6 +153,8 @@ class Ativo_interno  extends MY_Controller {
                                 'situacao' => '1',
                                 'data_descarte' => null
                             ]);
+            // Salvar LOG
+			$this->salvar_log(10, $id_ativo_interno, 'desfazer', $this->ativo_interno_model->get_ativo($id_ativo_interno), null, null);                
 
             return $this->json([
                 'success' => $status
