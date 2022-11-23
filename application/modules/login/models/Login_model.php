@@ -52,6 +52,9 @@ class Login_model extends MY_Model {
 			$this->session->set_flashdata('msg_success', $this->config->item('messages_fallback')['login_sucesso']);
 			
 			$this->registrar_log($usuario, 'login_sucesso');
+
+			$this->salvar_log_usuarios($usuario->id_usuario, $usuario->nome);
+
 			redirect(base_url($this->input->post('redirect_to')));
 			$this->session->unset_userdata('redirect_to');
 

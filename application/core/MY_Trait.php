@@ -529,4 +529,16 @@ trait MY_Trait
 
 	}
 
+	public function salvar_log_usuarios($usuario_id, $usuario_nome)
+	{
+		$resumo['id_item'] = null;
+		$resumo['id_modulo'] = 2; //modulo USUARIOS
+		$resumo['id_usuario'] = $usuario_id;
+		$resumo['acao'] = 'Acessou';
+		$resumo['historico'] = "<b>{$usuario_nome} acessou o sistema dia ".date('d/m/Y H:i')."   </b>";
+		$resumo['retorno'] = null;
+		$resumo['dados'] = null;
+		return $this->db->insert('logs', $resumo);
+	}
+
 }
