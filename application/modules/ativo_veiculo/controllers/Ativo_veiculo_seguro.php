@@ -95,10 +95,18 @@ trait Ativo_veiculo_seguro {
 
             if ($data['id_ativo_veiculo_seguro'] == '' || !$data['id_ativo_veiculo_seguro']) {
                 $this->db->insert('ativo_veiculo_seguro', $data);
+
+                // Salvar LOG
+                $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
                 $this->db->where('id_ativo_veiculo_seguro', $data['id_ativo_veiculo_seguro'])
                     ->update('ativo_veiculo_seguro', $data);
+
+                    // Salvar LOG
+                    $this->salvar_log(9, $data['id_ativo_veiculo'], 'editar', $data);
+
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
 
@@ -143,6 +151,12 @@ trait Ativo_veiculo_seguro {
 
         $this->deletar_anexos('ativo_veiculo', $id_ativo_veiculo, 'seguro', $id_ativo_veiculo_seguro);
         $this->db->where("id_ativo_veiculo_seguro = {$id_ativo_veiculo_seguro}")->delete('ativo_veiculo_seguro');
+
+        // Salvar LOG
+        $data["id_ativo_veiculo"] = $id_ativo_veiculo;
+        $data["id_ativo_veiculo_seguro"] = $id_ativo_veiculo_seguro;
+        $this->salvar_log(9, $id_ativo_veiculo_seguro, 'excluir', $data);
+
         echo redirect(base_url("ativo_veiculo/seguro/{$id_ativo_veiculo}"));
         return true;
     }
