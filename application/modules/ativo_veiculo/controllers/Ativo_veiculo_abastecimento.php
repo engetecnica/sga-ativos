@@ -121,8 +121,16 @@ trait Ativo_veiculo_abastecimento {
 
             if (!$data['id_ativo_veiculo_abastecimento']) {
                 $this->db->insert('ativo_veiculo_abastecimento', $data);
+
+                // Salvar LOG
+                $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+
                 if ($ultimo_km && $veiculo_km > $ultimo_km->veiculo_km) {
-                    $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km]);
+                    $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km, "id_ativo_veiculo" => $data["id_ativo_veiculo"]]);
+                   
+                    // Salvar LOG
+                    $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+
                 }
                 $msg = "Novo registro inserido com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
@@ -130,6 +138,10 @@ trait Ativo_veiculo_abastecimento {
             } else {
                 $this->db->where('id_ativo_veiculo_abastecimento', $data['id_ativo_veiculo_abastecimento'])
                     ->update('ativo_veiculo_abastecimento', $data);
+
+                // Salvar LOG
+                $this->salvar_log(9, $data['id_ativo_veiculo'], 'editar', $data);
+
                 $msg = "Registro atualizado com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
