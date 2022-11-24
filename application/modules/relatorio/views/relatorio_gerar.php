@@ -118,6 +118,9 @@
                                         <option :value="null">Tipo de Ação</option>
                                         <option value="adicionar">Adicionou um registro novo</option>
                                         <option value="editar">Editou um registro</option>
+                                        <option value="descartar">Descartou um registro</option>
+                                        <option value="desfazer">Desfez um registro</option>
+                                        <option value="acessou">Acessou o sistema</option>
                                         <option value="excluir">Excluir um registro</option>
                                     </select>
                                 </div>

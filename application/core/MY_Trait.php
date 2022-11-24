@@ -545,7 +545,7 @@ trait MY_Trait
 		$resumo['id_modulo'] = 2; //modulo USUARIOS
 		$resumo['id_usuario'] = $usuario_id;
 		$resumo['acao'] = 'acessou';
-		$resumo['historico'] = "<b>{$usuario_nome} acessou o sistema dia ".date('d/m/Y H:i')."   </b>";
+		$resumo['historico'] = "<b>{$usuario_nome}</b> acessou o <b>sistema</b> em ".date('d/m/Y H:i')."";
 		$resumo['retorno'] = null;
 		$resumo['dados'] = null;
 		return $this->db->insert('logs', $resumo);
