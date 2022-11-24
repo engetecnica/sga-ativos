@@ -77,15 +77,9 @@ class Ferramental_requisicao  extends MY_Controller {
 
     # Criar uma nova Requisição
     function adicionar() {
-        $grupos = [];
-        if ($this->user->nivel == 1) {
-           // $grupos = $this->ativo_externo_model->get_grupos($this->user->id_obra);
-        }
         
-        if ($this->user->nivel == 2) {
-           // $grupos = $this->ativo_externo_model->get_grupos($this->user->id_obra);
-        }
-    
+        $grupos = $this->ativo_externo_model->get_grupos(null);
+        
         $this->get_template('index_form',[
             'grupos' => $grupos,
             'obras' => $this->obra_model->get_obras(),
