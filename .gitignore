@@ -6,6 +6,5 @@ vendor/
 !assets/uploads/*/.gitkeep
 !assets/uploads/.gitkeep
 local_bd.sql
-.env
 *.DS_Store
 *dump_*
