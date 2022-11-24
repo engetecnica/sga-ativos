@@ -13,8 +13,9 @@ class ferramental_estoque_model extends MY_Model {
 		if (!isset($data['id_retirada'])) {
 			
 			// Salvar LOG
-			$this->salvar_log(13, null, 'adicionar', $data);
+			$this->salvar_log(13, null, 'adicionar', $data);		
 			
+			// Insere na Base
 			$this->db->insert('ativo_externo_retirada', $data);
 			return $this->db->insert_id();
 

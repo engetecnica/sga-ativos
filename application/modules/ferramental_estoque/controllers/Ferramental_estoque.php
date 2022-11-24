@@ -201,9 +201,8 @@ class Ferramental_estoque  extends MY_Controller {
     function salvar(){
 
         
-
-
-
+        
+        
         if ($this->input->post('patrimonios') && count($this->input->post('patrimonios')) > 0) {
             # Dados
             $id_retirada = $this->input->post('id_retirada');
@@ -212,15 +211,23 @@ class Ferramental_estoque  extends MY_Controller {
             $retirada['status'] = 1; # Pendente
             $retirada['observacoes'] = $this->input->post('observacoes');
             $retirada['devolucao_prevista'] = $this->input->post('devolucao_prevista');
-
+            
+            
+            
+            
             $mode = 'update';
             if (!$id_retirada) {
                 $mode = 'insert';
                 $id_retirada = $this->ferramental_estoque_model->salvar_formulario($retirada);
+
             } else {
                 $retirada['id_retirada'] =  $id_retirada;
             }
-
+            
+            
+            
+            
+            
             if (strtotime($retirada['devolucao_prevista']) < strtotime('now')) {
                 $this->session->set_flashdata('msg_success', "Data de devolução prevista deve ser maior que atual!");
                 if ($mode == 'insert') {
@@ -230,13 +237,14 @@ class Ferramental_estoque  extends MY_Controller {
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
                 return;
             }
-
+            
+            
             $items = array();
             foreach($this->input->post('patrimonios') as $k=>$item){
-
+                
                 $patrimonio[$k] = $this->ferramental_estoque_model->get_patrimonio_by_code($item);
                 if (isset($patrimonio[$k])) {
-
+                    
                     //echo "aqui";
                     $items[$k] = array();
                     if(isset($patrimonio[$k]->id_retirada_item)) {
@@ -249,7 +257,8 @@ class Ferramental_estoque  extends MY_Controller {
                     $items[$k]['status'] = $retirada['status'];
                 }
             }
-
+            
+          //  $this->dd($items, $this->input->post(), $id_retirada);
         
             if ($mode == 'update') {
                 $items_update = $items_insert = array();
@@ -273,19 +282,32 @@ class Ferramental_estoque  extends MY_Controller {
                 $this->ferramental_estoque_model->salvar_formulario($retirada);
             } else{ 
                 $this->db->insert_batch("ativo_externo_retirada_item", $items);
+
+
+            //    echo $id_retirada;
+
+                
+                
+                //die();
                 $this->notificacoes_model->enviar_push(
-                    "Retirada de Ferramentas Pendênte", 
-                    "Nova Retirada de Ferramentas pendênte de aprovação. Clique na Notificação para mais detalhes.", 
-                    [
-                        "filters" => [
-                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
-                            ["operator" => "AND"],
-                            ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
-                        ],
-                        "url" => "ferramental_estoque/detalhes/{$id_retirada}"
-                    ]
-                );
+                        "Retirada de Ferramentas Pendênte", 
+                        "Nova Retirada de Ferramentas pendênte de aprovação. Clique na Notificação para mais detalhes.", 
+                        [
+                                "filters" => [
+                                        ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+                                        ["operator" => "AND"],
+                                        ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
+                                    ],
+                                    "url" => "ferramental_estoque/detalhes/{$id_retirada}"
+                                ]
+                            );
             }
+                        
+            // echo "aqui";
+                        
+            // $this->dd($items);
+            // die();
+
 
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
             echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
