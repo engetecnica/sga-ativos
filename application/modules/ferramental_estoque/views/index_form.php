@@ -479,6 +479,8 @@
 
                 options = {
                     columns: this.data_table_columns,
+                    
+                    length: 1500,
                     url: `ferramental_estoque/buscar/grupos`,
                     ajaxOnSuccess: (response) => {
                         this.grupos = response.data
@@ -486,7 +488,13 @@
                 }
 
                 try {
-                    this.data_table = window.loadDataTable(this.data_table_id, options)
+                    this.data_table = window.loadDataTable(this.data_table_id, options);
+                    //alert("aqui") feitoperai
+                    $(".dataTables_info").hide();
+                    $(".dataTables_paginate").hide();
+                    
+                    $(".dataTables_length").hide();
+                    //$(".dataTables_filter").hide();
                 } catch (e) {
                     setTimeout(() => this.loadDataTable(), 500) 
                 }

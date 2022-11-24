@@ -45,10 +45,14 @@ const config_lista = {
         }
     }
 }
-
 const ajaxDataTable = function (data, callback, settings = {}, options = {}){
     options.ajaxData = data
     options.async = true
+
+    //alert();
+    if(options?.url=="ferramental_estoque/buscar/grupos"){
+        settings.oAjaxData.length=1000;
+    }
     
     $.ajax({
         method: options?.method || 'GET',
