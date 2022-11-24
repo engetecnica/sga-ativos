@@ -77,13 +77,13 @@
                                 <input type="hidden" id="id_funcionario" name="id_funcionario" :value="id_funcionario" />
                                 <input type="hidden" id="solicitar_autorizacao" name="solicitar_autorizacao" :value="solicitar_autorizacao">
                              
-                                <!-- <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" >
+                                <table class="table dataTable table-responsive-md table--no-card table-borderless table-striped table-earning  m-b-25" >
                                     <thead>
                                         <tr>
-                                            <th scope="col" >Nome</th>
-                                            <th scope="col" width="15%">Quantidade</th>
-                                            <th scope="col" >Qtd. Em Estoque	</th>
-                                            <th scope="col">Cod. Patrimônio</th>
+                                            <th scope="col" width="50%">Nome</th>
+                                            <th scope="col" width="20%">Cod. Patrimônio</th>
+                                            <!--<th scope="col" width="15%">Quantidade</th> -->
+                                            <th scope="col" width="15%">Remover</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,11 +102,11 @@
 
                                             <td scope="col" width="50%">
                                                 <div class="exchange1">
-                                                    <input
+                                                    <!-- <input
                                                         type="text" readonly
                                                         class="form-control"
                                                         :value="sgrupo.nome"
-                                                    /> 
+                                                    /> -->
                                                     {{sgrupo.nome}} 
                                                 </div>
                                             </td>
@@ -116,12 +116,12 @@
                                                     v-for="(cod,index) in sgrupo.array_patrimonio" 
                                                     :key="index">{{cod}}</label>
                                                 </div>
-                                                
+                                                <!--
                                                 <select v-bind:id="sgrupo.id_ativo_externo_grupo" class="js-example-basic-multiple" name="patrimonios[]" multiple="multiple">
                                                     <option v-for="cod in sgrupo.array_patrimonio" selected :key="cod" :value="cod">{{cod}}</option>
-                                                </select>
+                                                </select>-->
                                             </td>
-                                            <td scope="col" width="15%" >
+                                            <!--<td scope="col" width="15%" >
                                                 <div class="row mt-1" style="display:inline-grid">
                                                     <input 
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
@@ -134,7 +134,7 @@
                                                 >
                                                 </div>
                                                 
-                                            </td>
+                                            </td>-->
                                             <td scope="col" width="15%">
                                                 <!-- <div class="row col-form-label mt-1"
                                                         v-for="(cod,index) in sgrupo.array_patrimonio" 
@@ -146,11 +146,11 @@
                                                     >
                                                         <i class="fa fa-minus"></i>
                                                     </button>
-                                                </div> 
+                                                </div> -->
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table> -->
+                                </table>
 
                                 <div class="row form-group m-t-40">
                                     <div class="col-12 col-md-3">
