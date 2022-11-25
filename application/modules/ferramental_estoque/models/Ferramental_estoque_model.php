@@ -93,10 +93,11 @@ class ferramental_estoque_model extends MY_Model {
 		$items = $this->db->select('item.*, atv.id_ativo_externo_grupo, atv.nome, atv.codigo')
 				->from('ativo_externo_retirada_item item')
 				->where("item.id_retirada = {$id_retirada}")
-				->join('ativo_externo atv', 'item.id_ativo_externo_grupo = atv.id_ativo_externo_grupo')
+				->join('ativo_externo atv', 'item.id_ativo_externo = atv.id_ativo_externo')
 				->group_by('item.id_retirada_item')
 				->get()
 				->result();
+
 
 			if ($items) {
 				foreach($items as $i => $item){
