@@ -25,12 +25,12 @@ class ferramental_requisicao_model extends MY_Model {
 		$this->salvar_log(14, $data['id_requisicao'], 'editar', $data);
 
 		}
-		
+
+		// Salvar LOG
 		$this->salvar_log(14, null, 'adicionar', $data, );
 
 		$this->db->insert('ativo_externo_requisicao', $data);
 
-		// Salvar LOG
 
 		return $this->db->insert_id();
 	}

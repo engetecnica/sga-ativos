@@ -4,11 +4,11 @@ class empresa_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 		if($data['id_empresa']==''){
-			$this->db->insert('empresa', $data);
 
 			// Salvar LOG
 			$this->salvar_log(4, null, 'adicionar', $data);
 
+			$this->db->insert('empresa', $data);
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_empresa', $data['id_empresa']);

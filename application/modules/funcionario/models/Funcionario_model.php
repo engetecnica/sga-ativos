@@ -4,11 +4,11 @@ class funcionario_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 		if($data['id_funcionario']==''){
-			$this->db->insert('funcionario', $data);
 
 			// Salvar LOG
 			$this->salvar_log(3, null, 'adicionar', $data);
 
+			$this->db->insert('funcionario', $data);
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_funcionario', $data['id_funcionario']);

@@ -150,6 +150,10 @@ trait Ativo_veiculo_depreciacao {
                 $data['fipe_valor'] = $this->formata_moeda_float($this->input->post('fipe_valor'));
 
                 if ($data['id_ativo_veiculo_depreciacao'] == '' || !$data['id_ativo_veiculo_depreciacao']) {
+
+                    //Salvar LOG
+                    $this->salvar_log(9, null, 'adicionar', $data);    
+
                     $this->db->insert('ativo_veiculo_depreciacao', $data);
                     $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
                 } else {
@@ -200,6 +204,7 @@ trait Ativo_veiculo_depreciacao {
                         'fipe_mes_referencia' =>  (int) date("m"),
                         'fipe_ano_referencia' =>  (int) date("Y"),
                     ];
+
                     $this->db->insert('ativo_veiculo_depreciacao',  $data);
                 }
 

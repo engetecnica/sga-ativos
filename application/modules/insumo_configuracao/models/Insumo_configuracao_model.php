@@ -12,18 +12,18 @@ class Insumo_configuracao_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 		if($data['id_insumo_configuracao']==''){
-			$this->db->insert('insumo_configuracao', $data);
 
 			// salvar LOG
-			$this->salvar_log(22, null, 'adicionar', $data);                
-
+			$this->salvar_log(22, null, 'adicionar', $data);
+			
+			$this->db->insert('insumo_configuracao', $data);
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_insumo_configuracao', $data['id_insumo_configuracao'])
 								->update('insumo_configuracao', $data);
 						
 			// salvar LOG
-			$this->salvar_log(22, $data['id_id_insumo_configuracao'], 'editar', $data);
+			$this->salvar_log(22, $data['id_insumo_configuracao'], 'editar', $data);
 
 			return "salvar_ok";
 		}
