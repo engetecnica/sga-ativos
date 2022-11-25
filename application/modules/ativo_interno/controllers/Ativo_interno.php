@@ -215,6 +215,10 @@ class Ativo_interno  extends MY_Controller {
         if ($data['id_manutencao'] == null && $this->ativo_interno_model->permit_create_manutencao($data['id_ativo_interno'])) {
             $data['situacao'] = 0;
             $data['data_saida'] = $this->input->post('data_saida');
+
+            //Salvar LOG
+            $this->salvar_log(10, null, 'adicionar', $data);
+
             $this->db->insert('ativo_interno_manutencao', $data);
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_interno/manutencao/{$data['id_ativo_interno']}"));
@@ -231,12 +235,21 @@ class Ativo_interno  extends MY_Controller {
             $this->db->where('id_manutencao', $data['id_manutencao'])
                 ->where('id_manutencao', $data['id_manutencao'])
                 ->update('ativo_interno_manutencao', $data);
+
+            //Salvar LOG
+            $this->salvar_log(10, $data['id_manutencao'], 'editar', $data);
+
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_interno/manutencao/{$data['id_ativo_interno']}"));
     }
 
     function manutencao_remover($id_manutencao){
+        
+        //Salvar LOG
+        $data['id_manutencao'] = $id_manutencao;
+        $this->salvar_log(10, $id_manutencao, 'excluir', $data);
+
         return $this->db->where('id_manutencao', $id_manutencao)
                 ->delete('ativo_interno_manutencao');
     }
@@ -274,6 +287,10 @@ class Ativo_interno  extends MY_Controller {
 
         if (!$data['id_obs'] && $data['texto']) {
             $data['data_inclusao'] = date('Y-m-d H:i:s', strtotime('now'));
+
+            //Salvar LOG
+            $this->salvar_log(10, $data['id_obs'], 'adicionar', $data);
+
             $this->db->insert('ativo_interno_manutencao_obs', $data);
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
         } 
@@ -285,6 +302,10 @@ class Ativo_interno  extends MY_Controller {
                 ->where('id_obs', $data['id_obs'])
                 ->where('id_usuario', $data['id_usuario'])
                 ->update('ativo_interno_manutencao_obs', $data);
+
+            //Salvar LOG
+            $this->salvar_log(10, $data['id_obs'], 'editar', $data);
+
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_interno/manutencao_editar/{$id_ativo_interno}/{$id_manutencao}#obs"));

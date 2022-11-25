@@ -97,11 +97,11 @@ trait Ativo_veiculo_ipva {
 
             if ($data['id_ativo_veiculo_ipva'] == '' || !$data['id_ativo_veiculo_ipva']) {
                 if ($this->ativo_veiculo_model->permit_add_ipva($data['id_ativo_veiculo'], $data['ipva_ano'])) {
-                    $this->db->insert('ativo_veiculo_ipva', $data);
 
                     // Salvar LOG
-                    $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+                    $this->salvar_log(9, $data['id_ativo_veiculo_ipva'], 'adicionar', $data);
 
+                    $this->db->insert('ativo_veiculo_ipva', $data);
                     $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
                 } else {
                     $this->session->set_flashdata('msg_erro', "Já existe um lançamento de IPVA pra o mesmo ano!");
@@ -113,7 +113,7 @@ trait Ativo_veiculo_ipva {
                     ->update('ativo_veiculo_ipva', $data);
 
                      // Salvar LOG
-                     $this->salvar_log(9, $data['id_ativo_veiculo'], 'editar', $data);
+                     $this->salvar_log(9, $data['id_ativo_veiculo_ipva'], 'editar', $data);
 
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
@@ -163,7 +163,7 @@ trait Ativo_veiculo_ipva {
         // Salvar LOG
         $data["id_ativo_veiculo"] = $id_ativo_veiculo;
         $data["id_ativo_veiculo_ipva"] = $id_ativo_veiculo_ipva;
-        $this->salvar_log(9, $id_ativo_veiculo, 'excluir', $data);
+        $this->salvar_log(9, $id_ativo_veiculo_ipva, 'excluir', $data);
 
         echo redirect(base_url("ativo_veiculo/ipva/{$id_ativo_veiculo}"));
         return true;

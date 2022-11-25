@@ -120,17 +120,18 @@ trait Ativo_veiculo_abastecimento {
             $data['combustivel_unidade_total'] = number_format(($data['abastecimento_custo'] / $data['combustivel_unidade_valor']), 2);
 
             if (!$data['id_ativo_veiculo_abastecimento']) {
-                $this->db->insert('ativo_veiculo_abastecimento', $data);
 
                 // Salvar LOG
-                $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+                $this->salvar_log(9, $data['id_ativo_veiculo_abastecimento'], 'adicionar', $data);
+
+                $this->db->insert('ativo_veiculo_abastecimento', $data);
 
                 if ($ultimo_km && $veiculo_km > $ultimo_km->veiculo_km) {
-                    $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km, "id_ativo_veiculo" => $data["id_ativo_veiculo"]]);
-                   
+
                     // Salvar LOG
                     $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
 
+                    $this->db->insert('ativo_veiculo_quilometragem', ["data" =>  $data['abastecimento_data'], "veiculo_km" => $veiculo_km, "id_ativo_veiculo" => $data["id_ativo_veiculo"]]);
                 }
                 $msg = "Novo registro inserido com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
@@ -140,7 +141,7 @@ trait Ativo_veiculo_abastecimento {
                     ->update('ativo_veiculo_abastecimento', $data);
 
                 // Salvar LOG
-                $this->salvar_log(9, $data['id_ativo_veiculo'], 'editar', $data);
+                $this->salvar_log(9, $data['ativo_veiculo_abastecimento'], 'editar', $data);
 
                 $msg = "Registro atualizado com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);

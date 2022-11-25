@@ -9,11 +9,11 @@ class Obra_model extends MY_Model {
 		}
 
 		if($data['id_obra']=='') {
-			$this->db->insert('obra', $data);
 
 			//Salvar LOG
 			$this->salvar_log(6, null, 'adicionar', $data);
 
+			$this->db->insert('obra', $data);
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_obra', $data['id_obra'])->update('obra', $data);

@@ -118,19 +118,21 @@ trait Ativo_veiculo_quilometragem {
             $data['data'] = $this->input->post('data');
 
             if (!$data['id_ativo_veiculo_quilometragem']) {
-                $this->db->insert('ativo_veiculo_quilometragem', $data);
 
                 // Salvar Log
                 $this->salvar_log(9, null, 'adicionar', $data);
 
+                $this->db->insert('ativo_veiculo_quilometragem', $data);
                 $msg = "Novo registro inserido com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);
             } else {
                 $this->db->where('id_ativo_veiculo_quilometragem', $data['id_ativo_veiculo_quilometragem'])
                     ->update('ativo_veiculo_quilometragem', $data);
+
                 // Salvar Log
-                $this->salvar_log(9, $data['id_ativo_veiculo_quilometragem'], 'editar', $data);    
+                $this->salvar_log(9, $data['id_ativo_veiculo_quilometragem'], 'editar', $data);   
+                 
                 $msg = "Registro atualizado com sucesso!";
                 if ($returnJson) return $this->json(['message' => $msg, 'success' => true]);
                 $this->session->set_flashdata('msg_success', $msg);

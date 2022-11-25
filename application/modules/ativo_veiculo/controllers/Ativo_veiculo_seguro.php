@@ -94,18 +94,18 @@ trait Ativo_veiculo_seguro {
             $data['carencia_fim'] = $this->input->post('carencia_fim');
 
             if ($data['id_ativo_veiculo_seguro'] == '' || !$data['id_ativo_veiculo_seguro']) {
-                $this->db->insert('ativo_veiculo_seguro', $data);
 
                 // Salvar LOG
-                $this->salvar_log(9, $data['id_ativo_veiculo'], 'adicionar', $data);
+                $this->salvar_log(9, $data['id_ativo_veiculo_seguro'], 'adicionar', $data);
 
+                $this->db->insert('ativo_veiculo_seguro', $data);
                 $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             } else {
                 $this->db->where('id_ativo_veiculo_seguro', $data['id_ativo_veiculo_seguro'])
                     ->update('ativo_veiculo_seguro', $data);
 
                     // Salvar LOG
-                    $this->salvar_log(9, $data['id_ativo_veiculo'], 'editar', $data);
+                    $this->salvar_log(9, $data['id_ativo_veiculo_seguro'], 'editar', $data);
 
                 $this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
             }
