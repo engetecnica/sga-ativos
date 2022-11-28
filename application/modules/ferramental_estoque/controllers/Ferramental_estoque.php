@@ -96,11 +96,25 @@ class Ferramental_estoque  extends MY_Controller {
         echo redirect(base_url("ferramental_estoque"));
     }
 
-    function adicionar(){
-        $this->get_template('index_form');
+    function adicionar(){        
+        $id_obra = $this->user->nivel == 2 ? $this->user->id_obra : null;
+        $data['lista_funcionario'] = $this->funcionario_model->get_lista($this->user->id_empresa, $id_obra, 0);
+        $data['lista_ferramental'] = $this->ativo_externo_model->get_estoque($this->user->id_obra);
+
+      //  $this->dd($data);
+
+
+
+
+
+
+        $this->get_template('index_form', $data);
     }
 
     function editar($id_retirada){
+
+
+             
 
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 13, 'editar'));
 
@@ -112,7 +126,15 @@ class Ferramental_estoque  extends MY_Controller {
                 return;
             }
 
-            $this->get_template('index_form', ['id_retirada' => $id_retirada]);
+
+            $id_obra = $this->user->nivel == 2 ? $this->user->id_obra : null;
+            $data['lista_funcionario'] = $this->funcionario_model->get_lista($this->user->id_empresa, $id_obra, 0);
+            $data['lista_ferramental'] = $this->ativo_externo_model->get_estoque($this->user->id_obra);   
+            $data['id_retirada'] = $id_retirada;
+
+
+
+            $this->get_template('index_form', $data);
             return;
         }
         $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
@@ -201,12 +223,20 @@ class Ferramental_estoque  extends MY_Controller {
 
 
     # Grava Retirada
-    function salvar(){        
+    function salvar(){ 
         
-        if ($this->input->post('patrimonios') && count($this->input->post('patrimonios')) > 0) {
+        
+        
+        
+
+
+
+
+        
+        if ($this->input->post('ativo') && count($this->input->post('ativo')) > 0) {
             # Dados
             $id_retirada = $this->input->post('id_retirada');
-            $retirada['id_obra'] = $this->input->post('id_obra');
+            $retirada['id_obra'] = ($this->user->id_obra) ?? null;
             $retirada['id_funcionario'] = $this->input->post('id_funcionario');
             $retirada['status'] = 1; # Pendente
             $retirada['observacoes'] = $this->input->post('observacoes');
@@ -223,15 +253,16 @@ class Ferramental_estoque  extends MY_Controller {
             if (strtotime($retirada['devolucao_prevista']) < strtotime('now')) {
                 $this->session->set_flashdata('msg_success', "Data de devolução prevista deve ser maior que atual!");
                 if ($mode == 'insert') {
-                    echo redirect(base_url("ferramental_estoque/adicionar"));
-                    return;
+                    // echo redirect(base_url("ferramental_estoque/adicionar"));
+                    // return;
                 }
-                echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
-                return;
+                // echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
+                // return;
             }          
-
+            
             $items = array();
-            foreach($this->input->post('patrimonios') as $k=>$item){
+            
+            foreach($this->input->post('ativo') as $k=>$item){
                 
                 $patrimonio[$k] = $this->ferramental_estoque_model->get_patrimonio_by_code($item);
                 if (isset($patrimonio[$k])) {
@@ -252,6 +283,7 @@ class Ferramental_estoque  extends MY_Controller {
             
 
             
+       //     $this->dd($items, $retirada, $id_retirada, $this->input->post());
             // if ($mode == 'update') {
             //     $items_update = $items_insert = array();
             //     foreach($items as $i => $item) {
@@ -281,18 +313,18 @@ class Ferramental_estoque  extends MY_Controller {
                     
                 }
 
-                $this->notificacoes_model->enviar_push(
-                    "Retirada de Ferramentas Pendente", 
-                    "Nova Retirada de Ferramentas Pendente de aprovação. Clique na Notificação para mais detalhes.", 
-                    [
-                        "filters" => [
-                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
-                            ["operator" => "AND"],
-                            ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
-                                    ],
-                                    "url" => "ferramental_estoque/detalhes/{$id_retirada}"
-                                ]
-                            );
+                // $this->notificacoes_model->enviar_push(
+                //     "Retirada de Ferramentas Pendente", 
+                //     "Nova Retirada de Ferramentas Pendente de aprovação. Clique na Notificação para mais detalhes.", 
+                //     [
+                //         "filters" => [
+                //             ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => "1"],
+                //             ["operator" => "AND"],
+                //             ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
+                //                     ],
+                //                     "url" => "ferramental_estoque/detalhes/{$id_retirada}"
+                //                 ]
+                //             );
            
 
 

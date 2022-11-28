@@ -144,7 +144,7 @@ class ferramental_estoque_model extends MY_Model {
 
 	public function get_patrimonio_by_code($patrimonio_code){
 		if($patrimonio_code==null) return [];
-		return $this->db->where('codigo', $patrimonio_code)->get('ativo_externo')->row();
+		return $this->db->where('id_ativo_externo', $patrimonio_code)->get('ativo_externo')->row();
 	}
 
 

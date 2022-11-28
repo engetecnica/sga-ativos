@@ -64,7 +64,7 @@ class funcionario_model extends MY_Model {
 			}
 		}
 
-		return $funcionarios->get()->result();
+		return $funcionarios->order_by('nome', 'ASC')->get()->result();
 	}
 
 	public function get_funcionario($id_funcionario=null){
