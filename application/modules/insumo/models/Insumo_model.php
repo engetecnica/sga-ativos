@@ -31,6 +31,8 @@ class Insumo_model extends MY_Model {
 	public function get_insumos(){
 		return $this->query();
 	}
+
+	
 	
 
 

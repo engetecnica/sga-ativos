@@ -29,7 +29,7 @@
                         
                         <table 
                             class="table table-borderless table-striped table-earning" 
-                            id="insumos"
+                            id="insumo_index"
                         ></table>
 
                     </div>
@@ -40,3 +40,96 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
+<script>
+    const data_table_columns = [
+        {
+            title: 'ID',
+            name: 'id_insumo',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.id_link
+            }
+        },
+        { 
+            title: 'Titulo' ,
+            name: 'titulo',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.titulo_link
+            }
+        },
+        { 
+            title: 'Código insumo' ,
+            name: 'codigo_insumo',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.codigo
+            }
+        },
+        { 
+            title: 'Quantidade' ,
+            name: 'quantidade',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.quantidade
+            }
+        },
+        { 
+            title: 'Valor' ,
+            name: 'valor',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.valor
+            }
+        },
+        { 
+            title: 'Função' ,
+            name: 'funcao',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.funcao
+            }
+        },
+        { 
+            title: 'Composição' ,
+            name: 'composicao',
+            sortable: true,
+            searchable: true,
+            render: function(value, type, row, settings){
+                return row.composicao
+            }
+        },
+        { 
+            title: 'Situação',
+            sortable: true,
+            searchable: true,
+            name: 'situacao',
+            render: function(value, type, row, settings){
+                return row.situacao_html
+            }
+        },
+        { 
+            title: 'Gerenciar' ,
+            render(value, type, row, settings){
+                return row.actions
+            },
+        },
+    ]
+
+    const options = {
+        columns: data_table_columns,
+        url: `insumo`,
+        method: 'post',
+        order: [1, 'desc'],
+    }
+
+    $(window).ready(() => loadDataTable('insumo_index', options))
+    $(window).resize(() => loadDataTable('insumo_index', options))
+</script>
