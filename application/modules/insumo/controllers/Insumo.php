@@ -20,7 +20,26 @@ class Insumo extends MY_Controller {
 
     function index()
     {
-
+        if ($this->input->method() === 'post')  {
+            return $this->paginate_json([
+                "query_args" => [$this->user->id_insumo],
+                "templates" => [
+                    [
+                        "name" => "id_retirada_html",
+                        "view" => "index/id_insumo",
+                    ],
+                    [
+                        "name" => "status_html",
+                        "view" => "index/status"   
+                    ],
+                    [                       
+                        "name" => "actions",
+                        "view" => "index/actions"
+                    ]
+                ]
+            ]);
+        }
+        
         $this->get_template('index');
     }
 
@@ -34,6 +53,8 @@ class Insumo extends MY_Controller {
         $data['tipo_insumo'] = $this->insumo_configuracao_model->get_lista();
         $data['fornecedor'] = $this->fornecedor_model->get_lista();
         $data['detalhes'] = $this->insumo_model->get_insumos();
+
+
 
         $this->get_template('index_form', $data);
     }
