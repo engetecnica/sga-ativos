@@ -25,15 +25,22 @@ class Insumo_model extends MY_Model {
 	public function query(){
 		return $this->db
 			->from('insumo')
-			->select('id_insumo');
+			->select('*');
 	}
 
-	public function get_insumos(){
-		return $this->query();
+	public function get_insumo($id_insumo=null){
+		return $this->query()
+			->where('id_insumo', $id_insumo)
+			->get()->row();
 	}
 
-	
-	
+	public function get_todos_insumos()
+	{
+		$query = $this->db->get('insumo');
+		return $query->result();
+	}	
+
+
 
 
 }

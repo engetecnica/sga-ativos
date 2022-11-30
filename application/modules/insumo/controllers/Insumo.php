@@ -20,27 +20,42 @@ class Insumo extends MY_Controller {
 
     function index()
     {
-        if ($this->input->method() === 'post')  {
-            return $this->paginate_json([
-                "query_args" => [$this->user->id_insumo],
-                "templates" => [
-                    [
-                        "name" => "id_retirada_html",
-                        "view" => "index/id_insumo",
-                    ],
-                    [
-                        "name" => "status_html",
-                        "view" => "index/status"   
-                    ],
-                    [                       
-                        "name" => "actions",
-                        "view" => "index/actions"
-                    ]
-                ]
-            ]);
-        }
-        
-        $this->get_template('index');
+        // if ($this->input->method() === 'post')  {
+        //     return $this->paginate_json([
+        //         "templates" => [
+        //             [
+        //                 "name" => "id_link",
+        //                 "view" => "index_datatable/link",
+        //                 "data" => function($row, $data) {
+        //                     return  array_merge($data, [
+        //                         'text' => $row->id_insumo,
+        //                         'link' => base_url('insumo')."/editar/{$row->id_insumo}", 
+        //                     ]);
+        //                 }
+        //             ],
+        //             [
+        //                 "name" => "titulo_link",
+        //                 "view" => "index_datatable/link",
+        //                 "data" => function($row, $data) {
+        //                     return  array_merge($data, [
+        //                         'text' => $row->titulo,
+        //                         'link' => base_url('insumo')."/editar/{$row->id_insumo}", 
+        //                     ]);
+        //                 }
+        //             ],
+        //             [
+        //                 "name" => "situacao_html",
+        //                 "view" => "index_datatable/situacao"   
+        //             ],
+        //             [                       
+        //                 "name" => "actions",
+        //                 "view" => "index_datatable/actions"
+        //             ]
+        //         ]
+        //     ]);
+        // }
+        $data['insumos'] = $this->listar_insumos();    
+        $this->get_template('index', $data);
     }
 
 
@@ -52,10 +67,6 @@ class Insumo extends MY_Controller {
     {
         $data['tipo_insumo'] = $this->insumo_configuracao_model->get_lista();
         $data['fornecedor'] = $this->fornecedor_model->get_lista();
-        $data['detalhes'] = $this->insumo_model->get_insumos();
-
-
-
         $this->get_template('index_form', $data);
     }
 
@@ -82,7 +93,22 @@ class Insumo extends MY_Controller {
         echo redirect(base_url("insumo"));
     }
 
+    public function listar_insumos()
+    {
+        return $this->insumo_model->get_todos_insumos(); 
+    }
 
+    function editar($id_insumo=null){
+        $data['tipo_insumo'] = $this->insumo_configuracao_model->get_lista();
+        $data['fornecedor'] = $this->fornecedor_model->get_lista();
+        $data['detalhes'] = $this->insumo_model->get_insumo($id_insumo);
+        $this->get_template('index_form', $data);
+    }
 
+    function deletar($id=null){
+
+        $this->db->where('id_insumo', $id);
+        return $this->db->delete('insumo');
+    }
 
 }
