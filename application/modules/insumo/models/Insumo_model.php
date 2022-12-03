@@ -12,7 +12,10 @@ class Insumo_model extends MY_Model {
 	
 	public function salvar_formulario($data = []){
 		if ($data['id_insumo'] == '') {
-			
+
+			// Salvar LOG
+			$this->salvar_log(23, null, 'adicionar', $data);
+
 			$this->db->insert('insumo', $data);
 			return $this->db->insert_id();
 		}
@@ -20,6 +23,9 @@ class Insumo_model extends MY_Model {
 		$this->db
 			->where('id_insumo', $data['id_insumo'])
 			->update('insumo', $data);
+
+			$this->salvar_log(23, $data['id_insumo'], 'editar', $data);
+
 	}
 
 	public function query(){

@@ -107,8 +107,14 @@ class Insumo extends MY_Controller {
 
     function deletar($id=null){
 
+        // Salvar LOG
+        $data['id_insumo'] = $id;
+		$this->salvar_log(23, $id, 'deletar', $data);
+
         $this->db->where('id_insumo', $id);
         return $this->db->delete('insumo');
+
+
     }
 
 }
