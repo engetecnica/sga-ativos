@@ -30,7 +30,7 @@ class Insumo_model extends MY_Model {
 
 	public function query(){
 		return $this->db
-			->from('insumo')
+			->from('insumo ')
 			->select('*');
 	}
 
@@ -40,10 +40,15 @@ class Insumo_model extends MY_Model {
 			->get()->row();
 	}
 
-	public function get_todos_insumos()
+	public function get_insumos_by_obra($id_obra)
 	{
-		$query = $this->db->get('insumo');
-		return $query->result();
+		return $this->db
+					->from('insumo')
+					->select('insumo.id_insumo, insumo.titulo, insumo.codigo_insumo, insumo.codigo_insumo, insumo.quantidade, insumo.valor, insumo.funcao, insumo.composicao, insumo.situacao, obra.codigo_obra')
+					->join('obra', 'obra.id_obra = insumo.id_obra')
+					->where('insumo.id_obra', $id_obra)
+					->get()
+					->result();
 	}	
 
 

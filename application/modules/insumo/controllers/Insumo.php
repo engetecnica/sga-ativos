@@ -54,7 +54,7 @@ class Insumo extends MY_Controller {
         //         ]
         //     ]);
         // }
-        $data['insumos'] = $this->listar_insumos();    
+        $data['insumos'] = $this->listar_insumos($this->user->id_obra);    
         $this->get_template('index', $data);
     }
 
@@ -74,6 +74,7 @@ class Insumo extends MY_Controller {
         $data['id_insumo'] = !is_null($this->input->post('id_insumo')) ? $this->input->post('id_insumo') : '';
         $data['id_insumo_configuracao'] = $this->input->post('tipo_insumo');
         $data['id_fornecedor'] = $this->input->post('fornecedor');
+        $data['id_obra'] = $this->user->id_obra;
         $data['titulo'] = $this->input->post('titulo');
         $data['codigo_insumo'] = $this->input->post('cod_insumo');
         $data['quantidade'] = $this->input->post('quantidade');
@@ -82,7 +83,6 @@ class Insumo extends MY_Controller {
         $data['composicao'] = $this->input->post('composicao');
         $data['descricao'] = $this->input->post('descricao_insumo');
         $data['situacao'] = $this->input->post('situacao');
-
         $this->insumo_model->salvar_formulario($data);
 
         if ($data['id_insumo'] == '') {
@@ -93,9 +93,9 @@ class Insumo extends MY_Controller {
         echo redirect(base_url("insumo"));
     }
 
-    public function listar_insumos()
+    public function listar_insumos($id_obra)
     {
-        return $this->insumo_model->get_todos_insumos(); 
+        return $this->insumo_model->get_insumos_by_obra($id_obra); 
     }
 
     function editar($id_insumo=null){

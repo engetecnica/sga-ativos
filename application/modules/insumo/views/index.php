@@ -35,6 +35,7 @@
                                     <th>ID</th>
                                     <th>Titulo</th>
                                     <th>Código insumo</th>
+                                    <th>Obra</th>
                                     <th>Quantidade</th>
                                     <th>Valor</th>
                                     <th>Função</th>
@@ -50,6 +51,7 @@
                                     <td><?php echo $insumo->id_insumo; ?></td>
                                     <td><?php echo $insumo->titulo; ?></td>
                                     <td><?php echo $insumo->codigo_insumo; ?></td>
+                                    <td><?php echo $insumo->codigo_obra; ?></td>
                                     <td><?php echo $insumo->quantidade; ?></td>
                                     <td><?php echo $this->formata_moeda($insumo->valor); ?></td>
                                     <td><?php echo $insumo->funcao; ?></td>
