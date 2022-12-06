@@ -69,9 +69,9 @@ class Insumo extends MY_Controller {
         echo redirect(base_url("insumo"));
     }
 
-    public function listar_insumos()
+    public function listar_insumos($id_obra)
     {
-        return $this->insumo_model->get_todos_insumos(); 
+        return $this->insumo_model->get_insumos_by_obra($id_obra); 
     }
 
     function editar($id_insumo=null){

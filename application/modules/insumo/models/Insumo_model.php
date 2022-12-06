@@ -30,7 +30,7 @@ class Insumo_model extends MY_Model {
 
 	public function query(){
 		return $this->db
-			->from('insumo')
+			->from('insumo ')
 			->select('*');
 	}
 
@@ -60,7 +60,7 @@ class Insumo_model extends MY_Model {
 		return $query;
 	}
 
-	public function get_todos_insumos()
+	public function get_insumos_by_obra($id_obra)
 	{
 		$consulta = $this->db
 						->select('i.*, ic.titulo as id_insumo_configuracao')
