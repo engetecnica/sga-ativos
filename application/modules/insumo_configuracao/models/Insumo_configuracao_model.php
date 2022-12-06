@@ -66,4 +66,22 @@ class Insumo_configuracao_model extends MY_Model {
 					->where('id_insumo_configuracao', $id_insumo_configuracao)
 					->get('insumo_configuracao')->row();
 	}
+
+	public function get_insumo_lista_completa(){
+		$consulta = $this->db
+						->where('id_insumo_configuracao_vinculo', 0)
+						->order_by('titulo', 'ASC')
+						->get('insumo_configuracao')
+						->result();
+
+						foreach($consulta as $valor){
+							$valor->subitem = $this->db
+													->where('id_insumo_configuracao_vinculo', $valor->id_insumo_configuracao)
+													->order_by('titulo', 'ASC')
+													->get('insumo_configuracao')
+													->result();
+						}
+
+		return $consulta;
+	}
 }

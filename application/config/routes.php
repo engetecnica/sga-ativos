@@ -61,3 +61,12 @@ $route['documento'] 			= "index/sem_acesso";
 $route['set_registros'] 		= "index/set_registros";
 
 $route['logout'] 				= "login/logout";
+
+
+
+$route['insumo/retirada/adicionar'] = "insumo/retirada_adicionar";
+$route['insumo/retirada/salvar'] = "insumo/retirada_salvar";
+$route['insumo/retirada/cancelar/(:any)'] = "insumo/retirada_cancelar/$1";
+
+
+$route['insumo/retirada/entregar/(:any)'] = "insumo/retirada_entregar/$1";

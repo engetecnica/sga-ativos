@@ -31,21 +31,55 @@
                                     value="<?php echo $detalhes->id_insumo; ?>">
                                 <?php } ?>
 
+                                <?php if(isset($detalhes) && isset($detalhes->id_insumo)){?>
+                                <div class="row form-group">
+                                    <div class="col col-md-2">
+                                        <label for="tipo_insumo" class=" form-control-label">Estoque Atual</label>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <span class="btn btn-sm btn-primary">
+                                            <?php
+
+                                                $entrada_total = 0;
+                                                $saida_total = 0;
+
+                                                foreach($detalhes->entrada as $entrada){
+                                                    $entrada_total += $entrada->quantidade;
+                                                }
+
+                                                foreach($detalhes->saida as $saida){
+                                                    $saida_total += $saida->quantidade;
+                                                }
+
+                                                echo $entrada_total - $saida_total;
+                                            ?>
+                                        </span>
+                                    </div>
+                                </div>
+                                <?php } ?>
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="tipo_insumo" class=" form-control-label">Tipo do Insumo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select data-placeholder="Selecione um Tipo" id="tipo_insumo" name="tipo_insumo"
-                                            class="form-control select2">
-                                            <option></option>
-                                                        <?php foreach($tipo_insumo as $ti){ ?>
-                                                                <option 
-                                                                <?php echo isset($detalhes->id_insumo_configuracao) && $ti->id_insumo_configuracao == $detalhes->id_insumo_configuracao ? 'selected' : ''?> 
-                                                                value="<?php echo $ti->id_insumo_configuracao ?>">
-                                                                    <?php echo $ti->titulo; ?>
-                                                                </option>
-                                                            <?php } ?>
+                                        <select 
+                                            data-placeholder="Selecione um Tipo" 
+                                            id="tipo_insumo" 
+                                            name="tipo_insumo"
+                                            class="form-control select2"
+                                        >
+                                            <option value=""></option>
+                                            <?php foreach($tipo_insumo as $ti){ ?>
+                                            <optgroup label="<?php echo $ti->titulo; ?>">
+                                                <?php foreach($ti->subitem as $sub){ ?>
+                                                <option value="<?php echo $sub->id_insumo_configuracao; ?>"
+                                                <?php if(isset($detalhes) && $detalhes->id_insumo_configuracao==$sub->id_insumo_configuracao) echo "selected"; ?>
+                                                ><?php echo $sub->titulo; ?></option>
+                                                <?php } ?>
+                                            </optgroup>
+                                            <?php } ?>
+                                                  
                                         </select>
                                     </div>
 
@@ -65,76 +99,63 @@
                                         <label for="fornecedor" class=" form-control-label">Fornecedor</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <select name="fornecedor" data-placeholder="Selecione o fornecedor" id="fornecedor"
-                                            class="form-control select2">
+                                        <select name="fornecedor" data-placeholder="Selecione o fornecedor"
+                                            id="fornecedor" class="form-control select2">
                                             <option></option>
                                             <?php foreach ($fornecedor as $fo) { ?>
-                                                <option
-                                                   <?php echo isset($detalhes->id_fornecedor) && $fo->id_fornecedor == $detalhes->id_fornecedor ? 'selected' : ''?> 
-                                                    value="<?php echo $fo->id_fornecedor; ?>"
-                                                    >
-                                                    <?php echo $fo->razao_social; ?>
-                                                </option>
+                                            <option
+                                                <?php echo isset($detalhes->id_fornecedor) && $fo->id_fornecedor == $detalhes->id_fornecedor ? 'selected' : ''?>
+                                                value="<?php echo $fo->id_fornecedor; ?>">
+                                                <?php echo $fo->razao_social; ?>
+                                            </option>
                                             <?php } ?>
                                         </select>
-                                    </div>                            
+                                    </div>
 
                                     <div class="col col-md-2">
-                                        <label for="cod_insumo" class=" form-control-label">Código do insumo</label>
+                                        <label for="cod_insumo" class=" form-control-label">Código do Insumo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="cod_insumo" name="cod_insumo" placeholder="Código do insumo"
-                                            class="form-control"
+                                        <input type="text" id="cod_insumo" name="cod_insumo"
+                                            placeholder="Código do Insumo" class="form-control"
                                             value="<?php if(isset($detalhes) && isset($detalhes->codigo_insumo)){ echo $detalhes->codigo_insumo; } ?>">
+                                            <span id="retorno_pesquisar_insumo"></span>
                                     </div>
 
                                 </div>
 
                                 <div class="row form-group">
+                                <?php if(!isset($detalhes)){ ?>
                                     <div class="col col-md-2">
-                                        <label for="valor" class=" form-control-label">Valor</label>
+                                        <label for="valor" class=" form-control-label">Valor Unitário</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <input type="text" id="valor" name="valor" placeholder="0.00"
-                                            class="form-control"
+                                            class="form-control valor"
                                             value="<?php if(isset($detalhes) && isset($detalhes->valor)){ echo $detalhes->valor; } ?>">
                                     </div>
-
-                                    <div class="col col-md-2">
-                                        <label for="funcao" class=" form-control-label">Função</label>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <input type="text" id="funcao" name="funcao" placeholder="Função"
-                                            class="form-control"
-                                            value="<?php if(isset($detalhes) && isset($detalhes->funcao)){ echo $detalhes->funcao; } ?>">
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="row form-group">
+                                
                                     <div class="col col-md-2">
                                         <label for="quantidade" class=" form-control-label">Quantidade</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="number" required="required" id="quantidade" min="1" name="quantidade" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo $detalhes->quantidade; } ?>">
+                                        <input type="number" required="required" id="quantidade" min="1"
+                                            name="quantidade" class="form-control"
+                                            value="<?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo $detalhes->quantidade; } else { echo "1"; } ?>"
+                                            <?php if(isset($detalhes) && isset($detalhes->quantidade)){ echo "disabled"; } ?>>
                                     </div>
+                                <?php } ?>
 
-                                    <div class="col col-md-2">
-                                        <label for="composicao" class=" form-control-label">Composição</label>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <input type="text" id="composicao" name="composicao" placeholder="Composição"
-                                            class="form-control"
-                                            value="<?php if(isset($detalhes) && isset($detalhes->composicao)){ echo $detalhes->composicao; } ?>">
-                                    </div>
+                                   
                                 </div>
-                            
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="descricao_insumo" class=" form-control-label">Descrição</label>
-                                    </div>  
+                                    </div>
                                     <div class="col-12 col-md-10">
-                                        <textarea id="descricao_insumo" name="descricao_insumo" placeholder="Descrição" class="form-control" ><?php echo isset($detalhes) && isset($detalhes->descricao) ? $detalhes->descricao : '' ?></textarea>
+                                        <textarea id="descricao_insumo" name="descricao_insumo" placeholder="Descrição"
+                                            class="form-control"><?php echo isset($detalhes) && isset($detalhes->descricao) ? $detalhes->descricao : '' ?></textarea>
                                     </div>
                                 </div>
 
@@ -153,11 +174,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                                                
+
 
                                 <hr>
                                 <div class="pull-left">
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary submit-form">
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
@@ -175,8 +196,111 @@
 
                 </div>
             </div>
+
+            <div class="row">
+                <?php if(isset($detalhes) && $detalhes->entrada){ ?>
+                <div class="col-lg-12">
+                    <h2 class="title-1 m-b-25">Entradas Estoque</h2>                   
+                    <div class="table table--no-card table-responsive table--no- m-b-40">
+                        <table class="table table-borderless table-striped table-earning" id="insumo_entrada">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuário</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Unitário</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php foreach($detalhes->entrada as $entrada){ ?>   
+                                <tr>
+                                    <td><?php echo $entrada->id_insumo_estoque; ?></td>
+                                    <td><?php echo $entrada->nome." - ".$entrada->usuario; ?></td>
+                                    <td><?php echo $entrada->quantidade; ?></td>
+                                    <td><?php echo  $this->formata_moeda($entrada->valor); ?></td>
+                                    <td><?php echo  $this->formata_data_hora($entrada->created_at); ?></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>                            
+                        </table>
+                    </div>   
+                </div>
+                <?php } ?>
+
+                <?php if(isset($detalhes) && $detalhes->saida){ ?>
+                <div class="col-lg-12">
+                    <h2 class="title-1 m-b-25">Saídas Estoque</h2>                   
+                    <div class="table table--no-card table-responsive table--no- m-b-40">
+                        <table class="table table-borderless table-striped table-earning" id="insumo_saida">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuário</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Unitário</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php foreach($detalhes->saida as $saida){ ?>   
+                                <tr>
+                                    <td><?php echo $saida->id_insumo_estoque; ?></td>
+                                    <td><?php echo $saida->nome." - ".$saida->usuario; ?></td>
+                                    <td><?php echo $saida->quantidade; ?></td>
+                                    <td><?php echo  $this->formata_moeda($saida->valor); ?></td>
+                                    <td><?php echo  $this->formata_data_hora($saida->created_at); ?></td>
+                                </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>                            
+                        </table>
+                    </div>   
+                </div>
+                <?php } ?>
+
+            </div>
+
+
+
+
         </div>
     </div>
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
+
+<script>
+$("#cod_insumo").on('keyup', function() {
+    let cod_insumo = $("#cod_insumo").val();
+
+    $.ajax({
+        type: "post",
+        url: BASE_URL + '/insumo/pesquisar_insumo_by_codigo',
+        data: {
+            'cod_insumo':cod_insumo
+        },
+        success: function(response) {
+
+            if(response==1){
+                $("#retorno_pesquisar_insumo").html('Código já cadastrado.')
+                $(".submit-form").attr('disabled', 'disabled')
+            } else {
+                $("#retorno_pesquisar_insumo").html('')
+                $(".submit-form").attr('disabled', false)
+            }
+
+        }
+    });
+
+});
+</script>

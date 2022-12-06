@@ -10,3 +10,4 @@ function getTiposInsumos(){
         [ "nome" => "Peça (PÇ)",            "codigo" => 6],
     ];
 }
+

@@ -132,6 +132,40 @@ trait MY_Trait
 		];
 	}
 
+	public function get_situacao_insumo($status = null)
+	{
+		$texto = $class = "";
+		switch ((int) $status) {
+			default:
+			case 0:
+				$texto = "Pendente";
+				$class = "warning";
+				$slug = "pendente";
+				break;
+			case 1:
+				$texto = "Entregue";
+				$class = "success";
+				$slug = "entregue";
+				break;
+			case 2:
+				$texto =  "Devolvido";
+				$class = "danger";
+				$slug = "devolvido";
+				break;
+			case 3:
+				$texto =  "Devolvido Parcialmente";
+				$class = "danger";
+				$slug = "devolvidoparcialmente";
+				break;				
+		}
+
+		return [
+			'texto' => $texto,
+			'class' => $class,
+			'slug'  => $slug
+		];
+	}	
+
 	public function status_lista($type = 'object')
 	{
 		$lista = $this->session->status_lista;
@@ -531,6 +565,13 @@ trait MY_Trait
 				$condicao = "retornou um erro";
 				break;
 
+			case "adicionar_estoque":
+				$condicao = "adicionou ao estoque ".$id_item;
+				break;
+
+			case "erro_estoque":
+				$condicao = "erro ao adicionar estoque no ".$id_item;
+				break;
 			
 
 		endswitch;
