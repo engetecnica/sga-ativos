@@ -84,7 +84,7 @@ class ferramental_estoque_model extends MY_Model {
 
 					$retirada->items = $this->get_retirada_items($id_retirada);
 
-		$this->dd($retirada);	
+	//	$this->dd($retirada);	
 					
 		if ($retirada) {
 			if ($retirada->termo_de_responsabilidade && stripos($retirada->termo_de_responsabilidade, 'anexo/') === false) $retirada->termo_de_responsabilidade = "termo_de_responsabilidade/{$retirada->termo_de_responsabilidade}";
