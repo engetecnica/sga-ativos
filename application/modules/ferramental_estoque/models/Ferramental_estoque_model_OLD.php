@@ -81,6 +81,10 @@ class ferramental_estoque_model extends MY_Model {
 					->where("retirada.id_retirada = {$id_retirada}")
 					->order_by('retirada.id_retirada', 'desc')
 					->get()->row();
+
+					$retirada->items = $this->get_retirada_items($id_retirada);
+
+	//	$this->dd($retirada);	
 					
 		if ($retirada) {
 			if ($retirada->termo_de_responsabilidade && stripos($retirada->termo_de_responsabilidade, 'anexo/') === false) $retirada->termo_de_responsabilidade = "termo_de_responsabilidade/{$retirada->termo_de_responsabilidade}";
@@ -90,22 +94,37 @@ class ferramental_estoque_model extends MY_Model {
 	}
 
 	public function get_retirada_items($id_retirada){
+
+
+
+		
+
+
+
+
+
+
+
 		$items = $this->db->select('item.*, atv.id_ativo_externo_grupo, atv.nome, atv.codigo')
 				->from('ativo_externo_retirada_item item')
 				->where("item.id_retirada = {$id_retirada}")
 				->join('ativo_externo atv', 'item.id_ativo_externo = atv.id_ativo_externo')
-				->group_by('item.id_retirada_item')
+				//->group_by('ativo_externo.codigo')
 				->get()
 				->result();
+				
 
 
-			if ($items) {
-				foreach($items as $i => $item){
-					$items[$i]->ativos = $this->get_retirada_ativos($item->id_retirada_item);
-					$items[$i]->estoque = $this->ativo_externo_model->get_grupo($item->id_ativo_externo_grupo)->estoque ?? 0;
-				}
-			}
-			return $items;
+		// $this->dd($items, $this->db->last_query());
+
+
+		// 	if ($items) {
+		// 		foreach($items as $i => $item){
+		// 			$items[$i]->ativos = $this->get_retirada_ativos($item->id_retirada_item);
+		// 			$items[$i]->estoque = $this->ativo_externo_model->get_grupo($item->id_ativo_externo_grupo)->estoque ?? 0;
+		// 		}
+		// 	}
+		// 	return $items;
 	}
 
 	public function get_retirada_item($id_retirada_item){

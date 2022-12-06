@@ -100,14 +100,6 @@ class Ferramental_estoque  extends MY_Controller {
         $id_obra = $this->user->nivel == 2 ? $this->user->id_obra : null;
         $data['lista_funcionario'] = $this->funcionario_model->get_lista($this->user->id_empresa, $id_obra, 0);
         $data['lista_ferramental'] = $this->ativo_externo_model->get_estoque($this->user->id_obra);
-
-      //  $this->dd($data);
-
-
-
-
-
-
         $this->get_template('index_form', $data);
     }
 
@@ -223,15 +215,7 @@ class Ferramental_estoque  extends MY_Controller {
 
 
     # Grava Retirada
-    function salvar(){ 
-        
-        
-        
-        
-
-
-
-
+    function salvar(){      
         
         if ($this->input->post('ativo') && count($this->input->post('ativo')) > 0) {
             # Dados
@@ -470,6 +454,13 @@ class Ferramental_estoque  extends MY_Controller {
         $id_obra = (isset($this->user->id_obra) && $this->user->id_obra > 0) ? $this->user->id_obra : $obra_base->id_obra;
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada, $id_obra);
       
+
+
+
+     //   $this->dd($retirada);
+
+
+
 
         if ($retirada) {
             $ativos = $items = [];
