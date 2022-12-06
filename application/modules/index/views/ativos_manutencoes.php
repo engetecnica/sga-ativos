@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <?php } else {  ?>
-            <p>Nenhuma manutenção de Equipamento em andamento ou pendênte</p>
+            <p>Nenhuma manutenção de Equipamento em andamento ou pendente</p>
         <?php } ?>
     </div>
 </div>

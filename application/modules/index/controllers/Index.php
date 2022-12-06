@@ -31,8 +31,8 @@ class Index extends MY_Controller {
         $data['clientes'] = $this->empresa_model->count();
         $data['colaboradores'] = $this->funcionario_model->count($this->user->id_empresa, $this->user->id_obra);
         $data['veiculos_manutencao'] = $this->ativo_veiculo_model->count_ativo_veiculo_em_manutencao();
-        $data['ativo_interno_manutencoes'] = $this->ativo_interno_model->get_lista_manutencao(null, ["", 0, 2], true);
-        $data['ativo_externo_manutencoes'] = $this->ativo_externo_model->get_lista_manutencao(null, ["", 0, 2], true);
+        $data['ativo_interno_manutencoes'] = $this->ativo_interno_model->get_lista_manutencao(null, ["", 0, 2, 10], true);
+        $data['ativo_externo_manutencoes'] = $this->ativo_externo_model->get_lista_manutencao(null, ["", 0, 2, 10], true);
 
         if ($this->input->get('informe_vencimentos') > 0 && in_array((int) $this->input->get('informe_vencimentos'), [5, 15, 30])) {
             $data['informe_vencimentos']['relatorio'] = $this->relatorio_model->informe_vencimentos((int) $this->input->get('informe_vencimentos'), $this->user->id_obra);
