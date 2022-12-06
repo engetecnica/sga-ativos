@@ -391,6 +391,9 @@ class Ativo_externo_model extends MY_Model {
 		->order_by('manutencao.id_manutencao', 'desc')
 		->from('ativo_externo_manutencao manutencao');
 
+
+
+		
 		if ($id_ativo_externo) $manutencoes->where("manutencao.id_ativo_externo = {$id_ativo_externo}");
 		if ($this->user->nivel == 2 && $this->user->id_obra) $manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
 		if ($situacao) {
@@ -400,18 +403,23 @@ class Ativo_externo_model extends MY_Model {
 					$situacao_string .= "'{$sit}'";
 					if($i < count($situacao) - 1)   $situacao_string .= ',';
 				}
-
+				
 				$manutencoes->where("manutencao.situacao IN ({$situacao_string})");
 			} else {
 				$manutencoes->where("manutencao.situacao = {$situacao}");
 			}
 		}
 
+		$manutencoes->where('ativo.situacao != 10'); // fora de operação
+
 		$manutencoes = $manutencoes
 			->join('ativo_externo ativo', "ativo.id_ativo_externo = manutencao.id_ativo_externo")
 			->join('obra ob', "ob.id_obra = ativo.id_obra", "left")
 			->group_by('manutencao.id_manutencao')
 			->get()->result();
+			
+						
+		//	$this->dd($this->db->last_query(), $manutencoes);
 
 		if ($obs) {
 			foreach($manutencoes as $k => $manutencao) {
