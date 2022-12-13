@@ -14,8 +14,6 @@ class Insumo_configuracao  extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('insumo_configuracao_model');
-
-        $this->tipo_medicao = $this->insumo_configuracao_model->tipo_medicao;
     }
 
     function index($subitem=null) {
@@ -26,14 +24,14 @@ class Insumo_configuracao  extends MY_Controller {
 
     function adicionar(){
         $data['lista_categoria'] = $this->insumo_configuracao_model->get_categoria_lista(0);
-        $data['tipo_medicao'] = $this->tipo_medicao;
-    	$this->get_template('index_form', $data);
+        $data['tipo_medicao'] = $this->insumo_configuracao_model->get_tipo_medicao(null);
+        $this->get_template('index_form', $data);
     }
 
     function editar($id_insumo_configuracao=null){
         $data['detalhes'] = $this->insumo_configuracao_model->get_insumo_configuracao($id_insumo_configuracao);
 
-        $data['tipo_medicao'] = $this->tipo_medicao;
+        $data['tipo_medicao'] = $this->insumo_configuracao_model->get_tipo_medicao(null);
 
         if(!$data['detalhes']->permit_edit || !$data['detalhes']->permit_delete) {
             $this->session->set_flashdata('msg_erro', "Item não pode ser editado ou excluido!");

@@ -314,11 +314,14 @@ class MY_Controller extends MX_Controller {
         $id_modulo_subitem = null
     ) : int {  
 
+
+
+        
         $modulo = null;
         if(isset($config['anexo'])) {
             if (is_int($id_modulo)) $modulo = $this->db->where('id_modulo', $id_modulo)->get('modulo')->row();
             else $modulo = $this->db->where('rota', $id_modulo)->get('modulo')->row();
-            
+
             if ($modulo) {
                 $anexo = $this->anexo_model->get_anexo_by_name($config['anexo']);
                 $anexo_data = [

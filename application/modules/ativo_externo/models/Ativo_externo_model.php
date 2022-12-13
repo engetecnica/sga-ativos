@@ -417,9 +417,6 @@ class Ativo_externo_model extends MY_Model {
 			->join('obra ob', "ob.id_obra = ativo.id_obra", "left")
 			->group_by('manutencao.id_manutencao')
 			->get()->result();
-			
-						
-		//	$this->dd($this->db->last_query(), $manutencoes);
 
 		if ($obs) {
 			foreach($manutencoes as $k => $manutencao) {

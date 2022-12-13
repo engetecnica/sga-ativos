@@ -572,7 +572,18 @@ trait MY_Trait
 			case "erro_estoque":
 				$condicao = "erro ao adicionar estoque no ".$id_item;
 				break;
-			
+
+			case "insumo_marcar_entregue_retirada":
+				$condicao = "marcou como entregue o estoque da retirada ID ".$id_item;
+				break;
+
+			case 'insumo_marcar_entregue_retirada':
+				$condicao = "marcou como entregue a retirada ID ".$id_item;
+				break;			
+
+			case 'insumo_devolvido_parcialmente':
+				$condicao = "devolveu parcialmente insumo da retirada ID ".$id_item;
+				break;			
 
 		endswitch;
 

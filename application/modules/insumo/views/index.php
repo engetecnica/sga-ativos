@@ -47,7 +47,7 @@
                                     <td><?php echo $insumo->id_insumo_configuracao; ?></td>
                                     <td><?php echo $insumo->titulo; ?></td>
                                     <td><?php echo $insumo->codigo_insumo; ?></td>
-                                    <td><?php echo $insumo->entrada - $insumo->saida; ?></td>
+                                    <td><?php echo $insumo->entrada - $insumo->saida." ".$insumo->medicao_sigla; ?></td>
                                     <td>
                                         <?php if($insumo->situacao == 0) { ?>
                                         <button class="badge badge-primary">Ativo</button>

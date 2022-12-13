@@ -30,14 +30,15 @@
                                     <th>Data Retirada</th>
                                     <th>Resumo</th>
                                     <th>Gerenciar</th>
-
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <?php foreach($retirada as $r){ ?>
                                 <tr>
-                                    <td><?php echo $r->id_insumo_retirada; ?></td>
+                                    <td><a
+                                            href="<?php echo base_url('insumo/retirada/detalhes/'.$r->id_insumo_retirada); ?>"><?php echo $r->id_insumo_retirada; ?></a>
+                                    </td>
                                     <td><?php echo $r->id_usuario; ?></td>
                                     <td><?php echo $r->id_funcionario; ?></td>
                                     <td><?php echo $this->formata_data_hora($r->created_at); ?></td>
@@ -48,7 +49,8 @@
                                                 <td><?php echo $ins->id_insumo; ?></td>
                                                 <td><?php echo $ins->quantidade; ?></td>
                                                 <td>
-                                                    <span class="badge badge-primary"><?php echo ($this->get_situacao_insumo($ins->status)['texto']) ?? '-'; ?></span>    
+                                                    <span
+                                                        class="badge badge-<?php echo ($this->get_situacao_insumo($ins->status)['class']) ?? '-'; ?>"><?php echo ($this->get_situacao_insumo($ins->status)['texto']) ?? '-'; ?></span>
                                                 </td>
                                             </tr>
                                             <?php } ?>
@@ -56,35 +58,81 @@
                                     </td>
                                     <td>
 
-                                    <div class="btn-group" role="group">
-                                            <button id="insumo" type="button"
-                                                class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
+                                    <?php
+
+                                                            echo "<pre>";
+                                                            print_r($this->get_situacao_insumo);
+                                                            echo "</pre>";
+                                        ?>
+
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Gerenciar
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="insumo">
+                                            <div class="dropdown-menu">
+
+                                            
+                                                <a class="dropdown-item confirmar_registro" href="javascript:void(0)"
+                                                    data-acao="Cancelar" data-icon="info" data-message="false"
+                                                    data-title="Cancelar Retirada" data-redirect="true"
+                                                    data-text="Para cancelar a entrega ao funcionário, clique em 'Sim, Cancelar.'"
+                                                    data-href="<?php echo base_url("insumo/retirada/cancelar/".$r->id_insumo_retirada);?>">
+                                                    <i class="fa fa-trash"></i> Cancelar Retirada
+                                                </a>
+
                                                 <div class="dropdown-divider"></div>
-                                                    <a
-                                                        class="dropdown-item confirmar_registro"
-                                                        href="javascript:void(0)"
-                                                        data-acao="Cancelar" data-icon="info" data-message="false"
-                                                        data-title="Cancelar Retirada" data-redirect="true"
-                                                        data-text="Para cancelar a entrega ao funcionário, clique em 'Sim, Cancelar.'"
-                                                        data-href="<?php echo base_url("insumo/retirada/cancelar/".$r->id_insumo_retirada);?>"
-                                                    >
-                                                    <i class="fa fa-trash"></i> Cancelar Retirada</a>
-                                                    <a
-                                                        class="dropdown-item confirmar_registro"
-                                                        href="javascript:void(0)"
-                                                        data-acao="Entregar" data-icon="info" data-message="false"
-                                                        data-title="Marcar como Entregue" data-redirect="true"
-                                                        data-text="Para confirmar a entrega ao funcionário, clique em 'Sim, Entregar.'"
-                                                        data-href="<?php echo base_url("insumo/retirada/entregar/".$r->id_insumo_retirada);?>"
-                                                    ><i class="fa fa-check"></i>&nbsp; Marcar como Entregue</a>
+
+                                                <a class="dropdown-item confirmar_registro" href="javascript:void(0)"
+                                                    data-acao="Entregar" data-icon="info" data-message="false"
+                                                    data-title="Marcar como Entregue" data-redirect="true"
+                                                    data-text="Para confirmar a entrega ao funcionário, clique em 'Sim, Entregar.'"
+                                                    data-href="<?php echo base_url("insumo/retirada/entregar/".$r->id_insumo_retirada);?>"><i
+                                                        class="fa fa-list"></i>&nbsp; Marcar como Entregue
+                                                </a>
+
+                                              
+                                                
+                                                
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item"
+                                                    href="<?php echo base_url('insumo/retirada/devolver/'.$r->id_insumo_retirada); ?>"
+                                                    data-title="Devolver Item da Retirada" data-redirect="true">
+                                                    <i class="fa fa-history item-menu-interno"></i>&nbsp; Devolver Itens
+                                                </a>
+                                               
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item"
+                                                    href="<?php echo base_url('insumo/retirada/detalhes/'.$r->id_insumo_retirada); ?>"
+                                                    data-title="Detalhes da Retirada" data-redirect="true">
+                                                    <i class="fa fa-truck item-menu-interno"></i>&nbsp; Detalhes da
+                                                    Retirada
+                                                </a>
+                                               
+
+                                                
+                                                
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item"
+                                                    href="<?php echo base_url('assets/uploads/'.$r->anexo); ?>"
+                                                    data-title="Baixar Termo" data-redirect="true" target="_blank">
+                                                    <i class="fa fa-download item-menu-interno"></i>&nbsp; Baixar Termo de Retirada
+                                                </a>
+                                               
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item confirmar_registro"
+                                                    href="javascript:void(0)"
+                                                    data-href="<?php echo base_url('insumo/retirada/termo/'.$r->id_insumo_retirada); ?>"
+                                                    data-acao="Gerar Termo" data-icon="info" data-message="false"
+                                                    data-title="Gerar Agora" data-redirect="true"
+                                                    data-text="Tem certeza que deseja gerar o termo de responsabilidade de retirada?"
+                                                    data-title="Gerar Termo" data-redirect="true">
+                                                    <i class="fa fa-print item-menu-interno"></i>&nbsp; Gerar Termo de Retirada
+                                                </a>
+                                                
+
                                             </div>
                                         </div>
-
-
 
                                     </td>
                                 </tr>
@@ -107,19 +155,19 @@
 <?php $this->load->view('modal_novo_estoque'); ?>
 
 <script>
-    $('#novo_estoque').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var item_titulo = button.data('item')
-        var id_insumo = button.data('id_insumo')
-        $('#item-titulo').val(item_titulo)
-        $('#id_insumo').val(id_insumo)
-    })
+$('#novo_estoque').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget)
+    var item_titulo = button.data('item')
+    var id_insumo = button.data('id_insumo')
+    $('#item-titulo').val(item_titulo)
+    $('#id_insumo').val(id_insumo)
+})
 
-    const options = {
-        serverSide: false,
-        searchable: true,
-    }
+const options = {
+    serverSide: false,
+    searchable: true,
+}
 
-    $(window).ready(() => loadDataTable('insumo_index', options))
-    $(window).resize(() => loadDataTable('insumo_index', options))
+$(window).ready(() => loadDataTable('insumo_index', options))
+$(window).resize(() => loadDataTable('insumo_index', options))
 </script>

@@ -66,7 +66,7 @@
                                                     <tr>
                                                         <td><?php echo $i->codigo_insumo; ?></td>
                                                         <td><?php echo $i->titulo; ?></td>
-                                                        <td><?php echo $i->entrada - $i->saida; ?></td>
+                                                        <td><?php echo $i->entrada - $i->saida . ' ' . $i->medicao_sigla; ?></td>
                                                         <td><input type="number" class="form-control" value="0" name="quantidade[<?php echo $i->id_insumo; ?>]" id="quantidade" max="<?php echo $i->entrada - $i->saida; ?>" min="0"></td>
                                                     </tr>
                                                     <?php } ?>

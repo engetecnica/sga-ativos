@@ -48,8 +48,8 @@ function url(){
 }
 
 /* localhost */
-$config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
-//$config['base_url'] = '';
+//$config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -613,14 +613,6 @@ try {
     $config['veiculos_tipos'] = [];
     $config['veiculos_tipos_pt'] = [];
 	$config['veiculos_tipos_vetor'] =  [];
-}
-
-
-try {
-    require(APPPATH."/config/insumos.php");
-    $config['insumos_tipo_medicao'] = getTiposInsumos();
-} catch(\Exception $e){
-    $config['insumos_tipo_medicao'] = [];
 }
 
 

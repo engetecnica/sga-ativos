@@ -63,7 +63,7 @@
                                     <div class="col-12 col-md-2">
                                         <select name="medicao" id="medicao" class="form-control">
                                             <?php foreach($tipo_medicao as $tipo){ ?>
-                                            <option value="<?php echo $tipo['codigo']; ?>" <?php if(isset($detalhes) && isset($detalhes->medicao) && $detalhes->medicao==$tipo['codigo']){ echo "selected='selected'"; } ?>><?php echo $tipo['nome']; ?></option>
+                                            <option value="<?php echo $tipo->id_insumo_medicao ?>" <?php if(isset($detalhes) && isset($detalhes->medicao) && $detalhes->medicao==$tipo->id_insumo_medicao){ echo "selected='selected'"; } ?>><?php echo $tipo->titulo; ?> (<?php echo $tipo->sigla; ?>)</option>
                                             <?php } ?>
                                         </select>
                                     </div>

@@ -20,7 +20,6 @@
                             <thead>
                                 <tr>
                                     <th width="7%">Id</th>
-                                    <th class="text-center">Código</th>
                                     <th class="text-center">Categoria</th>
                                     <th class="text-center">Titulo</th>
                                     <th class="text-center">Unidade de Medida</th>
@@ -38,21 +37,9 @@
                                             </a>
                                         <?php } else { echo $valor->id_insumo_configuracao;  } ?>
                                     </td>
-                                    <td class="text-center"><?php echo $valor->id_insumo_configuracao; ?></td>
                                     <td class="text-center"><?php echo ($valor->id_insumo_configuracao_vinculo=='') ? "Configuração Principal" : $valor->id_insumo_configuracao_vinculo; ?></td>
                                     <td class="text-center"><?php echo $valor->titulo; ?></td>
-                                    <td class="text-center"><span class="badge badge-primary">
-                                        <?php
-                                            foreach($this->tipo_medicao as $medicao)
-                                            {
-                                                if($valor->medicao == $medicao['codigo'])
-                                                {
-                                                    $medicao_titulo[$valor->medicao] = $medicao['nome'];
-                                                } 
-                                            }
-                                        ?>
-                                        <?php echo ($medicao_titulo[$valor->medicao]) ?? 'Nenhum';  ?>
-                                    </span></td>
+                                    <td class="text-center"><span class="badge badge-primary"><?php echo $valor->medicao_titulo." (".$valor->medicao_sigla.")";  ?></span></td>
                                     <td class="text-center">
                                       <?php $situacao = $this->get_situacao($valor->situacao, 'DESCARTADO', 'secondary');?>
                                       <span class="badge badge-<?php echo $situacao['class']; ?>"><?php echo $situacao['texto']; ?></span>

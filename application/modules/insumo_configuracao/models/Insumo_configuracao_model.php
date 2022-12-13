@@ -7,7 +7,6 @@ class Insumo_configuracao_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->tipo_medicao = $this->config->item('insumos_tipo_medicao');
 	}
 
 	public function salvar_formulario($data=null){
@@ -46,8 +45,9 @@ class Insumo_configuracao_model extends MY_Model {
 
 	public function get_lista($situacao=null){
 		$lista = $this->db
-				->select('insumo_configuracao.*, ac.titulo as id_insumo_configuracao_vinculo')
-				->join("insumo_configuracao as ac", 'ac.id_insumo_configuracao=insumo_configuracao.id_insumo_configuracao_vinculo', "left");
+				->select('insumo_configuracao.*, ac.titulo as id_insumo_configuracao_vinculo, im.titulo as medicao_titulo, im.sigla as medicao_sigla')
+				->join("insumo_configuracao as ac", 'ac.id_insumo_configuracao=insumo_configuracao.id_insumo_configuracao_vinculo', "left")
+				->join("insumo_medicao as im", "im.id_insumo_medicao=insumo_configuracao.medicao");
 				
 		if($situacao) {
 			if (is_array($situacao)) {
@@ -82,6 +82,23 @@ class Insumo_configuracao_model extends MY_Model {
 													->result();
 						}
 
+		return $consulta;
+	}
+
+	public function get_tipo_medicao($id=null)
+	{
+
+		if($id)
+		{
+			$consulta = $this->db
+				->where('id', $id)
+				->get('insumo_medicao')
+				->result();
+		} else {
+			$consulta = $this->db
+				->get('insumo_medicao')
+				->result();
+		}
 		return $consulta;
 	}
 }

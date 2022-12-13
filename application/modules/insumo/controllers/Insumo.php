@@ -134,7 +134,12 @@ class Insumo extends MY_Controller {
         }
     }
 
-    // Retiradas
+
+
+
+
+
+    // Retiradas de Insumos
     public function retirada()
     {
         $data['retirada'] = $this->insumo_model->get_retirada_lista(); 
@@ -144,7 +149,7 @@ class Insumo extends MY_Controller {
 
     public function retirada_adicionar(){
         $data['funcionario'] = $this->funcionario_model->get_lista(null, $this->user->id_obra);
-        $data['insumo'] = $this->insumo_model->get_todos_insumos();
+        $data['insumo'] = $this->insumo_model->get_insumos_by_obra($this->user->id_obra);
         $this->get_template('index_form_retirada', $data);   
     }
 
@@ -158,7 +163,6 @@ class Insumo extends MY_Controller {
             foreach($this->input->post('quantidade') as $id_insumo=>$qtde)
             {
 
-               // echo $id_insumo;
                 if($qtde > 0){
                     $existe = 1;
 
@@ -209,11 +213,6 @@ class Insumo extends MY_Controller {
 
         } 
 
-        
-
-
-
-        $this->dd($this->input->post());
     }
 
 
@@ -224,10 +223,180 @@ class Insumo extends MY_Controller {
 
     public function retirada_entregar($id=null){
 
-        if(!$id){
-            $this->session->set_flashdata('msg_success', "Erro ao atualizar retirada.");
+        $pesquisa_retirada = $this->insumo_model->get_retirada($id);
+
+        if(!$pesquisa_retirada){
+            $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
             echo redirect(base_url('insumo/retirada'));
         }
-        echo $id;
+
+        if($id==null){
+            $this->session->set_flashdata('msg_erro', "Erro ao atualizar retirada.");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+        // Baixar Estoque
+        $set_estoque_entregue = $this->insumo_model->set_estoque_entregue($id, ['status' => 1]); // Entregue
+        $this->salvar_log(23, $id, 'insumo_marcar_entregue_estoque', $this->input->post());
+
+        // Baixar Retirada
+        $set_estoque_retirada = $this->insumo_model->set_estoque_retirada($id, ['status' => 1]); // Entregue
+        $this->salvar_log(23, $id, 'insumo_marcar_entregue_retirada', $this->input->post());
+
+        if($set_estoque_entregue && $set_estoque_retirada)
+        {
+            $this->session->set_flashdata('msg_success', "Retirada marcada como Entregue!");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+    }
+
+
+    // Retirada Devolver
+    public function devolver_itens($id_insumo_retirada=null)
+    {
+
+        $pesquisa_retirada = $this->insumo_model->get_retirada($id_insumo_retirada);
+
+        if(!$pesquisa_retirada){
+            $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+        if($id_insumo_retirada==null){
+            $this->session->set_flashdata('msg_erro', "Erro ao atualizar retirada.");
+            echo redirect(base_url('insumo/retirada'));
+        }    
+        
+        return $this->get_template('detalhes_retirada', ['detalhes'=>$pesquisa_retirada]);
+
+    }
+
+    public function salvar_devolucao()
+    {
+        $pesquisa_retirada = $this->insumo_model->get_retirada($this->input->post('id_insumo_retirada'));
+
+        if(!$pesquisa_retirada){
+            $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+        $devolucao = [];
+        if(null !== ($this->input->post('item_devolvido')))
+        {
+
+            $item_para_devolucao = 0;
+            foreach($this->input->post('item_devolvido') as $key=>$valor)
+            {
+                $devolucao[$item_para_devolucao]['id_insumo'] = $key;
+                $devolucao[$item_para_devolucao]['id_usuario'] = $this->user->id_usuario;
+                $devolucao[$item_para_devolucao]['quantidade'] = $valor;
+                $devolucao[$item_para_devolucao]['id_insumo_retirada'] = $this->input->post('id_insumo_retirada');
+                $devolucao[$item_para_devolucao]['valor'] = '0.00';
+                $devolucao[$item_para_devolucao]['tipo'] = 'entrada'; // entrada porque é devolução
+                $devolucao[$item_para_devolucao]['status'] = '3'; // devolvido parcialmente
+
+                if($valor > 0){
+                    $item_para_devolucao++;
+                }
+            }
+
+            if(count($devolucao) >0)
+            {
+
+                // Baixar Retirada
+                $set_estoque_retirada = $this->insumo_model->set_estoque_retirada($this->input->post('id_insumo_retirada'), ['status' => 3]); // Devolvido Parcialmente
+                $this->salvar_log(23, $this->input->post('id_insumo_retirada'), 'insumo_devolvido_parcialmente', $this->input->post());
+
+                $this->insumo_model->salvar_insumo_estoque_batch($devolucao);
+
+                $this->session->set_flashdata('msg_success', "Devolução registrada com sucesso.");
+                echo redirect(base_url('insumo/retirada/devolver/'.$this->input->post('id_insumo_retirada')));
+            }
+
+
+            if($item_para_devolucao==0){
+                $this->session->set_flashdata('msg_erro', "Nenhum insumo foi selecionado para devolução.");
+                echo redirect(base_url('insumo/retirada'));
+            }
+        }
+
+        $this->dd($devolucao, $this->input->post(), $pesquisa_retirada);
+    }
+
+    // Retirada Detalhes
+    public function retirada_detalhes($id_insumo_retirada)
+    {
+        $pesquisa_retirada = $this->insumo_model->get_retirada($id_insumo_retirada);
+
+        if(!$pesquisa_retirada){
+            $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+        if($id_insumo_retirada==null){
+            $this->session->set_flashdata('msg_erro', "Erro ao atualizar retirada.");
+            echo redirect(base_url('insumo/retirada'));
+        }    
+        
+        return $this->get_template('detalhes_retirada', ['detalhes'=>$pesquisa_retirada]);
+    }
+
+
+    // Retirada Gerar Termo
+    public function gerar_termo($id_insumo_retirada, $redirect = true)
+    {
+
+        $pesquisa_retirada = $this->insumo_model->get_retirada($id_insumo_retirada);
+
+        $css = file_get_contents( __DIR__ ."/../../../../assets/css/relatorios.css", true, null);
+        $data = [
+            'css' =>  $css, 
+            'logo' => $this->base64(__DIR__ ."/../../../../assets/images/icon/logo.png"),
+            'header' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_header.png"),
+            'footer' => $this->base64(__DIR__ ."/../../../../assets/images/docs/termo_footer.png"),
+            'data_hora' => date('d/m/Y H:i:s', strtotime('now')),
+            'detalhes' => $pesquisa_retirada,
+            'razaosocial' => $this->user->obra->obra_razaosocial
+        ];
+
+        $filename = "termo_retirada_insumo_" . date('YmdHis', strtotime('now')).".pdf";
+        $html = $this->load->view("detalhes_retirada_termo", $data, true);
+
+        $upload_path = "assets/uploads/anexo";
+        $path = __DIR__."/../../../../{$upload_path}";
+        $file = "{$path}/{$filename}";
+
+        if (!file_exists($file)) {
+            $this->gerar_pdf($file, $html);                
+
+            $anexo = $this->anexo_model->query_anexos()
+                        ->where("id_modulo_item = {$id_insumo_retirada} and tipo = 'retirada_insumo'")
+                        ->limit(1)->get()->row();
+
+            if ($anexo) {
+                $id_anexo = $anexo->id_anexo;
+                $this->db->where("id_anexo = {$id_anexo}")->update("anexo", ['anexo' => "anexo/{$filename}"]);
+            } else {
+                $id_anexo = $this->salvar_anexo(
+                    [
+                        "titulo" => "Insumo Retirada",
+                        "descricao" => "Retirada do Insumo IDRETIRADA {$id_insumo_retirada}",
+                        "anexo" => "anexo/{$filename}",
+                    ],
+                    'insumo',
+                    $id_insumo_retirada,
+                    "retirada_insumo"
+                );
+            } 
+
+            if(!$redirect)  return $id_anexo != null;
+        }
+
+        if(!$redirect) return false;
+        echo redirect($this->getRef());
+
+
+        //$this->dd($pesquisa_retirada, $this->user);
     }
 }
