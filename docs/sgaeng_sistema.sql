@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 13-Dez-2022 às 08:22
+-- Tempo de geração: 15-Dez-2022 às 08:50
 -- Versão do servidor: 5.6.51
 -- versão do PHP: 7.4.30
 
@@ -1398,7 +1398,32 @@ INSERT INTO `anexo` (`id_anexo`, `id_anexo_pai`, `id_usuario`, `id_modulo`, `id_
 (1525, NULL, 18, 13, 952, 0, 0, 'Termo Resp. Jovane Campelo', 'termo_de_responsabilidade', 'Rompedor Bosch ENG 1482, 12/12/2022 ', 'anexo/4bc72394fe1c88015ccc35dd8b06eed6.pdf', '2022-12-12 19:27:08'),
 (1526, NULL, 23, 13, 954, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/121fd733e1cd918ea9fd0a34c7e04eb2.pdf', '2022-12-13 10:30:01'),
 (1527, NULL, 23, 13, 955, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/3ce358591d7e86995ac9b4c5e67ff340.pdf', '2022-12-13 11:21:58'),
-(1528, NULL, 23, 13, 957, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/8966c84f533025021193cf21ffad9d77.pdf', '2022-12-13 11:22:42');
+(1528, NULL, 23, 13, 957, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/8966c84f533025021193cf21ffad9d77.pdf', '2022-12-13 11:22:42'),
+(1529, NULL, 18, 13, 959, 0, 0, 'Termo Resp. Jose Pereira ', 'termo_de_responsabilidade', 'Esmerilhadeira 9\" ENG 1479, 13/12/2022', 'anexo/0150f989d6124020eabe8909b56bdda9.pdf', '2022-12-13 11:56:52'),
+(1530, NULL, 18, 13, 956, 0, 0, 'Termo Resp. Jocelio Marcio', 'termo_de_responsabilidade', 'Serra circular ENG 1497, 13/12/2022', 'anexo/e630f193cea66774643c1132947650e9.pdf', '2022-12-13 12:01:53'),
+(1531, NULL, 18, 13, 958, 0, 0, 'Termo Resp. Jovane Campelo', 'termo_de_responsabilidade', 'Gerador ENG 78, Rompedor ENG 1482, 13/12/2022', 'anexo/ca817afd4f43d19051830d9c2f2dd214.pdf', '2022-12-13 12:08:21'),
+(1532, NULL, 3, 9, 21, 42, 0, '1ª REVISÃO - 50 HORAS - 25/11/2022', 'manutencao', 'REVISÃO DA GARANTIA - 1ª 50 HORAS ', 'anexo/6110eb99c61cb0cbf449a8c29348dd01.pdf', '2022-12-13 13:30:45'),
+(1533, NULL, 3, 9, 21, 42, 0, 'NFe MATERIAIS COMPRADOS PARA REVISÃO DE 50, 250 E 500 HORAS', 'manutencao', 'REVISÃO DE 50, 250 E 500 HORAS', 'anexo/64245184480c7996a81f6ea54ef33432.pdf', '2022-12-13 13:32:46'),
+(1534, NULL, 3, 9, 21, 42, 0, 'CARTA DE CORREÇÃO DA NFE 33997 ', 'manutencao', 'ITENS PARA REVISÃO DE 50 - 250 E 500 HORAS', 'anexo/f4cfc34f2cd69974163d5a6b58c53db1.pdf', '2022-12-13 13:34:04'),
+(1535, NULL, 18, 13, 960, 0, 0, 'Termo Resp. Jocelio Marcio', 'termo_de_responsabilidade', 'Serra circular ENG 1497, 13/12/2022', 'anexo/480c2743ca70bd6cfd9ccc28e2a6a6f8.pdf', '2022-12-13 16:36:00'),
+(1536, NULL, 18, 13, 961, 0, 0, 'Termo Resp. Josimar Francisco ', 'termo_de_responsabilidade', 'Martelete perfurador ENG 1511, 13/12/2022', 'anexo/187b82f65ed2f112b714ebc86aaf0cba.pdf', '2022-12-13 16:42:42'),
+(1537, NULL, 8, 13, 962, 0, 0, 'TERMO DE COMPROMISSO LUZINALDO', 'termo_de_responsabilidade', 'TERMO DE COMPROMISSO LUZINALDO', 'anexo/6359b6923f368a8e3a8fe52a9d768430.pdf', '2022-12-13 18:10:11'),
+(1538, NULL, 18, 13, 963, 0, 0, 'Termo Resp. Francisco Vieira ', 'termo_de_responsabilidade', 'Martelete perfurador ENG 1511, 14/12/2022', 'anexo/ae49f572596337ff5ba136bcf98780dd.pdf', '2022-12-14 11:20:08'),
+(1539, NULL, 18, 13, 965, 0, 0, 'Termo Resp. Jovane Campelo', 'termo_de_responsabilidade', 'Chave grifo ENG 0650, Gerador ENG 0078, 14/12/2022', 'anexo/de7a2ef66b371edfee58ef86a7fff5c2.pdf', '2022-12-14 11:28:25'),
+(1540, NULL, 23, 13, 971, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/5734756ef29610102945d1622b58f85c.pdf', '2022-12-14 11:55:02'),
+(1541, NULL, 23, 13, 970, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/7a32cbabe59d49bcec1f5b2beddc9f84.pdf', '2022-12-14 11:56:20'),
+(1542, NULL, 23, 13, 967, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/5bf42efa98e0bcdd0950981d5ec9f2aa.pdf', '2022-12-14 11:57:31'),
+(1543, NULL, 18, 13, 969, 0, 0, 'Termo Resp. Jorge Monteiro', 'termo_de_responsabilidade', 'Esmerilhadeira 4\" ENG 1480, 14/12/2022', 'anexo/f5388841a006615f1b0a5fc237648f01.pdf', '2022-12-14 11:58:54'),
+(1544, NULL, 18, 13, 968, 0, 0, 'Termo Resp. Magale Inocencio', 'termo_de_responsabilidade', 'Martelete perfurador e rompedor ENG 1512, 14/12/2022', 'anexo/1cee04209680c2d8e60b2203672b86ed.pdf', '2022-12-14 12:24:24'),
+(1545, NULL, 4, 13, 966, 0, 0, 'TERMO DIASSIS', 'termo_de_responsabilidade', 'TERMO DIASSIS', 'anexo/117832d98a123e8af3116855e4868c67.pdf', '2022-12-14 12:37:07'),
+(1546, NULL, 4, 13, 972, 0, 0, 'TERMO ERONDI', 'termo_de_responsabilidade', 'TERMO ERONDI', 'anexo/d0f9f82c893472184283a9e0cabab442.pdf', '2022-12-14 12:45:09'),
+(1547, 1541, 23, 13, 970, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/19fc6b0a763eb371cca7bedfc7b31317.pdf', '2022-12-14 12:49:32'),
+(1548, NULL, 18, 13, 974, 0, 0, 'Termo Resp. Jose Pereira ', 'termo_de_responsabilidade', 'Esmerilhadeira ENG 1504, 14/12/2022', 'anexo/93a08c006e92033e5ed08f6624d54e80.pdf', '2022-12-14 13:37:44'),
+(1549, NULL, 23, 13, 973, 0, 0, 'TERMO ', 'termo_de_responsabilidade', 'TERMO ', 'anexo/28f3f1cf05b8b28234bd5210c1648f34.pdf', '2022-12-14 13:38:37'),
+(1550, NULL, 3, 9, 4, 99, 0, 'Certificado aferição  ', 'manutencao', 'Vigência 12/12/2022 a 17/11/2024 ', 'anexo/7ddaf5d498f289fdbf2529cb330a49ef.pdf', '2022-12-14 16:27:11'),
+(1551, NULL, 3, 9, 4, 95, 0, 'Certificado de aferição tacógrafo', 'manutencao', 'vigência: 12/12/2022 a 17/11/2024', 'anexo/be2eb00d7eab6901aef2df9b0b105b8e.pdf', '2022-12-14 16:29:08'),
+(1552, NULL, 18, 13, 975, 0, 0, 'Termo Resp. Josimar Francisco ', 'termo_de_responsabilidade', 'Martelete perfurador ENG 1509 14/12/2022', 'anexo/90bac5b07699cc118b186c3cfb5b050f.pdf', '2022-12-14 16:40:23'),
+(1553, NULL, 18, 13, 964, 0, 0, 'Termo Resp. Francisco de Assis', 'termo_de_responsabilidade', 'Aspirador de pó 14/12/2022', 'anexo/57f5f92556746b8166c45fe1895c1799.pdf', '2022-12-14 20:05:48');
 
 -- --------------------------------------------------------
 
@@ -1551,7 +1576,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (116, 1, 29, 9, 'Maquina De Corta Ferro Policorte ', 'ENG75', 'Motor 220/380 3450RPM', '2022-02-24 18:49:57', NULL, 12, 0, '613.85', '0', NULL),
 (117, 1, 16, 3, 'Serra Circular Bosch GKS 150 ', 'ENG76', ' Potência  1.500 W Diâmetro do disco de serra*: 184 mm 6.000 RPM', '2022-02-24 19:08:21', NULL, 12, 0, '419.30', '0', NULL),
 (118, 1, 30, 3, 'Serra Mármore Circular GDC 14-40', 'ENG77', 'Potencia 220v 1450W BOSCH', '2022-02-24 19:30:52', NULL, 12, 0, '280.00', '0', NULL),
-(119, 3, 31, 4, 'Gerador à Gasolina 4T TG3100CXR', 'ENG78', 'Potencia 196CC 3,1kVA Bivolt Mono com Partida Manual e AVR - TOYAMA', '2022-02-25 16:35:48', NULL, 2, 0, '1189.93', '0', NULL),
+(119, 3, 31, 4, 'Gerador à Gasolina 4T TG3100CXR', 'ENG78', 'Potencia 196CC 3,1kVA Bivolt Mono com Partida Manual e AVR - TOYAMA', '2022-02-25 16:35:48', NULL, 12, 0, '1189.93', '0', NULL),
 (120, 3, 32, 3, 'Motovibrador B4T-507 A Gasolina', 'ENG79', 'Potencia 5.5Cv 3600Rpm Partida Manual BLANCO', '2022-02-25 16:51:09', NULL, 12, 0, '1191.80', '0', NULL),
 (121, 3, 32, 3, 'Motovibrador B4T-507 A Gasolina', 'ENG80', 'Potencia 5.5Cv 3600Rpm Partida Manual BLANCO', '2022-02-25 16:51:09', NULL, 12, 0, '1191.80', '0', NULL),
 (122, 5, 33, 6, 'Catraca  Manual 4,5T', 'ENG81', 'Nº 509476 3M Corrente BERG-STEEL', '2022-02-28 17:59:06', NULL, 12, 0, '2762.55', '0', NULL),
@@ -2018,13 +2043,13 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (677, 5, 108, 5, 'Detector De Tensão De Contato Nº7619', 'ENG534', 'Tensão fase - terra 1kv a 230kv', '2022-04-26 19:02:20', NULL, 12, 0, '279.30', '1', NULL),
 (678, 5, 108, 5, 'Detector De Tensão De Contato Nº7620', 'ENG535', 'Tensão fase - terra 1kv a 230kv', '2022-04-26 19:02:20', NULL, 12, 0, '279.30', '1', NULL),
 (679, 5, 109, 6, 'Dinamômetro Analógico Filizola Modelo Crown', 'ENG536', 'Serie 30783', '2022-04-26 19:16:53', NULL, 12, 0, '1418.20', '1', NULL),
-(682, 1, 10, 5, ' Esmerilhadeira Makita Angular 4.1/2\" 750W DWE4010 DEWALT', 'ENG539', 'Comporta discos de 4.12', '2022-04-27 18:00:49', NULL, 5, 0, '293.00', '0', NULL),
+(682, 1, 10, 5, ' Esmerilhadeira Makita Angular 4.1/2\" 750W DWE4010 DEWALT', 'ENG539', 'Comporta discos de 4.12', '2022-04-27 18:00:49', NULL, 8, 0, '293.00', '0', NULL),
 (683, 5, 53, 3, 'Chave Combinada 46MM TRAMONTINA-PRO', 'ENG540', '', '2022-04-27 18:08:41', NULL, 12, 0, '139.23', '0', NULL),
 (684, 5, 53, 3, 'Chave Combinada 46MM BELZER', 'ENG541', '', '2022-04-27 18:13:07', NULL, 12, 0, '181.00', '0', NULL),
 (685, 5, 104, 4, 'Chave Ajustável 18\'\' Vonder (inglesa)', 'ENG542', 'Chave Grifo 18\'\' Vonder', '2022-04-27 18:19:15', NULL, 12, 0, '378.00', '0', NULL),
 (686, 5, 104, 9, 'Chave Grifo 18\'\' Vonder', 'ENG543', 'Chave Grifo 18\'\' Vonder', '2022-04-27 18:19:15', NULL, 12, 0, '378.00', '0', NULL),
 (687, 5, 104, 9, 'Chave Grifo 18\'\' Vonder', 'ENG544', 'Chave Grifo 18\'\' Vonder', '2022-04-27 18:19:15', NULL, 12, 0, '378.00', '0', NULL),
-(688, 1, 10, 3, 'Esmerilhadeira Angular Makia  Skil 9002 De 4 1/2\" 700W 127V', 'ENG545', 'Comporta discos de 4.12', '2022-04-27 18:46:20', NULL, 12, 0, '149.00', '0', NULL),
+(688, 1, 10, 3, 'Esmerilhadeira Angular Makia  Skil 9002 De 4 1/2\" 700W 127V', 'ENG545', 'Comporta discos de 4.12', '2022-04-27 18:46:20', NULL, 5, 0, '149.00', '0', NULL),
 (690, 1, 25, 3, 'Soprador Térmico Gamma', 'ENG546', 'Potencia 2000W 220v', '2022-04-27 19:11:41', NULL, 12, 0, '62.93', '0', NULL),
 (691, 5, 110, 3, 'Torquimetro De Estalo 20 - 100 N.M - Tramontina', 'ENG547', 'A Disposição no Almoxarifado.', '2022-04-27 19:20:31', NULL, 12, 0, '814.00', '1', NULL),
 (692, 5, 110, 3, 'Torquimetro De Estalo 20 - 100 N.M - Tramontina B', 'ENG548', 'A Disposição no Almoxarifado.', '2022-04-27 19:23:52', NULL, 12, 0, '814.00', '1', NULL),
@@ -2365,7 +2390,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1082, 4, 155, 5, 'Chave Grifo 24\"', 'ENG898', 'Chave grifo 24\"\r\nmarca Brasfort', '2022-06-02 15:05:24', NULL, 12, 0, '41.88', '0', NULL),
 (1083, 4, 156, 5, 'Chave Grifo 24\"', 'ENG899', 'Chave Grifo 24\" \r\nmarca robust\r\nserie R27160021', '2022-06-02 16:16:05', NULL, 12, 0, '42.57', '0', NULL),
 (1084, 3, 157, 5, 'Serra Marmore 15000w Black Decker Csv-60hz N5500/min', 'ENG900', 'Serra marmore 15000w\r\nmarca black decker\r\ncsv-60hz n5500/min', '2022-06-02 16:31:01', NULL, 12, 0, '419.00', '0', NULL),
-(1085, 3, 158, 5, 'Serra Circular 4100 NH2 125mm MAQUITA ENG 901', 'ENG901', 'Serra Circular 4100 NH2\r\nMarca makita 1450w\r\nn 12200min 220v', '2022-06-02 16:43:06', NULL, 5, 0, '640.00', '0', NULL),
+(1085, 3, 158, 5, 'Serra Circular 4100 NH2 125mm MAQUITA ENG 901', 'ENG901', 'Serra Circular 4100 NH2\r\nMarca makita 1450w\r\nn 12200min 220v', '2022-06-02 16:43:06', NULL, 12, 0, '640.00', '0', NULL),
 (1086, 5, 159, 5, 'Chave Combinada 30mm', 'ENG902', 'Chave combinada 30mm\r\nmarca diversas', '2022-06-02 17:30:55', NULL, 12, 0, '57.30', '0', NULL),
 (1087, 5, 159, 5, 'Chave Combinada 30mm', 'ENG903', 'Chave combinada 30mm\r\nmarca diversas', '2022-06-02 17:30:55', NULL, 12, 0, '57.30', '0', NULL),
 (1088, 5, 159, 5, 'Chave Combinada 30mm', 'ENG904', 'Chave combinada 30mm\r\nmarca diversas', '2022-06-02 17:30:55', NULL, 12, 0, '57.30', '0', NULL),
@@ -2558,7 +2583,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1276, 5, 180, 5, 'Chave Combinada 07mm', 'ENG1092', 'Chave combinada 07mm\r\nMarca(diversas)', '2022-06-03 14:30:27', NULL, 12, 0, '2.45', '0', NULL),
 (1277, 5, 181, 5, 'Chave Combinada 09mm', 'ENG1093', 'Chave combinada 09mm\r\nMarca (diversas)', '2022-06-03 14:37:56', NULL, 12, 0, '4.51', '0', NULL),
 (1279, 5, 182, 5, 'Chave Biela ', 'ENG1094', 'Chave biela 13mm \r\nMarca (diversas)', '2022-06-03 14:48:11', NULL, 12, 0, '7.25', '0', NULL),
-(1280, 1, 183, 5, 'Furadeira com Impacto 1/2  - DEWALT 700w', 'ENG1095', 'furadeira DWD502-B2\r\nMarca DEWALT', '2022-06-03 17:32:55', NULL, 12, 0, '41.09', '0', NULL),
+(1280, 1, 183, 5, 'Furadeira com Impacto 1/2  - DEWALT 700w', 'ENG1095', 'furadeira DWD502-B2\r\nMarca DEWALT', '2022-06-03 17:32:55', NULL, 5, 0, '41.09', '0', NULL),
 (1281, 3, 184, 5, 'Alicate Rebitador 3 Pontas WORKER', 'ENG1096', 'ALICATE REBITADOR 3 PONTAS WORKKER', '2022-06-03 17:45:02', NULL, 12, 0, '40.94', '0', NULL),
 (1282, 5, 185, 5, 'Soquete Sextavado 30\" (Diversos)', 'ENG1097', 'Soquete Sextavado 30mm (Diversos)\r\nMarcas (Diversas)', '2022-06-03 19:12:43', NULL, 12, 0, '15.90', '0', NULL),
 (1283, 5, 185, 5, 'Soquete Sextavado 30\" (Diversos)', 'ENG1098', 'Soquete Sextavado 30mm (Diversos)\r\nMarcas (Diversas)', '2022-06-03 19:12:43', NULL, 12, 0, '15.90', '0', NULL),
@@ -2764,7 +2789,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1486, 0, 233, 5, 'RELOGIO DE ´PONTO DIGITAL  HENRY', 'ENG1300', 'RELOGIO DE PONTO DIGITAL', '2022-06-17 17:16:06', NULL, 12, 0, '1650.00', '0', NULL),
 (1487, 3, 234, 5, 'BETONEIRA 500LT', 'ENG1301', 'BETONEIRA 500LTS VINDO DE MOGI DAS CRUZES', '2022-06-20 10:58:24', NULL, 12, 0, '2519.00', '0', NULL),
 (1488, 1, 235, 5, 'SERRA CIRCULAR 185MM-220V  MAQUITA HS7010 220V 1600W', 'ENG1302', 'SERRA CIRCULAR 185MM MAQUITA HS7010  1600W\r\nEQUIPAMENTO VINDO DE MOGI DAS CRUZES', '2022-06-20 11:13:50', NULL, 12, 0, '640.00', '0', NULL),
-(1489, 1, 236, 5, 'ESMERILHADEIRA BOSCH GWS2200-230 220V ', 'ENG1303', 'ESMERILHADEIRA BOSCH GWS 2200-230 220V\r\nEQUIPAMENTO VINDO DE MOGI DAS CRUZES', '2022-06-20 11:34:15', NULL, 5, 0, '415.00', '0', NULL),
+(1489, 1, 236, 5, 'ESMERILHADEIRA BOSCH GWS2200-230 220V ', 'ENG1303', 'ESMERILHADEIRA BOSCH GWS 2200-230 220V\r\nEQUIPAMENTO VINDO DE MOGI DAS CRUZES', '2022-06-20 11:34:15', NULL, 12, 0, '415.00', '0', NULL),
 (1490, 1, 237, 5, 'FURADEIRA DE IMPACTO 1/2 -DEWALT 13MM 220V 50-60Hz', 'ENG1304', 'FURADEIRA IMPACTO DEWALT 1/2 220 13MM 220V 50-60\r\nEQUIPAMENTO VINDO DE MOGI DAS CRUZES', '2022-06-20 12:02:04', NULL, 8, 0, '214.00', '0', NULL),
 (1491, 1, 238, 5, 'SERRA MARMORE  125MM 4100NH2 220-230V1450W', 'ENG1305', 'SERRA MARMORE 125MM 4100HN2 2200-230 V 1450W', '2022-06-20 13:47:53', NULL, 5, 0, '246.00', '0', NULL),
 (1492, 1, 239, 5, 'LAVADOURA DE ALTA PRESSAO 1.400W 127 V-60HZ', 'ENG1306', 'LAVADOURA DE ALTA PRESSAO 1400W 127V \r\n1.450 ibf/pol2\r\nMARCA VONDER', '2022-06-21 18:31:57', NULL, 12, 0, '399.00', '0', NULL),
@@ -2807,7 +2832,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1643, 3, 264, 3, 'Extintor  De  Incêndio PÓ Capacidade 4KG ABC', 'ENG1451', 'Extintor  de  Incêndio PÓ Capacidade 4KG ABC', '2022-07-21 17:11:03', NULL, 12, 0, '113.40', '0', NULL),
 (1644, 3, 265, 3, 'Extintor  De  Incêndio PÓ Capacidade 6KG BC', 'ENG1452', 'Extintor  de  Incêndio PÓ Capacidade 6KG BC', '2022-07-21 17:15:08', NULL, 12, 0, '120.40', '0', NULL),
 (1646, 1, 267, 4, 'PROJETOR GT 5500 5500LUMENS FULLHD HDMI - TELA RETRATIL 200X150 GT -CXS AMPL GT 150W RMS BLUETOOTH ', 'ENG1454', 'PROJETOR PARA USO PELA EQUIPE DE EHS E DEMAIS SETORES DE OBRAS DA ENGETECNICA', '2022-08-04 13:14:36', NULL, 5, 3, '4587.90', '0', NULL),
-(1647, 3, 268, 5, 'NIVEL LASER DE 3 LINHAS VERDE GLL3-80CG 120M C/RECEPTOR MR7+-0 0,4MM + TRIPE ALUMINIO 50-150CM BT150 ROSCA 1/4 (BOSCH)', 'ENG1455', '', '2022-08-10 16:56:06', NULL, 12, 1, '4607.86', '0', NULL),
+(1647, 3, 268, 5, 'NIVEL LASER DE 3 LINHAS VERDE GLL3-80CG 120M C/RECEPTOR MR7+-0 0,4MM + TRIPE ALUMINIO 50-150CM BT150 ROSCA 1/4 (BOSCH)', 'ENG1455', '', '2022-08-10 16:56:06', NULL, 5, 1, '4607.86', '0', NULL),
 (1648, 3, 269, 3, 'Carrinho De Mão ExtraFort Tramontina', 'ENG1456', 'Ferramenta se encontra disponivel no Almoxarifado. \r\nFerramenta nova. 11/08/2022', '2022-08-11 14:26:43', NULL, 5, 0, '505.60', '0', NULL),
 (1649, 3, 269, 3, 'Carrinho De Mão ExtraFort Tramontina', 'ENG1457', 'Ferramenta se encontra disponivel no Almoxarifado. \r\nFerramenta nova. 11/08/2022', '2022-08-11 14:26:43', NULL, 5, 0, '505.60', '0', NULL),
 (1733, 0, 299, 4, 'Extintor De Incêndio PQS 06 Kg ', 'ENG1533', 'Marca = Extinservice', '2022-09-17 12:01:10', NULL, 12, 0, '250.00', '0', NULL),
@@ -2844,7 +2869,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1698, 4, 290, 5, 'Cabo De Aterramento 120MM COM 9M', 'ENG1500', 'Cabo de Aterramento 120MM COM 9M', '2022-09-15 12:47:27', NULL, 12, 0, '1113.30', '0', NULL),
 (1697, 4, 290, 5, 'Cabo De Aterramento 120MM COM 9M', 'ENG1499', 'Cabo de Aterramento 120MM COM 9M', '2022-09-15 12:47:27', NULL, 5, 0, '1113.30', '0', NULL),
 (1696, 4, 130, 3, 'Cabo De Aterramento 9M/95MM ', 'ENG1498', 'Cabo de aterramento 9M/95MM ', '2022-09-15 12:22:42', NULL, 12, 3, '882.70', '0', NULL),
-(1695, 1, 289, 4, 'Serra Circular GKS 150 STD 1500W 220V BOSCH', 'ENG1497', 'Serra Circular GKS 150 STD 1500W 220V Bosch ', '2022-09-14 20:32:47', NULL, 2, 0, '976.57', '0', NULL),
+(1695, 1, 289, 4, 'Serra Circular GKS 150 STD 1500W 220V BOSCH', 'ENG1497', 'Serra Circular GKS 150 STD 1500W 220V Bosch ', '2022-09-14 20:32:47', NULL, 12, 0, '976.57', '0', NULL),
 (1694, 1, 289, 4, 'Serra Circular GKS 150 STD 1500W 220V BOSCH', 'ENG1496', 'Serra Circular GKS 150 STD 1500W 220V Bosch ', '2022-09-14 20:32:47', NULL, 12, 0, '976.57', '0', NULL),
 (1693, 3, 288, 4, 'Gerador A Gasolina TOYAMA', 'ENG1495', 'Gerador a gasolina 3,1 KVA BIV. PART. MAN. TG3100CXR [EO] TOYAMA  Nº S:201025 2100 31204', '2022-09-14 20:25:12', NULL, 12, 0, '3087.32', '0', NULL),
 (1692, 3, 287, 3, 'Calibrador De Pressão 10 A 150 PSi', 'ENG1494', 'Calibrador de Pressão 10 a 150 PSI para Pneus de Ônibus e Caminhões com Escala Plástica - SCHEBOR-R7188CI', '2022-09-14 12:26:58', NULL, 5, 1, '150.00', '0', NULL),
@@ -2852,7 +2877,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (1676, 5, 283, 4, 'Patesca Koch Com Gancho 3T', 'ENG1484', '', '2022-09-02 13:12:09', NULL, 12, 0, '500.00', '0', NULL),
 (1675, 1, 282, 4, 'Bebedouro Industrial 100L', 'ENG1483', '', '2022-09-02 12:26:28', NULL, 12, 0, '1721.51', '0', NULL),
 (1673, 1, 280, 4, 'Serra Circular DEWALT DWE560-B2', 'ENG1481', '', '2022-09-02 12:09:55', NULL, 12, 0, '608.30', '0', NULL),
-(1674, 1, 281, 4, 'ROMPEDOR BOSCH GBH 4-32 DFR', 'ENG1482', '', '2022-09-02 12:16:09', NULL, 2, 0, '2837.29', '0', NULL),
+(1674, 1, 281, 4, 'ROMPEDOR BOSCH GBH 4-32 DFR', 'ENG1482', '', '2022-09-02 12:16:09', NULL, 12, 0, '2837.29', '0', NULL),
 (1672, 1, 279, 4, 'Esmerilhadeira Profeessional GWS 850 4\"', 'ENG1480', '', '2022-09-02 12:03:30', NULL, 12, 0, '215.00', '0', NULL),
 (1671, 1, 278, 4, 'Esmerilhadeira Angular GWS 25-230 BOSCH 9\"', 'ENG1479', '', '2022-09-02 11:58:26', NULL, 12, 0, '710.00', '0', NULL),
 (1678, 1, 284, 5, 'Furadeira GBS 13 RE 650W BOSCH', 'ENG1486', 'Furadeira GBS 13 RE 650W BOSCH 220V', '2022-09-05 17:28:41', NULL, 12, 0, '370.74', '0', NULL),
@@ -3140,7 +3165,7 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (2069, 3, 375, 1, 'Carrinho De Mão - Teste', 'ENG1846', '', '2022-11-28 11:25:54', NULL, 12, 0, '400.00', '0', NULL),
 (2086, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1863', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 5, 0, '1680.00', '1', NULL),
 (2085, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1862', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 5, 0, '1680.00', '1', NULL),
-(2084, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1861', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 5, 0, '1680.00', '1', NULL),
+(2084, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1861', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 12, 0, '1680.00', '1', NULL),
 (2074, 2, 377, 9, 'Radio Comunicador Modelo BF-888S (BAOFFENG)', 'ENG1851', 'Radio BAOFFENG MODELO BF-888S', '2022-11-28 14:12:32', NULL, 12, 0, '107.25', '0', NULL),
 (2075, 2, 377, 9, 'Radio Comunicador Modelo BF-888S (BAOFFENG)', 'ENG1852', 'Radio BAOFFENG MODELO BF-888S', '2022-11-28 14:12:32', NULL, 12, 0, '107.25', '0', NULL),
 (2076, 2, 377, 9, 'Radio Comunicador Modelo BF-888S (BAOFFENG)', 'ENG1853', 'Radio BAOFFENG MODELO BF-888S', '2022-11-28 14:12:32', NULL, 12, 0, '107.25', '0', NULL),
@@ -3151,9 +3176,9 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (2081, 2, 379, 9, 'Serra Circular 7. 1/4 MAKITA 5007 N - 220v', 'ENG1858', 'S/N: 000150091B\r\n', '2022-11-28 14:37:16', NULL, 12, 0, '1115.00', '0', NULL),
 (2082, 2, 380, 9, 'Serra Mármore MAKITA 4100 NH3ZX2 1300w - 220v', 'ENG1859', 'S/N: 00148837B', '2022-11-28 14:41:16', NULL, 12, 0, '499.00', '0', NULL),
 (2083, 2, 381, 9, 'Furadeira MAKITA HP-1640  760w - 220v', 'ENG1860', 'S/N: 001682194B', '2022-11-28 14:43:02', NULL, 12, 0, '549.00', '0', NULL),
-(2087, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1864', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 12, 0, '1680.00', '1', NULL),
+(2087, 6, 382, 5, 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', 'ENG1864', 'Trava Quedas Retrátil 6M Fita CX Plas - Vicsa VIC29181', '2022-11-29 18:01:32', NULL, 5, 0, '1680.00', '1', NULL),
 (2088, 2, 383, 9, 'Notebook DELL I5 P112P P112F001', 'ENG1865', 'ST 60WN4T3', '2022-11-30 18:22:59', NULL, 5, 0, '3500.00', '0', NULL),
-(2089, 1, 384, 5, 'Martelete Perfurador Bosch GBH 2-24 D 820W 220V', 'ENG1866', 'Martelete Perfurador Bosch GBH 2-24 D 820W 220V', '2022-11-30 19:35:26', NULL, 12, 0, '489.30', '0', NULL),
+(2089, 1, 384, 5, 'Martelete Perfurador Bosch GBH 2-24 D 820W 220V', 'ENG1866', 'Martelete Perfurador Bosch GBH 2-24 D 820W 220V', '2022-11-30 19:35:26', NULL, 8, 0, '489.30', '0', NULL),
 (2090, 5, 385, 9, 'Jogo De Soquete 1/2  10a32MM Estr. C/18pcs C/Catr - Vonder', 'ENG1867', '', '2022-11-30 20:33:51', NULL, 12, 1, '233.78', '0', NULL),
 (2091, 5, 385, 9, 'Jogo De Soquete 1/2  10a32MM Estr. C/18pcs C/Catr - Vonder', 'ENG1868', '', '2022-11-30 20:33:51', NULL, 12, 1, '233.78', '0', NULL),
 (2092, 3, 386, 9, 'Alavanca Aco  Sext PA/BIC  1,8M', 'ENG1869', '', '2022-11-30 20:48:25', NULL, 12, 0, '385.21', '0', NULL),
@@ -3209,7 +3234,9 @@ INSERT INTO `ativo_externo` (`id_ativo_externo`, `id_ativo_externo_categoria`, `
 (2141, 4, 348, 6, 'Cabo  De Aterramento 9M/120MM', 'ENG1918', '', '2022-12-07 12:11:09', NULL, 12, 3, '1550.00', '0', NULL),
 (2142, 4, 348, 6, 'Cabo  De Aterramento 9M/120MM', 'ENG1919', '', '2022-12-07 12:11:09', NULL, 12, 3, '1550.00', '0', NULL),
 (2143, 4, 348, 6, 'Cabo  De Aterramento 9M/120MM', 'ENG1920', '', '2022-12-07 12:11:09', NULL, 12, 3, '1550.00', '0', NULL),
-(2144, 4, 348, 6, 'Cabo  De Aterramento 9M/120MM', 'ENG1921', '', '2022-12-07 12:11:09', NULL, 12, 3, '1550.00', '0', NULL);
+(2144, 4, 348, 6, 'Cabo  De Aterramento 9M/120MM', 'ENG1921', '', '2022-12-07 12:11:09', NULL, 12, 3, '1550.00', '0', NULL),
+(2145, 1, 399, 5, 'Esmerilhadeira 7 GWS 2200-180 2200W Bosch', 'ENG1922', '', '2022-12-13 14:06:58', NULL, 5, 0, '1396.27', '0', NULL),
+(2146, 2, 400, 4, 'Aspirador De Pó GTW Inox 20 220V 1600W', 'ENG1923', '', '2022-12-13 16:48:48', NULL, 12, 0, '904.20', '0', NULL);
 
 -- --------------------------------------------------------
 
@@ -5404,13 +5431,13 @@ INSERT INTO `ativo_externo_retirada` (`id_retirada`, `id_retirada_pai`, `id_obra
 (892, 0, 4, 53, '2022-12-03 07:46:23', '2022-12-30 17:00:00', 9, 'Armação                                         ', NULL),
 (893, 0, 4, 102, '2022-12-03 07:50:52', '2022-12-30 17:00:00', 9, '   Armação                                      ', NULL),
 (894, 0, 4, 105, '2022-12-05 06:55:44', '2023-01-30 17:00:00', 9, 'Carpintaria                                        ', NULL),
-(895, 0, 5, 74, '2022-12-05 07:01:59', '2022-12-10 16:00:00', 4, '                                        ', NULL),
+(895, 0, 5, 74, '2022-12-05 07:01:59', '2022-12-10 16:00:00', 9, '                                        ', NULL),
 (896, 0, 4, 103, '2022-12-05 07:09:18', '2023-01-30 17:00:00', 9, 'Perfuração de solo                                         ', NULL),
 (897, 0, 4, 53, '2022-12-05 07:14:21', '2023-01-28 17:00:00', 9, 'Armação                                         ', NULL),
 (898, 0, 3, 51, '2022-12-05 07:25:05', '2022-12-09 16:00:00', 4, '                                        ', NULL),
 (899, 0, 5, 173, '2022-12-05 07:36:25', '2022-12-10 16:00:00', 4, '                                        ', NULL),
 (900, 0, 4, 102, '2022-12-05 07:36:31', '2023-01-28 17:00:00', 9, 'Armação                                         ', NULL),
-(901, 0, 5, 62, '2022-12-05 07:44:52', '2022-12-05 15:00:00', 4, '                                        ', NULL),
+(901, 0, 5, 62, '2022-12-05 07:44:52', '2022-12-05 15:00:00', 9, '                                        ', NULL),
 (902, 0, 4, 103, '2022-12-05 07:49:17', '2022-01-28 17:00:00', 9, 'Carpintaria                                         ', NULL),
 (903, 0, 5, 72, '2022-12-05 07:54:21', '2022-12-10 16:00:00', 9, '                                        ', NULL),
 (904, 0, 5, 42, '2022-12-05 08:03:11', '2022-12-10 16:00:00', 9, '                                        ', NULL),
@@ -5449,9 +5476,9 @@ INSERT INTO `ativo_externo_retirada` (`id_retirada`, `id_retirada_pai`, `id_obra
 (940, 0, 4, 102, '2022-12-09 06:41:02', '2023-01-28 17:00:00', 9, 'Armação                                         ', NULL),
 (941, 0, 4, 113, '2022-12-09 09:01:11', '2023-01-28 17:00:00', 9, 'Carpintaria                                         ', NULL),
 (942, 0, 9, 183, '2022-12-10 13:53:52', '2023-11-30 17:00:00', 2, 'Radio\r\nCarregador tipo base\r\nFone de ouvido.', NULL),
-(943, 0, 5, 106, '2022-12-12 06:56:55', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(943, 0, 5, 106, '2022-12-12 06:56:55', '2022-12-17 16:00:00', 9, '                                        ', NULL),
 (944, 0, 5, 74, '2022-12-12 07:13:17', '2022-12-17 16:00:00', 4, '                                        ', NULL),
-(945, 0, 5, 45, '2022-12-12 07:27:54', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(945, 0, 5, 45, '2022-12-12 07:27:54', '2022-12-17 16:00:00', 9, '                                        ', NULL),
 (946, 0, 5, 63, '2022-12-12 07:31:59', '2022-12-17 16:00:00', 4, '                                        ', NULL),
 (947, 0, 5, 67, '2022-12-12 07:38:01', '2022-12-17 17:00:00', 9, '                                        ', NULL),
 (948, 0, 3, 78, '2022-12-12 07:55:24', '2022-12-12 16:00:00', 4, '                                        ', NULL),
@@ -5460,10 +5487,27 @@ INSERT INTO `ativo_externo_retirada` (`id_retirada`, `id_retirada_pai`, `id_obra
 (951, 0, 4, 113, '2022-12-12 16:11:05', '2023-01-28 17:00:00', 9, 'Aplicação de pré-moldados                                         ', NULL),
 (952, 0, 4, 113, '2022-12-12 16:14:25', '2023-01-28 17:00:00', 9, '  Aplicação de pré-moldados                                       ', NULL),
 (954, 0, 5, 106, '2022-12-13 07:13:04', '2022-12-16 16:00:00', 4, '                                        ', NULL),
-(955, 0, 5, 173, '2022-12-13 07:35:58', '2022-12-13 17:00:00', 4, '                                        ', NULL),
-(956, 0, 4, 103, '2022-12-13 07:45:46', '2023-01-28 17:00:00', 2, 'Carpintaria                                        ', NULL),
-(957, 0, 5, 45, '2022-12-13 07:59:18', '2022-12-13 17:00:00', 4, '                                        ', NULL),
-(958, 0, 4, 113, '2022-12-13 08:05:18', '2023-01-28 17:00:00', 2, 'Locação de bases                                       ', NULL);
+(955, 0, 5, 173, '2022-12-13 07:35:58', '2022-12-13 17:00:00', 9, '                                        ', NULL),
+(956, 0, 4, 103, '2022-12-13 07:45:46', '2023-01-28 17:00:00', 9, 'Carpintaria                                        ', NULL),
+(957, 0, 5, 45, '2022-12-13 07:59:18', '2022-12-13 17:00:00', 9, '                                        ', NULL),
+(958, 0, 4, 113, '2022-12-13 08:05:18', '2023-01-28 17:00:00', 9, 'Locação de bases                                       ', NULL),
+(959, 0, 4, 102, '2022-12-13 08:44:52', '2023-01-28 17:00:00', 9, 'Armação                                         ', NULL),
+(960, 0, 4, 103, '2022-12-13 13:12:27', '2023-01-28 17:00:00', 9, 'Carpintaria                                         ', NULL),
+(961, 0, 4, 116, '2022-12-13 13:30:41', '2023-01-28 17:00:00', 9, 'Armação                                        ', NULL),
+(962, 0, 3, 55, '2022-12-13 14:14:06', '2022-12-14 16:00:00', 4, '                                        ', NULL),
+(963, 0, 4, 53, '2022-12-14 07:21:10', '2023-01-28 17:00:00', 9, 'Armação                                      ', NULL),
+(964, 0, 4, 111, '2022-12-14 07:28:39', '2023-01-28 17:00:00', 9, 'Limpeza das bases                                      ', NULL),
+(965, 0, 4, 113, '2022-12-14 07:32:39', '2023-01-28 17:00:00', 9, 'Fundação e pré-moldados                                      ', NULL),
+(966, 0, 5, 43, '2022-12-14 07:38:29', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(967, 0, 5, 63, '2022-12-14 07:41:37', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(968, 0, 4, 104, '2022-12-14 07:53:51', '2023-01-28 17:00:00', 9, '                                        ', NULL),
+(969, 0, 4, 54, '2022-12-14 08:01:17', '2023-01-28 17:00:00', 9, 'Corte de vergalhão / Armação                                     ', NULL),
+(970, 0, 5, 63, '2022-12-14 08:20:22', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(971, 0, 5, 166, '2022-12-14 08:36:50', '2022-12-14 17:00:00', 4, '                                        ', NULL),
+(972, 0, 5, 106, '2022-12-14 09:38:35', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(973, 0, 5, 62, '2022-12-14 10:20:30', '2022-12-17 16:00:00', 4, '                                        ', NULL),
+(974, 0, 4, 102, '2022-12-14 10:30:56', '2023-01-28 17:00:00', 9, 'Corte de vergalhão / Armação                                         ', NULL),
+(975, 0, 4, 116, '2022-12-14 13:19:32', '2023-01-28 17:00:00', 9, 'Armação                                         ', NULL);
 
 -- --------------------------------------------------------
 
@@ -6734,13 +6778,13 @@ INSERT INTO `ativo_externo_retirada_ativo` (`id_retirada_ativo`, `id_retirada`, 
 (1245, 892, 1069, 1709, '2022-12-03 08:29:05', '2022-12-03 15:04:05', 9),
 (1246, 893, 1070, 1705, '2022-12-03 08:34:56', '2022-12-03 15:01:32', 9),
 (1247, 894, 1071, 59, '2022-12-05 07:40:11', '2022-12-06 07:52:31', 9),
-(1248, 895, 1072, 1085, '2022-12-05 07:43:18', NULL, 4),
+(1248, 895, 1072, 1085, '2022-12-05 07:43:18', '2022-12-14 10:08:10', 9),
 (1249, 896, 1073, 1710, '2022-12-05 08:02:56', '2022-12-05 13:48:29', 9),
 (1250, 897, 1074, 1709, '2022-12-05 08:07:51', '2022-12-05 11:54:20', 9),
 (1251, 898, 1075, 1650, '2022-12-05 07:59:15', NULL, 4),
 (1252, 899, 1076, 2122, '2022-12-05 07:42:49', NULL, 4),
 (1253, 900, 1077, 1706, '2022-12-05 08:17:11', '2022-12-05 13:47:22', 9),
-(1254, 901, 1078, 2085, '2022-12-05 07:52:57', NULL, 4),
+(1254, 901, 1078, 2085, '2022-12-05 07:52:57', '2022-12-14 10:19:46', 9),
 (1255, 902, 1079, 1695, '2022-12-05 08:21:13', '2022-12-05 13:48:00', 9),
 (1256, 903, 1080, 2086, '2022-12-05 07:58:36', '2022-12-12 06:47:19', 9),
 (1257, 904, 1081, 2087, '2022-12-05 08:28:12', '2022-12-12 06:46:25', 9),
@@ -6891,9 +6935,9 @@ INSERT INTO `ativo_externo_retirada_ativo` (`id_retirada_ativo`, `id_retirada`, 
 (1402, 940, 1164, 1705, '2022-12-09 08:58:53', '2022-12-12 14:30:13', 9),
 (1403, 941, 1165, 1695, '2022-12-09 09:11:49', '2022-12-09 10:16:54', 9),
 (1404, 942, 1166, 2077, NULL, NULL, 2),
-(1405, 943, 1167, 682, '2022-12-12 07:26:43', NULL, 4),
+(1405, 943, 1167, 682, '2022-12-12 07:26:43', '2022-12-14 06:44:29', 8),
 (1406, 944, 1168, 1085, '2022-12-12 07:23:33', NULL, 4),
-(1407, 945, 1169, 2084, '2022-12-12 07:46:15', NULL, 4),
+(1407, 945, 1169, 2084, '2022-12-12 07:46:15', '2022-12-14 06:40:22', 9),
 (1408, 946, 1170, 2086, '2022-12-12 07:45:21', NULL, 4),
 (1409, 947, 1171, 1280, '2022-12-12 07:44:39', '2022-12-12 16:40:21', 9),
 (1410, 948, 1172, 1648, '2022-12-12 08:12:21', NULL, 4),
@@ -6903,11 +6947,30 @@ INSERT INTO `ativo_externo_retirada_ativo` (`id_retirada_ativo`, `id_retirada`, 
 (1414, 952, 1176, 1674, '2022-12-12 16:27:14', '2022-12-12 17:03:33', 9),
 (1415, 953, 1177, 2122, '2022-12-13 07:06:32', NULL, 1),
 (1416, 954, 1178, 2122, '2022-12-13 07:30:29', NULL, 4),
-(1417, 955, 1179, 1489, '2022-12-13 08:22:03', NULL, 4),
-(1418, 956, 1180, 1695, NULL, NULL, 2),
-(1419, 957, 1181, 1491, '2022-12-13 08:22:47', NULL, 4),
-(1420, 958, 1182, 119, NULL, NULL, 2),
-(1421, 958, 1183, 1674, NULL, NULL, 2);
+(1417, 955, 1179, 1489, '2022-12-13 08:22:03', '2022-12-14 06:42:55', 9),
+(1418, 956, 1180, 1695, '2022-12-13 09:02:04', '2022-12-13 09:21:07', 9),
+(1419, 957, 1181, 1491, '2022-12-13 08:22:47', '2022-12-14 06:38:13', 9),
+(1420, 958, 1182, 119, '2022-12-13 09:08:27', '2022-12-14 08:35:24', 9),
+(1421, 958, 1183, 1674, '2022-12-13 09:08:27', '2022-12-14 08:35:24', 9),
+(1422, 959, 1184, 1671, '2022-12-13 08:56:58', '2022-12-13 16:47:02', 9),
+(1423, 960, 1185, 1695, '2022-12-13 13:36:09', '2022-12-14 07:01:15', 9),
+(1424, 961, 1186, 1709, '2022-12-13 13:42:53', '2022-12-13 16:47:58', 9),
+(1425, 962, 1187, 688, '2022-12-13 15:10:41', NULL, 4),
+(1426, 963, 1188, 1709, '2022-12-14 08:20:29', '2022-12-14 15:10:56', 9),
+(1427, 964, 1189, 2146, '2022-12-14 17:05:55', '2022-12-14 17:06:10', 9),
+(1428, 965, 1190, 119, '2022-12-14 08:33:46', '2022-12-14 17:00:27', 9),
+(1429, 965, 1191, 814, '2022-12-14 08:33:46', '2022-12-14 17:00:27', 9),
+(1430, 966, 1192, 2087, '2022-12-14 09:37:19', NULL, 4),
+(1431, 967, 1193, 2089, '2022-12-14 08:57:42', '2022-12-14 09:16:05', 9),
+(1432, 967, 1194, 2145, '2022-12-14 08:57:42', NULL, 4),
+(1433, 968, 1195, 1710, '2022-12-14 09:24:30', '2022-12-14 17:04:38', 9),
+(1434, 969, 1196, 1672, '2022-12-14 08:59:05', '2022-12-14 09:00:01', 9),
+(1435, 970, 1197, 1280, '2022-12-14 08:56:26', NULL, 4),
+(1436, 971, 1198, 1647, '2022-12-14 08:55:07', NULL, 4),
+(1437, 972, 1199, 1491, '2022-12-14 09:45:21', NULL, 4),
+(1438, 973, 1200, 2085, '2022-12-14 10:38:51', NULL, 4),
+(1439, 974, 1201, 1702, '2022-12-14 10:37:48', '2022-12-14 17:01:40', 9),
+(1440, 975, 1202, 1707, '2022-12-14 13:40:27', '2022-12-14 16:37:34', 9);
 
 -- --------------------------------------------------------
 
@@ -7971,13 +8034,13 @@ INSERT INTO `ativo_externo_retirada_item` (`id_retirada_item`, `id_retirada`, `i
 (1069, 892, 1709, 294, 1, '2022-12-03 08:29:05', '2022-12-03 15:04:05', 9),
 (1070, 893, 1705, 293, 1, '2022-12-03 08:34:56', '2022-12-03 15:01:32', 9),
 (1071, 894, 59, 14, 1, '2022-12-05 07:40:11', '2022-12-06 07:52:31', 9),
-(1072, 895, 1085, 158, 1, '2022-12-05 07:43:18', NULL, 4),
+(1072, 895, 1085, 158, 1, '2022-12-05 07:43:18', '2022-12-14 10:08:10', 9),
 (1073, 896, 1710, 295, 1, '2022-12-05 08:02:56', '2022-12-05 13:48:29', 9),
 (1074, 897, 1709, 294, 1, '2022-12-05 08:07:51', '2022-12-05 11:54:20', 9),
 (1075, 898, 1650, 269, 1, '2022-12-05 07:59:15', NULL, 4),
 (1076, 899, 2122, 395, 1, '2022-12-05 07:42:49', NULL, 4),
 (1077, 900, 1706, 293, 1, '2022-12-05 08:17:11', '2022-12-05 13:47:22', 9),
-(1078, 901, 2085, 382, 1, '2022-12-05 07:52:57', NULL, 4),
+(1078, 901, 2085, 382, 1, '2022-12-05 07:52:57', '2022-12-14 10:19:46', 9),
 (1079, 902, 1695, 289, 1, '2022-12-05 08:21:13', '2022-12-05 13:48:00', 9),
 (1080, 903, 2086, 382, 1, '2022-12-05 07:58:36', '2022-12-12 06:47:19', 9),
 (1081, 904, 2087, 382, 1, '2022-12-05 08:28:12', '2022-12-12 06:46:25', 9),
@@ -8064,9 +8127,9 @@ INSERT INTO `ativo_externo_retirada_item` (`id_retirada_item`, `id_retirada`, `i
 (1164, 940, 1705, 293, 1, '2022-12-09 08:58:53', '2022-12-12 14:30:13', 9),
 (1165, 941, 1695, 289, 1, '2022-12-09 09:11:49', '2022-12-09 10:16:54', 9),
 (1166, 942, 2077, 377, 1, NULL, NULL, 2),
-(1167, 943, 682, 10, 1, '2022-12-12 07:26:43', NULL, 4),
+(1167, 943, 682, 10, 1, '2022-12-12 07:26:43', '2022-12-14 06:44:29', 9),
 (1168, 944, 1085, 158, 1, '2022-12-12 07:23:33', NULL, 4),
-(1169, 945, 2084, 382, 1, '2022-12-12 07:46:15', NULL, 4),
+(1169, 945, 2084, 382, 1, '2022-12-12 07:46:15', '2022-12-14 06:40:22', 9),
 (1170, 946, 2086, 382, 1, '2022-12-12 07:45:21', NULL, 4),
 (1171, 947, 1280, 183, 1, '2022-12-12 07:44:39', '2022-12-12 16:40:21', 9),
 (1172, 948, 1648, 269, 1, '2022-12-12 08:12:21', NULL, 4),
@@ -8076,11 +8139,30 @@ INSERT INTO `ativo_externo_retirada_item` (`id_retirada_item`, `id_retirada`, `i
 (1176, 952, 1674, 281, 1, '2022-12-12 16:27:14', '2022-12-12 17:03:33', 9),
 (1177, 953, NULL, 395, 1, '2022-12-13 07:06:32', NULL, 1),
 (1178, 954, 2122, 395, 1, '2022-12-13 07:30:29', NULL, 4),
-(1179, 955, 1489, 236, 1, '2022-12-13 08:22:03', NULL, 4),
-(1180, 956, 1695, 289, 1, NULL, NULL, 2),
-(1181, 957, 1491, 238, 1, '2022-12-13 08:22:47', NULL, 4),
-(1182, 958, 119, 31, 1, NULL, NULL, 2),
-(1183, 958, 1674, 281, 1, NULL, NULL, 2);
+(1179, 955, 1489, 236, 1, '2022-12-13 08:22:03', '2022-12-14 06:42:55', 9),
+(1180, 956, 1695, 289, 1, '2022-12-13 09:02:04', '2022-12-13 09:21:07', 9),
+(1181, 957, 1491, 238, 1, '2022-12-13 08:22:47', '2022-12-14 06:38:13', 9),
+(1182, 958, 119, 31, 1, '2022-12-13 09:08:27', '2022-12-14 08:35:24', 9),
+(1183, 958, 1674, 281, 1, '2022-12-13 09:08:27', '2022-12-14 08:35:24', 9),
+(1184, 959, 1671, 278, 1, '2022-12-13 08:56:58', '2022-12-13 16:47:02', 9),
+(1185, 960, 1695, 289, 1, '2022-12-13 13:36:09', '2022-12-14 07:01:15', 9),
+(1186, 961, 1709, 294, 1, '2022-12-13 13:42:53', '2022-12-13 16:47:58', 9),
+(1187, 962, 688, 10, 1, '2022-12-13 15:10:41', NULL, 4),
+(1188, 963, 1709, 294, 1, '2022-12-14 08:20:29', '2022-12-14 15:10:56', 9),
+(1189, 964, 2146, 400, 1, '2022-12-14 17:05:55', '2022-12-14 17:06:10', 9),
+(1190, 965, 119, 31, 1, '2022-12-14 08:33:46', '2022-12-14 17:00:27', 9),
+(1191, 965, 814, 121, 1, '2022-12-14 08:33:46', '2022-12-14 17:00:27', 9),
+(1192, 966, 2087, 382, 1, '2022-12-14 09:37:19', NULL, 4),
+(1193, 967, 2089, 384, 1, '2022-12-14 08:57:42', '2022-12-14 09:16:05', 9),
+(1194, 967, 2145, 399, 1, '2022-12-14 08:57:42', NULL, 4),
+(1195, 968, 1710, 295, 1, '2022-12-14 09:24:30', '2022-12-14 17:04:38', 9),
+(1196, 969, 1672, 279, 1, '2022-12-14 08:59:05', '2022-12-14 09:00:01', 9),
+(1197, 970, 1280, 183, 1, '2022-12-14 08:56:26', NULL, 4),
+(1198, 971, 1647, 268, 1, '2022-12-14 08:55:07', NULL, 4),
+(1199, 972, 1491, 238, 1, '2022-12-14 09:45:21', NULL, 4),
+(1200, 973, 2085, 382, 1, '2022-12-14 10:38:51', NULL, 4),
+(1201, 974, 1702, 291, 1, '2022-12-14 10:37:48', '2022-12-14 17:01:40', 9),
+(1202, 975, 1707, 294, 1, '2022-12-14 13:40:27', '2022-12-14 16:37:34', 9);
 
 -- --------------------------------------------------------
 
@@ -8305,7 +8387,7 @@ CREATE TABLE `ativo_veiculo_manutencao` (
 --
 
 INSERT INTO `ativo_veiculo_manutencao` (`id_ativo_veiculo_manutencao`, `id_fornecedor`, `id_ativo_configuracao`, `id_ativo_veiculo`, `veiculo_km_atual`, `veiculo_km_proxima_revisao`, `veiculo_horimetro_atual`, `veiculo_horimetro_proxima_revisao`, `veiculo_custo`, `ordem_de_servico`, `descricao`, `data_entrada`, `data_saida`, `data_vencimento`) VALUES
-(1, 2, 21, 1, 148348, 171490, 0, 0, '3812.41', NULL, '', '2021-09-01 03:00:00', NULL, '2022-12-10'),
+(1, 2, 21, 1, 148348, 171490, 0, 0, '3812.41', NULL, '', '2021-09-01 03:00:00', NULL, '2023-02-10'),
 (5, 3, 0, 5, 46633, 61633, NULL, 0, '890.00', NULL, '', '2022-02-17 03:00:00', NULL, '2022-08-16'),
 (36, 15, 21, 20, 0, 1, 0, 0, '0.00', NULL, '', '2022-04-13 03:00:00', NULL, '2022-10-13'),
 (44, 3, 21, 4, 0, 0, 0, 0, '595.01', NULL, '', '2021-04-20 03:00:00', NULL, '2021-10-13'),
@@ -8313,7 +8395,7 @@ INSERT INTO `ativo_veiculo_manutencao` (`id_ativo_veiculo_manutencao`, `id_forne
 (74, 4, 21, 5, 0, 0, 0, 0, '4143.93', NULL, '', '2020-09-17 03:00:00', NULL, '2021-03-19'),
 (47, 6, 21, 4, 0, 0, 0, 0, '330.00', NULL, 'Aferição do tacógrafo BEP 5B50', '2020-12-07 03:00:00', NULL, '2022-11-25'),
 (10, 6, 21, 1, 141991, 171991, 0, 0, '350.00', NULL, '', '2020-06-03 03:00:00', '2022-06-14 16:57:29', '2024-05-16'),
-(42, 11, 21, 21, NULL, NULL, 5, 50, '0.00', NULL, '', '2022-08-04 03:00:00', NULL, NULL),
+(42, 11, 21, 21, 0, 0, 50, 250, '300.00', NULL, '', '2022-08-04 03:00:00', NULL, '0000-00-00'),
 (32, 16, 21, 12, 0, 0, 1500, 2000, '930.00', NULL, '', '2022-05-03 03:00:00', NULL, '0000-00-00'),
 (83, 8, 21, 7, 0, 0, 0, 0, '9309.48', NULL, '', '2021-10-09 03:00:00', NULL, '2022-04-09'),
 (14, 9, 21, 8, 78100, 88100, NULL, 0, '13845.07', NULL, '', '2021-11-26 03:00:00', NULL, '2022-05-25'),
@@ -8355,11 +8437,11 @@ INSERT INTO `ativo_veiculo_manutencao` (`id_ativo_veiculo_manutencao`, `id_forne
 (86, 17, 21, 23, 0, 0, 0, 0, '0.00', NULL, '<p>Caminh&atilde;o foi retirado da consecionario no dia 27/07/2022, portando conta-se desta data para realizar a primeira revis&atilde;o, ap&oacute;s retirada.</p>', '2022-07-27 03:00:00', NULL, '2023-01-27'),
 (87, 15, 21, 24, 0, 0, 0, 0, '0.00', NULL, '', '2022-09-27 03:00:00', NULL, '2023-03-27'),
 (88, 22, 21, 9, 0, 0, 2647, 2897, '320.00', NULL, '', '2022-10-28 03:00:00', NULL, '0000-00-00'),
-(89, 12, 21, 18, 0, 0, 450, 650, '15457.78', NULL, '', '2022-10-25 03:00:00', NULL, NULL),
+(89, 12, 21, 18, 0, 0, 450, 650, '15457.78', NULL, '', '0000-00-00 00:00:00', NULL, '0000-00-00'),
 (91, 26, 21, 26, 0, 0, 1, 50, '0.00', NULL, '', '2022-11-26 03:00:00', NULL, NULL),
 (92, 11, 21, 27, 0, 0, 1, 100, '0.00', NULL, '', '2022-11-26 03:00:00', NULL, NULL),
 (94, 6, 21, 23, 0, 0, 0, 0, '0.00', NULL, '', '2022-11-07 03:00:00', NULL, '2024-10-13'),
-(95, 6, 21, 4, 0, 0, 0, 0, '0.00', NULL, '', '2022-11-17 03:00:00', NULL, '2022-12-17'),
+(95, 6, 21, 4, 0, 0, 0, 0, '0.00', NULL, '', '2022-12-12 03:00:00', NULL, '2024-11-17'),
 (96, 10, 21, 27, 0, 0, 100, 500, '0.00', NULL, '', '2022-11-28 03:00:00', NULL, NULL),
 (97, 27, 21, 11, 0, 0, 556, 1056, '2605.00', NULL, '', '2022-12-07 03:00:00', NULL, NULL),
 (98, 12, 21, 20, 0, 0, 0, 0, '6833.85', NULL, '', '2022-12-07 03:00:00', NULL, '2023-06-07');
@@ -8444,6 +8526,8 @@ INSERT INTO `ativo_veiculo_operacao` (`id_ativo_veiculo_operacao`, `id_ativo_vei
 (175, 11, 556, '2022-12-07 19:19:14'),
 (176, 11, 634, '2022-12-07 19:22:14'),
 (177, 27, 142, '2022-12-07 19:55:51'),
+(178, 21, 36, '2022-12-13 13:26:47'),
+(179, 21, 50, '2022-12-13 13:28:05'),
 (149, 10, 101, '2022-10-19 20:30:59'),
 (48, 15, 100, '2022-04-05 17:58:06'),
 (49, 15, 51, '2022-04-05 18:02:27'),
@@ -8612,7 +8696,8 @@ INSERT INTO `ativo_veiculo_quilometragem` (`id_ativo_veiculo_quilometragem`, `id
 (164, 0, 0, '2022-11-17 03:00:00'),
 (165, 0, 0, '2022-11-28 03:00:00'),
 (166, 0, 0, '2022-12-07 03:00:00'),
-(167, 0, 0, '2022-12-07 03:00:00');
+(167, 0, 0, '2022-12-07 03:00:00'),
+(168, 0, 0, '2022-12-12 03:00:00');
 
 -- --------------------------------------------------------
 
@@ -9061,6 +9146,130 @@ INSERT INTO `funcionario` (`id_funcionario`, `id_empresa`, `id_obra`, `matricula
 (188, 1, 6, '000973', 'Nadia Araujo de Lima', '7.092.023-44', '016.129.910-50', '1988-08-02', 'Rua Conde de Porto Alegre', '584', 'até 780 - lado par', 'Centro', '97573-574', 'Santana do Livramento', 21, 'ronaju08@gmail.com', '(55) 8437-5144', '', '', '2022-12-01 11:04:09', NULL, '0'),
 (189, 1, 3, '42', 'Jadson Laurentino de Lima', '2.007.458-70', '057.310.333-07', '1992-12-13', '', '9000', '', '', '63250-000', 'Milagres', 6, '', '', '', '', '2022-12-01 12:07:56', '2022-12-05 12:25:13', '0'),
 (190, 1, 3, '975', 'João Augusto Ribeiro Maques', '2.003.099-11', '045.065.553-92', '1992-11-18', '', '38', '', '', '63250-000', 'Milagres', 6, '', '', '', '', '2022-12-06 11:28:00', NULL, '0');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `insumo`
+--
+
+CREATE TABLE `insumo` (
+  `id_insumo` int(10) NOT NULL,
+  `id_insumo_configuracao` int(11) NOT NULL,
+  `id_fornecedor` int(11) NOT NULL,
+  `id_obra` int(10) NOT NULL DEFAULT '0',
+  `titulo` varchar(255) NOT NULL,
+  `codigo_insumo` varchar(255) NOT NULL,
+  `descricao` text NOT NULL,
+  `situacao` enum('0','1') NOT NULL COMMENT '0=Ativo,1=Inativo',
+  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `insumo`
+--
+
+INSERT INTO `insumo` (`id_insumo`, `id_insumo_configuracao`, `id_fornecedor`, `id_obra`, `titulo`, `codigo_insumo`, `descricao`, `situacao`, `data`) VALUES
+(1, 0, 14, 1, 'CIMENTO', 'CIM76', '', '0', '2022-12-13 16:32:31'),
+(2, 0, 14, 1, 'CIMENTO', 'CIM76', '', '0', '2022-12-13 16:32:31');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `insumo_configuracao`
+--
+
+CREATE TABLE `insumo_configuracao` (
+  `id_insumo_configuracao` int(10) NOT NULL,
+  `id_insumo_configuracao_vinculo` int(10) NOT NULL DEFAULT '0',
+  `titulo` varchar(255) NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `medicao` int(10) NOT NULL DEFAULT '0',
+  `situacao` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Ativo,1=Inativo',
+  `permit_edit` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não,1=Sim',
+  `permit_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0=Não,1=Sim'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `insumo_configuracao`
+--
+
+INSERT INTO `insumo_configuracao` (`id_insumo_configuracao`, `id_insumo_configuracao_vinculo`, `titulo`, `slug`, `medicao`, `situacao`, `permit_edit`, `permit_delete`) VALUES
+(1, 0, 'Ferramentas De Corte', 'ferramentas-de-corte', 7, '0', '1', '1'),
+(2, 1, 'Alicate De Corte De Cano', 'ferramentas-de-corte/alicate', 7, '0', '1', '1'),
+(3, 0, 'CIMENTO', 'cp ii - 50kg', 7, '0', '1', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `insumo_estoque`
+--
+
+CREATE TABLE `insumo_estoque` (
+  `id_insumo_estoque` int(10) NOT NULL,
+  `id_insumo` int(10) NOT NULL DEFAULT '0',
+  `id_usuario` int(10) NOT NULL DEFAULT '0',
+  `id_insumo_retirada` int(10) DEFAULT NULL,
+  `quantidade` int(10) NOT NULL DEFAULT '0',
+  `tipo` enum('entrada','saida') NOT NULL DEFAULT 'entrada',
+  `valor` float NOT NULL,
+  `status` int(10) DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `insumo_estoque`
+--
+
+INSERT INTO `insumo_estoque` (`id_insumo_estoque`, `id_insumo`, `id_usuario`, `id_insumo_retirada`, `quantidade`, `tipo`, `valor`, `status`, `created_at`) VALUES
+(1, 1, 3, NULL, 3, 'entrada', 40, 0, '2022-12-13 16:32:31'),
+(2, 2, 3, NULL, 3, 'entrada', 40, 0, '2022-12-13 16:32:31');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `insumo_medicao`
+--
+
+CREATE TABLE `insumo_medicao` (
+  `id_insumo_medicao` int(10) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `sigla` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `insumo_medicao`
+--
+
+INSERT INTO `insumo_medicao` (`id_insumo_medicao`, `titulo`, `sigla`, `created_at`) VALUES
+(1, 'Nenhum', 'N/0', '2022-12-12 10:21:17'),
+(2, 'Metro Quadrado', 'M²', '2022-12-12 10:31:38'),
+(3, 'Metro Cúbico', 'M³', '2022-12-12 10:31:38'),
+(4, 'Pacote', 'PC', '2022-12-12 10:31:38'),
+(5, 'Metro', 'M', '2022-12-12 10:31:38'),
+(6, 'Peça', 'PÇ', '2022-12-12 10:31:38'),
+(7, 'Unidade', 'UN', '2022-12-12 10:31:38'),
+(8, 'Quilo', 'KG', '2022-12-12 10:31:38'),
+(9, 'Litro', 'L', '2022-12-12 10:31:38'),
+(10, 'Dúzia', 'DZ', '2022-12-12 10:31:38'),
+(11, 'Caixa', 'CX', '2022-12-12 10:31:38'),
+(12, 'Centímetro', 'CM', '2022-12-12 10:31:38'),
+(13, 'Barra', 'B', '2022-12-12 10:31:38');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `insumo_retirada`
+--
+
+CREATE TABLE `insumo_retirada` (
+  `id_insumo_retirada` int(11) NOT NULL,
+  `id_usuario` int(10) NOT NULL DEFAULT '0',
+  `id_funcionario` int(10) NOT NULL DEFAULT '0',
+  `status` int(10) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -10899,7 +11108,143 @@ INSERT INTO `logs` (`id_log`, `id_item`, `id_modulo`, `id_usuario`, `acao`, `his
 (1797, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 08:21. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"955\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/3ce358591d7e86995ac9b4c5e67ff340.pdf\"}', '2022-12-13 11:21:58'),
 (1798, 955, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 955 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:22. ()', NULL, '{\"id_retirada\":\"955\",\"status\":4}', '2022-12-13 11:22:03'),
 (1799, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 08:22. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"957\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/8966c84f533025021193cf21ffad9d77.pdf\"}', '2022-12-13 11:22:42'),
-(1800, 957, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 957 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:22. ()', NULL, '{\"id_retirada\":\"957\",\"status\":4}', '2022-12-13 11:22:47');
+(1800, 957, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 957 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:22. ()', NULL, '{\"id_retirada\":\"957\",\"status\":4}', '2022-12-13 11:22:47'),
+(1801, NULL, 2, 6, 'acessou', '<b>André Baill</b> acessou o <b>sistema</b> em 13/12/2022 08:31', NULL, NULL, '2022-12-13 11:31:15'),
+(1802, 1, 2, 6, 'editar', '<b>andrebaill</b> editou o registro ID 1 pertencente ao módulo de <b>Usuários</b> em 13/12/2022 08:34. ()', NULL, '{\"id_usuario\":\"1\",\"permissoes\":\"{\\\"2\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"3\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"5\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"4\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"9\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\"},\\\"10\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"13\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"14\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"23\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"11\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"relatorio_funcionario\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_empresa\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_disponiveis_na_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_equipamentos_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_disponiveis\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_depreciacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_quilometragem\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_operacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_abastecimentos\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_centro_de_custo\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_patrimonio_disponivel\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_logs\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"22\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"20\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"21\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"}}\",\"usuario\":\"engetecnica\",\"nome\":\"Everaldo Meira\",\"email\":\"contato@engetecnica.com.br\",\"permit_notification_email\":\"1\",\"permit_notification_push\":\"0\",\"situacao\":\"0\",\"nivel\":\"1\",\"id_empresa\":\"1\",\"id_obra\":\"2\",\"senha\":\"7c4a8d09ca3762af61e59520943dc26494f8941b\"}', '2022-12-13 11:34:30'),
+(1803, 6, 2, 6, 'editar', '<b>andrebaill</b> editou o registro ID 6 pertencente ao módulo de <b>Usuários</b> em 13/12/2022 08:34. ()', NULL, '{\"id_usuario\":\"6\",\"permissoes\":\"{\\\"2\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"6\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"3\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"5\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"4\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"9\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"10\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"13\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"14\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"23\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"11\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"relatorio_funcionario\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_empresa\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_disponiveis_na_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_equipamentos_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_disponiveis\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_depreciacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_quilometragem\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_operacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_abastecimentos\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_centro_de_custo\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_patrimonio_disponivel\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_logs\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"22\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"20\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"21\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"}}\",\"usuario\":\"andrebaill\",\"nome\":\"Andr\\u00e9 Baill\",\"email\":\"srandrebaill@gmail.com\",\"permit_notification_email\":\"1\",\"permit_notification_push\":\"0\",\"senha\":\"7c4a8d09ca3762af61e59520943dc26494f8941b\"}', '2022-12-13 11:34:48'),
+(1804, NULL, 22, 6, 'adicionar', '<b>andrebaill</b> adicionou um novo registro pertencente ao módulo de <b>Insumos</b> em 13/12/2022 08:37. ()', NULL, '{\"id_insumo_configuracao\":\"\",\"id_insumo_configuracao_vinculo\":\"0\",\"titulo\":\"Ferramentas De Corte\",\"medicao\":\"7\",\"situacao\":\"0\",\"slug\":\"ferramentas-de-corte\",\"permit_delete\":\"1\",\"permit_edit\":\"1\"}', '2022-12-13 11:37:42'),
+(1805, NULL, 22, 6, 'adicionar', '<b>andrebaill</b> adicionou um novo registro pertencente ao módulo de <b>Insumos</b> em 13/12/2022 08:38. ()', NULL, '{\"id_insumo_configuracao\":\"\",\"id_insumo_configuracao_vinculo\":\"1\",\"titulo\":\"Alicate De Corte De Cano\",\"medicao\":\"7\",\"situacao\":\"0\",\"slug\":\"ferramentas-de-corte\\/alicate\",\"permit_delete\":\"1\",\"permit_edit\":\"1\"}', '2022-12-13 11:38:13'),
+(1806, NULL, 2, 4, 'acessou', '<b>Robson Nascimento da Silva</b> acessou o <b>sistema</b> em 13/12/2022 08:43', NULL, NULL, '2022-12-13 11:43:43'),
+(1807, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 13/12/2022 08:43', NULL, NULL, '2022-12-13 11:43:51'),
+(1808, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:44. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"102\",\"status\":1,\"observacoes\":\"Arma\\u00e7\\u00e3o                                         \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-13 11:44:52'),
+(1809, 959, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 959 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:45. ()', NULL, '{\"id_retirada\":\"959\",\"status\":2}', '2022-12-13 11:45:03'),
+(1810, 3, 2, 6, 'editar', '<b>andrebaill</b> editou o registro ID 3 pertencente ao módulo de <b>Usuários</b> em 13/12/2022 08:46. ()', NULL, '{\"id_usuario\":\"3\",\"permissoes\":\"{\\\"2\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"6\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"3\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"5\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"4\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"9\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"10\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"13\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"14\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"23\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"11\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"relatorio_funcionario\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_empresa\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_disponiveis_na_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_equipamentos_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_disponiveis\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_depreciacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_quilometragem\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_operacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_abastecimentos\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_centro_de_custo\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_patrimonio_disponivel\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_logs\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"22\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"20\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"21\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"}}\",\"usuario\":\"everaldo\",\"nome\":\"Everaldo\",\"email\":\"everaldom@engetecnica.net.br\",\"permit_notification_email\":\"1\",\"permit_notification_push\":\"0\",\"situacao\":\"0\",\"nivel\":\"1\",\"id_empresa\":\"1\",\"id_obra\":\"1\",\"senha\":\"496e76c6f02cbc5a5034ecad7fa90c79ec45e542\"}', '2022-12-13 11:46:12'),
+(1811, NULL, 2, 1, 'acessou', '<b>Everaldo Meira</b> acessou o <b>sistema</b> em 13/12/2022 08:54', NULL, NULL, '2022-12-13 11:54:29'),
+(1812, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 08:56. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"959\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jose Pereira \",\"descricao\":\"Esmerilhadeira 9\\\" ENG 1479, 13\\/12\\/2022\",\"anexo\":\"anexo\\/0150f989d6124020eabe8909b56bdda9.pdf\"}', '2022-12-13 11:56:52'),
+(1813, 959, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 959 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 08:56. ()', NULL, '{\"id_retirada\":\"959\",\"status\":4}', '2022-12-13 11:56:58'),
+(1814, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 09:01. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"956\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jocelio Marcio\",\"descricao\":\"Serra circular ENG 1497, 13\\/12\\/2022\",\"anexo\":\"anexo\\/e630f193cea66774643c1132947650e9.pdf\"}', '2022-12-13 12:01:53'),
+(1815, 956, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 956 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 09:02. ()', NULL, '{\"id_retirada\":\"956\",\"status\":4}', '2022-12-13 12:02:04'),
+(1816, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 09:08. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"958\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jovane Campelo\",\"descricao\":\"Gerador ENG 78, Rompedor ENG 1482, 13\\/12\\/2022\",\"anexo\":\"anexo\\/ca817afd4f43d19051830d9c2f2dd214.pdf\"}', '2022-12-13 12:08:21'),
+(1817, 958, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 958 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 09:08. ()', NULL, '{\"id_retirada\":\"958\",\"status\":4}', '2022-12-13 12:08:27'),
+(1818, 956, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 956 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 09:21. ()', NULL, '{\"id_retirada\":\"956\",\"status\":9}', '2022-12-13 12:21:07'),
+(1819, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 13/12/2022 09:59', NULL, NULL, '2022-12-13 12:59:58'),
+(1820, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 13/12/2022 10:00', NULL, NULL, '2022-12-13 13:00:37'),
+(1821, NULL, 2, 8, 'acessou', '<b>Silvaney</b> acessou o <b>sistema</b> em 13/12/2022 10:03', NULL, NULL, '2022-12-13 13:03:43'),
+(1822, NULL, 17, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 10:30. (manutencao)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"3\",\"id_modulo\":\"9\",\"id_modulo_item\":\"21\",\"id_modulo_subitem\":\"42\",\"id_configuracao\":\"\",\"tipo\":\"manutencao\",\"titulo\":\"1\\u00aa REVIS\\u00c3O - 50 HORAS - 25\\/11\\/2022\",\"descricao\":\"REVIS\\u00c3O DA GARANTIA - 1\\u00aa 50 HORAS \",\"anexo\":\"anexo\\/6110eb99c61cb0cbf449a8c29348dd01.pdf\"}', '2022-12-13 13:30:45'),
+(1823, NULL, 17, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 10:32. (manutencao)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"3\",\"id_modulo\":\"9\",\"id_modulo_item\":\"21\",\"id_modulo_subitem\":\"42\",\"id_configuracao\":\"\",\"tipo\":\"manutencao\",\"titulo\":\"NFe MATERIAIS COMPRADOS PARA REVIS\\u00c3O DE 50, 250 E 500 HORAS\",\"descricao\":\"REVIS\\u00c3O DE 50, 250 E 500 HORAS\",\"anexo\":\"anexo\\/64245184480c7996a81f6ea54ef33432.pdf\"}', '2022-12-13 13:32:46'),
+(1824, NULL, 17, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 10:34. (manutencao)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"3\",\"id_modulo\":\"9\",\"id_modulo_item\":\"21\",\"id_modulo_subitem\":\"42\",\"id_configuracao\":\"\",\"tipo\":\"manutencao\",\"titulo\":\"CARTA DE CORRE\\u00c7\\u00c3O DA NFE 33997 \",\"descricao\":\"ITENS PARA REVIS\\u00c3O DE 50 - 250 E 500 HORAS\",\"anexo\":\"anexo\\/f4cfc34f2cd69974163d5a6b58c53db1.pdf\"}', '2022-12-13 13:34:04'),
+(1825, 8, 2, 3, 'editar', '<b>everaldo</b> editou o registro ID 8 pertencente ao módulo de <b>Usuários</b> em 13/12/2022 10:41. ()', NULL, '{\"id_usuario\":\"8\",\"permissoes\":\"{\\\"2\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\"},\\\"6\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"3\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"5\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"4\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"9\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"10\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"13\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"14\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"11\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"relatorio_funcionario\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_empresa\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_disponiveis_na_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_equipamentos_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_disponiveis\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_depreciacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_quilometragem\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_operacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_abastecimentos\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_centro_de_custo\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_patrimonio_disponivel\\\":{\\\"visualizar\\\":\\\"on\\\"}}\",\"usuario\":\"silvaney\",\"nome\":\"Silvaney\",\"email\":\"\",\"permit_notification_email\":\"1\",\"permit_notification_push\":\"0\",\"situacao\":\"0\",\"nivel\":\"1\",\"id_empresa\":\"1\",\"id_obra\":\"3\",\"senha\":\"c2cca3472e5fc539532ae6bd1860ba851c31fe50\"}', '2022-12-13 13:41:51'),
+(1826, 8, 2, 3, 'editar', '<b>everaldo</b> editou o registro ID 8 pertencente ao módulo de <b>Usuários</b> em 13/12/2022 10:45. ()', NULL, '{\"id_usuario\":\"8\",\"permissoes\":\"{\\\"2\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\"},\\\"6\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"3\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\",\\\"excluir\\\":\\\"on\\\"},\\\"5\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"4\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"9\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"10\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"13\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"14\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"23\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"11\\\":{\\\"visualizar\\\":\\\"on\\\",\\\"adicionar\\\":\\\"on\\\",\\\"editar\\\":\\\"on\\\"},\\\"relatorio_funcionario\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_empresa\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_disponiveis_na_obra\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_ferramentas_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_equipamentos_em_estoque\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_disponiveis\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_depreciacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_quilometragem\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_operacao\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_veiculos_abastecimentos\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_centro_de_custo\\\":{\\\"visualizar\\\":\\\"on\\\"},\\\"relatorio_patrimonio_disponivel\\\":{\\\"visualizar\\\":\\\"on\\\"}}\",\"usuario\":\"silvaney\",\"nome\":\"Silvaney\",\"email\":\"\",\"permit_notification_email\":\"1\",\"permit_notification_push\":\"0\",\"situacao\":\"0\",\"nivel\":\"1\",\"id_empresa\":\"1\",\"id_obra\":\"3\",\"senha\":\"c2cca3472e5fc539532ae6bd1860ba851c31fe50\"}', '2022-12-13 13:45:10'),
+(1827, NULL, 2, 18, 'acessou', '<b>LEONARDO DAVID APOLONIO PINTO</b> acessou o <b>sistema</b> em 13/12/2022 13:11', NULL, NULL, '2022-12-13 16:11:46'),
+(1828, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:12. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"103\",\"status\":1,\"observacoes\":\"Carpintaria                                         \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-13 16:12:27'),
+(1829, 960, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 960 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:12. ()', NULL, '{\"id_retirada\":\"960\",\"status\":2}', '2022-12-13 16:12:34'),
+(1830, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 13/12/2022 13:23', NULL, NULL, '2022-12-13 16:23:57'),
+(1831, NULL, 22, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Insumos</b> em 13/12/2022 13:24. ()', NULL, '{\"id_insumo_configuracao\":\"\",\"id_insumo_configuracao_vinculo\":\"0\",\"titulo\":\"CIMENTO\",\"medicao\":\"1\",\"situacao\":\"0\",\"slug\":\"cp ii - 50kg\",\"permit_delete\":\"1\",\"permit_edit\":\"1\"}', '2022-12-13 16:24:31'),
+(1832, 3, 22, 3, 'editar', '<b>everaldo</b> editou o registro ID 3 pertencente ao módulo de <b>Insumos</b> em 13/12/2022 13:24. ()', NULL, '{\"id_insumo_configuracao\":\"3\",\"id_insumo_configuracao_vinculo\":\"3\",\"titulo\":\"CIMENTO\",\"medicao\":\"1\",\"situacao\":\"0\",\"slug\":\"cp ii - 50kg\"}', '2022-12-13 16:24:51'),
+(1833, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:30. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"116\",\"status\":1,\"observacoes\":\"Arma\\u00e7\\u00e3o                                        \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-13 16:30:41'),
+(1834, 961, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 961 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:30. ()', NULL, '{\"id_retirada\":\"961\",\"status\":2}', '2022-12-13 16:30:47'),
+(1835, 3, 22, 3, 'editar', '<b>everaldo</b> editou o registro ID 3 pertencente ao módulo de <b>Insumos</b> em 13/12/2022 13:31. ()', NULL, '{\"id_insumo_configuracao\":\"3\",\"id_insumo_configuracao_vinculo\":\"0\",\"titulo\":\"CIMENTO\",\"medicao\":\"7\",\"situacao\":\"0\",\"slug\":\"cp ii - 50kg\"}', '2022-12-13 16:31:09'),
+(1836, NULL, 23, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Insumos</b> em 13/12/2022 13:32. ()', NULL, '{\"id_insumo\":\"\",\"id_insumo_configuracao\":\"\",\"id_fornecedor\":\"14\",\"id_obra\":\"1\",\"titulo\":\"CIMENTO\",\"codigo_insumo\":\"CIM76\",\"descricao\":\"\",\"situacao\":\"0\"}', '2022-12-13 16:32:31'),
+(1837, NULL, 23, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Insumos</b> em 13/12/2022 13:32. ()', NULL, '{\"id_insumo\":\"\",\"id_insumo_configuracao\":\"\",\"id_fornecedor\":\"14\",\"id_obra\":\"1\",\"titulo\":\"CIMENTO\",\"codigo_insumo\":\"CIM76\",\"descricao\":\"\",\"situacao\":\"0\"}', '2022-12-13 16:32:31'),
+(1838, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 13:36. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"960\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jocelio Marcio\",\"descricao\":\"Serra circular ENG 1497, 13\\/12\\/2022\",\"anexo\":\"anexo\\/480c2743ca70bd6cfd9ccc28e2a6a6f8.pdf\"}', '2022-12-13 16:36:00'),
+(1839, 960, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 960 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:36. ()', NULL, '{\"id_retirada\":\"960\",\"status\":4}', '2022-12-13 16:36:09'),
+(1840, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 13:42. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"961\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Josimar Francisco \",\"descricao\":\"Martelete perfurador ENG 1511, 13\\/12\\/2022\",\"anexo\":\"anexo\\/187b82f65ed2f112b714ebc86aaf0cba.pdf\"}', '2022-12-13 16:42:42'),
+(1841, 961, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 961 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 13:42. ()', NULL, '{\"id_retirada\":\"961\",\"status\":4}', '2022-12-13 16:42:53'),
+(1842, NULL, 2, 8, 'acessou', '<b>Silvaney</b> acessou o <b>sistema</b> em 13/12/2022 14:11', NULL, NULL, '2022-12-13 17:11:54'),
+(1843, NULL, 13, 8, 'adicionar', '<b>silvaney</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 14:14. ()', NULL, '{\"id_obra\":\"3\",\"id_funcionario\":\"55\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-14T16:00\"}', '2022-12-13 17:14:06'),
+(1844, 962, 13, 8, 'editar', '<b>silvaney</b> editou o registro ID 962 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 14:14. ()', NULL, '{\"id_retirada\":\"962\",\"status\":2}', '2022-12-13 17:14:17'),
+(1845, NULL, 17, 8, 'adicionar', '<b>silvaney</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 13/12/2022 15:10. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"8\",\"id_modulo\":\"13\",\"id_modulo_item\":\"962\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO DE COMPROMISSO LUZINALDO\",\"descricao\":\"TERMO DE COMPROMISSO LUZINALDO\",\"anexo\":\"anexo\\/6359b6923f368a8e3a8fe52a9d768430.pdf\"}', '2022-12-13 18:10:11'),
+(1846, 962, 13, 8, 'editar', '<b>silvaney</b> editou o registro ID 962 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 15:10. ()', NULL, '{\"id_retirada\":\"962\",\"status\":4}', '2022-12-13 18:10:41'),
+(1847, NULL, 2, 24, 'acessou', '<b>ARARIPE JUNIOR</b> acessou o <b>sistema</b> em 13/12/2022 16:23', NULL, NULL, '2022-12-13 19:23:53'),
+(1848, NULL, 2, 18, 'acessou', '<b>LEONARDO DAVID APOLONIO PINTO</b> acessou o <b>sistema</b> em 13/12/2022 16:46', NULL, NULL, '2022-12-13 19:46:46'),
+(1849, 959, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 959 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 16:47. ()', NULL, '{\"id_retirada\":\"959\",\"status\":9}', '2022-12-13 19:47:02'),
+(1850, 961, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 961 pertencente ao módulo de <b>Retiradas</b> em 13/12/2022 16:47. ()', NULL, '{\"id_retirada\":\"961\",\"status\":9}', '2022-12-13 19:47:58'),
+(1851, NULL, 2, 23, 'acessou', '<b>José Alisson</b> acessou o <b>sistema</b> em 14/12/2022 06:35', NULL, NULL, '2022-12-14 09:35:41'),
+(1852, 957, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 957 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 06:38. ()', NULL, '{\"id_retirada\":\"957\",\"status\":9}', '2022-12-14 09:38:13'),
+(1853, 945, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 945 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 06:40. ()', NULL, '{\"id_retirada\":\"945\",\"status\":9}', '2022-12-14 09:40:22'),
+(1854, 955, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 955 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 06:42. ()', NULL, '{\"id_retirada\":\"955\",\"status\":9}', '2022-12-14 09:42:55'),
+(1855, 943, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 943 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 06:44. ()', NULL, '{\"id_retirada\":\"943\",\"status\":9}', '2022-12-14 09:44:29'),
+(1856, NULL, 2, 18, 'acessou', '<b>LEONARDO DAVID APOLONIO PINTO</b> acessou o <b>sistema</b> em 14/12/2022 06:58', NULL, NULL, '2022-12-14 09:58:57'),
+(1857, 960, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 960 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:01. ()', NULL, '{\"id_retirada\":\"960\",\"status\":9}', '2022-12-14 10:01:15'),
+(1858, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:21. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"53\",\"status\":1,\"observacoes\":\"Arma\\u00e7\\u00e3o                                      \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 10:21:10');
+INSERT INTO `logs` (`id_log`, `id_item`, `id_modulo`, `id_usuario`, `acao`, `historico`, `retorno`, `dados`, `created_at`) VALUES
+(1859, 963, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 963 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:21. ()', NULL, '{\"id_retirada\":\"963\",\"status\":2}', '2022-12-14 10:21:15'),
+(1860, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:28. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"111\",\"status\":1,\"observacoes\":\"Limpeza das bases                                      \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 10:28:39'),
+(1861, 964, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 964 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:28. ()', NULL, '{\"id_retirada\":\"964\",\"status\":2}', '2022-12-14 10:28:45'),
+(1862, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:32. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"113\",\"status\":1,\"observacoes\":\"Funda\\u00e7\\u00e3o e pr\\u00e9-moldados                                      \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 10:32:39'),
+(1863, 965, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 965 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:32. ()', NULL, '{\"id_retirada\":\"965\",\"status\":2}', '2022-12-14 10:32:46'),
+(1864, NULL, 2, 4, 'acessou', '<b>Robson Nascimento da Silva</b> acessou o <b>sistema</b> em 14/12/2022 07:36', NULL, NULL, '2022-12-14 10:36:17'),
+(1865, NULL, 13, 4, 'adicionar', '<b>robson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:38. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"43\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-17T16:00\"}', '2022-12-14 10:38:29'),
+(1866, 966, 13, 4, 'editar', '<b>robson</b> editou o registro ID 966 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:38. ()', NULL, '{\"id_retirada\":\"966\",\"status\":2}', '2022-12-14 10:38:38'),
+(1867, NULL, 13, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:41. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"63\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-17T16:00\"}', '2022-12-14 10:41:37'),
+(1868, 967, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 967 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:41. ()', NULL, '{\"id_retirada\":\"967\",\"status\":2}', '2022-12-14 10:41:53'),
+(1869, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:53. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"104\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 10:53:51'),
+(1870, 968, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 968 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 07:53. ()', NULL, '{\"id_retirada\":\"968\",\"status\":2}', '2022-12-14 10:53:57'),
+(1871, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:01. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"54\",\"status\":1,\"observacoes\":\"Corte de vergalh\\u00e3o \\/ Arma\\u00e7\\u00e3o                                     \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 11:01:17'),
+(1872, 969, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 969 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:01. ()', NULL, '{\"id_retirada\":\"969\",\"status\":2}', '2022-12-14 11:01:22'),
+(1873, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:20. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"963\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Francisco Vieira \",\"descricao\":\"Martelete perfurador ENG 1511, 14\\/12\\/2022\",\"anexo\":\"anexo\\/ae49f572596337ff5ba136bcf98780dd.pdf\"}', '2022-12-14 11:20:08'),
+(1874, NULL, 13, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:20. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"63\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-17T16:00\"}', '2022-12-14 11:20:22'),
+(1875, 970, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 970 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:20. ()', NULL, '{\"id_retirada\":\"970\",\"status\":2}', '2022-12-14 11:20:28'),
+(1876, 963, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 963 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:20. ()', NULL, '{\"id_retirada\":\"963\",\"status\":4}', '2022-12-14 11:20:29'),
+(1877, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:28. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"965\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jovane Campelo\",\"descricao\":\"Chave grifo ENG 0650, Gerador ENG 0078, 14\\/12\\/2022\",\"anexo\":\"anexo\\/de7a2ef66b371edfee58ef86a7fff5c2.pdf\"}', '2022-12-14 11:28:25'),
+(1878, 965, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 965 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:33. ()', NULL, '{\"id_retirada\":\"965\",\"status\":4}', '2022-12-14 11:33:46'),
+(1879, 958, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 958 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:35. ()', NULL, '{\"id_retirada\":\"958\",\"status\":9}', '2022-12-14 11:35:24'),
+(1880, NULL, 13, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:36. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"166\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-14T17:00\"}', '2022-12-14 11:36:50'),
+(1881, 971, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 971 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:36. ()', NULL, '{\"id_retirada\":\"971\",\"status\":2}', '2022-12-14 11:36:57'),
+(1882, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:55. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"971\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/5734756ef29610102945d1622b58f85c.pdf\"}', '2022-12-14 11:55:02'),
+(1883, 971, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 971 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:55. ()', NULL, '{\"id_retirada\":\"971\",\"status\":4}', '2022-12-14 11:55:07'),
+(1884, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:56. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"970\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/7a32cbabe59d49bcec1f5b2beddc9f84.pdf\"}', '2022-12-14 11:56:20'),
+(1885, 970, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 970 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:56. ()', NULL, '{\"id_retirada\":\"970\",\"status\":4}', '2022-12-14 11:56:26'),
+(1886, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:57. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"967\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/5bf42efa98e0bcdd0950981d5ec9f2aa.pdf\"}', '2022-12-14 11:57:31'),
+(1887, 967, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 967 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:57. ()', NULL, '{\"id_retirada\":\"967\",\"status\":4}', '2022-12-14 11:57:42'),
+(1888, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 08:58. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"969\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jorge Monteiro\",\"descricao\":\"Esmerilhadeira 4\\\" ENG 1480, 14\\/12\\/2022\",\"anexo\":\"anexo\\/f5388841a006615f1b0a5fc237648f01.pdf\"}', '2022-12-14 11:58:54'),
+(1889, 969, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 969 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 08:59. ()', NULL, '{\"id_retirada\":\"969\",\"status\":4}', '2022-12-14 11:59:05'),
+(1890, 969, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 969 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:00. ()', NULL, '{\"id_retirada\":\"969\",\"status\":9}', '2022-12-14 12:00:01'),
+(1891, 967, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 967 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:16. ()', NULL, '{\"id_retirada\":\"967\",\"status\":4}', '2022-12-14 12:16:05'),
+(1892, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 09:24. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"968\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Magale Inocencio\",\"descricao\":\"Martelete perfurador e rompedor ENG 1512, 14\\/12\\/2022\",\"anexo\":\"anexo\\/1cee04209680c2d8e60b2203672b86ed.pdf\"}', '2022-12-14 12:24:24'),
+(1893, 968, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 968 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:24. ()', NULL, '{\"id_retirada\":\"968\",\"status\":4}', '2022-12-14 12:24:30'),
+(1894, NULL, 17, 4, 'adicionar', '<b>robson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 09:37. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"4\",\"id_modulo\":\"13\",\"id_modulo_item\":\"966\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO DIASSIS\",\"descricao\":\"TERMO DIASSIS\",\"anexo\":\"anexo\\/117832d98a123e8af3116855e4868c67.pdf\"}', '2022-12-14 12:37:07'),
+(1895, 966, 13, 4, 'editar', '<b>robson</b> editou o registro ID 966 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:37. ()', NULL, '{\"id_retirada\":\"966\",\"status\":4}', '2022-12-14 12:37:19'),
+(1896, NULL, 13, 4, 'adicionar', '<b>robson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:38. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"106\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-17T16:00\"}', '2022-12-14 12:38:35'),
+(1897, 972, 13, 4, 'editar', '<b>robson</b> editou o registro ID 972 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:38. ()', NULL, '{\"id_retirada\":\"972\",\"status\":2}', '2022-12-14 12:38:42'),
+(1898, NULL, 17, 4, 'adicionar', '<b>robson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 09:45. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"4\",\"id_modulo\":\"13\",\"id_modulo_item\":\"972\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO ERONDI\",\"descricao\":\"TERMO ERONDI\",\"anexo\":\"anexo\\/d0f9f82c893472184283a9e0cabab442.pdf\"}', '2022-12-14 12:45:09'),
+(1899, 972, 13, 4, 'editar', '<b>robson</b> editou o registro ID 972 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 09:45. ()', NULL, '{\"id_retirada\":\"972\",\"status\":4}', '2022-12-14 12:45:21'),
+(1900, 1541, 17, 23, 'editar', '<b>Alisson</b> editou o registro ID 1541 pertencente ao módulo de <b>Anexos</b> em 14/12/2022 09:49. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":\"1541\",\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"970\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/19fc6b0a763eb371cca7bedfc7b31317.pdf\"}', '2022-12-14 12:49:32'),
+(1901, 895, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 895 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:08. ()', NULL, '{\"id_retirada\":\"895\",\"status\":9}', '2022-12-14 13:08:10'),
+(1902, 901, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 901 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:19. ()', NULL, '{\"id_retirada\":\"901\",\"status\":9}', '2022-12-14 13:19:46'),
+(1903, NULL, 13, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:20. ()', NULL, '{\"id_obra\":\"5\",\"id_funcionario\":\"62\",\"status\":1,\"observacoes\":\"                                        \",\"devolucao_prevista\":\"2022-12-17T16:00\"}', '2022-12-14 13:20:30'),
+(1904, 973, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 973 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:20. ()', NULL, '{\"id_retirada\":\"973\",\"status\":2}', '2022-12-14 13:20:41'),
+(1905, NULL, 2, 24, 'acessou', '<b>ARARIPE JUNIOR</b> acessou o <b>sistema</b> em 14/12/2022 10:21', NULL, NULL, '2022-12-14 13:21:09'),
+(1906, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:30. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"102\",\"status\":1,\"observacoes\":\"Corte de vergalh\\u00e3o \\/ Arma\\u00e7\\u00e3o                                         \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 13:30:56'),
+(1907, 974, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 974 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:31. ()', NULL, '{\"id_retirada\":\"974\",\"status\":2}', '2022-12-14 13:31:01'),
+(1908, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 10:37. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"974\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Jose Pereira \",\"descricao\":\"Esmerilhadeira ENG 1504, 14\\/12\\/2022\",\"anexo\":\"anexo\\/93a08c006e92033e5ed08f6624d54e80.pdf\"}', '2022-12-14 13:37:44'),
+(1909, 974, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 974 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:37. ()', NULL, '{\"id_retirada\":\"974\",\"status\":4}', '2022-12-14 13:37:48'),
+(1910, NULL, 17, 23, 'adicionar', '<b>Alisson</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 10:38. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"23\",\"id_modulo\":\"13\",\"id_modulo_item\":\"973\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"TERMO \",\"descricao\":\"TERMO \",\"anexo\":\"anexo\\/28f3f1cf05b8b28234bd5210c1648f34.pdf\"}', '2022-12-14 13:38:37'),
+(1911, 973, 13, 23, 'editar', '<b>Alisson</b> editou o registro ID 973 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 10:38. ()', NULL, '{\"id_retirada\":\"973\",\"status\":4}', '2022-12-14 13:38:51'),
+(1912, NULL, 2, 8, 'acessou', '<b>Silvaney</b> acessou o <b>sistema</b> em 14/12/2022 11:08', NULL, NULL, '2022-12-14 14:08:23'),
+(1913, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 14/12/2022 11:53', NULL, NULL, '2022-12-14 14:53:44'),
+(1914, NULL, 2, 18, 'acessou', '<b>LEONARDO DAVID APOLONIO PINTO</b> acessou o <b>sistema</b> em 14/12/2022 13:17', NULL, NULL, '2022-12-14 16:17:53'),
+(1915, NULL, 13, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 13:19. ()', NULL, '{\"id_obra\":\"4\",\"id_funcionario\":\"116\",\"status\":1,\"observacoes\":\"Arma\\u00e7\\u00e3o                                         \",\"devolucao_prevista\":\"2023-01-28T17:00\"}', '2022-12-14 16:19:32'),
+(1916, 975, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 975 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 13:19. ()', NULL, '{\"id_retirada\":\"975\",\"status\":2}', '2022-12-14 16:19:41'),
+(1917, NULL, 17, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 13:27. (manutencao)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"3\",\"id_modulo\":\"9\",\"id_modulo_item\":\"4\",\"id_modulo_subitem\":\"99\",\"id_configuracao\":\"\",\"tipo\":\"manutencao\",\"titulo\":\"Certificado aferi\\u00e7\\u00e3o  \",\"descricao\":\"Vig\\u00eancia 12\\/12\\/2022 a 17\\/11\\/2024 \",\"anexo\":\"anexo\\/7ddaf5d498f289fdbf2529cb330a49ef.pdf\"}', '2022-12-14 16:27:11'),
+(1918, NULL, 17, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 13:29. (manutencao)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"3\",\"id_modulo\":\"9\",\"id_modulo_item\":\"4\",\"id_modulo_subitem\":\"95\",\"id_configuracao\":\"\",\"tipo\":\"manutencao\",\"titulo\":\"Certificado de aferi\\u00e7\\u00e3o tac\\u00f3grafo\",\"descricao\":\"vig\\u00eancia: 12\\/12\\/2022 a 17\\/11\\/2024\",\"anexo\":\"anexo\\/be2eb00d7eab6901aef2df9b0b105b8e.pdf\"}', '2022-12-14 16:29:08'),
+(1919, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 13:40. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"975\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Josimar Francisco \",\"descricao\":\"Martelete perfurador ENG 1509 14\\/12\\/2022\",\"anexo\":\"anexo\\/90bac5b07699cc118b186c3cfb5b050f.pdf\"}', '2022-12-14 16:40:23'),
+(1920, 975, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 975 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 13:40. ()', NULL, '{\"id_retirada\":\"975\",\"status\":4}', '2022-12-14 16:40:27'),
+(1921, NULL, 2, 23, 'acessou', '<b>José Alisson</b> acessou o <b>sistema</b> em 14/12/2022 14:24', NULL, NULL, '2022-12-14 17:24:45'),
+(1922, 963, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 963 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 15:10. ()', NULL, '{\"id_retirada\":\"963\",\"status\":9}', '2022-12-14 18:10:56'),
+(1923, 975, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 975 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 16:37. ()', NULL, '{\"id_retirada\":\"975\",\"status\":9}', '2022-12-14 19:37:34'),
+(1924, 965, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 965 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 17:00. ()', NULL, '{\"id_retirada\":\"965\",\"status\":9}', '2022-12-14 20:00:27'),
+(1925, 974, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 974 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 17:01. ()', NULL, '{\"id_retirada\":\"974\",\"status\":9}', '2022-12-14 20:01:40'),
+(1926, 968, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 968 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 17:04. ()', NULL, '{\"id_retirada\":\"968\",\"status\":9}', '2022-12-14 20:04:38'),
+(1927, NULL, 17, 18, 'adicionar', '<b>leonardod</b> adicionou um novo registro pertencente ao módulo de <b>Anexos</b> em 14/12/2022 17:05. (termo_de_responsabilidade)', NULL, '{\"id_anexo\":null,\"id_usuario\":\"18\",\"id_modulo\":\"13\",\"id_modulo_item\":\"964\",\"id_modulo_subitem\":\"\",\"id_configuracao\":\"\",\"tipo\":\"termo_de_responsabilidade\",\"titulo\":\"Termo Resp. Francisco de Assis\",\"descricao\":\"Aspirador de p\\u00f3 14\\/12\\/2022\",\"anexo\":\"anexo\\/57f5f92556746b8166c45fe1895c1799.pdf\"}', '2022-12-14 20:05:48'),
+(1928, 964, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 964 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 17:05. ()', NULL, '{\"id_retirada\":\"964\",\"status\":4}', '2022-12-14 20:05:55'),
+(1929, 964, 13, 18, 'editar', '<b>leonardod</b> editou o registro ID 964 pertencente ao módulo de <b>Retiradas</b> em 14/12/2022 17:06. ()', NULL, '{\"id_retirada\":\"964\",\"status\":9}', '2022-12-14 20:06:10'),
+(1930, NULL, 2, 3, 'acessou', '<b>Everaldo</b> acessou o <b>sistema</b> em 14/12/2022 17:23', NULL, NULL, '2022-12-14 20:23:29'),
+(1931, NULL, 9, 3, 'adicionar', '<b>everaldo</b> adicionou um novo registro pertencente ao módulo de <b>Veículos</b> em 14/12/2022 17:55. ()', NULL, '{\"id_ativo_veiculo\":\"8\",\"id_ativo_veiculo_ipva\":null,\"ipva_ano\":\"2023\",\"ipva_custo\":\"100.00 \",\"ipva_data_vencimento\":\"2023-10-15\",\"ipva_data_pagamento\":\"2022-12-14\"}', '2022-12-14 20:55:52'),
+(1932, 18, 9, 3, 'excluir', '<b>everaldo</b> excluiu o registro ID 18 pertencente ao módulo de <b>Veículos</b> em 14/12/2022 17:56. ()', NULL, '{\"id_ativo_veiculo\":\"8\",\"id_ativo_veiculo_ipva\":\"18\"}', '2022-12-14 20:56:32'),
+(1933, NULL, 2, 24, 'acessou', '<b>ARARIPE JUNIOR</b> acessou o <b>sistema</b> em 15/12/2022 08:28', NULL, NULL, '2022-12-15 11:28:31'),
+(1934, NULL, 2, 24, 'acessou', '<b>ARARIPE JUNIOR</b> acessou o <b>sistema</b> em 15/12/2022 08:29', NULL, NULL, '2022-12-15 11:29:59'),
+(1935, NULL, 2, 18, 'acessou', '<b>LEONARDO DAVID APOLONIO PINTO</b> acessou o <b>sistema</b> em 15/12/2022 08:41', NULL, NULL, '2022-12-15 11:41:49');
 
 -- --------------------------------------------------------
 
@@ -10956,7 +11301,9 @@ INSERT INTO `modulo` (`id_modulo`, `id_vinculo`, `titulo`, `rota`, `icone`) VALU
 (17, 0, 'Anexos', 'anexo', 'fa fa-files-o'),
 (18, 18, 'Listar', 'anexo', 'fa fa-file-archive-o'),
 (21, 19, 'Ativos', 'ativo_configuracao', 'fa fa-sliders'),
-(20, 19, 'Geral', 'configuracao', 'fa fa-cogs');
+(20, 19, 'Geral', 'configuracao', 'fa fa-cogs'),
+(22, 19, 'Insumos', 'insumo_configuracao', 'fa fa-puzzle-piece'),
+(23, 12, 'Insumos', 'insumo', 'fa fa-puzzle-piece');
 
 -- --------------------------------------------------------
 
@@ -11035,13 +11382,13 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `id_empresa`, `id_obra`, `id_obra_gerencia`, `nome`, `usuario`, `email`, `email_confirmado_em`, `codigo_recuperacao`, `codigo_recuperacao_validade`, `avatar`, `senha`, `data_criacao`, `nivel`, `permissoes`, `situacao`, `permit_notification_email`, `permit_notification_push`) VALUES
-(1, 1, 2, 6, 'Everaldo Meira', 'engetecnica', 'contato@engetecnica.com.br', NULL, '635532', '2022-04-09 11:56:44', NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-02-08 00:16:35', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
-(4, 1, 3, 3, 'Robson Nascimento da Silva', 'robson', 'almoxarife.barreiras@engetecnica.net.br', '2022-09-26 13:05:06', NULL, NULL, NULL, '1347f49adf0089476e891feba7a3adb157183dd9', '2022-02-15 17:58:45', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"4\":{\"visualizar\":\"on\"},\"9\":{\"visualizar\":\"on\"},\"10\":{\"visualizar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"20\":{\"visualizar\":\"on\"},\"21\":{\"visualizar\":\"on\"}}', '0', '1', '0'),
-(3, 1, 1, 3, 'Everaldo', 'everaldo', 'everaldom@engetecnica.net.br', NULL, '132295', '2022-03-17 17:22:39', NULL, '496e76c6f02cbc5a5034ecad7fa90c79ec45e542', '2022-02-15 17:22:39', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
+(1, 1, 2, 6, 'Everaldo Meira', 'engetecnica', 'contato@engetecnica.com.br', NULL, '635532', '2022-04-09 11:56:44', NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-02-08 00:16:35', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"23\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"22\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
+(4, 1, 3, 5, 'Robson Nascimento da Silva', 'robson', 'almoxarife.barreiras@engetecnica.net.br', '2022-09-26 13:05:06', NULL, NULL, NULL, '1347f49adf0089476e891feba7a3adb157183dd9', '2022-02-15 17:58:45', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"4\":{\"visualizar\":\"on\"},\"9\":{\"visualizar\":\"on\"},\"10\":{\"visualizar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"20\":{\"visualizar\":\"on\"},\"21\":{\"visualizar\":\"on\"}}', '0', '1', '0'),
+(3, 1, 1, 1, 'Everaldo', 'everaldo', 'everaldom@engetecnica.net.br', NULL, '132295', '2022-03-17 17:22:39', NULL, '496e76c6f02cbc5a5034ecad7fa90c79ec45e542', '2022-02-15 17:22:39', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"23\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"22\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
 (5, 1, 1, NULL, 'Alm Test', 'alm_test', NULL, NULL, '891476', '2022-02-18 14:27:40', NULL, '', '2022-02-17 17:13:20', 2, NULL, '0', '0', '0'),
-(6, 1, 1, 3, 'André Baill', 'andrebaill', 'srandrebaill@gmail.com', '2022-03-03 12:55:35', '794379', '2022-03-14 22:55:03', NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-02-17 21:55:47', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
+(6, 1, 1, 3, 'André Baill', 'andrebaill', 'srandrebaill@gmail.com', '2022-03-03 12:55:35', '794379', '2022-03-14 22:55:03', NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-02-17 21:55:47', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"23\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"relatorio_logs\":{\"visualizar\":\"on\"},\"22\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"20\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
 (7, 1, 3, 3, 'Ricardo Aguiar', 'ricardo', 'ricardo.aguiar@engetecnica.net.br', NULL, NULL, NULL, NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-03-24 19:32:08', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"6\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"4\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"9\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"10\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"},\"21\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"}}', '0', '1', '0'),
-(8, 1, 3, 3, 'Silvaney', 'silvaney', '', NULL, NULL, NULL, NULL, 'c2cca3472e5fc539532ae6bd1860ba851c31fe50', '2022-04-05 12:36:03', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\"},\"6\":{\"visualizar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"4\":{\"visualizar\":\"on\"},\"9\":{\"visualizar\":\"on\"},\"10\":{\"visualizar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"}}', '0', '1', '0'),
+(8, 1, 3, 3, 'Silvaney', 'silvaney', '', NULL, NULL, NULL, NULL, 'c2cca3472e5fc539532ae6bd1860ba851c31fe50', '2022-04-05 12:36:03', 1, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\"},\"6\":{\"visualizar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\",\"excluir\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"4\":{\"visualizar\":\"on\"},\"9\":{\"visualizar\":\"on\"},\"10\":{\"visualizar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"23\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"}}', '0', '1', '0'),
 (25, 1, 9, NULL, 'DOUGLAS LUIS', 'Douglasl', 'douglas.luis@engetecnica.net.br', '2022-12-08 12:02:26', NULL, NULL, NULL, '9e5150265d4d5b94a52d76423065a04595d6ec8b', '2022-11-24 11:28:07', 2, '{\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"}}', '0', '0', '0'),
 (9, 1, 4, NULL, 'Ivanildo do Nascimento', 'Ivanildo', 'adm.assu2@engetecnica.net.br', NULL, NULL, NULL, NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-04-26 11:39:02', 2, NULL, '0', '0', '0'),
 (10, 1, 5, NULL, 'Francisco das Chagas da Silva', 'Francisco', 'almoxarife.serradomel@engetecnica.net.br', NULL, NULL, NULL, NULL, '7c4a8d09ca3762af61e59520943dc26494f8941b', '2022-06-01 14:52:06', 2, '{\"2\":{\"visualizar\":\"on\",\"adicionar\":\"on\"},\"6\":{\"visualizar\":\"on\"},\"3\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"5\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"4\":{\"visualizar\":\"on\"},\"9\":{\"visualizar\":\"on\"},\"10\":{\"visualizar\":\"on\"},\"13\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"14\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"11\":{\"visualizar\":\"on\",\"adicionar\":\"on\",\"editar\":\"on\"},\"relatorio_funcionario\":{\"visualizar\":\"on\"},\"relatorio_empresa\":{\"visualizar\":\"on\"},\"relatorio_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_disponiveis_na_obra\":{\"visualizar\":\"on\"},\"relatorio_ferramentas_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_equipamentos_em_estoque\":{\"visualizar\":\"on\"},\"relatorio_veiculos_disponiveis\":{\"visualizar\":\"on\"},\"relatorio_veiculos_depreciacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_quilometragem\":{\"visualizar\":\"on\"},\"relatorio_veiculos_operacao\":{\"visualizar\":\"on\"},\"relatorio_veiculos_abastecimentos\":{\"visualizar\":\"on\"},\"relatorio_centro_de_custo\":{\"visualizar\":\"on\"},\"relatorio_patrimonio_disponivel\":{\"visualizar\":\"on\"}}', '0', '0', '0'),
@@ -11098,7 +11445,9 @@ INSERT INTO `usuario_modulo` (`id_usuario_nivel`, `id_modulo`) VALUES
 (2, 12),
 (1, 21),
 (1, 20),
-(1, 19);
+(1, 19),
+(1, 22),
+(1, 23);
 
 -- --------------------------------------------------------
 
@@ -11374,6 +11723,36 @@ ALTER TABLE `funcionario`
   ADD UNIQUE KEY `Matricula` (`matricula`);
 
 --
+-- Índices para tabela `insumo`
+--
+ALTER TABLE `insumo`
+  ADD PRIMARY KEY (`id_insumo`);
+
+--
+-- Índices para tabela `insumo_configuracao`
+--
+ALTER TABLE `insumo_configuracao`
+  ADD PRIMARY KEY (`id_insumo_configuracao`);
+
+--
+-- Índices para tabela `insumo_estoque`
+--
+ALTER TABLE `insumo_estoque`
+  ADD PRIMARY KEY (`id_insumo_estoque`);
+
+--
+-- Índices para tabela `insumo_medicao`
+--
+ALTER TABLE `insumo_medicao`
+  ADD PRIMARY KEY (`id_insumo_medicao`);
+
+--
+-- Índices para tabela `insumo_retirada`
+--
+ALTER TABLE `insumo_retirada`
+  ADD PRIMARY KEY (`id_insumo_retirada`);
+
+--
 -- Índices para tabela `logs`
 --
 ALTER TABLE `logs`
@@ -11412,7 +11791,7 @@ ALTER TABLE `usuario_nivel`
 -- AUTO_INCREMENT de tabela `anexo`
 --
 ALTER TABLE `anexo`
-  MODIFY `id_anexo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1529;
+  MODIFY `id_anexo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1554;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_configuracao`
@@ -11424,7 +11803,7 @@ ALTER TABLE `ativo_configuracao`
 -- AUTO_INCREMENT de tabela `ativo_externo`
 --
 ALTER TABLE `ativo_externo`
-  MODIFY `id_ativo_externo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2145;
+  MODIFY `id_ativo_externo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_externo_categoria`
@@ -11478,19 +11857,19 @@ ALTER TABLE `ativo_externo_requisicao_item`
 -- AUTO_INCREMENT de tabela `ativo_externo_retirada`
 --
 ALTER TABLE `ativo_externo_retirada`
-  MODIFY `id_retirada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=959;
+  MODIFY `id_retirada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=976;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_externo_retirada_ativo`
 --
 ALTER TABLE `ativo_externo_retirada_ativo`
-  MODIFY `id_retirada_ativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1422;
+  MODIFY `id_retirada_ativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1441;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_externo_retirada_item`
 --
 ALTER TABLE `ativo_externo_retirada_item`
-  MODIFY `id_retirada_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1184;
+  MODIFY `id_retirada_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1203;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_interno`
@@ -11532,13 +11911,13 @@ ALTER TABLE `ativo_veiculo_depreciacao`
 -- AUTO_INCREMENT de tabela `ativo_veiculo_ipva`
 --
 ALTER TABLE `ativo_veiculo_ipva`
-  MODIFY `id_ativo_veiculo_ipva` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_ativo_veiculo_ipva` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_veiculo_manutencao`
 --
 ALTER TABLE `ativo_veiculo_manutencao`
-  MODIFY `id_ativo_veiculo_manutencao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id_ativo_veiculo_manutencao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_veiculo_obra`
@@ -11550,13 +11929,13 @@ ALTER TABLE `ativo_veiculo_obra`
 -- AUTO_INCREMENT de tabela `ativo_veiculo_operacao`
 --
 ALTER TABLE `ativo_veiculo_operacao`
-  MODIFY `id_ativo_veiculo_operacao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id_ativo_veiculo_operacao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_veiculo_quilometragem`
 --
 ALTER TABLE `ativo_veiculo_quilometragem`
-  MODIFY `id_ativo_veiculo_quilometragem` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id_ativo_veiculo_quilometragem` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT de tabela `ativo_veiculo_seguro`
@@ -11583,10 +11962,40 @@ ALTER TABLE `funcionario`
   MODIFY `id_funcionario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
+-- AUTO_INCREMENT de tabela `insumo`
+--
+ALTER TABLE `insumo`
+  MODIFY `id_insumo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `insumo_configuracao`
+--
+ALTER TABLE `insumo_configuracao`
+  MODIFY `id_insumo_configuracao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `insumo_estoque`
+--
+ALTER TABLE `insumo_estoque`
+  MODIFY `id_insumo_estoque` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `insumo_medicao`
+--
+ALTER TABLE `insumo_medicao`
+  MODIFY `id_insumo_medicao` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de tabela `insumo_retirada`
+--
+ALTER TABLE `insumo_retirada`
+  MODIFY `id_insumo_retirada` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id_log` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1801;
+  MODIFY `id_log` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1936;
 
 --
 -- AUTO_INCREMENT de tabela `obra`

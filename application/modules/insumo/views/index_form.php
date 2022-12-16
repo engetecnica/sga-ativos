@@ -48,7 +48,9 @@
                                                 }
 
                                                 foreach($detalhes->saida as $saida){
-                                                    $saida_total += $saida->quantidade;
+                                                    if($saida->status!=5){
+                                                     $saida_total += $saida->quantidade;
+                                                    }
                                                 }
 
                                                 echo $entrada_total - $saida_total;
@@ -241,6 +243,7 @@
                                     <th>Quantidade</th>
                                     <th>Valor Unitário</th>
                                     <th>Data</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
 
@@ -252,9 +255,11 @@
                                     <td><?php echo $saida->quantidade; ?></td>
                                     <td><?php echo  $this->formata_moeda($saida->valor); ?></td>
                                     <td><?php echo  $this->formata_data_hora($saida->created_at); ?></td>
+                                    <td><span class="badge badge-<?php echo ($this->get_situacao_insumo($saida->status)['class']) ?? '-'; ?>"><?php echo ($this->get_situacao_insumo($saida->status)['texto']) ?? '-'; ?></span></td>
                                 </tr>
                                 <?php } ?>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

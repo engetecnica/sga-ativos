@@ -156,7 +156,12 @@ trait MY_Trait
 				$texto =  "Devolvido Parcialmente";
 				$class = "danger";
 				$slug = "devolvidoparcialmente";
-				break;				
+				break;	
+			case 5:
+				$texto =  "Cancelado";
+				$class = "danger";
+				$slug = "cancelado";
+				break;								
 		}
 
 		return [
@@ -583,7 +588,11 @@ trait MY_Trait
 
 			case 'insumo_devolvido_parcialmente':
 				$condicao = "devolveu parcialmente insumo da retirada ID ".$id_item;
-				break;			
+				break;		
+			
+			case 'insumo_cancelar_retirada':
+				$condicao = "cancelou a retirada ID ".$id_item;
+				break;					
 
 		endswitch;
 

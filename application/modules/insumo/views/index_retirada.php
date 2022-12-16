@@ -60,9 +60,41 @@
 
                                     <?php
 
-                                                            echo "<pre>";
-                                                            print_r($this->get_situacao_insumo);
-                                                            echo "</pre>";
+                                                            // echo "<pre>";
+                                                            // print_r($this->get_situacao_insumo);
+                                                            // echo "</pre>";
+
+                                                            /*
+                                                                Classificação:
+                                                                    Pendente {
+                                                                        Cancelar Retirada
+                                                                        Marcar como Entregue
+                                                                        Gerar Termo
+                                                                        Detalhes da Retirada
+                                                                    }
+                                                                    Entregue {
+                                                                        Devolver Itens
+                                                                        Baixar termo de retirada
+                                                                        Detalhes da Retirada
+                                                                    }
+                                                                    Devolvido {
+                                                                        Detalhes da Retirada
+                                                                    }
+                                                                    Devolvido Parcialmente {
+                                                                        Detalhes da Retirada
+                                                                    }
+                                                                    Cancelado {
+                                                                        Detalhes da Retirada
+                                                                    }
+
+                                                                Itens de Menu
+                                                                    Cancelar Retirada
+                                                                    Marcar como Entregue
+                                                                    Devolver Itens
+                                                                    Detalhes da Retirada
+                                                                    Baixar termo de retirada
+                                                                    Gerar termo
+                                                            */      
                                         ?>
 
                                         <div class="btn-group">
@@ -72,7 +104,7 @@
                                             </button>
                                             <div class="dropdown-menu">
 
-                                            
+                                                <?php if($r->status==1){ ?>
                                                 <a class="dropdown-item confirmar_registro" href="javascript:void(0)"
                                                     data-acao="Cancelar" data-icon="info" data-message="false"
                                                     data-title="Cancelar Retirada" data-redirect="true"
@@ -82,7 +114,9 @@
                                                 </a>
 
                                                 <div class="dropdown-divider"></div>
+                                                <?php } ?>
 
+                                                <?php if($r->status==1){ ?>
                                                 <a class="dropdown-item confirmar_registro" href="javascript:void(0)"
                                                     data-acao="Entregar" data-icon="info" data-message="false"
                                                     data-title="Marcar como Entregue" data-redirect="true"
@@ -90,17 +124,20 @@
                                                     data-href="<?php echo base_url("insumo/retirada/entregar/".$r->id_insumo_retirada);?>"><i
                                                         class="fa fa-list"></i>&nbsp; Marcar como Entregue
                                                 </a>
-
+                                                <?php } ?>
                                               
                                                 
-                                                
+                                                <?php if($r->status==2){ ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item"
                                                     href="<?php echo base_url('insumo/retirada/devolver/'.$r->id_insumo_retirada); ?>"
                                                     data-title="Devolver Item da Retirada" data-redirect="true">
                                                     <i class="fa fa-history item-menu-interno"></i>&nbsp; Devolver Itens
                                                 </a>
+                                                <?php } ?>
                                                
+                                                
+                                                <!-- Todos os Status -->
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item"
                                                     href="<?php echo base_url('insumo/retirada/detalhes/'.$r->id_insumo_retirada); ?>"
@@ -108,10 +145,10 @@
                                                     <i class="fa fa-truck item-menu-interno"></i>&nbsp; Detalhes da
                                                     Retirada
                                                 </a>
-                                               
+                                                
 
                                                 
-                                                
+                                                <?php if($r->status==2){ ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item"
                                                     href="<?php echo base_url('assets/uploads/'.$r->anexo); ?>"
@@ -119,6 +156,10 @@
                                                     <i class="fa fa-download item-menu-interno"></i>&nbsp; Baixar Termo de Retirada
                                                 </a>
                                                
+                                                <?php } ?>
+
+
+                                                <?php if($r->status==1){ ?>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item confirmar_registro"
                                                     href="javascript:void(0)"
@@ -129,7 +170,7 @@
                                                     data-title="Gerar Termo" data-redirect="true">
                                                     <i class="fa fa-print item-menu-interno"></i>&nbsp; Gerar Termo de Retirada
                                                 </a>
-                                                
+                                                <?php } ?>
 
                                             </div>
                                         </div>

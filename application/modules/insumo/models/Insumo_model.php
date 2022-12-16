@@ -85,6 +85,7 @@ class Insumo_model extends MY_Model {
 							->select('sum(quantidade) as total_saida')
 							->where('id_insumo', $valor->id_insumo)
 							->where('tipo', 'saida')
+							->where('status', 0)
 							->get('insumo_estoque')
 							->row('total_saida')) ?? 0;								
 							
@@ -205,6 +206,20 @@ class Insumo_model extends MY_Model {
 						->where('id_insumo_retirada', $id_insumo_retirada)
 						->update('insumo_retirada', $status);
 	}
+
+	public function cancelar_retirada($id_insumo_retirada, $status=null)
+	{
+
+		if($id_insumo_retirada == null 
+			or $status == null) return false;			
+
+		return $this->db
+						->where('id_insumo_retirada', $id_insumo_retirada)
+						->update('insumo_retirada', $status);
+	}
+
+	
+
 
 
 

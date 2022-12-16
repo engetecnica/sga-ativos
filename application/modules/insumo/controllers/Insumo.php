@@ -216,8 +216,30 @@ class Insumo extends MY_Controller {
     }
 
 
-    public function retirada_cancelar($id){
-        echo $id;
+    public function retirada_cancelar($id=null){
+        
+        $pesquisa_retirada = $this->insumo_model->get_retirada($id);
+
+        if(!$pesquisa_retirada){
+            $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
+        if($id==null){
+            $this->session->set_flashdata('msg_erro', "Erro ao atualizar retirada.");
+            echo redirect(base_url('insumo/retirada'));
+        }  
+        
+        $this->salvar_log(23, $id, 'insumo_cancelar_retirada', $this->input->post());
+        
+        if($this->insumo_model->cancelar_retirada($id, ['status' => 5])){
+            
+            $this->insumo_model->set_estoque_entregue($id, ['status' => 5]); // Cancelado
+
+            $this->session->set_flashdata('msg_success', "Retirada cancelada!");
+            echo redirect(base_url('insumo/retirada'));
+        }
+
     }
 
 
