@@ -18,7 +18,8 @@ class Insumo_configuracao  extends MY_Controller {
 
     function index($subitem=null) {
         $data['lista'] = $this->insumo_configuracao_model->get_lista();
-    	$subitem = ($subitem==null ? 'index' : $subitem);
+        $data['lista_principal'] = $this->insumo_configuracao_model->get_lista_principal();
+        $subitem = ($subitem==null ? 'index' : $subitem);
         $this->get_template($subitem, $data);
     }
 
@@ -50,29 +51,30 @@ class Insumo_configuracao  extends MY_Controller {
         $data['medicao'] = $this->input->post('medicao');
         $data['situacao'] = $this->input->post('situacao');
         $data['slug'] = strtolower($this->input->post('slug'));
+        $data['codigo_insumo'] = $this->input->post('cod_insumo');
 
         if($data['id_insumo_configuracao'] == ''){
             $data['permit_edit'] = $data['permit_delete'] = "1";
         }
 
-        $configuracao = $this->insumo_configuracao_model->get_insumo_configuracao($data['id_insumo_configuracao']);
-        $vinculo = $this->insumo_configuracao_model->get_insumo_configuracao($data['id_insumo_configuracao_vinculo']);
+        // $configuracao = $this->insumo_configuracao_model->get_insumo_configuracao($data['id_insumo_configuracao']);
+        // $vinculo = $this->insumo_configuracao_model->get_insumo_configuracao($data['id_insumo_configuracao_vinculo']);
      
-        if ($vinculo) {
-            if ($configuracao && $vinculo->slug == "categoria-ferramenta") {
-                $this->db->where("nome", $configuracao->titulo)
-                        ->update('insumo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
-            }
+        // if ($vinculo) {
+        //     if ($configuracao && $vinculo->slug == "categoria-ferramenta") {
+        //         $this->db->where("nome", $configuracao->titulo)
+        //                 ->update('insumo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
+        //     }
 
-            if (!$configuracao && $vinculo->slug == "categoria-ferramenta") {
-                if ($this->db->where('nome', ucwords($data['titulo']))->get('insumo_externo_categoria')->num_rows() > 0) {
-                    $this->session->set_flashdata('msg_erro', "Já existe um item com o mesmo nome!");
-                    echo redirect(base_url("insumo_configuracao/adicionar"));
-                    return;
-                }
-                $this->db->insert('insumo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
-            }
-        }
+        //     if (!$configuracao && $vinculo->slug == "categoria-ferramenta") {
+        //         if ($this->db->where('nome', ucwords($data['titulo']))->get('insumo_externo_categoria')->num_rows() > 0) {
+        //             $this->session->set_flashdata('msg_erro', "Já existe um item com o mesmo nome!");
+        //             echo redirect(base_url("insumo_configuracao/adicionar"));
+        //             return;
+        //         }
+        //         $this->db->insert('insumo_externo_categoria', ["nome" =>  ucwords($data['titulo'])]);
+        //     }
+        // }
 
         $this->insumo_configuracao_model->salvar_formulario($data);
         if($data['id_insumo_configuracao'] == ''){

@@ -51,10 +51,13 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-2">
-                                        <label for="slug" class=" form-control-label">Slug/Apelidio</label>
+                                        <label for="cod_insumo" class=" form-control-label">Código do Insumo</label>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <input type="text" id="slug" name="slug" placeholder="Slug/Apelidio da Insumo" class="form-control" value="<?php if(isset($detalhes) && isset($detalhes->slug)){ echo $detalhes->slug; } ?>">
+                                        <input type="text" id="cod_insumo" name="cod_insumo"
+                                            placeholder="Código do Insumo" class="form-control"
+                                            value="<?php if(isset($detalhes) && isset($detalhes->codigo_insumo)){ echo $detalhes->codigo_insumo; } ?>">
+                                            <span id="retorno_pesquisar_insumo"></span>
                                     </div>
 
                                     <div class="col col-md-2">
@@ -106,3 +109,31 @@
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+
+
+
+<script>
+$("#cod_insumo").on('keyup', function() {
+    let cod_insumo = $("#cod_insumo").val();
+
+    $.ajax({
+        type: "post",
+        url: BASE_URL + '/insumo/pesquisar_insumo_by_codigo',
+        data: {
+            'cod_insumo':cod_insumo
+        },
+        success: function(response) {
+
+            if(response==1){
+                $("#retorno_pesquisar_insumo").html('Código já cadastrado.')
+                $(".submit-form").attr('disabled', 'disabled')
+            } else {
+                $("#retorno_pesquisar_insumo").html('')
+                $(".submit-form").attr('disabled', false)
+            }
+
+        }
+    });
+
+});
+</script>

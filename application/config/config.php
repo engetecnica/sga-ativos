@@ -49,7 +49,7 @@ function url(){
 
 /* localhost */
 $config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
-//$config['base_url'] = '';
+//$config['base_url'] = 'http://127.0.0.1:8092/engeativos';
 
 /*
 |--------------------------------------------------------------------------

@@ -213,5 +213,19 @@ function getReleatoriosTipos(array $obras = [])
 				"PDF" => "pdf",
 			]
 		],		
+
+		'insumos' => [
+			'titulo' => 'Insumos em Obra',
+			'filtros' => ['id_obra', 'id_funcionario', 'insumo_configuracao', 'periodo'],
+			'grafico' => [
+				'column' => ['Obra', 'Tipo de Insumo', 'Quantidade em Estoque', 'Total de Items'],
+				'tipo' => 'pie'
+			],
+			'tipo' => ['grafico', 'arquivo'],
+			'arquivo_saida' => [
+				"PDF" => "pdf",
+				"XLS (Excel)" => "xls",
+			]
+		],
 	];
 }

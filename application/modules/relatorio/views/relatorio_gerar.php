@@ -95,6 +95,17 @@
                                 </div>
                             </div>
 
+                            <div v-if="relatorio && relatorio.filtros.includes('insumo_configuracao')" class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="id_insumo_configuracao" class=" form-control-label">Insumo</label>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <select v-model="form.id_insumo_configuracao" class="form-control" id="id_insumo_configuracao" name="id_insumo_configuracao">
+                                        <option :value="null">Todos os Insumos</option>
+                                        <option v-for="(insumo, key) in filter_insumo_configuracao" :value="insumo.id_insumo_configuracao" :key="key">{{insumo.titulo}}</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div v-if="form.id_modulo" class="row form-group">
                                 <div class="col col-md-2">
@@ -269,6 +280,7 @@ foreach ($relatorios as $modulo => $relatorio) {
     var usuarios = JSON.parse(`<?php echo json_encode($usuarios); ?>`)
     var modulos = JSON.parse(`<?php echo json_encode($modulos); ?>`)
     var status_lista = JSON.parse(`<?php echo json_encode($this->status_lista()); ?>`)
+    var insumo_configuracao = JSON.parse(`<?php echo json_encode($usuarios); ?>`)
 
 
     console.log('usuarios: ', usuarios)
@@ -285,6 +297,7 @@ foreach ($relatorios as $modulo => $relatorio) {
                 funcionarios: funcionarios,
                 status_lista: status_lista,
                 usuarios: usuarios,
+                insumo_configuracao: insumo_configuracao,
                 modulos: modulos.modulo || [],
                 submodulos: [],
                 relatorio: null,
@@ -335,6 +348,12 @@ foreach ($relatorios as $modulo => $relatorio) {
                 return this.form.id_modulo ? this.modulos.filter((modulo) => {
                     return modulo.id_modulo == this.form.id_modulo
                 }) : this.modulos
+            },
+            
+            filter_insumo_configuracao() {
+                return this.form.id_insumo_configuracao ? this.insumo_configuracao.filter((insumoconf) => {
+                    return insumoconf.id_insumo_configuracao == this.form.id_insumo_configuracao
+                }) : this.insumoconf
             },
             filter_usuarios() {
                 return this.form.id_usuario ? this.usuarios.filter((usuario) => {

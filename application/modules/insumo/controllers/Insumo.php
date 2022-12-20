@@ -44,7 +44,6 @@ class Insumo extends MY_Controller {
         $data['id_fornecedor'] = $this->input->post('fornecedor');
         $data['id_obra'] = ($this->user->id_obra) ?? null;
         $data['titulo'] = $this->input->post('titulo');
-        $data['codigo_insumo'] = $this->input->post('cod_insumo');
         $data['descricao'] = $this->input->post('descricao_insumo');
         $data['situacao'] = $this->input->post('situacao');
 

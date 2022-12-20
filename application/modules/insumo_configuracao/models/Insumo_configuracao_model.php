@@ -43,6 +43,13 @@ class Insumo_configuracao_model extends MY_Model {
 							->result();
 	}
 
+	public function get_lista_principal($situacao=null){
+		
+		$consulta = $this->db->where('id_insumo_configuracao_vinculo', 0);				
+		return $consulta->order_by('id_insumo_configuracao', 'desc')
+								->get('insumo_configuracao')->result();
+	}
+
 	public function get_lista($situacao=null){
 		$lista = $this->db
 				->select('insumo_configuracao.*, ac.titulo as id_insumo_configuracao_vinculo, im.titulo as medicao_titulo, im.sigla as medicao_sigla')
@@ -56,6 +63,7 @@ class Insumo_configuracao_model extends MY_Model {
 				$lista->where("ac.situacao = {$situacao}");
 			}
 		}
+		$lista->where('insumo_configuracao.id_insumo_configuracao_vinculo != ', 0);
 				
 		return $lista->order_by('insumo_configuracao.id_insumo_configuracao', 'desc')
 								->get('insumo_configuracao')->result();
