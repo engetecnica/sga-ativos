@@ -86,10 +86,12 @@ class Insumo_model extends MY_Model {
 							->where('id_insumo', $valor->id_insumo)
 							->where('tipo', 'saida')
 							->where('status', 0)
+							->or_where('status', 1)
 							->get('insumo_estoque')
 							->row('total_saida')) ?? 0;								
 							
 					}
+				
 					return $consulta;
 	}	
 
