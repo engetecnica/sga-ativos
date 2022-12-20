@@ -65,7 +65,7 @@ class Insumo_model extends MY_Model {
 	{
 
 		$consulta = $this->db
-						->select('i.*, ic.titulo as id_insumo_configuracao, ic.medicao, im.titulo as medicao_titulo, im.sigla as medicao_sigla')
+						->select('i.*, ic.titulo as id_insumo_configuracao, ic.medicao, im.titulo as medicao_titulo, im.sigla as medicao_sigla, ic.codigo_insumo')
 						->join('insumo_configuracao ic', 'ic.id_insumo_configuracao=i.id_insumo_configuracao')
 						->join('insumo_medicao im', 'im.id_insumo_medicao=ic.medicao')
 						->where('id_obra', $this->user->id_obra)
@@ -136,6 +136,8 @@ class Insumo_model extends MY_Model {
 												->get('anexo')
 												->row('anexo');
 						}
+
+					
 
 		return $consulta;
 	}

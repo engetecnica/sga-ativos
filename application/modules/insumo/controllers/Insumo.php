@@ -246,6 +246,8 @@ class Insumo extends MY_Controller {
 
         $pesquisa_retirada = $this->insumo_model->get_retirada($id);
 
+        
+
         if(!$pesquisa_retirada){
             $this->session->set_flashdata('msg_erro', "Retirada não localizada.");
             echo redirect(base_url('insumo/retirada'));

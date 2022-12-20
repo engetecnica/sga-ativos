@@ -77,7 +77,7 @@
                                                 <?php foreach($ti->subitem as $sub){ ?>
                                                 <option value="<?php echo $sub->id_insumo_configuracao; ?>"
                                                 <?php if(isset($detalhes) && $detalhes->id_insumo_configuracao==$sub->id_insumo_configuracao) echo "selected"; ?>
-                                                ><?php echo $sub->titulo; ?></option>
+                                                ><?php echo $sub->codigo_insumo; ?> - <?php echo $sub->titulo; ?></option>
                                                 <?php } ?>
                                             </optgroup>
                                             <?php } ?>
