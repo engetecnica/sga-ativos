@@ -181,7 +181,7 @@ class Insumo extends MY_Controller {
                 // registrar retirada
                 $retirada['id_usuario'] = $this->user->id_usuario;
                 $retirada['id_funcionario'] = $this->input->post('id_funcionario');
-                $retirada['status'] = 1;
+                $retirada['status'] = 0;
 
                 $id_insumo_retirada = $this->insumo_model->salvar_insumo_retirada($retirada);
 
