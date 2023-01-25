@@ -28,11 +28,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 function url(){
     try {
         $name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-        $port = isset($_SERVER['SERVER_PORT']) ? ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443 ? ":{$_SERVER['SERVER_PORT']}" : '') : '';
+        $port = isset($_SERVER['SERVER_PORT']) ?
+        ($_SERVER['SERVER_PORT'] != 80 &&
+            $_SERVER['SERVER_PORT'] != 443 &&
+            $_SERVER['SERVER_PORT'] != 8080 ?
+            ":{$_SERVER['SERVER_PORT']}" : '') : '';
+
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' || 
                     isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? 
                     'https' : 'http';
+
         return sprintf(
             "%s://%s%s",
             $protocol,
@@ -49,7 +55,6 @@ function url(){
 
 /* localhost */
 $config['base_url'] = isset($_ENV['APP_BASE_URL']) ? $_ENV['APP_BASE_URL'] : url();
-//$config['base_url'] = 'http://127.0.0.1:8092/engeativos';
 
 /*
 |--------------------------------------------------------------------------
@@ -162,7 +167,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = TRUE;
+$config['composer_autoload'] = '/vendor/composer/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -350,7 +355,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'ECOVIASIS2020';
+$config['encryption_key'] = 'SX46Kn4MzUI3qdVkTQhQnpEbznGGxFQu';
 
 /*
 |--------------------------------------------------------------------------
