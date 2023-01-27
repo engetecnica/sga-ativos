@@ -94,10 +94,10 @@ p {
 
 
 .table-responsive  > h3, .table--no-card > h3{
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 10px;
+        margin-left: 10px;
     margin-bottom: 5px !important;
-    font-size: 1.4rem;
+    font-size: 14px;
 }
 
 
@@ -129,9 +129,8 @@ p {
 
 /* ----- Typography ----- */
 body {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
+    font-family: "Arial";
+        font-size: 14px;
     line-height: 1.625;
     color: #666;
     -webkit-font-smoothing: antialiased;
@@ -1742,7 +1741,7 @@ section {
 }
 
 .menu-sidebar .navbar__list .navbar__sub-list li a {
-    padding: 11.5px 0;
+    padding: 10px 0;
 }
 
 .menu-sidebar__content {
@@ -1753,15 +1752,15 @@ section {
 }
 
 .navbar-sidebar {
-    padding: 35px;
+    padding: 25px;
     padding-bottom: 0;
 }
 
 .navbar-sidebar .navbar__list li a {
     display: block;
     color: #555;
-    font-size: 16px;
-    padding: 15px 0;
+    font-size: 14px;
+        padding: 10px 0;
 }
 
 .navbar-sidebar .navbar__list li a i {

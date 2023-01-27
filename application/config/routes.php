@@ -72,19 +72,19 @@ $route['logout'] 				= "login/logout";
     Detalhar Itens
     Gerar Termo de Responsabilidade
 */
-$route['insumo/retirada/adicionar'] = "insumo/retirada_adicionar";
-$route['insumo/retirada/salvar'] = "insumo/retirada_salvar";
-$route['insumo/retirada/cancelar/(:any)'] = "insumo/retirada_cancelar/$1";
+// $route['insumo/retirada/adicionar'] = "insumo/retirada_adicionar";
+// $route['insumo/retirada/salvar'] = "insumo/retirada_salvar";
+// $route['insumo/retirada/cancelar/(:any)'] = "insumo/retirada_cancelar/$1";
 
-$route['insumo/retirada/entregar/(:any)'] = "insumo/retirada_entregar/$1";
-$route['insumo/retirada/entregar'] = "insumo/retirada_entregar/";
+// $route['insumo/retirada/entregar/(:any)'] = "insumo/retirada_entregar/$1";
+// $route['insumo/retirada/entregar'] = "insumo/retirada_entregar/";
 
-$route['insumo/retirada/devolver/(:any)'] = "insumo/devolver_itens/$1";
-$route['insumo/retirada/devolver'] = "insumo/devolver_itens/";
-$route['insumo/retirada/salvar_devolucao'] = "insumo/salvar_devolucao";
+// $route['insumo/retirada/devolver/(:any)'] = "insumo/devolver_itens/$1";
+// $route['insumo/retirada/devolver'] = "insumo/devolver_itens/";
+// $route['insumo/retirada/salvar_devolucao'] = "insumo/salvar_devolucao";
 
-$route['insumo/retirada/detalhes/(:any)'] = "insumo/retirada_detalhes/$1";
-$route['insumo/retirada/detalhes'] = "insumo/retirada_detalhes/";
+// $route['insumo/retirada/detalhes/(:any)'] = "insumo/retirada_detalhes/$1";
+// $route['insumo/retirada/detalhes'] = "insumo/retirada_detalhes/";
 
-$route['insumo/retirada/termo/(:any)'] = "insumo/gerar_termo/$1";
-$route['insumo/retirada/termo'] = "insumo/gerar_termo/";
+// $route['insumo/retirada/termo/(:any)'] = "insumo/gerar_termo/$1";
+// $route['insumo/retirada/termo'] = "insumo/gerar_termo/";

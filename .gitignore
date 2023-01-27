@@ -1,10 +1,11 @@
 log/*
+.vscode/launch.json
 application/cache/*
 assets/uploads/*/*
-vendor/
+vendor/*
 !application/cache/.gitkeep
 !assets/uploads/*/.gitkeep
 !assets/uploads/.gitkeep
-local_bd.sql
-*.DS_Store
-*dump_*
+application/config/database.php
+docs/*
+.DS_Store

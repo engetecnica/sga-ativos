@@ -100,23 +100,32 @@ class Anexo_model extends MY_Model
 
 		if (!isset($data['id_anexo'])) {
 
-			/* Salvar LOG */
-			$this->salvar_log(17, $data['id_anexo'], 'adicionar', $data, $data['tipo']);
+			# Log
+			$this->salvar_log(($data['id_modulo_item'] ?? null), $data['id_anexo'], 'adicionar', $data, $data['tipo']);
 
-
-
+			# Insere Anexo no Banco de Dados
 			$this->db->insert('anexo', $data);
 			return $this->db->affected_rows() ? $this->db->insert_id() : null;
+
 		} else {
 
-			/* Salvar LOG */
-			$this->salvar_log(17, $data['id_anexo'], 'editar', $data, $data['tipo']);
+			//	$data['id_anexo_pai'] = $this->input->post('id_anexo');
 
+			# Atualiza Anexo no Banco de Dados
+			$this->db->where('id_anexo', $data['id_anexo']);
+			$update = $this->db->update('anexo', $data);
 
-			$data['id_anexo'] = null;
-			$data['id_anexo_pai'] = $this->input->post('id_anexo');
-			$this->db->insert('anexo', $data);
-			return $this->db->affected_rows() ? $this->db->insert_id() : null;
+			if ($update) {
+
+				# Log 
+				$this->salvar_log(($data['id_modulo_item'] ?? null), $data['id_anexo'], 'editar', $data, $data['tipo']);
+
+				# Retorno
+				return $this->input->post('id_anexo');
+			} else {
+				return null;
+			}
+			
 		}
 	}
 
@@ -165,6 +174,7 @@ class Anexo_model extends MY_Model
 			}
 		}
 		$anexos->where("anexo.id_anexo_pai IS NULL");
+
 		return $anexos;
 	}
 

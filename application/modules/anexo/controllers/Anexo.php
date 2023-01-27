@@ -93,13 +93,21 @@ class Anexo  extends MY_Controller
 		];
 
 		if (isset($data['id_anexo']) &&  $anexo === 'anexo/') unset($data['anexo']);
-		$this->anexo_model->salvar_formulario($data);
-		if ($this->input->post('back_url')) {
-			echo redirect(base_url($this->input->post('back_url')));
-			return;
+		$salvar = $this->anexo_model->salvar_formulario($data);
+
+		if ($salvar !== null) {
+			if ($this->input->post('back_url')) {
+				$this->session->set_flashdata('msg_success', "Registro atualizado com sucesso!");
+				echo redirect(base_url($this->input->post('back_url')));
+			} else {
+				$this->session->set_flashdata('msg_error', "Não foi possível salvar.");
+				echo redirect(base_url("anexo"));
+			}
+		} else {
+			$this->session->set_flashdata('msg_error', "Não foi possível salvar.");
+			echo redirect(base_url("anexo"));
 		}
-		echo redirect(base_url("anexo"));
-		return true;
+
 	}
 
 	function deletar($id_anexo)

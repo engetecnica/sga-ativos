@@ -17,6 +17,13 @@ class Insumo_configuracao  extends MY_Controller {
     }
 
     function index($subitem=null) {
+
+        echo "Vamos parar aqui.";
+
+
+
+
+        return false;
         $data['lista'] = $this->insumo_configuracao_model->get_lista();
         $data['lista_principal'] = $this->insumo_configuracao_model->get_lista_principal();
         $subitem = ($subitem==null ? 'index' : $subitem);
