@@ -35,10 +35,10 @@
         <?php } ?>
         <?php if($this->permitido($permissoes, 13, 'editar')){ ?>
             <?php if($row->status == 9) {?>
-                <div class="dropdown-divider"></div>
+                <!-- <div class="dropdown-divider"></div>
                 <a class="dropdown-item btn" href="<?php echo base_url("ferramental_estoque/renovar_retirada/{$row->id_retirada}"); ?>">
                     <i class="fas fa-clone 4x"></i> Renovar Retirada 
-                </a>                                                        
+                </a>                                                         -->
             <?php } ?>                                                
         <?php } ?>                                                
     </div>

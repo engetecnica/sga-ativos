@@ -5,7 +5,7 @@
 /**
  * Description of ativo_externo
  *
- * @author André Baill | https://www.github.com/srandrebaill
+ * @author https://www.roytuts.com
  */
 class Ativo_externo extends MY_Controller {
 
@@ -188,13 +188,6 @@ class Ativo_externo extends MY_Controller {
     	$this->get_template($template, $data);
     }
 
-    /*
-        @title salvar certificado de calibração
-        @datetime oct 06 22, 08:43 am
-        @author André Baill
-        @modify logs
-    */
-
     function certificado_de_calibracao_salvar($id_ativo_externo){
         $ativo = $this->ativo_externo_model->get_ativo($id_ativo_externo);
        
@@ -211,14 +204,7 @@ class Ativo_externo extends MY_Controller {
             $certificado_de_calibracao = (isset($_FILES['certificado_de_calibracao']) ? $this->upload_arquivo('certificado_de_calibracao') : '');
             if (isset($_FILES['certificado_de_calibracao']) && 
                 (!$certificado_de_calibracao || ($certificado_de_calibracao == '' && $certificado['id_certificado']))) {
-
-                $retorno = "O tamanho do certificado deve ser menor ou igual a ".ini_get('upload_max_filesize');
-                $this->session->set_flashdata('msg_erro', $retorno);
-
-                /* Salvar LOG */
-                $this->salvar_log(12, $id_ativo_externo, 'retorno', null, null, $retorno);
-
-
+                $this->session->set_flashdata('msg_erro', "O tamanho do certificado deve ser menor ou igual a ".ini_get('upload_max_filesize'));
                 return redirect(base_url("ativo_externo/certificado_de_calibracao/{$id_ativo_externo}"));
             }
 
@@ -581,7 +567,6 @@ class Ativo_externo extends MY_Controller {
     }
 
     function manutencao_salvar(){
-
         $data['id_ativo_externo'] = !is_null($this->input->post('id_ativo_externo')) ? $this->input->post('id_ativo_externo') : '';
         $data['id_manutencao'] = $this->input->post('id_manutencao');
 
@@ -589,21 +574,12 @@ class Ativo_externo extends MY_Controller {
             $data['situacao'] = 0;
             $data['data_saida'] = $this->input->post('data_saida');
             $this->db->insert('ativo_externo_manutencao', $data);
-
-            /* Atualiza item para em Manutenção no Estoque */
-            $this->db->set('situacao', '10');
-            $this->db->where('id_ativo_externo', $data['id_ativo_externo']);
-            $this->db->update('ativo_externo');
-
             $this->session->set_flashdata('msg_success', "Novo registro inserido com sucesso!");
             echo redirect(base_url("ativo_externo/manutencao/{$data['id_ativo_externo']}"));
             return;
         } 
-       
-
-
+        
         if ($data['id_manutencao'] != null) {
-
             $data['situacao'] = $this->input->post('situacao') != null ? $this->input->post('situacao') : 0;
             $data['data_retorno'] = $this->input->post('data_retorno');
             $valor = str_replace("R$ ", "", $this->input->post('valor'));
@@ -613,28 +589,12 @@ class Ativo_externo extends MY_Controller {
             $this->db->where('id_manutencao', $data['id_manutencao'])
                 ->where('id_manutencao', $data['id_manutencao'])
                 ->update('ativo_externo_manutencao', $data);
-
-
-            /* Atualiza item para em Manutenção no Estoque */
-            if($this->input->post('situacao')==1):
-                $this->db->set('situacao', '12');
-                $this->db->where('id_ativo_externo', $data['id_ativo_externo']);
-                $this->db->update('ativo_externo');
-            endif;
-
-
             $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
         }
         echo redirect(base_url("ativo_externo/manutencao/{$data['id_ativo_externo']}"));
     }
 
-    function manutencao_remover($id_manutencao, $id_ativo_externo=null){
-        
-        $this->db->set('situacao', '12');
-        $this->db->where('id_ativo_externo', $id_ativo_externo);
-        $this->db->update('ativo_externo');
-
-
+    function manutencao_remover($id_manutencao){
         return $this->db->where('id_manutencao', $id_manutencao)
                 ->delete('ativo_externo_manutencao');
     }

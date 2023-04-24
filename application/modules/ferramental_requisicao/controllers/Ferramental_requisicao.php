@@ -196,6 +196,7 @@ class Ferramental_requisicao  extends MY_Controller {
         $this->get_template('requisicao_manual', ['requisicao' => $requisicao, 'no_aceite' => true]);
     }
 
+    /*
     public function liberar_requisicao() {
        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($this->input->post('id_requisicao'), $this->user);
        $items = $this->input->post('item');
@@ -348,6 +349,216 @@ class Ferramental_requisicao  extends MY_Controller {
         echo redirect(base_url('ferramental_requisicao'));
         return;
     }
+    */
+
+
+    public function liberar_requisicao()
+    {
+
+        $requisicao_by_patrimonio = $id_requisicao = $this->ferramental_requisicao_model->get_requisicao_by_patrimonio($this->input->post('id_requisicao'));
+
+        if ($requisicao_by_patrimonio == true) {
+            $this->session->set_flashdata($status = null, "Requisição");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));
+            return;
+        } else {
+            $this->session->set_flashdata('msg_info', "Nenhum item liberado!");
+            echo redirect(base_url("ferramental_requisicao/detalhes/{$id_requisicao}"));
+            return;
+        }
+
+       // $this->dd($requisicao_by_patrimonio);
+
+
+        $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($this->input->post('id_requisicao'), $this->user);
+        $items = $this->input->post('ativo');
+        $quantidade = $this->input->post('quantidade');
+
+
+
+
+
+
+        $this->dd($this->input->post(), $requisicao, $items, $quantidade);
+
+        if ($requisicao && $this->input->method() == 'post') {
+
+
+            // if (!$quantidade) {
+            //     $this->session->set_flashdata('msg_erro', "Deve especificar quantidade de itens a ser liberados!");
+            //     echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+            //     return;
+            // }
+
+
+
+
+
+
+            $total_quantidade = 0;
+            $total_quantidade_liberada = 0;
+            $total_sem_estoque = array_sum(array_map(function ($it) {
+                return $it->status == 6 ? 1 : 0;
+            }, $requisicao->items));
+            $requisicao_items = $requisicao_ativos = $ativos_externos = $ativos = [];
+
+
+            //  $this->dd($requisicao, $total_sem_estoque, $requisicao_items, $this->input->post());
+
+
+            if (is_array($items)) {
+                for ($i = 0; $i < count($items);
+                    $i++
+                ) {
+                    $item = $this->ferramental_requisicao_model
+                    ->get_requisicao_item($requisicao->id_requisicao, $items[$i]);
+
+
+
+                    $this->dd($items, $this->db->last_query());
+
+                    if ($item) {
+                        $ativos = $this->ativo_externo_model
+                            ->get_estoque(null, $item->id_ativo_externo_grupo, 12);
+                        //->get_estoque($this->user->id_obra, $item->id_ativo_externo_grupo, 12);
+
+
+
+
+                        $total_liberar = isset($quantidade[$i]) ? $quantidade[$i] : 0;
+                        $total_quantidade += $item->quantidade;
+
+
+
+                        if ($total_liberar > 0) {
+                            for ($k = 0; $k < $total_liberar; $k++) {
+                                $requisicao_ativos[] = [
+                                        'id_requisicao' => $item->id_requisicao,
+                                        'id_ativo_externo' => $ativos[$k]->id_ativo_externo,
+                                        'id_requisicao_item' => $item->id_requisicao_item,
+                                        'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
+                                        'status' => 2,
+                                    ];
+
+                                $ativos_externos[] = [
+                                    'id_ativo_externo' => $ativos[$k]->id_ativo_externo,
+                                    'situacao' => 2,
+                                ];
+
+
+
+                                if ($ativos[$k]->tipo == 1) {
+                                    $this->ferramental_requisicao_model->liberar_kit($ativos[$k], $ativos_externos, 2);
+                                }
+                                $item->quantidade_liberada++;
+                            }
+
+
+                            $total_quantidade_liberada += $item->quantidade_liberada;
+
+                            if ($item->quantidade > $item->quantidade_liberada) {
+                                $item->status = 11;
+                            }
+
+                            if ($item->quantidade == $item->quantidade_liberada) {
+                                $item->status = 2;
+                            }
+
+                            if ($item->quantidade_liberada == 0
+                            ) {
+                                $item->status = 6;
+                                $total_sem_estoque++;
+                            }
+
+                            $requisicao_items[] = [
+                                'id_requisicao_item' => $item->id_requisicao_item,
+                                'id_requisicao' => $item->id_requisicao,
+                                'status' => $item->status,
+                                'data_liberado' => date('Y-m-d H:i:s', strtotime('now')),
+                                'quantidade_liberada' => $item->quantidade_liberada,
+                                'quantidade' => $item->quantidade,
+                            ];
+                        }
+                    }
+                }
+
+                // if (empty($requisicao_items) || empty($requisicao_ativos)) {
+                //     $this->session->set_flashdata('msg_info', "Nenhum item liberado! Digite a quantidade de cada item a ser liberado.");
+                //     echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+                //     return;
+                // }
+
+                $status = "";
+                $msg = "";
+                if (count($requisicao->items) == $total_sem_estoque
+                ) {
+                    $requisicao->status = 6;
+                    $status = "msg_warning";
+                    $msg =   "Requisição não liberada. Motivo: falta de estoque.";
+                }
+
+
+
+                if (!empty($requisicao_ativos) && !empty($requisicao_items)) {
+                    if ($total_quantidade == $total_quantidade_liberada
+                    ) {
+                        $requisicao->status = 2;
+                        $status = "msg_success";
+                        $msg = "Liberada com Sucesso!";
+                    }
+
+                    if ($total_quantidade > $total_quantidade_liberada) {
+                        $requisicao->status = 11;
+                        $status = "msg_info";
+                        $msg =  "Liberada com Pendências!";
+                    }
+
+                    $this->db->insert_batch("ativo_externo_requisicao_ativo", $requisicao_ativos);
+                    $this->db->update_batch("ativo_externo_requisicao_item", $requisicao_items, 'id_requisicao_item');
+                    $this->db->update_batch("ativo_externo", $ativos_externos, 'id_ativo_externo');
+                }
+
+                $this->ferramental_requisicao_model->salvar_formulario([
+                    'id_requisicao' => $requisicao->id_requisicao,
+                    'id_origem' => $this->user->id_obra,
+                    'id_despachante' => $this->user->id_usuario,
+                    'status' => $requisicao->status,
+                    'data_liberado' => date('Y-m-d H:i:s', strtotime('now'))
+                ]);
+
+                $this->notificacoes_model->enviar_push(
+                    "Requisição $msg",
+                    "Requisição de Ferramentas {$requisicao->id_requisicao}, $msg. Clique na Notificação para mais detalhes.",
+                    [
+                        "filters" => [
+                            ["field" => "tag", "key" => "id_obra", "relation" => "=", "value" => $this->user->id_obra],
+                            ["operator" => "AND"],
+                            ["field" => "tag", "key" => "nivel", "relation" => "=", "value" => $this->user->nivel],
+                        ],
+                        "include_external_user_ids" => [$requisicao->id_solicitante],
+                        "url" => "ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"
+                    ]
+                );
+
+                // $this->session->set_flashdata($status, "Requisição $msg");
+                // echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+                // return;
+            }
+
+            // $this->session->set_flashdata('msg_info', "Nenhum item liberado!");
+            // echo redirect(base_url("ferramental_requisicao/detalhes/{$requisicao->id_requisicao}"));
+            // return;
+        }
+
+        // $this->session->set_flashdata('msg_erro', "Requisição não localizada.");
+        // echo redirect(base_url('ferramental_requisicao'));
+        // return;
+    }
+
+
+
+
+
 
     public function transferir_requisicao($id_requisicao) {
         $requisicao = $this->ferramental_requisicao_model->get_requisicao_com_items($id_requisicao);

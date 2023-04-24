@@ -11,19 +11,11 @@ class Ativo_externo_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
 		if($data['id_ativo_externo'] == ''){
-
-			/* Salvar LOG */
-			$this->salvar_log(12, null, 'adicionar', $data, null);
-
 			$this->db->insert('ativo_externo', $data);
 			return "salvar_ok";
 		} else {
 			$this->db->where('id_ativo_externo', $data['id_ativo_externo']);
 			$this->db->update('ativo_externo', $data);
-
-			/* Salvar LOG */
-			$this->salvar_log(12, $data['id_ativo_externo'], 'editar', $data, null);
-
 			return "salvar_ok";
 		}
 
@@ -198,12 +190,9 @@ class Ativo_externo_model extends MY_Model {
 		->get()
 		->result();
 
-		$this->dd($grupos);
-
 		foreach($grupos as $g => $grupo) {
 			$grupos[$g]->ativos = $this->get_estoque($id_obra, $grupo->id_ativo_externo_grupo);
 		}
-
 		return $grupos;
 	}
 
@@ -393,9 +382,6 @@ class Ativo_externo_model extends MY_Model {
 		->order_by('manutencao.id_manutencao', 'desc')
 		->from('ativo_externo_manutencao manutencao');
 
-
-
-		
 		if ($id_ativo_externo) $manutencoes->where("manutencao.id_ativo_externo = {$id_ativo_externo}");
 		if ($this->user->nivel == 2 && $this->user->id_obra) $manutencoes->where("ativo.id_obra = {$this->user->id_obra}");
 		if ($situacao) {
@@ -405,14 +391,12 @@ class Ativo_externo_model extends MY_Model {
 					$situacao_string .= "'{$sit}'";
 					if($i < count($situacao) - 1)   $situacao_string .= ',';
 				}
-				
+
 				$manutencoes->where("manutencao.situacao IN ({$situacao_string})");
 			} else {
 				$manutencoes->where("manutencao.situacao = {$situacao}");
 			}
 		}
-
-		$manutencoes->where('ativo.situacao != 10'); // fora de operação
 
 		$manutencoes = $manutencoes
 			->join('ativo_externo ativo', "ativo.id_ativo_externo = manutencao.id_ativo_externo")
