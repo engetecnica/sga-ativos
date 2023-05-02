@@ -131,9 +131,24 @@ class Ativo_externo_model extends MY_Model {
 
 		return $ativo->group_by('atv.id_ativo_externo')->get()->row();
 	}
+
+	public function get_codigo_patrimonio_increment()
+	{
+		$codigo_ativo_externo = $this->db->select("replace(codigo, 'ENG', '') as codigo")->get('ativo_externo')->result();
+		$codigo_ativo_externo = max(array_column($codigo_ativo_externo, 'codigo'));
+
+		$codigo_ativo_interno = $this->db->select("replace(codigo_patrimonio, 'ENG', '') as codigo_patrimonio")->get('ativo_interno')->result();
+		$codigo_ativo_interno = max(array_column($codigo_ativo_interno, 'codigo_patrimonio'));
+
+		if ($codigo_ativo_externo >= $codigo_ativo_interno) {
+			return $codigo_ativo_externo + 1;
+		}
+
+		return $codigo_ativo_interno + 1;
+	}
 	
 	public function get_ativo_ultimo(){
-	    return $this->db->select('codigo')->order_by('id_ativo_externo','DESC')->limit(1)->get('ativo_externo')->row();
+		return $this->get_codigo_patrimonio_increment();
 	}
 
 	private function count_estoque_query(

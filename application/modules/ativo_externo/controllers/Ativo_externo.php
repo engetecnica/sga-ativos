@@ -333,8 +333,7 @@ class Ativo_externo extends MY_Controller {
        
         if (!$id_obra) $id_obra =  $this->user->nivel == 1 && $this->user->id_obra_gerencia ? $this->user->id_obra_gerencia : $this->user->id_obra;
 
-        $codigo_ativo = str_replace("ENG", "", $this->ativo_externo_model->get_ativo_ultimo()->codigo) +1;
-
+        $codigo_ativo = $this->ativo_externo_model->get_ativo_ultimo();
         
 
         if ($quantidade > 0) {
