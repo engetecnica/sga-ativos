@@ -66,6 +66,73 @@
         </div>
     </section>
 
+    <?php if ($user->nivel == 1) { ?>
+
+
+        <hr class="line-seprate" />
+
+        <section class="p-t-20">
+
+            <div class="container">
+                <div class="col-md-12">
+                    <h3 class="title-4 m-b-35">Gestão de Ativos</h3>
+                </div>
+                <div class="top-campaign">
+                    <div class="row">
+                        <table class="table table-bordered table-striped m-b-30 m-t-10">
+                            <thead>
+                                <tr class="bg-dark text-light">
+                                    <th colspan="4">Ferramental Externo</th>
+                                </tr>
+                                <tr class="bg-flat-color-5 text-light">
+                                    <th>Itens Ativos</th>
+                                    <th>Em Manutenção</th>
+                                    <th>Descartados</th>
+                                    <th>Próximo Patrimônio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><?php echo ($ferramental_total) ?? 0; ?></td>
+                                    <td><?php echo (count($ativo_externo_manutencoes)) ?? 0; ?></td>
+                                    <td><?php echo ($ferramental_total_descarte) ?? 0; ?></td>
+                                    <td><span class="btn btn-sm btn-danger"><?php echo "ENG" . ($patrimonio_ultimo) ?? 0; ?></span></td>
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+        <section class="statistic-chart">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="title-4 m-b-35">Estatísticas</h3>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <?php
+                    $this->load->view("dados_operacionais_veiculos");
+                    $this->load->view('informe_de_vencimentos', ['informe_vencimentos' => $informe_vencimentos]);
+                    $this->load->view("requisicoes_pendentes");
+                    $this->load->view("retiradas_pendentes");
+                    $this->load->view("ativos_manutencoes");
+                    ?>
+                </div>
+            </div>
+        </section>
+    <?php } ?>
+
+
     <?php if ($user->nivel == 2) { ?>
         <hr class="line-seprate" />
         <section class="p-t-20">

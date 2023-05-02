@@ -1552,22 +1552,26 @@ class Relatorio_model  extends MY_Model
 	/* Informe de Vencimentos - Seguro */
 	public function informe_seguros()
 	{
+		$data_carencia_fim = date("Y-m-d", strtotime(date("Y-m-d") . '+30 days'));
 
 		$consulta = $this->db
-								->select_max('id_ativo_veiculo_seguro')
-								->group_by('id_ativo_veiculo')
-								->get('ativo_veiculo_seguro')
-								->result();
-
-		foreach($consulta as &$subconsulta){			
-			$subconsulta->sub = $this->db
-									->where('c1.id_ativo_veiculo_seguro', $subconsulta->id_ativo_veiculo_seguro)
-									->join('ativo_veiculo as c2', 'c2.id_ativo_veiculo=c1.id_ativo_veiculo')
-									->where("c1.carencia_fim BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW() ")
-									->get('ativo_veiculo_seguro AS c1')
-									->row();			
-		}
-
+		->select('
+			c1.seguro_custo,
+			c1.id_ativo_veiculo_seguro, 
+			c2.modelo, 
+			c2.veiculo_placa, 
+			c2.veiculo_km,
+			c2.id_interno_maquina,
+			c2.marca,
+			c2.id_ativo_veiculo,
+			c1.carencia_inicio,
+			c1.carencia_fim
+		')
+		->join('ativo_veiculo as c2', 'c2.id_ativo_veiculo=c1.id_ativo_veiculo')
+		->where("`carencia_fim` BETWEEN now() AND '" . $data_carencia_fim . "' ")
+		->get('ativo_veiculo_seguro c1')
+		->result();
+		
 		return $consulta;	
 
 	}

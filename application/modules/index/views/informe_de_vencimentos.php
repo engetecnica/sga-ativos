@@ -87,18 +87,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    foreach ($revisao_por_km as $i => $manutencao) { 
-                                        if($manutencao['quilometragem_atual'] > 0){
+                                <?php
+                                foreach ($revisao_por_km as $i => $manutencao) {
+                                    if ($manutencao['quilometragem_atual'] > 0) {
                                 ?>
-                                    <tr>
-                                        <td><?php echo $manutencao['id_ativo_veiculo']; ?></td>
-                                        <td><?php echo $this->formata_array([$manutencao['marca'], $manutencao['modelo']], " | ");  ?></td>
-                                        <td><?php echo isset($manutencao['quilometragem_atual']) ? $this->formata_posfix($manutencao['quilometragem_atual'], 'KM') : "-"; ?> </td>
-                                        <td><?php echo isset($manutencao['veiculo_km_proxima_revisao']) ? $this->formata_posfix($manutencao['veiculo_km_proxima_revisao'], 'KM') : "-"; ?> </td>
-                                        <td><?php echo isset($manutencao['saldo_quilometragem']) ? $this->formata_posfix($manutencao['saldo_quilometragem'], 'KM') : "-"; ?> </td>
-                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
-                                    </tr>
+                                        <tr>
+                                            <td><?php echo $manutencao['id_ativo_veiculo']; ?></td>
+                                            <td><?php echo $this->formata_array([$manutencao['marca'], $manutencao['modelo']], " | ");  ?></td>
+                                            <td><?php echo isset($manutencao['quilometragem_atual']) ? $this->formata_posfix($manutencao['quilometragem_atual'], 'KM') : "-"; ?> </td>
+                                            <td><?php echo isset($manutencao['veiculo_km_proxima_revisao']) ? $this->formata_posfix($manutencao['veiculo_km_proxima_revisao'], 'KM') : "-"; ?> </td>
+                                            <td><?php echo isset($manutencao['saldo_quilometragem']) ? $this->formata_posfix($manutencao['saldo_quilometragem'], 'KM') : "-"; ?> </td>
+                                            <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao['id_ativo_veiculo']}/{$manutencao['id_ativo_veiculo_manutencao']}") ?>">Mais Detalhes</a></td>
+                                        </tr>
                                     <?php } ?>
                                 <?php } ?>
                             </tbody>
@@ -123,23 +123,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                                foreach ($maquina_manutencao_hora as $manutencao) { 
-                                    if($manutencao->saldo <= $manutencao->operacao_alerta){
-                            ?>
-                                <tr>
-                                    <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
-                                    <td><?php echo $manutencao->id_interno_maquina; ?></td>
-                                    <td><?php echo $manutencao->veiculo; ?></td>
-                                    <td><?php echo $manutencao->marca . "/" . $manutencao->modelo; ?></td>
-                                    <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao; ?></td>
-                                    <td><?php echo ($manutencao->saldo); ?></td>
-                                    <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
-                                    <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
-                                </tr>
                             <?php
-                                    }
-                                } 
+                            foreach ($maquina_manutencao_hora as $manutencao) {
+                                if ($manutencao->saldo <= $manutencao->operacao_alerta) {
+                            ?>
+                                    <tr>
+                                        <td><?php echo $manutencao->id_ativo_veiculo_manutencao; ?></td>
+                                        <td><?php echo $manutencao->id_interno_maquina; ?></td>
+                                        <td><?php echo $manutencao->veiculo; ?></td>
+                                        <td><?php echo $manutencao->marca . "/" . $manutencao->modelo; ?></td>
+                                        <td><?php echo $manutencao->veiculo_horimetro_proxima_revisao; ?></td>
+                                        <td><?php echo ($manutencao->saldo); ?></td>
+                                        <td><?php echo $this->formata_moeda($manutencao->veiculo_custo); ?></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/manutencao/{$manutencao->id_ativo_veiculo}/{$manutencao->id_ativo_veiculo_manutencao}") ?>">Mais Detalhes</a></td>
+                                    </tr>
+                            <?php
+                                }
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -199,27 +199,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    foreach ($informe_seguro as $i => $seguro) { 
+                                <?php
+                                foreach ($informe_seguro as $i => $seguro) {
 
-                                        if($seguro->sub){
 
-                                            
-                                        
-                                        ?>
+
+
+
+                                ?>
                                     <tr>
-                                        <td><?php echo $seguro->sub->id_ativo_veiculo_seguro; ?></td>
-                                        <td><?php echo $seguro->sub->id_ativo_veiculo; ?></td>
-                                        <td><?php echo $this->formata_array([$seguro->sub->marca, $seguro->sub->modelo], " | "); ?></td>
-                                        <td><?php echo $seguro->sub->veiculo_placa ?: $seguro->sub->id_interno_maquina; ?></td>
-                                        <td><?php echo $this->formata_moeda($seguro->sub->seguro_custo); ?></td>
-                                        <td><?php echo $this->formata_data($seguro->sub->carencia_inicio); ?> </td>
-                                        <td><?php echo $this->formata_data($seguro->sub->carencia_fim); ?> </td>
+                                        <td><?php echo $seguro->id_ativo_veiculo_seguro; ?></td>
+                                        <td><?php echo $seguro->id_ativo_veiculo; ?></td>
+                                        <td><?php echo $this->formata_array([$seguro->marca, $seguro->modelo], " | "); ?></td>
+                                        <td><?php echo $seguro->veiculo_placa ?: $seguro->id_interno_maquina; ?></td>
+                                        <td><?php echo $this->formata_moeda($seguro->seguro_custo); ?></td>
+                                        <td><?php echo $this->formata_data($seguro->carencia_inicio); ?> </td>
+                                        <td><?php echo $this->formata_data($seguro->carencia_fim); ?> </td>
                                         <td>
-                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/{$seguro->sub->id_ativo_veiculo}/{$seguro->sub->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
+                                            <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url("ativo_veiculo/seguro/{$seguro->id_ativo_veiculo}/{$seguro->id_ativo_veiculo_seguro}") ?>">Mais Detalhes</a>
                                         </td>
                                     </tr>
-                                    <?php } ?>
+
                                 <?php } ?>
                             </tbody>
                         </table>

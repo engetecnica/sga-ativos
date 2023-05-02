@@ -23,6 +23,11 @@ class Index extends MY_Controller {
 
     function index() {
         if ($this->user->nivel == 1){
+
+            $data['ferramental_total'] = count($this->ativo_externo_model->get_estoque($this->user->id_obra, null, 12));
+            $data['ferramental_total_descarte'] = count($this->ativo_externo_model->get_estoque($this->user->id_obra, null, 8));
+            $data['patrimonio_ultimo'] = $this->ativo_externo_model->get_codigo_patrimonio_increment();
+
             $data['estoque'] = count($this->ativo_externo_model->get_estoque($this->user->id_obra, null, 12));
             $data['requisicoes_pendentes'] = $this->ferramental_requisicao_model->get_lista_requisicao([1, 3, 6, 11, 14], 0, 5, $this->user->id_obra);
             $data['requisicoes_pendentes_total'] = $this->ferramental_requisicao_model->lista_requisicao_count([1, 3, 6, 11, 14], $this->user->id_obra);
@@ -56,6 +61,7 @@ class Index extends MY_Controller {
         $data['maquina_manutencao_hora'] = $this->relatorio_model->maquina_manutencao_hora();
         $data['revisao_por_km'] = $this->relatorio_model->revisao_por_km();
         $data['informe_seguro'] = $this->relatorio_model->informe_seguros();
+
 
         $this->get_template('index', $data);
     }
