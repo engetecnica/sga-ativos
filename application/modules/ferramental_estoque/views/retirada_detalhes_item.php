@@ -29,7 +29,7 @@
                                         <tr class="active">
                                             <th scope="col" width="10%">Item ID</th>
                                             <th scope="col" width="40%">Item</th>
-                                            <th scope="col" width="20%">Quantidade</th>
+                                            <th scope="col" width="20%">Patrimônio</th>
                                             <th scope="col" width="20%">Status</th>
                                             <?php if ($retirada->status == 1) { ?>
                                                 <th scope="col" width="10%">Remover</th>
@@ -39,9 +39,17 @@
                                     <tbody>
                                         <?php foreach ($items as $item) { ?>
                                             <tr>
-                                                <td><?php echo $item->id_retirada_item; ?></td>
+                                                <td>
+                                                    <span class="badge badge-dark">
+                                                        <?php echo $item->id_ativo_externo; ?>
+                                                    </span>
+                                                </td>
                                                 <td><?php echo $item->nome; ?></td>
-                                                <td><?php echo $item->quantidade; ?></td>
+                                                <td>
+                                                    <span class="badge badge-warning">
+                                                        <?php echo $item->codigo; ?>
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <?php $status = $this->status($item->status); ?>
                                                     <span class="badge badge-<?php echo $status['class']; ?>"><?php echo $status['texto']; ?></span>

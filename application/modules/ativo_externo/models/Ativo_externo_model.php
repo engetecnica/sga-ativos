@@ -229,7 +229,8 @@ class Ativo_externo_model extends MY_Model {
 		return $grupo_query->num_rows();
 	}
 
-	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $status = null, $out_kit = true){
+	public function get_estoque($id_obra = null, $id_ativo_externo_grupo = null, $status = null, $out_kit = true, $id_ativo_externo = null)
+	{
 		$estoque = $this->ativos($out_kit);
 		if ($id_obra) {
 			$estoque->where("atv.id_obra = {$id_obra}");
@@ -245,6 +246,10 @@ class Ativo_externo_model extends MY_Model {
 			} else {
 				$estoque->where("atv.situacao = {$status}");
 			}
+		}
+
+		if ($id_ativo_externo) {
+			$estoque->where('atv.id_ativo_externo', $id_ativo_externo);
 		}
 
 		return $estoque->order_by('atv.id_ativo_externo', 'ASC')

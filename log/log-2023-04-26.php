@@ -7471,3 +7471,1618 @@ DEBUG - 2023-04-26 14:06:07 --> File loaded: C:\xampp\htdocs\engeativos\applicat
 DEBUG - 2023-04-26 14:06:07 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
 INFO - 2023-04-26 14:06:07 --> Final output sent to browser
 DEBUG - 2023-04-26 14:06:07 --> Total execution time: 0.8536
+ERROR - 2023-04-26 14:16:58 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:16:58 --> Config Class Initialized
+INFO - 2023-04-26 14:16:58 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:16:58 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:16:58 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:16:58 --> URI Class Initialized
+INFO - 2023-04-26 14:16:58 --> Router Class Initialized
+INFO - 2023-04-26 14:16:58 --> Output Class Initialized
+INFO - 2023-04-26 14:16:58 --> Security Class Initialized
+DEBUG - 2023-04-26 14:16:58 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:16:58 --> Input Class Initialized
+INFO - 2023-04-26 14:16:58 --> Language Class Initialized
+INFO - 2023-04-26 14:16:58 --> Language Class Initialized
+INFO - 2023-04-26 14:16:58 --> Config Class Initialized
+INFO - 2023-04-26 14:16:58 --> Loader Class Initialized
+INFO - 2023-04-26 14:16:58 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:16:58 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:16:59 --> Email Class Initialized
+INFO - 2023-04-26 14:16:59 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:16:59 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:16:59 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:16:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:16:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:16:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:16:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:00 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:00 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:02 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:02 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:02 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:02 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:02 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:17:05 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:05 --> Config Class Initialized
+INFO - 2023-04-26 14:17:05 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:05 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:05 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:05 --> URI Class Initialized
+INFO - 2023-04-26 14:17:05 --> Router Class Initialized
+INFO - 2023-04-26 14:17:05 --> Output Class Initialized
+INFO - 2023-04-26 14:17:05 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:05 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:05 --> Input Class Initialized
+INFO - 2023-04-26 14:17:05 --> Language Class Initialized
+INFO - 2023-04-26 14:17:05 --> Language Class Initialized
+INFO - 2023-04-26 14:17:05 --> Config Class Initialized
+INFO - 2023-04-26 14:17:05 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:05 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:05 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:05 --> Email Class Initialized
+INFO - 2023-04-26 14:17:05 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:05 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:05 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:05 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:06 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:06 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:06 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:06 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:08 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:08 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:09 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:09 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:09 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:17:13 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:13 --> Total execution time: 8.2975
+ERROR - 2023-04-26 14:17:13 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:13 --> Config Class Initialized
+INFO - 2023-04-26 14:17:13 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:13 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:13 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:13 --> URI Class Initialized
+INFO - 2023-04-26 14:17:13 --> Router Class Initialized
+INFO - 2023-04-26 14:17:13 --> Output Class Initialized
+INFO - 2023-04-26 14:17:13 --> Security Class Initialized
+ERROR - 2023-04-26 14:17:13 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+DEBUG - 2023-04-26 14:17:13 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:13 --> Input Class Initialized
+INFO - 2023-04-26 14:17:13 --> Config Class Initialized
+INFO - 2023-04-26 14:17:13 --> Language Class Initialized
+INFO - 2023-04-26 14:17:13 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:13 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:13 --> Language Class Initialized
+INFO - 2023-04-26 14:17:13 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:13 --> Config Class Initialized
+INFO - 2023-04-26 14:17:13 --> URI Class Initialized
+INFO - 2023-04-26 14:17:13 --> Router Class Initialized
+INFO - 2023-04-26 14:17:13 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:13 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:13 --> Output Class Initialized
+INFO - 2023-04-26 14:17:13 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:13 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:13 --> Input Class Initialized
+INFO - 2023-04-26 14:17:13 --> Language Class Initialized
+INFO - 2023-04-26 14:17:13 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:13 --> Language Class Initialized
+INFO - 2023-04-26 14:17:13 --> Config Class Initialized
+INFO - 2023-04-26 14:17:13 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:13 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:13 --> Email Class Initialized
+INFO - 2023-04-26 14:17:13 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:13 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:13 --> Controller Class Initialized
+ERROR - 2023-04-26 14:17:13 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:17:13 --> Email Class Initialized
+INFO - 2023-04-26 14:17:13 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:13 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:13 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:13 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:14 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+INFO - 2023-04-26 14:17:14 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:14 --> Total execution time: 0.7614
+ERROR - 2023-04-26 14:17:14 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:14 --> Config Class Initialized
+INFO - 2023-04-26 14:17:14 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:14 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:14 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:14 --> URI Class Initialized
+INFO - 2023-04-26 14:17:14 --> Router Class Initialized
+INFO - 2023-04-26 14:17:14 --> Output Class Initialized
+INFO - 2023-04-26 14:17:14 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:14 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:14 --> Input Class Initialized
+INFO - 2023-04-26 14:17:14 --> Language Class Initialized
+INFO - 2023-04-26 14:17:14 --> Language Class Initialized
+INFO - 2023-04-26 14:17:14 --> Config Class Initialized
+INFO - 2023-04-26 14:17:14 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:14 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:14 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:14 --> Email Class Initialized
+INFO - 2023-04-26 14:17:14 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:14 --> Controller Class Initialized
+ERROR - 2023-04-26 14:17:14 --> 404 Page Not Found: /index
+ERROR - 2023-04-26 14:17:16 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:16 --> Config Class Initialized
+INFO - 2023-04-26 14:17:16 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:16 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:16 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:16 --> URI Class Initialized
+INFO - 2023-04-26 14:17:16 --> Router Class Initialized
+INFO - 2023-04-26 14:17:16 --> Output Class Initialized
+INFO - 2023-04-26 14:17:16 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:16 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:16 --> Input Class Initialized
+INFO - 2023-04-26 14:17:16 --> Language Class Initialized
+INFO - 2023-04-26 14:17:16 --> Language Class Initialized
+INFO - 2023-04-26 14:17:16 --> Config Class Initialized
+INFO - 2023-04-26 14:17:16 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:16 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:16 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:16 --> Email Class Initialized
+INFO - 2023-04-26 14:17:16 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:16 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:16 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes_item.php
+DEBUG - 2023-04-26 14:17:16 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:17:16 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:16 --> Total execution time: 0.8863
+ERROR - 2023-04-26 14:17:19 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:19 --> Config Class Initialized
+INFO - 2023-04-26 14:17:19 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:19 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:19 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:19 --> URI Class Initialized
+INFO - 2023-04-26 14:17:19 --> Router Class Initialized
+INFO - 2023-04-26 14:17:19 --> Output Class Initialized
+INFO - 2023-04-26 14:17:19 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:19 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:19 --> Input Class Initialized
+INFO - 2023-04-26 14:17:19 --> Language Class Initialized
+INFO - 2023-04-26 14:17:19 --> Language Class Initialized
+INFO - 2023-04-26 14:17:19 --> Config Class Initialized
+INFO - 2023-04-26 14:17:19 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:19 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:19 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:19 --> Email Class Initialized
+INFO - 2023-04-26 14:17:19 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:19 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:19 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:17:20 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:17:20 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:20 --> Total execution time: 0.7882
+ERROR - 2023-04-26 14:17:23 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:23 --> Config Class Initialized
+INFO - 2023-04-26 14:17:23 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:23 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:23 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:23 --> URI Class Initialized
+INFO - 2023-04-26 14:17:23 --> Router Class Initialized
+INFO - 2023-04-26 14:17:23 --> Output Class Initialized
+INFO - 2023-04-26 14:17:23 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:23 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:23 --> Input Class Initialized
+INFO - 2023-04-26 14:17:23 --> Language Class Initialized
+INFO - 2023-04-26 14:17:23 --> Language Class Initialized
+INFO - 2023-04-26 14:17:23 --> Config Class Initialized
+INFO - 2023-04-26 14:17:23 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:23 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:23 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:23 --> Email Class Initialized
+INFO - 2023-04-26 14:17:23 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:23 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:23 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/termo_de_responsabilidade.php
+INFO - 2023-04-26 14:17:25 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:25 --> Total execution time: 2.3204
+ERROR - 2023-04-26 14:17:48 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:48 --> Config Class Initialized
+INFO - 2023-04-26 14:17:48 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:48 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:48 --> URI Class Initialized
+INFO - 2023-04-26 14:17:48 --> Router Class Initialized
+INFO - 2023-04-26 14:17:48 --> Output Class Initialized
+INFO - 2023-04-26 14:17:48 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:48 --> Input Class Initialized
+INFO - 2023-04-26 14:17:48 --> Language Class Initialized
+INFO - 2023-04-26 14:17:48 --> Language Class Initialized
+INFO - 2023-04-26 14:17:48 --> Config Class Initialized
+INFO - 2023-04-26 14:17:48 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:48 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:48 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:48 --> Email Class Initialized
+INFO - 2023-04-26 14:17:48 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:48 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:17:48 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:48 --> Total execution time: 0.0858
+ERROR - 2023-04-26 14:17:48 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:48 --> Config Class Initialized
+INFO - 2023-04-26 14:17:48 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:48 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:48 --> URI Class Initialized
+INFO - 2023-04-26 14:17:48 --> Router Class Initialized
+INFO - 2023-04-26 14:17:48 --> Output Class Initialized
+INFO - 2023-04-26 14:17:48 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:48 --> Input Class Initialized
+INFO - 2023-04-26 14:17:48 --> Language Class Initialized
+INFO - 2023-04-26 14:17:48 --> Language Class Initialized
+INFO - 2023-04-26 14:17:48 --> Config Class Initialized
+INFO - 2023-04-26 14:17:48 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:48 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:48 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:48 --> Email Class Initialized
+INFO - 2023-04-26 14:17:48 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:48 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:48 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:48 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:17:49 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+INFO - 2023-04-26 14:17:49 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:49 --> Total execution time: 0.7473
+ERROR - 2023-04-26 14:17:50 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:50 --> Config Class Initialized
+INFO - 2023-04-26 14:17:50 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:50 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:50 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:50 --> URI Class Initialized
+INFO - 2023-04-26 14:17:50 --> Router Class Initialized
+INFO - 2023-04-26 14:17:50 --> Output Class Initialized
+INFO - 2023-04-26 14:17:50 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:50 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:50 --> Input Class Initialized
+INFO - 2023-04-26 14:17:50 --> Language Class Initialized
+INFO - 2023-04-26 14:17:50 --> Language Class Initialized
+INFO - 2023-04-26 14:17:50 --> Config Class Initialized
+INFO - 2023-04-26 14:17:50 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:50 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:50 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:50 --> Email Class Initialized
+INFO - 2023-04-26 14:17:50 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:50 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:50 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:50 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:17:51 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:17:51 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:51 --> Total execution time: 0.8364
+ERROR - 2023-04-26 14:17:53 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:17:53 --> Config Class Initialized
+INFO - 2023-04-26 14:17:53 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:17:53 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:17:53 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:17:53 --> URI Class Initialized
+INFO - 2023-04-26 14:17:53 --> Router Class Initialized
+INFO - 2023-04-26 14:17:53 --> Output Class Initialized
+INFO - 2023-04-26 14:17:53 --> Security Class Initialized
+DEBUG - 2023-04-26 14:17:53 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:17:53 --> Input Class Initialized
+INFO - 2023-04-26 14:17:53 --> Language Class Initialized
+INFO - 2023-04-26 14:17:53 --> Language Class Initialized
+INFO - 2023-04-26 14:17:53 --> Config Class Initialized
+INFO - 2023-04-26 14:17:53 --> Loader Class Initialized
+INFO - 2023-04-26 14:17:53 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:17:53 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:17:53 --> Email Class Initialized
+INFO - 2023-04-26 14:17:53 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:17:53 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:17:53 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:17:53 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:17:54 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/termo_de_responsabilidade.php
+INFO - 2023-04-26 14:17:54 --> Final output sent to browser
+DEBUG - 2023-04-26 14:17:54 --> Total execution time: 0.9265
+ERROR - 2023-04-26 14:18:11 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:11 --> Config Class Initialized
+INFO - 2023-04-26 14:18:11 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:11 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:11 --> URI Class Initialized
+INFO - 2023-04-26 14:18:11 --> Router Class Initialized
+INFO - 2023-04-26 14:18:11 --> Output Class Initialized
+INFO - 2023-04-26 14:18:11 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:11 --> Input Class Initialized
+INFO - 2023-04-26 14:18:11 --> Language Class Initialized
+INFO - 2023-04-26 14:18:11 --> Language Class Initialized
+INFO - 2023-04-26 14:18:11 --> Config Class Initialized
+INFO - 2023-04-26 14:18:11 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:11 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:11 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:11 --> Email Class Initialized
+INFO - 2023-04-26 14:18:11 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:11 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> Anexo MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_interno/models/Ativo_interno_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+INFO - 2023-04-26 14:18:11 --> Upload Class Initialized
+ERROR - 2023-04-26 14:18:11 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:11 --> Config Class Initialized
+INFO - 2023-04-26 14:18:11 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:11 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:11 --> URI Class Initialized
+INFO - 2023-04-26 14:18:11 --> Router Class Initialized
+INFO - 2023-04-26 14:18:11 --> Output Class Initialized
+INFO - 2023-04-26 14:18:11 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:11 --> Input Class Initialized
+INFO - 2023-04-26 14:18:11 --> Language Class Initialized
+INFO - 2023-04-26 14:18:11 --> Language Class Initialized
+INFO - 2023-04-26 14:18:11 --> Config Class Initialized
+INFO - 2023-04-26 14:18:11 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:11 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:11 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:11 --> Email Class Initialized
+INFO - 2023-04-26 14:18:11 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:11 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:11 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/anexo_preview.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:18:12 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:18:12 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:12 --> Total execution time: 0.7587
+ERROR - 2023-04-26 14:18:16 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:16 --> Config Class Initialized
+INFO - 2023-04-26 14:18:16 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:16 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:16 --> URI Class Initialized
+INFO - 2023-04-26 14:18:16 --> Router Class Initialized
+INFO - 2023-04-26 14:18:16 --> Output Class Initialized
+INFO - 2023-04-26 14:18:16 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:16 --> Input Class Initialized
+INFO - 2023-04-26 14:18:16 --> Language Class Initialized
+INFO - 2023-04-26 14:18:16 --> Language Class Initialized
+INFO - 2023-04-26 14:18:16 --> Config Class Initialized
+INFO - 2023-04-26 14:18:16 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:16 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:16 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:16 --> Email Class Initialized
+INFO - 2023-04-26 14:18:16 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:16 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:18:16 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:16 --> Config Class Initialized
+INFO - 2023-04-26 14:18:16 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:16 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:16 --> URI Class Initialized
+INFO - 2023-04-26 14:18:16 --> Router Class Initialized
+INFO - 2023-04-26 14:18:16 --> Output Class Initialized
+INFO - 2023-04-26 14:18:16 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:16 --> Input Class Initialized
+INFO - 2023-04-26 14:18:16 --> Language Class Initialized
+INFO - 2023-04-26 14:18:16 --> Language Class Initialized
+INFO - 2023-04-26 14:18:16 --> Config Class Initialized
+INFO - 2023-04-26 14:18:16 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:16 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:16 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:16 --> Email Class Initialized
+INFO - 2023-04-26 14:18:16 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:16 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:16 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:16 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/anexo_preview.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:18:17 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:17 --> Total execution time: 0.7272
+ERROR - 2023-04-26 14:18:17 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:17 --> Config Class Initialized
+INFO - 2023-04-26 14:18:17 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:17 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:17 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:17 --> URI Class Initialized
+INFO - 2023-04-26 14:18:17 --> Router Class Initialized
+INFO - 2023-04-26 14:18:17 --> Output Class Initialized
+INFO - 2023-04-26 14:18:17 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:17 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:17 --> Input Class Initialized
+INFO - 2023-04-26 14:18:17 --> Language Class Initialized
+INFO - 2023-04-26 14:18:17 --> Language Class Initialized
+INFO - 2023-04-26 14:18:17 --> Config Class Initialized
+INFO - 2023-04-26 14:18:17 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:17 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:17 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:17 --> Email Class Initialized
+INFO - 2023-04-26 14:18:17 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:17 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:17 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/anexo_preview.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:18:18 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:18:18 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:18 --> Total execution time: 0.7434
+ERROR - 2023-04-26 14:18:23 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:23 --> Config Class Initialized
+INFO - 2023-04-26 14:18:23 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:23 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:23 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:23 --> URI Class Initialized
+INFO - 2023-04-26 14:18:23 --> Router Class Initialized
+INFO - 2023-04-26 14:18:23 --> Output Class Initialized
+INFO - 2023-04-26 14:18:23 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:23 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:23 --> Input Class Initialized
+INFO - 2023-04-26 14:18:23 --> Language Class Initialized
+INFO - 2023-04-26 14:18:23 --> Language Class Initialized
+INFO - 2023-04-26 14:18:23 --> Config Class Initialized
+INFO - 2023-04-26 14:18:23 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:23 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:23 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:23 --> Email Class Initialized
+INFO - 2023-04-26 14:18:23 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:23 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:23 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:18:24 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:24 --> Total execution time: 0.0917
+ERROR - 2023-04-26 14:18:24 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:24 --> Config Class Initialized
+INFO - 2023-04-26 14:18:24 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:24 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:24 --> Utf8 Class Initialized
+ERROR - 2023-04-26 14:18:24 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:24 --> URI Class Initialized
+INFO - 2023-04-26 14:18:24 --> Config Class Initialized
+INFO - 2023-04-26 14:18:24 --> Hooks Class Initialized
+INFO - 2023-04-26 14:18:24 --> Router Class Initialized
+INFO - 2023-04-26 14:18:24 --> Output Class Initialized
+DEBUG - 2023-04-26 14:18:24 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:24 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:24 --> Security Class Initialized
+INFO - 2023-04-26 14:18:24 --> URI Class Initialized
+DEBUG - 2023-04-26 14:18:24 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:24 --> Input Class Initialized
+INFO - 2023-04-26 14:18:24 --> Language Class Initialized
+INFO - 2023-04-26 14:18:24 --> Router Class Initialized
+INFO - 2023-04-26 14:18:24 --> Language Class Initialized
+INFO - 2023-04-26 14:18:24 --> Output Class Initialized
+INFO - 2023-04-26 14:18:24 --> Config Class Initialized
+INFO - 2023-04-26 14:18:24 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:24 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:24 --> Input Class Initialized
+INFO - 2023-04-26 14:18:24 --> Language Class Initialized
+INFO - 2023-04-26 14:18:24 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:24 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:24 --> Language Class Initialized
+INFO - 2023-04-26 14:18:24 --> Config Class Initialized
+INFO - 2023-04-26 14:18:24 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:24 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:24 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:24 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:24 --> Email Class Initialized
+INFO - 2023-04-26 14:18:24 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:24 --> Controller Class Initialized
+ERROR - 2023-04-26 14:18:24 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:18:24 --> Email Class Initialized
+INFO - 2023-04-26 14:18:24 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:24 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:24 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/id_retirada.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/status.php
+DEBUG - 2023-04-26 14:18:25 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/../views/index/actions.php
+INFO - 2023-04-26 14:18:25 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:25 --> Total execution time: 0.6710
+ERROR - 2023-04-26 14:18:25 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:25 --> Config Class Initialized
+INFO - 2023-04-26 14:18:25 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:25 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:25 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:25 --> URI Class Initialized
+INFO - 2023-04-26 14:18:25 --> Router Class Initialized
+INFO - 2023-04-26 14:18:25 --> Output Class Initialized
+INFO - 2023-04-26 14:18:25 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:25 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:25 --> Input Class Initialized
+INFO - 2023-04-26 14:18:25 --> Language Class Initialized
+INFO - 2023-04-26 14:18:25 --> Language Class Initialized
+INFO - 2023-04-26 14:18:25 --> Config Class Initialized
+INFO - 2023-04-26 14:18:25 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:25 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:25 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:25 --> Email Class Initialized
+INFO - 2023-04-26 14:18:25 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:25 --> Controller Class Initialized
+ERROR - 2023-04-26 14:18:25 --> 404 Page Not Found: /index
+ERROR - 2023-04-26 14:18:26 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:18:26 --> Config Class Initialized
+INFO - 2023-04-26 14:18:26 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:18:26 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:18:26 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:18:26 --> URI Class Initialized
+INFO - 2023-04-26 14:18:26 --> Router Class Initialized
+INFO - 2023-04-26 14:18:26 --> Output Class Initialized
+INFO - 2023-04-26 14:18:26 --> Security Class Initialized
+DEBUG - 2023-04-26 14:18:26 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:18:26 --> Input Class Initialized
+INFO - 2023-04-26 14:18:26 --> Language Class Initialized
+INFO - 2023-04-26 14:18:26 --> Language Class Initialized
+INFO - 2023-04-26 14:18:26 --> Config Class Initialized
+INFO - 2023-04-26 14:18:26 --> Loader Class Initialized
+INFO - 2023-04-26 14:18:26 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:18:26 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:18:26 --> Email Class Initialized
+INFO - 2023-04-26 14:18:26 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:18:26 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:18:26 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index_form.php
+DEBUG - 2023-04-26 14:18:26 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:18:26 --> Final output sent to browser
+DEBUG - 2023-04-26 14:18:26 --> Total execution time: 0.1154
+ERROR - 2023-04-26 14:23:10 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:23:10 --> Config Class Initialized
+INFO - 2023-04-26 14:23:10 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:23:10 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:23:10 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:23:10 --> URI Class Initialized
+INFO - 2023-04-26 14:23:10 --> Router Class Initialized
+INFO - 2023-04-26 14:23:10 --> Output Class Initialized
+INFO - 2023-04-26 14:23:10 --> Security Class Initialized
+DEBUG - 2023-04-26 14:23:10 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:23:10 --> Input Class Initialized
+INFO - 2023-04-26 14:23:10 --> Language Class Initialized
+INFO - 2023-04-26 14:23:10 --> Language Class Initialized
+INFO - 2023-04-26 14:23:10 --> Config Class Initialized
+INFO - 2023-04-26 14:23:10 --> Loader Class Initialized
+INFO - 2023-04-26 14:23:10 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:23:10 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:23:10 --> Email Class Initialized
+INFO - 2023-04-26 14:23:10 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:23:10 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:23:10 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:23:10 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:23:10 --> Severity: error --> Exception: Object of class CI_DB_mysqli_driver could not be converted to string C:\xampp\htdocs\engeativos\application\modules\ativo_externo\models\Ativo_externo_model.php 254
+ERROR - 2023-04-26 14:23:22 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:23:22 --> Config Class Initialized
+INFO - 2023-04-26 14:23:22 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:23:22 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:23:22 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:23:22 --> URI Class Initialized
+INFO - 2023-04-26 14:23:22 --> Router Class Initialized
+INFO - 2023-04-26 14:23:22 --> Output Class Initialized
+INFO - 2023-04-26 14:23:22 --> Security Class Initialized
+DEBUG - 2023-04-26 14:23:22 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:23:22 --> Input Class Initialized
+INFO - 2023-04-26 14:23:22 --> Language Class Initialized
+INFO - 2023-04-26 14:23:22 --> Language Class Initialized
+INFO - 2023-04-26 14:23:22 --> Config Class Initialized
+INFO - 2023-04-26 14:23:22 --> Loader Class Initialized
+INFO - 2023-04-26 14:23:22 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:23:22 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:23:22 --> Email Class Initialized
+INFO - 2023-04-26 14:23:22 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:23:22 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:23:22 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:23:22 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:23:38 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:23:38 --> Config Class Initialized
+INFO - 2023-04-26 14:23:38 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:23:38 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:23:38 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:23:38 --> URI Class Initialized
+INFO - 2023-04-26 14:23:39 --> Router Class Initialized
+INFO - 2023-04-26 14:23:39 --> Output Class Initialized
+INFO - 2023-04-26 14:23:39 --> Security Class Initialized
+DEBUG - 2023-04-26 14:23:39 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:23:39 --> Input Class Initialized
+INFO - 2023-04-26 14:23:39 --> Language Class Initialized
+INFO - 2023-04-26 14:23:39 --> Language Class Initialized
+INFO - 2023-04-26 14:23:39 --> Config Class Initialized
+INFO - 2023-04-26 14:23:39 --> Loader Class Initialized
+INFO - 2023-04-26 14:23:39 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:23:39 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:23:39 --> Email Class Initialized
+INFO - 2023-04-26 14:23:39 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:23:39 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:23:39 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:23:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:25:23 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:25:23 --> Config Class Initialized
+INFO - 2023-04-26 14:25:23 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:25:23 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:25:23 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:25:23 --> URI Class Initialized
+INFO - 2023-04-26 14:25:23 --> Router Class Initialized
+INFO - 2023-04-26 14:25:23 --> Output Class Initialized
+INFO - 2023-04-26 14:25:23 --> Security Class Initialized
+DEBUG - 2023-04-26 14:25:23 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:25:23 --> Input Class Initialized
+INFO - 2023-04-26 14:25:23 --> Language Class Initialized
+INFO - 2023-04-26 14:25:23 --> Language Class Initialized
+INFO - 2023-04-26 14:25:23 --> Config Class Initialized
+INFO - 2023-04-26 14:25:23 --> Loader Class Initialized
+INFO - 2023-04-26 14:25:23 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:25:23 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:25:23 --> Email Class Initialized
+INFO - 2023-04-26 14:25:23 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:25:23 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:25:23 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:25:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:25:33 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:25:33 --> Config Class Initialized
+INFO - 2023-04-26 14:25:33 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:25:33 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:25:33 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:25:33 --> URI Class Initialized
+INFO - 2023-04-26 14:25:33 --> Router Class Initialized
+INFO - 2023-04-26 14:25:33 --> Output Class Initialized
+INFO - 2023-04-26 14:25:33 --> Security Class Initialized
+DEBUG - 2023-04-26 14:25:33 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:25:33 --> Input Class Initialized
+INFO - 2023-04-26 14:25:33 --> Language Class Initialized
+INFO - 2023-04-26 14:25:33 --> Language Class Initialized
+INFO - 2023-04-26 14:25:33 --> Config Class Initialized
+INFO - 2023-04-26 14:25:33 --> Loader Class Initialized
+INFO - 2023-04-26 14:25:33 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:25:33 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:25:33 --> Email Class Initialized
+INFO - 2023-04-26 14:25:33 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:25:33 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:25:33 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index_form.php
+DEBUG - 2023-04-26 14:25:33 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:25:33 --> Final output sent to browser
+DEBUG - 2023-04-26 14:25:33 --> Total execution time: 0.1158
+ERROR - 2023-04-26 14:26:11 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:26:11 --> Config Class Initialized
+INFO - 2023-04-26 14:26:11 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:26:11 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:26:11 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:26:11 --> URI Class Initialized
+INFO - 2023-04-26 14:26:11 --> Router Class Initialized
+INFO - 2023-04-26 14:26:11 --> Output Class Initialized
+INFO - 2023-04-26 14:26:11 --> Security Class Initialized
+DEBUG - 2023-04-26 14:26:11 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:26:11 --> Input Class Initialized
+INFO - 2023-04-26 14:26:11 --> Language Class Initialized
+INFO - 2023-04-26 14:26:11 --> Language Class Initialized
+INFO - 2023-04-26 14:26:11 --> Config Class Initialized
+INFO - 2023-04-26 14:26:11 --> Loader Class Initialized
+INFO - 2023-04-26 14:26:11 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:26:11 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:26:11 --> Email Class Initialized
+INFO - 2023-04-26 14:26:11 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:26:11 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:26:11 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index_form.php
+DEBUG - 2023-04-26 14:26:11 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:26:11 --> Final output sent to browser
+DEBUG - 2023-04-26 14:26:11 --> Total execution time: 0.0976
+ERROR - 2023-04-26 14:30:35 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:30:35 --> Config Class Initialized
+INFO - 2023-04-26 14:30:35 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:30:35 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:30:35 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:30:35 --> URI Class Initialized
+INFO - 2023-04-26 14:30:35 --> Router Class Initialized
+INFO - 2023-04-26 14:30:35 --> Output Class Initialized
+INFO - 2023-04-26 14:30:35 --> Security Class Initialized
+DEBUG - 2023-04-26 14:30:35 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:30:35 --> Input Class Initialized
+INFO - 2023-04-26 14:30:35 --> Language Class Initialized
+INFO - 2023-04-26 14:30:35 --> Language Class Initialized
+INFO - 2023-04-26 14:30:35 --> Config Class Initialized
+INFO - 2023-04-26 14:30:35 --> Loader Class Initialized
+INFO - 2023-04-26 14:30:35 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:30:35 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:30:36 --> Email Class Initialized
+INFO - 2023-04-26 14:30:36 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:30:36 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:30:36 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index_form.php
+DEBUG - 2023-04-26 14:30:36 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:30:36 --> Final output sent to browser
+DEBUG - 2023-04-26 14:30:36 --> Total execution time: 0.1038
+ERROR - 2023-04-26 14:31:37 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:31:37 --> Config Class Initialized
+INFO - 2023-04-26 14:31:37 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:31:37 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:31:37 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:31:37 --> URI Class Initialized
+INFO - 2023-04-26 14:31:37 --> Router Class Initialized
+INFO - 2023-04-26 14:31:37 --> Output Class Initialized
+INFO - 2023-04-26 14:31:37 --> Security Class Initialized
+DEBUG - 2023-04-26 14:31:37 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:31:37 --> Input Class Initialized
+INFO - 2023-04-26 14:31:37 --> Language Class Initialized
+INFO - 2023-04-26 14:31:37 --> Language Class Initialized
+INFO - 2023-04-26 14:31:37 --> Config Class Initialized
+INFO - 2023-04-26 14:31:37 --> Loader Class Initialized
+INFO - 2023-04-26 14:31:37 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:31:37 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:31:37 --> Email Class Initialized
+INFO - 2023-04-26 14:31:37 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:31:37 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:31:37 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:31:37 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:32:07 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:32:07 --> Config Class Initialized
+INFO - 2023-04-26 14:32:07 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:32:07 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:32:07 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:32:07 --> URI Class Initialized
+INFO - 2023-04-26 14:32:07 --> Router Class Initialized
+INFO - 2023-04-26 14:32:07 --> Output Class Initialized
+INFO - 2023-04-26 14:32:07 --> Security Class Initialized
+DEBUG - 2023-04-26 14:32:07 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:32:07 --> Input Class Initialized
+INFO - 2023-04-26 14:32:07 --> Language Class Initialized
+INFO - 2023-04-26 14:32:07 --> Language Class Initialized
+INFO - 2023-04-26 14:32:07 --> Config Class Initialized
+INFO - 2023-04-26 14:32:07 --> Loader Class Initialized
+INFO - 2023-04-26 14:32:07 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:32:07 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:32:07 --> Email Class Initialized
+INFO - 2023-04-26 14:32:07 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:32:07 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:32:07 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:32:07 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:33:17 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:33:17 --> Config Class Initialized
+INFO - 2023-04-26 14:33:17 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:33:17 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:33:17 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:33:17 --> URI Class Initialized
+INFO - 2023-04-26 14:33:17 --> Router Class Initialized
+INFO - 2023-04-26 14:33:17 --> Output Class Initialized
+INFO - 2023-04-26 14:33:17 --> Security Class Initialized
+DEBUG - 2023-04-26 14:33:17 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:33:17 --> Input Class Initialized
+INFO - 2023-04-26 14:33:17 --> Language Class Initialized
+INFO - 2023-04-26 14:33:17 --> Language Class Initialized
+INFO - 2023-04-26 14:33:17 --> Config Class Initialized
+INFO - 2023-04-26 14:33:17 --> Loader Class Initialized
+INFO - 2023-04-26 14:33:17 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:33:17 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:33:17 --> Email Class Initialized
+INFO - 2023-04-26 14:33:17 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:33:17 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:33:17 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:33:17 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:34:23 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:23 --> Config Class Initialized
+INFO - 2023-04-26 14:34:23 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:23 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:23 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:23 --> URI Class Initialized
+INFO - 2023-04-26 14:34:23 --> Router Class Initialized
+INFO - 2023-04-26 14:34:23 --> Output Class Initialized
+INFO - 2023-04-26 14:34:23 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:23 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:23 --> Input Class Initialized
+INFO - 2023-04-26 14:34:23 --> Language Class Initialized
+INFO - 2023-04-26 14:34:23 --> Language Class Initialized
+INFO - 2023-04-26 14:34:23 --> Config Class Initialized
+INFO - 2023-04-26 14:34:23 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:23 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:23 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:23 --> Email Class Initialized
+INFO - 2023-04-26 14:34:23 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:23 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:34:23 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:34:23 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:34:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:34:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:34:24 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/index_form.php
+DEBUG - 2023-04-26 14:34:24 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:34:24 --> Final output sent to browser
+DEBUG - 2023-04-26 14:34:24 --> Total execution time: 0.1033
+ERROR - 2023-04-26 14:34:38 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:38 --> Config Class Initialized
+INFO - 2023-04-26 14:34:38 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:38 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:38 --> URI Class Initialized
+INFO - 2023-04-26 14:34:38 --> Router Class Initialized
+INFO - 2023-04-26 14:34:38 --> Output Class Initialized
+INFO - 2023-04-26 14:34:38 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:38 --> Input Class Initialized
+INFO - 2023-04-26 14:34:38 --> Language Class Initialized
+INFO - 2023-04-26 14:34:38 --> Language Class Initialized
+INFO - 2023-04-26 14:34:38 --> Config Class Initialized
+INFO - 2023-04-26 14:34:38 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:38 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:38 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:38 --> Email Class Initialized
+INFO - 2023-04-26 14:34:38 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:38 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 14:34:38 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:38 --> Config Class Initialized
+INFO - 2023-04-26 14:34:38 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:38 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:38 --> URI Class Initialized
+INFO - 2023-04-26 14:34:38 --> Router Class Initialized
+INFO - 2023-04-26 14:34:38 --> Output Class Initialized
+INFO - 2023-04-26 14:34:38 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:38 --> Input Class Initialized
+INFO - 2023-04-26 14:34:38 --> Language Class Initialized
+INFO - 2023-04-26 14:34:38 --> Language Class Initialized
+INFO - 2023-04-26 14:34:38 --> Config Class Initialized
+INFO - 2023-04-26 14:34:38 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:38 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:38 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:38 --> Email Class Initialized
+INFO - 2023-04-26 14:34:38 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:38 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:34:38 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:34:38 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_modal_ajuda.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/views/index_form_modal.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/views/retirada_detalhes.php
+DEBUG - 2023-04-26 14:34:39 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 14:34:39 --> Final output sent to browser
+DEBUG - 2023-04-26 14:34:39 --> Total execution time: 0.7001
+ERROR - 2023-04-26 14:34:39 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:39 --> Config Class Initialized
+INFO - 2023-04-26 14:34:39 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:39 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:39 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:39 --> URI Class Initialized
+INFO - 2023-04-26 14:34:39 --> Router Class Initialized
+INFO - 2023-04-26 14:34:39 --> Output Class Initialized
+ERROR - 2023-04-26 14:34:39 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:39 --> Security Class Initialized
+INFO - 2023-04-26 14:34:39 --> Config Class Initialized
+INFO - 2023-04-26 14:34:39 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:39 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:39 --> Input Class Initialized
+INFO - 2023-04-26 14:34:39 --> Language Class Initialized
+DEBUG - 2023-04-26 14:34:39 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:39 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:39 --> URI Class Initialized
+INFO - 2023-04-26 14:34:39 --> Language Class Initialized
+INFO - 2023-04-26 14:34:39 --> Config Class Initialized
+INFO - 2023-04-26 14:34:39 --> Router Class Initialized
+INFO - 2023-04-26 14:34:39 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:39 --> Output Class Initialized
+INFO - 2023-04-26 14:34:39 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:39 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:39 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:39 --> Input Class Initialized
+INFO - 2023-04-26 14:34:39 --> Language Class Initialized
+INFO - 2023-04-26 14:34:39 --> Language Class Initialized
+INFO - 2023-04-26 14:34:39 --> Config Class Initialized
+INFO - 2023-04-26 14:34:39 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:39 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:39 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:39 --> Email Class Initialized
+INFO - 2023-04-26 14:34:39 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:39 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:39 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:39 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:34:39 --> Email Class Initialized
+INFO - 2023-04-26 14:34:39 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:39 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:39 --> 404 Page Not Found: /index
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+ERROR - 2023-04-26 14:34:46 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Hooks Class Initialized
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+DEBUG - 2023-04-26 14:34:46 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:46 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:46 --> URI Class Initialized
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Router Class Initialized
+INFO - 2023-04-26 14:34:46 --> Output Class Initialized
+INFO - 2023-04-26 14:34:46 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:46 --> Input Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Language Class Initialized
+INFO - 2023-04-26 14:34:46 --> Config Class Initialized
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+INFO - 2023-04-26 14:34:46 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:46 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:46 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:46 --> Email Class Initialized
+INFO - 2023-04-26 14:34:46 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:46 --> Controller Class Initialized
+ERROR - 2023-04-26 14:34:46 --> 404 Page Not Found: /index
+ERROR - 2023-04-26 14:34:59 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 14:34:59 --> Config Class Initialized
+INFO - 2023-04-26 14:34:59 --> Hooks Class Initialized
+DEBUG - 2023-04-26 14:34:59 --> UTF-8 Support Enabled
+INFO - 2023-04-26 14:34:59 --> Utf8 Class Initialized
+INFO - 2023-04-26 14:34:59 --> URI Class Initialized
+INFO - 2023-04-26 14:34:59 --> Router Class Initialized
+INFO - 2023-04-26 14:34:59 --> Output Class Initialized
+INFO - 2023-04-26 14:34:59 --> Security Class Initialized
+DEBUG - 2023-04-26 14:34:59 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 14:34:59 --> Input Class Initialized
+INFO - 2023-04-26 14:34:59 --> Language Class Initialized
+INFO - 2023-04-26 14:34:59 --> Language Class Initialized
+INFO - 2023-04-26 14:34:59 --> Config Class Initialized
+INFO - 2023-04-26 14:34:59 --> Loader Class Initialized
+INFO - 2023-04-26 14:34:59 --> Helper loaded: url_helper
+INFO - 2023-04-26 14:34:59 --> Database Driver Class Initialized
+INFO - 2023-04-26 14:34:59 --> Email Class Initialized
+INFO - 2023-04-26 14:34:59 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 14:34:59 --> Controller Class Initialized
+DEBUG - 2023-04-26 14:34:59 --> Ferramental_estoque MX_Controller Initialized
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_estoque/models/Ferramental_estoque_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 14:34:59 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+ERROR - 2023-04-26 16:28:19 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 16:28:19 --> Config Class Initialized
+INFO - 2023-04-26 16:28:19 --> Hooks Class Initialized
+DEBUG - 2023-04-26 16:28:19 --> UTF-8 Support Enabled
+INFO - 2023-04-26 16:28:19 --> Utf8 Class Initialized
+INFO - 2023-04-26 16:28:19 --> URI Class Initialized
+DEBUG - 2023-04-26 16:28:19 --> No URI present. Default controller set.
+INFO - 2023-04-26 16:28:19 --> Router Class Initialized
+INFO - 2023-04-26 16:28:19 --> Output Class Initialized
+INFO - 2023-04-26 16:28:19 --> Security Class Initialized
+DEBUG - 2023-04-26 16:28:19 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 16:28:19 --> Input Class Initialized
+INFO - 2023-04-26 16:28:19 --> Language Class Initialized
+INFO - 2023-04-26 16:28:19 --> Language Class Initialized
+INFO - 2023-04-26 16:28:19 --> Config Class Initialized
+INFO - 2023-04-26 16:28:19 --> Loader Class Initialized
+INFO - 2023-04-26 16:28:19 --> Helper loaded: url_helper
+INFO - 2023-04-26 16:28:19 --> Database Driver Class Initialized
+INFO - 2023-04-26 16:28:19 --> Email Class Initialized
+INFO - 2023-04-26 16:28:19 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 16:28:19 --> Controller Class Initialized
+DEBUG - 2023-04-26 16:28:19 --> Index MX_Controller Initialized
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/models/Index_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_interno/models/Ativo_interno_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Relatorio_model.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\views\selecionar_obra.php
+DEBUG - 2023-04-26 16:28:19 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_top.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/dados_operacionais_veiculos_form.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/dados_operacionais_veiculos_dados.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/dados_operacionais_veiculos_historico.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/dados_operacionais_veiculos.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/informe_de_vencimentos.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/requisicoes_pendentes.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/retiradas_pendentes.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/ativos_manutencoes.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/amostra_de_patrimonio.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/index/views/index.php
+DEBUG - 2023-04-26 16:28:20 --> File loaded: C:\xampp\htdocs\engeativos\application\views\../views/template_footer.php
+INFO - 2023-04-26 16:28:20 --> Final output sent to browser
+DEBUG - 2023-04-26 16:28:20 --> Total execution time: 1.0818
+ERROR - 2023-04-26 16:28:21 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Hooks Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> UTF-8 Support Enabled
+INFO - 2023-04-26 16:28:21 --> Utf8 Class Initialized
+INFO - 2023-04-26 16:28:21 --> URI Class Initialized
+INFO - 2023-04-26 16:28:21 --> Router Class Initialized
+INFO - 2023-04-26 16:28:21 --> Output Class Initialized
+INFO - 2023-04-26 16:28:21 --> Security Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 16:28:21 --> Input Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Loader Class Initialized
+INFO - 2023-04-26 16:28:21 --> Helper loaded: url_helper
+INFO - 2023-04-26 16:28:21 --> Database Driver Class Initialized
+INFO - 2023-04-26 16:28:21 --> Email Class Initialized
+INFO - 2023-04-26 16:28:21 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 16:28:21 --> Controller Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> Relatorio MX_Controller Initialized
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/obra/models/Obra_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/usuario/models/Usuario_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Notificacoes_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/configuracao/models/Configuracao_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/anexo/models/Anexo_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_veiculo/models/Ativo_veiculo_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/relatorio/models/Relatorio_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/funcionario/models/Funcionario_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_interno/models/Ativo_interno_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ativo_externo/models/Ativo_externo_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/ferramental_requisicao/models/Ferramental_requisicao_model.php
+DEBUG - 2023-04-26 16:28:21 --> File loaded: C:\xampp\htdocs\engeativos\application\modules/empresa/models/Empresa_model.php
+ERROR - 2023-04-26 16:28:21 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Hooks Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> UTF-8 Support Enabled
+INFO - 2023-04-26 16:28:21 --> Utf8 Class Initialized
+INFO - 2023-04-26 16:28:21 --> URI Class Initialized
+INFO - 2023-04-26 16:28:21 --> Router Class Initialized
+INFO - 2023-04-26 16:28:21 --> Output Class Initialized
+INFO - 2023-04-26 16:28:21 --> Security Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 16:28:21 --> Input Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Loader Class Initialized
+INFO - 2023-04-26 16:28:21 --> Helper loaded: url_helper
+INFO - 2023-04-26 16:28:21 --> Database Driver Class Initialized
+INFO - 2023-04-26 16:28:21 --> Email Class Initialized
+ERROR - 2023-04-26 16:28:21 --> Could not find the specified $config['composer_autoload'] path: /vendor/composer/autoload.php
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Hooks Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> UTF-8 Support Enabled
+INFO - 2023-04-26 16:28:21 --> Utf8 Class Initialized
+INFO - 2023-04-26 16:28:21 --> URI Class Initialized
+INFO - 2023-04-26 16:28:21 --> Router Class Initialized
+INFO - 2023-04-26 16:28:21 --> Output Class Initialized
+INFO - 2023-04-26 16:28:21 --> Security Class Initialized
+DEBUG - 2023-04-26 16:28:21 --> Global POST, GET and COOKIE data sanitized
+INFO - 2023-04-26 16:28:21 --> Input Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Language Class Initialized
+INFO - 2023-04-26 16:28:21 --> Config Class Initialized
+INFO - 2023-04-26 16:28:21 --> Loader Class Initialized
+INFO - 2023-04-26 16:28:21 --> Helper loaded: url_helper
+INFO - 2023-04-26 16:28:21 --> Database Driver Class Initialized
+INFO - 2023-04-26 16:28:21 --> Email Class Initialized
+INFO - 2023-04-26 16:28:21 --> Final output sent to browser
+DEBUG - 2023-04-26 16:28:21 --> Total execution time: 0.8278
+INFO - 2023-04-26 16:28:21 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 16:28:21 --> Controller Class Initialized
+ERROR - 2023-04-26 16:28:21 --> 404 Page Not Found: /index
+INFO - 2023-04-26 16:28:21 --> Session: Class initialized using 'files' driver.
+INFO - 2023-04-26 16:28:21 --> Controller Class Initialized
+ERROR - 2023-04-26 16:28:21 --> 404 Page Not Found: /index

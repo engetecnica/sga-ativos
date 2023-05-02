@@ -80,6 +80,8 @@ class Ferramental_estoque  extends MY_Controller {
                 }
             }
 
+           // $this->dd($items);
+
             $this->get_template('retirada_detalhes_item',[
                 'retirada' => $retirada,
                 'items' => $items,
@@ -100,9 +102,8 @@ class Ferramental_estoque  extends MY_Controller {
         
         $data['nivel'] = $this->user->nivel ?? 0;
         $data['id_funcionario'] = $this->user->id_funcionario ?? 0;
-
         $data['lista_funcionario'] = $this->funcionario_model->get_lista($this->user->id_empresa, $id_obra, 0);
-        $data['lista_ferramental'] = $this->ativo_externo_model->get_estoque($this->user->id_obra, null, 12);
+        $data['lista_ferramental'] = $this->ativo_externo_model->get_estoque($this->user->id_obra, null, [12]);
         $this->get_template('index_form', $data);
     }
     /* @end */
@@ -238,7 +239,7 @@ class Ferramental_estoque  extends MY_Controller {
                 }
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
                 return;
-            }
+            }            
 
             $items = array();
 
@@ -264,49 +265,51 @@ class Ferramental_estoque  extends MY_Controller {
             }
         }
 
-        $this->session->set_flashdata('msg_success', "Nenhum Registro salvo!");
+        $this->session->set_flashdata('msg_error', "Nenhum Registro salvo!");
         echo redirect(base_url("ferramental_estoque"));
     }
 
     function liberar_retirada($id_retirada) {
         $retirada = $this->ferramental_estoque_model->get_retirada($id_retirada);
 
-        if($retirada && $this->input->method() == 'post') {
+
+
+
+        if ($retirada) {
+            
+            
+            
+            //if($retirada && $this->input->method() == 'post') {
+
+
+
             $ativos = $ativos_externos = $items = array();
             $retiradas = $this->ferramental_estoque_model->get_lista_retiradas($retirada->id_obra, $retirada->id_funcionario, [2, 4, 14]);
             $aguardar_autorizacao = (count($retiradas) > 0) && ($this->user->nivel == 2);
-            $retirada->status = 2; // Liberado
+            $retirada->status = 2; // Liberado  
 
-            foreach($retirada->items as $k => $item) {
-                $ativos_estoque = $item->ativos;
-                if (!$ativos_estoque || count($ativos_estoque) == 0) {
-                    $ativos_estoque = $this->ativo_externo_model->get_estoque($retirada->id_obra, $item->id_ativo_externo_grupo, 12);
-                }
+            foreach ($retirada->items as $k => $item) {
+                $item->status = $retirada->status;
+                $ativos[] = [
+                    'id_retirada' => $id_retirada,
+                    'id_ativo_externo' => $item->id_ativo_externo,
+                    'id_retirada_item' => $item->id_retirada_item,
+                    'status' => $item->status,
+                ];
 
-                for($i=0; $i < $item->quantidade; $i++) {
-                    if (isset($ativos_estoque[$i])) {
-                        $item->status = $retirada->status;
-                        $ativos[] = [
-                            'id_retirada' => $id_retirada,
-                            'id_ativo_externo' => $ativos_estoque[$i]->id_ativo_externo,
-                            'id_retirada_item' => $item->id_retirada_item,
-                            'status' => $item->status,
-                        ];
-
-                        $ativos_externos[] = [
-                            'id_ativo_externo' => $ativos_estoque[$i]->id_ativo_externo,
-                            'situacao' => $item->status,
-                        ];
-                    } else {
-                        $item->status = 6;
-                    }
-                }
+                $ativos_externos[] = [
+                    'id_ativo_externo' => $item->id_ativo_externo,
+                    'situacao' => $item->status,
+                ];
 
                 $items[] = [
                     'id_retirada_item' => $item->id_retirada_item,
                     'status' => $item->status,
                 ];
             }
+
+
+            
 
             if (count($ativos) > 0 && count($items) > 0) {
                 $this->db->insert_batch("ativo_externo_retirada_ativo", $ativos);
@@ -316,18 +319,26 @@ class Ferramental_estoque  extends MY_Controller {
                     'id_retirada' => $retirada->id_retirada,
                     'status' => $retirada->status,
                 ]);
+
+
                 $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
                 echo redirect(base_url("ferramental_estoque/detalhes/{$id_retirada}"));
                 return;
+
+
+
+                $this->dd($items, $ativos_externos, $ativos);
+
+
             }
 
-            $this->session->set_flashdata('msg_erro', "Nenhum Registro salvo!");
-            echo redirect(base_url("ferramental_estoque"));
-            return;
+            // $this->session->set_flashdata('msg_erro', "Nenhum Registro salvo!");
+            // echo redirect(base_url("ferramental_estoque"));
+            // return;
         }
 
-        $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
-        echo redirect(base_url("ferramental_estoque"));
+        // $this->session->set_flashdata('msg_erro', "Retirada não encontrada!");
+        // echo redirect(base_url("ferramental_estoque"));
     }
 
 
