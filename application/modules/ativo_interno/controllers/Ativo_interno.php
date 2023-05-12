@@ -7,12 +7,17 @@
  *
  * @author André Baill | https://www.github.com/srandrebaill
  */
+
+use chillerlan\QRCode\QRCode;
+use \Mpdf\Mpdf;
+use Mpdf\Tag\Table;
 class Ativo_interno  extends MY_Controller {
 
     function __construct() {
         parent::__construct();
         $this->load->model('ativo_interno_model');
         $this->load->model('obra/obra_model');
+        $this->load->model('ativo_externo/ativo_externo_model');
         $this->model = $this->ativo_interno_model;
     }
 
@@ -59,13 +64,14 @@ class Ativo_interno  extends MY_Controller {
     {
         $row->data_inclusao = date('d/m/Y H:i:s', strtotime($row->data_inclusao));
         $row->data_descarte = date('d/m/Y H:i:s', strtotime($row->data_descarte));
-        $row->valor = number_format($row->valor, 2, ',', '.');
-        $row->marca = isset($row->marca) ? $row->marca : '-';
+        $row->valor = "R$ " . number_format($row->valor, 2, ',', '.');
     }
 
     function adicionar($data = []){
         $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
         $data['obras'] = $this->obra_model->get_obras();
+        $data['marcas'] = $this->ativo_interno_model->get_marcas();
+        $data['patrimonio'] = $this->ativo_externo_model->get_codigo_patrimonio_increment();
     	$this->get_template('index_form', $data);
     }
 
@@ -74,7 +80,8 @@ class Ativo_interno  extends MY_Controller {
         $data = array_merge($this->anexo_model->getData('ativo_interno', $id_ativo_interno), [
             "back_url" => "ativo_interno/editar/{$id_ativo_interno}",
             'obras' => $this->obra_model->get_obras(),
-            'ativo' => $this->ativo_interno_model->get_ativo($id_ativo_interno)
+            'ativo' => $this->ativo_interno_model->get_ativo($id_ativo_interno),
+            'marcas' => $this->ativo_interno_model->get_marcas()
         ]);
         $this->get_template('index_form', $data);
     }
@@ -87,11 +94,14 @@ class Ativo_interno  extends MY_Controller {
         $data['valor'] = $valor;
         $data['nome'] = $this->input->post('nome');
         $data['marca'] = $this->input->post('marca');
+        $data['patrimonio'] = $this->input->post('patrimonio');
         $data['serie'] = $this->input->post('serie');
         $data['quantidade'] = $this->input->post('quantidade');
         $data['observacao'] = $this->input->post('observacao');
         $data['situacao'] = $this->input->post('situacao');
         $data['id_obra'] = $this->input->post('id_obra');
+
+        
 
         if($data['id_ativo_interno']=='' || !$data['id_ativo_interno']){
             unset($data['id_ativo_interno']);
@@ -320,6 +330,71 @@ class Ativo_interno  extends MY_Controller {
         }
         return false;
     }
+
+    /** Listar Marcas */
+    public function marca()
+    {
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
+        $data['lista'] = $this->ativo_interno_model->get_marcas();
+        $this->get_template('marca', $data);
+    }
+
+    /** Adicionar Marca */
+    public function marca_adicionar()
+    {
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
+        $this->get_template('marca_form');
+    }
+
+    /** Editar Marca */
+    public function marca_editar($id)
+    {
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'editar'));
+        $data['marca_detalhe'] = $this->ativo_interno_model->get_marca($id);
+        $this->get_template('marca_form', $data);
+    }
+
+    /** Salvar Marca */
+    public function marca_salvar()
+    {
+        $this->permitido_redirect($this->permitido($this->get_modulo_permission(), 10, 'adicionar'));
+
+        if (!$this->input->post('id_ativo_interno_marca')) {
+            $marca['titulo'] = $this->input->post('titulo');
+            $this->db->insert('ativo_interno_marca', $marca);
+        } else {
+            $marca['titulo'] = $this->input->post('titulo');
+            $this->db->where('id_ativo_interno_marca', $this->input->post('id_ativo_interno_marca'));
+            $this->db->update('ativo_interno_marca', $marca);
+        }
+
+        $this->session->set_flashdata('msg_success', "Registro salvo com sucesso!");
+        echo redirect(base_url("ativo_interno/marca"));
+    }
+
+    /** Excluir Marca */
+    public function marca_deletar($id_ativo_interno_marca)
+    {
+        return $this->db
+            ->where('id_ativo_interno_marca', $id_ativo_interno_marca)
+            ->delete('ativo_interno_marca');
+    }
+
+
+    /** QRCODE - Gerar */
+    public function qrcode($id_ativo_interno)
+    {
+        $data['dados'] = $this->ativo_interno_model->get_ativo($id_ativo_interno);
+        $data['url'] = base_url('ativo_interno/qrcode/' . $id_ativo_interno);
+        $data['qrcode'] = (new QRCode)->render($data['url']);
+        $filename = 'QrCode-Ativo-Interno-' . $data['dados']->patrimonio . '.pdf';
+
+        $mpdf = new \Mpdf\Mpdf();
+        $html = $this->load->view('ativo_qrcode', $data, true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($filename, 'D');
+    }
+
 }
 
 /* End of file Site.php */

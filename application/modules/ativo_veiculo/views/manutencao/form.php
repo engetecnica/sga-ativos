@@ -5,10 +5,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="overview-wrap">
-                       
+
                         <a href="<?php echo base_url("ativo_veiculo/manutencao/{$id_ativo_veiculo}"); ?>">
-                        <button class="au-btn au-btn-icon au-btn--blue">
-                        <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
+                            <button class="au-btn au-btn-icon au-btn--blue">
+                                <i class="zmdi zmdi-arrow-left"></i>todos</button></a>
                     </div>
                 </div>
             </div>
@@ -23,26 +23,26 @@
                         </div>
                         <div class="card-body">
                             <?php
-                                $form_url = base_url("ativo_veiculo/manutencao/{$id_ativo_veiculo}");
-                                $form_url .= !isset($manutencao) ? "" : "/{$manutencao->id_ativo_veiculo_manutencao}"; 
+                            $form_url = base_url("ativo_veiculo/manutencao/{$id_ativo_veiculo}");
+                            $form_url .= !isset($manutencao) ? "" : "/{$manutencao->id_ativo_veiculo_manutencao}";
                             ?>
 
                             <form action="<?php echo $form_url; ?>" method="post" enctype="multipart/form-data">
-                        
+
                                 <p style="text-transform: uppercase">
                                     <strong style="color: red;">
-                                     <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
+                                        <?php echo $veiculo->veiculo; ?> <?php echo $veiculo->veiculo_placa ?: $veiculo->id_interno_maquina; ?>
                                     </strong>
                                 </p>
                                 <hr>
 
 
-                                <?php if(isset($id_ativo_veiculo)){?>
-                                <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
+                                <?php if (isset($id_ativo_veiculo)) { ?>
+                                    <input type="hidden" name="id_ativo_veiculo" id="id_ativo_veiculo" value="<?php echo $id_ativo_veiculo; ?>">
                                 <?php } ?>
 
-                                <?php if(isset($manutencao) && isset($manutencao->id_ativo_veiculo_manutencao)){?>
-                                <input type="hidden" name="id_ativo_veiculo_manutencao" id="id_ativo_veiculo_manutencao" value="<?php echo $manutencao->id_ativo_veiculo_manutencao; ?>">
+                                <?php if (isset($manutencao) && isset($manutencao->id_ativo_veiculo_manutencao)) { ?>
+                                    <input type="hidden" name="id_ativo_veiculo_manutencao" id="id_ativo_veiculo_manutencao" value="<?php echo $manutencao->id_ativo_veiculo_manutencao; ?>">
                                 <?php } ?>
 
                                 <div class="row form-group">
@@ -52,26 +52,24 @@
                                     <div class="col-12 col-md-4">
                                         <select required="required" class="form-control select2" id="id_fornecedor" name="id_fornecedor">
                                             <option value="">Selecione um Fornecedor</option>
-                                            <?php foreach($fornecedores as $fornecedor){ ?>
-                                                <option <?php echo (isset($manutencao) && isset($manutencao->id_fornecedor)) && (int) $manutencao->id_fornecedor === (int) $fornecedor->id_fornecedor ? 'selected="selected"' : '';?>
-                                                 value="<?php echo  $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
+                                            <?php foreach ($fornecedores as $fornecedor) { ?>
+                                                <option <?php echo (isset($manutencao) && isset($manutencao->id_fornecedor)) && (int) $manutencao->id_fornecedor === (int) $fornecedor->id_fornecedor ? 'selected="selected"' : ''; ?> value="<?php echo  $fornecedor->id_fornecedor; ?>"><?php echo $fornecedor->razao_social; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                             
+
                                     <div class="col col-md-2">
                                         <label for="id_ativo_configuracao" class=" form-control-label">Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <select required="required" class="form-control select2" id="id_ativo_configuracao" name="id_ativo_configuracao">
                                             <option value="">Selecione o Tipo do Serviço</option>
-                                            <?php foreach($tipo_servico as $servico){ ?>
-                                            <option <?php echo (isset($manutencao) && isset($manutencao->id_ativo_configuracao)) && $manutencao->id_ativo_configuracao == $servico->id_ativo_configuracao ? 'selected="selected"' : '';?>
-                                             value="<?php echo $servico->id_ativo_configuracao; ?>"><?php echo $servico->titulo; ?></option>
+                                            <?php foreach ($tipo_servico as $servico) { ?>
+                                                <option <?php echo (isset($manutencao) && isset($manutencao->id_ativo_configuracao)) && $manutencao->id_ativo_configuracao == $servico->id_ativo_configuracao ? 'selected="selected"' : ''; ?> value="<?php echo $servico->id_ativo_configuracao; ?>"><?php echo $servico->titulo; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                                 </div>
+                                </div>
 
 
                                 <div class="row form-group">
@@ -79,35 +77,30 @@
                                         <label for="veiculo_km_atual" class=" form-control-label">Quilometragem Atual</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0" class="form-control" 
-                                            min="<?php echo (int) $veiculo->veiculo_km_atual; ?>"
-                                            value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $veiculo->veiculo_km_atual; ?>">
-                                    </div> 
+                                        <input type="number" id="veiculo_km_atual" name="veiculo_km_atual" placeholder="0" class="form-control" min="<?php echo (int) $veiculo->veiculo_km_atual; ?>" value="<?php echo isset($manutencao->veiculo_km_atual) ? (int) $manutencao->veiculo_km_atual : (int) $veiculo->veiculo_km_atual; ?>">
+                                    </div>
 
                                     <div class="col col-md-3">
                                         <label for="veiculo_horimetro_atual" class=" form-control-label">Horimetro Atual</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0" class="form-control" 
-                                            min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>"
-                                            value="<?php echo isset($veiculo->veiculo_horimetro_atual) ? (int) $veiculo->veiculo_horimetro_atual : (int) $manutencao->veiculo_horimetro_atual; ?>">
-                                    </div> 
+                                        <input type="number" id="veiculo_horimetro_atual" name="veiculo_horimetro_atual" placeholder="0" class="form-control" min="<?php echo (int) $veiculo->veiculo_horimetro_atual; ?>" value="<?php echo isset($veiculo->veiculo_horimetro_atual) ? (int) $veiculo->veiculo_horimetro_atual : (int) @$manutencao->veiculo_horimetro_atual; ?>">
+                                    </div>
                                 </div>
 
                                 <?php
-                                    // echo "<pre>";
-                                    // print_r($veiculo);
-                                    // print_r($manutencao);
-                                    // echo "</pre>";
+                                // echo "<pre>";
+                                // print_r($veiculo);
+                                // print_r($manutencao);
+                                // echo "</pre>";
                                 ?>
-                                
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="veiculo_km_proxima_revisao" class=" form-control-label">Quilometragem Próx.</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0" class="form-control"
-                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : $veiculo->veiculo_km_atual; ?>">
+                                        <input type="number" id="veiculo_km_proxima_revisao" name="veiculo_km_proxima_revisao" placeholder="0" class="form-control" value="<?php echo isset($manutencao) && isset($manutencao->veiculo_km_proxima_revisao) ? $manutencao->veiculo_km_proxima_revisao : $veiculo->veiculo_km_atual; ?>">
                                     </div>
 
                                     <div class="col col-md-3">
@@ -115,30 +108,27 @@
                                     </div>
 
                                     <div class="col-12 col-md-3">
-                                        <input type="number" id="veiculo_horimetro_proxima_revisao" name="veiculo_horimetro_proxima_revisao" placeholder="0" class="form-control" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->veiculo_horimetro_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_horimetro_proxima_revisao) : 0; ?>">
+                                        <input type="number" id="veiculo_horimetro_proxima_revisao" name="veiculo_horimetro_proxima_revisao" placeholder="0" class="form-control" value="<?php echo isset($manutencao) && isset($manutencao->veiculo_horimetro_proxima_revisao) ? (int) str_replace(' h', '', $manutencao->veiculo_horimetro_proxima_revisao) : 0; ?>">
                                     </div>
                                 </div>
-                             
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="data_entrada" class=" form-control-label">Data Serviço</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : date('Y-m-d');?>">
+                                        <input required="required" type="date" id="data_entrada" name="data_entrada" class="form-control" value="<?php echo isset($manutencao) && isset($manutencao->data_entrada) ? date('Y-m-d', strtotime($manutencao->data_entrada)) : date('Y-m-d'); ?>">
                                     </div>
 
                                     <div class="col col-md-3">
                                         <label for="data_vencimento" class=" form-control-label">Data Vencimento</label>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" 
-                                        value="<?php echo isset($manutencao) && isset($manutencao->data_vencimento) ? date('Y-m-d', strtotime($manutencao->data_vencimento)) : ''?>">
+                                        <input type="date" id="data_vencimento" name="data_vencimento" class="form-control" value="<?php echo isset($manutencao) && isset($manutencao->data_vencimento) ? date('Y-m-d', strtotime($manutencao->data_vencimento)) : '' ?>">
                                     </div>
                                 </div>
 
-                              
+
                                 <div class="row form-group">
                                     <div class="col col-md-2">
                                         <label for="descricao" class=" form-control-label">Descrição</label>
@@ -153,26 +143,26 @@
                                         <label for="veiculo_custo" class=" form-control-label">Custo</label>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <input min="0.01" required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00'?>">
+                                        <input min="0.01" required="required" type="text" id="veiculo_custo" name="veiculo_custo" placeholder="0.00" class="form-control valor" value="<?php echo isset($manutencao) ? $manutencao->veiculo_custo : '0,00' ?>">
                                     </div>
-                                </div>  
+                                </div>
 
 
                                 <?php
-                                       // $this->dd($veiculo);
-                                    ?>                                
-                                
+                                // $this->dd($veiculo);
+                                ?>
+
                                 <hr>
                                 <div class="pull-left">
-                                    <button class="btn btn-primary">                                                    
+                                    <button class="btn btn-primary">
                                         <i class="fa fa-send "></i>&nbsp;
                                         <span id="submit-form">Salvar</span>
                                     </button>
-                                    <a href="<?php echo base_url("ativo_veiculo/manutencao/{$id_ativo_veiculo}");?>">
-                                    <button class="btn btn-secondary" type="button">                                   
-                                        <i class="fa fa-ban "></i>&nbsp;
-                                        <span id="cancelar-form">Cancelar</span>
-                                    </button>                              
+                                    <a href="<?php echo base_url("ativo_veiculo/manutencao/{$id_ativo_veiculo}"); ?>">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-ban "></i>&nbsp;
+                                            <span id="cancelar-form">Cancelar</span>
+                                        </button>
                                     </a>
                                 </div>
                             </form>

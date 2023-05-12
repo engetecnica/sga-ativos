@@ -3,6 +3,7 @@
 class Ativo_interno_model extends MY_Model {
 
 	public function salvar_formulario($data=null){
+
 		if($data['id_ativo_interno']==''){
 
 			// Salvar LOG
@@ -24,7 +25,8 @@ class Ativo_interno_model extends MY_Model {
 		$query = $this->db
 			->from('ativo_interno')
 			->group_by('id_ativo_interno')
-			->select('ativo_interno.*');
+		->select('ativo_interno.*, atm.titulo as marca');
+		$this->db->join('ativo_interno_marca atm', 'atm.id_ativo_interno_marca=ativo_interno.marca', 'left');
 		$this->join_obra($query, 'ativo_interno.id_obra');
 		return $query;
 	}
@@ -42,6 +44,7 @@ class Ativo_interno_model extends MY_Model {
 
 	public function get_lista($id_obra = null, $situacao = null){
 		$lista = $this->query();
+
 
 		if ($id_obra != null){
 			$lista->where("ativo_interno.id_obra = $id_obra");
@@ -173,16 +176,30 @@ class Ativo_interno_model extends MY_Model {
 
 	public function permit_create($data){
 		$ativos = $this->db->where('serie', $data['serie']);
-		if($data['id_ativo_interno']) {
+		if (@$data['id_ativo_interno']) {
 			$ativos->where("id_ativo_interno != {$data['id_ativo_interno']}");
 		}
 		return $ativos->get('ativo_interno')->num_rows() == 0;
 	}
 
 	public function permit_update($data){
-		$ativos = $this->db
-			->where("serie = {$data['serie']}")
-			->where("id_ativo_interno != {$data['id_ativo_interno']}");
-		return $ativos->get('ativo_interno')->num_rows() == 0;
+		return 1;
+	}
+
+	/** Marca - Lista */
+	public function get_marcas()
+	{
+		return $this->db->get('ativo_interno_marca')->result();
+	}
+
+	/** Marca - Por ID */
+	public function get_marca($id)
+	{
+
+		if (!$id) {
+			return [];
+		}
+
+		return $this->db->where('id_ativo_interno_marca', $id)->get('ativo_interno_marca')->row();
 	}
 }

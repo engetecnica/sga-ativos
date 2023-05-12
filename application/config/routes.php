@@ -63,6 +63,17 @@ $route['set_registros'] 		= "index/set_registros";
 $route['logout'] 				= "login/logout";
 
 
+/** Ativo Interno - Marcas */
+$route['ativo_interno/marca'] = "ativo_interno/marca";
+$route['ativo_interno/marca/adicionar'] = "ativo_interno/marca_adicionar";
+$route['ativo_interno/marca/editar/(:any)'] = "ativo_interno/marca_editar/$1";
+$route['ativo_interno/marca/salvar'] = "ativo_interno/marca_salvar";
+$route['ativo_interno/marca/deletar/(:any)'] = "ativo_interno/marca_deletar/$1";
+
+/** Ativo Interno - QRCODE */
+$route['ativo_interno/qrcode/(:any)'] = "ativo_interno/qrcode/$1";
+
+
 /* 
     Insumos
     Nova Retirada
