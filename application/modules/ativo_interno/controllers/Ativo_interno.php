@@ -63,7 +63,7 @@ class Ativo_interno  extends MY_Controller {
     protected function paginate_after(object &$row)
     {
         $row->data_inclusao = date('d/m/Y H:i:s', strtotime($row->data_inclusao));
-        $row->data_descarte = (isset($row->data_descarte)) ? date('d/m/Y H:i:s', strtotime($row->data_descarte)) : '-';
+        $row->data_descarte = (isset($row->data_descarte) && $row->data_descarte == null) ? '-' : date('d/m/Y H:i:s', strtotime($row->data_descarte));
         $row->valor = "R$ " . number_format($row->valor, 2, ',', '.');
     }
 
