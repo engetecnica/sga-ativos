@@ -135,10 +135,10 @@ class Ativo_externo_model extends MY_Model {
 	public function get_codigo_patrimonio_increment()
 	{
 		$codigo_ativo_externo = $this->db->select("replace(codigo, 'ENG', '') as codigo")->get('ativo_externo')->result();
-		$codigo_ativo_externo = max(array_column($codigo_ativo_externo, 'codigo'));
+		$codigo_ativo_externo = (max(array_column($codigo_ativo_externo, 'codigo'))) ?? 0;
 
 		$codigo_ativo_interno = $this->db->select("replace(codigo_patrimonio, 'ENG', '') as codigo_patrimonio")->get('ativo_interno')->result();
-		$codigo_ativo_interno = max(array_column($codigo_ativo_interno, 'codigo_patrimonio'));
+		$codigo_ativo_interno = (max(array_column($codigo_ativo_interno, 'codigo_patrimonio'))) ?? 0;
 
 		if ($codigo_ativo_externo >= $codigo_ativo_interno) {
 			return $codigo_ativo_externo + 1;
