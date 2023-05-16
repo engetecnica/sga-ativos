@@ -2,6 +2,8 @@
 
 (defined('BASEPATH')) OR exit('No direct script access allowed');
 
+
+use chillerlan\QRCode\QRCode;
 /**
  * Description of ativo_externo
  *
@@ -20,11 +22,36 @@ class Ativo_externo extends MY_Controller {
         $this->load->model('obra_model');
     }
 
+    public function index_server_side()
+    {
+        $this->get_template("index_server_side");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     function index($subitem = null) {
         // ativo externo datatables
         // if ($subitem === 'ativos') return $this->index_paginate();
         // if ($subitem === 'grupos') return $this->grupos_paginate();
         $this->get_template('index', $this->index_data());
+    }
+
+
+    function grupo($subitem = null)
+    {
+        // ativo externo datatables
+        // if ($subitem === 'ativos') return $this->index_paginate();
+        // if ($subitem === 'grupos') return $this->grupos_paginate();
+        $this->get_template('index_grupos', $this->index_data());
     }
 
     private function index_data() {
@@ -653,6 +680,24 @@ class Ativo_externo extends MY_Controller {
                 ->delete('ativo_externo_manutencao_obs');
         }
         return false;
+    }
+
+
+
+
+
+    /** QRCODE - Gerar */
+    public function qrcode($id_ativo_interno)
+    {
+        $data['dados'] = $this->ativo_externo_model->get_ativo($id_ativo_interno);
+        $data['url'] = base_url('ativo_externo/qrcode/' . $id_ativo_interno);
+        $data['qrcode'] = (new QRCode)->render($data['url']);
+        $filename = 'QrCode-Ativo-Externo-' . $data['dados']->codigo . '.pdf';
+
+        $mpdf = new \Mpdf\Mpdf();
+        $html = $this->load->view('ativo_qrcode', $data, true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($filename, 'D');
     }
 }
 

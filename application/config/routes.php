@@ -73,6 +73,14 @@ $route['ativo_interno/marca/deletar/(:any)'] = "ativo_interno/marca_deletar/$1";
 /** Ativo Interno - QRCODE */
 $route['ativo_interno/qrcode/(:any)'] = "ativo_interno/qrcode/$1";
 
+/** Ativo Externo - QRCODE */
+$route['ativo_externo/qrcode/(:any)'] = "ativo_externo/qrcode/$1";
+$route['ativo_externo/grupos'] = "ativo_externo/grupo";
+
+
+
+// $route['ativo_externo'] = "ativo_externo/index_server_side";
+
 
 /* 
     Insumos

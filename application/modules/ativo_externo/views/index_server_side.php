@@ -9,17 +9,13 @@
                         <a href="<?php echo base_url('ativo_externo/adicionar'); ?>">
                             <button class="au-btn au-btn-icon au-btn--blue">
                                 <i class="zmdi zmdi-plus"></i>Adicionar</button></a>
-
-                        <a href="<?php echo base_url('ativo_externo/grupos'); ?>">
-                            <button class="au-btn au-btn-icon btn-dark ml-3">
-                                <i class="zmdi zmdi-list"></i>Grupos de Ativos</button></a>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="title-1 m-b-25">Ativos Externos</h2>
+                    <h2 class="title-1 m-b-25">Ativos Externo</h2>
                 </div>
             </div>
 
@@ -109,10 +105,10 @@
                                                         <div class="dropdown-divider"></div>
                                                     <?php } ?>
 
+                                                    <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="<?php echo base_url("ativo_externo/qrcode/{$valor->id_ativo_externo}"); ?>">
                                                         <i class="fa fa-qrcode"></i>&nbsp; Gerar Etiqueta
                                                     </a>
-                                                    <div class="dropdown-divider"></div>
 
                                                     <a class="dropdown-item " href="<?php echo base_url("ativo_externo/manutencao/{$valor->id_ativo_externo}"); ?>">
                                                         <i class="fa fa-wrench"></i>&nbsp; Manutenção

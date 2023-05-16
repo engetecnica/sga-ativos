@@ -516,4 +516,8 @@ class Ativo_externo_model extends MY_Model {
 			->get('ativo_externo_manutencao')->row();
 		return $this->permit_edit_manutencao($id_ativo_externo, $id_manutencao) && ($manutencao && $manutencao->situacao == 0);
 	}
+
+
+
+
 }
