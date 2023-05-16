@@ -18,8 +18,8 @@
 <body>
     <table style="font-family: Arial">
         <tr>
-            <td width="150px">
-                <?php echo "<img src='" . $qrcode . "' width='150px'>"; ?>
+            <td width="250px">
+                <?php echo "<img src='" . $qrcode . "' width='250px'>"; ?>
             </td>
             <td>
                 <h1><?php echo $dados->codigo; ?></h1>
