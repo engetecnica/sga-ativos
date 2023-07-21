@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/sgaeng/public_html/painel
+    - export DEPLOYPATH=/home/sgacombr23/sistema.sga-engeativos.com.br
     - /bin/cp -Ru ./* $DEPLOYPATH
