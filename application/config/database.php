@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | the query builder class.
 */
 
-$active_group = 'localhost';
+$active_group = 'default';
 $db['localhost'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
@@ -97,10 +97,10 @@ $db['localhost'] = array(
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '107.161.183.195',
-	'username' => 'sgaeng_sistema',
-	'password' => 'ZUFFMG7QTUIC',
-	'database' => 'sgaeng_sistema',
+	'hostname' => 'localhost',
+	'username' => 'sgacombr23_sga',
+	'password' => 'sgacombr23_sga',
+	'database' => 'sgacombr23_sga',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
