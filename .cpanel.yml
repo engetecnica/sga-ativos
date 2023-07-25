@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home3/sgacombr23/painel
+    - export DEPLOYPATH=/home3/sgacombr23/public_html/painel
     - /bin/cp -Ru ./* $DEPLOYPATH
